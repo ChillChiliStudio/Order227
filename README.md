@@ -1,3 +1,2 @@
 # ORDER 227: Not a Step Back
-assada
-ESPAÑA ES UNA Y NO CINCUENTA Y UNA
+
