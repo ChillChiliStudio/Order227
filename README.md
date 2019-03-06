@@ -2,7 +2,7 @@
 
 #### WELCOME COMARADE, Da zdravstvuiet sozdanny volley narodov
 
-# ORDER 227: Not A Step Back
+
 ![](link imagen juego)
 *imagen descripcion*
 
