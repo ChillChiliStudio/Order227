@@ -23,9 +23,9 @@ Select the type of bug with and "x" ([x])
 ## Severity
 Select the severity of bug affection and mark with "x" ([x])
 
-- [ ] **A** for crash 
-- [ ] **B** for game stopper 
-- [ ] **C** for cosmetics 
+- [ ] Crash 
+- [ ] Game stopper/slower
+- [ ] Cosmetic 
 
 
 **To Reproduce**
