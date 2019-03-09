@@ -28,11 +28,12 @@ Select the severity of bug affection and mark with "x" ([x])
 - [ ] Cosmetic 
 
 
-**To Reproduce**
+**Reproduction**
+
 Steps to reproduce the behavior:
-1. 
-2.
-3. 
+ 1. 
+ 2.
+ 3. 
 ...
 
 ## Frequency
