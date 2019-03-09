@@ -6,9 +6,13 @@ We also used the [Standard Template Library](https://en.wikipedia.org/wiki/Stand
 the [Simple DirectMedia Layer](https://www.libsdl.org/), and [pugixml](https://pugixml.org/) libraries,
 and the [Tiled Map Editor](https://www.mapeditor.org/) software.
 
-ADD GAME DESCRIPTION
+Order 227: Not a Step Back is a Real Time Strategy and Tower Defense game for PC in which you will have to
+defend the Headquarters of a territory recently emancipated on behalf of the human rights and people’s will
+from the capitalist enemy hordes that want to destroy them. Create and control troops, build defense constructions
+by using money, control strategic points and stand along a people who wants to be free!
+As a good communist: Defend the emancipation of the civilians.
 
-Feel free to visit our [Webpage ADD LINK]() and [Repository](https://github.com/ChillChiliStudio/Order_227)
+Feel free to visit our [Webpage](https://chillchilistudio.github.io/Order_227/) and [Repository](https://github.com/ChillChiliStudio/Order_227)
 
 ## Usage
 ### Installation
@@ -27,39 +31,29 @@ feature'`
 5. Submit a pull request and we might look into it. :D
 
 ## The Team: Chill Chili Studio
-![](link imagen equipo)
-From left to right,
-
-![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/Members%20Fotos/Lucho.png)
 - **Lead:*- Lucho Suaya Leiro
 -  Github: [@lucho1](https://github.com/lucho1)
 
-![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/Members%20Fotos/James.png)
 - **Manager:*- Jaume Avinyó Sedano
 -  Github: [@Jaumeavinyo](https://github.com/Jaumeavinyo)
 
-![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/Members%20Fotos/Rafel.png)
 - **Q&A:*- Rafel Brau
 -  Github: [@Rafefix](https://github.com/Rafefix) 
 
-![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/Members%20Fotos/Ruier.png)
 - **UI:*- Roger Leon Borras
 -  Github: [@rleonborras](https://github.com/rleonborras) 
 
-![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/Members%20Fotos/andriang.png)
 - **Art & Audio:*- Adrian Font Romero
 -  Github: [@AdrianFR99](https://github.com/AdrianFR99)
 
-![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/Members%20Fotos/KRLS.png)
 - **Design:*- Carles Homs Puchal
 -  Github: [@ch0m5](https://github.com/ch0m5)
 
-![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/Members%20Fotos/Joan.png)
 - **Code:*- Joan Marin Encinas
 -  Github: [@X0KA](https://github.com/X0KA)
 
 ## Disclosure
-We do not own any of the sprites, tilesets, music, or sounds presented in this game, it all belongs to [Westwood Pacific](https://en.wikipedia.org/wiki/EA_Pacific)*.
+We do not own any of the sprites, tilesets, music, or sounds presented in this game, it all belongs to [Westwood Pacific](https://en.wikipedia.org/wiki/EA_Pacific).
 
 - Music: 
 	- MainMenu - Soviet March: https://www.youtube.com/watch?v=lDQ7hXMLxGc

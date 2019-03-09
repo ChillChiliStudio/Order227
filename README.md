@@ -2,9 +2,9 @@
 
 This is a university project made by 7 [Centre de la Imatge i la Tecnologia Multimedia](https://www.citm.upc.edu/ing/) students of the Talent Tech Center in Barcelona, in which I make our own RTS game, based of Command & Conquer: Red Alert 2, in C++. We also used the [Standard Template Library](https://en.wikipedia.org/wiki/Standard_Template_Library), the [Simple DirectMedia Layer](https://www.libsdl.org/), and [pugixml](https://pugixml.org/) libraries, and the [Tiled Map Editor](https://www.mapeditor.org/) software.
 
-ADD GAME DESCRIPTION
+Order 227: Not a Step Back is a Real Time Strategy and Tower Defense game for PC in which you will have to defend the Headquarters of a territory recently emancipated on behalf of the human rights and people’s will from the capitalist enemy hordes that want to destroy them. Create and control troops, build defense constructions by using money, control strategic points and stand along a people who wants to be free! As a good communist: Defend the emancipation of the civilians.
 
-Feel free to visit our [Webpage ADD LINK]() and [Repository](https://github.com/ChillChiliStudio/Order_227)
+Feel free to visit our [Webpage](https://chillchilistudio.github.io/Order_227/) and [Repository](https://github.com/ChillChiliStudio/Order_227)
 
 ## Usage
 ### Installation
@@ -55,7 +55,7 @@ From left to right,
 *  Github: [@X0KA](https://github.com/X0KA)
 
 ## Disclosure
-We do not own any of the sprites, tilesets, music, or sounds presented in this game, it all belongs to [Westwood Pacific](https://en.wikipedia.org/wiki/EA_Pacific)*.
+We do not own any of the sprites, tilesets, music, or sounds presented in this game, it all belongs to *[Westwood Pacific](https://en.wikipedia.org/wiki/EA_Pacific)*.
 
 * Music: 
 	* MainMenu - Soviet March: https://www.youtube.com/watch?v=lDQ7hXMLxGc
