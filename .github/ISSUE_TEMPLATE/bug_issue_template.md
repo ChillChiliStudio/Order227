@@ -8,7 +8,6 @@ about: Use this Template to easily issue a BUG you've found!
 A clear and concise description of what the bug is.
 
 ## Type of Bug 
-
 Select the type of bug with and "x" ([x])
 
 * [ ] Art 
@@ -22,7 +21,7 @@ Select the type of bug with and "x" ([x])
 * [ ] Other
 
 ## Severity
-Select the severity with and "x" ([x])
+Select the severity of bug affection and mark with "x" ([x])
 
 - [ ] **A** for crash 
 - [ ] **B** for game stopper 
@@ -35,6 +34,14 @@ Steps to reproduce the behavior:
 2.
 3. 
 ...
+
+## Frequency
+Select the frequency with which the bug appears and mark it "x" ([x])
+
+* [ ] Very Often
+* [ ] Usually
+* [ ] Few Time
+* [ ] Few times under specific conditions
 
 ## Conduct 
 - **Expected result:**
