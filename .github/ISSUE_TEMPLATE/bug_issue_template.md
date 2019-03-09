@@ -31,8 +31,11 @@ Select the severity of bug affection and mark with "x" ([x])
 **Reproduction**
 
 Steps to reproduce the behavior:
+
  1. 
+ 
  2.
+ 
  3. 
 ...
 
