@@ -1,0 +1,28 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+configuration:
+- Debug
+- Release
+build:
+  verbosity: minimal
+before_package:
+- ps: Copy-Item C:\projects(Order_227)$env:CONFIGURATION(Order_227).exe C:\projects(Order_227)\Game\
+artifacts:
+- path: Order_227\Game
+  name: Order_227
+  type: WebDeployPackage
+deploy:
+- provider: GitHub
+  description: AutoRelease
+  auth_token:
+    secure: Y18rJqdF4Iz12/fTpbbKpqsksA3OO7CxZJY1w84Kq99QNoTjK4SyvKPqWPXHFTuYaQQfMzYcLwaGaHwVdDEvIp7uZDxl3vPYLF+wnamJo8w=
+  draft: true
+  prerelease: true
+notifications:
+- provider: GitHubPullRequest
+  auth_token:
+    secure: Y18rJqdF4Iz12/fTpbbKpqsksA3OO7CxZJY1w84Kq99QNoTjK4SyvKPqWPXHFTuYaQQfMzYcLwaGaHwVdDEvIp7uZDxl3vPYLF+wnamJo8w=
+  template: Appveyor Automated Pull Request
+  on_build_success: false
+  on_build_failure: true
+  on_build_status_changed: false
