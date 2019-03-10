@@ -23,9 +23,6 @@ feature'`
 5. Submit a pull request and we might look into it. :D
 
 ## The Team: Chill Chili Studio
-![](link imagen equipo)
-From left to right,
-
 ![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/Members%20Fotos/Lucho.png)
 * **Lead:** Lucho Suaya Leiro
 *  Github: [@lucho1](https://github.com/lucho1)
@@ -58,7 +55,7 @@ From left to right,
 We do not own any of the sprites, tilesets, music, or sounds presented in this game, it all belongs to *[Westwood Pacific](https://en.wikipedia.org/wiki/EA_Pacific)*.
 
 * Music: 
-	* MainMenu - Soviet March: https://www.youtube.com/watch?v=lDQ7hXMLxGc
+	* [MainMenu - Soviet March](https://www.youtube.com/watch?v=lDQ7hXMLxGc)
 	
 ## License & Copyright 
 
