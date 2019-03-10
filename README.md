@@ -48,7 +48,7 @@ From left to right,
 If you want to follow us on social media you can find us on twitter and instagram, you can be part of this project’s development. We will make weekly posts to keep you updated!
 Our webpage and blog will be available soon.
 
-![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/iglogo.jpg) @ChillChiliStd
+![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/iglogo.jpg) @chillchilistudio
 
 ![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/twitter%20logo.png) @ChillChiliStd
 
