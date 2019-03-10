@@ -13,9 +13,6 @@ Chill Chili Studio is an indy team of video games developers borned from a unive
 Towards the project, our main objective is to make a dynamic game in which the player has to think the strategy to survive as long as it cans, arriving at the end if possible. Our surface intention is to make players return to their most precious memories by doing a game based on Command and Conquer: Red Alert 2 and to make the player feel satisfied after his correct strategy think.
 
 ## Who Are We?
-![](link imagen equipo)
-From left to right,
-
 ![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/Members%20Fotos/Lucho.png)
 * **Lead:** Lucho Suaya Leiro
 *  Github: [@lucho1](https://github.com/lucho1)
