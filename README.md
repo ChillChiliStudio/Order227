@@ -62,24 +62,26 @@ Our webpage and blog will be available soon.
 # Sections Index
 1.[Home](https://github.com/ChillChiliStudio/Order_227/wiki/Home)
 
-2.[Command & Conquer: Red Alert 2 - Analysis]()
+2.[Original Game Design](https://github.com/ChillChiliStudio/Order_227/wiki/Original-Game-Design)
 
-3.[Game Design Document]()
+3.[Game Design Document](https://github.com/ChillChiliStudio/Order_227/wiki/Game-Design_Document)
 
-4.[User Interface Document]()
+4.[User Interface Document](https://github.com/ChillChiliStudio/Order_227/wiki/User-Interface-Document)
 
-5.[Audio Bible]()
+5.[Audio Bible](https://github.com/ChillChiliStudio/Order_227/wiki/Audio-Bible)
 
-6.[Art Bible]()
+6.[Art Bible](https://github.com/ChillChiliStudio/Order_227/wiki/Art-Bible)
 
-7.[Technical Design Document]()
+7.[Technical Design Document](https://github.com/ChillChiliStudio/Order_227/wiki/Technical-Design-Document)
 
-8.[Quality Assurance Plan]()
+8.[Quality Assurance Plan](https://github.com/ChillChiliStudio/Order_227/wiki/Quality-Assurance-Plan)
 
 9.[Production Plan](https://github.com/ChillChiliStudio/Order_227/wiki/Production-Plan)
 
+10.[Minimum Viable Product](https://github.com/ChillChiliStudio/Order_227/wiki/Minimum-Viable-Product)
+
 # License 
-MIT License
+[MIT License](https://github.com/ChillChiliStudio/Order_227/blob/master/LICENSE)
 
 Copyright (c) 2019 Chill Chili Studio
 
