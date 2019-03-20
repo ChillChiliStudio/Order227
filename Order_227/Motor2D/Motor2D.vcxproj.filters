@@ -1,109 +1,115 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="j1App.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Main.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Scene.cpp">
-      <Filter>Game Files\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="PugiXml\src\pugixml.cpp">
       <Filter>Tools\PuguiXML</Filter>
     </ClCompile>
-    <ClCompile Include="p2Log.cpp">
+    <ClCompile Include="Log.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="j1Map.cpp">
-      <Filter>Game Files\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Pathfinding.cpp">
-      <Filter>Game Files\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Textures.cpp">
-      <Filter>Game Files\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Input.cpp">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Render.cpp">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Window.cpp">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Audio.cpp">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClCompile>
-    <ClCompile Include="j1PerfTimer.cpp">
+    <ClCompile Include="Timer.cpp">
       <Filter>Tools\Timers</Filter>
     </ClCompile>
-    <ClCompile Include="j1Timer.cpp">
+    <ClCompile Include="PerfTimer.cpp">
       <Filter>Tools\Timers</Filter>
     </ClCompile>
-    <ClCompile Include="j1EntityManager.cpp">
+    <ClCompile Include="Scene.cpp">
+      <Filter>Game Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Pathfinding.cpp">
+      <Filter>Game Files\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Game Files\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Game Files\Modules\Main Functionalities</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>Game Files\Modules\Main Functionalities</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Game Files\Modules\Main Functionalities</Filter>
+    </ClCompile>
+    <ClCompile Include="Fonts.cpp">
+      <Filter>Game Files\Modules\Main Functionalities</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Game Files\Modules\Main Functionalities</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
       <Filter>Game Files\Entity Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>Game Files\Modules\Main Functionalities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="j1App.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Module.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Scene.h">
-      <Filter>Game Files\Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
       <Filter>Tools\PuguiXML</Filter>
     </ClInclude>
     <ClInclude Include="PugiXml\src\pugixml.hpp">
       <Filter>Tools\PuguiXML</Filter>
     </ClInclude>
-    <ClInclude Include="p2Defs.h">
+    <ClInclude Include="Point.h">
       <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="p2Log.h">
+    <ClInclude Include="Log.h">
       <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="p2Point.h">
+    <ClInclude Include="Defs.h">
       <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="j1Map.h">
-      <Filter>Game Files\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Pathfinding.h">
-      <Filter>Game Files\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Textures.h">
-      <Filter>Game Files\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Input.h">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Render.h">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Window.h">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Audio.h">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClInclude>
-    <ClInclude Include="j1PerfTimer.h">
+    <ClInclude Include="Timer.h">
       <Filter>Tools\Timers</Filter>
     </ClInclude>
-    <ClInclude Include="j1Timer.h">
+    <ClInclude Include="PerfTimer.h">
       <Filter>Tools\Timers</Filter>
     </ClInclude>
-    <ClInclude Include="j1EntityManager.h">
+    <ClInclude Include="Scene.h">
+      <Filter>Game Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Pathfinding.h">
+      <Filter>Game Files\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Game Files\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Game Files\Modules\Main Functionalities</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>Game Files\Modules\Main Functionalities</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Game Files\Modules\Main Functionalities</Filter>
+    </ClInclude>
+    <ClInclude Include="Fonts.h">
+      <Filter>Game Files\Modules\Main Functionalities</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Game Files\Modules\Main Functionalities</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
       <Filter>Game Files\Entity Management</Filter>
     </ClInclude>
-    <ClInclude Include="j1Entity.h">
+    <ClInclude Include="Entity.h">
       <Filter>Game Files\Entity Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Module.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>Game Files\Modules\Main Functionalities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
