@@ -16,9 +16,6 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Game Files\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Textures.cpp">
-      <Filter>Game Files\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="Pathfinding.cpp">
       <Filter>Game Files\Modules</Filter>
     </ClCompile>
@@ -49,6 +46,9 @@
     <ClCompile Include="App.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>Game Files\Modules\Main Functionalities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -74,9 +74,6 @@
     </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Game Files\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Textures.h">
-      <Filter>Game Files\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Pathfinding.h">
       <Filter>Game Files\Modules</Filter>
@@ -110,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="App.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>Game Files\Modules\Main Functionalities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
