@@ -111,6 +111,9 @@
     <ClInclude Include="Textures.h">
       <Filter>Game Files\Modules\Main Functionalities</Filter>
     </ClInclude>
+    <ClInclude Include="Spawning_Point.h">
+      <Filter>Game Files\Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

@@ -103,6 +103,7 @@
     <ClInclude Include="PerfTimer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Spawning_Point.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="App.h" />

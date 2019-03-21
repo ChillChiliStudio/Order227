@@ -2,11 +2,17 @@
 #define SCENE_H
 
 #include "Module.h"
+#include "Spawning_Point.h"
+#include <vector>
+#include <time.h>
+
+#include "SDL/include/SDL.h"
 
 struct SDL_Texture;
 
 class Scene : public Module
 {
+
 public:
 
 	Scene();
@@ -32,8 +38,13 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	
+	void ChooseSpawningPoints();
+
 private:
-	SDL_Texture* debug_tex;
+
+	SDL_Texture* debug_tex = nullptr;
+	std::vector<Spawning_Point*> SpawningPointArray;
 };
 
 #endif // SCENE_H

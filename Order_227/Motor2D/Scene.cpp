@@ -30,6 +30,8 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
+	srand(time(NULL));
+
 	if(myApp->map->Load("iso_walk.tmx") == true)
 	{
 		int w, h;
@@ -40,6 +42,22 @@ bool Scene::Start()
 		RELEASE_ARRAY(data);
 	}
 
+	int posX = 80;
+	int posY = 120;
+
+	for (int i = 0; i < 4; i++) {
+
+		Spawning_Point* SpawnPoint = new Spawning_Point(iPoint(posX, posY));
+
+		SpawnPoint->active = false;
+		SpawnPoint->threat = 10;
+		posX += 40;
+		posY += 40;
+		posX *= -1;
+
+		SpawningPointArray.push_back(SpawnPoint);
+	}
+	
 	debug_tex = myApp->tex->Load("maps/path2.png");
 
 	return true;
@@ -48,6 +66,11 @@ bool Scene::Start()
 // Called each loop iteration
 bool Scene::PreUpdate()
 {
+
+	//Activate Spawn
+	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+		ChooseSpawningPoints();
+
 	return true;
 }
 
@@ -56,18 +79,36 @@ bool Scene::Update(float dt)
 {
 
 	if(myApp->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		myApp->render->camera.y += 1;
+		myApp->render->camera.y += 10;
 
 	if(myApp->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		myApp->render->camera.y -= 1;
+		myApp->render->camera.y -= 10;
 
 	if(myApp->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		myApp->render->camera.x += 1;
+		myApp->render->camera.x += 10;
 
 	if(myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		myApp->render->camera.x -= 1;
+		myApp->render->camera.x -= 10;
 
 	myApp->map->Draw();
+
+	//Spawn Point Draw
+	for (int i = 0; i < SpawningPointArray.size(); i++) {
+
+		myApp->render->DrawQuad(SpawningPointArray[i]->SP_Rect, 255, 100, 100);
+
+		//Square Enemies Draw
+		if (SpawningPointArray[i]->enemies.empty() == false) {
+
+			for (int j = 0; j < SpawningPointArray[i]->enemies.size(); j++) {
+
+				myApp->render->DrawQuad(SpawningPointArray[i]->enemies[j], 0, 0, 255);
+				SpawningPointArray[i]->enemies[j].y++;
+			}
+		}
+
+	}
+	
 	return true;
 }
 
@@ -87,5 +128,32 @@ bool Scene::CleanUp()
 {
 	LOG("Freeing scene");
 
+	//for (int i = 0; i < SpawningPointArray.size(); i++)
+	for (int i = SpawningPointArray.size() - 1; i >= 0; i--)
+		RELEASE(SpawningPointArray[i]);
+
+	SpawningPointArray.clear();
+
 	return true;
+}
+
+
+void Scene::ChooseSpawningPoints() {
+
+	for (int i = 0; i < SpawningPointArray.size(); i++)
+		SpawningPointArray[i]->active = false;
+
+	int r1 = rand() % SpawningPointArray.size(); //For ranges not starting at 0: rand()%X + Y --> Range of rands between Y and X
+	int r2 = rand() % SpawningPointArray.size(); //Rand num between 0 and array's size (if 4 SP, then 0-4)
+
+	while (r2 == r1)
+		r2 = rand() % SpawningPointArray.size(); //This can be pretty unpredictable & uncontrolling shit
+
+	SpawningPointArray[r1]->active = true;
+	SpawningPointArray[r2]->active = true;
+
+	for (int i = 0; i < SpawningPointArray.size(); i++)
+		if (SpawningPointArray[i]->active == true)
+			SpawningPointArray[i]->FillEnemies();
+
 }
