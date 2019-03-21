@@ -12,6 +12,7 @@
 #include "Log.h"
 #include "Entity.h"
 #include "Scene.h"
+#include "Unit.h"
 
 EntityManager::EntityManager()
 {
@@ -107,21 +108,34 @@ bool EntityManager::CleanUp() {
 }
 
 
-Entity *EntityManager::CreateEntity(entity_type entityType) {
+Entity *EntityManager::CreateEntity( entity_type entityType, iPoint position , unit_type unitType) {
 
-	static_assert(entity_type::UNKNOWN == entity_type(1), "UPDATE ENTITY TYPES");
+	static_assert(entity_type::UNKNOWN == entity_type(2), "UPDATE ENTITY TYPES");
 	Entity* Entity = nullptr;
 
-	switch (entityType) {
+	switch (unitType)
+	{
 
-	//example
-	/*case ENTITY_TYPE::ENEMY_ENT:
-		Entity = new Entity(ENTITY_TYPE::ENEMY_ENT);
-		break;*/
-	default:
+	case unit_type::INFANTRY_DIVISION:
+		//Entity = new infantry(unit_type::INFANTRY_DIVISION, iPoint position);
 		break;
 
+	case unit_type::UNKNOWN:
+		switch (entityType) {
+
+		case entity_type::OBJECT_ENT: //NO OBJECTS AT THE MOMENT
+			break;
+
+		default:
+			break;
+		}
+		break;
+
+	default:
+		break;
 	}
+
+	
 
 	entities_list.push_back(Entity);
 	return Entity;

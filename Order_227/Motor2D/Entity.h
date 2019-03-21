@@ -14,40 +14,41 @@ struct SDL_Rect;
 enum class entity_type {
 
 	OBJECT_ENT,
-	UNKNOWN = 1
+	UNIT_ENT,
+	UNKNOWN = 2
 };
 
 class Entity {
 
 public:
 
-	Entity(entity_type entityType) : type(entityType) {}
+	Entity(entity_type entityType, iPoint position)  {}
 	~Entity() {}
 
 public:
 
 	// Called before render is available
-	virtual void Awake() {}
+	virtual bool Awake() {}
 
 	// Called before the first frame if it was activated before that
-	virtual void Start() {}
+	virtual bool Start() {}
 
 	// Called each loop iteration
-	virtual void FixUpdate(float dt) {}
+	virtual bool FixUpdate(float dt) {}
 
 	// Called each logic iteration
-	virtual void Update(float dt) {}
+	virtual bool Update(float dt) {}
 
 	// Called before all Updates
-	virtual void PreUpdate() {}
+	virtual bool PreUpdate() {}
 
 	// Called before all Updates
-	virtual void PostUpdate() {}
+	virtual bool PostUpdate() {}
 
 	// Called before quitting
-	virtual void CleanUp() {}
+	virtual bool CleanUp() {}
 
-	virtual void DestroyEntity() {}
+	virtual bool DestroyEntity() {}
 
 	entity_type GetType() const { return type; }
 	std::string GetName() const { return name; }

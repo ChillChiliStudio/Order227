@@ -1,9 +1,11 @@
-#ifndef ENTITY_MANAGER
-#define ENTITY_MANAGER
+#ifndef ENTITY_MANAGER_
+#define ENTITY_MANAGER_
 
+//#include "Unit.h"
 #include "Module.h"
 #include "Entity.h"
 #include "PugiXml\src\pugixml.hpp"
+
 
 #define TIMES_PER_SEC 5
 
@@ -24,8 +26,12 @@ public:
 
 public:
 
-	Entity *CreateEntity(entity_type entityType);
+	Entity *CreateEntity(entity_type entityType, iPoint position);
+	Entity *CreateEntity(entity_type entityType, iPoint position, unit_type unitType = unit_type::UNKNOWN);
+
 	void DestroyEntity(Entity *Entity);
+
+	
 
 public:
 

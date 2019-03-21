@@ -49,6 +49,12 @@
     <ClCompile Include="Textures.cpp">
       <Filter>Game Files\Modules\Main Functionalities</Filter>
     </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -111,6 +117,9 @@
     <ClInclude Include="Textures.h">
       <Filter>Game Files\Modules\Main Functionalities</Filter>
     </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -148,6 +157,9 @@
     </Filter>
     <Filter Include="Game Files\Entity Management\Entities">
       <UniqueIdentifier>{ea1e376e-289a-4463-9656-9b7343d35827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Entity Management\Entities\Units">
+      <UniqueIdentifier>{9bc9f9d5-ae62-4591-bdb4-b6f16ba7ebc6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
