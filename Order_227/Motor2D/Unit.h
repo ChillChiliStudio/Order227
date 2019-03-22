@@ -1,49 +1,56 @@
 #ifndef UNIT_H
 #define UNIT_H
 
-
-
 #include "Entity.h"
-#include "EntityManager.h"
-#include "App.h"
-//static_assert(unit_type::UNKNOWN == entity_type(2), "UPDATE ENTITY TYPES");
+#include "SDL/include/SDL.h"
 
 enum class unit_type {
+
 	INFANTRY_DIVISION,
 	UNKNOWN = 1
 };
-enum class unit_state {
 
+enum class faction_enum {
+
+	FACTION_COMMUNIST,
+	FACTION_CAPITALIST,
+	UNKNOWN = 2
 };
 
 
-class Class_Unit : public Entity{
-public:
-	Class_Unit(iPoint pos);
-	~Class_Unit();
-public:
-	void Move();
-	void Attack();
-public:
-	void Kill();
-	void Hurt();
-	bool IsDead();
+class Unit : public Entity {
 
 public:
-	unsigned int life;
-	unsigned int maxLife;
-	unit_state status;
-	iPoint detectionRadius;
-	iPoint attackRange;
-	bool enemyDetected;
-	bool enemyInRange;
 
+	Unit(unit_type unitType, iPoint pos, faction_enum faction);
+	~Unit();
+
+public:
+
+	//void Move();
+	//void Attack();
+
+public:
+
+	//void Kill();
+	//void Hurt();
+	//bool IsDead();
+
+public:
+
+	faction_enum UnitFaction;
+	unit_type UnitType;
+
+	SDL_Rect UnitRect = { (int)position.x, (int)position.y, 20, 20};
+
+	//unsigned int life;
+	//unsigned int maxLife;
+	//unit_state status;
+	//iPoint detectionRadius;
+	//iPoint attackRange;
+	//bool enemyDetected;
+	//bool enemyInRange;
 
 };
-
-
-
-
-
 
 #endif

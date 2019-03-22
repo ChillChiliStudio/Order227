@@ -28,27 +28,27 @@ public:
 public:
 
 	// Called before render is available
-	virtual bool Awake() {}
+	virtual void Awake() {}
 
 	// Called before the first frame if it was activated before that
-	virtual bool Start() {}
+	virtual void Start() {}
 
 	// Called each loop iteration
-	virtual bool FixUpdate(float dt) {}
+	virtual void FixUpdate(float dt) {}
 
 	// Called each logic iteration
-	virtual bool Update(float dt) {}
+	virtual void Update(float dt) {}
 
 	// Called before all Updates
-	virtual bool PreUpdate() {}
+	virtual void PreUpdate() {}
 
 	// Called before all Updates
-	virtual bool PostUpdate() {}
+	virtual void PostUpdate() {}
 
 	// Called before quitting
-	virtual bool CleanUp() {}
+	virtual void CleanUp() {}
 
-	virtual bool DestroyEntity() {}
+	virtual void DestroyEntity() {}
 
 	entity_type GetType() const { return type; }
 	std::string GetName() const { return name; }

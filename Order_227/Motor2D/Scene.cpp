@@ -56,16 +56,16 @@ bool Scene::Update(float dt)
 {
 
 	if(myApp->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		myApp->render->camera.y += 1;
+		myApp->render->camera.y += 10;
 
 	if(myApp->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		myApp->render->camera.y -= 1;
+		myApp->render->camera.y -= 10;
 
 	if(myApp->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		myApp->render->camera.x += 1;
+		myApp->render->camera.x += 10;
 
 	if(myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		myApp->render->camera.x -= 1;
+		myApp->render->camera.x -= 10;
 
 	myApp->map->Draw();
 	return true;

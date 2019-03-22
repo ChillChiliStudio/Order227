@@ -1,9 +1,9 @@
 #ifndef ENTITY_MANAGER_
 #define ENTITY_MANAGER_
 
-//#include "Unit.h"
 #include "Module.h"
 #include "Entity.h"
+#include "Unit.h"
 #include "PugiXml\src\pugixml.hpp"
 
 
@@ -27,11 +27,9 @@ public:
 public:
 
 	Entity *CreateEntity(entity_type entityType, iPoint position);
-	Entity *CreateEntity(entity_type entityType, iPoint position, unit_type unitType = unit_type::UNKNOWN);
+	Entity *CreateUnit(unit_type unitType, iPoint position, faction_enum faction);
 
 	void DestroyEntity(Entity *Entity);
-
-	
 
 public:
 
