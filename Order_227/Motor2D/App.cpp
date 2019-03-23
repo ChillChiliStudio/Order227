@@ -12,6 +12,7 @@
 #include "Scene.h"
 #include "Map.h"
 #include "Pathfinding.h"
+#include "Fonts.h"
 #include "EntityManager.h"
 #include "App.h"
 
@@ -20,7 +21,6 @@
 // Constructor
 App::App(int argc, char* args[]) : argc(argc), args(args)
 {
-
 	input = new Input();
 	win = new Window();
 	render = new Render();
@@ -29,6 +29,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new Scene();
 	map = new Map();
 	pathfinding = new PathFinding();
+	fonts = new Fonts();
 	//entities = new EntityManager;
 
 	// Ordered for awake / Start / Update
@@ -39,6 +40,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(map);
 	AddModule(pathfinding);
+	AddModule(fonts);
 	AddModule(scene);
 	//AddModule(entities);
 

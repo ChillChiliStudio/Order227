@@ -31,7 +31,7 @@ SDL_Texture* Text::LoadTexture(const char* string, SDL_Color color, _TTF_Font* f
 {
 	SDL_Rect tmp = { 0, 0, 0, 0 };
 	content.append(string);
-	//graphics = myApp->font->Print(string, color, font);
+	graphics = myApp->fonts->Print(string, color, font);
 	return graphics;
 }
 
@@ -43,7 +43,7 @@ SDL_Rect Text::ChangeText(const char* string, SDL_Color color, _TTF_Font* font)
 	}
 
 	content.append(string);
-	//graphics = myApp->font->Print(string, color, font);
+	graphics = myApp->fonts->Print(string, color, font);
 	myApp->tex->GetSize(graphics, (uint&)this->sprite->w, (uint&)this->sprite->h);
 	return *sprite;
 }
@@ -56,7 +56,7 @@ SDL_Rect Text::ChangeText(std::string string, SDL_Color color, _TTF_Font* font)
 	}
 
 	content = string;
-	//graphics = myApp->font->Print(string.c_str(), color, font);
+	graphics = myApp->fonts->Print(string.c_str(), color, font);
 	myApp->tex->GetSize(graphics, (uint&)this->sprite->w, (uint&)this->sprite->h);
 	return *sprite;
 }
@@ -69,7 +69,7 @@ SDL_Rect Text::ChangeContent(const char* string)
 	}
 
 	content.append(string);
-	//graphics = myApp->font->Print(string, color, font);
+	graphics = myApp->fonts->Print(string, color, font);
 	myApp->tex->GetSize(graphics, (uint&)this->sprite->w, (uint&)this->sprite->h);
 	return *sprite;
 }
@@ -82,7 +82,7 @@ SDL_Rect Text::ChangeColor(SDL_Color color)
 	}
 
 	this->color = color;
-	//graphics = myApp->font->Print(content.c_str(), color, font);
+	graphics = myApp->fonts->Print(content.c_str(), color, font);
 	return *sprite;
 }
 
@@ -94,7 +94,7 @@ SDL_Rect Text::ChangeFont(_TTF_Font* font)
 	}
 
 	this->font = font;
-	//graphics = myApp->font->Print(content.c_str(), color, font);
+	graphics = myApp->fonts->Print(content.c_str(), color, font);
 	myApp->tex->GetSize(graphics, (uint&)this->sprite->w, (uint&)this->sprite->h);
 	return *sprite;
 }
