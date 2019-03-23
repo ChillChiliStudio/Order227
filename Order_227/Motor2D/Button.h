@@ -3,9 +3,6 @@
 
 #include "Image.h"
 
-struct SDL_Texture;
-struct SDL_Rect;
-
 enum class button_state
 {
 	DISABLED = 0,
