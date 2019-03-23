@@ -49,6 +49,24 @@
     <ClCompile Include="Textures.cpp">
       <Filter>Game Files\Modules\Main Functionalities</Filter>
     </ClCompile>
+    <ClCompile Include="UIElement.cpp">
+      <Filter>Game Files\User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckBox.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="InputText.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInterface.cpp">
+      <Filter>Game Files\User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Game Files\User Interface\UI Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -111,6 +129,30 @@
     <ClInclude Include="Textures.h">
       <Filter>Game Files\Modules\Main Functionalities</Filter>
     </ClInclude>
+    <ClInclude Include="UIElement.h">
+      <Filter>Game Files\User Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionBox.h">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckBox.h">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="InputText.h">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInterface.h">
+      <Filter>Game Files\User Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Game Files\User Interface\UI Elements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -148,6 +190,15 @@
     </Filter>
     <Filter Include="Game Files\Entity Management\Entities">
       <UniqueIdentifier>{ea1e376e-289a-4463-9656-9b7343d35827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\User Interface\UI Elements">
+      <UniqueIdentifier>{6db2bd2d-f49a-4a72-88b1-f590b0ae3e2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\User Interface\UI Elements\Images">
+      <UniqueIdentifier>{1af89c7f-5072-4c40-8f0e-71aaf35267b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\User Interface\UI Elements\Images\Buttons">
+      <UniqueIdentifier>{3ebb8683-127e-4b20-a631-ac331c07e498}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -9,7 +9,9 @@
 #pragma comment( lib, "SDL_ttf/libx86/SDL2_ttf.lib" )
 
 Fonts::Fonts() : Module()
-{}
+{
+	//name.create("fonts");	//TODO: Is this needed or contempled for XML reading?
+}
 
 // Destructor
 Fonts::~Fonts()

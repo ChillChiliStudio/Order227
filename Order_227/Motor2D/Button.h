@@ -1,0 +1,149 @@
+#ifndef BUTTON_H
+#define BUTTON_H
+
+#include "Image.h"
+
+#include "App.h"
+#include "Input.h"
+#include "Audio.h"
+
+struct SDL_Texture;
+
+enum class button_state
+{
+	DISABLED = 0,
+	IDLE,
+	HOVERING,
+	PRESSING,
+
+	MAX_TYPES
+};
+
+//normal button <void>
+//check button <void, bool*>
+//input text <void, Text*>
+
+template <class Ret, class... Args>
+class Button : public Image	//IMPROVE: Change all entity class and file names to j2EntityName
+{
+public:
+	//typedef Ret(*buttonAction)(Args...);	//IMPROVE: Add this typedef instead of directly Ret(*action)(Args...)
+
+	//Constructor	//IMPROVE: Create a paralel "AnimatedButton" class holding an animation (or several)
+	template<class Ret, class... Args> Button(Ret(*action)(Args...), ui_type type, fPoint center, SDL_Rect spriteRect, SDL_Texture* tex, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL)
+		: Image(type, center, spriteRect, tex, dynamic, parent, children), action(action), status(button_state::IDLE)
+	{};
+
+	virtual ~Button()
+	{
+		RELEASE(sprite);
+	}
+
+	//Button action calling
+	virtual Ret operator() (Args&... args) const
+	{
+		return (action)(args...);
+	}
+
+	virtual Ret DoAction(Args&... args) const{
+		return (action)(args...);
+	}
+
+	// Called each frame (framerate dependant)
+	virtual bool UpdateTick(float dt)
+	{
+		bool ret = true;
+
+		if (status != button_state::DISABLED) {
+			CheckCurrentState();
+			ButtonStateEffects();
+		}
+
+		return ret;
+	}
+
+public:
+	//Enable/Disable
+	virtual void Enable()
+	{
+		status = button_state::IDLE;
+	}
+
+	virtual void Disable()
+	{
+		status = button_state::DISABLED;
+	}
+
+protected:
+	virtual button_state CheckCurrentState()
+	{
+		switch (status) {
+		case button_state::IDLE:
+			if (MouseOnImage() == true) {
+				OnHover();
+				status = button_state::HOVERING;
+			}
+			break;
+		case button_state::HOVERING:
+			if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
+				OnPress();
+				status = button_state::PRESSING;
+			}
+			else if (MouseOnImage() == false) {
+				OnIdle();
+				status = button_state::IDLE;
+			}
+			break;
+		case button_state::PRESSING:
+			if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP || MouseOnImage() == false) {
+				OnIdle();
+				status = button_state::IDLE;
+			}
+			break;
+		}
+
+		return status;
+	}
+
+	virtual button_state ButtonStateEffects()
+	{
+		switch (status) {
+		case button_state::IDLE:
+			WhileIdle();
+			break;
+		case button_state::HOVERING:
+			WhileHover();
+			break;
+		case button_state::PRESSING:
+			WhilePress();
+			break;
+		}
+
+		return status;
+	}
+
+	virtual void OnIdle()
+	{}
+
+	virtual void OnHover()
+	{}
+
+	virtual void OnPress()
+	{
+		App->audio->PlayFx(App->audio->buttonSfx.id, 0);
+		DoAction(Args...);
+	}
+
+	virtual void WhileIdle() {}
+
+	virtual void WhileHover() {}
+
+	virtual void WhilePress() {}
+
+protected:
+	Ret(*action)(Args...);
+	button_state status;
+	
+};
+
+#endif //__BUTTON_H__
