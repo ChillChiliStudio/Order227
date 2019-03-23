@@ -1,4 +1,3 @@
-#include "Brofiler/Brofiler.h"
 #include "App.h"
 #include "Audio.h"
 #include "Textures.h"
@@ -10,7 +9,8 @@
 #include "Text.h"
 #include "Window.h"
 
-Image::Image(ui_type type, fPoint center, SDL_Texture* tex, SDL_Rect sprite, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children) : UI_Element(type, center, dynamic, parent, children), graphics(tex)
+Image::Image(ui_type type, fPoint center, SDL_Texture* tex, SDL_Rect sprite, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
+	: UI_Element(type, center, dynamic, parent, children), graphics(tex)
 {
 	this->sprite = new SDL_Rect;
 	*(this->sprite) = sprite;

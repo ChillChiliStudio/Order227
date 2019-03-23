@@ -67,6 +67,9 @@
     <ClCompile Include="Image.cpp">
       <Filter>Game Files\User Interface\UI Elements</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">

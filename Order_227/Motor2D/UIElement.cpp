@@ -1,4 +1,3 @@
-#include "Brofiler/Brofiler.h"
 #include "App.h"
 #include "Textures.h"
 #include "Render.h"
