@@ -141,7 +141,27 @@ bool Scene::CleanUp()
 
 void Scene::ChooseSpawningPoints() {
 
-	round_threat += 10;
+	//Restarting round if reached 20 - for MVP this should be 5!
+	if (roundNumber == 20) {
+
+		roundNumber = 0;
+		roundThreat = 0;
+	}
+
+	//This is VERY HARDCODED - I'm not proud of this, but will work for now (fck this shit) - Is just the manager of round threat
+	if (roundNumber == 0 || roundNumber == 1)
+		threatIncremental = 10;
+	else if (roundNumber == 3 || roundNumber == 6)
+		threatIncremental = 20;
+	else if (roundNumber == 9 || roundNumber == 11)
+		threatIncremental = 30;
+	else if (roundNumber == 15 || roundNumber == 19)
+		threatIncremental = 40;
+	else
+		threatIncremental = 0;
+
+	roundNumber++;
+	roundThreat += threatIncremental;
 	
 	//Reseting spawning points (put them at false to choose between them)
 	for (int i = 0; i < SpawningPoints_Array.size(); i++)
@@ -159,6 +179,6 @@ void Scene::ChooseSpawningPoints() {
 
 	for (int i = 0; i < SpawningPoints_Array.size(); i++)
 		if (SpawningPoints_Array[i]->active == true)
-			SpawningPoints_Array[i]->FillEnemies(round_threat);
+			SpawningPoints_Array[i]->FillEnemies(roundThreat);
 
 }
