@@ -44,7 +44,12 @@ public:
 private:
 
 	SDL_Texture* debug_tex = nullptr;
-	std::vector<Spawning_Point*> SpawningPointArray;
+
+	//Spawning
+	int round_threat = 0;
+	std::vector<Spawning_Point*> SpawningPoints_Array;
+	pugi::xml_document SP_Doc;
+
 };
 
 #endif // SCENE_H

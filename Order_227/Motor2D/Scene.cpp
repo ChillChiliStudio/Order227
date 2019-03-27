@@ -42,20 +42,22 @@ bool Scene::Start()
 		RELEASE_ARRAY(data);
 	}
 
-	int posX = 80;
-	int posY = 120;
 
-	for (int i = 0; i < 4; i++) {
+	pugi::xml_parse_result result = SP_Doc.load_file("SpawningPoints.xml");
+	
+	if (result == NULL)
+		LOG("SPAWNING POINTS DOCUMENT COULDN'T LOAD!");
+	else {
 
-		Spawning_Point* SpawnPoint = new Spawning_Point(iPoint(posX, posY));
+		pugi::xml_node SP_Node = SP_Doc.child("Spawning_Points");
+		for (SP_Node = SP_Node.child("SP"); SP_Node; SP_Node = SP_Node.next_sibling("SP")) {
 
-		SpawnPoint->active = false;
-		SpawnPoint->threat = 10;
-		posX += 40;
-		posY += 40;
-		posX *= -1;
+			int x = SP_Node.attribute("x").as_int();
+			int y = SP_Node.attribute("y").as_int();
 
-		SpawningPointArray.push_back(SpawnPoint);
+			Spawning_Point* new_SP = new Spawning_Point(iPoint(x, y));
+			SpawningPoints_Array.push_back(new_SP);
+		}
 	}
 	
 	debug_tex = myApp->tex->Load("maps/path2.png");
@@ -68,7 +70,7 @@ bool Scene::PreUpdate()
 {
 
 	//Activate Spawn
-	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && SpawningPoints_Array.size() > 0)
 		ChooseSpawningPoints();
 
 	return true;
@@ -93,20 +95,19 @@ bool Scene::Update(float dt)
 	myApp->map->Draw();
 
 	//Spawn Point Draw
-	for (int i = 0; i < SpawningPointArray.size(); i++) {
+	for (int i = 0; i < SpawningPoints_Array.size(); i++) {
 
-		myApp->render->DrawQuad(SpawningPointArray[i]->SP_Rect, 255, 100, 100);
+		myApp->render->DrawQuad(SpawningPoints_Array[i]->SP_Rect, 255, 100, 100);
 
 		//Square Enemies Draw
-		if (SpawningPointArray[i]->enemies.empty() == false) {
+		if (SpawningPoints_Array[i]->enemies.empty() == false) {
 
-			for (int j = 0; j < SpawningPointArray[i]->enemies.size(); j++) {
+			for (int j = 0; j < SpawningPoints_Array[i]->enemies.size(); j++) {
 
-				myApp->render->DrawQuad(SpawningPointArray[i]->enemies[j], 0, 0, 255);
-				SpawningPointArray[i]->enemies[j].y++;
+				myApp->render->DrawQuad(SpawningPoints_Array[i]->enemies[j], 0, 0, 255);
+				SpawningPoints_Array[i]->enemies[j].y++;
 			}
 		}
-
 	}
 	
 	return true;
@@ -129,10 +130,10 @@ bool Scene::CleanUp()
 	LOG("Freeing scene");
 
 	//for (int i = 0; i < SpawningPointArray.size(); i++)
-	for (int i = SpawningPointArray.size() - 1; i >= 0; i--)
-		RELEASE(SpawningPointArray[i]);
+	for (int i = SpawningPoints_Array.size() - 1; i >= 0; i--)
+		RELEASE(SpawningPoints_Array[i]);
 
-	SpawningPointArray.clear();
+	SpawningPoints_Array.clear();
 
 	return true;
 }
@@ -140,20 +141,24 @@ bool Scene::CleanUp()
 
 void Scene::ChooseSpawningPoints() {
 
-	for (int i = 0; i < SpawningPointArray.size(); i++)
-		SpawningPointArray[i]->active = false;
+	round_threat += 10;
+	
+	//Reseting spawning points (put them at false to choose between them)
+	for (int i = 0; i < SpawningPoints_Array.size(); i++)
+		SpawningPoints_Array[i]->active = false;
+	
 
-	int r1 = rand() % SpawningPointArray.size(); //For ranges not starting at 0: rand()%X + Y --> Range of rands between Y and X
-	int r2 = rand() % SpawningPointArray.size(); //Rand num between 0 and array's size (if 4 SP, then 0-4)
+	int r1 = rand() % SpawningPoints_Array.size(); //For ranges not starting at 0: rand()%X + Y --> Range of rands between Y and X
+	int r2 = rand() % SpawningPoints_Array.size(); //Rand num between 0 and array's size (if 4 SP, then 0-4)
 
 	while (r2 == r1)
-		r2 = rand() % SpawningPointArray.size(); //This can be pretty unpredictable & uncontrolling shit
+		r2 = rand() % SpawningPoints_Array.size(); //This can be pretty unpredictable & uncontrolling shit
 
-	SpawningPointArray[r1]->active = true;
-	SpawningPointArray[r2]->active = true;
+	SpawningPoints_Array[r1]->active = true;
+	SpawningPoints_Array[r2]->active = true;
 
-	for (int i = 0; i < SpawningPointArray.size(); i++)
-		if (SpawningPointArray[i]->active == true)
-			SpawningPointArray[i]->FillEnemies();
+	for (int i = 0; i < SpawningPoints_Array.size(); i++)
+		if (SpawningPoints_Array[i]->active == true)
+			SpawningPoints_Array[i]->FillEnemies(round_threat);
 
 }
