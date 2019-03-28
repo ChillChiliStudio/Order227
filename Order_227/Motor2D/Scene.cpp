@@ -168,6 +168,7 @@ void Scene::ChooseSpawningPoints() {
 		SpawningPoints_Array[i]->active = false;
 	
 
+	//If we want more spawning points just put more of these
 	int r1 = rand() % SpawningPoints_Array.size(); //For ranges not starting at 0: rand()%X + Y --> Range of rands between Y and X
 	int r2 = rand() % SpawningPoints_Array.size(); //Rand num between 0 and array's size (if 4 SP, then 0-4)
 
