@@ -90,6 +90,7 @@
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="Unit.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
   </ItemGroup>
