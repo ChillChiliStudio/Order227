@@ -114,13 +114,10 @@
     <ClInclude Include="Textures.h">
       <Filter>Game Files\Modules\Main Functionalities</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Spawning_Point.h">
       <Filter>Game Files\Scenes</Filter>
-=======
     <ClInclude Include="Unit.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
->>>>>>> BasicUnit_Fix
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
