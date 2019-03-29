@@ -15,14 +15,20 @@ public:
 	bool active = false;
 	iPoint position;
 	SDL_Rect SP_Rect = {position.x, position.y, 32, 32};
+	Timer SpawnTime;
+
+	std::vector<int>Enemies_to_Spawn;
 
 	void FillEnemies(int threat) {
 
 		int aux_threat = threat;
 		while (aux_threat > 0) {
 
-			myApp->entities->CreateUnit(unit_type::INFANTRY_DIVISION, fPoint(position.x, position.y), faction_enum::FACTION_CAPITALIST);
+			//myApp->entities->CreateUnit(unit_type::INFANTRY_DIVISION, fPoint(position.x, position.y), faction_enum::FACTION_CAPITALIST);
+			Enemies_to_Spawn.push_back(1);
 			aux_threat--;
 		}
+
+		SpawnTime.Start();
 	}
 };

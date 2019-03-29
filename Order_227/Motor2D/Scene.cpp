@@ -94,8 +94,20 @@ bool Scene::Update(float dt)
 	myApp->map->Draw();
 
 	//Spawn Point Draw
-	for (int i = 0; i < SpawningPoints_Array.size(); i++)
+	for (int i = 0; i < SpawningPoints_Array.size(); i++) {
+
 		myApp->render->DrawQuad(SpawningPoints_Array[i]->SP_Rect, 255, 100, 100);
+
+		if (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0 && SpawningPoints_Array[i]->SpawnTime.Read() > 500) {
+
+			fPoint SP_Pos = fPoint(SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
+			SpawningPoints_Array[i]->SpawnTime.Start();
+
+			myApp->entities->CreateUnit(unit_type::INFANTRY_DIVISION, fPoint(SP_Pos), faction_enum::FACTION_CAPITALIST);
+			SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
+
+		}
+	}
 	
 	return true;
 }
@@ -128,7 +140,7 @@ bool Scene::CleanUp()
 void Scene::ChooseSpawningPoints() {
 
 	//Restarting round if reached 20 - for MVP this should be 5!
-	if (roundNumber == 20) {
+	if (roundNumber == 5) {
 
 		roundNumber = 0;
 		roundThreat = 0;
