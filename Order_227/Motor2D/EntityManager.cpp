@@ -13,6 +13,8 @@
 #include "Entity.h"
 #include "Scene.h"
 
+#include <assert.h>
+
 EntityManager::EntityManager()
 {
 	name.assign("entities");
@@ -107,24 +109,47 @@ bool EntityManager::CleanUp() {
 }
 
 
-Entity *EntityManager::CreateEntity(entity_type entityType) {
+Entity *EntityManager::CreateEntity(entity_type entityType, iPoint position) {
 
-	static_assert(entity_type::UNKNOWN == entity_type(1), "UPDATE ENTITY TYPES");
+	static_assert(entity_type::UNKNOWN == entity_type(2), "UPDATE ENTITY TYPES");
+	//assert(entityType == entity_type::UNIT_ENT, "UNITS ARE NOT CREATED WITH CreateEntity()! TRY CreateUnit() INSTEAD!");
+
 	Entity* Entity = nullptr;
 
 	switch (entityType) {
 
-	//example
-	/*case ENTITY_TYPE::ENEMY_ENT:
-		Entity = new Entity(ENTITY_TYPE::ENEMY_ENT);
-		break;*/
+	case entity_type::OBJECT_ENT:
+		break;
+	case entity_type::UNIT_ENT:
+		break;
+	case entity_type::UNKNOWN:
+		break;
 	default:
 		break;
-
 	}
 
 	entities_list.push_back(Entity);
 	return Entity;
+}
+
+
+Entity *EntityManager::CreateUnit(unit_type unitType, iPoint position, faction_enum faction) {
+
+	Unit* Unit_Ent = nullptr;
+
+	switch (unitType) {
+
+	case unit_type::INFANTRY_DIVISION:
+		Unit_Ent = new Unit(unitType, position, faction);
+		break;
+	case unit_type::UNKNOWN:
+		break;
+	default:
+		break;
+	}
+
+	entities_list.push_back(Unit_Ent); //Units list?? Not including them in entities_list?
+	return Unit_Ent;
 }
 
 

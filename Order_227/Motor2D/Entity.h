@@ -14,14 +14,15 @@ struct SDL_Rect;
 enum class entity_type {
 
 	OBJECT_ENT,
-	UNKNOWN = 1
+	UNIT_ENT,
+	UNKNOWN = 2
 };
 
 class Entity {
 
 public:
 
-	Entity(entity_type entityType) : type(entityType) {}
+	Entity(entity_type entityType, iPoint position)  {}
 	~Entity() {}
 
 public:
