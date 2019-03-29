@@ -116,6 +116,7 @@
     </ClInclude>
     <ClInclude Include="Spawning_Point.h">
       <Filter>Game Files\Scenes</Filter>
+    </ClInclude>
     <ClInclude Include="Unit.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
@@ -156,9 +157,6 @@
     </Filter>
     <Filter Include="Game Files\Entity Management\Entities">
       <UniqueIdentifier>{ea1e376e-289a-4463-9656-9b7343d35827}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Entity Management\Entities\Units">
-      <UniqueIdentifier>{9bc9f9d5-ae62-4591-bdb4-b6f16ba7ebc6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
