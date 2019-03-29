@@ -7,6 +7,7 @@
 #include "Window.h"
 #include "Map.h"
 #include "PathFinding.h"
+#include "EntityManager.h"
 #include "Scene.h"
 
 Scene::Scene() : Module()
@@ -42,7 +43,7 @@ bool Scene::Start()
 		RELEASE_ARRAY(data);
 	}
 
-
+	//Spawning Points Load
 	pugi::xml_parse_result result = SP_Doc.load_file("SpawningPoints.xml");
 	
 	if (result == NULL)
@@ -59,8 +60,6 @@ bool Scene::Start()
 			SpawningPoints_Array.push_back(new_SP);
 		}
 	}
-	
-	debug_tex = myApp->tex->Load("maps/path2.png");
 
 	return true;
 }
@@ -69,7 +68,7 @@ bool Scene::Start()
 bool Scene::PreUpdate()
 {
 
-	//Activate Spawn
+	//Activate Spawn with F
 	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && SpawningPoints_Array.size() > 0)
 		ChooseSpawningPoints();
 
@@ -81,34 +80,22 @@ bool Scene::Update(float dt)
 {
 
 	if(myApp->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		myApp->render->camera.y += 10;
+		myApp->render->camera.y += 200*dt;
 
 	if(myApp->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		myApp->render->camera.y -= 10;
+		myApp->render->camera.y -= 200*dt;
 
 	if(myApp->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		myApp->render->camera.x += 10;
+		myApp->render->camera.x += 200*dt;
 
 	if(myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		myApp->render->camera.x -= 10;
+		myApp->render->camera.x -= 200*dt;
 
 	myApp->map->Draw();
 
 	//Spawn Point Draw
-	for (int i = 0; i < SpawningPoints_Array.size(); i++) {
-
+	for (int i = 0; i < SpawningPoints_Array.size(); i++)
 		myApp->render->DrawQuad(SpawningPoints_Array[i]->SP_Rect, 255, 100, 100);
-
-		//Square Enemies Draw
-		if (SpawningPoints_Array[i]->enemies.empty() == false) {
-
-			for (int j = 0; j < SpawningPoints_Array[i]->enemies.size(); j++) {
-
-				myApp->render->DrawQuad(SpawningPoints_Array[i]->enemies[j], 0, 0, 255);
-				SpawningPoints_Array[i]->enemies[j].y++;
-			}
-		}
-	}
 	
 	return true;
 }
@@ -129,7 +116,6 @@ bool Scene::CleanUp()
 {
 	LOG("Freeing scene");
 
-	//for (int i = 0; i < SpawningPointArray.size(); i++)
 	for (int i = SpawningPoints_Array.size() - 1; i >= 0; i--)
 		RELEASE(SpawningPoints_Array[i]);
 

@@ -43,8 +43,6 @@ public:
 
 private:
 
-	SDL_Texture* debug_tex = nullptr;
-
 	//Spawning
 	int roundThreat = 0;
 	int threatIncremental = 0;

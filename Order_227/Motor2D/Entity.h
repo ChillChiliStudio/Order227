@@ -22,41 +22,41 @@ class Entity {
 
 public:
 
-	Entity(entity_type entityType, iPoint position)  {}
+	Entity(entity_type entityType, fPoint position) : type(entityType), position(position) {}
 	~Entity() {}
 
 public:
 
 	// Called before render is available
-	virtual void Awake() {}
+	virtual bool Awake()				{ return true; }
 
 	// Called before the first frame if it was activated before that
-	virtual void Start() {}
+	virtual bool Start()				{ return true; }
 
 	// Called each loop iteration
-	virtual void FixUpdate(float dt) {}
+	virtual bool FixUpdate(float dt)	{ return true; }
 
 	// Called each logic iteration
-	virtual void Update(float dt) {}
+	virtual bool Update(float dt)		{ return true; }
 
 	// Called before all Updates
-	virtual void PreUpdate() {}
+	virtual bool PreUpdate()			{ return true; }
 
 	// Called before all Updates
-	virtual void PostUpdate() {}
+	virtual bool PostUpdate()			{ return true; }
 
 	// Called before quitting
-	virtual void CleanUp() {}
+	virtual bool CleanUp()				{ return true; }
 
 	virtual void DestroyEntity() {}
 
-	entity_type GetType() const { return type; }
-	std::string GetName() const { return name; }
+	entity_type GetType() const			{ return type; }
+	std::string GetName() const			{ return name; }
 
 public:
 
-	virtual void Move(float dt) {}
-	virtual void Draw(float dt) {}
+	virtual bool Move(float dt)			{ return true; }
+	virtual bool Draw(float dt)			{ return true; }
 
 public:
 

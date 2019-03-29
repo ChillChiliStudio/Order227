@@ -22,13 +22,16 @@ class Unit : public Entity {
 
 public:
 
-	Unit(unit_type unitType, iPoint pos, faction_enum faction);
+	Unit(unit_type unitType, fPoint pos, faction_enum faction);
 	~Unit();
 
 public:
 
 	//void Move();
 	//void Attack();
+	bool Update(float dt);
+	bool Move(float dt);
+	bool Draw();
 
 public:
 
@@ -43,6 +46,7 @@ public:
 
 	SDL_Rect UnitRect = { (int)position.x, (int)position.y, 20, 20};
 
+	float speed = 100.0f;
 	//unsigned int life;
 	//unsigned int maxLife;
 	//unit_state status;

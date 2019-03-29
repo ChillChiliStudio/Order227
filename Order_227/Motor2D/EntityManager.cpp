@@ -41,12 +41,9 @@ bool EntityManager::Start() {
 	if (entities_list.size() > 0) {
 
 		std::list<Entity*>::iterator item = entities_list.begin();
-
-		while ((*item) != NULL) {
-
+		for (; item != entities_list.end(); item = next(item))
 			(*item)->Start();
-			item = next(item);
-		}
+
 	}
 	return true;
 }
@@ -71,7 +68,7 @@ bool EntityManager::Update(float dt) {
 		if (entities_list.size() > 0) {
 
 			std::list<Entity*>::iterator item = entities_list.begin();
-			for (; *item != nullptr; item = next(item))
+			for (; item != entities_list.end(); item = next(item))
 				(*item)->FixUpdate(dt);
 		}
 	}
@@ -81,7 +78,7 @@ bool EntityManager::Update(float dt) {
 	if (entities_list.size() > 0) {
 
 		std::list<Entity*>::iterator item = entities_list.begin();
-		for (; *item != nullptr; item = next(item))
+		for (; item != entities_list.end(); item = next(item))
 			(*item)->Update(dt);
 	}
 
@@ -94,9 +91,9 @@ bool EntityManager::CleanUp() {
 	LOG("Clean Up Entity Manager");
 
 	if (entities_list.size() > 0) {
-		std::list<Entity*>::iterator item = entities_list.begin();
 
-		while (*item != nullptr) {
+		std::list<Entity*>::iterator item = entities_list.begin();
+		while (item != entities_list.end()) {
 
 			RELEASE(*item);
 			item = next(item);
@@ -109,10 +106,10 @@ bool EntityManager::CleanUp() {
 }
 
 
-Entity *EntityManager::CreateEntity(entity_type entityType, iPoint position) {
+Entity *EntityManager::CreateEntity(entity_type entityType, fPoint position) {
 
 	static_assert(entity_type::UNKNOWN == entity_type(2), "UPDATE ENTITY TYPES");
-	//assert(entityType == entity_type::UNIT_ENT, "UNITS ARE NOT CREATED WITH CreateEntity()! TRY CreateUnit() INSTEAD!");
+	assert(entityType == entity_type::UNIT_ENT, "UNITS ARE NOT CREATED WITH CreateEntity()! TRY CreateUnit() INSTEAD!");
 
 	Entity* Entity = nullptr;
 
@@ -133,7 +130,7 @@ Entity *EntityManager::CreateEntity(entity_type entityType, iPoint position) {
 }
 
 
-Entity *EntityManager::CreateUnit(unit_type unitType, iPoint position, faction_enum faction) {
+Entity *EntityManager::CreateUnit(unit_type unitType, fPoint position, faction_enum faction) {
 
 	Unit* Unit_Ent = nullptr;
 
@@ -156,7 +153,7 @@ Entity *EntityManager::CreateUnit(unit_type unitType, iPoint position, faction_e
 void EntityManager::DestroyEntity(Entity *object) {
 
 	std::list<Entity*>::iterator item = entities_list.begin();
-	while (*item != nullptr) {
+	while (item != entities_list.end()) {
 
 		if ((*item) == object) {
 

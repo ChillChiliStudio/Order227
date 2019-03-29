@@ -29,7 +29,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new Scene();
 	map = new Map();
 	pathfinding = new PathFinding();
-	//entities = new EntityManager;
+	entities = new EntityManager();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -40,7 +40,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(pathfinding);
 	AddModule(scene);
-	//AddModule(entities);
+	AddModule(entities);
 
 	// render last to swap buffer
 	AddModule(render);
@@ -127,8 +127,6 @@ bool App::Update()
 	bool ret = true;
 	PrepareUpdate();
 
-
-
 	if(ret == true)
 		ret = PreUpdate();
 
@@ -214,8 +212,8 @@ bool App::DoUpdate()
 {
 	bool ret = true;
 	Module* pModule = NULL;
+
 	std::list<Module*>::iterator item = modules.begin();
-	
 	for (; item != modules.end() && ret == true; item = next(item)) {
 
 		pModule = *item;

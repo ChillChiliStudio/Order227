@@ -26,8 +26,8 @@ public:
 
 public:
 
-	Entity *CreateEntity(entity_type entityType, iPoint position);
-	Entity *CreateUnit(unit_type unitType, iPoint position, faction_enum faction);
+	Entity *CreateEntity(entity_type entityType, fPoint position);
+	Entity *CreateUnit(unit_type unitType, fPoint position, faction_enum faction);
 
 	void DestroyEntity(Entity *Entity);
 

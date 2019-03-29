@@ -73,15 +73,15 @@ private:
 public:
 
 	// Modules
-	Window*			win = NULL;
-	Input*			input = NULL;
-	Render*			render = NULL;
+	Window*				win = NULL;
+	Input*				input = NULL;
+	Render*				render = NULL;
 	Textures*			tex = NULL;
-	Audio*			audio = NULL;
-	Scene*			scene = NULL;
+	Audio*				audio = NULL;
+	Scene*				scene = NULL;
 	Map*				map = NULL;
 	PathFinding*		pathfinding = NULL;
-	EntityManager*	entities = NULL;
+	EntityManager*		entities = NULL;
 
 private:
 

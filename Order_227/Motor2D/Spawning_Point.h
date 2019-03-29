@@ -1,5 +1,7 @@
 #include "Point.h"
 #include "Timer.h"
+#include "App.h"
+#include "EntityManager.h"
 #include <vector>
 #include "SDL/include/SDL.h"
 
@@ -12,18 +14,14 @@ public:
 
 	bool active = false;
 	iPoint position;
-
 	SDL_Rect SP_Rect = {position.x, position.y, 32, 32};
-
-	std::vector<SDL_Rect> enemies;
 
 	void FillEnemies(int threat) {
 
 		int aux_threat = threat;
 		while (aux_threat > 0) {
 
-			SDL_Rect r = { position.x, position.y, 20, 20 };
-			enemies.push_back(r);
+			myApp->entities->CreateUnit(unit_type::INFANTRY_DIVISION, fPoint(position.x, position.y), faction_enum::FACTION_CAPITALIST);
 			aux_threat--;
 		}
 	}
