@@ -21,7 +21,7 @@ class Entity {
 
 public:
 
-	Entity(entity_type entityType) : type(entityType) {}
+	Entity(int x, int y,entity_type entityType) : type(entityType) {}
 	~Entity() {}
 
 public:
@@ -56,12 +56,16 @@ public:
 
 	virtual void Move(float dt) {}
 	virtual void Draw(float dt) {}
+	virtual void UpdateBlitOrder() {}
 
 public:
 
 	int life = 0;
 	bool active = false;
 	bool mustDestroy = false;
+
+	uint order = 0;
+
 	entity_type type;
 	std::string name;
 

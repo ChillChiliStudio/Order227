@@ -118,6 +118,7 @@ Entity *EntityManager::CreateEntity(entity_type entityType) {
 	/*case ENTITY_TYPE::ENEMY_ENT:
 		Entity = new Entity(ENTITY_TYPE::ENEMY_ENT);
 		break;*/
+
 	default:
 		break;
 
