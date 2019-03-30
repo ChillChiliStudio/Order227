@@ -25,8 +25,8 @@ public:
 	virtual bool Update(float dt);
 
 	// Called each loop iteration (graphic)
-	virtual bool Draw();
-	virtual bool DebugDraw() const;
+	virtual bool Draw() override;
+	virtual bool DebugDraw() const override;
 
 	// Called each loop iteration
 	virtual bool PostUpdate() { return true; }

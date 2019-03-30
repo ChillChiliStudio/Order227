@@ -164,25 +164,25 @@ void User_Interface::DestroyElement(UI_Element* element)	// Deletion by list con
 	RELEASE(element);
 }
 
-//UI_Element* User_Interface::CreateImage(fPoint center, SDL_Rect texRect, SDL_Texture* tex, bool dynamic, UI_Element* parent, List<UI_Element*>* children)
-//{
-//	Image* ret = nullptr;
-//
-//	if (tex == NULL) {
-//		tex = GetAtlas();
-//	}
-//	else if (SDL_RectEmpty(&texRect)) {
-//		SDL_Rect tmpRect = { 0, 0, 0, 0 };
-//		myApp->tex->GetSize(tex, (uint&)tmpRect.w, (uint&)tmpRect.h);
-//		texRect = tmpRect;
-//	}
-//	
-//	ret = new Image(ui_type::IMAGE, center, texRect, tex, dynamic, parent, children);
-//	AddElement((UI_Element*)ret);
-//
-//	return (UI_Element*)ret;
-//}
-//
+UI_Element* User_Interface::CreateImage(fPoint center, SDL_Rect texRect, SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
+{
+	Image* ret = nullptr;
+
+	if (tex == NULL) {
+		tex = GetAtlas();
+	}
+	else if (SDL_RectEmpty(&texRect)) {
+		SDL_Rect tmpRect = { 0, 0, 0, 0 };
+		myApp->tex->GetSize(tex, (uint&)tmpRect.w, (uint&)tmpRect.h);
+		texRect = tmpRect;
+	}
+
+	ret = new Image(ui_type::IMAGE, center, tex, texRect, dynamic, parent, children);
+	AddElement((UI_Element*)ret);
+
+	return (UI_Element*)ret;
+}
+
 //UI_Element* User_Interface::CreateText(fPoint center, const char* content, SDL_Color color, _TTF_Font* font, bool dynamic, UI_Element* parent, List<UI_Element*>* children)
 //{
 //	Text* ret = nullptr;

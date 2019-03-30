@@ -51,7 +51,7 @@ public:
 	void DestroyElement(UI_Element* element);
 	std::list<UI_Element*>::iterator DestroyElement(std::list<UI_Element*>::iterator iter);
 
-	//UI_Element* CreateImage(fPoint center, SDL_Rect texRect = { 0, 0, 0, 0 }, SDL_Texture* tex = NULL, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
+	UI_Element* CreateImage(fPoint center, SDL_Rect texRect = { 0, 0, 0, 0 }, SDL_Texture* tex = NULL, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
 	//UI_Element* CreateText(fPoint center, const char* content, SDL_Color color = { 255, 255, 255, 255 }, _TTF_Font* font = NULL, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
 
 	//UI_Element* CreateActionBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);

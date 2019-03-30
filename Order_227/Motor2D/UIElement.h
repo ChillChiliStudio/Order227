@@ -77,7 +77,7 @@ public:
 	virtual void AttachChild(UI_Element* child);
 	virtual void DetachChild(UI_Element* child);
 
-	virtual bool Draw() const = 0;
+	virtual bool Draw() = 0;
 	virtual bool DebugDraw() const = 0;
 
 public:
