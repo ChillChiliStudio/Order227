@@ -46,9 +46,6 @@ public:
 	// Called each frame (framerate dependant)
 	virtual bool Update(float dt) { return true; };
 
-	// Called each loop iteration (graphic)
-	virtual bool Draw() { return true; };
-
 	// Called each loop iteration
 	virtual bool PostUpdate() { return true; }
 

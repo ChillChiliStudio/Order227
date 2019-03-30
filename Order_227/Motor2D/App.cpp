@@ -14,6 +14,7 @@
 #include "Pathfinding.h"
 #include "Fonts.h"
 #include "EntityManager.h"
+#include "UserInterface.h"
 #include "App.h"
 
 #include "Brofiler/Brofiler.h"
@@ -31,6 +32,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	pathfinding = new PathFinding();
 	fonts = new Fonts();
 	//entities = new EntityManager;
+	gui = new User_Interface();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -43,6 +45,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(fonts);
 	AddModule(scene);
 	//AddModule(entities);
+	AddModule(gui);
 
 	// render last to swap buffer
 	AddModule(render);

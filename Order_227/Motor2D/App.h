@@ -18,6 +18,7 @@ class Map;
 class PathFinding;
 class Fonts;
 class EntityManager;
+class User_Interface;
 
 class App
 {
@@ -84,6 +85,7 @@ public:
 	PathFinding*	pathfinding;
 	Fonts*			fonts;
 	//EntityManager*	entities;
+	User_Interface*	gui;
 
 private:
 
