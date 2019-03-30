@@ -19,7 +19,7 @@
 
 User_Interface::User_Interface() : Module()
 {
-	//name.create("User_Interface");	//TODO: Is this needed or contempled for XML reading?
+	name.append("user_interface");
 }
 
 // Destructor
@@ -164,6 +164,7 @@ void User_Interface::DestroyElement(UI_Element* element)	// Deletion by list con
 	RELEASE(element);
 }
 
+//Factories
 UI_Element* User_Interface::CreateImage(fPoint center, SDL_Rect texRect, SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
 {
 	Image* ret = nullptr;

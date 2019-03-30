@@ -43,9 +43,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(pathfinding);
 	AddModule(fonts);
-	AddModule(scene);
 	//AddModule(entities);
 	AddModule(gui);
+	AddModule(scene);
 
 	// render last to swap buffer
 	AddModule(render);

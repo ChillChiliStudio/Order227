@@ -26,4 +26,8 @@
     <folder>maps/</folder>
   </map>
 
+  <user_interface>
+    <atlas file="ui/atlas.png" />
+  </user_interface>
+
 </config>

@@ -7,6 +7,7 @@
 #include "Window.h"
 #include "Map.h"
 #include "PathFinding.h"
+#include "UserInterface.h"
 #include "Scene.h"
 
 Scene::Scene() : Module()
@@ -68,6 +69,8 @@ bool Scene::Update(float dt)
 		myApp->render->camera.x -= 1;
 
 	myApp->map->Draw();
+	myApp->gui->Draw();
+
 	return true;
 }
 
