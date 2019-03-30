@@ -4,12 +4,29 @@
 #include "Button.h"
 
 template <class Ret, class... Args>
+UI_Element* NewActionBox(Ret(*action)(Args...), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL)
+{
+	UI_Element* ret = nullptr;
+
+	if (tex == NULL) {
+		tex = myApp->gui->GetAtlas();
+	}
+
+	ret = new Action_Box<Ret, Args...>(action, center, spriteList, tex, parent);
+	myApp->gui->AddElement(ret);
+
+	return ret;
+}
+
+template <class Ret, class... Args>
 class Action_Box : public Button
 {
 public:
+	typedef Ret(*eventFunction)(Args...);
+
 	//Constructor
-	template<class Ret, class... Args> Action_Box(Ret(*action)(Args...), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL)
-		: Button(ui_type::BUTTON_ACTION, center, spriteList[(int)button_state::IDLE], tex, false, parent, children), action(action)
+	Action_Box(eventFunction action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent = NULL)
+		: Button(ui_type::BUTTON_ACTION, center, spriteList[(int)button_state::IDLE], tex, false, parent, NULL), action(action)
 	{
 		stateSprites = new SDL_Rect[(int)button_state::MAX_TYPES];
 
@@ -25,8 +42,7 @@ public:
 	}
 
 	//Button action calling
-	virtual Ret operator() (Args&... args) const
-	{
+	virtual Ret operator() (Args&... args) const{
 		return (action)(args...);
 	}
 
@@ -73,7 +89,7 @@ protected:
 	virtual void WhilePress() {}
 
 protected:
-	Ret(*action)(Args...);
+	eventFunction action;
 	SDL_Rect* stateSprites = nullptr;	//Disabled, Idle, Hover, Pressed
 };
 

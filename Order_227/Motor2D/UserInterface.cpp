@@ -198,7 +198,7 @@ UI_Element* User_Interface::CreateText(fPoint center, const char* content, SDL_C
 	return (UI_Element*)ret;
 }
 
-//UI_Element* User_Interface::CreateActionBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, bool dynamic, UI_Element* parent, List<UI_Element*>* children)
+//UI_Element* User_Interface::CreateActionBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
 //{
 //	UI_Element* ret = nullptr;
 //

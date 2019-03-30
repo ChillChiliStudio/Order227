@@ -87,6 +87,8 @@ public:
 	//EntityManager*	entities;
 	User_Interface*	gui;
 
+	bool mustShutDown = false;
+
 private:
 
 	int					argc;

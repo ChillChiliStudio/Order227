@@ -132,8 +132,6 @@ bool App::Update()
 	bool ret = true;
 	PrepareUpdate();
 
-
-
 	if(ret == true)
 		ret = PreUpdate();
 
@@ -143,10 +141,11 @@ bool App::Update()
 	if(ret == true)
 		ret = PostUpdate();
 
-	if (input->GetWindowEvent(WE_QUIT) == true)
+	if (input->GetWindowEvent(WE_QUIT) == true || mustShutDown)
 		ret = false;
 
 	FinishUpdate();
+
 	return ret;
 }
 

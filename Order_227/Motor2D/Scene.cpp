@@ -9,6 +9,7 @@
 #include "PathFinding.h"
 #include "UserInterface.h"
 #include "Scene.h"
+#include "ActionBox.h"
 
 Scene::Scene() : Module()
 {
@@ -28,6 +29,15 @@ bool Scene::Awake()
 	return ret;
 }
 
+void EatShit(/*bool yolo, float mhm*/)
+{
+	//yolo = true;
+	//mhm = 0.5f;
+	myApp->mustShutDown = true;
+}
+
+SDL_Rect testSpriteList[4] = { { 0, 100, 200, 200 }, { 0, 100, 200, 200 }, { 0, 100, 200, 200 }, { 0, 100, 200, 200 } };
+
 // Called before the first frame
 bool Scene::Start()
 {
@@ -44,7 +54,8 @@ bool Scene::Start()
 	debug_tex = myApp->tex->Load("maps/path2.png");
 
 	myApp->gui->CreateImage({ 150, 150 }, { 0, 0, 300, 300 }, NULL, true);
-	myApp->gui->CreateText({ 250, 250 }, "walop");
+	myApp->gui->CreateText({ 250, 250 }, "walop", { 255, 0, 0, 255 });
+	NewActionBox<> (&EatShit, { 500, 500 }, testSpriteList, NULL);
 
 	return true;
 }
