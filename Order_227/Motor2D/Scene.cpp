@@ -43,6 +43,9 @@ bool Scene::Start()
 
 	debug_tex = myApp->tex->Load("maps/path2.png");
 
+	myApp->gui->CreateImage({ 150, 150 }, { 0, 0, 300, 300 }, NULL, true);
+	myApp->gui->CreateText({ 250, 250 }, "walop");
+
 	return true;
 }
 

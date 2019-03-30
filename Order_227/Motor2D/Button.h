@@ -17,7 +17,7 @@ class Button : public Image
 {
 public:
 	//Constructor
-	Button(ui_type type, fPoint center, SDL_Texture* tex, SDL_Rect spriteRect, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
+	Button(ui_type type, fPoint center, SDL_Rect spriteRect, SDL_Texture* tex, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
 
 	virtual ~Button();
 

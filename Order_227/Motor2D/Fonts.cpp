@@ -10,7 +10,7 @@
 
 Fonts::Fonts() : Module()
 {
-	//name.create("fonts");	//TODO: Is this needed or contempled for XML reading?
+	name.append("fonts");
 }
 
 // Destructor

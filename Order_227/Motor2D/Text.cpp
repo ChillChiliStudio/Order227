@@ -9,7 +9,7 @@
 #include "Text.h"
 
 Text::Text(const char* content, SDL_Color color, _TTF_Font* font, fPoint center, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
-	: Image(ui_type::TEXT, center, LoadTexture(content, color, font), myApp->tex->GetSize(graphics), dynamic, parent, children), content(content), color(color), font(font)
+	: Image(ui_type::TEXT, center, myApp->tex->GetSize(graphics), LoadTexture(content, color, font), dynamic, parent, children), content(content), color(color), font(font)
 {}
 
 const char* Text::GetText() const

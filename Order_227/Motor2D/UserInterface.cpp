@@ -178,22 +178,26 @@ UI_Element* User_Interface::CreateImage(fPoint center, SDL_Rect texRect, SDL_Tex
 		texRect = tmpRect;
 	}
 
-	ret = new Image(ui_type::IMAGE, center, tex, texRect, dynamic, parent, children);
+	ret = new Image(ui_type::IMAGE, center, texRect, tex, dynamic, parent, children);
 	AddElement((UI_Element*)ret);
 
 	return (UI_Element*)ret;
 }
 
-//UI_Element* User_Interface::CreateText(fPoint center, const char* content, SDL_Color color, _TTF_Font* font, bool dynamic, UI_Element* parent, List<UI_Element*>* children)
-//{
-//	Text* ret = nullptr;
-//
-//	ret = new Text(content, color, font, center, dynamic, parent, children);
-//	AddElement((UI_Element*)ret);
-//
-//	return (UI_Element*)ret;
-//}
-//
+UI_Element* User_Interface::CreateText(fPoint center, const char* content, SDL_Color color, _TTF_Font* font, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
+{
+	Text* ret = nullptr;
+
+	if (font == NULL) {
+		font = myApp->fonts->defaultFont;
+	}
+
+	ret = new Text(content, color, font, center, dynamic, parent, children);
+	AddElement((UI_Element*)ret);
+
+	return (UI_Element*)ret;
+}
+
 //UI_Element* User_Interface::CreateActionBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, bool dynamic, UI_Element* parent, List<UI_Element*>* children)
 //{
 //	UI_Element* ret = nullptr;

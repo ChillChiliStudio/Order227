@@ -7,7 +7,7 @@ class Image	: public UI_Element
 {
 public:
 	//Constructor
-	Image(ui_type type, fPoint center, SDL_Texture* tex, SDL_Rect texRect, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
+	Image(ui_type type, fPoint center, SDL_Rect texRect, SDL_Texture* tex, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
 
 	//Destructor
 	virtual ~Image();

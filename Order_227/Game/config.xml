@@ -30,4 +30,8 @@
     <atlas file="ui/atlas.png" />
   </user_interface>
 
+  <fonts>
+    <defaultFont file="fonts/open_sans/OpenSans-Regular.ttf" size="10" />
+  </fonts>
+
 </config>

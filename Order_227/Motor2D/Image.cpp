@@ -9,7 +9,7 @@
 #include "Text.h"
 #include "Window.h"
 
-Image::Image(ui_type type, fPoint center, SDL_Texture* tex, SDL_Rect sprite, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
+Image::Image(ui_type type, fPoint center, SDL_Rect sprite, SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
 	: UI_Element(type, center, dynamic, parent, children), graphics(tex)
 {
 	this->sprite = new SDL_Rect;

@@ -28,6 +28,7 @@ public:
 	_TTF_Font* GetFont() const;
 
 	SDL_Texture* LoadTexture(const char* string, SDL_Color color, _TTF_Font* font);
+
 	SDL_Rect ChangeText(const char* string, SDL_Color color, _TTF_Font* font);
 	SDL_Rect ChangeText(std::string string, SDL_Color color, _TTF_Font* font);
 	SDL_Rect ChangeContent(const char* string);
