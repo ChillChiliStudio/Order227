@@ -7,7 +7,7 @@
 #include "SDL/include/SDL.h"
 
 //Constructor
-Button::Button(ui_type type, fPoint center, SDL_Rect spriteRect, SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
+Button::Button(ui_type type, fPoint center, SDL_Texture* tex, SDL_Rect spriteRect, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
 	: Image(type, center, tex, spriteRect, dynamic, parent, children), status(button_state::IDLE)
 {};
 

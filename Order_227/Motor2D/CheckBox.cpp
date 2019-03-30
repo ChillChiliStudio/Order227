@@ -1,82 +1,46 @@
-//#include "j1App.h"
-//#include "j1Input.h"
+//#include "Defs.h"
+//#include "Log.h"
+//#include "App.h"
+//#include "Input.h"
+//#include "Audio.h"
+//#include "ActionBox.h"
 //#include "CheckBox.h"
+//#include "SDL/include/SDL.h"
 //
-//CheckBox::CheckBox(void(*action)(bool*), bool* value, fPoint center, SDL_Rect spriteList[3], SDL_Texture* tex, bool dynamic, UIElement* parent, p2List<UIElement*>* children)
-//	: Button<void, bool*>(action, ui_type::BUTTON_CHECK, center, spriteList[0], tex, dynamic, parent, children)
+////Constructor
+//Check_Box::Check_Box(bool* value, fPoint center, SDL_Texture* tex, SDL_Rect spriteList[4], UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL)
+//	: Action_Box<bool, bool*>(action, center, tex, spriteList, parent, children)
 //{
-//	stateSprites = new SDL_Rect[3];
-//
-//	for (int i = 0; i < 3; i++) {
-//		stateSprites[i] = spriteList[i];
-//	}
+//	action = SwitchValue;
 //}
 //
-//CheckBox::~CheckBox()
+//Check_Box::~Check_Box()
+//{}
+//
+////Enable/Disable
+//void Check_Box::Enable()
 //{
-//	RELEASE(sprite);
-//	RELEASE_ARRAY(stateSprites);
+//	status = button_state::IDLE;
+//	*sprite = stateSprites[(int)bool_state::OFF];
 //}
 //
-//button_state CheckBox::CheckCurrentState()
+//void Check_Box::Disable()
 //{
-//	switch (status) {
-//	case button_state::IDLE:
-//		if (MouseOnImage() == true) {
-//			OnHover();
-//			status = button_state::HOVERING;
-//		}
-//		break;
-//	case button_state::HOVERING:
-//		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
-//			OnPress();
-//		}
-//		else if (MouseOnImage() == false) {
-//			OnIdle();
-//			status = button_state::IDLE;
-//		}
-//		break;
-//	}
-//
-//	return status;
+//	status = button_state::DISABLED;
+//	*sprite = stateSprites[(int)button_state::DISABLED];
 //}
 //
-//button_state CheckBox::ButtonStateEffects()
-//{
-//	switch (status) {
-//	case button_state::IDLE:
-//		WhileIdle();
-//		break;
-//	case button_state::HOVERING:
-//		WhileHover();
-//		break;
-//	}
+//void Check_Box::OnIdle()
+//{}
 //
-//	return status;
-//}
+//void Check_Box::OnHover()
+//{}
 //
-//void CheckBox::OnIdle()
-//{
-//	if (*value == true) {
-//		*sprite = stateSprites[(int)value_state::ON];
-//	}
-//	else {
-//		*sprite = stateSprites[(int)value_state::OFF];
-//	}
-//}
+//void Check_Box::OnPress()
+//{}
 //
-//void CheckBox::OnHover()
+//bool Check_Box::SwitchValue(bool* value)
 //{
-//	*sprite = stateSprites[(int)value_state::HOVERING];
-//}
-//
-//void CheckBox::OnPress()
-//{
-//	DoAction(value);
-//	if (*value == true) {
-//		*sprite = stateSprites[(int)value_state::ON];
-//	}
-//	else {
-//		*sprite = stateSprites[(int)value_state::OFF];
-//	}
+//	*value = !*value;
+//	return *value;
 //}

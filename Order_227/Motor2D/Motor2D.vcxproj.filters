@@ -52,9 +52,6 @@
     <ClCompile Include="UIElement.cpp">
       <Filter>Game Files\User Interface</Filter>
     </ClCompile>
-    <ClCompile Include="CheckBox.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
-    </ClCompile>
     <ClCompile Include="InputText.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
     </ClCompile>
@@ -69,6 +66,9 @@
     </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckBox.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\Action Boxes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -138,9 +138,6 @@
     <ClInclude Include="ActionBox.h">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
     </ClInclude>
-    <ClInclude Include="CheckBox.h">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
-    </ClInclude>
     <ClInclude Include="InputText.h">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
     </ClInclude>
@@ -155,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="Image.h">
       <Filter>Game Files\User Interface\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckBox.h">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\Action Boxes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +202,9 @@
     </Filter>
     <Filter Include="Game Files\User Interface\UI Elements\Images\Buttons">
       <UniqueIdentifier>{3ebb8683-127e-4b20-a631-ac331c07e498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\User Interface\UI Elements\Images\Buttons\Action Boxes">
+      <UniqueIdentifier>{9c81dae5-6b8c-4045-bdaf-8a826d168b8e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

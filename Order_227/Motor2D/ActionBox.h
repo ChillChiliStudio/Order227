@@ -8,8 +8,8 @@ class Action_Box : public Button
 {
 public:
 	//Constructor
-	template<class Ret, class... Args> Action_Box(Ret(*action)(Args...), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL)
-		: Button(ui_type::BUTTON_ACTION, center, spriteList[(int)button_state::IDLE], tex, dynamic, parent, children), action(action)
+	template<class Ret, class... Args> Action_Box(Ret(*action)(Args...), fPoint center, SDL_Texture* tex, SDL_Rect spriteList[4], UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL)
+		: Button(ui_type::BUTTON_ACTION, center, spriteList[(int)button_state::IDLE], tex, false, parent, children), action(action)
 	{
 		stateSprites = new SDL_Rect[(int)button_state::MAX_TYPES];
 
@@ -72,7 +72,7 @@ protected:
 
 	virtual void WhilePress() {}
 
-private:
+protected:
 	Ret(*action)(Args...);
 	SDL_Rect* stateSprites = nullptr;	//Disabled, Idle, Hover, Pressed
 };
