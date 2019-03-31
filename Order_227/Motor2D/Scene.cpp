@@ -3,6 +3,7 @@
 #include "App.h"
 #include "Input.h"
 #include "Textures.h"
+#include "Fonts.h"
 #include "Render.h"
 #include "Window.h"
 #include "Map.h"

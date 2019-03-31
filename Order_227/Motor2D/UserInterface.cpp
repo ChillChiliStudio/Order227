@@ -186,15 +186,19 @@ UI_Element* User_Interface::CreateImage(fPoint center, SDL_Rect texRect, SDL_Tex
 	return (UI_Element*)ret;
 }
 
-UI_Element* User_Interface::CreateText(fPoint center, const char* content, SDL_Color color, _TTF_Font* font, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
+UI_Element* User_Interface::CreateText(fPoint center, const char* content, font_id id, SDL_Color color, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
 {
 	Text* ret = nullptr;
+	_TTF_Font* tmpFont;
 
-	if (font == NULL) {
-		font = myApp->fonts->defaultFont;
+	if (id >= font_id::MAX_FONTS) {
+		tmpFont = myApp->fonts->defaultFont;
+	}
+	else {
+		tmpFont = myApp->fonts->fontsList[(int)id]->fontPtr;
 	}
 
-	ret = new Text(content, color, font, center, dynamic, parent, children);
+	ret = new Text(content, color, tmpFont, center, dynamic, parent, children);
 	AddElement((UI_Element*)ret);
 
 	return (UI_Element*)ret;
