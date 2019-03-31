@@ -77,7 +77,7 @@
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
     </ClCompile>
     <ClCompile Include="CheckBox.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes\VoidBoxes</Filter>
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,8 +171,11 @@
     <ClInclude Include="ParamBox.h">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
     </ClInclude>
+    <ClInclude Include="ButtonActions.h">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
+    </ClInclude>
     <ClInclude Include="CheckBox.h">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes\VoidBoxes</Filter>
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -223,9 +226,6 @@
     </Filter>
     <Filter Include="Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes">
       <UniqueIdentifier>{7e5e65b6-97c8-4a2b-a4ed-a05dc8f38564}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes\VoidBoxes">
-      <UniqueIdentifier>{8123622e-fb6a-40bc-869b-8914666dd251}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

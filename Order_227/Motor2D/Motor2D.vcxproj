@@ -107,6 +107,7 @@
     <ClInclude Include="ActionBox.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonActions.h" />
     <ClInclude Include="CheckBox.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
