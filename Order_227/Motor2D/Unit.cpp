@@ -8,6 +8,7 @@ Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity
 
 	UnitFaction = faction;
 	UnitType = unitType;
+	life = 1;
 
 	if (faction == faction_enum::FACTION_CAPITALIST) {
 
@@ -50,13 +51,14 @@ bool Unit::Update(float dt) {
 	UnitRect = {12, 0, 55,47};
 	Draw();
 
+	if (life <= 0)
+		myApp->entities->DestroyEntity(this);
+
 	return true;
 }
 
 
 bool Unit::Draw() {
-
-	//myApp->render->DrawQuad(UnitRect, 0, 255, 0);
 
 	myApp->render->Blit(texture, position.x, position.y,&UnitRect);
 	return true;

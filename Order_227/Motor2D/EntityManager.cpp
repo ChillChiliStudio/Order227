@@ -109,13 +109,14 @@ bool EntityManager::CleanUp() {
 Entity *EntityManager::CreateEntity(entity_type entityType, fPoint position) {
 
 	static_assert(entity_type::UNKNOWN == entity_type(2), "UPDATE ENTITY TYPES");
-	assert(entityType == entity_type::UNIT_ENT, "UNITS ARE NOT CREATED WITH CreateEntity()! TRY CreateUnit() INSTEAD!");
+	//assert(entityType == entity_type::UNIT_ENT, "UNITS ARE NOT CREATED WITH CreateEntity()! TRY CreateUnit() INSTEAD!");
 
 	Entity* Entity = nullptr;
 
 	switch (entityType) {
 
 	case entity_type::OBJECT_ENT:
+		Entity = new Main_Base(position);
 		break;
 	case entity_type::UNIT_ENT:
 		break;

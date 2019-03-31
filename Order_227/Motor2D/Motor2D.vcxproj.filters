@@ -52,6 +52,9 @@
     <ClCompile Include="Unit.cpp">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Main_Base.cpp">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -118,6 +121,9 @@
       <Filter>Game Files\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Unit.h">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Main_Base.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
   </ItemGroup>

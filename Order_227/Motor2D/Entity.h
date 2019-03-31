@@ -63,6 +63,7 @@ public:
 	int life = 0;
 	bool active = false;
 	bool mustDestroy = false;
+
 	entity_type type;
 	std::string name;
 

@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Entity.h"
 #include "Unit.h"
+#include "Main_Base.h"
 #include "PugiXml\src\pugixml.hpp"
 
 
