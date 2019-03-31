@@ -2,40 +2,42 @@
 #include "Entity.h"
 #include "Render.h"
 #include "Textures.h"
+#include "Scene.h"
 
 Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT_ENT, pos)  {
 
 	UnitFaction = faction;
 	UnitType = unitType;
 
-	//if (faction == faction_enum::FACTION_CAPITALIST) {
+	if (faction == faction_enum::FACTION_CAPITALIST) {
 
-	//	switch (unitType) {
+		switch (unitType) {
 
-	//	case (unit_type::INFANTRY_DIVISION):
-	//		texture = myApp->tex->Load("textures\troops\allied\gi.png");
-	//		break;
-	//	case(unit_type::UNKNOWN):
-	//		break;
-	//	default:
-	//		break;
-	//	}
+		case (unit_type::INFANTRY_DIVISION):
+			texture = myApp->scene->TestTexture;
+			break;
+		case(unit_type::UNKNOWN):
+			break;
+		default:
+			break;
+		}
 
-	//}
-	//else if (faction == faction_enum::FACTION_COMMUNIST) {
+	}
+	else if (faction == faction_enum::FACTION_COMMUNIST) {
 
-	//	switch (unitType) {
+		switch (unitType) {
 
-	//	case (unit_type::INFANTRY_DIVISION):
-	//		texture = myApp->tex->Load("textures\troops\soviet\InfanteriaSov.png");
-	//		break;
-	//	case(unit_type::UNKNOWN):
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//}
+		case (unit_type::INFANTRY_DIVISION):
+			texture = myApp->scene->TestTexture;
+			break;
+		case(unit_type::UNKNOWN):
+			break;
+		default:
+			break;
+		}
+	}
 }
+
 
 Unit::~Unit() {
 
@@ -45,18 +47,21 @@ Unit::~Unit() {
 bool Unit::Update(float dt) {
 
 	Move(dt);
-	UnitRect = { (int)position.x, (int)position.y, 20, 20 };
+	UnitRect = {12, 0, 55,47};
 	Draw();
 
 	return true;
 }
 
+
 bool Unit::Draw() {
 
-	myApp->render->DrawQuad(UnitRect, 0, 255, 0);
-//	myApp->render->Blit(texture, position.x, position.y);
+	//myApp->render->DrawQuad(UnitRect, 0, 255, 0);
+
+	myApp->render->Blit(texture, position.x, position.y,&UnitRect);
 	return true;
 }
+
 
 bool Unit::Move(float dt) {
 

@@ -41,6 +41,7 @@ public:
 	
 	void ChooseSpawningPoints();
 
+	SDL_Texture* TestTexture = nullptr;
 private:
 
 	//Spawning

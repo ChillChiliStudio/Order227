@@ -61,6 +61,9 @@ bool Scene::Start()
 		}
 	}
 
+
+	TestTexture = myApp->tex->Load("textures/troops/allied/gi.png");
+
 	return true;
 }
 
@@ -138,6 +141,7 @@ bool Scene::CleanUp()
 		RELEASE(SpawningPoints_Array[i]);
 
 	SpawningPoints_Array.clear();
+	myApp->tex->UnLoad(TestTexture);
 
 	return true;
 }
