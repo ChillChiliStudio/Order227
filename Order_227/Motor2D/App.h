@@ -16,7 +16,9 @@ class Audio;
 class Scene;
 class Map;
 class PathFinding;
+class Fonts;
 class EntityManager;
+class User_Interface;
 
 class App
 {
@@ -72,16 +74,20 @@ private:
 
 public:
 
-	// Modules
-	Window*			win = NULL;
-	Input*			input = NULL;
-	Render*			render = NULL;
-	Textures*			tex = NULL;
-	Audio*			audio = NULL;
-	Scene*			scene = NULL;
-	Map*				map = NULL;
-	PathFinding*		pathfinding = NULL;
-	EntityManager*	entities = NULL;
+	// Modules (They are initialized in the constructor, no need for nullptrs)
+	Window*			win;
+	Input*			input;
+	Render*			render;
+	Textures*		tex;
+	Audio*			audio;
+	Scene*			scene;
+	Map*			map;
+	PathFinding*	pathfinding;
+	Fonts*			fonts;
+	//EntityManager*	entities;
+	User_Interface*	gui;
+
+	bool mustShutDown = false;
 
 private:
 

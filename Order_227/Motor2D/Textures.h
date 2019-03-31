@@ -6,6 +6,7 @@
 
 struct SDL_Texture;
 struct SDL_Surface;
+struct SDL_Rect;
 
 class Textures : public Module
 {
@@ -30,6 +31,7 @@ public:
 	bool				UnLoad(SDL_Texture* texture);
 	SDL_Texture* const	LoadSurface(SDL_Surface* surface);
 	void				GetSize(const SDL_Texture* texture, uint& width, uint& height) const;
+	SDL_Rect			GetSize(const SDL_Texture* texture) const;
 
 public:
 

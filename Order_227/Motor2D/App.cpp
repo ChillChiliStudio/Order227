@@ -12,7 +12,9 @@
 #include "Scene.h"
 #include "Map.h"
 #include "Pathfinding.h"
+#include "Fonts.h"
 #include "EntityManager.h"
+#include "UserInterface.h"
 #include "App.h"
 
 #include "Brofiler/Brofiler.h"
@@ -20,7 +22,6 @@
 // Constructor
 App::App(int argc, char* args[]) : argc(argc), args(args)
 {
-
 	input = new Input();
 	win = new Window();
 	render = new Render();
@@ -29,7 +30,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new Scene();
 	map = new Map();
 	pathfinding = new PathFinding();
+	fonts = new Fonts();
 	//entities = new EntityManager;
+	gui = new User_Interface();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -39,8 +42,10 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(map);
 	AddModule(pathfinding);
-	AddModule(scene);
+	AddModule(fonts);
 	//AddModule(entities);
+	AddModule(gui);
+	AddModule(scene);
 
 	// render last to swap buffer
 	AddModule(render);
@@ -127,8 +132,6 @@ bool App::Update()
 	bool ret = true;
 	PrepareUpdate();
 
-
-
 	if(ret == true)
 		ret = PreUpdate();
 
@@ -138,10 +141,11 @@ bool App::Update()
 	if(ret == true)
 		ret = PostUpdate();
 
-	if (input->GetWindowEvent(WE_QUIT) == true)
+	if (input->GetWindowEvent(WE_QUIT) == true || mustShutDown)
 		ret = false;
 
 	FinishUpdate();
+
 	return ret;
 }
 

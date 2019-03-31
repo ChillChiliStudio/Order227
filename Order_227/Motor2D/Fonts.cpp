@@ -9,7 +9,9 @@
 #pragma comment( lib, "SDL_ttf/libx86/SDL2_ttf.lib" )
 
 Fonts::Fonts() : Module()
-{}
+{
+	name.append("fonts");
+}
 
 // Destructor
 Fonts::~Fonts()
@@ -28,9 +30,21 @@ bool Fonts::Awake(pugi::xml_node& conf)
 	}
 	else
 	{
-		const char* path = conf.child("defaultFont").attribute("file").as_string(DEFAULT_FONT);
-		int size = conf.child("defaultFont").attribute("size").as_int(DEFAULT_FONT_SIZE);
-		defaultFont = Load(path, size);
+		text_font* tmpPtr;
+		int i = 0;
+
+		for (pugi::xml_node fontList = conf.first_child(); fontList != fontList.last_child(); fontList = fontList.next_sibling()) {	// @Carles, automatically allocate fonts
+
+			tmpPtr = new text_font;
+			tmpPtr->id = (font_id)fontList.attribute("id").as_int((int)font_id::DEFAULT);
+			tmpPtr->path = fontList.attribute("file").as_string(DEFAULT_FONT_PATH);
+			tmpPtr->size = fontList.attribute("size").as_int(DEFAULT_FONT_SIZE);
+			tmpPtr->fontPtr = Load(tmpPtr->path.c_str(), tmpPtr->size);
+			fontsList[i] = tmpPtr;
+			i++;
+		}
+
+		defaultFont = fontsList[(int)font_id::DEFAULT]->fontPtr;
 	}
 
 	return ret;
@@ -41,12 +55,12 @@ bool Fonts::CleanUp()
 {
 	LOG("Freeing True Type fonts and library");
 
-	for (std::list<_TTF_Font*>::iterator iter = fonts.begin(); iter != fonts.end(); ++iter) {
-		TTF_CloseFont(*iter);
+	for (int i = 0; i < (int)font_id::MAX_FONTS; i++) {
+		TTF_CloseFont(fontsList[i]->fontPtr);
+		RELEASE(fontsList[i]);
 	}
-
-	fonts.clear();
 	TTF_Quit();
+
 	return true;
 }
 
@@ -54,7 +68,7 @@ bool Fonts::CleanUp()
 TTF_Font* const Fonts::Load(const char* path, int size)
 {
 	TTF_Font* font = TTF_OpenFont(path, size);
-
+	
 	if (font == NULL)
 	{
 		LOG("Could not load TTF font with path: %s. TTF_OpenFont: %s", path, TTF_GetError());
@@ -62,7 +76,6 @@ TTF_Font* const Fonts::Load(const char* path, int size)
 	else
 	{
 		LOG("Successfully loaded font %s size %d", path, size);
-		fonts.push_front(font);
 	}
 
 	return font;

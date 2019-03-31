@@ -3,10 +3,14 @@
 #include "App.h"
 #include "Input.h"
 #include "Textures.h"
+#include "Fonts.h"
 #include "Render.h"
 #include "Window.h"
 #include "Map.h"
 #include "PathFinding.h"
+#include "UserInterface.h"
+#include "ButtonActions.h"
+#include "ParamBox.h"
 #include "Scene.h"
 
 Scene::Scene() : Module()
@@ -68,6 +72,8 @@ bool Scene::Update(float dt)
 		myApp->render->camera.x -= 1;
 
 	myApp->map->Draw();
+	myApp->gui->Draw();
+
 	return true;
 }
 
