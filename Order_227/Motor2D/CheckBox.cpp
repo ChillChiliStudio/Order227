@@ -1,46 +1,72 @@
-//#include "Defs.h"
-//#include "Log.h"
-//#include "App.h"
-//#include "Input.h"
-//#include "Audio.h"
-//#include "ActionBox.h"
-//#include "CheckBox.h"
-//#include "SDL/include/SDL.h"
-//
-////Constructor
-//Check_Box::Check_Box(bool* value, fPoint center, SDL_Texture* tex, SDL_Rect spriteList[4], UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL)
-//	: Action_Box<bool, bool*>(action, center, tex, spriteList, parent, children)
-//{
-//	action = SwitchValue;
-//}
-//
-//Check_Box::~Check_Box()
-//{}
-//
-////Enable/Disable
-//void Check_Box::Enable()
-//{
-//	status = button_state::IDLE;
-//	*sprite = stateSprites[(int)bool_state::OFF];
-//}
-//
-//void Check_Box::Disable()
-//{
-//	status = button_state::DISABLED;
-//	*sprite = stateSprites[(int)button_state::DISABLED];
-//}
-//
-//void Check_Box::OnIdle()
-//{}
-//
-//void Check_Box::OnHover()
-//{}
-//
-//void Check_Box::OnPress()
-//{}
-//
-//bool Check_Box::SwitchValue(bool* value)
-//{
-//	*value = !*value;
-//	return *value;
-//}
+#include "CheckBox.h"
+#include "SDL/include/SDL_rect.h"
+
+//Constructor
+Check_Box::Check_Box(bool* value, event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent)
+	: Void_Box(action, center, spriteList, tex, parent, ui_type::CHECK_BOX), value(value)/*, valueStatus(GetValueState())*/
+{
+	valueStatus = GetValueState();
+};
+
+//Enable/Disable
+void Check_Box::Enable()
+{
+	buttonStatus = button_state::IDLE;
+	valueStatus = GetValueState();
+	*sprite = stateSprites[(int)valueStatus];
+}
+
+void Check_Box::Disable()
+{
+	buttonStatus = button_state::DISABLED;
+	*sprite = stateSprites[(int)buttonStatus];
+}
+
+//State Entry
+void Check_Box::OnIdle()
+{
+	buttonStatus = button_state::IDLE;
+	valueStatus = GetValueState();
+	*sprite = stateSprites[(int)valueStatus];
+}
+
+void Check_Box::OnHover()
+{
+	buttonStatus = button_state::HOVERING;
+	*sprite = stateSprites[(int)button_state::HOVERING];
+}
+
+void Check_Box::OnPress()
+{
+	//myApp->audio->PlayFx(myApp->audio->buttonSfx.id, 0);
+	buttonStatus = button_state::PRESSING;
+	SwitchValue();
+	valueStatus = GetValueState();
+	*sprite = stateSprites[(int)valueStatus];
+
+	if (action != nullptr) {
+		action();
+	}
+}
+
+//Value Methods
+bool Check_Box::GetValue()
+{
+	return value;
+}
+
+value_state Check_Box::GetValueState()
+{
+	switch (*value) {
+	case true:
+		return value_state::ON;
+	case false:
+		return value_state::OFF;
+	}
+}
+
+bool Check_Box::SwitchValue()
+{
+	*value = !*value;
+	return *value;
+}

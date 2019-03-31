@@ -8,7 +8,7 @@
 
 //Constructor
 Button::Button(ui_type type, fPoint center, SDL_Rect spriteRect, SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
-	: Image(type, center, spriteRect, tex, dynamic, parent, children), status(button_state::IDLE)
+	: Image(type, center, spriteRect, tex, dynamic, parent, children), buttonStatus(button_state::IDLE)
 {};
 
 Button::~Button()
@@ -20,7 +20,7 @@ bool Button::Update(float dt)
 {
 	bool ret = true;
 
-	if (status != button_state::DISABLED) {
+	if (buttonStatus != button_state::DISABLED) {
 		CheckCurrentState();
 		ButtonStateEffects();
 	}
@@ -31,47 +31,48 @@ bool Button::Update(float dt)
 //Enable/Disable
 void Button::Enable()
 {
-	status = button_state::IDLE;
+	buttonStatus = button_state::IDLE;
 }
 
 void Button::Disable()
 {
-	status = button_state::DISABLED;
+	buttonStatus = button_state::DISABLED;
+}
+
+button_state Button::GetState()
+{
+	return buttonStatus;
 }
 
 button_state Button::CheckCurrentState()
 {
-	switch (status) {
+	switch (buttonStatus) {
 	case button_state::IDLE:
 		if (MouseOnImage() == true) {
 			OnHover();
-			status = button_state::HOVERING;
 		}
 		break;
 	case button_state::HOVERING:
 		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
 			OnPress();
-			status = button_state::PRESSING;
 		}
 		else if (MouseOnImage() == false) {
 			OnIdle();
-			status = button_state::IDLE;
 		}
 		break;
 	case button_state::PRESSING:
 		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP || MouseOnImage() == false) {
 			OnIdle();
-			status = button_state::IDLE;
 		}
 		break;
 	}
 
-	return status;
+	return buttonStatus;
 }
 
 button_state Button::ButtonStateEffects()
 {
-	switch (status) {
+	switch (buttonStatus) {
 	case button_state::IDLE:
 		WhileIdle();
 		break;
@@ -83,5 +84,20 @@ button_state Button::ButtonStateEffects()
 		break;
 	}
 
-	return status;
+	return buttonStatus;
+}
+
+void Button::OnIdle()
+{
+	buttonStatus = button_state::IDLE;
+}
+
+void Button::OnHover()
+{
+	buttonStatus = button_state::HOVERING;
+}
+
+void Button::OnPress()
+{
+	buttonStatus = button_state::PRESSING;
 }

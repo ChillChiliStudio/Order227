@@ -1,5 +1,5 @@
 #ifndef TEXT_H
-#define TEXT_H
+#define TEXT_H	//@Carles
 
 #include "Image.h"
 #include "SDL\include\SDL_pixels.h"

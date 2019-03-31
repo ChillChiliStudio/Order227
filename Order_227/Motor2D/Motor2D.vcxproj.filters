@@ -67,8 +67,17 @@
     <ClCompile Include="Button.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images</Filter>
     </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClCompile>
+    <ClCompile Include="VoidBox.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionBox.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
+    </ClCompile>
     <ClCompile Include="CheckBox.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\Action Boxes</Filter>
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes\VoidBoxes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -153,8 +162,17 @@
     <ClInclude Include="Image.h">
       <Filter>Game Files\User Interface\UI Elements</Filter>
     </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClInclude>
+    <ClInclude Include="VoidBox.h">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
+    </ClInclude>
+    <ClInclude Include="ParamBox.h">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
+    </ClInclude>
     <ClInclude Include="CheckBox.h">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\Action Boxes</Filter>
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes\VoidBoxes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -203,8 +221,11 @@
     <Filter Include="Game Files\User Interface\UI Elements\Images\Buttons">
       <UniqueIdentifier>{3ebb8683-127e-4b20-a631-ac331c07e498}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Files\User Interface\UI Elements\Images\Buttons\Action Boxes">
-      <UniqueIdentifier>{9c81dae5-6b8c-4045-bdaf-8a826d168b8e}</UniqueIdentifier>
+    <Filter Include="Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes">
+      <UniqueIdentifier>{7e5e65b6-97c8-4a2b-a4ed-a05dc8f38564}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes\VoidBoxes">
+      <UniqueIdentifier>{8123622e-fb6a-40bc-869b-8914666dd251}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

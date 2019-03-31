@@ -1,43 +1,38 @@
-//#ifndef CHECK_BOX_H
-//#define CHECK_BOX_H
-//
-//#include "ActionBox.h"
-//
-//enum class bool_state
-//{
-//	DISABLED = 0,
-//	OFF,
-//	HOVERING,
-//	ON,
-//
-//	MAX_TYPES
-//};
-//
-//class Check_Box : public Action_Box<bool, bool*>
-//{
-//public:
-//	//Constructor
-//	Check_Box(bool* value, fPoint center, SDL_Texture* tex, SDL_Rect spriteList[4], UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
-//
-//	virtual ~Check_Box();
-//
-//public:
-//	//Enable/Disable
-//	virtual void Enable();
-//	virtual void Disable();
-//
-//protected:
-//	virtual button_state CheckCurrentState();
-//	virtual button_state ButtonStateEffects();
-//
-//	virtual void OnIdle();
-//	virtual void OnHover();
-//	virtual void OnPress();
-//
-//	bool SwitchValue(bool* value);
-//
-//private:
-//	bool* value;
-//};
-//
-//#endif // CHECK_BOX_H
+#ifndef CHECK_BOX_H
+#define CHECK_BOX_H	//@Carles
+
+#include "VoidBox.h"
+
+enum class value_state
+{
+	OFF = 1,
+	ON = 3,
+};
+
+class Check_Box : public Void_Box
+{
+public:
+	//Constructor
+	Check_Box(bool* value, event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent = NULL);
+
+public:
+	//Enable/Disable
+	void Enable();
+	void Disable();
+
+	bool GetValue();
+	value_state GetValueState();
+	bool SwitchValue();
+
+protected:
+	//State Entry
+	void OnIdle();
+	void OnHover();
+	void OnPress();
+
+private:
+	value_state valueStatus;
+	bool* value;
+};
+
+#endif //CHECK_BOX_H

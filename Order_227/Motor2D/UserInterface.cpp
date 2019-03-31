@@ -15,6 +15,8 @@
 #include "Text.h"
 #include "Button.h"
 #include "ActionBox.h"
+#include "ParamBox.h"
+#include "VoidBox.h"
 #include "CheckBox.h"
 
 User_Interface::User_Interface() : Module()
@@ -194,6 +196,34 @@ UI_Element* User_Interface::CreateText(fPoint center, const char* content, SDL_C
 
 	ret = new Text(content, color, font, center, dynamic, parent, children);
 	AddElement((UI_Element*)ret);
+
+	return (UI_Element*)ret;
+}
+
+UI_Element* User_Interface::CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent)
+{
+	Void_Box* ret = nullptr;
+	
+	if (tex == NULL) {
+		tex = GetAtlas();
+	}
+
+	ret = new Void_Box(action, center, spriteList, tex, parent);
+	AddElement(ret);
+
+	return (UI_Element*)ret;
+}
+
+UI_Element* User_Interface::CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, void(*action)(void), UI_Element* parent)
+{
+	Check_Box* ret = nullptr;
+
+	if (tex == NULL) {
+		tex = GetAtlas();
+	}
+
+	ret = new Check_Box(value, action, center, spriteList, tex, parent);
+	AddElement(ret);
 
 	return (UI_Element*)ret;
 }

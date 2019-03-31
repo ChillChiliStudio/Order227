@@ -1,5 +1,5 @@
 #ifndef BUTTON_H
-#define BUTTON_H
+#define BUTTON_H	//@Carles
 
 #include "Image.h"
 
@@ -27,21 +27,25 @@ public:
 public:
 	virtual void Enable();
 	virtual void Disable();
+	
+	button_state GetState();
 
 protected:
 	virtual button_state CheckCurrentState();
 	virtual button_state ButtonStateEffects();
+	
+	//State Entry
+	virtual void OnIdle();
+	virtual void OnHover();
+	virtual void OnPress();
 
-	virtual void OnIdle() {};
-	virtual void OnHover() {};
-	virtual void OnPress() {};
-
+	//State Effects
 	virtual void WhileIdle() {};
 	virtual void WhileHover() {};
 	virtual void WhilePress() {};
 
 protected:
-	button_state status;
+	button_state buttonStatus;
 };
 
 #endif //__BUTTON_H__

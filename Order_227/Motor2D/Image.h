@@ -1,5 +1,5 @@
-#ifndef IMAGE_H_
-#define IMAGE_H_	// @Carles
+#ifndef IMAGE_H
+#define IMAGE_H	//@Carles
 
 #include "UIElement.h"
 
@@ -67,4 +67,4 @@ protected:
 	bool setMouseGrabPos = false;
 };
 
-#endif //__IMAGE_H__
+#endif //IMAGE_H

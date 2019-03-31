@@ -1,5 +1,5 @@
 #ifndef USER_INTERFACE_H
-#define USER_INTERFACE_H	// @Carles
+#define USER_INTERFACE_H	//@Carles
 
 #include "Module.h"
 
@@ -53,9 +53,12 @@ public:
 
 	UI_Element* CreateImage(fPoint center, SDL_Rect texRect = { 0, 0, 0, 0 }, SDL_Texture* tex = NULL, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
 	UI_Element* CreateText(fPoint center, const char* content, SDL_Color color = { 255, 255, 255, 255 }, _TTF_Font* font = NULL, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
+	//UI_Element* CreateInputText();
+	UI_Element* CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL);
+	UI_Element* CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
 
-	template <class Ret, class... Args>
-	UI_Element* CreateActionBox(Ret(*action)(Args...), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL)
+	template <class T_param>
+	UI_Element* CreateParamBox(void(*action)(T_param), T_param parameter, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL)
 	{
 		UI_Element* ret = nullptr;
 
@@ -63,14 +66,11 @@ public:
 			tex = GetAtlas();
 		}
 
-		ret = NewActionBox<Ret, Args...>(action, center, spriteList, tex, parent);
+		ret = GenerateParamBox<T_param>(action, parameter, center, spriteList, tex, parent);
 		AddElement(ret);
 
 		return ret;
 	}
-
-	//UI_Element* CreateCheckBox(void(*action)(bool*), bool* value, fPoint center, SDL_Rect spriteList[3], SDL_Texture* tex, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
-	//UI_Element* CreateInputText();
 
 	//Window* CreateWindowPanel(fPoint center, p2List<Image*> children, SDL_Rect* texRect = NULL, SDL_Texture* tex = NULL, Text* label = NULL, UI_Element* parent = NULL);
 	

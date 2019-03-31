@@ -76,6 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionBox.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CheckBox.cpp" />
@@ -83,6 +84,7 @@
     <ClCompile Include="Fonts.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputText.cpp" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="App.cpp" />
@@ -97,6 +99,7 @@
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="UIElement.cpp" />
+    <ClCompile Include="VoidBox.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
   </ItemGroup>
@@ -110,6 +113,9 @@
     <ClInclude Include="Fonts.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputText.h" />
+    <ClInclude Include="VoidBox.h" />
+    <ClInclude Include="ParamBox.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="UserInterface.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Pathfinding.h" />

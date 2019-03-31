@@ -1,6 +1,7 @@
 #ifndef UI_ELEMENT_H
-#define UI_ELEMENT_H	// @Carles
+#define UI_ELEMENT_H	//@Carles
 
+#include <list>
 #include "Point.h"
 #include "PugiXml/src/pugixml.hpp"
 
@@ -15,9 +16,8 @@ enum class ui_type
 	TEXT,
 
 	BUTTON,
-	BUTTON_ACTION,
-	BUTTON_INPUT,
-	BUTTON_VALUE,
+	ACTION_BOX,
+	CHECK_BOX,
 	SLIDER,
 
 	MAX_TYPES
