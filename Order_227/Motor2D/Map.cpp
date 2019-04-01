@@ -38,24 +38,9 @@ void Map::Draw()
 	{
 		MapLayer* layer = *item;
 
-		for(int y = 0; y < data.height; ++y)
-		{
-			for(int x = 0; x < data.width; ++x)
-			{
-				int tile_id = layer->Get(x, y);
-				if(tile_id > 0)
-				{
-					TileSet* tileset = GetTilesetFromTileId(tile_id);
-
-					SDL_Rect r = tileset->GetTileRect(tile_id);
-					iPoint pos = MapToWorld(x, y);
-
-					myApp->render->Blit(tileset->texture, pos.x, pos.y, &r);
-				}
-			}
-		}/*
+		
 		layer->tile_tree->DrawMap();
-		layer->tile_tree->DrawQuadtree();*/
+		layer->tile_tree->DrawQuadtree();
 	}
 }
 
