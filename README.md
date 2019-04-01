@@ -23,7 +23,7 @@ feature'`
 5. Submit a pull request and we might look into it. :D
 
 ## The Team: Chill Chili Studio
-![The Team](https://raw.githubusercontent.com/ChillChiliStudio/Order227/gh-pages/Graphic%20Resources/Members%20Fotos/team_photo.png)
+![The Team]()
 *Left to right: Lucho Suaya, Rafel Brau, Jaume Avinyó, Roger León, Joan Marín, Adrian Font, Carles Homs*
 
 ![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/Members%20Fotos/Lucho.png)
