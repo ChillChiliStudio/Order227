@@ -10,8 +10,9 @@ Main_Base::Main_Base(fPoint pos) : Entity(entity_type::OBJECT_ENT, pos)
 
 	texture = myApp->tex->Load("textures/buildings/mainbase.png");
 	life = 100;
-	MainBaseRect = { (int)position.x, (int)position.y, 321, 2108 };
+	MainBaseRect = { 313, 2072, 225, 225 };
 }
+
 
 
 Main_Base::~Main_Base()
