@@ -4,7 +4,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Map.h"
-#include <math.h>
+#include <cmath>
 #include <sstream>
 
 Map::Map() : Module(), map_loaded(false)
@@ -38,25 +38,9 @@ void Map::Draw()
 	{
 		MapLayer* layer = *item;
 
-		//if(layer->properties.Get("Nodraw") != 0)
-			//continue;
-
-		for(int y = 0; y < data.height; ++y)
-		{
-			for(int x = 0; x < data.width; ++x)
-			{
-				int tile_id = layer->Get(x, y);
-				if(tile_id > 0)
-				{
-					TileSet* tileset = GetTilesetFromTileId(tile_id);
-
-					SDL_Rect r = tileset->GetTileRect(tile_id);
-					iPoint pos = MapToWorld(x, y);
-
-					myApp->render->Blit(tileset->texture, pos.x, pos.y, &r);
-				}
-			}
-		}
+		
+		layer->tile_tree->DrawMap();
+		layer->tile_tree->DrawQuadtree();
 	}
 }
 
@@ -406,6 +390,25 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	LoadProperties(node, layer->properties);
 	pugi::xml_node layer_data = node.child("data");
 
+	//TEST
+	iPoint layer_size;
+	iPoint quadT_position(0, 0);
+	switch (data.type)
+	{
+	case MAPTYPE_ORTHOGONAL:
+		layer_size.x = layer->width*myApp->map->data.tile_width;
+		layer_size.y = layer->height*myApp->map->data.tile_height;
+		quadT_position.x = 0;
+		break;
+	case MAPTYPE_ISOMETRIC:
+		layer_size.x = (layer->width + layer->height)*(myApp->map->data.tile_width *0.5f);
+		layer_size.y = (layer->width + layer->height + 1) * (data.tile_height *0.5f);
+		quadT_position.x = -layer_size.x + ((layer->width + 1)*myApp->map->data.tile_width / 2);
+		break;
+	}
+	layer->tile_tree = new TileQuadtree(5, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height * 3);
+	//TEST
+
 	if(layer_data == NULL)
 	{
 		LOG("Error parsing map xml file: Cannot find 'layer/data' tag.");
@@ -420,6 +423,14 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		int i = 0;
 		for(pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
 		{
+			//TEST
+			iPoint tile_map_coordinates(myApp->map->MapToWorld((i - int(i / layer->width)*layer->width), int(i / layer->width)));
+			TileData new_tile(tile.attribute("gid").as_int(0), tile_map_coordinates);
+			if (new_tile.id!=0)
+			layer->tile_tree->InsertTile(new_tile);
+			//TEST
+
+
 			layer->data[i++] = tile.attribute("gid").as_int(0);
 		}
 	}
@@ -468,7 +479,7 @@ bool Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 
 		uchar* map = new uchar[layer->width*layer->height];
 		memset(map, 1, layer->width*layer->height);
-
+		
 		for(int y = 0; y < data.height; ++y)
 		{
 			for(int x = 0; x < data.width; ++x)

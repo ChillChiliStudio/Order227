@@ -79,6 +79,12 @@
     <ClCompile Include="CheckBox.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
     </ClCompile>
+    <ClCompile Include="Quadtree.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="TileQuadtree.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -176,6 +182,12 @@
     </ClInclude>
     <ClInclude Include="CheckBox.h">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="TileQuadtree.h">
+      <Filter>Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

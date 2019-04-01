@@ -34,7 +34,7 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
-	if(myApp->map->Load("iso_walk.tmx") == true)
+	if(myApp->map->Load("iso.tmx") == true)
 	{
 		int w, h;
 		uchar* data = NULL;
