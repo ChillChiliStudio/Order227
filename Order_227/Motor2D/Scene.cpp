@@ -37,7 +37,7 @@ bool Scene::Start()
 {
   
 	srand(time(NULL));
-	if(myApp->map->Load("iso_walk.tmx") == true)
+	if(myApp->map->Load("iso.tmx") == true)
 	{
 		int w, h;
 		uchar* data = NULL;

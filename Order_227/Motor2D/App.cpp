@@ -46,7 +46,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(entities);
 	AddModule(fonts);
 	AddModule(gui);
-	AddModule(scene);
 
 	// render last to swap buffer
 	AddModule(render);
