@@ -7,6 +7,7 @@
 #define MODULE_H
 
 #include <string>
+#include <list>
 #include "PugiXml\src\pugixml.hpp"
 
 class App;

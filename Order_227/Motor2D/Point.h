@@ -145,6 +145,7 @@ public:
 };
 
 typedef Point<int> iPoint;
+typedef Point<unsigned int> uPoint;
 typedef Point<float> fPoint;
 
 #endif // POINT_H

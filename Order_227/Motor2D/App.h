@@ -16,7 +16,9 @@ class Audio;
 class Scene;
 class Map;
 class PathFinding;
+class Fonts;
 class EntityManager;
+class User_Interface;
 
 class App
 {
@@ -73,15 +75,19 @@ private:
 public:
 
 	// Modules
-	Window*			win = NULL;
-	Input*			input = NULL;
-	Render*			render = NULL;
+	Window*				win = NULL;
+	Input*				input = NULL;
+	Render*				render = NULL;
 	Textures*			tex = NULL;
-	Audio*			audio = NULL;
-	Scene*			scene = NULL;
+	Audio*				audio = NULL;
+	Scene*				scene = NULL;
 	Map*				map = NULL;
 	PathFinding*		pathfinding = NULL;
-	EntityManager*	entities = NULL;
+	EntityManager*		entities = NULL;
+	Fonts*			fonts;
+	User_Interface*	gui;
+
+	bool mustShutDown = false;
 
 private:
 

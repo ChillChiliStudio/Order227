@@ -4,6 +4,8 @@
 #include "PugiXml/src/pugixml.hpp"
 #include "Module.h"
 
+#include "TileQuadtree.h"
+
 struct Properties
 {
 	struct Property
@@ -36,6 +38,7 @@ struct MapLayer
 	std::string	name;
 	int			width;
 	int			height;
+	TileQuadtree*	tile_tree;
 	uint*		data;
 	Properties	properties;
 
@@ -97,6 +100,8 @@ struct MapData
 class Map : public Module
 {
 public:
+
+	friend TileQuadtree;
 
 	Map();
 

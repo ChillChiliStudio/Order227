@@ -21,6 +21,7 @@ void Timer::StartFrom(uint32 ms) {
 // ---------------------------------------------
 void Timer::Start()
 {
+	running = true;
 	started_at = SDL_GetTicks();
 }
 
