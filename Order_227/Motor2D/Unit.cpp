@@ -6,8 +6,10 @@
 
 Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT_ENT, pos)  {
 
+	
 	UnitFaction = faction;
 	UnitType = unitType;
+	
 	life = 1;
 
 	if (faction == faction_enum::FACTION_CAPITALIST) {
@@ -37,6 +39,9 @@ Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity
 			break;
 		}
 	}
+
+	
+
 }
 
 
@@ -49,10 +54,14 @@ bool Unit::Update(float dt) {
 
 	Move(dt);
 	UnitRect = {12, 0, 55,47};
-	Draw();
+//	Draw();
 
 	if (life <= 0)
 		myApp->entities->DestroyEntity(this);
+
+	UpdateBlitOrder();
+
+	myApp->render->Push(order, texture, position.x, position.y, &UnitRect);
 
 	return true;
 }
@@ -70,4 +79,24 @@ bool Unit::Move(float dt) {
 	position.x += (speed * dt);
 	position.y += (speed * dt);
 	return true;
+}
+
+
+void Unit::UpdateBlitOrder() {
+
+	std::list<Entity*>::iterator item = myApp->entities->entities_list.begin();
+	while (item != myApp->entities->entities_list.end()) {
+
+		if ((*item) != this) {
+
+			if (this->position.y > (*item)->position.y)
+				order += 1;
+			else
+				order -= 1;
+
+
+		}
+		item = next(item);
+	}
+
 }

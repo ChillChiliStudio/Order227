@@ -31,6 +31,8 @@ public:
 	Entity *CreateUnit(unit_type unitType, fPoint position, faction_enum faction);
 
 	void DestroyEntity(Entity *Entity);
+	
+
 
 public:
 
