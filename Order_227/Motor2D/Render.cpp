@@ -3,6 +3,7 @@
 #include "App.h"
 #include "Window.h"
 #include "Render.h"
+#include "EntityManager.h"
 
 #define VSYNC true
 
@@ -69,6 +70,7 @@ bool Render::PreUpdate()
 
 bool Render::Update(float dt)
 {
+
 	return true;
 }
 
@@ -155,6 +157,60 @@ bool Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, f
 	return ret;
 }
 
+//This function prints all the elements of the queue
+
+bool Render::OrderBlit(priority_queue <ImageRender*, vector<ImageRender*>, Comparer>& Queue)const {
+
+	bool ret = true;
+	while (Queue.empty() == false) {
+		ImageRender* Image = Queue.top();
+		uint size = myApp->win->GetScale();
+		SDL_Rect r;
+		r.x = (int)(camera.x * Image->speed) + Image->x * size;
+		r.y = (int)(camera.y * Image->speed) + Image->y * size;
+		if (Image->section != NULL) {
+			r.w = Image->section->w;
+			r.h = Image->section->h;
+		}
+		else {
+			SDL_QueryTexture(Image->tex, NULL, NULL, &r.w, &r.h);
+		}
+		SDL_RendererFlip flag;
+		if (Image->scale < 0) {
+			flag = SDL_FLIP_HORIZONTAL;
+			r.w *= -Image->scale;
+			r.h *= -Image->scale;
+		}
+		else {
+			flag = SDL_FLIP_NONE;
+			r.w *= Image->scale;
+			r.h *= Image->scale;
+		}
+
+		SDL_Point* point = NULL;
+		SDL_Point aux;
+
+		if (Image->pivot_x != INT_MAX && Image->pivot_y != INT_MAX) {
+			aux.x = Image->pivot_x;
+			aux.y = Image->pivot_y;
+			point = &aux;
+		}
+		if (SDL_RenderCopyEx(renderer, Image->tex, Image->section, &r, Image->angle, point, flag) != 0) {
+			LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
+			ret = false;
+		}
+		RELEASE(Image);
+		Queue.pop();
+	}
+	
+	/*for (int i = 0; i < myApp->map->Rectvec.size(); i++) {
+		RELEASE(myApp->map->Rectvec[i]);
+	}
+	myApp->map->Rectvec.clear();*/
+	
+	return ret;
+}
+
 bool Render::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) const
 {
 	bool ret = true;
@@ -236,3 +292,35 @@ bool Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uin
 
 	return ret;
 }
+
+//Checks if the rect is inside the camera
+bool Render::InsideCamera(const SDL_Rect& rect)const {
+	if ((rect.x < -camera.x + camera.w && rect.x + rect.w > -camera.x) || (rect.x < -camera.x + camera.w  && rect.x + rect.w > -camera.x)) {
+		if (rect.y < -camera.y + camera.h && rect.y + rect.h > -camera.y) { return true; }
+	}
+	return false;
+}
+
+//This fucntions create a new element for the Queue with the info of the class ImageRender
+void Render::Push(uint order, SDL_Texture* tex, int x, int y, const SDL_Rect* section, float scale, float speed, double angle, int pivot_x, int pivot_y)
+{
+
+	SDL_Rect r;
+	r.x = x;
+	r.y = y;
+	if (section != NULL) {
+		r.w = section->w;
+		r.h = section->h;
+	}
+	else {
+		SDL_QueryTexture(tex, NULL, NULL, &r.w, &r.h);
+	}
+
+	
+	if (InsideCamera(r)) {
+			ImageRender* auxObject = new ImageRender(order, tex, x, y, section, scale, speed, angle, pivot_x, pivot_y, r);
+			OrderToRender.push(auxObject);
+	}
+
+}
+

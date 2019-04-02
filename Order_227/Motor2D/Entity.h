@@ -22,7 +22,9 @@ class Entity {
 
 public:
 
+
 	Entity(entity_type entityType, fPoint position) : type(entityType), position(position) {}
+
 	~Entity() {}
 
 public:
@@ -55,14 +57,19 @@ public:
 
 public:
 
+
 	virtual bool Move(float dt)			{ return true; }
 	virtual bool Draw(float dt)			{ return true; }
+	virtual void UpdateBlitOrder() {}
 
 public:
 
 	int life = 0;
 	bool active = false;
 	bool mustDestroy = false;
+
+
+	uint order = 0;
 
 	entity_type type;
 	std::string name;

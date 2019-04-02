@@ -95,6 +95,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
+    <ClCompile Include="Props.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="PerfTimer.h" />
+    <ClInclude Include="Props.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Spawning_Point.h" />

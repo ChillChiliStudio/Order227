@@ -115,6 +115,7 @@ Entity *EntityManager::CreateEntity(entity_type entityType, fPoint position) {
 
 	switch (entityType) {
 
+
 	case entity_type::OBJECT_ENT:
 		Entity = new Main_Base(position);
 		break;
@@ -122,6 +123,7 @@ Entity *EntityManager::CreateEntity(entity_type entityType, fPoint position) {
 		break;
 	case entity_type::UNKNOWN:
 		break;
+
 	default:
 		break;
 	}

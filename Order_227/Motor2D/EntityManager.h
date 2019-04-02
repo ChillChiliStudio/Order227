@@ -34,6 +34,7 @@ public:
 
 public:
 
+
 	std::list<Entity*> entities_list;
 
 	float accumulated_time = 0.0f;
