@@ -14,7 +14,7 @@
 // Details: http://theory.stanford.edu/~amitp/GameProgramming/
 // --------------------------------------------------
 
-class PathFinding : public Module
+class PathFinding : public Module	//TODO: Change class name so it follows guideline standards
 {
 public:
 

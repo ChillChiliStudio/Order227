@@ -16,7 +16,9 @@ class Audio;
 class Scene;
 class Map;
 class PathFinding;
+class Fonts;
 class EntityManager;
+class User_Interface;
 
 class App
 {
@@ -82,6 +84,10 @@ public:
 	Map*				map = NULL;
 	PathFinding*		pathfinding = NULL;
 	EntityManager*		entities = NULL;
+	Fonts*			fonts;
+	User_Interface*	gui;
+
+	bool mustShutDown = false;
 
 private:
 

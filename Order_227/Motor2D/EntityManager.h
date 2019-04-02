@@ -10,7 +10,7 @@
 
 #define TIMES_PER_SEC 5
 
-class EntityManager : public Module
+class EntityManager : public Module		//TODO: Change class name so it follows guideline standards
 {
 public:
 

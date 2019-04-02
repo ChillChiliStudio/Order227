@@ -3,11 +3,15 @@
 #include "App.h"
 #include "Input.h"
 #include "Textures.h"
+#include "Fonts.h"
 #include "Render.h"
 #include "Window.h"
 #include "Map.h"
 #include "PathFinding.h"
 #include "EntityManager.h"
+#include "UserInterface.h"
+#include "ButtonActions.h"
+#include "ParamBox.h"
 #include "Scene.h"
 
 Scene::Scene() : Module()
@@ -31,8 +35,8 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
+  
 	srand(time(NULL));
-
 	if(myApp->map->Load("iso_walk.tmx") == true)
 	{
 		int w, h;
@@ -118,6 +122,7 @@ bool Scene::Update(float dt)
 		}
 	}
 	
+	myApp->gui->Draw();
 	return true;
 }
 
