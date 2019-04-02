@@ -15,6 +15,7 @@ public:
 
 	bool Update(float dt);
 	bool Draw();
+	void UpdateBlitOrder()override;
 
 	//bool SpawnTroop()
 

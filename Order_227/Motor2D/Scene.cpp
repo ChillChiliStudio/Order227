@@ -66,6 +66,7 @@ bool Scene::Start()
 	}
 
 	myApp->entities->CreateEntity(entity_type::OBJECT_ENT, fPoint(10.0f, 10.0f));
+
 	TestTexture = myApp->tex->Load("textures/troops/allied/gi.png");
 
 	return true;

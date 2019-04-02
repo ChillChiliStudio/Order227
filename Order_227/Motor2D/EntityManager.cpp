@@ -12,6 +12,7 @@
 #include "Log.h"
 #include "Entity.h"
 #include "Scene.h"
+#include "Render.h"
 
 #include <assert.h>
 
@@ -80,7 +81,12 @@ bool EntityManager::Update(float dt) {
 		std::list<Entity*>::iterator item = entities_list.begin();
 		for (; item != entities_list.end(); item = next(item))
 			(*item)->Update(dt);
+
 	}
+
+	//if (entities_list.size() > 0)
+	myApp->render->OrderBlit(myApp->render->OrderToRender);
+
 
 	return true;
 }
@@ -168,3 +174,4 @@ void EntityManager::DestroyEntity(Entity *object) {
 		item = next(item);
 	}
 }
+

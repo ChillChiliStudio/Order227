@@ -39,12 +39,14 @@ public:
 	//void Hurt();
 	//bool IsDead();
 
+
+	void UpdateBlitOrder()override;
+
 public:
 
 	faction_enum UnitFaction;
 	unit_type UnitType;
-
-	SDL_Rect UnitRect = { (int)position.x, (int)position.y, 20, 20};
+	SDL_Rect UnitRect = {(int)position.x,(int)position.y, 20, 20};
 
 	float speed = 100.0f;
 	float damage = 2;

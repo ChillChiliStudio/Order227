@@ -8,6 +8,7 @@
 #include <string>
 
 class EntityManager;
+class ImageRender;
 struct SDL_Texture;
 struct SDL_Rect;
 
@@ -76,6 +77,7 @@ public:
 
 	fPoint position;
 	SDL_Texture *texture = nullptr;
+	
 
 };
 
