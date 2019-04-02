@@ -74,17 +74,17 @@ private:
 
 public:
 
-	// Modules (They are initialized in the constructor, no need for nullptrs)
-	Window*			win;
-	Input*			input;
-	Render*			render;
-	Textures*		tex;
-	Audio*			audio;
-	Scene*			scene;
-	Map*			map;
-	PathFinding*	pathfinding;
+	// Modules
+	Window*				win = NULL;
+	Input*				input = NULL;
+	Render*				render = NULL;
+	Textures*			tex = NULL;
+	Audio*				audio = NULL;
+	Scene*				scene = NULL;
+	Map*				map = NULL;
+	PathFinding*		pathfinding = NULL;
+	EntityManager*		entities = NULL;
 	Fonts*			fonts;
-	//EntityManager*	entities;
 	User_Interface*	gui;
 
 	bool mustShutDown = false;

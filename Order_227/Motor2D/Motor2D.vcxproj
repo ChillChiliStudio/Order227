@@ -91,15 +91,18 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Main_Base.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
+    <ClCompile Include="Props.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="VoidBox.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -114,6 +117,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Fonts.h" />
+    <ClInclude Include="Main_Base.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputText.h" />
     <ClInclude Include="Quadtree.h" />
@@ -125,8 +129,10 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="PerfTimer.h" />
+    <ClInclude Include="Props.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Spawning_Point.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Log.h" />
@@ -136,6 +142,7 @@
     <ClInclude Include="Point.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="Unit.h" />
     <ClInclude Include="UIElement.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />

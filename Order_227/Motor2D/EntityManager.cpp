@@ -13,6 +13,8 @@
 #include "Entity.h"
 #include "Scene.h"
 
+#include <assert.h>
+
 EntityManager::EntityManager()
 {
 	name.assign("entities");
@@ -39,12 +41,9 @@ bool EntityManager::Start() {
 	if (entities_list.size() > 0) {
 
 		std::list<Entity*>::iterator item = entities_list.begin();
-
-		while ((*item) != NULL) {
-
+		for (; item != entities_list.end(); item = next(item))
 			(*item)->Start();
-			item = next(item);
-		}
+
 	}
 	return true;
 }
@@ -69,7 +68,7 @@ bool EntityManager::Update(float dt) {
 		if (entities_list.size() > 0) {
 
 			std::list<Entity*>::iterator item = entities_list.begin();
-			for (; *item != nullptr; item = next(item))
+			for (; item != entities_list.end(); item = next(item))
 				(*item)->FixUpdate(dt);
 		}
 	}
@@ -79,7 +78,7 @@ bool EntityManager::Update(float dt) {
 	if (entities_list.size() > 0) {
 
 		std::list<Entity*>::iterator item = entities_list.begin();
-		for (; *item != nullptr; item = next(item))
+		for (; item != entities_list.end(); item = next(item))
 			(*item)->Update(dt);
 	}
 
@@ -92,9 +91,9 @@ bool EntityManager::CleanUp() {
 	LOG("Clean Up Entity Manager");
 
 	if (entities_list.size() > 0) {
-		std::list<Entity*>::iterator item = entities_list.begin();
 
-		while (*item != nullptr) {
+		std::list<Entity*>::iterator item = entities_list.begin();
+		while (item != entities_list.end()) {
 
 			RELEASE(*item);
 			item = next(item);
@@ -107,20 +106,26 @@ bool EntityManager::CleanUp() {
 }
 
 
-Entity *EntityManager::CreateEntity(entity_type entityType) {
+Entity *EntityManager::CreateEntity(entity_type entityType, fPoint position) {
 
-	static_assert(entity_type::UNKNOWN == entity_type(1), "UPDATE ENTITY TYPES");
+	static_assert(entity_type::UNKNOWN == entity_type(2), "UPDATE ENTITY TYPES");
+	//assert(entityType == entity_type::UNIT_ENT, "UNITS ARE NOT CREATED WITH CreateEntity()! TRY CreateUnit() INSTEAD!");
+
 	Entity* Entity = nullptr;
 
 	switch (entityType) {
 
-	//example
-	/*case ENTITY_TYPE::ENEMY_ENT:
-		Entity = new Entity(ENTITY_TYPE::ENEMY_ENT);
-		break;*/
-	default:
+
+	case entity_type::OBJECT_ENT:
+		Entity = new Main_Base(position);
+		break;
+	case entity_type::UNIT_ENT:
+		break;
+	case entity_type::UNKNOWN:
 		break;
 
+	default:
+		break;
 	}
 
 	entities_list.push_back(Entity);
@@ -128,10 +133,30 @@ Entity *EntityManager::CreateEntity(entity_type entityType) {
 }
 
 
+Entity *EntityManager::CreateUnit(unit_type unitType, fPoint position, faction_enum faction) {
+
+	Unit* Unit_Ent = nullptr;
+
+	switch (unitType) {
+
+	case unit_type::INFANTRY_DIVISION:
+		Unit_Ent = new Unit(unitType, position, faction);
+		break;
+	case unit_type::UNKNOWN:
+		break;
+	default:
+		break;
+	}
+
+	entities_list.push_back(Unit_Ent); //Units list?? Not including them in entities_list?
+	return Unit_Ent;
+}
+
+
 void EntityManager::DestroyEntity(Entity *object) {
 
 	std::list<Entity*>::iterator item = entities_list.begin();
-	while (*item != nullptr) {
+	while (item != entities_list.end()) {
 
 		if ((*item) == object) {
 

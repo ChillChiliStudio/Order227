@@ -30,8 +30,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new Scene();
 	map = new Map();
 	pathfinding = new PathFinding();
+	entities = new EntityManager();
 	fonts = new Fonts();
-	//entities = new EntityManager;
 	gui = new User_Interface();
 
 	// Ordered for awake / Start / Update
@@ -42,10 +42,10 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(map);
 	AddModule(pathfinding);
-	AddModule(fonts);
-	//AddModule(entities);
-	AddModule(gui);
 	AddModule(scene);
+	AddModule(entities);
+	AddModule(fonts);
+	AddModule(gui);
 
 	// render last to swap buffer
 	AddModule(render);
@@ -218,8 +218,8 @@ bool App::DoUpdate()
 {
 	bool ret = true;
 	Module* pModule = NULL;
+
 	std::list<Module*>::iterator item = modules.begin();
-	
 	for (; item != modules.end() && ret == true; item = next(item)) {
 
 		pModule = *item;

@@ -1,9 +1,12 @@
-#ifndef ENTITY_MANAGER
-#define ENTITY_MANAGER
+#ifndef ENTITY_MANAGER_
+#define ENTITY_MANAGER_
 
 #include "Module.h"
 #include "Entity.h"
+#include "Unit.h"
+#include "Main_Base.h"
 #include "PugiXml\src\pugixml.hpp"
+
 
 #define TIMES_PER_SEC 5
 
@@ -24,10 +27,13 @@ public:
 
 public:
 
-	Entity *CreateEntity(entity_type entityType);
+	Entity *CreateEntity(entity_type entityType, fPoint position);
+	Entity *CreateUnit(unit_type unitType, fPoint position, faction_enum faction);
+
 	void DestroyEntity(Entity *Entity);
 
 public:
+
 
 	std::list<Entity*> entities_list;
 
