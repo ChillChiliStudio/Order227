@@ -30,9 +30,14 @@ bool Main_Base::Update(float dt) {
 	if (life <= 0)
 		myApp->entities->DestroyEntity(this);
 
-	UpdateBlitOrder();
-
-	myApp->render->Push(order, texture, position.x, position.y, &MainBaseRect);
+	
+	if (myApp->render->InsideCamera == true) {
+		//updating the uint order 
+		UpdateBlitOrder();
+		//Pushing texture to queue
+		myApp->render->Push(order, texture, position.x, position.y, &MainBaseRect);
+	}
+	
 
 	return true;
 }

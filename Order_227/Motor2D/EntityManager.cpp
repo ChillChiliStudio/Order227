@@ -84,7 +84,7 @@ bool EntityManager::Update(float dt) {
 
 	}
 
-	//if (entities_list.size() > 0)
+	//Blitting all the queue elements
 	myApp->render->OrderBlit(myApp->render->OrderToRender);
 
 
