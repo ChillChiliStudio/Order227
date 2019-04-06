@@ -61,13 +61,14 @@ bool Unit::Update(float dt) {
 		myApp->entities->DestroyEntity(this);
 
 
-	 
-	
+	if (myApp->render->InsideCamera(UnitRect) == true) {
+
 		UpdateBlitOrder();
 
 		myApp->render->Push(order, texture, position.x, position.y, &UnitRect);
 
-	
+	}
+
 	return true;
 }
 
