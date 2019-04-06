@@ -60,7 +60,7 @@ bool Unit::Update(float dt) {
 		myApp->entities->DestroyEntity(this);
 	
 
-	if (myApp->render->InsideCamera(UnitRect) == true) {
+	if (myApp->render->InsideCamera == true) {
 		//updating the uint order 
 		UpdateBlitOrder();
 		//Pushing texture to queue

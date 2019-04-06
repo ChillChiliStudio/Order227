@@ -11,6 +11,8 @@ Main_Base::Main_Base(fPoint pos) : Entity(entity_type::OBJECT_ENT, pos)
 	texture = myApp->tex->Load("textures/buildings/mainbase.png");
 	life = 100;
 	MainBaseRect = { 313, 2072, 225, 225 };
+	
+	
 
 }
 
@@ -29,7 +31,7 @@ bool Main_Base::Update(float dt) {
 		myApp->entities->DestroyEntity(this);
 
 	
-	if (myApp->render->InsideCamera(MainBaseRect) == true) {
+	if (myApp->render->InsideCamera == true) {
 		//updating the uint order 
 		UpdateBlitOrder();
 		//Pushing texture to queue
@@ -55,12 +57,13 @@ void Main_Base::UpdateBlitOrder() {
 
 		if ((*item) != this) {
 
-			if (position.y > (*item)->position.y)
+			if (this->position.y > (*item)->position.y)
 				order -= 1;
 			else
 				order += 1;
-		}
 
+
+		}
 		item = next(item);
 	}
 
