@@ -73,6 +73,33 @@ bool Unit::Draw() {
 	return true;
 }
 
+void Unit::CheckOrders()	// Check for new orders
+{
+	switch (status) {
+	case unit_state::IDLE:
+		
+		break;
+	case unit_state::MOVING:
+		
+		break;
+	case unit_state::FIRING:
+		
+		break;
+	case unit_state::DEAD:
+		
+		break;
+	}
+}
+
+void Unit::CheckState()		// Chech current unit state
+{
+
+}
+
+void Unit::ApplyState()		// Add State Effects
+{
+
+}
 
 bool Unit::Move(float dt) {
 

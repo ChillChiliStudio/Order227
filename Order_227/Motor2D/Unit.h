@@ -17,6 +17,24 @@ enum class faction_enum {
 	UNKNOWN = 2
 };
 
+enum class unit_state {
+	IDLE,	//Default state
+	MOVING,
+	FIRING,
+	DEAD,
+
+	MAX_STATES
+};
+
+enum class unit_orders {
+	HOLD,	//Default order
+	MOVE,
+	ATTACK,
+	MOVE_AND_ATTACK,
+	PATROL,
+
+	MAX_ORDERS
+};
 
 class Unit : public Entity {
 
@@ -30,10 +48,14 @@ public:
 	//void Move();
 	//void Attack();
 	bool Update(float dt);
-	bool Move(float dt);
 	bool Draw();
 
 public:
+
+	void CheckOrders();		// Check for new orders
+	void CheckState();		// Check current player state
+	void ApplyState();		// Add state effects
+	bool Move(float dt);	// Move unit position
 
 	//void Kill();
 	//void Hurt();
@@ -46,7 +68,11 @@ public:
 
 	faction_enum UnitFaction;
 	unit_type UnitType;
-	SDL_Rect UnitRect = {(int)position.x,(int)position.y, 20, 20};
+	SDL_Rect UnitRect = { (int)position.x,(int)position.y, 20, 20 };
+
+	unit_state status = unit_state::IDLE;
+	unit_orders orders = unit_orders::HOLD;
+	bool newOrder = false;
 
 	float speed = 100.0f;
 	float damage = 2;
