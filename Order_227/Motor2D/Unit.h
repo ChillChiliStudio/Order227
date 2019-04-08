@@ -27,6 +27,7 @@ enum class unit_state {
 };
 
 enum class unit_orders {
+	NONE = -1,
 	HOLD,	//Default order
 	MOVE,
 	ATTACK,
@@ -49,20 +50,41 @@ public:
 	//void Attack();
 	bool Update(float dt);
 	bool Draw();
+	void UpdateBlitOrder() override;
 
 public:
 
-	void CheckOrders();		// Check for new orders
-	void CheckState();		// Check current player state
-	void ApplyState();		// Add state effects
-	bool Move(float dt);	// Move unit position
+	// Main Workflow
+	void UnitWorkflow(float dt);		// State workflow depending on order issued
+	void ApplyState();		// Add state effects, like current animation
 
+	// Order calling
+	void StartHold();
+	void StartMove(fPoint destination);
+	void StartAttack(Unit* target);
+	void StartMoveAndAttack(fPoint destination);
+	void StartPatrol(fPoint destination);
+
+	// Order processing
+	void DoHold(float dt);
+	void DoMove(float dt);
+	void DoAttack(float dt);
+	void DoMoveAndAttack(float dt);
+	void DoPatrol(float dt);
+
+	// Actions
+	bool Move(float dt);	// Move unit position
+	void AttackTarget();
 	//void Kill();
 	//void Hurt();
-	//bool IsDead();
 
+	// Get Data
+	bool IsDead();
+	bool IsVisible();	// Outside Fog of War
 
-	void UpdateBlitOrder()override;
+	// Unit calculations
+	Unit* EnemyNearby();
+	bool TargetNearby();
 
 public:
 
@@ -70,9 +92,12 @@ public:
 	unit_type UnitType;
 	SDL_Rect UnitRect = { (int)position.x,(int)position.y, 20, 20 };
 
-	unit_state status = unit_state::IDLE;
-	unit_orders orders = unit_orders::HOLD;
-	bool newOrder = false;
+	unit_state unitState = unit_state::IDLE;
+	unit_orders unitOrders = unit_orders::HOLD;
+
+	fPoint origin;
+	fPoint destination;
+	Unit* target = nullptr;
 
 	float speed = 100.0f;
 	float damage = 2;

@@ -44,70 +44,31 @@ Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity
 
 }
 
+Unit::~Unit()
+{}
 
-Unit::~Unit() {
+bool Unit::Update(float dt)
+{
+	UnitWorkflow(dt);
 
-}
-
-
-bool Unit::Update(float dt) {
-
-	Move(dt);
 	UnitRect = {12, 0, 55,47};
-//	Draw();
+	//	Draw();
 
-	if (life <= 0)
+	if (life <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
 		myApp->entities->DestroyEntity(this);
 
 	UpdateBlitOrder();
 
-	myApp->render->Push(order, texture, position.x, position.y, &UnitRect);
+	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &UnitRect);
 
 	return true;
 }
-
 
 bool Unit::Draw() {
 
-	myApp->render->Blit(texture, position.x, position.y,&UnitRect);
+	myApp->render->Blit(texture, (int)position.x, (int)position.y,&UnitRect);
 	return true;
 }
-
-void Unit::CheckOrders()	// Check for new orders
-{
-	switch (status) {
-	case unit_state::IDLE:
-		
-		break;
-	case unit_state::MOVING:
-		
-		break;
-	case unit_state::FIRING:
-		
-		break;
-	case unit_state::DEAD:
-		
-		break;
-	}
-}
-
-void Unit::CheckState()		// Chech current unit state
-{
-
-}
-
-void Unit::ApplyState()		// Add State Effects
-{
-
-}
-
-bool Unit::Move(float dt) {
-
-	position.x += (speed * dt);
-	position.y += (speed * dt);
-	return true;
-}
-
 
 void Unit::UpdateBlitOrder() {
 
@@ -126,4 +87,253 @@ void Unit::UpdateBlitOrder() {
 		item = next(item);
 	}
 
+}
+
+// Main workflow
+void Unit::UnitWorkflow(float dt)
+{
+	unit_state prevState = unitState;
+
+	switch (unitOrders) {
+	case unit_orders::HOLD:
+		DoHold(dt);
+		break;
+	case unit_orders::MOVE:
+		DoMove(dt);
+		break;
+	case unit_orders::ATTACK:
+		DoAttack(dt);
+		break;
+	case unit_orders::MOVE_AND_ATTACK:
+		DoMoveAndAttack(dt);
+		break;
+	case unit_orders::PATROL:
+		DoPatrol(dt);
+		break;
+	}
+
+	if (prevState != unitState) {
+		ApplyState();
+	}
+}
+
+void Unit::ApplyState()
+{
+	switch (unitState) {
+	case unit_state::IDLE:
+		//currentAnim = idleAnim;
+		break;
+	case unit_state::MOVING:
+		//currentAnim = movingAnim;
+		break;
+	case unit_state::FIRING:
+		//currentAnim = firingAnim;
+		break;
+	case unit_state::DEAD:
+		//currentAnim = deadAnim;
+		break;
+	}
+}
+
+// Order processing
+void Unit::DoHold(float dt)
+{
+	switch (unitState) {
+	case unit_state::IDLE:
+		target = EnemyNearby();
+		if (target != nullptr) {
+			AttackTarget();
+		}
+		break;
+	case unit_state::FIRING:
+		if (TargetNearby() && target->IsDead() == false) {
+			AttackTarget();
+		}
+		else {
+			target = nullptr;
+			unitState = unit_state::IDLE;
+		}
+		break;
+	}
+}
+
+void Unit::DoMove(float dt)
+{
+	if (position != destination) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
+		Move(dt);
+	}
+	else {
+		StartHold();
+		unitState = unit_state::IDLE;
+	}
+}
+
+void Unit::DoAttack(float dt)
+{
+	if (target->IsVisible()) {
+		destination = target->position;
+	}
+
+	if (target->IsDead() == false) {
+		if (TargetNearby() == true) {
+			AttackTarget();
+		}
+		else {
+			Move(dt);
+		}
+	}
+	else {
+		StartHold();
+		unitState = unit_state::IDLE;
+	}
+}
+
+void Unit::DoMoveAndAttack(float dt)
+{
+	if (position != destination) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
+		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
+			target = EnemyNearby();
+			if (target != nullptr) {
+				AttackTarget();
+			}
+			else {
+				Move(dt);
+			}
+		}
+		else if (unitState == unit_state::FIRING) {
+			if (TargetNearby() && target->IsDead() == false) {
+				AttackTarget();
+			}
+			else {
+				target = nullptr;
+				Move(dt);
+			}
+		}
+	}
+	else {
+		StartHold();
+		unitState = unit_state::IDLE;
+	}
+}
+
+void Unit::DoPatrol(float dt)
+{
+	if (position != destination) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
+		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
+			target = EnemyNearby();
+			if (target != nullptr) {
+				AttackTarget();
+			}
+			else {
+				Move(dt);
+			}
+		}
+		else if (unitState == unit_state::FIRING) {
+			if (TargetNearby() && target->IsDead() == false) {
+				AttackTarget();
+			}
+			else {
+				target = nullptr;
+				Move(dt);
+			}
+		}
+	}
+	else {
+		StartPatrol(origin);
+		unitState = unit_state::IDLE;
+	}
+}
+
+// Actions
+bool Unit::Move(float dt) {
+
+	position.x += (speed * dt);
+	position.y += (speed * dt);
+	unitState = unit_state::MOVING;
+	return true;
+}
+
+void Unit::AttackTarget()
+{
+	unitState = unit_state::FIRING;
+}
+
+// Unit Data
+bool Unit::IsDead()
+{
+	if (life <= 0) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool Unit::IsVisible()
+{
+	return true;
+}
+
+// Unit Calculations
+Unit* Unit::EnemyNearby()
+{
+	return nullptr;
+}
+
+bool Unit::TargetNearby()
+{
+	return false;
+}
+
+// Order calling
+void Unit::StartHold()
+{
+	/*
+	- Stop unit
+	- Cancel Pathfinding
+	- target = nullptr
+	*/
+	unitOrders = unit_orders::HOLD;
+	unitState = unit_state::IDLE;
+}
+
+void Unit::StartMove(fPoint destination)
+{
+	/*
+	- Define destination
+	- Set pathfinding
+	*/
+	unitOrders = unit_orders::MOVE;
+	unitState = unit_state::IDLE;
+}
+
+void Unit::StartAttack(Unit* target)
+{
+	/*
+	- Define target
+	- Set destination as target position
+	*/
+	unitOrders = unit_orders::ATTACK;
+	unitState = unit_state::IDLE;
+}
+
+void Unit::StartMoveAndAttack(fPoint destination)
+{
+	/*
+	- Define destination
+	- Set pathfinding
+	*/
+	unitOrders = unit_orders::MOVE_AND_ATTACK;
+	unitState = unit_state::IDLE;
+}
+
+void Unit::StartPatrol(fPoint destination)
+{
+	/*
+	- Define origin as current positiong
+	- Define destination
+	- Set pathfinding
+	*/
+	unitOrders = unit_orders::PATROL;
+	unitState = unit_state::IDLE;
 }
