@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "SDL/include/SDL.h"
 
+
 enum class unit_type {
 
 	INFANTRY_DIVISION,
@@ -48,7 +49,7 @@ public:
 	unit_type UnitType;
 	SDL_Rect UnitRect = {(int)position.x,(int)position.y, 20, 20};
 
-	float speed = 100.0f;
+	float speed = 25.0f;
 	float damage = 2;
 	//unsigned int life;
 	//unsigned int maxLife;
@@ -57,6 +58,7 @@ public:
 	//iPoint attackRange;
 	//bool enemyDetected;
 	//bool enemyInRange;
+	
 
 };
 

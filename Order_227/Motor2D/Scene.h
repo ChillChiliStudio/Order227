@@ -41,6 +41,8 @@ public:
 	
 	void ChooseSpawningPoints();
 
+	void CreateUnitOnPos(iPoint mouseScreenPos);
+
 	SDL_Texture* TestTexture = nullptr;
 private:
 
@@ -52,6 +54,8 @@ private:
 	std::vector<Spawning_Point*> SpawningPoints_Array;
 	pugi::xml_document SP_Doc;
 
+	iPoint mousePos;
+	iPoint mouseScreenPos;
 };
 
 #endif // SCENE_H

@@ -14,6 +14,7 @@
 #include "ParamBox.h"
 #include "Scene.h"
 
+
 Scene::Scene() : Module()
 {
 	name.assign("scene");
@@ -122,6 +123,17 @@ bool Scene::Update(float dt)
 
 		}
 	}
+
+	//mouse selection code bellow
+	
+	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
+	mouseScreenPos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
+
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_MIDDLE) == KEY_REPEAT) {
+		CreateUnitOnPos(mouseScreenPos);
+	}
+
+
 	
 	myApp->gui->Draw();
 	return true;
@@ -162,7 +174,7 @@ void Scene::ChooseSpawningPoints() {
 		roundThreat = 0;
 	}
 
-	//This is VERY HARDCODED - I'm not proud of this, but will work for now (fck this shit) - Is just the manager of round threat
+	//This is VERY HARDCODED - I'm not proud of this, but will work for now (fck this shit) - Is just the manager of round threat TODO
 	if (roundNumber == 0 || roundNumber == 1)
 		threatIncremental = 10;
 	else if (roundNumber == 3 || roundNumber == 6)
@@ -196,4 +208,10 @@ void Scene::ChooseSpawningPoints() {
 		if (SpawningPoints_Array[i]->active == true)
 			SpawningPoints_Array[i]->FillEnemies(roundThreat);
 
+}
+void Scene::CreateUnitOnPos(iPoint mouseScreenPos_) {
+	fPoint position;
+	position.x = (float)mouseScreenPos_.x;
+	position.y = (float)mouseScreenPos_.y;
+	myApp->entities->CreateUnit(unit_type::INFANTRY_DIVISION, position, faction_enum::FACTION_COMMUNIST);
 }
