@@ -49,8 +49,9 @@ public:
 	unit_type UnitType;
 	SDL_Rect UnitRect = {(int)position.x,(int)position.y, 20, 20};
 
-	float speed = 25.0f;
+	float speed =0.0f;
 	float damage = 2;
+	
 	//unsigned int life;
 	//unsigned int maxLife;
 	//unit_state status;

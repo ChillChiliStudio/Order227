@@ -129,12 +129,15 @@ bool Scene::Update(float dt)
 	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
 	mouseScreenPos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
 
-	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_MIDDLE) == KEY_REPEAT) {
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_MIDDLE) == KEY_DOWN) {
 		CreateUnitOnPos(mouseScreenPos);
 	}
 
-
 	
+	
+	
+	
+	entitiesSelection();
 	myApp->gui->Draw();
 	return true;
 }
@@ -211,7 +214,42 @@ void Scene::ChooseSpawningPoints() {
 }
 void Scene::CreateUnitOnPos(iPoint mouseScreenPos_) {
 	fPoint position;
-	position.x = (float)mouseScreenPos_.x;
-	position.y = (float)mouseScreenPos_.y;
+	position.x = (float)mouseScreenPos_.x-30;
+	position.y = (float)mouseScreenPos_.y-35;
 	myApp->entities->CreateUnit(unit_type::INFANTRY_DIVISION, position, faction_enum::FACTION_COMMUNIST);
+}
+void Scene::entitiesSelection() {
+
+	rectangle_width = mouseScreenPos.x - rectangle_origin.x;
+	rectangle_height = mouseScreenPos.y - rectangle_origin.y;
+
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+		rectangle_origin = mouseScreenPos;
+
+	else if (std::abs(rectangle_width) >= 5 && std::abs(rectangle_height) >= 5 && myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {
+		// --- Rectangle size ---
+		int width = mouseScreenPos.x - rectangle_origin.x;
+		int height = mouseScreenPos.y - rectangle_origin.y;
+
+		// --- Draw Rectangle ---
+		SDL_Rect SRect = { rectangle_origin.x, rectangle_origin.y, width, height };
+		myApp->render->DrawQuad(SRect, 0, 200, 100, 255, false);
+
+		// --- Once we get to the negative side of SRect numbers must be adjusted ---
+		if (width < 0) {
+			SRect.x = mouseScreenPos.x;
+			SRect.w *= -1;
+		}
+		if (height < 0) {
+			SRect.y = mouseScreenPos.y;
+			SRect.h *= -1;
+		}
+
+		// --- Check for Units in the rectangle, select them ---
+
+		myApp->entities->SelectUnit(SRect);
+
+		
+	}
+
 }

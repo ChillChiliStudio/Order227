@@ -154,7 +154,14 @@ Entity *EntityManager::CreateUnit(unit_type unitType, fPoint position, faction_e
 		break;
 	}
 
-	entities_list.push_back(Unit_Ent); //Units list?? Not including them in entities_list?
+	entities_list.push_back(Unit_Ent); //TODO : Revisar esto cuando joan añada las pools
+
+	if (Unit_Ent->UnitFaction == faction_enum::FACTION_COMMUNIST) {
+		comunist_list.push_back(Unit_Ent);
+	}
+	if (Unit_Ent->UnitFaction == faction_enum::FACTION_CAPITALIST) {
+		capitalist_list.push_back(Unit_Ent);
+	}
 	return Unit_Ent;
 }
 
@@ -172,6 +179,19 @@ void EntityManager::DestroyEntity(Entity *object) {
 		}
 
 		item = next(item);
+	}
+}
+
+void EntityManager::SelectUnit(SDL_Rect rect) {
+	for (std::list<Unit*>::iterator it = comunist_list.begin(); it != comunist_list.end(); it++) {
+		SDL_Rect entityRect = (*it)->UnitRect;
+
+		if (SDL_HasIntersection(&entityRect, &rect)) {
+			(*it)->selected = true;
+		}
+		else
+			(*it)->selected = false;
+			
 	}
 }
 

@@ -54,7 +54,7 @@ bool Unit::Update(float dt) {
 
 	Move(dt);
 	UnitRect = {12, 0, 55,47};
-//	Draw();
+	//Draw();
 
 	if (life <= 0)
 		myApp->entities->DestroyEntity(this);
@@ -70,6 +70,9 @@ bool Unit::Update(float dt) {
 bool Unit::Draw() {
 
 	myApp->render->Blit(texture, position.x, position.y,&UnitRect);
+	
+//	myApp->render->DrawQuad(UnitRect, 0, 0, 255, 255, false);
+	
 	return true;
 }
 
