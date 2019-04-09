@@ -65,8 +65,6 @@ bool Scene::Start()
 		}
 	}
 
-	myApp->entities->CreateEntity(entity_type::OBJECT_ENT, fPoint(10.0f, 10.0f));
-
 	TestTexture = myApp->tex->Load("textures/troops/allied/gi.png");
 
 	return true;
@@ -75,16 +73,6 @@ bool Scene::Start()
 // Called each loop iteration
 bool Scene::PreUpdate()
 {
-
-	//Activate Spawn with F --> Just for DEBUG PURPOSES
-	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && SpawningPoints_Array.size() > 0)
-		ChooseSpawningPoints();
-
-	////Delete enemies with J --> Just for DEBUG PURPOSES
-	//if (myApp->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN && myApp->entities->entities_list.size() > 0)
-	//	for (std::list<Entity*>::iterator item = myApp->entities->entities_list.begin(); item != myApp->entities->entities_list.end(); item = next(item))
-	//		if ((*item)->GetType() == entity_type::UNIT_ENT)
-	//			myApp->entities->DestroyEntity(*item);
 
 	return true;
 }
@@ -107,21 +95,6 @@ bool Scene::Update(float dt)
 
 	myApp->map->Draw();
 
-	//Spawn Point Draw
-	for (int i = 0; i < SpawningPoints_Array.size(); i++) {
-
-		myApp->render->DrawQuad(SpawningPoints_Array[i]->SP_Rect, 255, 100, 100);
-
-		if (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0 && SpawningPoints_Array[i]->SpawnTime.Read() > 500) {
-
-			fPoint SP_Pos = fPoint(SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
-			SpawningPoints_Array[i]->SpawnTime.Start();
-
-			myApp->entities->CreateUnit(unit_type::INFANTRY_DIVISION, fPoint(SP_Pos), faction_enum::FACTION_CAPITALIST);
-			SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
-
-		}
-	}
 	
 	myApp->gui->Draw();
 	return true;

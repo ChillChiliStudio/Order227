@@ -12,14 +12,25 @@ class ImageRender;
 struct SDL_Texture;
 struct SDL_Rect;
 
+
+
 enum class entity_type {
 
 	ENT_NONE=-1,
-	ENT_TREE,
-	ENT_BASIC_INF,
-	ENT_BAZOOKA,
-	ENT_MACHINE_GUN,
+	STATIC_TREE,		//Static entities
+	BASE_MAIN_BASE,		//Bases
+	SOLDIER_BASIC_INF,	//Soldiers
+	SOLDIER_BAZOOKA,
+	SOLDIER_MACHINE_GUN,
 	ENT_MAX
+};
+
+enum class entity_faction {
+	FACTION_NONE = -1,
+	FACTION_URSS,
+	FACTION_US,
+	FACTION_NEUTRAL,
+	FACTION_MAX
 };
 
 class Entity {
@@ -27,7 +38,7 @@ class Entity {
 public:
 
 
-	Entity(entity_type entityType, fPoint position) : type(entityType), position(position) {}
+	Entity(fPoint position,entity_type entityType,entity_faction faction = entity_faction::FACTION_NEUTRAL) : type(entityType), position(position), faction(faction) {}
 
 	~Entity() {}
 
@@ -68,20 +79,21 @@ public:
 
 public:
 
-	int life = 0;
-	bool active = false;
-	bool mustDestroy = false;
+	//Entity data
+	fPoint			position;
+	SDL_Texture*	texture=nullptr;
+	entity_faction	faction;
+	entity_type		type;
 
+	//True if the entity is "alive", false if it's not
+	bool active = false;
 
 	uint order = 0;
 
-	entity_type type;
 	std::string name;
 
-	fPoint position;
-	SDL_Texture *texture = nullptr;
-	
 
+	
 };
 
 #endif

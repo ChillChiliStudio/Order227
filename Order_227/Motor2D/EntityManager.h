@@ -36,6 +36,8 @@ public:
 
 public:
 
+	SDL_Texture*	texture_list[int(entity_type::ENT_MAX)];
+	unit_stats		units_stats[int(entity_type::ENT_MAX)];
 
 	//std::list<Entity*> entities_list;
 

@@ -4,12 +4,12 @@
 #include "Textures.h"
 #include "Scene.h"
 
-Main_Base::Main_Base(fPoint pos) : Entity(entity_type::OBJECT_ENT, pos)
+Main_Base::Main_Base(fPoint pos) : Entity(pos,entity_type::BASE_MAIN_BASE)
 {
 	position = pos;
 
 	texture = myApp->tex->Load("textures/buildings/mainbase.png");
-	life = 100;
+	
 	MainBaseRect = { 313, 2072, 225, 225 };
 	
 	
@@ -27,8 +27,8 @@ bool Main_Base::Update(float dt) {
 
 	//Draw();
 
-	if (life <= 0)
-		myApp->entities->DestroyEntity(this);
+	/*if (life <= 0)
+		myApp->entities->DestroyEntity(this);*/
 
 	UpdateBlitOrder();
 

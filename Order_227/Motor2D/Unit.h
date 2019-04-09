@@ -6,25 +6,16 @@
 
 struct unit_stats
 {
-	int damage;
-	int healtPoints;
-	unit_faction faction;
-	uint velocity;
-};
-
-enum class unit_faction {
-	FACTION_NONE = -1,
-	FACTION_URSS,
-	FACTION_US,
-	FACTION_NEUTRAL,
-	FACTION_MAX
+	int damage=0;
+	int healtPoints=0;
+	uint velocity=0;
 };
 
 class Unit : public Entity {
 
 public:
 
-	Unit(fPoint pos, unit_faction faction);
+	Unit(fPoint pos,entity_type type, entity_faction faction = entity_faction::FACTION_NEUTRAL);
 	~Unit();
 
 	bool Update(float dt);
@@ -34,7 +25,6 @@ public:
 public:
 
 	void UpdateBlitOrder()override;
-
 
 public:
 

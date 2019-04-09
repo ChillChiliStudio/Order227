@@ -4,14 +4,11 @@
 #include "Textures.h"
 #include "Scene.h"
 
-Unit::Unit(fPoint pos,  unit_faction) : Entity(entity_type::ENT_NONE, pos)  {
+Unit::Unit(fPoint pos, entity_type type,  entity_faction faction) : Entity(pos, type, faction) {
+	
+	
 
-	
-	UnitFaction = faction;
-	
-	life = 1;
 
-	
 }
 
 
