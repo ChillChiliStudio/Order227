@@ -110,10 +110,10 @@ bool TileQuadtree::CheckVisibility()
 	uint screen_h;
 	myApp->win->GetWindowSize(screen_w, screen_h);
 
-	if (-myApp->render->camera.x > (section.x + section.w) ||
-		(-myApp->render->camera.x + int(screen_w)) < section.x ||
-		-myApp->render->camera.y > (section.y + section.h) ||
-		(-myApp->render->camera.y + int(screen_h)) < section.y)
+	if (-myApp->render->camera.x- CAM_CULL_MARGIN > (section.x + section.w) ||
+		(-myApp->render->camera.x+CAM_CULL_MARGIN + int(screen_w)) < section.x ||
+		-myApp->render->camera.y- CAM_CULL_MARGIN > (section.y + section.h) ||
+		(-myApp->render->camera.y+ CAM_CULL_MARGIN + int(screen_h)) < section.y)
 		return false;
 
 	return true;

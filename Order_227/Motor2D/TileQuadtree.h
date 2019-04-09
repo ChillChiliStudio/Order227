@@ -1,6 +1,9 @@
 #ifndef _TILEQUADTREE_H__
 #define _TILEQUADTREE_H__
 
+#define CAM_CULL_MARGIN 20	//Add some margin to camera culling 
+							//so we have no black sections
+
 #include "Quadtree.h"
 
 

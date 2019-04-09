@@ -47,7 +47,7 @@ bool Main_Base::Draw() {
 
 void Main_Base::UpdateBlitOrder() {
 
-	std::list<Entity*>::iterator item = myApp->entities->entities_list.begin();
+	/*std::list<Entity*>::iterator item = myApp->entities->entities_list.begin();
 	while (item != myApp->entities->entities_list.end()) {
 
 		if ((*item) != this) {
@@ -60,6 +60,6 @@ void Main_Base::UpdateBlitOrder() {
 
 		}
 		item = next(item);
-	}
+	}*/
 
 }

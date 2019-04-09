@@ -14,9 +14,12 @@ struct SDL_Rect;
 
 enum class entity_type {
 
-	OBJECT_ENT,
-	UNIT_ENT,
-	UNKNOWN = 2
+	ENT_NONE=-1,
+	ENT_TREE,
+	ENT_BASIC_INF,
+	ENT_BAZOOKA,
+	ENT_MACHINE_GUN,
+	ENT_MAX
 };
 
 class Entity {

@@ -14,20 +14,20 @@
 #include "Scene.h"
 #include "Render.h"
 
-#include <assert.h>
+#include <cassert>
 
-EntityManager::EntityManager()
+Entity_Manager::Entity_Manager()
 {
 	name.assign("entities");
 }
 
 
-EntityManager::~EntityManager()
+Entity_Manager::~Entity_Manager()
 {
 }
 
 
-bool EntityManager::Awake() {
+bool Entity_Manager::Awake() {
 
 	LOG("AWAKING ENTITY MANAGER");
 	times_per_sec = TIMES_PER_SEC;
@@ -37,34 +37,34 @@ bool EntityManager::Awake() {
 }
 
 
-bool EntityManager::Start() {
+bool Entity_Manager::Start() {
 
-	if (entities_list.size() > 0) {
+	/*if (entities_list.size() > 0) {
 
 		std::list<Entity*>::iterator item = entities_list.begin();
 		for (; item != entities_list.end(); item = next(item))
 			(*item)->Start();
 
-	}
+	}*/
 	return true;
 }
 
 
-bool EntityManager::PreUpdate() {
+bool Entity_Manager::PreUpdate() {
 
 	do_logic = false;
 	return true;
 }
 
 
-bool EntityManager::Update(float dt) {
+bool Entity_Manager::Update(float dt) {
 
 	accumulated_time += dt;
 
 	if (accumulated_time >= update_ms_cycle)
 		do_logic = true;
 
-	if (do_logic == true) {
+	/*if (do_logic == true) {
 
 		if (entities_list.size() > 0) {
 
@@ -72,17 +72,17 @@ bool EntityManager::Update(float dt) {
 			for (; item != entities_list.end(); item = next(item))
 				(*item)->FixUpdate(dt);
 		}
-	}
+	}*/
 
 	accumulated_time -= update_ms_cycle;
 
-	if (entities_list.size() > 0) {
+	/*if (entities_list.size() > 0) {
 
 		std::list<Entity*>::iterator item = entities_list.begin();
 		for (; item != entities_list.end(); item = next(item))
 			(*item)->Update(dt);
 
-	}
+	}*/
 
 	//if (entities_list.size() > 0)
 	myApp->render->OrderBlit(myApp->render->OrderToRender);
@@ -92,11 +92,11 @@ bool EntityManager::Update(float dt) {
 }
 
 
-bool EntityManager::CleanUp() {
+bool Entity_Manager::CleanUp() {
 
 	LOG("Clean Up Entity Manager");
 
-	if (entities_list.size() > 0) {
+	/*if (entities_list.size() > 0) {
 
 		std::list<Entity*>::iterator item = entities_list.begin();
 		while (item != entities_list.end()) {
@@ -106,72 +106,58 @@ bool EntityManager::CleanUp() {
 		}
 
 		entities_list.clear();
-	}
+	}*/
 
 	return true;
 }
 
 
-Entity *EntityManager::CreateEntity(entity_type entityType, fPoint position) {
-
-	static_assert(entity_type::UNKNOWN == entity_type(2), "UPDATE ENTITY TYPES");
-	//assert(entityType == entity_type::UNIT_ENT, "UNITS ARE NOT CREATED WITH CreateEntity()! TRY CreateUnit() INSTEAD!");
-
-	Entity* Entity = nullptr;
-
-	switch (entityType) {
-
-
-	case entity_type::OBJECT_ENT:
-		Entity = new Main_Base(position);
-		break;
-	case entity_type::UNIT_ENT:
-		break;
-	case entity_type::UNKNOWN:
-		break;
-
-	default:
-		break;
-	}
-
-	entities_list.push_back(Entity);
-	return Entity;
-}
-
-
-Entity *EntityManager::CreateUnit(unit_type unitType, fPoint position, faction_enum faction) {
-
-	Unit* Unit_Ent = nullptr;
-
-	switch (unitType) {
-
-	case unit_type::INFANTRY_DIVISION:
-		Unit_Ent = new Unit(unitType, position, faction);
-		break;
-	case unit_type::UNKNOWN:
-		break;
-	default:
-		break;
-	}
-
-	entities_list.push_back(Unit_Ent); //Units list?? Not including them in entities_list?
-	return Unit_Ent;
-}
+//Entity *Entity_Manager::CreateEntity(entity_type entityType, fPoint position) {
+//
+//	static_assert(entity_type::ENT_MAX == entity_type(4), "UPDATE ENTITY TYPES");
+//	//assert(entityType == entity_type::UNIT_ENT, "UNITS ARE NOT CREATED WITH CreateEntity()! TRY CreateUnit() INSTEAD!");
+//
+//	Entity* Entity = nullptr;
+//
+//
+//	return Entity;
+//}
+//
+//
+//Entity *Entity_Manager::CreateUnit(fPoint position, faction_enum faction) {
+//
+//	Unit* Unit_Ent = nullptr;
+//
+//	switch (unitType) {
+//
+//	case unit_type::INFANTRY_DIVISION:
+//		Unit_Ent = new Unit(unitType, position, faction);
+//		break;
+//	case unit_type::UNKNOWN:
+//		break;
+//	default:
+//		break;
+//	}
+//
+//	//entities_list.push_back(Unit_Ent); //Units list?? Not including them in entities_list?
+//
+//	return Unit_Ent;
+//}
 
 
-void EntityManager::DestroyEntity(Entity *object) {
-
-	std::list<Entity*>::iterator item = entities_list.begin();
-	while (item != entities_list.end()) {
-
-		if ((*item) == object) {
-
-			(*item)->DestroyEntity();
-			entities_list.erase(item);
-			break;
-		}
-
-		item = next(item);
-	}
-}
+//void Entity_Manager::DestroyEntity(Entity *object) {
+//
+//	/*std::list<Entity*>::iterator item = entities_list.begin();
+//	while (item != entities_list.end()) {
+//
+//		if ((*item) == object) {
+//
+//			(*item)->DestroyEntity();
+//			entities_list.erase(item);
+//			break;
+//		}
+//
+//		item = next(item);
+//	}*/
+//}
 
