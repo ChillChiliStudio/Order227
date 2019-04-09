@@ -1,8 +1,10 @@
-#include "Unit.h"
-#include "Entity.h"
+#include "Geometry.h"
 #include "Render.h"
 #include "Textures.h"
 #include "Scene.h"
+#include "EntityManager.h"
+#include "Entity.h"
+#include "Unit.h"
 
 Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT_ENT, pos)  {
 
@@ -140,13 +142,13 @@ void Unit::DoHold(float dt)
 {
 	switch (unitState) {
 	case unit_state::IDLE:
-		target = EnemyNearby();
+		target = EnemyInRange();
 		if (target != nullptr) {
 			AttackTarget();
 		}
 		break;
 	case unit_state::FIRING:
-		if (TargetNearby() && target->IsDead() == false) {
+		if (TargetInRange() && target->IsDead() == false) {
 			AttackTarget();
 		}
 		else {
@@ -175,7 +177,7 @@ void Unit::DoAttack(float dt)
 	}
 
 	if (target->IsDead() == false) {
-		if (TargetNearby() == true) {
+		if (TargetInRange() == true) {
 			AttackTarget();
 		}
 		else {
@@ -192,7 +194,7 @@ void Unit::DoMoveAndAttack(float dt)
 {
 	if (position != destination) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
 		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
-			target = EnemyNearby();
+			target = EnemyInRange();
 			if (target != nullptr) {
 				AttackTarget();
 			}
@@ -201,7 +203,7 @@ void Unit::DoMoveAndAttack(float dt)
 			}
 		}
 		else if (unitState == unit_state::FIRING) {
-			if (TargetNearby() && target->IsDead() == false) {
+			if (TargetInRange() && target->IsDead() == false) {
 				AttackTarget();
 			}
 			else {
@@ -220,7 +222,7 @@ void Unit::DoPatrol(float dt)
 {
 	if (position != destination) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
 		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
-			target = EnemyNearby();
+			target = EnemyInRange();
 			if (target != nullptr) {
 				AttackTarget();
 			}
@@ -229,7 +231,7 @@ void Unit::DoPatrol(float dt)
 			}
 		}
 		else if (unitState == unit_state::FIRING) {
-			if (TargetNearby() && target->IsDead() == false) {
+			if (TargetInRange() && target->IsDead() == false) {
 				AttackTarget();
 			}
 			else {
@@ -271,18 +273,33 @@ bool Unit::IsDead()
 
 bool Unit::IsVisible()
 {
-	return true;
+	return true;	//TODO: Make function
 }
 
 // Unit Calculations
-Unit* Unit::EnemyNearby()
+Unit* Unit::EnemyInRange()
 {
-	return nullptr;
+	Unit* ret = nullptr;
+
+	for (std::list<Unit*>::iterator iter = myApp->entities->enemies.begin(); iter != myApp->entities->enemies.end(); ++iter) {
+		if ((*iter)->position.x > position.x + range || (*iter)->position.x < position.x - range
+			|| (*iter)->position.y > position.y + range || (*iter)->position.y < position.y + range) {
+			continue;
+		}
+		else {
+			if (InsideRadius(position, range, (*iter)->position) == true) {
+				ret = (*iter);
+				break;
+			 }
+		}
+	}
+
+	return ret;
 }
 
-bool Unit::TargetNearby()
+bool Unit::TargetInRange()
 {
-	return false;
+	return InsideRadius(position, range, target->position);
 }
 
 // Order calling

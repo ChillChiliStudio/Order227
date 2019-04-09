@@ -44,10 +44,6 @@ public:
 	Unit(unit_type unitType, fPoint pos, faction_enum faction);
 	~Unit();
 
-public:
-
-	//void Move();
-	//void Attack();
 	bool Update(float dt);
 	bool Draw();
 	void UpdateBlitOrder() override;
@@ -83,8 +79,8 @@ public:
 	bool IsVisible();	// Outside Fog of War
 
 	// Unit calculations
-	Unit* EnemyNearby();
-	bool TargetNearby();
+	Unit* EnemyInRange();
+	bool TargetInRange();
 
 public:
 
@@ -100,7 +96,8 @@ public:
 	Unit* target = nullptr;
 
 	float speed = 100.0f;
-	float damage = 2;
+	float damage = 2.0f;
+	float range = 10.0f;
 	//unsigned int life;
 	//unsigned int maxLife;
 	//unit_state status;
