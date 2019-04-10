@@ -295,8 +295,11 @@ bool Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uin
 
 //Checks if the rect is inside the camera
 bool Render::InsideCamera(const SDL_Rect& rect)const {
-	if ((rect.x < -camera.x + camera.w && rect.x + rect.w > -camera.x) || (rect.x < -camera.x + camera.w  && rect.x + rect.w > -camera.x)) {
-		if (rect.y < -camera.y + camera.h && rect.y + rect.h > -camera.y) { return true; }
+
+	if ((rect.x+rect.w > -camera.x && (rect.x) < (-camera.x + camera.w)) &&
+		(rect.y+rect.h > -camera.y && (rect.y)< (-camera.y + camera.h))) {
+
+		return true;
 	}
 	return false;
 }

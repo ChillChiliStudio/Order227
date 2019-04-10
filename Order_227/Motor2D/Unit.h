@@ -86,7 +86,8 @@ public:
 
 	faction_enum UnitFaction;
 	unit_type UnitType;
-	SDL_Rect UnitRect = { (int)position.x,(int)position.y, 20, 20 };
+	SDL_Rect UnitRect = {(int)position.x,(int)position.y, 20, 20};
+	SDL_Rect CheckInCamera;
 
 	unit_state unitState = unit_state::IDLE;
 	unit_orders unitOrders = unit_orders::HOLD;
