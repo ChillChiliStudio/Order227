@@ -33,6 +33,7 @@ public:
 	void DestroyEntity(Entity *Entity);
 	
 	void SelectUnit(SDL_Rect rect);
+	void SelectUnit(iPoint position);
 
 public:
 

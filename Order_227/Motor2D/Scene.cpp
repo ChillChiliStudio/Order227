@@ -129,7 +129,7 @@ bool Scene::Update(float dt)
 	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
 	mouseScreenPos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
 
-	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_MIDDLE) == KEY_DOWN) {
+	if (myApp->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
 		CreateUnitOnPos(mouseScreenPos);
 	}
 
@@ -247,9 +247,13 @@ void Scene::entitiesSelection() {
 
 		// --- Check for Units in the rectangle, select them ---
 
-		myApp->entities->SelectUnit(SRect);
-
-		
+		myApp->entities->SelectUnit(SRect);	
+	}
+	/*else if (!(std::abs(rectangle_width) >= 5 && std::abs(rectangle_height) >= 5 && myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)) {
+		myApp->entities->SelectUnit(mouseScreenPos);
+	}*/
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
+		myApp->entities->SelectUnit(mouseScreenPos);
 	}
 
 }

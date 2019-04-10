@@ -194,4 +194,16 @@ void EntityManager::SelectUnit(SDL_Rect rect) {
 			
 	}
 }
+void EntityManager::SelectUnit(iPoint pos) {
+	for (std::list<Unit*>::iterator it = comunist_list.begin(); it != comunist_list.end(); it++) {
+		SDL_Rect entityRect = (*it)->UnitRect;
+
+		if (pos.x > (*it)->UnitRect.x && pos.x < (*it)->UnitRect.x+ (*it)->UnitRect.w && pos.y >(*it)->UnitRect.y && pos.y < (*it)->UnitRect.y + (*it)->UnitRect.h) {
+			(*it)->selected = true;
+		}
+		else
+			(*it)->selected = false;
+
+	}
+}
 
