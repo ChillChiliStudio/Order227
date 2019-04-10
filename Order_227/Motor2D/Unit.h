@@ -44,7 +44,7 @@ public:
 	Unit(unit_type unitType, fPoint pos, faction_enum faction);
 	~Unit();
 
-	bool Update(float dt);
+	bool Update(float dt) override;
 	bool Draw();
 	void UpdateBlitOrder() override;
 
@@ -94,10 +94,12 @@ public:
 	fPoint origin;
 	fPoint destination;
 	Unit* target = nullptr;
+	std::list<Unit*>* hostileUnits = nullptr;
 
 	float speed = 100.0f;
 	float damage = 2.0f;
-	float range = 10.0f;
+	float visionRange = 10.0f;	//For enemy units this would be their aggro area
+	float attackRange = 10.0f;
 	//unsigned int life;
 	//unsigned int maxLife;
 	//unit_state status;

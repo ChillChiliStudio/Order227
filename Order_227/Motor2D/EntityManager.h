@@ -20,10 +20,10 @@ public:
 public:
 
 	bool Awake();
-	bool Start();
-	bool PreUpdate();
-	bool Update(float dt);
-	bool CleanUp();
+	bool Start() override;
+	bool PreUpdate() override;
+	bool Update(float dt) override;
+	bool CleanUp() override;
 
 public:
 
@@ -38,7 +38,6 @@ public:
 
 
 	std::list<Entity*> entities_list;
-	std::list<Unit*> enemies;
 
 	float accumulated_time = 0.0f;
 	float update_ms_cycle = 0.0f;

@@ -14,8 +14,8 @@ struct SDL_Rect;
 
 enum class entity_type {
 
-	OBJECT_ENT,
-	UNIT_ENT,
+	OBJECT_ENT,	//TODO: It's an enum class, it will require entity_type:: to be used so the "_ENT" is unnecesary.
+	UNIT_ENT,	//TODO: Needs to be more specific, I need to know if a unit is hostile or friendly
 	UNKNOWN = 2
 };
 

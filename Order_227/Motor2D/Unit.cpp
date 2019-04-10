@@ -27,6 +27,7 @@ Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity
 			break;
 		}
 
+		//hostileUnits = &myApp->entities->enemiesList;
 	}
 	else if (faction == faction_enum::FACTION_COMMUNIST) {
 
@@ -40,6 +41,8 @@ Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity
 		default:
 			break;
 		}
+
+		//hostileUnits = &myApp->entities->alliesList;
 	}
 
 	
@@ -281,13 +284,13 @@ Unit* Unit::EnemyInRange()
 {
 	Unit* ret = nullptr;
 
-	for (std::list<Unit*>::iterator iter = myApp->entities->enemies.begin(); iter != myApp->entities->enemies.end(); ++iter) {
-		if ((*iter)->position.x > position.x + range || (*iter)->position.x < position.x - range
-			|| (*iter)->position.y > position.y + range || (*iter)->position.y < position.y + range) {
+	for (std::list<Unit*>::iterator iter = hostileUnits->begin(); iter != hostileUnits->end(); ++iter) {
+		if ((*iter)->position.x > position.x + attackRange || (*iter)->position.x < position.x - attackRange
+			|| (*iter)->position.y > position.y + attackRange || (*iter)->position.y < position.y + attackRange) {
 			continue;
 		}
 		else {
-			if (InsideRadius(position, range, (*iter)->position) == true) {
+			if (InsideRadius(position, attackRange, (*iter)->position) == true) {
 				ret = (*iter);
 				break;
 			 }
@@ -299,7 +302,7 @@ Unit* Unit::EnemyInRange()
 
 bool Unit::TargetInRange()
 {
-	return InsideRadius(position, range, target->position);
+	return InsideRadius(position, attackRange, target->position);
 }
 
 // Order calling
