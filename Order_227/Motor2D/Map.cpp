@@ -249,6 +249,20 @@ bool Map::Load(const char* file_name)
 		}
 	}
 
+
+	//Load ObejctGroup Info-------------------------
+
+	pugi::xml_node objectGame;
+	for (objectGame = map_file.child("map").child("objectGroup"); objectGame && ret; objectGame = objectGame.next_sibling("objectGroup"))
+	{
+		GameObjectGroup*objGroup = new GameObjectGroup();
+		ret = LoadGameObjects(objectGame, objGroup);
+
+		if (ret == true)
+			data.gameObjects.push_back(objGroup);
+
+	}
+
 	map_loaded = ret;
 	return ret;
 }
@@ -459,6 +473,37 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 			properties.list.push_back(p);
 		}
 	}
+
+	return ret;
+}
+
+bool Map::LoadGameObjects(pugi::xml_node& node, GameObjectGroup*ObjGroup) {
+
+	bool ret = true;
+
+	ObjGroup->nameGroup = node.attribute("name").as_string();
+	for (pugi::xml_node obj = node.child("object"); obj && ret; obj.next_sibling("object"))
+	{
+
+		GameObjectGroup::Object*objectAux = new GameObjectGroup::Object();
+
+		objectAux->id = obj.attribute("id").as_int();
+		objectAux->name = obj.attribute("name").as_string();
+		objectAux->x = obj.attribute("x").as_float();
+		objectAux->y = obj.attribute("y").as_float();
+		objectAux->width = obj.attribute("width").as_float();
+		objectAux->height = obj.attribute("height").as_float();
+
+
+		ObjGroup->Objectlist.push_back(objectAux);
+
+		if (objectAux->id == NULL)
+			ret = false;
+	}
+
+
+	
+	
 
 	return ret;
 }

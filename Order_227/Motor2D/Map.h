@@ -6,6 +6,40 @@
 
 #include "TileQuadtree.h"
 
+
+
+struct GameObjectGroup 
+{
+
+	std::string nameGroup;
+
+	struct Object
+	{
+		std::string name;
+		float x, y, width, height;
+		int id;
+
+	};
+
+
+	~GameObjectGroup()
+	{
+		std::list<Object*>::iterator itemP;
+		itemP = Objectlist.begin();
+
+		while (itemP != Objectlist.end())
+		{
+			RELEASE(*itemP);
+			itemP = next(itemP);
+		}
+
+		Objectlist.clear();
+	}
+
+	std::list<Object*>	Objectlist;
+
+};
+
 struct Properties
 {
 	struct Property
@@ -94,6 +128,7 @@ struct MapData
 	MapTypes			type;
 	std::list<TileSet*>	tilesets;
 	std::list<MapLayer*>layers;
+	std::list<GameObjectGroup *>gameObjects;
 };
 
 // ----------------------------------------------------
@@ -131,6 +166,7 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
+	bool LoadGameObjects(pugi::xml_node& node, GameObjectGroup*ObjGroup);
 
 	TileSet* GetTilesetFromTileId(int id) const;
 
