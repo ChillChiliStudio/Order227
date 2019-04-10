@@ -1,4 +1,4 @@
-# Order 227: Not a Step Back by Chill Chili Studio
+﻿# Order 227: Not a Step Back by Chill Chili Studio
 
 This is a university project made by 7 [Centre de la Imatge i la Tecnologia Multimedia](https://www.citm.upc.edu/ing/) students of the Talent Tech Center in Barcelona, in which I make our own RTS game, based of Command & Conquer: Red Alert 2, in C++. We also used the [Standard Template Library](https://en.wikipedia.org/wiki/Standard_Template_Library), the [Simple DirectMedia Layer](https://www.libsdl.org/), and [pugixml](https://pugixml.org/) libraries, and the [Tiled Map Editor](https://www.mapeditor.org/) software.
 
@@ -7,12 +7,27 @@ Order 227: Not a Step Back is a Real Time Strategy and Tower Defense game for PC
 Feel free to visit our [Webpage](https://chillchilistudio.github.io/Order_227/) and [Repository](https://github.com/ChillChiliStudio/Order_227)
 
 ## Usage
+By now we the only thing available to do is to move the camera with WASD and spawn enemies from the Spawning Points (red squares) with F.
+Also, J will delete the enemies currently created.
+
+The F command represents the round, each time that F is pressed, a round begins (there are currently 5 rounds, if reached round 5, the next will be 1 again)
+
+### Changelog
+This is the first build of the game and we have implemented:
+* Quadtrees to blit the map inside camera
+* Sprite Ordering & Camera Culling
+* Base Entity
+* Enemies Entity
+* Spawning Point
+* Enemy Spawn (2 spawning points are randomly picked and, according to the current round's threat, will spawn more or less enemies)
+* Rounds Mechanic
+* UI is ready to be implemented in scene by just creating elements desired
+
 ### Installation
 No previous installations is required to play the game, just download and execute the .exe file *Order_227* from releases.
 
 ### Console Commands
-* Future Command 1
-* Future Command 2
+No console implemented yet.
 
 ## Contributing
 1. Fork it!
@@ -59,7 +74,7 @@ We do not own any of the sprites, tilesets, music, or sounds presented in this g
 
 * Music: 
 	* [MainMenu - Soviet March](https://www.youtube.com/watch?v=lDQ7hXMLxGc)
-	
+
 ## License & Copyright 
 
 Copyright (c) 2019 Chill Chili Studio
