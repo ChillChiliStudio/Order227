@@ -253,7 +253,7 @@ bool Map::Load(const char* file_name)
 	//Load ObejctGroup Info-------------------------
 
 	pugi::xml_node objectGame;
-	for (objectGame = map_file.child("map").child("objectGroup"); objectGame && ret; objectGame = objectGame.next_sibling("objectGroup"))
+	for (objectGame = map_file.child("map").child("objectgroup"); objectGame && ret; objectGame = objectGame.next_sibling("objectgroup"))
 	{
 		GameObjectGroup*objGroup = new GameObjectGroup();
 		ret = LoadGameObjects(objectGame, objGroup);
@@ -482,7 +482,7 @@ bool Map::LoadGameObjects(pugi::xml_node& node, GameObjectGroup*ObjGroup) {
 	bool ret = true;
 
 	ObjGroup->nameGroup = node.attribute("name").as_string();
-	for (pugi::xml_node obj = node.child("object"); obj && ret; obj.next_sibling("object"))
+	for (pugi::xml_node obj = node.child("object"); obj && ret; obj=obj.next_sibling("object"))
 	{
 
 		GameObjectGroup::Object*objectAux = new GameObjectGroup::Object();
@@ -497,8 +497,6 @@ bool Map::LoadGameObjects(pugi::xml_node& node, GameObjectGroup*ObjGroup) {
 
 		ObjGroup->Objectlist.push_back(objectAux);
 
-		if (objectAux->id == NULL)
-			ret = false;
 	}
 
 
