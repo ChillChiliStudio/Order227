@@ -47,9 +47,15 @@ public:
 
 	faction_enum UnitFaction;
 	unit_type UnitType;
+
 	SDL_Rect UnitBlitRect = { 12, 0, 55,47 };
 	SDL_Rect UnitRect = { (int)position.x,(int)position.y, 50, 50 };;
 	float speed =0.0f;
+
+	
+	SDL_Rect CheckInCamera;
+
+
 	float damage = 2;
 	
 	//unsigned int life;

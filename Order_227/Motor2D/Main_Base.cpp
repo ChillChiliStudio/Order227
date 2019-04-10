@@ -12,7 +12,7 @@ Main_Base::Main_Base(fPoint pos) : Entity(entity_type::OBJECT_ENT, pos)
 	life = 100;
 	MainBaseRect = { 313, 2072, 225, 225 };
 	
-	
+	CheckInCamera = {(int)pos.x,(int)pos.y,MainBaseRect.w,MainBaseRect.h};
 
 }
 
@@ -30,10 +30,12 @@ bool Main_Base::Update(float dt) {
 	if (life <= 0)
 		myApp->entities->DestroyEntity(this);
 
-	UpdateBlitOrder();
+	if (myApp->render->InsideCamera(CheckInCamera) == true) {
 
-	myApp->render->Push(order, texture, position.x, position.y, &MainBaseRect);
+		UpdateBlitOrder();
 
+		myApp->render->Push(order, texture, position.x, position.y, &MainBaseRect);
+	}
 	return true;
 }
 
