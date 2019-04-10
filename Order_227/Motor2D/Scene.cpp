@@ -69,6 +69,9 @@ bool Scene::Start()
 
 	TestTexture = myApp->tex->Load("textures/troops/allied/gi.png");
 
+	//Debug Texture to show Pahtfinding and mouse position
+	debug_tex = myApp->tex->Load("maps/path2.png");
+
 	return true;
 }
 
@@ -86,6 +89,50 @@ bool Scene::PreUpdate()
 			if ((*item)->GetType() == entity_type::UNIT_ENT)
 				myApp->entities->DestroyEntity(*item);
 
+	// Switch between A* and JPS
+	if (myApp->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN) {
+
+		activateJPS = !activateJPS;
+
+		if (activateJPS == true)
+			AlgorithmUsed = "Algorithm Used: JPS (press F to change)";
+		else
+			AlgorithmUsed = "Algorithm Used: A-Star (press F to change)";
+
+	}
+
+
+	// debug pathfing ------------------
+	static iPoint origin;
+	static bool origin_selected = false;
+
+	int x, y;
+	myApp->input->GetMousePosition(x, y);
+	iPoint p = myApp->render->ScreenToWorld(x, y);
+	p = myApp->map->WorldToMap(p.x, p.y);
+
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		if (origin_selected == true)
+		{
+
+			LOG("========PATHFINDING PERFORMANCE TEST RESULTS=========");
+			LOG("Using Algorithm: %s", AlgorithmUsed);
+
+			PathfindingTimer.Start();
+			myApp->pathfinding->CreatePath(origin, p, activateJPS);
+			Ptime = PathfindingTimer.ReadMs();
+			origin_selected = false;
+
+			LOG("PATHFINDING LASTED: %.3f ms", Ptime);
+		}
+		else
+		{
+			origin = p;
+			origin_selected = true;
+		}
+	}
+
 	return true;
 }
 
@@ -94,16 +141,16 @@ bool Scene::Update(float dt)
 {
 
 	if(myApp->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		myApp->render->camera.y += 200*dt;
+		myApp->render->camera.y += 300*dt;
 
 	if(myApp->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		myApp->render->camera.y -= 200*dt;
+		myApp->render->camera.y -= 300*dt;
 
 	if(myApp->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		myApp->render->camera.x += 200*dt;
+		myApp->render->camera.x += 300*dt;
 
 	if(myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		myApp->render->camera.x -= 200*dt;
+		myApp->render->camera.x -= 300*dt;
 
 	myApp->map->Draw();
 
@@ -123,6 +170,24 @@ bool Scene::Update(float dt)
 		}
 	}
 	
+	// Debug pathfinding ------------------------------
+	int x, y;
+	myApp->input->GetMousePosition(x, y);
+	iPoint p = myApp->render->ScreenToWorld(x, y);
+	p = myApp->map->WorldToMap(p.x, p.y);
+	p = myApp->map->MapToWorld(p.x, p.y);
+
+	myApp->render->Blit(debug_tex, p.x, p.y);
+
+	const std::vector<iPoint>* path = myApp->pathfinding->GetLastPath();
+
+	for (uint i = 0; i < path->size(); ++i)
+	{
+		iPoint pos = myApp->map->MapToWorld(path->at(i).x, path->at(i).y);
+		myApp->render->Blit(debug_tex, pos.x, pos.y);
+	}
+
+
 	myApp->gui->Draw();
 	return true;
 }
@@ -148,6 +213,8 @@ bool Scene::CleanUp()
 
 	SpawningPoints_Array.clear();
 	myApp->tex->UnLoad(TestTexture);
+
+	myApp->tex->UnLoad(debug_tex);
 
 	return true;
 }

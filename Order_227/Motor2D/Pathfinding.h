@@ -14,6 +14,8 @@
 // Details: http://theory.stanford.edu/~amitp/GameProgramming/
 // --------------------------------------------------
 
+struct PathNode;
+
 class PathFinding : public Module	//TODO: Change class name so it follows guideline standards
 {
 public:
@@ -30,7 +32,7 @@ public:
 	void SetMap(uint width, uint height, uchar* data);
 
 	// Main function to request a path from A to B
-	int CreatePath(const iPoint& origin, const iPoint& destination);
+	int CreatePath(const iPoint& origin, const iPoint& destination, bool JPS_active);
 
 	// To request all tiles involved in the last generated path
 	const std::vector<iPoint>* GetLastPath() const;
@@ -43,6 +45,15 @@ public:
 
 	// Utility: return the walkability value of a tile
 	uchar GetTileAt(const iPoint& pos) const;
+
+	//Runs A*
+	int PropagateAStar(const iPoint& origin, const iPoint& destination);
+
+	//Runs JPS
+	int PropagateJPS(const iPoint& origin, const iPoint& destination);
+
+	//Decides next Jump Point based on a direction and tile's walkability
+	PathNode* Jump(iPoint current_position, iPoint direction, const iPoint& destination, PathNode* parent);
 
 private:
 
@@ -70,6 +81,11 @@ struct PathNode
 
 	// Fills a list (PathList) of all valid adjacent pathnodes
 	uint FindWalkableAdjacents(PathList& list_to_fill) const;
+
+	//Builds a list with the only nodes that we want to keep considering the direction and calling Jump() function
+	//We need to pass the pathfinding module because Jump() is in there
+	PathList PruneNeighbours(const iPoint& destination, PathFinding* PF_Module = nullptr);
+
 	// Calculates this tile score
 	int Score() const;
 	// Calculate the F for a specific destination tile

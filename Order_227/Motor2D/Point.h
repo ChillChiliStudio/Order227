@@ -51,7 +51,7 @@ public:
 
 	Point operator + (const Point &v) const
 	{
-		Vector2 r;
+		iPoint r;
 
 		r.x = x + v.x;
 		r.y = y + v.y;

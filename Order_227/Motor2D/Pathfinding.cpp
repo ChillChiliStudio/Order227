@@ -145,25 +145,25 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
 		list_to_fill.list.push_back(PathNode(-1, -1, cell, this));
 
 	//DIAGONAL
-	//// north-east
-	//cell.create(pos.x + 1, pos.y + 1);
-	//if (myApp->pathfinding->IsWalkable(cell))
-	//	list_to_fill.list.push_back(PathNode(-1, -1, cell, this));
+	// north-east
+	cell.create(pos.x + 1, pos.y + 1);
+	if (myApp->pathfinding->IsWalkable(cell))
+		list_to_fill.list.push_back(PathNode(-1, -1, cell, this));
 
-	//// south-east
-	//cell.create(pos.x + 1, pos.y - 1);
-	//if (myApp->pathfinding->IsWalkable(cell))
-	//	list_to_fill.list.push_back(PathNode(-1, -1, cell, this));
+	// south-east
+	cell.create(pos.x + 1, pos.y - 1);
+	if (myApp->pathfinding->IsWalkable(cell))
+		list_to_fill.list.push_back(PathNode(-1, -1, cell, this));
 
-	////north-west
-	//cell.create(pos.x - 1, pos.y + 1);
-	//if (myApp->pathfinding->IsWalkable(cell))
-	//	list_to_fill.list.push_back(PathNode(-1, -1, cell, this));
+	//north-west
+	cell.create(pos.x - 1, pos.y + 1);
+	if (myApp->pathfinding->IsWalkable(cell))
+		list_to_fill.list.push_back(PathNode(-1, -1, cell, this));
 
-	////south-west
-	//cell.create(pos.x - 1, pos.y - 1);
-	//if (myApp->pathfinding->IsWalkable(cell))
-	//	list_to_fill.list.push_back(PathNode(-1, -1, cell, this));
+	//south-west
+	cell.create(pos.x - 1, pos.y - 1);
+	if (myApp->pathfinding->IsWalkable(cell))
+		list_to_fill.list.push_back(PathNode(-1, -1, cell, this));
 
 	return list_to_fill.list.size();
 }
@@ -187,15 +187,13 @@ int PathNode::CalculateF(const iPoint& destination)
 	return g + h;
 }
 
+
 // ----------------------------------------------------------------------------------
 // Actual A* algorithm: return number of steps in the creation of the path or -1 ----
 // ----------------------------------------------------------------------------------
-int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination) {
+int PathFinding::PropagateAStar(const iPoint& origin, const iPoint& destination) {
 
 	int ret = -1;
-
-	if (!IsWalkable(origin) || !IsWalkable(destination))
-		return ret;
 
 	PathList open;
 	PathList close;
@@ -209,19 +207,16 @@ int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination) {
 
 		std::list<PathNode>::iterator lower = prev(close.list.end());
 		open.list.erase(aux);
-		
+
 		if ((*lower).pos == destination) {
 
 			last_path.clear();
 			const PathNode *new_node = &(*lower);
 
-
-
 			while (new_node) {
 
 				last_path.push_back(new_node->pos);
 				new_node = new_node->parent;
-				LOG("STEPS: %i", last_path.size());
 			}
 
 			std::reverse(last_path.begin(), last_path.end());
@@ -233,7 +228,7 @@ int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination) {
 		AdjacentNodes.list.clear();
 
 		(*lower).FindWalkableAdjacents(AdjacentNodes);
-		std::list<PathNode>::iterator it = AdjacentNodes.list.begin(); //iterator of Adjacent Nodes list
+		std::list<PathNode>::iterator it = AdjacentNodes.list.begin();
 
 		for (; it != AdjacentNodes.list.end(); it = next(it)) {
 
@@ -251,10 +246,181 @@ int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination) {
 
 				(*adj_node).parent = (*it).parent;
 				(*adj_node).CalculateF(destination);
-				
+
 			}
 		}
 	}
 
 	return ret;
+}
+
+
+int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination, bool JPS_active) {
+
+	int ret = -1;
+
+	if (!IsWalkable(origin) || !IsWalkable(destination))
+		return ret;
+
+	if (JPS_active == false)
+		PropagateAStar(origin, destination);
+	else
+		PropagateJPS(origin, destination);
+
+	LOG("Path Steps: %i", last_path.size());
+
+	return ret;
+}
+
+
+// ----------------------------------------------------------------------------------
+// JPS algorithm: returns number of steps in the creation of the path or -1 ----
+// ----------------------------------------------------------------------------------
+int PathFinding::PropagateJPS(const iPoint& origin, const iPoint& destination) {
+
+	int ret = -1;
+
+	PathList open;
+	PathList close;
+
+	open.list.push_back(PathNode(0, 0, origin, NULL));
+
+	while (open.list.size() > 0) {
+
+		std::list<PathNode>::iterator aux = open.GetNodeLowestScore();
+		close.list.push_back(*aux);
+
+		std::list<PathNode>::iterator lower = prev(close.list.end());
+		open.list.erase(aux);
+
+		if ((*lower).pos == destination) {
+
+			last_path.clear();
+			const PathNode* new_node = &(*lower);
+
+			while (new_node) {
+
+				last_path.push_back(new_node->pos);
+				new_node = new_node->parent;
+			}
+
+			std::reverse(last_path.begin(), last_path.end());
+			ret = last_path.size();
+			break;
+		}
+
+
+		//TODO 1: Only difference with A* in the core behaviour: Instead of filling
+		//the Adjacent nodes list with the immediate neighbours, we call the function
+		//that must prune them
+		PathList AdjacentNodes = (*lower).PruneNeighbours(destination, this);
+
+		std::list<PathNode>::iterator it = AdjacentNodes.list.begin();
+		for (; it != AdjacentNodes.list.end(); it = next(it)) {
+
+			if (close.Find((*it).pos) != close.list.end())
+				continue;
+
+			std::list<PathNode>::iterator adj_node = open.Find((*it).pos);
+
+			if (adj_node == open.list.end()) {
+
+				(*it).CalculateF(destination);
+				open.list.push_back(*it);
+			}
+			else if ((*adj_node).g > (*it).g + 1) {
+
+				(*adj_node).parent = (*it).parent;
+				(*adj_node).CalculateF(destination);
+
+			}
+		}
+	}
+
+	return ret;
+}
+
+
+PathList PathNode::PruneNeighbours(const iPoint& destination, PathFinding* PF_Module) {
+
+	PathList ret;
+
+	//TODO 2: Here we do the step that A* does in its core and that we deleted in TODO1
+	//Fill the neighbours list with the real or immediate neighbours
+	//Then iterate it
+	PathList neighbours;
+	FindWalkableAdjacents(neighbours);
+
+	std::list<PathNode>::iterator item = neighbours.list.begin();
+	for (; item != neighbours.list.end(); item = next(item)) {
+
+		//TODO 3: For each iteration, calculate the direction from current node
+		//to its neighbour. You can use CLAMP (defined in p2Defs)
+		iPoint direction(CLAMP((*item).pos.x - pos.x, 1, -1), CLAMP((*item).pos.y - pos.y, 1, -1));
+
+		//TODO 4: Make a Jump towards the calculated direction to find the next Jump Point
+		//and, if any Jump Point is found, add it to the list that we must return
+		PathNode* JumpPoint = PF_Module->Jump(pos, direction, destination, this);
+
+		if (JumpPoint != nullptr)
+			ret.list.push_back(*JumpPoint);
+	}
+
+	return ret;
+}
+
+
+PathNode* PathFinding::Jump(iPoint current_position, iPoint direction, const iPoint& destination, PathNode* parent) {
+
+	//Determine next possible Jump Point's Position
+	iPoint JumpPoint_pos(current_position.x + direction.x, current_position.y + direction.y);
+
+	//If next point isn't walkable, return nullptr
+	if (IsWalkable(JumpPoint_pos) == false)
+		return nullptr;
+
+	PathNode *ret_JumpPoint = new PathNode(-1, -1, JumpPoint_pos, parent);
+
+	//If next point is goal, return it
+	if (ret_JumpPoint->pos == destination)
+		return ret_JumpPoint;
+
+
+	//TODO 5: Check if there is any possible Jump Point in Straight Directions (horizontal and vertical)
+	//If found any, return it. Else, keep jumping in the same direction
+	/// Checking Horizontals
+	if (direction.x != 0 && direction.y == 0) {
+
+		if (IsWalkable(current_position + iPoint(0, 1)) == false && IsWalkable(current_position + iPoint(direction.x, 1)) == true)
+			return ret_JumpPoint;
+
+		else if (IsWalkable(current_position + iPoint(0, -1)) == false && IsWalkable(current_position + iPoint(direction.x, -1)) == true)
+			return ret_JumpPoint;
+
+	}
+	/// Checking Verticals
+	else if (direction.x == 0 && direction.y != 0) {
+
+		if (IsWalkable(current_position + iPoint(1, 0)) == false && IsWalkable(current_position + iPoint(1, direction.y)) == true)
+			return ret_JumpPoint;
+
+		else if (IsWalkable(current_position + iPoint(-1, 0)) == false && IsWalkable(current_position + iPoint(-1, direction.y)) == true)
+			return ret_JumpPoint;
+	}
+	//TODO 6: Do the same check than for Straight Lines but now for Diagonals!
+	//(Remember prunning rules for diagonals!)
+	/// Checking Diagonals
+	else if (direction.x != 0 && direction.y != 0) {
+
+		if (IsWalkable(current_position + iPoint(direction.x, 0)) == false)
+			return ret_JumpPoint;
+		else if (IsWalkable(current_position + iPoint(0, direction.y)) == false)
+			return ret_JumpPoint;
+
+		if (Jump(JumpPoint_pos, iPoint(direction.x, 0), destination, parent) != nullptr
+			|| Jump(JumpPoint_pos, iPoint(0, direction.y), destination, parent) != nullptr)
+			return ret_JumpPoint;
+	}
+
+	return Jump(JumpPoint_pos, direction, destination, parent);
 }

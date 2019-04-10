@@ -5,6 +5,7 @@
 #include "Spawning_Point.h"
 #include <vector>
 #include <time.h>
+#include "PerfTimer.h"
 
 #include "SDL/include/SDL.h"
 
@@ -51,6 +52,13 @@ private:
 
 	std::vector<Spawning_Point*> SpawningPoints_Array;
 	pugi::xml_document SP_Doc;
+
+	//Pathfinding Debug Stuff
+	char* AlgorithmUsed = "Algorithm Used: A-Star (press F to change)";
+	SDL_Texture* debug_tex;
+	bool activateJPS = false;
+	PerfTimer PathfindingTimer;
+	double Ptime;
 
 };
 
