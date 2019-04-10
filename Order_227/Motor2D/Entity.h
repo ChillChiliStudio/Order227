@@ -62,6 +62,8 @@ public:
 	virtual bool Move(float dt)			{ return true; }
 	virtual bool Draw(float dt)			{ return true; }
 	virtual void UpdateBlitOrder() {}
+	virtual bool LoadEntityData()       { return true; }
+
 
 public:
 
@@ -78,6 +80,8 @@ public:
 	fPoint position;
 	SDL_Texture *texture = nullptr;
 	
+	//TilesetFile
+	pugi::xml_document	tilsetTexture;
 
 };
 

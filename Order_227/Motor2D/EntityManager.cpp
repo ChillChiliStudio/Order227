@@ -33,6 +33,7 @@ bool EntityManager::Awake() {
 	times_per_sec = TIMES_PER_SEC;
 	update_ms_cycle = 1.0f / (float)times_per_sec;
 
+
 	return true;
 }
 

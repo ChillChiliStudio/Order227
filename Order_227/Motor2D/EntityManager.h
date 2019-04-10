@@ -25,6 +25,8 @@ public:
 	bool Update(float dt) override;
 	bool CleanUp() override;
 
+	
+
 public:
 
 	Entity *CreateEntity(entity_type entityType, fPoint position);

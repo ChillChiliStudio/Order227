@@ -45,7 +45,7 @@ Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity
 		//hostileUnits = &myApp->entities->alliesList;
 	}
 
-	
+
 
 }
 
@@ -362,4 +362,37 @@ void Unit::StartPatrol(fPoint destination)
 	*/
 	unitOrders = unit_orders::PATROL;
 	unitState = unit_state::IDLE;
+}
+
+bool Unit::LoadEntityData() {
+
+
+	bool ret = true;
+
+	pugi::xml_parse_result result = tilsetTexture.load_file("textures/troops/allied/IG.tmx");
+
+	if (result != NULL)
+	{
+		
+
+		for (pugi::xml_node recTile = tilsetTexture.child("map").child("objectgroup").child("object"); recTile && ret; recTile = recTile.next_sibling("object"))
+		{
+
+
+
+
+
+
+
+
+		}
+
+
+	}
+
+
+
+
+
+	return ret;
 }

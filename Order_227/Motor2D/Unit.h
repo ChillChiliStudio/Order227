@@ -68,6 +68,8 @@ public:
 	void DoMoveAndAttack(float dt);
 	void DoPatrol(float dt);
 
+
+	bool LoadEntityData() override;
 	// Actions
 	bool Move(float dt);	// Move unit position
 	void AttackTarget();
