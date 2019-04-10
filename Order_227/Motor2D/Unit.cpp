@@ -54,14 +54,14 @@ bool Unit::Update(float dt) {
 
 	Move(dt);
 	UnitRect = {12, 0, 55,47};
-	
+	CheckInCamera = {(int)position.x,(int)position.y,UnitRect.w,UnitRect.h };
 //	Draw();
 
 	if (life <= 0)
 		myApp->entities->DestroyEntity(this);
 
 
-	if (myApp->render->InsideCamera(UnitRect) == true) {
+	if (myApp->render->InsideCamera(CheckInCamera) == true) {
 
 		UpdateBlitOrder();
 
