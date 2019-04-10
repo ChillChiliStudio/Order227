@@ -22,6 +22,7 @@ public:
 public:
 
 	SDL_Rect MainBaseRect;
+	SDL_Rect CheckInCamera;
 
 
 };
