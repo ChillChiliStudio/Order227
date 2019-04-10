@@ -13,14 +13,14 @@ public:
 
 public:
 	//Enable/Disable
-	virtual void Enable();
-	virtual void Disable();
+	virtual void Enable() override;
+	virtual void Disable() override;
 
 protected:
 	//State Entry
-	virtual void OnIdle();
-	virtual void OnHover();
-	virtual void OnPress();
+	virtual void OnIdle() override;
+	virtual void OnHover() override;
+	virtual void OnPress() override;
 
 protected:
 	SDL_Rect* stateSprites = nullptr;	//Disabled, Idle, Hover, Pressed

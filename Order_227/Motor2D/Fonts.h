@@ -36,10 +36,10 @@ public:
 	virtual ~Fonts();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node&);
+	bool Awake(pugi::xml_node&) override;
 
 	// Called before quitting
-	bool CleanUp();
+	bool CleanUp() override;
 
 	// Load Font
 	_TTF_Font* const Load(const char* path, int size);

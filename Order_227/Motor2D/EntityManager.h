@@ -20,10 +20,10 @@ public:
 public:
 
 	bool Awake();
-	bool Start();
-	bool PreUpdate();
-	bool Update(float dt);
-	bool CleanUp();
+	bool Start() override;
+	bool PreUpdate() override;
+	bool Update(float dt) override;
+	bool CleanUp() override;
 
 public:
 
