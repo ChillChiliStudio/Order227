@@ -19,6 +19,16 @@ enum class entity_type {
 	UNKNOWN = 2
 };
 
+struct EntityData {
+
+	std::string Action;
+	iPoint TilePos;
+	iPoint TileSize;
+	int Degrees;
+	int AnimFrames;
+
+};
+
 class Entity {
 
 public:

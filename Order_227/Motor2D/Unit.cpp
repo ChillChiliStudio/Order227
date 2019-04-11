@@ -374,18 +374,22 @@ bool Unit::LoadEntityData() {
 	{
 		
 
-		for (pugi::xml_node recTile = tilsetTexture.child("map").child("objectgroup").child("object"); recTile && ret; recTile = recTile.next_sibling("object"))
+		for (pugi::xml_node Data = tilsetTexture.child("map").child("objectgroup").child("object"); Data && ret; Data = Data.next_sibling("object"))
 		{
-			SDL_Rect*recAux = new SDL_Rect();
+			EntityData*EntityDataAux = new EntityData();
 
-			recAux->x = recTile.attribute("x").as_int();
-			recAux->y = recTile.attribute("y").as_int();
-			recAux->w = recTile.attribute("width").as_int();
-			recAux->h = recTile.attribute("height").as_int();
+			EntityDataAux->Action= Data.attribute("name").as_string();
+			EntityDataAux->Degrees = Data.attribute("type").as_int();
+			EntityDataAux->AnimFrames = Data.attribute("IteratorType").as_int();
 
+
+			EntityDataAux->TilePos.x = Data.attribute("x").as_int();
+			EntityDataAux->TilePos.y = Data.attribute("y").as_int();
+			
+			EntityDataAux->TileSize.x = Data.attribute("width").as_int();
+			EntityDataAux->TileSize.y = Data.attribute("height").as_int();
 
 		
-
 
 		}
 
