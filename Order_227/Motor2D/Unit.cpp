@@ -256,8 +256,8 @@ void Unit::DoPatrol(float dt)
 }
 
 // Actions
-bool Unit::Move(float dt) {
-
+bool Unit::Move(float dt)
+{
 	position.x += (speed * dt);
 	position.y += (speed * dt);
 	unitState = unit_state::MOVING;
@@ -290,7 +290,7 @@ Unit* Unit::EnemyInRange()
 {
 	Unit* ret = nullptr;
 
-	for (std::list<Unit*>::iterator iter = hostileUnits->begin(); iter != hostileUnits->end(); ++iter) {
+	/*for (std::list<Unit*>::iterator iter = hostileUnits->begin(); iter != hostileUnits->end(); ++iter) {
 		if ((*iter)->position.x > position.x + attackRange || (*iter)->position.x < position.x - attackRange
 			|| (*iter)->position.y > position.y + attackRange || (*iter)->position.y < position.y + attackRange) {
 			continue;
@@ -301,7 +301,7 @@ Unit* Unit::EnemyInRange()
 				break;
 			 }
 		}
-	}
+	}*/
 
 	return ret;
 }
