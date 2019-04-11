@@ -6,12 +6,8 @@
 #include "Entity.h"
 #include "Unit.h"
 
-Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT, pos), unitFaction(faction), unitType(unitType)  {
-
-	
-	unitFaction = faction;
-	unitType = unitType;
-	
+Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT, pos), unitFaction(faction), unitType(unitType)
+{
 	life = 1;
 
 	if (faction == faction_enum::CAPITALIST) {
