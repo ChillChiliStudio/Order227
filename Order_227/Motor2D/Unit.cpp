@@ -378,18 +378,23 @@ bool Unit::LoadEntityData() {
 		{
 			EntityData*EntityDataAux = new EntityData();
 
-			EntityDataAux->Action= Data.attribute("name").as_string();
-			EntityDataAux->Degrees = Data.attribute("type").as_int();
-			EntityDataAux->AnimFrames = Data.attribute("IteratorType").as_int();
-
-
-			EntityDataAux->TilePos.x = Data.attribute("x").as_int();
-			EntityDataAux->TilePos.y = Data.attribute("y").as_int();
 			
-			EntityDataAux->TileSize.x = Data.attribute("width").as_int();
-			EntityDataAux->TileSize.y = Data.attribute("height").as_int();
+			EntityDataAux->Action= Data.attribute("name").as_string(); //Actions the Entityt is performing e.g.Walking,shot
+			EntityDataAux->Degrees = Data.attribute("type").as_int();//Position in degrees 0,45,90,135,180,225,270,315
+			
+			//Use this int as iterator of the loop, when first Frame of an Action is read then asign this value to an iterator to store all the frame for each anim
+			EntityDataAux->AnimFrames = Data.attribute("IteratorType").as_int();//Frames that the Action has CAREFUL YOU MUST USE THIS WHEN YOU READ THE FIRST FRAME OF THE ANIM
+
+
+			EntityDataAux->TilePos.x = Data.attribute("x").as_int(); //POS X
+			EntityDataAux->TilePos.y = Data.attribute("y").as_int();//POS Y
+			
+			EntityDataAux->TileSize.x = Data.attribute("width").as_int();//Width
+			EntityDataAux->TileSize.y = Data.attribute("height").as_int();//height
 
 		
+			// CAREFUL need to store each o the Entity data, 
+
 
 		}
 
