@@ -82,6 +82,8 @@ public:
 	
 	//TilesetFile
 	pugi::xml_document	tilsetTexture;
+	
+
 
 };
 

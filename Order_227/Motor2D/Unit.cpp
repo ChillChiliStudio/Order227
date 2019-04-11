@@ -45,8 +45,7 @@ Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity
 		//hostileUnits = &myApp->entities->alliesList;
 	}
 
-
-
+	LoadEntityData();
 }
 
 Unit::~Unit()
@@ -377,12 +376,15 @@ bool Unit::LoadEntityData() {
 
 		for (pugi::xml_node recTile = tilsetTexture.child("map").child("objectgroup").child("object"); recTile && ret; recTile = recTile.next_sibling("object"))
 		{
+			SDL_Rect*recAux = new SDL_Rect();
+
+			recAux->x = recTile.attribute("x").as_int();
+			recAux->y = recTile.attribute("y").as_int();
+			recAux->w = recTile.attribute("width").as_int();
+			recAux->h = recTile.attribute("height").as_int();
 
 
-
-
-
-
+		
 
 
 		}
