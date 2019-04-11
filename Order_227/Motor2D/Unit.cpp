@@ -6,11 +6,11 @@
 #include "Entity.h"
 #include "Unit.h"
 
-Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT, pos)  {
+Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT, pos), unitFaction(faction), unitType(unitType)  {
 
 	
-	UnitFaction = faction;
-	UnitType = unitType;
+	unitFaction = faction;
+	unitType = unitType;
 	
 	life = 1;
 
@@ -56,8 +56,8 @@ bool Unit::Update(float dt)
 {
 	UnitWorkflow(dt);
 
-	UnitRect = {12, 0, 55,47};
-	CheckInCamera = {(int)position.x,(int)position.y,UnitRect.w,UnitRect.h };
+	unitRect = {12, 0, 55,47};
+	CheckInCamera = {(int)position.x, (int)position.y, unitRect.w, unitRect.h };
 //	Draw();
 
 	if (life <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
@@ -68,7 +68,7 @@ bool Unit::Update(float dt)
 
 		UpdateBlitOrder();
 
-		myApp->render->Push(order, texture, position.x, position.y, &UnitRect);
+		myApp->render->Push(order, texture, position.x, position.y, &unitRect);
 
 	}
 
@@ -77,7 +77,7 @@ bool Unit::Update(float dt)
 
 bool Unit::Draw() {
 
-	myApp->render->Blit(texture, (int)position.x, (int)position.y,&UnitRect);
+	myApp->render->Blit(texture, (int)position.x, (int)position.y, &unitRect);
 	return true;
 }
 
