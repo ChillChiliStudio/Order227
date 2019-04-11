@@ -61,19 +61,14 @@ bool Unit::Update(float dt) {
 	if (life <= 0)
 		myApp->entities->DestroyEntity(this);
 
-
 	if (myApp->render->InsideCamera(CheckInCamera) == true) {
 	   Draw();
 		
 	}
 
-
-
 	if (life <= 0)
 		myApp->entities->DestroyEntity(this);
 	
-
-
 	return true;
 }
 
