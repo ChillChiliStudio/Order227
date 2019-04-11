@@ -256,8 +256,8 @@ void Unit::DoPatrol(float dt)
 }
 
 // Actions
-bool Unit::Move(float dt) {
-
+bool Unit::Move(float dt)
+{
 	position.x += (speed * dt);
 	position.y += (speed * dt);
 	unitState = unit_state::MOVING;
