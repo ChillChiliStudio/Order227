@@ -6,14 +6,14 @@
 
 enum class unit_type {
 
-	INFANTRY_DIVISION,
+	INFANTRY,
 	UNKNOWN = 1
 };
 
 enum class faction_enum {
 
-	FACTION_COMMUNIST,
-	FACTION_CAPITALIST,
+	COMMUNIST,
+	CAPITALIST,
 	UNKNOWN = 2
 };
 

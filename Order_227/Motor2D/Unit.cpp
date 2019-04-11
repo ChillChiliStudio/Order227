@@ -6,7 +6,7 @@
 #include "Entity.h"
 #include "Unit.h"
 
-Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT_ENT, pos)  {
+Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT, pos)  {
 
 	
 	UnitFaction = faction;
@@ -14,11 +14,11 @@ Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity
 	
 	life = 1;
 
-	if (faction == faction_enum::FACTION_CAPITALIST) {
+	if (faction == faction_enum::CAPITALIST) {
 
 		switch (unitType) {
 
-		case (unit_type::INFANTRY_DIVISION):
+		case (unit_type::INFANTRY):
 			texture = myApp->scene->TestTexture;
 			break;
 		case(unit_type::UNKNOWN):
@@ -29,11 +29,11 @@ Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity
 
 		//hostileUnits = &myApp->entities->enemiesList;
 	}
-	else if (faction == faction_enum::FACTION_COMMUNIST) {
+	else if (faction == faction_enum::COMMUNIST) {
 
 		switch (unitType) {
 
-		case (unit_type::INFANTRY_DIVISION):
+		case (unit_type::INFANTRY):
 			texture = myApp->scene->TestTexture;
 			break;
 		case(unit_type::UNKNOWN):
@@ -258,8 +258,20 @@ void Unit::DoPatrol(float dt)
 // Actions
 bool Unit::Move(float dt)
 {
-	position.x += (speed * dt);
-	position.y += (speed * dt);
+	if (destination.x > position.x) {
+		position.x += (speed * dt);
+	}
+	else if (destination.x < position.x) {
+		position.x -= (speed * dt);
+	}
+
+	if (destination.y > position.y) {
+		position.y += (speed * dt);
+	}
+	else if (destination.x < position.x) {
+		position.y -= (speed * dt);
+	}
+
 	unitState = unit_state::MOVING;
 	return true;
 }
