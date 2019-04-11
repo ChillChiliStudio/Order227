@@ -1,28 +1,27 @@
-#include "Unit.h"
+#include "Soldier.h"
 #include "Entity.h"
 #include "Render.h"
 #include "Textures.h"
 #include "Scene.h"
 
-Unit::Unit(fPoint pos, entity_type type,  entity_faction faction) : Entity(pos, type, faction) {
-	
-	
+#include "Render.h"
+
+Soldier::Soldier(fPoint pos, soldier_type type,  entity_faction faction) :Unit(pos, entity_type::ENT_SOLDIER, faction)
+{		
 
 
 }
 
+bool Soldier::Update(float dt) {
 
-Unit::~Unit() {
-
-}
-
-
-bool Unit::Update(float dt) {
-
+	if (!active) {
+		return false;
+	}
+	 
 	Move(dt);
 	
 
-//	Draw();
+	Draw();
 
 	/*if (life <= 0)
 		myApp->entities->DestroyEntity(this);
@@ -34,23 +33,23 @@ bool Unit::Update(float dt) {
 	return true;
 }
 
+bool Soldier::Draw() {
+	
+	SDL_Rect rect = { position.x,position.y,50,50 };
+	
+	myApp->render->DrawQuad(rect,255,0,0);
 
-bool Unit::Draw() {
-
-	//myApp->render->Blit(texture, position.x, position.y,&UnitRect);
 	return true;
 }
 
-
-bool Unit::Move(float dt) {
+bool Soldier::Move(float dt) {
 
 	//position.x += (speed * dt);
 	//position.y += (speed * dt);
 	return true;
 }
 
-
-void Unit::UpdateBlitOrder() {
+void Soldier::UpdateBlitOrder() {
 
 	/*std::list<Entity*>::iterator item = myApp->entities->entities_list.begin();
 	while (item != myApp->entities->entities_list.end()) {

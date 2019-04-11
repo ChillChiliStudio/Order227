@@ -4,7 +4,7 @@
 #include "Textures.h"
 #include "Scene.h"
 
-Main_Base::Main_Base(fPoint pos) : Entity(pos,entity_type::BASE_MAIN_BASE)
+Main_Base::Main_Base(fPoint pos) : Entity(pos,entity_type::ENT_BASE)
 {
 	position = pos;
 
@@ -12,8 +12,6 @@ Main_Base::Main_Base(fPoint pos) : Entity(pos,entity_type::BASE_MAIN_BASE)
 	
 	MainBaseRect = { 313, 2072, 225, 225 };
 	
-	
-
 }
 
 

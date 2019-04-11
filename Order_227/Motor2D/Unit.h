@@ -2,33 +2,37 @@
 #define UNIT_H
 
 #include "Entity.h"
-#include "SDL/include/SDL.h"
 
 struct unit_stats
 {
-	int damage=0;
-	int healtPoints=0;
-	uint velocity=0;
+	int damage = 0;
+	int healtPoints = 0;
+	uint velocity = 0;
 };
 
-class Unit : public Entity {
-
+class Unit :public Entity
+{
 public:
 
-	Unit(fPoint pos,entity_type type, entity_faction faction = entity_faction::FACTION_NEUTRAL);
+	Unit(fPoint pos, entity_type Entitytype, entity_faction faction = entity_faction::FACTION_NEUTRAL):Entity(pos, type, faction){}
 	~Unit();
 
-	bool Update(float dt);
-	bool Move(float dt);
-	bool Draw();
+	virtual bool Update(float dt) { return true; }
+	virtual bool Move(float dt) { return true; }
+
+	virtual bool Draw(float dt) { return true; }
 
 public:
 
-	void UpdateBlitOrder()override;
+	//virtual void UpdateBlitOrder() {}
 
 public:
 
 	unit_stats stats;
 };
 
-#endif
+
+
+
+#endif // !UNIT_H
+

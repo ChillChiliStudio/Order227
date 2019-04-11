@@ -13,7 +13,7 @@
 #include "Map.h"
 #include "Pathfinding.h"
 #include "Fonts.h"
-#include "EntityManager.h"
+#include "Entity_Manager.h"
 #include "UserInterface.h"
 #include "App.h"
 

@@ -8,7 +8,7 @@
 #include "Window.h"
 #include "Map.h"
 #include "PathFinding.h"
-#include "EntityManager.h"
+#include "Entity_Manager.h"
 #include "UserInterface.h"
 #include "ButtonActions.h"
 #include "ParamBox.h"
@@ -92,6 +92,18 @@ bool Scene::Update(float dt)
 
 	if(myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		myApp->render->camera.x -= 200*dt;
+
+
+	//TESTING
+	int mouseX;
+	int mouseY;
+	myApp->input->GetMousePosition(int(mouseX), mouseY);
+
+	if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		myApp->entities->CreateSoldier({float(mouseX),float(mouseY)}, soldier_type::BAZOOKA_SOLDIER, entity_faction::FACTION_URSS);
+	
+	//TESTING
+
 
 	myApp->map->Draw();
 
