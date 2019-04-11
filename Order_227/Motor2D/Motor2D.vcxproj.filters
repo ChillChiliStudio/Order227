@@ -204,6 +204,9 @@
     <ClInclude Include="TileQuadtree.h">
       <Filter>Tools</Filter>
     </ClInclude>
+    <ClInclude Include="Group.h">
+      <Filter>Game Files\Entity Management</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

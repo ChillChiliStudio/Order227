@@ -39,8 +39,6 @@ public:
 	//void Kill();
 	//void Hurt();
 	//bool IsDead();
-
-
 	void UpdateBlitOrder()override;
 
 public:
@@ -52,9 +50,7 @@ public:
 	SDL_Rect UnitRect = { (int)position.x,(int)position.y, 50, 50 };;
 	float speed =0.0f;
 
-	
 	SDL_Rect CheckInCamera;
-
 
 	float damage = 2;
 	
@@ -65,8 +61,8 @@ public:
 	//iPoint attackRange;
 	//bool enemyDetected;
 	//bool enemyInRange;
-	
-
 };
+
+
 
 #endif

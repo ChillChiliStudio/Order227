@@ -133,9 +133,10 @@ bool Scene::Update(float dt)
 		CreateUnitOnPos(mouseScreenPos);
 	}
 
-	
-	
-	
+	//group movement bellow
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
+
+	}
 	
 	entitiesSelection();
 	myApp->gui->Draw();
@@ -245,15 +246,15 @@ void Scene::entitiesSelection() {
 			SRect.h *= -1;
 		}
 
-		// --- Check for Units in the rectangle, select them ---
-
+		
+		//The function select unit works with a iPoint or with a SDL_Rect 
 		myApp->entities->SelectUnit(SRect);	
 	}
-	/*else if (!(std::abs(rectangle_width) >= 5 && std::abs(rectangle_height) >= 5 && myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)) {
-		myApp->entities->SelectUnit(mouseScreenPos);
-	}*/
+	
 	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
 		myApp->entities->SelectUnit(mouseScreenPos);
 	}
-
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP) {
+		myApp->entities->CreateGroupForPlayer();
+	}
 }
