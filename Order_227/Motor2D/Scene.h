@@ -54,11 +54,11 @@ private:
 	pugi::xml_document SP_Doc;
 
 	//Pathfinding Debug Stuff
-	char* AlgorithmUsed = "Algorithm Used: A-Star (press F to change)";
+	char* AlgorithmUsed = "Algorithm Used: A-Star (press G to change)";
 	SDL_Texture* debug_tex;
 	bool activateJPS = false;
 	PerfTimer PathfindingTimer;
-	double Ptime;
+	float Ptime = 0.0f;
 
 };
 

@@ -95,9 +95,9 @@ bool Scene::PreUpdate()
 		activateJPS = !activateJPS;
 
 		if (activateJPS == true)
-			AlgorithmUsed = "Algorithm Used: JPS (press F to change)";
+			AlgorithmUsed = "Algorithm Used: JPS (press G to change)";
 		else
-			AlgorithmUsed = "Algorithm Used: A-Star (press F to change)";
+			AlgorithmUsed = "Algorithm Used: A-Star (press G to change)";
 
 	}
 
@@ -124,7 +124,7 @@ bool Scene::PreUpdate()
 			Ptime = PathfindingTimer.ReadMs();
 			origin_selected = false;
 
-			LOG("PATHFINDING LASTED: %.3f ms", Ptime);
+			LOG("PATHFINDING LASTED: %f ms", Ptime);
 		}
 		else
 		{
@@ -141,16 +141,16 @@ bool Scene::Update(float dt)
 {
 
 	if(myApp->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		myApp->render->camera.y += 300*dt;
+		myApp->render->camera.y += 500*dt;
 
 	if(myApp->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		myApp->render->camera.y -= 300*dt;
+		myApp->render->camera.y -= 500*dt;
 
 	if(myApp->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		myApp->render->camera.x += 300*dt;
+		myApp->render->camera.x += 500*dt;
 
 	if(myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		myApp->render->camera.x -= 300*dt;
+		myApp->render->camera.x -= 500*dt;
 
 	myApp->map->Draw();
 
@@ -170,6 +170,7 @@ bool Scene::Update(float dt)
 		}
 	}
 	
+
 	// Debug pathfinding ------------------------------
 	int x, y;
 	myApp->input->GetMousePosition(x, y);
