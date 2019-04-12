@@ -4,7 +4,6 @@
 #include "Entity.h"
 #include "SDL/include/SDL.h"
 
-
 enum class unit_type {
 
 	INFANTRY_DIVISION,
@@ -28,41 +27,43 @@ public:
 
 public:
 
-	//void Move();
-	//void Attack();
+
 	bool Update(float dt);
 	bool Move(float dt);
 	bool Draw();
 
 public:
 
-	//void Kill();
-	//void Hurt();
-	//bool IsDead();
+
+	// Get Data
+	bool IsDead();
+	bool IsVisible();	// Outside Fog of War
+
+	// Unit calculations
+	Unit* EnemyInRange();
+	bool TargetInRange();
 	void UpdateBlitOrder()override;
 
 public:
 
 	faction_enum UnitFaction;
 	unit_type UnitType;
-
-	SDL_Rect UnitBlitRect = { 12, 0, 55,47 };
-	SDL_Rect UnitRect = { (int)position.x,(int)position.y, 50, 50 };;
-	float speed =0.0f;
-
+	SDL_Rect UnitRect = {(int)position.x,(int)position.y, 20, 20};
 	SDL_Rect CheckInCamera;
 
+	unit_state unitState = unit_state::IDLE;
+	unit_orders unitOrders = unit_orders::HOLD;
+
+	fPoint origin;
+	fPoint destination;
+	Unit* target = nullptr;
+	std::list<Unit*>* hostileUnits = nullptr;
+
+	float speed = 100.0f;
+	float visionRange = 10.0f;	//For enemy units this would be their aggro area
+	float attackRange = 10.0f;
 	float damage = 2;
 	
-	//unsigned int life;
-	//unsigned int maxLife;
-	//unit_state status;
-	//iPoint detectionRadius;
-	//iPoint attackRange;
-	//bool enemyDetected;
-	//bool enemyInRange;
 };
-
-
 
 #endif

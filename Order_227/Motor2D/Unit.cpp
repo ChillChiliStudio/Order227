@@ -40,10 +40,9 @@ Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity
 		}
 	}
 
-	
-
 }
 
+UnitRect = {12, 0, 55,47};
 
 Unit::~Unit() {
 
@@ -54,9 +53,8 @@ bool Unit::Update(float dt) {
 
 	Move(dt);
 
-
 	CheckInCamera = {(int)position.x,(int)position.y,UnitRect.w,UnitRect.h };
-
+//	Draw();
 
 	if (life <= 0)
 		myApp->entities->DestroyEntity(this);
@@ -75,17 +73,19 @@ bool Unit::Update(float dt) {
 
 bool Unit::Draw() {
 
-	UpdateBlitOrder();
+		UpdateBlitOrder();
 
-	myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
+		myApp->render->Push(order, texture, position.x, position.y, &UnitRect);
 
-	if (selected) {
-		myApp->render->DrawQuad(UnitRect, 255, 0, 0, 255, false);
 	}
-	
+
 	return true;
 }
 
+
+bool Unit::Draw() {
+
+	myApp->render->Blit(texture, (int)position.x, (int)position.y,&UnitRect);
 
 bool Unit::Move(float dt) {
 

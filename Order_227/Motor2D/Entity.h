@@ -68,7 +68,7 @@ public:
 	int life = 0;
 	bool active = false;
 	bool mustDestroy = false;
-	bool selected = false;
+
 
 	uint order = 0;
 
@@ -78,7 +78,6 @@ public:
 	fPoint position;
 	SDL_Texture *texture = nullptr;
 	
-
 
 };
 
