@@ -82,7 +82,6 @@
     <ClCompile Include="CheckBox.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Fonts.cpp" />
-    <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputText.cpp" />
     <ClCompile Include="Quadtree.cpp" />
@@ -120,7 +119,6 @@
     <ClInclude Include="Main_Base.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputText.h" />
-    <ClInclude Include="Geometry.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="TileQuadtree.h" />
     <ClInclude Include="VoidBox.h" />

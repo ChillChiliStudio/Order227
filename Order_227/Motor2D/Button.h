@@ -22,7 +22,7 @@ public:
 	virtual ~Button();
 
 	// Called each frame (framerate dependant)
-	virtual bool Update(float dt) override;
+	virtual bool Update(float dt);
 
 public:
 	virtual void Enable();

@@ -265,7 +265,7 @@ namespace pugi
 		// Construct writer from a FILE* object; void* is used to avoid header dependencies on stdio
 		xml_writer_file(void* file);
 
-		virtual void write(const void* data, size_t size) override;
+		virtual void write(const void* data, size_t size);
 
 	private:
 		void* file;
@@ -280,7 +280,7 @@ namespace pugi
 		xml_writer_stream(std::basic_ostream<char, std::char_traits<char> >& stream);
 		xml_writer_stream(std::basic_ostream<wchar_t, std::char_traits<wchar_t> >& stream);
 
-		virtual void write(const void* data, size_t size) override;
+		virtual void write(const void* data, size_t size);
 
 	private:
 		std::basic_ostream<char, std::char_traits<char> >* narrow_stream;

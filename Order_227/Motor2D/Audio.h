@@ -18,10 +18,10 @@ public:
 	virtual ~Audio();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node&) override;
+	bool Awake(pugi::xml_node&);
 
 	// Called before quitting
-	bool CleanUp() override;
+	bool CleanUp();
 
 	// Play a music file
 	bool PlayMusic(const char* path, float fade_time = DEFAULT_MUSIC_FADE_TIME);
