@@ -387,20 +387,25 @@ fVec2 Unit::SetupVecSpeed()
 {
 	iPoint iPos = { (int)position.x, (int)position.y };
 
-	vecSpeed = GetVector2(iPos, *currNode);	//TODO: Should go to next node, not nextNode
+	vecSpeed = GetVector2(iPos, *currNode);
 	vecSpeed = vecSpeed.GetUnitVector();
 	vecSpeed *= linSpeed;
 	return vecSpeed;
 }
 
 // Order calling
-void Unit::SetupOrder(iPoint destination)
+void Unit::OrderStandardSetup(iPoint destination)
 {
 	nodeList.clear();
 	target = nullptr;
 
 	origin = { (int)position.x, (int)position.y };
 	this->destination = destination;
+
+	myApp->pathfinding->CreatePath(origin, destination);
+	nodeList = *myApp->pathfinding->GetLastPath();
+	currNode = nodeList.begin();
+	SetupVecSpeed();
 }
 
 void Unit::StartHold()
@@ -413,20 +418,7 @@ void Unit::StartHold()
 
 void Unit::StartMove(iPoint destination)
 {
-	SetupOrder(destination);
-
-	//TEST
-	/**/
-	nodeList.push_back({ 300, 300 });
-	nodeList.push_back({ 400, 200 });
-	nodeList.push_back({ 100, 500 });
-	nodeList.push_back({ 500, 500 });
-	nodeList.push_back(destination);
-
-	//TODO (LuchoAlert) pls setup unit pathfinding
-	//Do pathfinding(origin, destination);	//Should return a list of iPoint nodes or some other data type to use for nodeList
-	currNode = nodeList.begin();
-	SetupVecSpeed();
+	OrderStandardSetup(destination);
 
 	unitOrders = unit_orders::MOVE;
 	unitState = unit_state::IDLE;
@@ -435,12 +427,7 @@ void Unit::StartMove(iPoint destination)
 void Unit::StartAttack(Unit* target)
 {
 	iPoint targetPos = { (int)target->position.x, (int)target->position.y };
-	SetupOrder(targetPos);
-
-	//TODO (LuchoAlert): Lucho pls setup unit pathfinding
-	//Do pathfinding(origin, target.position);	//Should return a list of iPoint nodes or some other data type to use for nodeList
-	currNode = nodeList.begin();
-	SetupVecSpeed();
+	OrderStandardSetup(targetPos);
 
 	unitOrders = unit_orders::ATTACK;
 	unitState = unit_state::IDLE;
@@ -448,12 +435,7 @@ void Unit::StartAttack(Unit* target)
 
 void Unit::StartMoveAndAttack(iPoint destination)
 {
-	SetupOrder(destination);
-
-	//TODO (LuchoAlert): Lucho pls setup unit pathfinding
-	//Set pathfinding using origin and destination, should fill nodeList
-	currNode = nodeList.begin();
-	SetupVecSpeed();
+	OrderStandardSetup(destination);
 
 	unitOrders = unit_orders::MOVE_AND_ATTACK;
 	unitState = unit_state::IDLE;
@@ -461,12 +443,7 @@ void Unit::StartMoveAndAttack(iPoint destination)
 
 void Unit::StartPatrol(iPoint destination)
 {
-	SetupOrder(destination);
-
-	//TODO (LuchoAlert): Lucho pls setup unit pathfinding
-	//Set pathfinding using origin and destination, should fill nodeList
-	currNode = nodeList.begin();
-	SetupVecSpeed();
+	OrderStandardSetup(destination);
 
 	unitOrders = unit_orders::PATROL;
 	unitState = unit_state::IDLE;

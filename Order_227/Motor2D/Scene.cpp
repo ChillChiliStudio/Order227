@@ -94,11 +94,11 @@ bool Scene::PreUpdate()
 			if ((*item)->GetType() == entity_type::UNIT) {
 				Unit* tmpUnit = (Unit*)(*item);
 
-				int mouseX, mouseY;
+				/*int mouseX, mouseY;	//TODO Carles: DO NOT TOUCH >:c
 				myApp->input->GetMousePosition(mouseX, mouseY);
 				iPoint wololo = myApp->render->ScreenToWorld(mouseX, mouseY);
 				myApp->map->WorldToMap(wololo.x, wololo.y);
-				tmpUnit->StartMove(wololo);
+				tmpUnit->StartMove(wololo);*/
 			}
 		}
 	}

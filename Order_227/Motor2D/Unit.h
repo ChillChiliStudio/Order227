@@ -1,6 +1,7 @@
 #ifndef UNIT_H
 #define UNIT_H
 
+#include <vector>
 #include "Entity.h"
 #include "SDL/include/SDL.h"
 
@@ -55,7 +56,7 @@ public:
 	void ApplyState();		// Add state effects, like current animation
 
 	// Order calling
-	void SetupOrder(iPoint destination);
+	void OrderStandardSetup(iPoint destination);
 	void StartHold();
 	void StartMove(iPoint destination);
 	void StartAttack(Unit* target);
@@ -99,8 +100,8 @@ public:
 
 	iPoint origin;
 	iPoint destination;
-	std::list<iPoint>::iterator currNode;
-	std::list<iPoint> nodeList;	//TODO: LuchoAlert, use or change this however you like, I think the concept is understandable
+	std::vector<iPoint>::iterator currNode;
+	std::vector<iPoint> nodeList;
 
 	Unit* target = nullptr;
 	std::list<Unit*>* hostileUnits = nullptr;
