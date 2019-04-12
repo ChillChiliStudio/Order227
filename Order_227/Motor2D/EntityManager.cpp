@@ -127,10 +127,10 @@ Entity *EntityManager::CreateEntity(entity_type entityType, fPoint position) {
 	switch (entityType) {
 
 
-	case entity_type::OBJECT_ENT:
+	case entity_type::OBJECT:
 		Entity = new Main_Base(position);
 		break;
-	case entity_type::UNIT_ENT:
+	case entity_type::UNIT:
 		break;
 	case entity_type::UNKNOWN:
 		break;
@@ -150,7 +150,7 @@ Entity *EntityManager::CreateUnit(unit_type unitType, fPoint position, faction_e
 
 	switch (unitType) {
 
-	case unit_type::INFANTRY_DIVISION:
+	case unit_type::INFANTRY:
 		Unit_Ent = new Unit(unitType, position, faction);
 		break;
 	case unit_type::UNKNOWN:

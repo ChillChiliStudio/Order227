@@ -124,6 +124,7 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="TileQuadtree.h" />
+    <ClInclude Include="Vector.h" />
     <ClInclude Include="VoidBox.h" />
     <ClInclude Include="ParamBox.h" />
     <ClInclude Include="Slider.h" />

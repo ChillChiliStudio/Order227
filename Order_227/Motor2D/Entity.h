@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include "Point.h"
+#include "Vector.h"
 #include "PugiXml\src\pugixml.hpp"
 #include "App.h"
 
@@ -14,8 +15,11 @@ struct SDL_Rect;
 
 enum class entity_type {
 
-	OBJECT_ENT,	//TODO: It's an enum class, it will require entity_type:: to be used so the "_ENT" is unnecesary.
-	UNIT_ENT,	//TODO: Needs to be more specific, I need to know if a unit is hostile or friendly
+	OBJECT,
+	
+	UNIT,
+	INFANTRY,
+
 	UNKNOWN = 2
 };
 

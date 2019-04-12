@@ -104,6 +104,14 @@ void Render::ResetViewPort()
 	SDL_RenderSetViewport(renderer, &viewport);
 }
 
+void Render::ScreenToWorld(int* x, int* y) const
+{
+	int scale = myApp->win->GetScale();
+
+	x = (x - camera.x / scale);
+	y = (y - camera.y / scale);
+}
+
 iPoint Render::ScreenToWorld(int x, int y) const
 {
 	iPoint ret;
