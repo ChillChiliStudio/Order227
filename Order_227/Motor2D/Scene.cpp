@@ -37,7 +37,7 @@ bool Scene::Start()
 {
   
 	srand(time(NULL));
-	if(myApp->map->Load("iso.tmx") == true)
+	if(myApp->map->Load("Map1_0.tmx") == true) //hardcoded
 	{
 		int w, h;
 		uchar* data = NULL;
