@@ -101,11 +101,11 @@ bool Image::DebugDraw() const
 	*/
 
 	// Top-Left Corner
-	myApp->render->DrawLine((int)position.x, (int)position.y, (int)(position.x + sprite->w), (int)position.y, 255, 0, 0, 255, false);	// Right
-	myApp->render->DrawLine((int)position.x, (int)position.y, (int)position.x, (int)position.y + sprite->h, 255, 0, 0, 255, false);	// Down
+	ret = myApp->render->DrawLine((int)position.x, (int)position.y, (int)(position.x + sprite->w), (int)position.y, 255, 0, 0, 255, false);	// Right
+	ret = myApp->render->DrawLine((int)position.x, (int)position.y, (int)position.x, (int)position.y + sprite->h, 255, 0, 0, 255, false);	// Down
 	// Down-Right Corner
-	myApp->render->DrawLine((int)(position.x + sprite->w), (int)(position.y + sprite->h), (int)position.x, (int)(position.y + sprite->h), 255, 0, 0, 255, false);	// Up
-	myApp->render->DrawLine((int)(position.x + sprite->w), (int)(position.y + sprite->h), (int)(position.x + sprite->w), (int)position.y, 255, 0, 0, 255, false);	// Left
+	ret = myApp->render->DrawLine((int)(position.x + sprite->w), (int)(position.y + sprite->h), (int)position.x, (int)(position.y + sprite->h), 255, 0, 0, 255, false);	// Up
+	ret = myApp->render->DrawLine((int)(position.x + sprite->w), (int)(position.y + sprite->h), (int)(position.x + sprite->w), (int)position.y, 255, 0, 0, 255, false);	// Left
 
 	return ret;
 }

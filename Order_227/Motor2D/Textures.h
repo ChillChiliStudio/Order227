@@ -18,13 +18,13 @@ public:
 	virtual ~Textures();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node&) override;
+	bool Awake(pugi::xml_node&);
 
 	// Called before the first frame
-	bool Start() override;
+	bool Start();
 
 	// Called before quitting
-	bool CleanUp() override;
+	bool CleanUp();
 
 	// Load Texture
 	SDL_Texture* const	Load(const char* path);

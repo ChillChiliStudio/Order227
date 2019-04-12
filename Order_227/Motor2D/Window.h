@@ -16,10 +16,10 @@ public:
 	virtual ~Window();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node&) override;
+	bool Awake(pugi::xml_node&);
 
 	// Called before quitting
-	bool CleanUp() override;
+	bool CleanUp();
 
 	// Changae title
 	void SetTitle(const char* new_title);

@@ -36,16 +36,16 @@ public:
 	virtual ~Input();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node&) override;
+	bool Awake(pugi::xml_node&);
 
 	// Called before the first frame
-	bool Start() override;
+	bool Start();
 
 	// Called each loop iteration
-	bool PreUpdate() override;
+	bool PreUpdate();
 
 	// Called before quitting
-	bool CleanUp() override;
+	bool CleanUp();
 
 	// Gather relevant win events
 	bool GetWindowEvent(EventWindow ev);

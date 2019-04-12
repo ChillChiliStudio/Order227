@@ -13,7 +13,7 @@ public:
 
 protected:
 	//State Entry
-	 void OnPress() override;
+	 void OnPress();
 
 protected:
 	event_function action;

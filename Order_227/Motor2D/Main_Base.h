@@ -13,7 +13,7 @@ public:
 	Main_Base(fPoint pos);
 	~Main_Base();
 
-	bool Update(float dt) override;
+	bool Update(float dt);
 	bool Draw();
 	void UpdateBlitOrder()override;
 
