@@ -46,9 +46,6 @@
     <ClCompile Include="Textures.cpp">
       <Filter>Game Files\Modules\Main Functionalities</Filter>
     </ClCompile>
-    <ClCompile Include="Main_Base.cpp">
-      <Filter>Game Files\Entity Management\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="UIElement.cpp">
       <Filter>Game Files\User Interface</Filter>
     </ClCompile>
@@ -158,9 +155,6 @@
     </ClInclude>
     <ClInclude Include="Spawning_Point.h">
       <Filter>Game Files\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Main_Base.h">
-      <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
     <ClInclude Include="UIElement.h">
       <Filter>Game Files\User Interface</Filter>

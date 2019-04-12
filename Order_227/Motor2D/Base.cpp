@@ -1,6 +1,6 @@
 #include "Base.h"
 
-Base::Base(fPoint position, base_type baseType, entity_faction faction) : Entity(position, entity_type::ENT_BASE, faction)
+Base::Base(fPoint position, base_type baseType, entity_faction faction) : Entity(position, entity_type::BASE, faction)
 {}
 
 bool Base::Update()

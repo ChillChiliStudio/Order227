@@ -6,7 +6,6 @@
 #include "Unit.h"
 #include "Soldier.h"
 #include "Static_Object.h"
-#include "Main_Base.h"
 #include "PugiXml\src\pugixml.hpp"
 #include "Base.h"
 
@@ -37,7 +36,7 @@ public:
 
 	bool CreateObject(fPoint position, object_type objectType);
 	bool CreateBase(fPoint position, base_type baseType);
-	bool CreateSoldier(fPoint position, soldier_type soldierType, entity_faction entityFaction = entity_faction::FACTION_NEUTRAL);
+	bool CreateSoldier(fPoint position, soldier_type soldierType, entity_faction entityFaction = entity_faction::NEUTRAL);
 
 	/*void DestroyEntity(Entity *Entity);*/
 	
@@ -46,7 +45,7 @@ public:
 	//Entity lists
 	Soldier*		playerSoldiersList[ENTITY_POOL_SIZE];		//Player soldiers
 	Soldier*		enemySoldiersList[ENTITY_POOL_SIZE];		//Enemy soldiers
-	Static_Object*	staticObjectsList[STATIC_OBJECTS];		//Static objects
+	Static_Object*	staticObjectsList[STATIC_OBJECTS];			//Static objects
 	Base*			basesList[BASES];							//Bases
 
 private:

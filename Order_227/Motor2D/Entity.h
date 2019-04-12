@@ -15,18 +15,18 @@ struct SDL_Rect;
 enum class entity_type {
 
 	ENT_NONE=-1,
-	ENT_OBJECT,		
-	ENT_BASE,		
-	ENT_SOLDIER,	
+	OBJECT,		
+	BASE,		
+	SOLDIER,	
 	ENT_MAX
 };
 
 enum class entity_faction {
 
 	FACTION_NONE = -1,
-	FACTION_URSS,
-	FACTION_US,
-	FACTION_NEUTRAL,
+	URSS,
+	US,
+	NEUTRAL,
 	FACTION_MAX
 
 };
@@ -36,7 +36,7 @@ class Entity {
 public:
 
 
-	Entity(fPoint position,entity_type entityType,entity_faction faction = entity_faction::FACTION_NEUTRAL) : type(entityType), position(position), faction(faction) {}
+	Entity(fPoint position,entity_type entityType,entity_faction faction = entity_faction::NEUTRAL) : type(entityType), position(position), faction(faction) {}
 
 	~Entity() {}
 

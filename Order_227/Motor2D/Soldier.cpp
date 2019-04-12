@@ -6,7 +6,7 @@
 
 #include "Render.h"
 
-Soldier::Soldier(fPoint pos, soldier_type type,  entity_faction faction) :Unit(pos, entity_type::ENT_SOLDIER, faction)
+Soldier::Soldier(fPoint pos, soldier_type type,  entity_faction faction) :Unit(pos, entity_type::SOLDIER, faction)
 {		
 
 

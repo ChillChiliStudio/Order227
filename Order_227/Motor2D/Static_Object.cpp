@@ -1,6 +1,6 @@
 #include "Static_Object.h"
 
-Static_Object::Static_Object(fPoint position, object_type objectType, entity_faction faction): Entity(position,entity_type::ENT_OBJECT,faction)
+Static_Object::Static_Object(fPoint position, object_type objectType, entity_faction faction): Entity(position,entity_type::OBJECT,faction)
 {}
 
 bool Static_Object::Update()

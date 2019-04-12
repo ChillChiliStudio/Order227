@@ -100,7 +100,7 @@ bool Scene::Update(float dt)
 	myApp->input->GetMousePosition(int(mouseX), mouseY);
 
 	if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-		myApp->entities->CreateSoldier({float(mouseX),float(mouseY)}, soldier_type::BAZOOKA_SOLDIER, entity_faction::FACTION_URSS);
+		myApp->entities->CreateSoldier({float(mouseX),float(mouseY)}, soldier_type::BAZOOKA, entity_faction::URSS);
 	
 	//TESTING
 

@@ -14,7 +14,7 @@ class Static_Object:public Entity
 {
 public:
 
-	Static_Object(fPoint position, object_type objectType, entity_faction faction = entity_faction::FACTION_NEUTRAL);
+	Static_Object(fPoint position, object_type objectType, entity_faction faction = entity_faction::NEUTRAL);
 	~Static_Object(){}
 
 	bool Update();

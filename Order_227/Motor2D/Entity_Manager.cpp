@@ -13,18 +13,18 @@ Entity_Manager::Entity_Manager()
 
 	for (int i = 0; i < ENTITY_POOL_SIZE; ++i)
 	{
-		playerSoldiersList[i] = new Soldier({0,50}, soldier_type::SOLDIER_NONE, entity_faction::FACTION_URSS);
-		enemySoldiersList[i] = new Soldier({ 0,0 }, soldier_type::SOLDIER_NONE, entity_faction::FACTION_URSS);
+		playerSoldiersList[i] = new Soldier({0,0}, soldier_type::SOLDIER_NONE, entity_faction::URSS);
+		enemySoldiersList[i] = new Soldier({ 0,0 }, soldier_type::SOLDIER_NONE, entity_faction::URSS);
 	}
 
 	for (int i = 0; i < STATIC_OBJECTS; ++i)
 	{
-		staticObjectsList[i] = new Static_Object({ 0,0 }, object_type::OBJECT_NONE, entity_faction::FACTION_NEUTRAL);
+		staticObjectsList[i] = new Static_Object({ 0,0 }, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
 	}
 
 	for (int i = 0; i < BASES; ++i)
 	{
-		basesList[i] = new Base({0,0}, base_type::BASE_NONE, entity_faction::FACTION_URSS);
+		basesList[i] = new Base({0,0}, base_type::BASE_NONE, entity_faction::URSS);
 	}
 
 }
@@ -121,7 +121,7 @@ bool Entity_Manager::Update(float dt)
 bool Entity_Manager::CreateSoldier(fPoint position, soldier_type soldierType, entity_faction entityFaction)
 {
 	//Player troops
-	if (entityFaction == entity_faction::FACTION_URSS)
+	if (entityFaction == entity_faction::URSS)
 	{
 		for (int i = 0; i < ENTITY_POOL_SIZE; ++i)
 		{
@@ -141,7 +141,7 @@ bool Entity_Manager::CreateSoldier(fPoint position, soldier_type soldierType, en
 	}
 
 	//Enemy troops
-	else if (entityFaction == entity_faction::FACTION_US)
+	else if (entityFaction == entity_faction::US)
 	{
 		for (int i = 0; i < ENTITY_POOL_SIZE; ++i)
 		{

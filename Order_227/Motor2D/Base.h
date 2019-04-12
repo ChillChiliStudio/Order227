@@ -14,7 +14,7 @@ class Base :public Entity
 {
 public:
 
-	Base(fPoint position, base_type baseType, entity_faction faction = entity_faction::FACTION_NEUTRAL);
+	Base(fPoint position, base_type baseType, entity_faction faction = entity_faction::NEUTRAL);
 	~Base() {}
 
 	bool Update();
