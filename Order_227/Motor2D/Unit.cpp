@@ -73,7 +73,7 @@ bool Unit::Draw()
 	myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
 
 	if (selected) {
-		myApp->render->DrawQuad(UnitRect, 255, 0, 0, 255, false);
+		myApp->render->DrawQuad(unitRect, 255, 0, 0, 255, false);
 	}
 	
 	return true;

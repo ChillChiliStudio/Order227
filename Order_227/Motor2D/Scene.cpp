@@ -14,7 +14,6 @@
 #include "ParamBox.h"
 #include "Scene.h"
 
-
 Scene::Scene() : Module()
 {
 	name.assign("scene");
@@ -36,7 +35,6 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
-  
 	srand(time(NULL));
 	if(myApp->map->Load("iso.tmx") == true)
 	{
@@ -76,7 +74,6 @@ bool Scene::Start()
 // Called each loop iteration
 bool Scene::PreUpdate()
 {
-
 	//Activate Spawn with F --> Just for DEBUG PURPOSES
 	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && SpawningPoints_Array.size() > 0)
 		ChooseSpawningPoints();
@@ -188,9 +185,8 @@ bool Scene::CleanUp()
 	return true;
 }
 
-
-void Scene::ChooseSpawningPoints() {
-
+void Scene::ChooseSpawningPoints()
+{
 	//Restarting round if reached 20 - for MVP this should be 5!
 	if (roundNumber == 5) {
 
@@ -233,14 +229,17 @@ void Scene::ChooseSpawningPoints() {
 			SpawningPoints_Array[i]->FillEnemies(roundThreat);
 
 }
-void Scene::CreateUnitOnPos(iPoint mouseScreenPos_) {
+
+void Scene::CreateUnitOnPos(iPoint mouseScreenPos_)
+{
 	fPoint position;
 	position.x = (float)mouseScreenPos_.x-30;
 	position.y = (float)mouseScreenPos_.y-35;
-	myApp->entities->CreateUnit(unit_type::INFANTRY_DIVISION, position, faction_enum::FACTION_COMMUNIST);
+	myApp->entities->CreateUnit(unit_type::INFANTRY, position, faction_enum::COMMUNIST);
 }
-void Scene::entitiesSelection() {
 
+void Scene::entitiesSelection()
+{
 	SDL_Rect SRect;
 	rectangle_width = mouseScreenPos.x - rectangle_origin.x;
 	rectangle_height = mouseScreenPos.y - rectangle_origin.y;
@@ -278,6 +277,4 @@ void Scene::entitiesSelection() {
 	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP) {
 		myApp->entities->CreateGroupForPlayer();	
 	}
-
-	
 }

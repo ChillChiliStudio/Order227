@@ -161,10 +161,10 @@ Entity *EntityManager::CreateUnit(unit_type unitType, fPoint position, faction_e
 
 	entities_list.push_back(Unit_Ent); //TODO : Revisar esto cuando joan añada las pools
 
-	if (Unit_Ent->UnitFaction == faction_enum::FACTION_COMMUNIST) {
+	if (Unit_Ent->unitFaction == faction_enum::COMMUNIST) {
 		comunist_list.push_back(Unit_Ent);
 	}
-	if (Unit_Ent->UnitFaction == faction_enum::FACTION_CAPITALIST) {
+	if (Unit_Ent->unitFaction == faction_enum::CAPITALIST) {
 		capitalist_list.push_back(Unit_Ent);
 	}
 	return Unit_Ent;
@@ -192,7 +192,7 @@ void EntityManager::DestroyEntity(Entity *object) {
 
 void EntityManager::SelectUnit(SDL_Rect rect) {
 	for (std::list<Unit*>::iterator it = comunist_list.begin(); it != comunist_list.end(); it++) {
-		SDL_Rect entityRect = (*it)->UnitRect;
+		SDL_Rect entityRect = (*it)->unitRect;
 		//select the rectangle units
 		if (SDL_HasIntersection(&entityRect, &rect)) {
 			(*it)->selected = true;
@@ -209,9 +209,9 @@ void EntityManager::SelectUnit(SDL_Rect rect) {
 void EntityManager::SelectUnit(iPoint pos) {
 	int counter = 0;
 	for (std::list<Unit*>::iterator it = comunist_list.begin(); it != comunist_list.end(); it++) {
-		SDL_Rect entityRect = (*it)->UnitRect;
+		SDL_Rect entityRect = (*it)->unitRect;
 		//if we are here is because we are selecting a single unit with a single click.
-		if ((counter < 1) && pos.x > (*it)->UnitRect.x && pos.x < (*it)->UnitRect.x + (*it)->UnitRect.w && pos.y >(*it)->UnitRect.y && pos.y < (*it)->UnitRect.y + (*it)->UnitRect.h) {
+		if ((counter < 1) && pos.x > (*it)->unitRect.x && pos.x < (*it)->unitRect.x + (*it)->unitRect.w && pos.y >(*it)->unitRect.y && pos.y < (*it)->unitRect.y + (*it)->unitRect.h) {
 			(*it)->selected = true;
 			/*playerGroup.groupUnits_list.push_back((*it));*/ 
 			counter++;
