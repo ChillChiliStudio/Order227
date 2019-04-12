@@ -134,10 +134,13 @@ bool Scene::Update(float dt)
 	}
 
 	//group movement bellow
-	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
-
+	SDL_Rect goToRect = { 10,10,20,10 };
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
+		goToRect.x = mouseScreenPos.x;
+		goToRect.y = mouseScreenPos.y;	
+		myApp->render->DrawQuad(goToRect, 0, 255, 100, 255, true);
 	}
-	
+
 	entitiesSelection();
 	myApp->gui->Draw();
 	return true;
@@ -221,6 +224,7 @@ void Scene::CreateUnitOnPos(iPoint mouseScreenPos_) {
 }
 void Scene::entitiesSelection() {
 
+	SDL_Rect SRect;
 	rectangle_width = mouseScreenPos.x - rectangle_origin.x;
 	rectangle_height = mouseScreenPos.y - rectangle_origin.y;
 
@@ -233,7 +237,7 @@ void Scene::entitiesSelection() {
 		int height = mouseScreenPos.y - rectangle_origin.y;
 
 		// --- Draw Rectangle ---
-		SDL_Rect SRect = { rectangle_origin.x, rectangle_origin.y, width, height };
+		SRect = { rectangle_origin.x, rectangle_origin.y, width, height };
 		myApp->render->DrawQuad(SRect, 0, 200, 100, 255, false);
 
 		// --- Once we get to the negative side of SRect numbers must be adjusted ---
@@ -245,16 +249,18 @@ void Scene::entitiesSelection() {
 			SRect.y = mouseScreenPos.y;
 			SRect.h *= -1;
 		}
-
-		
-		//The function select unit works with a iPoint or with a SDL_Rect 
-		myApp->entities->SelectUnit(SRect);	
+		//units selection
+		myApp->entities->SelectUnit(SRect);
 	}
-	
+	// 1 click selection
 	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
 		myApp->entities->SelectUnit(mouseScreenPos);
 	}
+
+	//groups management
 	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP) {
-		myApp->entities->CreateGroupForPlayer();
+		myApp->entities->CreateGroupForPlayer();	
 	}
+
+	
 }
