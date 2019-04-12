@@ -45,12 +45,52 @@ public:
 		return(r);
 	}
 
+	Vector2 operator -(const TYPE &num) const
+	{
+		Vector2 r;
+
+		r.x = x - num;
+		r.y = y - num;
+
+		return(r);
+	}
+
 	Vector2 operator +(const Vector2 &vec) const
 	{
 		Vector2<TYPE> r;
 
 		r.x = x + vec.x;
 		r.y = y + vec.y;
+
+		return(r);
+	}
+
+	Vector2 operator +(const TYPE &num) const
+	{
+		Vector2 r;
+
+		r.x = x + num;
+		r.y = y + num;
+
+		return(r);
+	}
+
+	Vector2 operator *(const Vector2 &vec) const
+	{
+		Vector2<TYPE> r;
+
+		r.x = x * vec.x;
+		r.y = y * vec.y;
+
+		return(r);
+	}
+
+	Vector2 operator *(const TYPE &num) const
+	{
+		Vector2 r;
+
+		r.x = x * num;
+		r.y = y * num;
 
 		return(r);
 	}
@@ -63,12 +103,52 @@ public:
 		return(*this);
 	}
 
+	const Vector2& operator -=(const TYPE &num)
+	{
+		Vector2 r;
+
+		x -= num;
+		y -= num;
+
+		return(r);
+	}
+
 	const Vector2& operator +=(const Vector2 &vec)
 	{
 		x += vec.x;
 		y += vec.y;
 
 		return(*this);
+	}
+
+	const Vector2& operator +=(const TYPE &num)
+	{
+		Vector2 r;
+
+		x += num;
+		y += num;
+
+		return(r);
+	}
+
+	const Vector2& operator *=(const Vector2 &vec)
+	{
+		Vector2<TYPE> r;
+
+		x *= vec.x;
+		y *= vec.y;
+
+		return(r);
+	}
+
+	const Vector2& operator *=(const TYPE &num)
+	{
+		Vector2 r;
+
+		x *= num;
+		y *= num;
+
+		return(r);
 	}
 
 	bool operator ==(const Vector2& vec) const
@@ -168,6 +248,17 @@ public:
 		return(r);
 	}
 
+	Vector3 operator -(const TYPE &num) const
+	{
+		Vector3 r;
+
+		r.x = x - num;
+		r.y = y - num;
+		r.z = z - num;
+
+		return(r);
+	}
+
 	Vector3 operator +(const Vector3 &vec) const
 	{
 		Vector3<TYPE> r;
@@ -175,6 +266,39 @@ public:
 		r.x = x + vec.x;
 		r.y = y + vec.y;
 		r.z = z + vec.z;
+
+		return(r);
+	}
+
+	Vector3 operator +(const TYPE &num) const
+	{
+		Vector3 r;
+
+		r.x = x + num;
+		r.y = y + num;
+		r.z = z + num;
+
+		return(r);
+	}
+
+	Vector3 operator *(const Vector3 &vec) const
+	{
+		Vector3<TYPE> r;
+
+		r.x = x * vec.x;
+		r.y = y * vec.y;
+		r.z = z * vec.z;
+
+		return(r);
+	}
+
+	Vector3 operator *(const TYPE &num) const
+	{
+		Vector3 r;
+
+		r.x = x * num;
+		r.y = y * num;
+		r.z = z * num;
 
 		return(r);
 	}
@@ -188,6 +312,17 @@ public:
 		return(*this);
 	}
 
+	const Vector3& operator -=(const TYPE &num)
+	{
+		Vector3 r;
+
+		x -= num;
+		y -= num;
+		z -= num;
+
+		return(r);
+	}
+
 	const Vector3& operator +=(const Vector3 &vec)
 	{
 		x += vec.x;
@@ -195,6 +330,39 @@ public:
 		z += vec.z;
 
 		return(*this);
+	}
+
+	const Vector3& operator +=(const TYPE &num)
+	{
+		Vector3 r;
+
+		x += num;
+		y += num;
+		z += num;
+
+		return(r);
+	}
+
+	const Vector3& operator *=(const Vector3 &vec)
+	{
+		Vector3<TYPE> r;
+
+		x *= vec.x;
+		y *= vec.y;
+		z *= vec.z;
+
+		return(r);
+	}
+
+	const Vector3& operator *=(const TYPE &num)
+	{
+		Vector3 r;
+
+		x *= num;
+		y *= num;
+		z *= num;
+
+		return(r);
 	}
 
 	bool operator ==(const Vector3& vec) const

@@ -167,12 +167,18 @@ void Unit::DoHold(float dt)
 
 void Unit::DoMove(float dt)
 {
-	if (DestinationReached() == false) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
+	if (NodeReached() == false) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
 		Move(dt);
 	}
 	else {
-		StartHold();
-		unitState = unit_state::IDLE;
+		currNode++;
+
+		if (DestinationReached() == false) {
+			SetupVecSpeed();
+		}
+		else {
+			StartHold();
+		}
 	}
 }
 
@@ -187,22 +193,21 @@ void Unit::DoAttack(float dt)
 	}
 
 	if (target->IsDead() == false) {
-		if (TargetInRange() == true) {
-			AttackTarget();
+		if (TargetInRange() == false) {
+			Move(dt);
 		}
 		else {
-			Move(dt);
+			AttackTarget();
 		}
 	}
 	else {
 		StartHold();
-		unitState = unit_state::IDLE;
 	}
 }
 
 void Unit::DoMoveAndAttack(float dt)
 {
-	if (DestinationReached() == false) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
+	if (NodeReached() == false) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
 		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
 			target = EnemyInRange();
 			if (target != nullptr) {
@@ -219,18 +224,26 @@ void Unit::DoMoveAndAttack(float dt)
 			else {
 				target = nullptr;
 				Move(dt);
+				//TODO: Recalculate vecSpeed?
 			}
 		}
 	}
 	else {
-		StartHold();
-		unitState = unit_state::IDLE;
+		currNode++;
+
+		if (DestinationReached() == false) {
+			SetupVecSpeed();
+		}
+		else {
+			StartHold();
+			unitState = unit_state::IDLE;
+		}
 	}
 }
 
 void Unit::DoPatrol(float dt)
 {
-	if (DestinationReached() == false) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
+	if (NodeReached() == false) {	//NOTE: Pathfinding should define nextNode as the tile where a specific unit should be even if it's in a group
 		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
 			target = EnemyInRange();
 			if (target != nullptr) {
@@ -247,31 +260,27 @@ void Unit::DoPatrol(float dt)
 			else {
 				target = nullptr;
 				Move(dt);
+				//TODO: Recalculate vecSpeed?
 			}
 		}
 	}
 	else {
-		StartPatrol(origin);
-		unitState = unit_state::IDLE;
+		currNode++;
+
+		if (DestinationReached() == false) {
+			SetupVecSpeed();
+		}
+		else {
+			StartPatrol(origin);
+		}
 	}
 }
 
 // Actions
-bool Unit::Move(float dt)	//TODO: Make it so unit goes straight to the destination (divide speed into x and y, and use hipotenuse angle to decide how much it applies to each)
+bool Unit::Move(float dt)	//TODO: Make it so unit goes straight to the nextNode (divide speed into x and y, and use hipotenuse angle to decide how much it applies to each)
 {
-	if (destination.x > (int)position.x) {
-		position.x += (angledSpeed.x * dt);
-	}
-	else if (destination.x < (int)position.x) {
-		position.x -= (angledSpeed.x * dt);
-	}
-
-	if (destination.y > (int)position.y) {
-		position.y += (angledSpeed.y * dt);
-	}
-	else if (destination.y < (int)position.y) {
-		position.y -= (angledSpeed.y * dt);
-	}
+	position.x += (vecSpeed.x * dt);
+	position.y += (vecSpeed.y * dt);
 
 	unitState = unit_state::MOVING;
 	return true;
@@ -279,6 +288,7 @@ bool Unit::Move(float dt)	//TODO: Make it so unit goes straight to the destinati
 
 void Unit::AttackTarget()
 {
+	//TODO: Enemy interaction
 	unitState = unit_state::FIRING;
 }
 
@@ -298,13 +308,42 @@ bool Unit::IsVisible()
 	return true;	//TODO: Make function
 }
 
+bool Unit::NodeReached()
+{
+	bool ret = false;
+
+	if (vecSpeed.x > 0.0f) {
+		if (position.x >= (float)currNode->x) {
+			ret = true;
+		}
+	}
+	else if (vecSpeed.x < 0.0f) {
+		if (position.x <= (float)currNode->x) {
+			ret = true;
+		}
+	}
+
+	if (vecSpeed.y > 0.0f) {
+		if (position.y >= (float)currNode->y) {
+			ret = true;
+		}
+	}
+	else if (vecSpeed.y < 0.0f) {
+		if (position.y <= (float)currNode->y) {
+			ret = true;
+		}
+	}
+
+	return ret;
+}
+
 bool Unit::DestinationReached()
 {
-	if (position.x != (float)destination.x || position.y != (float)destination.y) {
-		return false;
+	if (currNode == nodeList.end()) {
+		return true;
 	}
 	else {
-		return true;
+		return false;
 	}
 }
 
@@ -344,62 +383,91 @@ bool Unit::TargetInRange()
 	return InsideRadius(position, attackRange, target->position);
 }
 
-fPoint Unit::SetupAngledSpeed()
+fVec2 Unit::SetupVecSpeed()
 {
-	return { 1.0f, 1.0f };	//TODO Carles
+	iPoint iPos = { (int)position.x, (int)position.y };
+
+	vecSpeed = GetVector2(iPos, *currNode);	//TODO: Should go to next node, not nextNode
+	vecSpeed = vecSpeed.GetUnitVector();
+	vecSpeed *= linSpeed;
+	return vecSpeed;
 }
 
 // Order calling
+void Unit::SetupOrder(iPoint destination)
+{
+	nodeList.clear();
+	target = nullptr;
+
+	origin = { (int)position.x, (int)position.y };
+	this->destination = destination;
+}
+
 void Unit::StartHold()
 {
-	//TODO  (LuchoAlert): pls setup pathfinding stop
-	//- Stop/Cancel Pathfinding
-	origin = destination = { (int)position.x, (int)position.y };
 	target = nullptr;
+
 	unitOrders = unit_orders::HOLD;
 	unitState = unit_state::IDLE;
 }
 
 void Unit::StartMove(iPoint destination)
 {
+	SetupOrder(destination);
+
+	//TEST
+	/**/
+	nodeList.push_back({ 300, 300 });
+	nodeList.push_back({ 400, 200 });
+	nodeList.push_back({ 100, 500 });
+	nodeList.push_back({ 500, 500 });
+	nodeList.push_back(destination);
+
 	//TODO (LuchoAlert) pls setup unit pathfinding
-	origin = { (int)position.x, (int)position.y };
-	this->destination = destination;
-	//Set pathfinding using origin and destination
-	target = nullptr;
+	//Do pathfinding(origin, destination);	//Should return a list of iPoint nodes or some other data type to use for nodeList
+	currNode = nodeList.begin();
+	SetupVecSpeed();
+
 	unitOrders = unit_orders::MOVE;
 	unitState = unit_state::IDLE;
 }
 
 void Unit::StartAttack(Unit* target)
 {
+	iPoint targetPos = { (int)target->position.x, (int)target->position.y };
+	SetupOrder(targetPos);
+
 	//TODO (LuchoAlert): Lucho pls setup unit pathfinding
-	origin = { (int)position.x, (int)position.y };
-	destination = { (int)target->position.x, (int)target->position.y };
-	//Set pathfinding using origin and destination
-	this->target = target;
+	//Do pathfinding(origin, target.position);	//Should return a list of iPoint nodes or some other data type to use for nodeList
+	currNode = nodeList.begin();
+	SetupVecSpeed();
+
 	unitOrders = unit_orders::ATTACK;
 	unitState = unit_state::IDLE;
 }
 
 void Unit::StartMoveAndAttack(iPoint destination)
 {
+	SetupOrder(destination);
+
 	//TODO (LuchoAlert): Lucho pls setup unit pathfinding
-	origin = { (int)position.x, (int)position.y };
-	this->destination = destination;
-	//Set pathfinding using origin and destination
-	target = nullptr;
+	//Set pathfinding using origin and destination, should fill nodeList
+	currNode = nodeList.begin();
+	SetupVecSpeed();
+
 	unitOrders = unit_orders::MOVE_AND_ATTACK;
 	unitState = unit_state::IDLE;
 }
 
 void Unit::StartPatrol(iPoint destination)
 {
+	SetupOrder(destination);
+
 	//TODO (LuchoAlert): Lucho pls setup unit pathfinding
-	origin = { (int)position.x, (int)position.y };
-	this->destination = destination;
-	//Set pathfinding using origin and destination
-	target = nullptr;
+	//Set pathfinding using origin and destination, should fill nodeList
+	currNode = nodeList.begin();
+	SetupVecSpeed();
+
 	unitOrders = unit_orders::PATROL;
 	unitState = unit_state::IDLE;
 }

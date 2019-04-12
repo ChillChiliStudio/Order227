@@ -4,6 +4,7 @@
 #include "Point.h"
 #include "Vector.h"
 
+Vector2<float> GetVector2(iPoint A, iPoint B);
 Vector2<float> GetVector2(fPoint A, fPoint B);
 float GetDistance(fPoint A, fPoint B);
 

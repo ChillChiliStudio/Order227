@@ -49,7 +49,7 @@ public:
 		return(r);
 	}
 
-	Point operator + (const Point &v) const
+	Point operator +(const Point &v) const
 	{
 		Point<TYPE> r;
 

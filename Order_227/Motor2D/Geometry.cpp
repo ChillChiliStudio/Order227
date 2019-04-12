@@ -1,5 +1,12 @@
 #include "Geometry.h"
 
+Vector2<float> GetVector2(iPoint A, iPoint B)
+{
+	iPoint tmp = B - A;
+	Vector2<float> vec((float)tmp.x, (float)tmp.y);
+	return vec;
+}
+
 Vector2<float> GetVector2(fPoint A, fPoint B)
 {
 	fPoint tmp = B - A;

@@ -55,6 +55,7 @@ public:
 	void ApplyState();		// Add state effects, like current animation
 
 	// Order calling
+	void SetupOrder(iPoint destination);
 	void StartHold();
 	void StartMove(iPoint destination);
 	void StartAttack(Unit* target);
@@ -77,11 +78,12 @@ public:
 	// Get Data
 	bool IsDead();
 	bool IsVisible();	// Outside Fog of War
+	bool NodeReached();
 	bool DestinationReached();
 	bool TargetDisplaced();
 
 	// Unit calculations
-	fPoint SetupAngledSpeed();
+	fVec2 SetupVecSpeed();
 	Unit* EnemyInRange();
 	bool TargetInRange();
 
@@ -97,11 +99,14 @@ public:
 
 	iPoint origin;
 	iPoint destination;
+	std::list<iPoint>::iterator currNode;
+	std::list<iPoint> nodeList;	//TODO: LuchoAlert, use or change this however you like, I think the concept is understandable
+
 	Unit* target = nullptr;
 	std::list<Unit*>* hostileUnits = nullptr;
 
-	float globalSpeed = 100.0f;
-	fPoint angledSpeed;
+	float linSpeed = 100.0f;
+	fVec2 vecSpeed;
 	float damage = 2.0f;
 	float visionRange = 10.0f;	//For enemy units this would be their aggro area
 	float attackRange = 10.0f;
