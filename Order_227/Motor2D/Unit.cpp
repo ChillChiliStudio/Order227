@@ -38,12 +38,7 @@ Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity
 		default:
 			break;
 		}
-
-		//hostileUnits = &myApp->entities->alliesList;
 	}
-
-	
-
 }
 
 Unit::~Unit()
@@ -60,26 +55,32 @@ bool Unit::Update(float dt)
 	if (life <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
 		myApp->entities->DestroyEntity(this);
 
-
 	if (myApp->render->InsideCamera(CheckInCamera) == true) {
-
-		UpdateBlitOrder();
-
-		myApp->render->Push(order, texture, position.x, position.y, &unitRect);
-
+		Draw();
 	}
 
+	if (life <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
+		myApp->entities->DestroyEntity(this);
+	
+	return true;
+}
+  
+bool Unit::Draw() 
+{
+	//myApp->render->Blit(texture, (int)position.x, (int)position.y,&UnitBlitRect);
+	UpdateBlitOrder();
+
+	myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
+
+	if (selected) {
+		myApp->render->DrawQuad(UnitRect, 255, 0, 0, 255, false);
+	}
+	
 	return true;
 }
 
-bool Unit::Draw() {
-
-	myApp->render->Blit(texture, (int)position.x, (int)position.y, &unitRect);
-	return true;
-}
-
-void Unit::UpdateBlitOrder() {
-
+void Unit::UpdateBlitOrder() 
+{
 	std::list<Entity*>::iterator item = myApp->entities->entities_list.begin();
 	while (item != myApp->entities->entities_list.end()) {
 
@@ -89,12 +90,10 @@ void Unit::UpdateBlitOrder() {
 				order += 1;
 			else
 				order -= 1;
-
-
 		}
+    
 		item = next(item);
 	}
-
 }
 
 // Main workflow

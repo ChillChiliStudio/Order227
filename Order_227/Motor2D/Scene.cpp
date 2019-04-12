@@ -14,6 +14,7 @@
 #include "ParamBox.h"
 #include "Scene.h"
 
+
 Scene::Scene() : Module()
 {
 	name.assign("scene");
@@ -139,7 +140,25 @@ bool Scene::Update(float dt)
 
 		}
 	}
+
+	//mouse selection code bellow
 	
+	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
+	mouseScreenPos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
+
+	if (myApp->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
+		CreateUnitOnPos(mouseScreenPos);
+	}
+
+	//group movement bellow
+	SDL_Rect goToRect = { 10,10,20,10 };
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
+		goToRect.x = mouseScreenPos.x;
+		goToRect.y = mouseScreenPos.y;	
+		myApp->render->DrawQuad(goToRect, 0, 255, 100, 255, true);
+	}
+
+	entitiesSelection();
 	myApp->gui->Draw();
 	return true;
 }
@@ -179,7 +198,7 @@ void Scene::ChooseSpawningPoints() {
 		roundThreat = 0;
 	}
 
-	//This is VERY HARDCODED - I'm not proud of this, but will work for now (fck this shit) - Is just the manager of round threat
+	//This is VERY HARDCODED - I'm not proud of this, but will work for now (fck this shit) - Is just the manager of round threat TODO
 	if (roundNumber == 0 || roundNumber == 1)
 		threatIncremental = 10;
 	else if (roundNumber == 3 || roundNumber == 6)
@@ -213,4 +232,52 @@ void Scene::ChooseSpawningPoints() {
 		if (SpawningPoints_Array[i]->active == true)
 			SpawningPoints_Array[i]->FillEnemies(roundThreat);
 
+}
+void Scene::CreateUnitOnPos(iPoint mouseScreenPos_) {
+	fPoint position;
+	position.x = (float)mouseScreenPos_.x-30;
+	position.y = (float)mouseScreenPos_.y-35;
+	myApp->entities->CreateUnit(unit_type::INFANTRY_DIVISION, position, faction_enum::FACTION_COMMUNIST);
+}
+void Scene::entitiesSelection() {
+
+	SDL_Rect SRect;
+	rectangle_width = mouseScreenPos.x - rectangle_origin.x;
+	rectangle_height = mouseScreenPos.y - rectangle_origin.y;
+
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+		rectangle_origin = mouseScreenPos;
+
+	else if (std::abs(rectangle_width) >= 5 && std::abs(rectangle_height) >= 5 && myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {
+		// --- Rectangle size ---
+		int width = mouseScreenPos.x - rectangle_origin.x;
+		int height = mouseScreenPos.y - rectangle_origin.y;
+
+		// --- Draw Rectangle ---
+		SRect = { rectangle_origin.x, rectangle_origin.y, width, height };
+		myApp->render->DrawQuad(SRect, 0, 200, 100, 255, false);
+
+		// --- Once we get to the negative side of SRect numbers must be adjusted ---
+		if (width < 0) {
+			SRect.x = mouseScreenPos.x;
+			SRect.w *= -1;
+		}
+		if (height < 0) {
+			SRect.y = mouseScreenPos.y;
+			SRect.h *= -1;
+		}
+		//units selection
+		myApp->entities->SelectUnit(SRect);
+	}
+	// 1 click selection
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
+		myApp->entities->SelectUnit(mouseScreenPos);
+	}
+
+	//groups management
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP) {
+		myApp->entities->CreateGroupForPlayer();	
+	}
+
+	
 }
