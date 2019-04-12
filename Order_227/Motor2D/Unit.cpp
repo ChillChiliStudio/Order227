@@ -41,12 +41,7 @@ Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity
 		default:
 			break;
 		}
-
-		//hostileUnits = &myApp->entities->alliesList;
 	}
-
-	
-
 }
 
 Unit::~Unit()
@@ -58,7 +53,7 @@ bool Unit::Update(float dt)
 
 	UnitRect = {12, 0, 55,47};
 	CheckInCamera = {(int)position.x,(int)position.y,UnitRect.w,UnitRect.h };
-//	Draw();
+
 
 	if (life <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
 		myApp->entities->DestroyEntity(this);
@@ -66,15 +61,23 @@ bool Unit::Update(float dt)
 
 	if (myApp->render->InsideCamera(CheckInCamera) == true) {
 
-		UpdateBlitOrder();
+	UpdateBlitOrder();
 
-		myApp->render->Push(order, texture, position.x, position.y, &UnitRect);
+	myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
 
+	if (selected) {
+		myApp->render->DrawQuad(UnitRect, 255, 0, 0, 255, false);
 	}
-
+	
 	return true;
 }
 
+
+bool Unit::Move(float dt) {
+
+	position.x += (speed * dt);
+	position.y += (speed * dt);
+  
 bool Unit::Draw() {
 
 	myApp->render->Blit(texture, (int)position.x, (int)position.y,&UnitRect);
