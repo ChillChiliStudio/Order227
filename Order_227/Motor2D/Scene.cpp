@@ -81,16 +81,24 @@ bool Scene::PreUpdate()
 		ChooseSpawningPoints();
 
 	//Delete enemies with J --> Just for DEBUG PURPOSES
-	if (myApp->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN && myApp->entities->entities_list.size() > 0)
-		for (std::list<Entity*>::iterator item = myApp->entities->entities_list.begin(); item != myApp->entities->entities_list.end(); item = next(item))
-			if ((*item)->GetType() == entity_type::UNIT)
+	if (myApp->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN && myApp->entities->entities_list.size() > 0) {
+		for (std::list<Entity*>::iterator item = myApp->entities->entities_list.begin(); item != myApp->entities->entities_list.end(); item = next(item)) {
+			if ((*item)->GetType() == entity_type::UNIT) {
 				myApp->entities->DestroyEntity(*item);
+			}
+		}
+	}
 
 	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
 		for (std::list<Entity*>::iterator item = myApp->entities->entities_list.begin(); item != myApp->entities->entities_list.end(); item = next(item)) {
 			if ((*item)->GetType() == entity_type::UNIT) {
-				Unit* tmp = (Unit*)(*item);
-				tmp->destination = { 800, 800 };
+				Unit* tmpUnit = (Unit*)(*item);
+
+				int mouseX, mouseY;
+				myApp->input->GetMousePosition(mouseX, mouseY);
+				iPoint wololo = myApp->render->ScreenToWorld(mouseX, mouseY);
+				myApp->map->WorldToMap(wololo.x, wololo.y);
+				tmpUnit->StartMove(wololo);
 			}
 		}
 	}

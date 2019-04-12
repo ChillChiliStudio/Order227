@@ -6,7 +6,7 @@
 #define POINT_H
 
 #include "Defs.h"
-#include <math.h>
+#include <cmath>
 
 template<class TYPE>
 class Point
@@ -41,7 +41,7 @@ public:
 	// Math ------------------------------------------------
 	Point operator -(const Point &v) const
 	{
-		Vector2 r;
+		Point<TYPE> r;
 
 		r.x = x - v.x;
 		r.y = y - v.y;
@@ -51,7 +51,7 @@ public:
 
 	Point operator + (const Point &v) const
 	{
-		Vector2 r;
+		Point<TYPE> r;
 
 		r.x = x + v.x;
 		r.y = y + v.y;

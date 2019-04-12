@@ -56,10 +56,10 @@ public:
 
 	// Order calling
 	void StartHold();
-	void StartMove(fPoint destination);
+	void StartMove(iPoint destination);
 	void StartAttack(Unit* target);
-	void StartMoveAndAttack(fPoint destination);
-	void StartPatrol(fPoint destination);
+	void StartMoveAndAttack(iPoint destination);
+	void StartPatrol(iPoint destination);
 
 	// Order processing
 	void DoHold(float dt);
@@ -77,8 +77,11 @@ public:
 	// Get Data
 	bool IsDead();
 	bool IsVisible();	// Outside Fog of War
+	bool DestinationReached();
+	bool TargetDisplaced();
 
 	// Unit calculations
+	fPoint SetupAngledSpeed();
 	Unit* EnemyInRange();
 	bool TargetInRange();
 
@@ -92,12 +95,13 @@ public:
 	unit_state unitState = unit_state::IDLE;
 	unit_orders unitOrders = unit_orders::HOLD;
 
-	fPoint origin;
-	fPoint destination;
+	iPoint origin;
+	iPoint destination;
 	Unit* target = nullptr;
 	std::list<Unit*>* hostileUnits = nullptr;
 
-	float speed = 100.0f;
+	float globalSpeed = 100.0f;
+	fPoint angledSpeed;
 	float damage = 2.0f;
 	float visionRange = 10.0f;	//For enemy units this would be their aggro area
 	float attackRange = 10.0f;

@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include "Point.h"
+#include "Vector.h"
 #include "PugiXml\src\pugixml.hpp"
 #include "App.h"
 

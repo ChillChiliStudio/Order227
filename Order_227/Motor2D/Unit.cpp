@@ -2,6 +2,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Scene.h"
+#include "Pathfinding.h"
 #include "EntityManager.h"
 #include "Entity.h"
 #include "Unit.h"
@@ -166,7 +167,7 @@ void Unit::DoHold(float dt)
 
 void Unit::DoMove(float dt)
 {
-	if (position != destination) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
+	if (DestinationReached() == false) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
 		Move(dt);
 	}
 	else {
@@ -177,8 +178,12 @@ void Unit::DoMove(float dt)
 
 void Unit::DoAttack(float dt)
 {
-	if (target->IsVisible()) {
-		destination = target->position;
+	if (target->IsVisible() == true) {
+		if (TargetDisplaced() == true) {
+			origin = { (int)position.x, (int)position.y };
+			destination = { (int)target->position.x, (int)target->position.y };
+			//TODO (LuchoAlert): Recalculate unit pathfinding using origin and destination
+		}
 	}
 
 	if (target->IsDead() == false) {
@@ -197,7 +202,7 @@ void Unit::DoAttack(float dt)
 
 void Unit::DoMoveAndAttack(float dt)
 {
-	if (position != destination) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
+	if (DestinationReached() == false) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
 		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
 			target = EnemyInRange();
 			if (target != nullptr) {
@@ -225,7 +230,7 @@ void Unit::DoMoveAndAttack(float dt)
 
 void Unit::DoPatrol(float dt)
 {
-	if (position != destination) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
+	if (DestinationReached() == false) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
 		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
 			target = EnemyInRange();
 			if (target != nullptr) {
@@ -252,20 +257,20 @@ void Unit::DoPatrol(float dt)
 }
 
 // Actions
-bool Unit::Move(float dt)
+bool Unit::Move(float dt)	//TODO: Make it so unit goes straight to the destination (divide speed into x and y, and use hipotenuse angle to decide how much it applies to each)
 {
-	if (destination.x > position.x) {
-		position.x += (speed * dt);
+	if (destination.x > (int)position.x) {
+		position.x += (angledSpeed.x * dt);
 	}
-	else if (destination.x < position.x) {
-		position.x -= (speed * dt);
+	else if (destination.x < (int)position.x) {
+		position.x -= (angledSpeed.x * dt);
 	}
 
-	if (destination.y > position.y) {
-		position.y += (speed * dt);
+	if (destination.y > (int)position.y) {
+		position.y += (angledSpeed.y * dt);
 	}
-	else if (destination.x < position.x) {
-		position.y -= (speed * dt);
+	else if (destination.y < (int)position.y) {
+		position.y -= (angledSpeed.y * dt);
 	}
 
 	unitState = unit_state::MOVING;
@@ -291,6 +296,26 @@ bool Unit::IsDead()
 bool Unit::IsVisible()
 {
 	return true;	//TODO: Make function
+}
+
+bool Unit::DestinationReached()
+{
+	if (position.x != (float)destination.x || position.y != (float)destination.y) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+bool Unit::TargetDisplaced()
+{
+	if (target->position.x != destination.x || target->position.y != destination.y) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 // Unit Calculations
@@ -319,55 +344,62 @@ bool Unit::TargetInRange()
 	return InsideRadius(position, attackRange, target->position);
 }
 
+fPoint Unit::SetupAngledSpeed()
+{
+	return { 1.0f, 1.0f };	//TODO Carles
+}
+
 // Order calling
 void Unit::StartHold()
 {
-	/*
-	- Stop unit
-	- Cancel Pathfinding
-	- target = nullptr
-	*/
+	//TODO  (LuchoAlert): pls setup pathfinding stop
+	//- Stop/Cancel Pathfinding
+	origin = destination = { (int)position.x, (int)position.y };
+	target = nullptr;
 	unitOrders = unit_orders::HOLD;
 	unitState = unit_state::IDLE;
 }
 
-void Unit::StartMove(fPoint destination)
+void Unit::StartMove(iPoint destination)
 {
-	/*
-	- Define destination
-	- Set pathfinding
-	*/
+	//TODO (LuchoAlert) pls setup unit pathfinding
+	origin = { (int)position.x, (int)position.y };
+	this->destination = destination;
+	//Set pathfinding using origin and destination
+	target = nullptr;
 	unitOrders = unit_orders::MOVE;
 	unitState = unit_state::IDLE;
 }
 
 void Unit::StartAttack(Unit* target)
 {
-	/*
-	- Define target
-	- Set destination as target position
-	*/
+	//TODO (LuchoAlert): Lucho pls setup unit pathfinding
+	origin = { (int)position.x, (int)position.y };
+	destination = { (int)target->position.x, (int)target->position.y };
+	//Set pathfinding using origin and destination
+	this->target = target;
 	unitOrders = unit_orders::ATTACK;
 	unitState = unit_state::IDLE;
 }
 
-void Unit::StartMoveAndAttack(fPoint destination)
+void Unit::StartMoveAndAttack(iPoint destination)
 {
-	/*
-	- Define destination
-	- Set pathfinding
-	*/
+	//TODO (LuchoAlert): Lucho pls setup unit pathfinding
+	origin = { (int)position.x, (int)position.y };
+	this->destination = destination;
+	//Set pathfinding using origin and destination
+	target = nullptr;
 	unitOrders = unit_orders::MOVE_AND_ATTACK;
 	unitState = unit_state::IDLE;
 }
 
-void Unit::StartPatrol(fPoint destination)
+void Unit::StartPatrol(iPoint destination)
 {
-	/*
-	- Define origin as current positiong
-	- Define destination
-	- Set pathfinding
-	*/
+	//TODO (LuchoAlert): Lucho pls setup unit pathfinding
+	origin = { (int)position.x, (int)position.y };
+	this->destination = destination;
+	//Set pathfinding using origin and destination
+	target = nullptr;
 	unitOrders = unit_orders::PATROL;
 	unitState = unit_state::IDLE;
 }
