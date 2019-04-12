@@ -117,7 +117,6 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Fonts.h" />
-    <ClInclude Include="Group.h" />
     <ClInclude Include="Main_Base.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputText.h" />
