@@ -51,16 +51,25 @@ bool Unit::Update(float dt)
 {
 	UnitWorkflow(dt);
 
-	UnitRect = {12, 0, 55,47};
-	CheckInCamera = {(int)position.x,(int)position.y,UnitRect.w,UnitRect.h };
+	CheckInCamera = { (int)position.x,(int)position.y,UnitRect.w,UnitRect.h };
 
+	
+
+	if (myApp->render->InsideCamera(CheckInCamera) == true) {
+		Draw();
+
+	}
 
 	if (life <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
 		myApp->entities->DestroyEntity(this);
+	
+	return true;
+}
+  
+bool Unit::Draw() 
+{
 
-
-	if (myApp->render->InsideCamera(CheckInCamera) == true) {
-
+	//myApp->render->Blit(texture, (int)position.x, (int)position.y,&UnitBlitRect);
 	UpdateBlitOrder();
 
 	myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
@@ -72,19 +81,8 @@ bool Unit::Update(float dt)
 	return true;
 }
 
-
-bool Unit::Move(float dt) {
-
-	position.x += (speed * dt);
-	position.y += (speed * dt);
-  
-bool Unit::Draw() {
-
-	myApp->render->Blit(texture, (int)position.x, (int)position.y,&UnitRect);
-	return true;
-}
-
-void Unit::UpdateBlitOrder() {
+void Unit::UpdateBlitOrder() 
+{
 
 	std::list<Entity*>::iterator item = myApp->entities->entities_list.begin();
 	while (item != myApp->entities->entities_list.end()) {
