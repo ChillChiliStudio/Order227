@@ -13,8 +13,13 @@
 #include "Entity.h"
 #include "Scene.h"
 #include "Render.h"
-
+#include "App.h"
 #include <assert.h>
+#include "Input.h"
+#include "Pathfinding.h"
+
+Group::Group(){}
+
 
 EntityManager::EntityManager()
 {
@@ -154,7 +159,14 @@ Entity *EntityManager::CreateUnit(unit_type unitType, fPoint position, faction_e
 		break;
 	}
 
-	entities_list.push_back(Unit_Ent); //Units list?? Not including them in entities_list?
+	entities_list.push_back(Unit_Ent); //TODO : Revisar esto cuando joan añada las pools
+
+	if (Unit_Ent->UnitFaction == faction_enum::FACTION_COMMUNIST) {
+		comunist_list.push_back(Unit_Ent);
+	}
+	if (Unit_Ent->UnitFaction == faction_enum::FACTION_CAPITALIST) {
+		capitalist_list.push_back(Unit_Ent);
+	}
 	return Unit_Ent;
 }
 
@@ -173,5 +185,82 @@ void EntityManager::DestroyEntity(Entity *object) {
 
 		item = next(item);
 	}
+}
+
+
+// SELECTION AND GROUPS SYSTEM BELLOW__________________________________________________________________________________
+
+void EntityManager::SelectUnit(SDL_Rect rect) {
+	for (std::list<Unit*>::iterator it = comunist_list.begin(); it != comunist_list.end(); it++) {
+		SDL_Rect entityRect = (*it)->UnitRect;
+		//select the rectangle units
+		if (SDL_HasIntersection(&entityRect, &rect)) {
+			(*it)->selected = true;
+			/*playerGroup.groupUnits_list.push_back((*it));*/
+		}//deselect the outside rectangle units if shift button not pressed
+		else if (!(SDL_HasIntersection(&entityRect, &rect)) && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_UP) {
+			(*it)->selected = false;
+		}
+			
+			
+	}
+}
+
+void EntityManager::SelectUnit(iPoint pos) {
+	int counter = 0;
+	for (std::list<Unit*>::iterator it = comunist_list.begin(); it != comunist_list.end(); it++) {
+		SDL_Rect entityRect = (*it)->UnitRect;
+		//if we are here is because we are selecting a single unit with a single click.
+		if ((counter < 1) && pos.x > (*it)->UnitRect.x && pos.x < (*it)->UnitRect.x + (*it)->UnitRect.w && pos.y >(*it)->UnitRect.y && pos.y < (*it)->UnitRect.y + (*it)->UnitRect.h) {
+			(*it)->selected = true;
+			/*playerGroup.groupUnits_list.push_back((*it));*/ 
+			counter++;
+		}//if we are not clicking it and the shift is not pressed
+		else if(myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == SDL_RELEASED)
+				(*it)->selected = false;
+		
+	}
+				
+}
+
+void EntityManager::CreateGroupForPlayer() {
+
+	if (playerGroup.groupUnits_list.size() != 0 && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == SDL_RELEASED) { //no shift pressed and try to select
+		LOG("LETS DELETE THE CURRENT GROUP");
+		EmptyPlayerGroup();
+	}
+	
+	if (myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) { //shift pressed and try to select
+		LOG("LETS ADD UNITS TO THE GROUP");
+		myApp->entities->AddUnitsPlayerGroup();
+	}
+
+	else if (myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == SDL_RELEASED && playerGroup.groupUnits_list.size() == 0) { 
+		LOG("LETS CREATE AND FILL A NEW GROUP IF THERE IS A SELECTION");
+		AddUnitsPlayerGroup();
+	}
+	
+}
+
+void EntityManager::EmptyPlayerGroup() {
+
+	std::list<Unit*>::iterator item = playerGroup.groupUnits_list.begin();
+	if (*item != nullptr) {
+		playerGroup.groupUnits_list.clear();
+		LOG("DELETE THE GROUP");
+	}
+}
+
+void EntityManager::AddUnitsPlayerGroup() {
+	for (std::list<Unit*>::iterator iterator = comunist_list.begin(); iterator != comunist_list.end(); iterator++) {
+		if ((*iterator)->selected == true) {
+			playerGroup.groupUnits_list.push_back((*iterator));
+			LOG("ADD UNIT TO THE GROUP");
+		}
+	}
+}
+
+void EntityManager::MoveUnits(std::list<Unit*> list, iPoint origin,iPoint destination) {
+	myApp->pathfinding->CreatePath(origin, destination);
 }
 

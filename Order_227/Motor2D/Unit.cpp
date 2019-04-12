@@ -56,28 +56,57 @@ bool Unit::Update(float dt)
 {
 	UnitWorkflow(dt);
 
+
+}
+
+
+bool Unit::Update(float dt) {
+
+	Move(dt);
+
+
+
 	UnitRect = {12, 0, 55,47};
+
 	CheckInCamera = {(int)position.x,(int)position.y,UnitRect.w,UnitRect.h };
-//	Draw();
+
 
 	if (life <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
 		myApp->entities->DestroyEntity(this);
 
-
 	if (myApp->render->InsideCamera(CheckInCamera) == true) {
-
-		UpdateBlitOrder();
-
-		myApp->render->Push(order, texture, position.x, position.y, &UnitRect);
-
+	   Draw();
+		
 	}
 
+	if (life <= 0)
+		myApp->entities->DestroyEntity(this);
+	
 	return true;
 }
 
 bool Unit::Draw() {
 
+
+	UpdateBlitOrder();
+
+	myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
+
+	if (selected) {
+		myApp->render->DrawQuad(UnitRect, 255, 0, 0, 255, false);
+	}
+	
+	return true;
+}
+
+
+bool Unit::Move(float dt) {
+
+	position.x += (speed * dt);
+	position.y += (speed * dt);
+
 	myApp->render->Blit(texture, (int)position.x, (int)position.y,&UnitRect);
+
 	return true;
 }
 

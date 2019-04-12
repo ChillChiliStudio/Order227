@@ -83,6 +83,7 @@ bool App::Awake()
 	{
 		// self-config
 		ret = true;
+		float fps = frame_time.Read();
 		app_config = config.child("app");
 		title.assign(app_config.child("title").child_value());
 		organization.assign(app_config.child("organization").child_value());
@@ -92,6 +93,7 @@ bool App::Awake()
 		if (cap > 0)
 			capped_ms = 1000 / cap;
 	
+		
 	}
 
 	if(ret == true)
