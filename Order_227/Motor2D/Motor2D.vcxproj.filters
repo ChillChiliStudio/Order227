@@ -91,6 +91,9 @@
     <ClCompile Include="TileQuadtree.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -204,8 +207,13 @@
     <ClInclude Include="TileQuadtree.h">
       <Filter>Tools</Filter>
     </ClInclude>
+
     <ClInclude Include="Group.h">
       <Filter>Game Files\Entity Management</Filter>
+
+    <ClInclude Include="Geometry.h">
+      <Filter>Tools</Filter>
+
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
