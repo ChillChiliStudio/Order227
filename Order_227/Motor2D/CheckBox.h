@@ -17,8 +17,8 @@ public:
 
 public:
 	//Enable/Disable
-	void Enable();
-	void Disable();
+	void Enable() override;
+	void Disable() override;
 
 	bool GetValue();
 	value_state GetValueState();
@@ -26,9 +26,9 @@ public:
 
 protected:
 	//State Entry
-	void OnIdle();
-	void OnHover();
-	void OnPress();
+	void OnIdle() override;
+	void OnHover() override;
+	void OnPress() override;
 
 private:
 	value_state valueStatus;

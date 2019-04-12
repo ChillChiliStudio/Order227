@@ -16,24 +16,24 @@ public:
 	virtual bool Awake(pugi::xml_node&) { return true; }
 
 	// Called before the first frame
-	virtual bool Start() { return true; }
+	virtual bool Start() override { return true; }
 
 	// Called each loop iteration
-	virtual bool PreUpdate() { return true; }
+	virtual bool PreUpdate() override { return true; }
 
 	// Called each frame (framerate dependant)
-	virtual bool Update(float dt);
+	virtual bool Update(float dt) override;
 
 	// Called each loop iteration (graphic)
 	virtual bool Draw() override;
 	virtual bool DebugDraw() const override;
 
 	// Called each loop iteration
-	virtual bool PostUpdate() { return true; }
+	virtual bool PostUpdate() override { return true; }
 
 	// Save and Load
-	virtual bool Load(pugi::xml_node&) { return true; }
-	virtual bool Save(pugi::xml_node&) const { return true; };
+	virtual bool Load(pugi::xml_node&) override { return true; }
+	virtual bool Save(pugi::xml_node&) const override { return true; };
 
 public:
 	virtual iPoint GetSize() const;
@@ -41,8 +41,8 @@ public:
 
 	virtual fPoint RelocateCenterByPos();
 	virtual fPoint RelocatePosByCenter();
-	virtual fPoint MatchPosition(fPoint reference);
-	virtual fPoint MatchCenter(fPoint reference);
+	virtual fPoint MatchPosition(fPoint reference) override;
+	virtual fPoint MatchCenter(fPoint reference) override;
 
 	virtual bool MouseOnImage();
 
