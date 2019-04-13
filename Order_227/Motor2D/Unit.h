@@ -1,15 +1,42 @@
 #ifndef UNIT_H
 #define UNIT_H
 
+#include <vector>
 #include "Entity.h"
+#include "SDL/include/SDL.h"
+
+enum class unit_state {
+	NONE=-1, 
+
+	IDLE,	//Default state
+	MOVING,
+	FIRING,
+	DEAD,
+
+	MAX_STATES
+};
+
+enum class unit_orders {
+	NONE = -1,
+
+	HOLD,	//Default order
+	MOVE,
+	ATTACK,
+	MOVE_AND_ATTACK,
+	PATROL,
+
+	MAX_ORDERS
+};
 
 struct unit_stats
 {
-	int speed =0;
+	int speed = 0;
 	int damage = 0;
 	int healtPoints = 0;
-	int visionRange;
+	float visionRange=0;
+	float attackRange=0;
 	uint velocity = 0;
+	SDL_Rect selectionRect = { 0,0,0,0 };
 };
 
 class Unit :public Entity
@@ -19,15 +46,62 @@ public:
 	Unit(fPoint pos, entity_type Entitytype, entity_faction faction = entity_faction::NEUTRAL):Entity(pos, type, faction){}
 	~Unit();
 
+public:
+
+	// Main Workflow
+	void UnitWorkflow(float dt);	// State workflow depending on order issued
+	void ApplyState();				// Add state effects, like current animation
+
+	//Order calling
+	void OrderStandardSetup(iPoint destination);
+	void StartHold();
+	void StartMove(iPoint destination);
+	void StartAttack(Unit* target);
+	void StartMoveAndAttack(iPoint destination);
+	void StartPatrol(iPoint destination);
+
+	// Order processing
+	void DoHold(float dt);
+	void DoMove(float dt);
+	void DoAttack(float dt);
+	void DoMoveAndAttack(float dt);
+	void DoPatrol(float dt);
+
+	//Actions
 	virtual bool Move(float dt) { return true; }
+	void AttackTarget(){}
+	//void Kill();
+	//void Hurt();
+
+	//Get Data
+	virtual bool IsDead() { return true; }
+	virtual bool IsVisible();
+	virtual bool nodeReached();
+	virtual bool DestinationReached();
+	virtual bool TargetDisplaced();
+
+	//Unit calculations
+	//fVec2 SetupVecSpeed();
+	Unit* EnemyInRange();
+	bool  TargetInRange();
 
 public:
 
+	SDL_Rect CheckInCamera;
+	unit_state unitState = unit_state::IDLE;
+	unit_orders unitOrders = unit_orders::HOLD;
+	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
+
+	iPoint origin;
+	iPoint destination;
+	std::vector<iPoint>::iterator currNode;
+	std::vector<iPoint> nodeList;
+
+	Unit* target = nullptr;
+	std::list<Unit*>* hostileUnits = nullptr;
+
 	unit_stats stats;
 };
-
-
-
 
 #endif // !UNIT_H
 
