@@ -3,42 +3,13 @@
 #include "Textures.h"
 #include "Scene.h"
 #include "Pathfinding.h"
-#include "EntityManager.h"
+#include "Entity_Manager.h"
 #include "Entity.h"
 #include "Unit.h"
 
-Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT, pos), unitFaction(faction), unitType(unitType)
+Unit::Unit(fPoint pos, entity_type Entitytype, entity_faction faction) : Entity(pos, type, faction)
 {
-	life = 1;
-
-	if (faction == faction_enum::CAPITALIST) {
-
-		switch (unitType) {
-
-		case (unit_type::INFANTRY):
-			texture = myApp->scene->TestTexture;
-			break;
-		case(unit_type::UNKNOWN):
-			break;
-		default:
-			break;
-		}
-
-		//hostileUnits = &myApp->entities->enemiesList;
-	}
-	else if (faction == faction_enum::COMMUNIST) {
-
-		switch (unitType) {
-
-		case (unit_type::INFANTRY):
-			texture = myApp->scene->TestTexture;
-			break;
-		case(unit_type::UNKNOWN):
-			break;
-		default:
-			break;
-		}
-	}
+	
 }
 
 Unit::~Unit()
@@ -48,18 +19,14 @@ bool Unit::Update(float dt)
 {
 	UnitWorkflow(dt);
 
-	unitRect = {12, 0, 55,47};
-	CheckInCamera = {(int)position.x, (int)position.y, unitRect.w, unitRect.h };
+	CheckInCamera = {(int)position.x, (int)position.y, selectionRect.w, selectionRect.h };
 //	Draw();
-
-	if (life <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
-		myApp->entities->DestroyEntity(this);
 
 	if (myApp->render->InsideCamera(CheckInCamera) == true) {
 		Draw();
 	}
 
-	if (life <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
+	if (currentHealth<= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
 		myApp->entities->DestroyEntity(this);
 	
 	return true;
@@ -73,7 +40,7 @@ bool Unit::Draw()
 	myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
 
 	if (selected) {
-		myApp->render->DrawQuad(unitRect, 255, 0, 0, 255, false);
+		myApp->render->DrawQuad(selectionRect, 255, 0, 0, 255, false);
 	}
 	
 	return true;
@@ -81,7 +48,8 @@ bool Unit::Draw()
 
 void Unit::UpdateBlitOrder() 
 {
-	std::list<Entity*>::iterator item = myApp->entities->entities_list.begin();
+	//RECODE
+	/*std::list<Entity*>::iterator item = myApp->entities->entities_list.begin();
 	while (item != myApp->entities->entities_list.end()) {
 
 		if ((*item) != this) {
@@ -93,7 +61,7 @@ void Unit::UpdateBlitOrder()
 		}
     
 		item = next(item);
-	}
+	}*/
 }
 
 // Main workflow
@@ -294,7 +262,7 @@ void Unit::AttackTarget()
 // Unit Data
 bool Unit::IsDead()
 {
-	if (life <= 0) {
+	if (currentHealth<= 0) {
 		return true;
 	}
 	else {
@@ -379,7 +347,7 @@ Unit* Unit::EnemyInRange()
 
 bool Unit::TargetInRange()
 {
-	return InsideRadius(position, attackRange, target->position);
+	return InsideRadius(position, stats.attackRange, target->position);
 }
 
 fVec2 Unit::SetupVecSpeed()

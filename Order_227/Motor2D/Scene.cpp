@@ -8,7 +8,7 @@
 #include "Window.h"
 #include "Map.h"
 #include "PathFinding.h"
-#include "EntityManager.h"
+#include "Entity_Manager.h"
 #include "UserInterface.h"
 #include "ButtonActions.h"
 #include "ParamBox.h"
@@ -64,7 +64,8 @@ bool Scene::Start()
 		}
 	}
 
-	myApp->entities->CreateEntity(entity_type::OBJECT, fPoint(10.0f, 10.0f));
+	//RECODE OR EREASE
+	//myApp->entities->CreateEntity(entity_type::OBJECT, fPoint(10.0f, 10.0f));
 
 	TestTexture = myApp->tex->Load("textures/troops/allied/gi.png");
 
@@ -74,32 +75,34 @@ bool Scene::Start()
 // Called each loop iteration
 bool Scene::PreUpdate()
 {
-	//Activate Spawn with F --> Just for DEBUG PURPOSES
-	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && SpawningPoints_Array.size() > 0)
-		ChooseSpawningPoints();
+	//RECODE OR EREASE
+	
+	////Activate Spawn with F --> Just for DEBUG PURPOSES
+	//if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && SpawningPoints_Array.size() > 0)
+	//	ChooseSpawningPoints();
 
-	//Delete enemies with J --> Just for DEBUG PURPOSES
-	if (myApp->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN && myApp->entities->entities_list.size() > 0) {
-		for (std::list<Entity*>::iterator item = myApp->entities->entities_list.begin(); item != myApp->entities->entities_list.end(); item = next(item)) {
-			if ((*item)->GetType() == entity_type::UNIT) {
-				myApp->entities->DestroyEntity(*item);
-			}
-		}
-	}
+	////Delete enemies with J --> Just for DEBUG PURPOSES
+	//if (myApp->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN && myApp->entities->entities_list.size() > 0) {
+	//	for (std::list<Entity*>::iterator item = myApp->entities->entities_list.begin(); item != myApp->entities->entities_list.end(); item = next(item)) {
+	//		if ((*item)->GetType() == entity_type::UNIT) {
+	//			myApp->entities->DestroyEntity(*item);
+	//		}
+	//	}
+	//}
 
-	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
-		for (std::list<Entity*>::iterator item = myApp->entities->entities_list.begin(); item != myApp->entities->entities_list.end(); item = next(item)) {
-			if ((*item)->GetType() == entity_type::UNIT) {
-				Unit* tmpUnit = (Unit*)(*item);
+	//if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
+	//	for (std::list<Entity*>::iterator item = myApp->entities->entities_list.begin(); item != myApp->entities->entities_list.end(); item = next(item)) {
+	//		if ((*item)->GetType() == entity_type::UNIT) {
+	//			Unit* tmpUnit = (Unit*)(*item);
 
-				/*int mouseX, mouseY;	//TODO Carles: DO NOT TOUCH >:c
-				myApp->input->GetMousePosition(mouseX, mouseY);
-				iPoint wololo = myApp->render->ScreenToWorld(mouseX, mouseY);
-				myApp->map->WorldToMap(wololo.x, wololo.y);
-				tmpUnit->StartMove(wololo);*/
-			}
-		}
-	}
+	//			/*int mouseX, mouseY;	//TODO Carles: DO NOT TOUCH >:c
+	//			myApp->input->GetMousePosition(mouseX, mouseY);
+	//			iPoint wololo = myApp->render->ScreenToWorld(mouseX, mouseY);
+	//			myApp->map->WorldToMap(wololo.x, wololo.y);
+	//			tmpUnit->StartMove(wololo);*/
+	//		}
+	//	}
+	//}
 
 	return true;
 }
@@ -122,38 +125,40 @@ bool Scene::Update(float dt)
 
 	myApp->map->Draw();
 
-	//Spawn Point Draw
-	for (int i = 0; i < SpawningPoints_Array.size(); i++) {
 
-		myApp->render->DrawQuad(SpawningPoints_Array[i]->SP_Rect, 255, 100, 100);
+	//RECODE OR EREASE
+	////Spawn Point Draw
+	//for (int i = 0; i < SpawningPoints_Array.size(); i++) {
 
-		if (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0 && SpawningPoints_Array[i]->SpawnTime.Read() > 500) {
+	//	myApp->render->DrawQuad(SpawningPoints_Array[i]->SP_Rect, 255, 100, 100);
 
-			fPoint SP_Pos = fPoint(SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
-			SpawningPoints_Array[i]->SpawnTime.Start();
+	//	if (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0 && SpawningPoints_Array[i]->SpawnTime.Read() > 500) {
 
-			myApp->entities->CreateUnit(unit_type::INFANTRY, fPoint(SP_Pos), faction_enum::CAPITALIST);
-			SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
+	//		fPoint SP_Pos = fPoint(SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
+	//		SpawningPoints_Array[i]->SpawnTime.Start();
 
-		}
-	}
+	//		myApp->entities->CreateUnit(unit_type::INFANTRY, fPoint(SP_Pos), faction_enum::CAPITALIST);
+	//		SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
 
-	//mouse selection code bellow
-	
-	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
-	mouseScreenPos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
+	//	}
+	//}
 
-	if (myApp->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
-		CreateUnitOnPos(mouseScreenPos);
-	}
+	////mouse selection code bellow
+	//
+	//myApp->input->GetMousePosition(mousePos.x, mousePos.y);
+	//mouseScreenPos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
 
-	//group movement bellow
-	SDL_Rect goToRect = { 10,10,20,10 };
-	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
-		goToRect.x = mouseScreenPos.x;
-		goToRect.y = mouseScreenPos.y;	
-		myApp->render->DrawQuad(goToRect, 0, 255, 100, 255, true);
-	}
+	//if (myApp->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
+	//	CreateUnitOnPos(mouseScreenPos);
+	//}
+
+	////group movement bellow
+	//SDL_Rect goToRect = { 10,10,20,10 };
+	//if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
+	//	goToRect.x = mouseScreenPos.x;
+	//	goToRect.y = mouseScreenPos.y;	
+	//	myApp->render->DrawQuad(goToRect, 0, 255, 100, 255, true);
+	//}
 
 	entitiesSelection();
 	myApp->gui->Draw();
@@ -235,7 +240,7 @@ void Scene::CreateUnitOnPos(iPoint mouseScreenPos_)
 	fPoint position;
 	position.x = (float)mouseScreenPos_.x-30;
 	position.y = (float)mouseScreenPos_.y-35;
-	myApp->entities->CreateUnit(unit_type::INFANTRY, position, faction_enum::COMMUNIST);
+	myApp->entities->CreateSoldier(position, soldier_type::BASIC, entity_faction::NEUTRAL);
 }
 
 void Scene::entitiesSelection()
