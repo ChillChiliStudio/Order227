@@ -82,8 +82,6 @@ public:
 	fPoint position;
 	SDL_Texture *texture = nullptr;
 	
-
-
 };
 
 #endif
