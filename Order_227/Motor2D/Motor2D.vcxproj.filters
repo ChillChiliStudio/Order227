@@ -94,6 +94,9 @@
     <ClCompile Include="Geometry.cpp">
       <Filter>Tools\Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="GroupManager.cpp">
+      <Filter>Game Files\Entity Management</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -215,6 +218,9 @@
     </ClInclude>
     <ClInclude Include="Geometry.h">
       <Filter>Tools\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="GroupManager.h">
+      <Filter>Game Files\Entity Management</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

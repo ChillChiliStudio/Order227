@@ -13,6 +13,7 @@
 #include "ButtonActions.h"
 #include "ParamBox.h"
 #include "Scene.h"
+#include "GroupManager.h"
 
 Scene::Scene() : Module()
 {
@@ -153,6 +154,7 @@ bool Scene::Update(float dt)
 		goToRect.x = mouseScreenPos.x;
 		goToRect.y = mouseScreenPos.y;	
 		myApp->render->DrawQuad(goToRect, 0, 255, 100, 255, true);
+		myApp->groups->MoveUnitsGroup();
 	}
 
 	entitiesSelection();
@@ -266,15 +268,15 @@ void Scene::entitiesSelection()
 			SRect.h *= -1;
 		}
 		//units selection
-		myApp->entities->SelectUnit(SRect);
+		myApp->groups->SelectUnit(SRect);
 	}
 	// 1 click selection
 	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
-		myApp->entities->SelectUnit(mouseScreenPos);
+		myApp->groups->SelectUnit(mouseScreenPos);
 	}
 
 	//groups management
 	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP) {
-		myApp->entities->CreateGroupForPlayer();	
+		myApp->groups->CreateGroupForPlayer();	
 	}
 }

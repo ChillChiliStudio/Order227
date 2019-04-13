@@ -32,14 +32,6 @@ public:
 	Entity *CreateUnit(unit_type unitType, fPoint position, faction_enum faction);
 
 	void DestroyEntity(Entity *Entity);
-	
-	void SelectUnit(SDL_Rect rect);
-	void SelectUnit(iPoint position);
-	void CreateGroup();
-	void CreateGroupForPlayer();
-	void EmptyPlayerGroup();
-	void AddUnitsPlayerGroup();
-	void MoveUnits(std::list<Unit*> list,iPoint origin, iPoint destination);
 
 public:
 
@@ -47,7 +39,7 @@ public:
 	std::list<Unit*> comunist_list;
 	std::list<Unit*> capitalist_list;
 	
-	Group playerGroup;
+
 
 	float accumulated_time = 0.0f;
 	float update_ms_cycle = 0.0f;

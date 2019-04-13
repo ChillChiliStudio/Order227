@@ -16,6 +16,7 @@
 #include "EntityManager.h"
 #include "UserInterface.h"
 #include "App.h"
+#include "GroupManager.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -33,7 +34,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	entities = new EntityManager();
 	fonts = new Fonts();
 	gui = new User_Interface();
-
+	groups = new GroupManager();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -46,7 +47,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(entities);
 	AddModule(fonts);
 	AddModule(gui);
-
+	AddModule(groups);
 	// render last to swap buffer
 	AddModule(render);
 }
