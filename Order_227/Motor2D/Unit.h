@@ -36,15 +36,17 @@ struct unit_stats
 	float visionRange=0;
 	float attackRange=0;
 	uint velocity = 0;
-	SDL_Rect selectionRect = { 0,0,0,0 };
 };
 
 class Unit :public Entity
 {
 public:
 
-	Unit(fPoint pos, entity_type Entitytype, entity_faction faction = entity_faction::NEUTRAL):Entity(pos, type, faction){}
+	Unit(fPoint pos, entity_type Entitytype, entity_faction faction = entity_faction::NEUTRAL);
 	~Unit();
+	bool Update(float dt) override;
+	bool Draw();
+	void UpdateBlitOrder() override;
 
 public:
 
@@ -68,17 +70,17 @@ public:
 	void DoPatrol(float dt);
 
 	//Actions
-	virtual bool Move(float dt) { return true; }
-	void AttackTarget(){}
+	virtual bool Move(float dt);
+	void AttackTarget();
 	//void Kill();
 	//void Hurt();
 
 	//Get Data
-	virtual bool IsDead() { return true; }
-	virtual bool IsVisible();
-	virtual bool nodeReached();
-	virtual bool DestinationReached();
-	virtual bool TargetDisplaced();
+	bool IsDead();
+	bool IsVisible();
+	bool NodeReached();
+	bool DestinationReached();
+	bool TargetDisplaced();
 
 	//Unit calculations
 	//fVec2 SetupVecSpeed();
@@ -100,7 +102,10 @@ public:
 	Unit* target = nullptr;
 	std::list<Unit*>* hostileUnits = nullptr;
 
+	uint currentHealth=0;
 	unit_stats stats;
+	SDL_Rect selectionRect = { 0,0,0,0 };
+
 };
 
 #endif // !UNIT_H

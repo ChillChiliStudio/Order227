@@ -94,6 +94,9 @@
     <ClCompile Include="Base.cpp">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">

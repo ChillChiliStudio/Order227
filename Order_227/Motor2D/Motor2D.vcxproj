@@ -89,6 +89,7 @@
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Static_Object.cpp" />
     <ClCompile Include="TileQuadtree.cpp" />
+    <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="App.cpp" />
