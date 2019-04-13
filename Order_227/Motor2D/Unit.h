@@ -91,7 +91,6 @@ public:
 	faction_enum unitFaction;
 	unit_type unitType;
 
-	//SDL_Rect unitRect = { (int)position.x,(int)position.y, 50, 50 }; //TODO desjarcodear
 	SDL_Rect unitRect = { (int)position.x,(int)position.y, 50, 50 }; //TODO desjarcodear
 	SDL_Rect CheckInCamera;
 

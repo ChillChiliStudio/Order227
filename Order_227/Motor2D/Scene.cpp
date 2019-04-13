@@ -147,7 +147,7 @@ bool Scene::Update(float dt)
 		CreateUnitOnPos(mouseScreenPos);
 	}
 
-	//groups movement bellow
+	//group movement bellow
 	SDL_Rect goToRect = { 10,10,20,10 };
 	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
 		goToRect.x = mouseScreenPos.x;

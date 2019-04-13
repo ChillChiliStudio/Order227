@@ -196,6 +196,7 @@ void EntityManager::SelectUnit(SDL_Rect rect) {
 		//select the rectangle units
 		if (SDL_HasIntersection(&entityRect, &rect)) {
 			(*it)->selected = true;
+			/*playerGroup.groupUnits_list.push_back((*it));*/
 		}//deselect the outside rectangle units if shift button not pressed
 		else if (!(SDL_HasIntersection(&entityRect, &rect)) && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_UP) {
 			(*it)->selected = false;
