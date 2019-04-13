@@ -48,7 +48,6 @@ bool Unit::Update(float dt)
 {
 	UnitWorkflow(dt);
 
-	unitRect = {12, 0, 55,47};
 	CheckInCamera = {(int)position.x, (int)position.y, unitRect.w, unitRect.h };
 //	Draw();
 
