@@ -13,7 +13,7 @@
 #include "Map.h"
 #include "Pathfinding.h"
 #include "Fonts.h"
-#include "EntityManager.h"
+#include "Entity_Manager.h"
 #include "UserInterface.h"
 #include "App.h"
 
@@ -30,7 +30,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new Scene();
 	map = new Map();
 	pathfinding = new PathFinding();
-	entities = new EntityManager();
+	entities = new Entity_Manager();
 	fonts = new Fonts();
 	gui = new User_Interface();
 

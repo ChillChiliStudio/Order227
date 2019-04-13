@@ -5,18 +5,9 @@
 #include "Entity.h"
 #include "SDL/include/SDL.h"
 
-enum class unit_type {
-	INFANTRY,
-	UNKNOWN = 1
-};
-
-enum class faction_enum {
-	COMMUNIST,
-	CAPITALIST,
-	UNKNOWN = 2
-};
-
 enum class unit_state {
+	NONE = -1,
+
 	IDLE,	//Default state
 	MOVING,
 	FIRING,
@@ -27,6 +18,7 @@ enum class unit_state {
 
 enum class unit_orders {
 	NONE = -1,
+
 	HOLD,	//Default order
 	MOVE,
 	ATTACK,
@@ -36,25 +28,33 @@ enum class unit_orders {
 	MAX_ORDERS
 };
 
-class Unit : public Entity {
+struct unit_stats
+{
+	int speed = 0;
+	int damage = 0;
+	int healtPoints = 0;
+	float visionRange = 0;
+	float attackRange = 0;
+	uint velocity = 0;
+};
 
+class Unit :public Entity
+{
 public:
-	Unit(unit_type unitType, fPoint pos, faction_enum faction);
+
+	Unit(fPoint pos, entity_type Entitytype, entity_faction faction = entity_faction::NEUTRAL);
 	~Unit();
-
-public:
-	//void Move();
-	//void Attack();
 	bool Update(float dt) override;
 	bool Draw();
 	void UpdateBlitOrder() override;
 
 public:
-	// Main Workflow
-	void UnitWorkflow(float dt);		// State workflow depending on order issued
-	void ApplyState();		// Add state effects, like current animation
 
-	// Order calling
+	// Main Workflow
+	void UnitWorkflow(float dt);	// State workflow depending on order issued
+	void ApplyState();				// Add state effects, like current animation
+
+	//Order calling
 	void OrderStandardSetup(iPoint destination);
 	void StartHold();
 	void StartMove(iPoint destination);
@@ -69,35 +69,30 @@ public:
 	void DoMoveAndAttack(float dt);
 	void DoPatrol(float dt);
 
-	// Actions
-	bool Move(float dt);	// Move unit position
+	//Actions
+	virtual bool Move(float dt);
 	void AttackTarget();
 	//void Kill();
 	//void Hurt();
 
-	// Get Data
+	//Get Data
 	bool IsDead();
-	bool IsVisible();	// Outside Fog of War
+	bool IsVisible();
 	bool NodeReached();
 	bool DestinationReached();
 	bool TargetDisplaced();
 
-	// Unit calculations
+	//Unit calculations
 	fVec2 SetupVecSpeed();
 	Unit* EnemyInRange();
-	bool TargetInRange();
+	bool  TargetInRange();
 
 public:
-	faction_enum unitFaction;
-	unit_type unitType;
 
-	SDL_Rect unitRect = { (int)position.x,(int)position.y, 50, 50 }; //TODO desjarcodear
 	SDL_Rect CheckInCamera;
-
 	unit_state unitState = unit_state::IDLE;
 	unit_orders unitOrders = unit_orders::HOLD;
 	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
-
 
 	iPoint origin;
 	iPoint destination;
@@ -107,19 +102,13 @@ public:
 	Unit* target = nullptr;
 	std::list<Unit*>* hostileUnits = nullptr;
 
-	float linSpeed = 100.0f;
+	uint currentHealth = 0;
+	unit_stats stats;
+	SDL_Rect selectionRect = { 0,0,0,0 };
+
+	float linSpeed=0.0f;
 	fVec2 vecSpeed;
-	float damage = 2.0f;
-	float visionRange = 10.0f;	//For enemy units this would be their aggro area
-	float attackRange = 10.0f;
-  
-	//unsigned int life;
-	//unsigned int maxLife;
-	//unit_state status;
-	//iPoint detectionRadius;
-	//iPoint attackRange;
-	//bool enemyDetected;
-	//bool enemyInRange;
+
 };
 
-#endif  //UNIT_H
+#endif // !UNIT_H

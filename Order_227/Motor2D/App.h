@@ -17,7 +17,7 @@ class Scene;
 class Map;
 class PathFinding;
 class Fonts;
-class EntityManager;
+class Entity_Manager;
 class User_Interface;
 
 class App
@@ -83,7 +83,7 @@ public:
 	Scene*				scene = NULL;
 	Map*				map = NULL;
 	PathFinding*		pathfinding = NULL;
-	EntityManager*		entities = NULL;
+	Entity_Manager*		entities = NULL;
 	Fonts*			fonts;
 	User_Interface*	gui;
 

@@ -1,7 +1,7 @@
 #include "Point.h"
 #include "Timer.h"
 #include "App.h"
-#include "EntityManager.h"
+#include "Entity_Manager.h"
 #include <vector>
 #include "SDL/include/SDL.h"
 
