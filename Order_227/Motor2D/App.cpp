@@ -17,6 +17,7 @@
 #include "UserInterface.h"
 #include "App.h"
 #include "GroupManager.h"
+#include "Player.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -35,6 +36,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	fonts = new Fonts();
 	gui = new User_Interface();
 	groups = new GroupManager();
+	player = new Player();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -48,6 +50,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(fonts);
 	AddModule(gui);
 	AddModule(groups);
+	AddModule(player);
 	// render last to swap buffer
 	AddModule(render);
 }
@@ -294,6 +297,7 @@ const char* App::GetTitle() const
 const char* App::GetOrganization() const
 {
 	return organization.data();
+
 }
 
 // ---------------------------------------

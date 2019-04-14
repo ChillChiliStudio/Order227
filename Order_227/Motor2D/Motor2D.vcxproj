@@ -86,6 +86,8 @@
     <ClCompile Include="GroupManager.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputText.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Player.h" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="TileQuadtree.cpp" />

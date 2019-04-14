@@ -97,6 +97,12 @@
     <ClCompile Include="GroupManager.cpp">
       <Filter>Game Files\Entity Management</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Game Files\User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.h">
+      <Filter>Game Files\User Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">

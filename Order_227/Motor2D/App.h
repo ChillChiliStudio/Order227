@@ -20,6 +20,7 @@ class Fonts;
 class EntityManager;
 class User_Interface;
 class GroupManager;
+class Player;
 
 class App
 {
@@ -88,6 +89,7 @@ public:
 	Fonts*			    fonts;
 	User_Interface*  	gui;
 	GroupManager*       groups;
+	Player*             player;
 	bool mustShutDown = false;
 
 private:

@@ -16,7 +16,7 @@ class Scene : public Module
 public:
 
 	Scene();
-
+	
 	// Destructor
 	virtual ~Scene();
 
@@ -41,9 +41,7 @@ public:
 	
 	void ChooseSpawningPoints();
 
-	void CreateUnitOnPos(iPoint mouseScreenPos);
 
-	void entitiesSelection();
 
 	SDL_Texture* TestTexture = nullptr;
 private:
@@ -52,17 +50,12 @@ private:
 	int roundThreat = 0;
 	int threatIncremental = 0;
 	int roundNumber = 0;
-	int rectangle_width;
-	int rectangle_height;
+
 
 	std::vector<Spawning_Point*> SpawningPoints_Array;
 	pugi::xml_document SP_Doc;
 
-	iPoint mousePos;
-	iPoint mouseScreenPos;
-
-	iPoint origin;
-	iPoint rectangle_origin;
+	
 };
 
 #endif // SCENE_H
