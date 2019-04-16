@@ -172,8 +172,11 @@ void Scene::ChooseSpawningPoints() {
 	int r1 = rand() % SpawningPoints_Array.size(); //For ranges not starting at 0: rand()%X + Y --> Range of rands between Y and X
 	int r2 = rand() % SpawningPoints_Array.size(); //Rand num between 0 and array's size (if 4 SP, then 0-4)
 
-	while (r2 == r1)
-		r2 = rand() % SpawningPoints_Array.size(); //This can be pretty unpredictable & uncontrolling shit
+	if (SpawningPoints_Array.size() > 1) {
+	
+		while (r2 == r1)
+			r2 = rand() % SpawningPoints_Array.size(); //This can be pretty unpredictable & uncontrolling shit
+	}
 
 	SpawningPoints_Array[r1]->active = true;
 	SpawningPoints_Array[r2]->active = true;

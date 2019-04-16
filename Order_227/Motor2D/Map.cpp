@@ -116,8 +116,8 @@ iPoint Map::WorldToMap(int x, int y) const
 		
 		float half_width = data.tile_width * 0.5f;
 		float half_height = data.tile_height * 0.5f;
-		ret.x = int( (x / half_width + y / half_height) / 2) - 1;
-		ret.y = int( (y / half_height - (x / half_width)) / 2);
+		ret.x = int((x / half_width + y / half_height) / 2) - 1;
+		ret.y = int((y / half_height - (x / half_width)) / 2);
 	}
 	else
 	{
@@ -572,7 +572,7 @@ void Map::PlaceGameObjects() {
 
 				if ((*item2)->name == "Spawn") {
 
-					Spawning_Point* new_SP = new Spawning_Point(WorldToMap((int)(*item2)->x, (int)(*item2)->y));
+					Spawning_Point* new_SP = new Spawning_Point(iPoint((int)(*item2)->x,(int)(*item2)->y));
 					myApp->scene->SpawningPoints_Array.push_back(new_SP);
 
 				}
