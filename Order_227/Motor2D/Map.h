@@ -126,9 +126,11 @@ struct MapData
 	int					tile_height;
 	SDL_Color			background_color;
 	MapTypes			type;
+	//list
 	std::list<TileSet*>	tilesets;
 	std::list<MapLayer*>layers;
 	std::list<GameObjectGroup *>gameObjects;
+	
 };
 
 // ----------------------------------------------------
@@ -158,6 +160,7 @@ public:
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
 	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
+	void PlaceGameObjects();
 
 private:
 
@@ -173,7 +176,7 @@ private:
 public:
 
 	MapData data;
-
+	
 private:
 
 	pugi::xml_document	map_file;

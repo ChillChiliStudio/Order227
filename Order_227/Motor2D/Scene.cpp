@@ -48,22 +48,8 @@ bool Scene::Start()
 	}
 
 	//Spawning Points Load
-	pugi::xml_parse_result result = SP_Doc.load_file("SpawningPoints.xml");
 	
-	if (result == NULL)
-		LOG("SPAWNING POINTS DOCUMENT COULDN'T LOAD!");
-	else {
-
-		pugi::xml_node SP_Node = SP_Doc.child("Spawning_Points");
-		for (SP_Node = SP_Node.child("SP"); SP_Node; SP_Node = SP_Node.next_sibling("SP")) {
-
-			int x = SP_Node.attribute("x").as_int();
-			int y = SP_Node.attribute("y").as_int();
-
-			Spawning_Point* new_SP = new Spawning_Point(iPoint(x, y));
-			SpawningPoints_Array.push_back(new_SP);
-		}
-	}
+	
 
 	myApp->entities->CreateEntity(entity_type::OBJECT_ENT, fPoint(10.0f, 10.0f));
 

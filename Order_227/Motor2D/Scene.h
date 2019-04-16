@@ -42,14 +42,20 @@ public:
 	void ChooseSpawningPoints();
 
 	SDL_Texture* TestTexture = nullptr;
+
+public:
+
+std::vector<Spawning_Point*> SpawningPoints_Array;
+
 private:
 
 	//Spawning
 	int roundThreat = 0;
 	int threatIncremental = 0;
 	int roundNumber = 0;
+	//List of Spawning points
+	
 
-	std::vector<Spawning_Point*> SpawningPoints_Array;
 	pugi::xml_document SP_Doc;
 
 };

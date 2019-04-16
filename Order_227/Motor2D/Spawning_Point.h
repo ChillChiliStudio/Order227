@@ -18,7 +18,7 @@ public:
 	Timer SpawnTime;
 
 	std::vector<int>Enemies_to_Spawn;
-
+	
 	void FillEnemies(int threat) {
 
 		int aux_threat = threat;

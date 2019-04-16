@@ -4,8 +4,13 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Map.h"
+#include "Scene.h"
 #include <cmath>
 #include <sstream>
+
+
+class Spawning_Point;
+
 
 Map::Map() : Module(), map_loaded(false)
 {
@@ -249,9 +254,7 @@ bool Map::Load(const char* file_name)
 		}
 	}
 
-
-	//Load ObejctGroup Info-------------------------
-
+	//Load GameObjectGroup Info-------------------------
 	pugi::xml_node objectGame;
 	for (objectGame = map_file.child("map").child("objectgroup"); objectGame && ret; objectGame = objectGame.next_sibling("objectgroup"))
 	{
@@ -262,6 +265,13 @@ bool Map::Load(const char* file_name)
 			data.gameObjects.push_back(objGroup);
 
 	}
+
+
+
+	//place all game objects needed such as SpawningPoint,bases,etc.
+
+	PlaceGameObjects();
+
 
 	map_loaded = ret;
 	return ret;
@@ -546,4 +556,32 @@ bool Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	}
 
 	return ret;
+}
+
+void Map::PlaceGameObjects() {
+
+	std::list<GameObjectGroup*>::iterator item = data.gameObjects.begin();
+
+	for (; item != data.gameObjects.end(); item = next(item)) {
+
+		if ((*item)->nameGroup == "spawnPoint") {
+
+			std::list<GameObjectGroup::Object*>::iterator item2 = (*item)->Objectlist.begin();
+
+			for (; item2 != (*item)->Objectlist.end(); item2 = next(item2)) {
+
+				if ((*item2)->name == "Spawn") {
+
+					Spawning_Point* new_SP = new Spawning_Point(WorldToMap((int)(*item2)->x, (int)(*item2)->y));
+					myApp->scene->SpawningPoints_Array.push_back(new_SP);
+
+				}
+
+			}
+
+		}
+
+	}
+	
+
 }
