@@ -590,8 +590,7 @@ void Map::PlaceGameObjects() {
 
 iPoint Map::PointToTile(int x, int y) {
 	
-	//HardCoded need to clean the problem is the formula
-
+	
 	iPoint Aux;
 	std::list<TileSet*>::iterator item = data.tilesets.begin();
 	
@@ -599,12 +598,11 @@ iPoint Map::PointToTile(int x, int y) {
 
 		if ((*item)->name =="Tileset_Terrain") {
 
-			(*item)->tile_width;
-			(*item)->tile_height;
+			int w=(*item)->tile_width/2;
+			int h=(*item)->tile_height/2;
 
-			// int Hypot =(((*item)->tile_width/2)^2+((*item)->tile_height/2)^2)^(1/2);
-
-			Aux = {x/30,y/30};
+			int Hypot = sqrt(w * w + h * h);
+			Aux = {x/ Hypot,y/Hypot };
 
 
 			break;
