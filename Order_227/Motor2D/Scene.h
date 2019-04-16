@@ -44,6 +44,7 @@ public:
 
 
 	SDL_Texture* TestTexture = nullptr;
+
 private:
 
 	//Spawning

@@ -44,6 +44,8 @@ public:
 	// Utility: return the walkability value of a tile
 	uchar GetTileAt(const iPoint& pos) const;
 
+	// we store the created path here
+	std::vector<iPoint> last_path;
 private:
 
 	// size of the map
@@ -52,7 +54,7 @@ private:
 	// all map walkability values [0..255]
 	uchar* map;
 	// we store the created path here
-	std::vector<iPoint> last_path;
+	//std::vector<iPoint> last_path;
 };
 
 // forward declaration

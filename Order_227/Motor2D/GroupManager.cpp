@@ -127,11 +127,41 @@ void GroupManager::AddUnitsPlayerGroup() {
 	}
 }
 
-void GroupManager::MoveUnits(std::list<Unit*> list, iPoint origin, iPoint destination) {
-	myApp->pathfinding->CreatePath(origin, destination);
+void GroupManager::CreateDestination(iPoint SelectedPos) {
+	/*iPoint curr;
+	if (playerGroup.destinations_queue.pop(curr))
+	{
+		iPoint neighbors[4];
+		neighbors[0].create(curr.x + 1, curr.y + 0);
+		neighbors[1].create(curr.x + 0, curr.y + 1);
+		neighbors[2].create(curr.x - 1, curr.y + 0);
+		neighbors[3].create(curr.x + 0, curr.y - 1);
+
+		for (uint i = 0; i < 4; ++i)
+		{
+			if (MovementCost(neighbors[i].x, neighbors[i].y) > 0)
+			{
+				if (visited.find(neighbors[i]) == -1)
+				{
+					frontier.Push(neighbors[i], 0);
+					visited.add(neighbors[i]);
+				}
+			}
+		}
+	}*/
 }
 
-void GroupManager::MoveUnitsGroup() {
-
+void GroupManager::CreateGroupPaths(std::list<Unit*> list, iPoint destination) {
+	//for (std::list<Unit*>::iterator iterator = list.begin(); iterator != list.end(); iterator++) {
+	//	(*iterator)->origin.x = (*iterator)->unitRect.x;
+	//	(*iterator)->origin.y = (*iterator)->unitRect.y;
+	//	(*iterator)->destination = destination;
+	//	{
+	//		myApp->pathfinding->CreatePath((*iterator)->origin, (*iterator)->destination);
+	//		(*iterator)->Path.clear();
+	//		(*iterator)->Path = myApp->pathfinding->last_path;
+	//	}		
+	//}	
 }
+
 

@@ -22,6 +22,8 @@ public:
 
 	void CreateUnitOnPos(iPoint mouseScreenPos);
 	void entitiesSelection();
+	
+
 
 public:
 
@@ -31,7 +33,10 @@ public:
 	iPoint mousePos;
 	iPoint mouseScreenPos;
 
+	iPoint mouseClickPos;
+
 	iPoint origin;
+
 	iPoint rectangle_origin;
 
 };

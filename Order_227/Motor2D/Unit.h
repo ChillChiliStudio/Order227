@@ -4,6 +4,7 @@
 #include <vector>
 #include "Entity.h"
 #include "SDL/include/SDL.h"
+#include "Pathfinding.h"
 
 enum class unit_type {
 	INFANTRY,
@@ -98,9 +99,11 @@ public:
 	unit_orders unitOrders = unit_orders::HOLD;
 	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
 
+	
 
 	iPoint origin;
 	iPoint destination;
+	std::vector<iPoint> Path;
 	std::vector<iPoint>::iterator currNode;
 	std::vector<iPoint> nodeList;
 
@@ -113,6 +116,8 @@ public:
 	float visionRange = 10.0f;	//For enemy units this would be their aggro area
 	float attackRange = 10.0f;
   
+
+	
 	//unsigned int life;
 	//unsigned int maxLife;
 	//unit_state status;

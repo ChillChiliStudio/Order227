@@ -30,12 +30,15 @@ public:
 	void CreateGroupForPlayer();
 	void EmptyPlayerGroup();
 	void AddUnitsPlayerGroup();
-	void MoveUnits(std::list<Unit*> list, iPoint origin, iPoint destination);
+	void CreateDestination(iPoint mouseScreenPos);
+	void CreateGroupPaths(std::list<Unit*> list,iPoint destination);
 	void MoveUnitsGroup();
 
 public:
 
 	Group playerGroup;
+
+
 };
 
 
