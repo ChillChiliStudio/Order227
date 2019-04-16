@@ -572,7 +572,9 @@ void Map::PlaceGameObjects() {
 
 				if ((*item2)->name == "Spawn") {
 
-					Spawning_Point* new_SP = new Spawning_Point(iPoint((int)(*item2)->x,(int)(*item2)->y));
+					
+
+					Spawning_Point* new_SP = new Spawning_Point(PointToTile((int)(*item2)->x,(int)(*item2)->y));
 					myApp->scene->SpawningPoints_Array.push_back(new_SP);
 
 				}
@@ -583,5 +585,35 @@ void Map::PlaceGameObjects() {
 
 	}
 	
+
+}
+
+iPoint Map::PointToTile(int x, int y) {
+	
+	//HardCoded need to clean the problem is the formula
+
+	iPoint Aux;
+	std::list<TileSet*>::iterator item = data.tilesets.begin();
+	
+	for (; item != data.tilesets.end();item=next(item)) {
+
+		if ((*item)->name =="Tileset_Terrain") {
+
+			(*item)->tile_width;
+			(*item)->tile_height;
+
+			// int Hypot =(((*item)->tile_width/2)^2+((*item)->tile_height/2)^2)^(1/2);
+
+			Aux = {x/30,y/30};
+
+
+			break;
+		}
+
+	}
+
+	
+	
+	return MapToWorld(Aux.x, Aux.y);
 
 }

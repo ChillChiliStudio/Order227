@@ -161,6 +161,7 @@ public:
 	iPoint WorldToMap(int x, int y) const;
 	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
 	void PlaceGameObjects();
+	iPoint PointToTile(int x,int y);
 
 private:
 
