@@ -590,28 +590,17 @@ void Map::PlaceGameObjects() {
 
 iPoint Map::PointToTile(int x, int y) {
 	
+	iPoint Aux;	
 	
-	iPoint Aux;
-	std::list<TileSet*>::iterator item = data.tilesets.begin();
-	
-	for (; item != data.tilesets.end();item=next(item)) {
+	//harcoded need to clean
 
-		if ((*item)->name =="Tileset_Terrain") {
+		/*	int w=data.tile_width/2;
+			int h=data.tile_height/2;
 
-			int w=(*item)->tile_width/2;
-			int h=(*item)->tile_height/2;
+			int Hypot = sqrt(w * w + h * h)*/;
 
-			int Hypot = sqrt(w * w + h * h);
-			Aux = {x/ Hypot,y/Hypot };
+			Aux = {x/30,y/30 };
 
-
-			break;
-		}
-
-	}
-
-	
-	
+		
 	return MapToWorld(Aux.x, Aux.y);
-
 }
