@@ -84,7 +84,6 @@ bool EntityManager::Update(float dt) {
 
 	}
 
-	//if (entities_list.size() > 0)
 	myApp->render->OrderBlit(myApp->render->OrderToRender);
 
 

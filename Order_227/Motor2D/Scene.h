@@ -41,8 +41,8 @@ public:
 
 	
 	void ChooseSpawningPoints();
-
 	SDL_Texture* TestTexture = nullptr;
+
 private:
 
 	//Spawning
@@ -54,9 +54,7 @@ private:
 	pugi::xml_document SP_Doc;
 
 	//Pathfinding Debug Stuff
-	char* AlgorithmUsed = "Algorithm Used: A-Star (press G to change)";
 	SDL_Texture* debug_tex;
-	bool activateJPS = false;
 	PerfTimer PathfindingTimer;
 	float Ptime = 0.0f;
 

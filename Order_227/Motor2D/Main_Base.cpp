@@ -25,8 +25,6 @@ Main_Base::~Main_Base()
 
 bool Main_Base::Update(float dt) {
 
-	//Draw();
-
 	if (life <= 0)
 		myApp->entities->DestroyEntity(this);
 

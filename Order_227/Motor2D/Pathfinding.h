@@ -8,12 +8,6 @@
 #define DEFAULT_PATH_LENGTH 50
 #define INVALID_WALK_CODE 255
 
-// --------------------------------------------------
-// Recommended reading:
-// Intro: http://www.raywenderlich.com/4946/introduction-to-a-pathfinding
-// Details: http://theory.stanford.edu/~amitp/GameProgramming/
-// --------------------------------------------------
-
 struct PathNode;
 
 class PathFinding : public Module	//TODO: Change class name so it follows guideline standards
@@ -32,7 +26,7 @@ public:
 	void SetMap(uint width, uint height, uchar* data);
 
 	// Main function to request a path from A to B
-	int CreatePath(const iPoint& origin, const iPoint& destination, bool JPS_active);
+	int CreatePath(const iPoint& origin, const iPoint& destination);
 
 	// To request all tiles involved in the last generated path
 	const std::vector<iPoint>* GetLastPath() const;
@@ -45,12 +39,6 @@ public:
 
 	// Utility: return the walkability value of a tile
 	uchar GetTileAt(const iPoint& pos) const;
-
-	//Runs A*
-	int PropagateAStar(const iPoint& origin, const iPoint& destination);
-
-	//Runs JPS
-	int PropagateJPS(const iPoint& origin, const iPoint& destination);
 
 	//Decides next Jump Point based on a direction and tile's walkability
 	PathNode* Jump(iPoint current_position, iPoint direction, const iPoint& destination, PathNode* parent);

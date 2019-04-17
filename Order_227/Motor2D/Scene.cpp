@@ -27,9 +27,7 @@ Scene::~Scene()
 bool Scene::Awake()
 {
 	LOG("Loading Scene");
-	bool ret = true;
-
-	return ret;
+	return true;
 }
 
 // Called before the first frame
@@ -37,7 +35,7 @@ bool Scene::Start()
 {
   
 	srand(time(NULL));
-	if(myApp->map->Load("Map1_0.tmx") == true) //hardcoded
+	if(myApp->map->Load("Map1_0.tmx") == true) //Hardcoded
 	{
 		int w, h;
 		uchar* data = NULL;
@@ -66,10 +64,9 @@ bool Scene::Start()
 	}
 
 	myApp->entities->CreateEntity(entity_type::OBJECT_ENT, fPoint(10.0f, 10.0f));
-
 	TestTexture = myApp->tex->Load("textures/troops/allied/gi.png");
 
-	//Debug Texture to show Pahtfinding and mouse position
+	//Debug Texture to show Pahtfinding and mouse position - DEBUG PATHFINDING
 	debug_tex = myApp->tex->Load("maps/path2.png");
 
 	return true;
@@ -89,20 +86,8 @@ bool Scene::PreUpdate()
 			if ((*item)->GetType() == entity_type::UNIT_ENT)
 				myApp->entities->DestroyEntity(*item);
 
-	// Switch between A* and JPS
-	if (myApp->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN) {
 
-		activateJPS = !activateJPS;
-
-		if (activateJPS == true)
-			AlgorithmUsed = "Algorithm Used: JPS (press G to change)";
-		else
-			AlgorithmUsed = "Algorithm Used: A-Star (press G to change)";
-
-	}
-
-
-	// debug pathfing ------------------
+	// debug pathfing ------------------  - DEBUG PATHFINDING
 	static iPoint origin;
 	static bool origin_selected = false;
 
@@ -117,10 +102,10 @@ bool Scene::PreUpdate()
 		{
 
 			LOG("========PATHFINDING PERFORMANCE TEST RESULTS=========");
-			LOG("Using Algorithm: %s", AlgorithmUsed);
+			LOG("Algorithm Used: Jump Point Search (JPS)");
 
 			PathfindingTimer.Start();
-			myApp->pathfinding->CreatePath(origin, p, activateJPS);
+			myApp->pathfinding->CreatePath(origin, p);
 			Ptime = PathfindingTimer.ReadMs();
 			origin_selected = false;
 
@@ -171,7 +156,7 @@ bool Scene::Update(float dt)
 	}
 	
 
-	// Debug pathfinding ------------------------------
+	// Debug pathfinding ------------------------------ - DEBUG PATHFINDING
 	int x, y;
 	myApp->input->GetMousePosition(x, y);
 	iPoint p = myApp->render->ScreenToWorld(x, y);

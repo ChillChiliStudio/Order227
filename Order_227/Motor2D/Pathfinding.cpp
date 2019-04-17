@@ -189,97 +189,12 @@ int PathNode::CalculateF(const iPoint& destination)
 }
 
 
-// ----------------------------------------------------------------------------------
-// Actual A* algorithm: return number of steps in the creation of the path or -1 ----
-// ----------------------------------------------------------------------------------
-int PathFinding::PropagateAStar(const iPoint& origin, const iPoint& destination) {
-
-	int ret = -1;
-
-	PathList open;
-	PathList close;
-
-	open.list.push_back(PathNode(0, 0, origin, NULL));
-
-	while (open.list.size() > 0) {
-
-		std::list<PathNode>::iterator aux = open.GetNodeLowestScore();
-		close.list.push_back(*aux);
-
-		std::list<PathNode>::iterator lower = prev(close.list.end());
-		open.list.erase(aux);
-
-		if ((*lower).pos == destination) {
-
-			last_path.clear();
-			const PathNode *new_node = &(*lower);
-
-			while (new_node) {
-
-				last_path.push_back(new_node->pos);
-				new_node = new_node->parent;
-			}
-
-			std::reverse(last_path.begin(), last_path.end());
-			ret = last_path.size();
-			break;
-		}
-
-		PathList AdjacentNodes;
-		AdjacentNodes.list.clear();
-
-		(*lower).FindWalkableAdjacents(AdjacentNodes);
-		std::list<PathNode>::iterator it = AdjacentNodes.list.begin();
-
-		for (; it != AdjacentNodes.list.end(); it = next(it)) {
-
-			if (close.Find((*it).pos) != close.list.end())
-				continue;
-
-			std::list<PathNode>::iterator adj_node = open.Find((*it).pos);
-
-			if (adj_node == open.list.end()) {
-
-				(*it).CalculateF(destination);
-				open.list.push_back(*it);
-			}
-			else if ((*adj_node).g > (*it).g + 1) {
-
-				(*adj_node).parent = (*it).parent;
-				(*adj_node).CalculateF(destination);
-
-			}
-		}
-	}
-
-	return ret;
-}
-
-
-int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination, bool JPS_active) {
+int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination) {
 
 	int ret = -1;
 
 	if (!IsWalkable(origin) || !IsWalkable(destination))
 		return ret;
-
-	if (JPS_active == false)
-		PropagateAStar(origin, destination);
-	else
-		PropagateJPS(origin, destination);
-
-	LOG("Path Steps: %i", last_path.size());
-
-	return ret;
-}
-
-
-// ----------------------------------------------------------------------------------
-// JPS algorithm: returns number of steps in the creation of the path or -1 ----
-// ----------------------------------------------------------------------------------
-int PathFinding::PropagateJPS(const iPoint& origin, const iPoint& destination) {
-
-	int ret = -1;
 
 	PathList open;
 	PathList close;
@@ -335,6 +250,7 @@ int PathFinding::PropagateJPS(const iPoint& origin, const iPoint& destination) {
 		}
 	}
 
+	LOG("Path Steps: %i", last_path.size());
 	return ret;
 }
 
@@ -343,7 +259,7 @@ PathList PathNode::PruneNeighbours(const iPoint& destination, PathFinding* PF_Mo
 
 	PathList ret;
 
-	//Fill the neighbours list with the whole tile neighbours
+	//Fill the neighbours list with the whole immediate tile neighbours
 	PathList neighbours;
 	FindWalkableAdjacents(neighbours);
 

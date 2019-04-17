@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="60" tileheight="30" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.3" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="60" tileheight="30" infinite="0" nextlayerid="6" nextobjectid="1">
  <properties>
   <property name="Nodraw" value="0"/>
  </properties>
@@ -40173,7 +40173,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="5" name="walkability" width="100" height="100" visible="0">
+ <layer id="5" name="walkability" width="100" height="100">
   <properties>
    <property name="Navigation" value="1"/>
    <property name="Nodraw" value="1"/>
