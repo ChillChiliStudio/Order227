@@ -30,7 +30,8 @@ public:
 	int size;
 
 public:
-	/*std::queue<iPoint*> destinations_queue;*/
+	std::list<iPoint*> destinations_list;
+	std::list<iPoint*> occupied_list;
 	std::list<Unit*> groupUnits_list;
 	
 };
