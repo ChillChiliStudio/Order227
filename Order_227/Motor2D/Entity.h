@@ -82,7 +82,7 @@ public:
 	fPoint position;
 	SDL_Texture *texture = nullptr;
 	
-	MovementState UnitMovementState = MovementState::MovementState_NoState;
+
 
 };
 
