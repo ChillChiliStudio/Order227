@@ -4,7 +4,6 @@
   <property name="Nodraw" value="0"/>
  </properties>
  <tileset firstgid="1" name="Tileset_Terrain" tilewidth="60" tileheight="60" tilecount="187" columns="17">
-  <tileoffset x="0" y="15"/>
   <image source="Tileset_Terrain_test.png" width="1020" height="660"/>
   <terraintypes>
    <terrain name="grass" tile="38"/>
@@ -99,15 +98,15 @@
   <tile id="175" terrain="3,3,3,3"/>
  </tileset>
  <tileset firstgid="188" name="treeeeees" tilewidth="60" tileheight="90" tilecount="40" columns="8">
-  <tileoffset x="0" y="-30"/>
+  <tileoffset x="0" y="-45"/>
   <image source="Tree_Tileset.png" trans="00ffff" width="500" height="500"/>
  </tileset>
  <tileset firstgid="228" name="mountain" tilewidth="120" tileheight="120" tilecount="9" columns="3">
-  <tileoffset x="0" y="-40"/>
+  <tileoffset x="0" y="-65"/>
   <image source="mountain1.png" width="360" height="360"/>
  </tileset>
  <tileset firstgid="237" name="mountain2" tilewidth="90" tileheight="135" tilecount="10" columns="5">
-  <tileoffset x="0" y="-40"/>
+  <tileoffset x="0" y="-65"/>
   <image source="mountain2.png" width="450" height="270"/>
  </tileset>
  <tileset firstgid="247" name="sea" tilewidth="60" tileheight="60" tilecount="32" columns="8">
@@ -147,7 +146,7 @@
   <tile id="29" terrain=",,0,"/>
  </tileset>
  <tileset firstgid="279" name="meta" tilewidth="60" tileheight="60" tilecount="2" columns="2">
-  <tileoffset x="0" y="14"/>
+  <tileoffset x="0" y="-1"/>
   <image source="meta2.png" width="120" height="60"/>
  </tileset>
  <layer id="1" name="Terrain" width="100" height="100">
@@ -50192,7 +50191,7 @@
   <object id="18" x="275.758" y="2627.27"/>
   <object id="21" x="1763.64" y="-218.182"/>
   <object id="22" x="31" y="2897"/>
-  <object id="23" name="Spawn" x="34.0341" y="33.4659" width="17.8636" height="17.0909"/>
+  <object id="23" name="Spawn" x="35.7841" y="36.7159" width="17.8636" height="17.0909"/>
   <object id="24" name="Spawn" x="2944.22" y="2943.31" width="17.3333" height="18"/>
   <object id="25" x="3004.67" y="2941.33"/>
   <object id="26" name="Spawn" x="36.6402" y="2944.54" width="18.803" height="19.197"/>

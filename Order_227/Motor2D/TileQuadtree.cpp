@@ -14,7 +14,6 @@
 
 
 
-
 TileQuadtree::TileQuadtree(uint max_levels, SDL_Rect section, uint size, uint level) : Quadtree(max_levels, section, level), size(size)
 {
 	//Set the subnodes as nullptr

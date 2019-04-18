@@ -94,6 +94,14 @@ bool Scene::PostUpdate()
 {
 	bool ret = true;
 
+	int x, y;
+	myApp->input->GetMousePosition(x, y);
+	iPoint p = myApp->render->ScreenToWorld(x, y);
+	p = myApp->map->WorldToMap(p.x, p.y);
+	p = myApp->map->MapToWorld(p.x, p.y);
+
+	myApp->render->Blit(debug_tex, p.x, p.y);
+
 	if(myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
@@ -132,6 +140,7 @@ void Scene::ChooseSpawningPoints()
 	else
 		threatIncremental = 0;
 
+	LOG("Round num: %i   Threat: %i   ThreatInc: %i", roundNumber, roundThreat, threatIncremental);
 
 	roundThreat += threatIncremental;
 	roundNumber++;
