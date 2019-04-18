@@ -597,7 +597,7 @@ iPoint Map::PointToTile(int x, int y) {
 		/*	int w=data.tile_width/2;
 			int h=data.tile_height/2;
 
-			int Hypot = sqrt(w * w + h * h)*/;
+			int Hypot = sqrt(w * w + h * h);*/
 
 			Aux = {x/30,y/30 };
 
