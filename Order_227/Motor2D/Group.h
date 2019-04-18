@@ -6,6 +6,7 @@
 #include "Unit.h"
 
 enum class group_type {
+
 	GROUP_STATIC,
 	GROUP_DYNAMIC
 };
@@ -16,6 +17,7 @@ enum class group_type {
 class Group {
 
 public:
+
 	Group();
 	Group(std::list<Unit*> units_list)  {
 		groupUnits_list = units_list;
@@ -30,19 +32,10 @@ public:
 	int size;
 
 public:
+
 	/*std::queue<iPoint*> destinations_queue;*/
 	std::list<Unit*> groupUnits_list;
 	
 };
 
-
-
-
-
-
-
-
 #endif
-
-
-#pragma once

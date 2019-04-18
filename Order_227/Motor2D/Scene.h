@@ -38,20 +38,17 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	
+public:
+
 	void ChooseSpawningPoints();
-
-
-
 	SDL_Texture* TestTexture = nullptr;
 
 private:
 
-	//Spawning
+	//Spawning & SP
 	int roundThreat = 0;
 	int threatIncremental = 0;
 	int roundNumber = 0;
-
 
 	std::vector<Spawning_Point*> SpawningPoints_Array;
 	pugi::xml_document SP_Doc;

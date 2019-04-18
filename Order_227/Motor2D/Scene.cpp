@@ -109,8 +109,6 @@ bool Scene::PreUpdate()
 bool Scene::Update(float dt)
 {
 
-	
-
 	myApp->map->Draw();
 
 	//Spawn Point Draw

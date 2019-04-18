@@ -12,6 +12,7 @@
 class GroupManager : public Module {
 
 public:
+
 	GroupManager() ;
 	~GroupManager() ;
 
@@ -37,8 +38,6 @@ public:
 public:
 
 	Group playerGroup;
-
-
 };
 
 

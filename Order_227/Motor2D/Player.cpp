@@ -39,7 +39,6 @@ bool Player::Start() {
 
 bool Player::PreUpdate() {
 
-
 	return true;
 }
 
@@ -63,7 +62,7 @@ bool Player::Update(float dt) {
 	if (myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		myApp->render->camera.x -= 200 * dt;
 
-	//mouse selection code bellow
+	//Mouse selection code bellow
 
 	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
 	mouseScreenPos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);

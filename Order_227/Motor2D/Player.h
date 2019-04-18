@@ -23,8 +23,6 @@ public:
 	void CreateUnitOnPos(iPoint mouseScreenPos);
 	void entitiesSelection();
 	
-
-
 public:
 
 	int rectangle_width;
