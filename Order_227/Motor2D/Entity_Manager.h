@@ -40,15 +40,6 @@ public:
 
 	void DestroyEntity(Entity *Entity) {}
 
-	//Group functions MUST NOT BE HERE
-	void SelectUnit(SDL_Rect rect);
-	void SelectUnit(iPoint position);
-	void CreateGroup();
-	void CreateGroupForPlayer();
-	void EmptyPlayerGroup();
-	void AddUnitsPlayerGroup();
-	void MoveUnits(std::list<Unit*> list, iPoint origin, iPoint destination);
-
 public:
 
 	//Entity lists
