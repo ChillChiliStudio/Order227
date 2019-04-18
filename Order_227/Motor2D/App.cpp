@@ -37,6 +37,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	gui = new User_Interface();
 	groups = new GroupManager();
 	player = new Player();
+
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);

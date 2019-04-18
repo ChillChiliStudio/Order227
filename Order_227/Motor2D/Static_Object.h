@@ -4,6 +4,7 @@
 #include "Entity.h"
 
 enum class object_type {
+
 	OBJECT_NONE = -1,
 	TREE,
 	ROCK,

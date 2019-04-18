@@ -124,11 +124,8 @@
     <ClInclude Include="Entity_Manager.h" />
     <ClInclude Include="Fonts.h" />
     <ClInclude Include="Group.h" />
-<<<<<<< HEAD
     <ClInclude Include="GroupManager.h" />
     <ClInclude Include="Main_Base.h" />
-=======
->>>>>>> master
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputText.h" />
     <ClInclude Include="Geometry.h" />

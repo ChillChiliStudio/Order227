@@ -7,52 +7,11 @@
 #include "Entity.h"
 #include "Unit.h"
 
-<<<<<<< HEAD
 
-Unit::Unit(unit_type unit_Type, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT, pos)  {
+Unit::Unit(fPoint pos, entity_type Entitytype, entity_faction faction) : Entity(pos, Entitytype, faction) {
 
-	unitFaction = faction;
-	unitType = unit_Type;
-
-	life = 1;
-
-	if (faction == faction_enum::CAPITALIST) {
-
-		switch (unitType) {
-
-		case (unit_type::INFANTRY):
-			texture = myApp->entities->Temp_tex;
-			break;
-		case(unit_type::UNKNOWN):
-			break;
-		default:
-			break;
-		}
-
-		//hostileUnits = &myApp->entities->enemiesList;
-	}
-	else if (faction == faction_enum::COMMUNIST) {
-
-		switch (unitType) {
-
-		case (unit_type::INFANTRY):
-			texture = myApp->entities->Temp_tex;
-			break;
-		case(unit_type::UNKNOWN):
-			break;
-		default:
-			break;
-		}
-	}
-
-	LoadEntityData();
-=======
-Unit::Unit(fPoint pos, entity_type Entitytype, entity_faction faction) : Entity(pos, type, faction)
-{
-	
->>>>>>> master
+//	LoadEntityData();
 }
-
 
 Unit::~Unit()
 {}
@@ -61,66 +20,50 @@ Unit::~Unit()
 bool Unit::Update(float dt)
 {
 
-<<<<<<< HEAD
 	UnitWorkflow(dt);
-	CheckInCamera = {(int)position.x,(int)position.y, unitRect.w, unitRect.h };
-=======
->>>>>>> master
-
-	CheckInCamera = {(int)position.x, (int)position.y, selectionRect.w, selectionRect.h };
-//	Draw();
+	CheckInCamera = {(int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
 
 	if (myApp->render->InsideCamera(CheckInCamera) == true) {
 
 		UpdateBlitOrder();
-		myApp->render->Push(order, texture, position.x, position.y, &unitRect);
+		myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
 	}
 
 	if (currentHealth<= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
 		myApp->entities->DestroyEntity(this);
 
 	if (selected)
-		myApp->render->DrawQuad(unitRect, 255, 0, 0, 255, false);
+		myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0, 255, false);
 
 	return true;
 }
 
 
-<<<<<<< HEAD
 bool Unit::Draw()
 {
 
-=======
-	if (selected) {
-		myApp->render->DrawQuad(selectionRect, 255, 0, 0, 255, false);
-	}
-	
->>>>>>> master
 	return true;
 }
 
 
 void Unit::UpdateBlitOrder()
 {
-<<<<<<< HEAD
 
-	std::list<Entity*>::iterator item = myApp->entities->entities_list.begin();
-=======
-	//RECODE
-	/*std::list<Entity*>::iterator item = myApp->entities->entities_list.begin();
->>>>>>> master
-	while (item != myApp->entities->entities_list.end()) {
+	//for (int i = 0; i < ENTITY_POOL_SIZE; i++) {
 
-		if ((*item) != this) {
+	//	if (myApp->entities->enemySoldiersList[i] != this) {
 
-			if (this->position.y > (*item)->position.y)
-				order += 1;
-			else
-				order -= 1;
-		}
+	//		if (this->position.y > (*item)->position.y)
+	//			order += 1;
+	//		else
+	//			order -= 1;
+	//	}
+	//	else if (myApp->entities->playerSoldiersList[i] != this) {
 
-		item = next(item);
-	}*/
+
+	//	}
+	//}
+
 }
 
 // Main workflow
@@ -330,12 +273,7 @@ void Unit::AttackTarget()
 // Unit Data
 bool Unit::IsDead()
 {
-<<<<<<< HEAD
-
-	if (life <= 0) {
-=======
 	if (currentHealth<= 0) {
->>>>>>> master
 		return true;
 	}
 	else {
@@ -492,7 +430,6 @@ void Unit::StartPatrol(iPoint destination)
 
 bool Unit::LoadEntityData() {
 
-
 	bool ret = true;
 
 	pugi::xml_parse_result result = tilsetTexture.load_file("textures/troops/allied/IG.tmx");
@@ -503,8 +440,8 @@ bool Unit::LoadEntityData() {
 
 		for (pugi::xml_node Data = tilsetTexture.child("map").child("objectgroup").child("object"); Data && ret; Data = Data.next_sibling("object"))
 		{
-			EntityData*EntityDataAux = new EntityData();
 
+			EntityData*EntityDataAux = new EntityData();
 
 			EntityDataAux->Action= Data.attribute("name").as_string(); //Actions the Entityt is performing e.g.Walking,shot
 			EntityDataAux->Degrees = Data.attribute("type").as_int();//Position in degrees 0,45,90,135,180,225,270,315
@@ -518,14 +455,8 @@ bool Unit::LoadEntityData() {
 
 			EntityDataAux->TileSize.x = Data.attribute("width").as_int();//Width
 			EntityDataAux->TileSize.y = Data.attribute("height").as_int();//height
-
-
 			// CAREFUL need to store each o the Entity data,
-
-
 		}
-
-
 	}
 
 	return ret;

@@ -188,12 +188,12 @@ int PathNode::CalculateF(const iPoint& destination)
 }
 
 
-int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination) {
+const std::vector<iPoint>* PathFinding::CreatePath(const iPoint& origin, const iPoint& destination) {
 
-	int ret = -1;
+	std::vector<iPoint> ret;
 
 	if (!IsWalkable(origin) || !IsWalkable(destination))
-		return ret;
+		return nullptr;
 
 	PathList open;
 	PathList close;
@@ -220,7 +220,7 @@ int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination) {
 			}
 
 			std::reverse(last_path.begin(), last_path.end());
-			ret = last_path.size();
+			ret = last_path;
 			RELEASE(new_node);
 			break;
 		}
@@ -250,7 +250,7 @@ int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination) {
 	}
 
 	LOG("Path Steps: %i", last_path.size());
-	return ret;
+	return &ret;
 }
 
 

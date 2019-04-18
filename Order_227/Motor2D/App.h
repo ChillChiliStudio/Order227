@@ -77,26 +77,21 @@ private:
 public:
 
 	// Modules
-	Window*				win = NULL;
-	Input*				input = NULL;
-	Render*				render = NULL;
-	Textures*			tex = NULL;
-	Audio*				audio = NULL;
-	Scene*				scene = NULL;
-	Map*				map = NULL;
-	PathFinding*		pathfinding = NULL;
-<<<<<<< HEAD
-	EntityManager*		entities = NULL;
-	Fonts*			    fonts;
-	User_Interface*  	gui;
-	GroupManager*       groups;
-	Player*             player;
-=======
-	Entity_Manager*		entities = NULL;
-	Fonts*			fonts;
-	User_Interface*	gui;
+	Window*				win = nullptr;
+	Input*				input = nullptr;
+	Render*				render = nullptr;
+	Textures*			tex = nullptr;
+	Audio*				audio = nullptr;
+	Scene*				scene = nullptr;
+	Map*				map = nullptr;
+	PathFinding*		pathfinding = nullptr;
+	Entity_Manager*		entities = nullptr;
+	Fonts*			    fonts = nullptr;
+	User_Interface*  	gui = nullptr;
+	GroupManager*       groups = nullptr;
+	Player*             player = nullptr;
 
->>>>>>> master
+
 	bool mustShutDown = false;
 
 private:

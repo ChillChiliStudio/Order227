@@ -46,19 +46,10 @@ class Entity {
 
 public:
 
-
-<<<<<<< HEAD
-	Entity(entity_type entityType, fPoint position) : type(entityType), position(position) {}
-=======
 	Entity(fPoint position, entity_type entityType, entity_faction faction = entity_faction::NEUTRAL) : type(entityType), position(position), faction(faction) {}
-
->>>>>>> master
 	~Entity() {}
 
 public:
-
-	//// Called before render is available
-	//virtual bool Awake()				{ return true; }
 
 	// Called before the first frame if it was activated before that
 	virtual bool Start() { return true; }
@@ -68,12 +59,6 @@ public:
 
 	// Called each logic iteration
 	virtual bool Update(float dt) { return true; }
-
-	//// Called before all Updates
-	//virtual bool PreUpdate()			{ return true; }
-
-	//// Called after all Updates
-	//virtual bool PostUpdate()			{ return true; }
 
 	// Called before quitting
 	virtual bool CleanUp() { return true; }
@@ -92,7 +77,6 @@ public:
 
 	//True if the entity is "alive", false if it's not
 	bool active = false;
-
 	bool selected = false;
 
 	//Entity data
@@ -101,18 +85,13 @@ public:
 	entity_faction	faction;
 	entity_type		type;
 
-<<<<<<< HEAD
-	fPoint position;
-	SDL_Texture *texture = nullptr;
-	
 	//TilesetFile
 	pugi::xml_document	tilsetTexture;
-=======
+
 	//IMLPEMENT ANIMATION
 	//SDL_Rect		blitRect;
 
 	uint order = 0;
->>>>>>> master
 
 };
 

@@ -8,7 +8,7 @@
 #include "Window.h"
 #include "Map.h"
 #include "PathFinding.h"
-#include "EntityManager.h"
+#include "Entity_Manager.h"
 #include "UserInterface.h"
 #include "ButtonActions.h"
 #include "ParamBox.h"
@@ -51,16 +51,16 @@ bool Player::Update(float dt) {
 
 	//MOVE CAMERA
 	if (myApp->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		myApp->render->camera.y += 200 * dt;
+		myApp->render->camera.y += 500 * dt;
 
 	if (myApp->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		myApp->render->camera.y -= 200 * dt;
+		myApp->render->camera.y -= 500 * dt;
 
 	if (myApp->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		myApp->render->camera.x += 200 * dt;
+		myApp->render->camera.x += 500 * dt;
 
 	if (myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		myApp->render->camera.x -= 200 * dt;
+		myApp->render->camera.x -= 500 * dt;
 
 	//Mouse selection code bellow
 
@@ -92,10 +92,11 @@ bool Player::Update(float dt) {
 
 void Player::CreateUnitOnPos(iPoint mouseScreenPos_)
 {
-	fPoint position;
-	position.x = (float)mouseScreenPos_.x - 30;
-	position.y = (float)mouseScreenPos_.y - 35;
-	myApp->entities->CreateUnit(unit_type::INFANTRY, position, faction_enum::COMMUNIST);
+	//RECODE
+	//fPoint position;
+	//position.x = (float)mouseScreenPos_.x - 30;
+	//position.y = (float)mouseScreenPos_.y - 35;
+	//myApp->entities->CreateUnit(unit_type::INFANTRY, position, faction_enum::COMMUNIST);
 }
 
 void Player::entitiesSelection()
@@ -108,6 +109,7 @@ void Player::entitiesSelection()
 		rectangle_origin = mouseScreenPos;
 
 	else if (std::abs(rectangle_width) >= 5 && std::abs(rectangle_height) >= 5 && myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {
+		
 		// --- Rectangle size ---
 		int width = mouseScreenPos.x - rectangle_origin.x;
 		int height = mouseScreenPos.y - rectangle_origin.y;

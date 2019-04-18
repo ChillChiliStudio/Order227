@@ -4,6 +4,7 @@
 #include "Entity.h"
 
 enum class base_type {
+
 	BASE_NONE = -1,
 	MAIN_BASE,
 	REFINERY,

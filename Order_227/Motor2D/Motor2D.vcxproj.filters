@@ -88,7 +88,6 @@
     <ClCompile Include="Geometry.cpp">
       <Filter>Tools\Geometry</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="GroupManager.cpp">
       <Filter>Game Files\Entity Management</Filter>
     </ClCompile>
@@ -97,7 +96,7 @@
     </ClCompile>
     <ClCompile Include="Player.h">
       <Filter>Game Files\User Interface</Filter>
-=======
+    </ClCompile>
     <ClCompile Include="Entity_Manager.cpp">
       <Filter>Game Files\Entity Management</Filter>
     </ClCompile>
@@ -109,7 +108,6 @@
     </ClCompile>
     <ClCompile Include="Base.cpp">
       <Filter>Game Files\Entity Management\Entities</Filter>
->>>>>>> master
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -227,11 +225,9 @@
     <ClInclude Include="Geometry.h">
       <Filter>Tools\Geometry</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="GroupManager.h">
       <Filter>Game Files\Entity Management</Filter>
     </ClInclude>
-=======
     <ClInclude Include="Entity_Manager.h">
       <Filter>Game Files\Entity Management</Filter>
     </ClInclude>
@@ -244,7 +240,6 @@
     <ClInclude Include="Base.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
->>>>>>> master
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

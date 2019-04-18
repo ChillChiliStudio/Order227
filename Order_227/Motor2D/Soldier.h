@@ -6,6 +6,7 @@
 #include "SDL/include/SDL.h"
 
 enum class soldier_type {
+
 	SOLDIER_NONE = -1,
 	BASIC,
 	BAZOOKA,
