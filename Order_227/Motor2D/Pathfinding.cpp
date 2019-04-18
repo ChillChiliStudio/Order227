@@ -182,7 +182,6 @@ int PathNode::Score() const
 int PathNode::CalculateF(const iPoint& destination)
 {
 	g = parent->g + 1;
-	//h = pos.DistanceManhattan(destination); //For diagonal use DiagonalDistance
 	h = pos.DistanceTo(destination);
 
 	return g + h;

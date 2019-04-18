@@ -59,17 +59,6 @@ bool Scene::Start()
 bool Scene::PreUpdate()
 {
 
-	//Activate Spawn with F --> Just for DEBUG PURPOSES
-	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && SpawningPoints_Array.size() > 0)
-		ChooseSpawningPoints();
-
-	//Delete enemies with J --> Just for DEBUG PURPOSES
-	if (myApp->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN && myApp->entities->entities_list.size() > 0)
-		for (std::list<Entity*>::iterator item = myApp->entities->entities_list.begin(); item != myApp->entities->entities_list.end(); item = next(item))
-			if ((*item)->GetType() == entity_type::UNIT_ENT)
-				myApp->entities->DestroyEntity(*item);
-
-
 	// debug pathfing ------------------  - DEBUG PATHFINDING
 	static iPoint origin;
 	static bool origin_selected = false;
