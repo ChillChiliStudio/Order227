@@ -4,8 +4,13 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Map.h"
+#include "Scene.h"
 #include <cmath>
 #include <sstream>
+
+
+class Spawning_Point;
+
 
 Map::Map() : Module(), map_loaded(false)
 {
@@ -111,8 +116,8 @@ iPoint Map::WorldToMap(int x, int y) const
 		
 		float half_width = data.tile_width * 0.5f;
 		float half_height = data.tile_height * 0.5f;
-		ret.x = int( (x / half_width + y / half_height) / 2) - 1;
-		ret.y = int( (y / half_height - (x / half_width)) / 2);
+		ret.x = int((x / half_width + y / half_height) / 2) - 1;
+		ret.y = int((y / half_height - (x / half_width)) / 2);
 	}
 	else
 	{
@@ -248,6 +253,25 @@ bool Map::Load(const char* file_name)
 			item_layer = next(item_layer);
 		}
 	}
+
+	//Load GameObjectGroup Info-------------------------
+	pugi::xml_node objectGame;
+	for (objectGame = map_file.child("map").child("objectgroup"); objectGame && ret; objectGame = objectGame.next_sibling("objectgroup"))
+	{
+		GameObjectGroup*objGroup = new GameObjectGroup();
+		ret = LoadGameObjects(objectGame, objGroup);
+
+		if (ret == true)
+			data.gameObjects.push_back(objGroup);
+
+	}
+
+
+
+	//place all game objects needed such as SpawningPoint,bases,etc.
+
+	PlaceGameObjects();
+
 
 	map_loaded = ret;
 	return ret;
@@ -463,6 +487,35 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 	return ret;
 }
 
+bool Map::LoadGameObjects(pugi::xml_node& node, GameObjectGroup*ObjGroup) {
+
+	bool ret = true;
+
+	ObjGroup->nameGroup = node.attribute("name").as_string();
+	for (pugi::xml_node obj = node.child("object"); obj && ret; obj=obj.next_sibling("object"))
+	{
+
+		GameObjectGroup::Object*objectAux = new GameObjectGroup::Object();
+
+		objectAux->id = obj.attribute("id").as_int();
+		objectAux->name = obj.attribute("name").as_string();
+		objectAux->x = obj.attribute("x").as_float();
+		objectAux->y = obj.attribute("y").as_float();
+		objectAux->width = obj.attribute("width").as_float();
+		objectAux->height = obj.attribute("height").as_float();
+
+
+		ObjGroup->Objectlist.push_back(objectAux);
+
+	}
+
+
+	
+	
+
+	return ret;
+}
+
 //Basically here we fullfill a map array with 0s and 1s (same than we did with the map[X][Y] but better
 bool Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 {
@@ -503,4 +556,51 @@ bool Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	}
 
 	return ret;
+}
+
+void Map::PlaceGameObjects() {
+
+	std::list<GameObjectGroup*>::iterator item = data.gameObjects.begin();
+
+	for (; item != data.gameObjects.end(); item = next(item)) {
+
+		if ((*item)->nameGroup == "spawnPoint") {
+
+			std::list<GameObjectGroup::Object*>::iterator item2 = (*item)->Objectlist.begin();
+
+			for (; item2 != (*item)->Objectlist.end(); item2 = next(item2)) {
+
+				if ((*item2)->name == "Spawn") {
+
+					
+
+					Spawning_Point* new_SP = new Spawning_Point(PointToTile((int)(*item2)->x,(int)(*item2)->y));
+					myApp->scene->SpawningPoints_Array.push_back(new_SP);
+
+				}
+
+			}
+
+		}
+
+	}
+	
+
+}
+
+iPoint Map::PointToTile(int x, int y) {
+	
+	iPoint Aux;	
+	
+	//harcoded need to clean
+
+		/*	int w=data.tile_width/2;
+			int h=data.tile_height/2;
+
+			int Hypot = sqrt(w * w + h * h)*/;
+
+			Aux = {x/30,y/30 };
+
+		
+	return MapToWorld(Aux.x, Aux.y);
 }

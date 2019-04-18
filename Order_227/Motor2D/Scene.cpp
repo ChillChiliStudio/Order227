@@ -33,9 +33,9 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
-  
+
 	srand(time(NULL));
-	if(myApp->map->Load("Map1_0.tmx") == true) //Hardcoded
+	if(myApp->map->Load("Map1_0.tmx") == true)
 	{
 		int w, h;
 		uchar* data = NULL;
@@ -45,23 +45,6 @@ bool Scene::Start()
 		RELEASE_ARRAY(data);
 	}
 
-	//Spawning Points Load
-	pugi::xml_parse_result result = SP_Doc.load_file("SpawningPoints.xml");
-	
-	if (result == NULL)
-		LOG("SPAWNING POINTS DOCUMENT COULDN'T LOAD!");
-	else {
-
-		pugi::xml_node SP_Node = SP_Doc.child("Spawning_Points");
-		for (SP_Node = SP_Node.child("SP"); SP_Node; SP_Node = SP_Node.next_sibling("SP")) {
-
-			int x = SP_Node.attribute("x").as_int();
-			int y = SP_Node.attribute("y").as_int();
-
-			Spawning_Point* new_SP = new Spawning_Point(iPoint(x, y));
-			SpawningPoints_Array.push_back(new_SP);
-		}
-	}
 
 	myApp->entities->CreateEntity(entity_type::OBJECT_ENT, fPoint(10.0f, 10.0f));
 	TestTexture = myApp->tex->Load("textures/troops/allied/gi.png");
@@ -154,7 +137,7 @@ bool Scene::Update(float dt)
 
 		}
 	}
-	
+
 
 	// Debug pathfinding ------------------------------ - DEBUG PATHFINDING
 	int x, y;
@@ -229,18 +212,21 @@ void Scene::ChooseSpawningPoints() {
 
 	roundNumber++;
 	roundThreat += threatIncremental;
-	
+
 	//Reseting spawning points (put them at false to choose between them)
 	for (int i = 0; i < SpawningPoints_Array.size(); i++)
 		SpawningPoints_Array[i]->active = false;
-	
+
 
 	//If we want more spawning points just put more of these
 	int r1 = rand() % SpawningPoints_Array.size(); //For ranges not starting at 0: rand()%X + Y --> Range of rands between Y and X
 	int r2 = rand() % SpawningPoints_Array.size(); //Rand num between 0 and array's size (if 4 SP, then 0-4)
 
-	while (r2 == r1)
-		r2 = rand() % SpawningPoints_Array.size(); //This can be pretty unpredictable & uncontrolling shit
+	if (SpawningPoints_Array.size() > 1) {
+
+		while (r2 == r1)
+			r2 = rand() % SpawningPoints_Array.size(); //This can be pretty unpredictable & uncontrolling shit
+	}
 
 	SpawningPoints_Array[r1]->active = true;
 	SpawningPoints_Array[r2]->active = true;

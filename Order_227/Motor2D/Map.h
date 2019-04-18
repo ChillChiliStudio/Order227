@@ -6,6 +6,40 @@
 
 #include "TileQuadtree.h"
 
+
+
+struct GameObjectGroup 
+{
+
+	std::string nameGroup;
+
+	struct Object
+	{
+		std::string name;
+		float x, y, width, height;
+		int id;
+
+	};
+
+
+	~GameObjectGroup()
+	{
+		std::list<Object*>::iterator itemP;
+		itemP = Objectlist.begin();
+
+		while (itemP != Objectlist.end())
+		{
+			RELEASE(*itemP);
+			itemP = next(itemP);
+		}
+
+		Objectlist.clear();
+	}
+
+	std::list<Object*>	Objectlist;
+
+};
+
 struct Properties
 {
 	struct Property
@@ -92,8 +126,11 @@ struct MapData
 	int					tile_height;
 	SDL_Color			background_color;
 	MapTypes			type;
+	//list
 	std::list<TileSet*>	tilesets;
 	std::list<MapLayer*>layers;
+	std::list<GameObjectGroup *>gameObjects;
+	
 };
 
 // ----------------------------------------------------
@@ -123,6 +160,8 @@ public:
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
 	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
+	void PlaceGameObjects();
+	iPoint PointToTile(int x,int y);
 
 private:
 
@@ -131,13 +170,14 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
+	bool LoadGameObjects(pugi::xml_node& node, GameObjectGroup*ObjGroup);
 
 	TileSet* GetTilesetFromTileId(int id) const;
 
 public:
 
 	MapData data;
-
+	
 private:
 
 	pugi::xml_document	map_file;

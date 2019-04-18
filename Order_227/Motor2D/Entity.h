@@ -14,9 +14,19 @@ struct SDL_Rect;
 
 enum class entity_type {
 
-	OBJECT_ENT,
-	UNIT_ENT,
+	OBJECT_ENT,	//TODO: It's an enum class, it will require entity_type:: to be used so the "_ENT" is unnecesary.
+	UNIT_ENT,	//TODO: Needs to be more specific, I need to know if a unit is hostile or friendly
 	UNKNOWN = 2
+};
+
+struct EntityData {
+
+	std::string Action;
+	iPoint TilePos;
+	iPoint TileSize;
+	int Degrees;
+	int AnimFrames;
+
 };
 
 class Entity {
@@ -62,6 +72,8 @@ public:
 	virtual bool Move(float dt)			{ return true; }
 	virtual bool Draw(float dt)			{ return true; }
 	virtual void UpdateBlitOrder() {}
+	virtual bool LoadEntityData()       { return true; }
+
 
 public:
 
@@ -78,6 +90,10 @@ public:
 	fPoint position;
 	SDL_Texture *texture = nullptr;
 	
+	//TilesetFile
+	pugi::xml_document	tilsetTexture;
+	
+
 
 };
 
