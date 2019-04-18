@@ -114,7 +114,6 @@ bool Scene::Update(float dt)
 	//Spawn Point Draw
 	for (int i = 0; i < SpawningPoints_Array.size(); i++) {
 
-		//myApp->render->DrawQuad(SpawningPoints_Array[i]->SP_Rect, 255, 100, 100);
 		myApp->render->Blit(debug_tex, SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
 
 		if (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0 && SpawningPoints_Array[i]->SpawnTime.Read() > 500) {
