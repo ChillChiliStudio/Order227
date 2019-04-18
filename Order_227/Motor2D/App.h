@@ -19,6 +19,8 @@ class PathFinding;
 class Fonts;
 class EntityManager;
 class User_Interface;
+class GroupManager;
+class Player;
 
 class App
 {
@@ -84,9 +86,10 @@ public:
 	Map*				map = NULL;
 	PathFinding*		pathfinding = NULL;
 	EntityManager*		entities = NULL;
-	Fonts*			fonts;
-	User_Interface*	gui;
-
+	Fonts*			    fonts;
+	User_Interface*  	gui;
+	GroupManager*       groups;
+	Player*             player;
 	bool mustShutDown = false;
 
 private:

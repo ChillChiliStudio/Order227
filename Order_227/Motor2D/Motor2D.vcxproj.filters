@@ -92,7 +92,16 @@
       <Filter>Tools</Filter>
     </ClCompile>
     <ClCompile Include="Geometry.cpp">
-      <Filter>Tools</Filter>
+      <Filter>Tools\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="GroupManager.cpp">
+      <Filter>Game Files\Entity Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Game Files\User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.h">
+      <Filter>Game Files\User Interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,9 +110,6 @@
     </ClInclude>
     <ClInclude Include="PugiXml\src\pugixml.hpp">
       <Filter>Tools\PuguiXML</Filter>
-    </ClInclude>
-    <ClInclude Include="Point.h">
-      <Filter>Tools</Filter>
     </ClInclude>
     <ClInclude Include="Log.h">
       <Filter>Tools</Filter>
@@ -207,8 +213,20 @@
     <ClInclude Include="TileQuadtree.h">
       <Filter>Tools</Filter>
     </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Tools\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Tools\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Group.h">
+      <Filter>Game Files\Entity Management</Filter>
+    </ClInclude>
     <ClInclude Include="Geometry.h">
-      <Filter>Tools</Filter>
+      <Filter>Tools\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="GroupManager.h">
+      <Filter>Game Files\Entity Management</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +277,9 @@
     </Filter>
     <Filter Include="Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes">
       <UniqueIdentifier>{7e5e65b6-97c8-4a2b-a4ed-a05dc8f38564}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\Geometry">
+      <UniqueIdentifier>{f7de7723-9e75-48f2-ba3a-20fbdafef3e6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

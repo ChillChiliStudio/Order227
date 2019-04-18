@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Entity.h"
 #include "Unit.h"
+#include "Group.h"
 #include "Main_Base.h"
 #include "PugiXml\src\pugixml.hpp"
 
@@ -33,18 +34,23 @@ public:
 	Entity *CreateUnit(unit_type unitType, fPoint position, faction_enum faction);
 
 	void DestroyEntity(Entity *Entity);
+<<<<<<< HEAD
 
+=======
+>>>>>>> GroupsMovement_Jaume
 
 public:
 
-
 	std::list<Entity*> entities_list;
+	std::list<Unit*> comunist_list;
+	std::list<Unit*> capitalist_list;
+	
 
 	float accumulated_time = 0.0f;
 	float update_ms_cycle = 0.0f;
 	int times_per_sec = 0;
 	bool do_logic = false;
-
+	
 };
 
 #endif

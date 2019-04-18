@@ -40,9 +40,14 @@ public:
 	// Utility: return the walkability value of a tile
 	uchar GetTileAt(const iPoint& pos) const;
 
+<<<<<<< HEAD
 	//Decides next Jump Point based on a direction and tile's walkability
 	PathNode* Jump(iPoint current_position, iPoint direction, const iPoint& destination, PathNode* parent);
 
+=======
+	// we store the created path here
+	std::vector<iPoint> last_path;
+>>>>>>> GroupsMovement_Jaume
 private:
 
 	// size of the map
@@ -51,7 +56,7 @@ private:
 	// all map walkability values [0..255]
 	uchar* map;
 	// we store the created path here
-	std::vector<iPoint> last_path;
+	//std::vector<iPoint> last_path;
 };
 
 // forward declaration

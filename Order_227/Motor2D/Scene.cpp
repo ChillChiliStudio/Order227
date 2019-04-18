@@ -13,6 +13,7 @@
 #include "ButtonActions.h"
 #include "ParamBox.h"
 #include "Scene.h"
+#include "GroupManager.h"
 
 Scene::Scene() : Module()
 {
@@ -33,7 +34,10 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
+<<<<<<< HEAD
 
+=======
+>>>>>>> GroupsMovement_Jaume
 	srand(time(NULL));
 	if(myApp->map->Load("Map1_0.tmx") == true)
 	{
@@ -46,7 +50,12 @@ bool Scene::Start()
 	}
 
 
+<<<<<<< HEAD
 	myApp->entities->CreateEntity(entity_type::OBJECT_ENT, fPoint(10.0f, 10.0f));
+=======
+	myApp->entities->CreateEntity(entity_type::OBJECT, fPoint(10.0f, 10.0f));
+
+>>>>>>> GroupsMovement_Jaume
 	TestTexture = myApp->tex->Load("textures/troops/allied/gi.png");
 
 	//Debug Texture to show Pahtfinding and mouse position - DEBUG PATHFINDING
@@ -58,6 +67,7 @@ bool Scene::Start()
 // Called each loop iteration
 bool Scene::PreUpdate()
 {
+<<<<<<< HEAD
 
 	// debug pathfing ------------------  - DEBUG PATHFINDING
 	static iPoint origin;
@@ -87,6 +97,32 @@ bool Scene::PreUpdate()
 		{
 			origin = p;
 			origin_selected = true;
+=======
+	//Activate Spawn with F --> Just for DEBUG PURPOSES
+	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && SpawningPoints_Array.size() > 0)
+		ChooseSpawningPoints();
+
+	//Delete enemies with J --> Just for DEBUG PURPOSES
+	if (myApp->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN && myApp->entities->entities_list.size() > 0) {
+		for (std::list<Entity*>::iterator item = myApp->entities->entities_list.begin(); item != myApp->entities->entities_list.end(); item = next(item)) {
+			if ((*item)->GetType() == entity_type::UNIT) {
+				myApp->entities->DestroyEntity(*item);
+			}
+		}
+	}
+
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
+		for (std::list<Entity*>::iterator item = myApp->entities->entities_list.begin(); item != myApp->entities->entities_list.end(); item = next(item)) {
+			if ((*item)->GetType() == entity_type::UNIT) {
+				Unit* tmpUnit = (Unit*)(*item);
+
+				/*int mouseX, mouseY;	//TODO Carles: DO NOT TOUCH >:c
+				myApp->input->GetMousePosition(mouseX, mouseY);
+				iPoint wololo = myApp->render->ScreenToWorld(mouseX, mouseY);
+				myApp->map->WorldToMap(wololo.x, wololo.y);
+				tmpUnit->StartMove(wololo);*/
+			}
+>>>>>>> GroupsMovement_Jaume
 		}
 	}
 
@@ -97,6 +133,7 @@ bool Scene::PreUpdate()
 bool Scene::Update(float dt)
 {
 
+<<<<<<< HEAD
 	if(myApp->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		myApp->render->camera.y += 500*dt;
 
@@ -109,6 +146,8 @@ bool Scene::Update(float dt)
 	if(myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		myApp->render->camera.x -= 500*dt;
 
+=======
+>>>>>>> GroupsMovement_Jaume
 	myApp->map->Draw();
 
 	//Spawn Point Draw
@@ -121,13 +160,14 @@ bool Scene::Update(float dt)
 			fPoint SP_Pos = fPoint(SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
 			SpawningPoints_Array[i]->SpawnTime.Start();
 
-			myApp->entities->CreateUnit(unit_type::INFANTRY_DIVISION, fPoint(SP_Pos), faction_enum::FACTION_CAPITALIST);
+			myApp->entities->CreateUnit(unit_type::INFANTRY, fPoint(SP_Pos), faction_enum::CAPITALIST);
 			SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
 
 		}
 	}
 
 
+<<<<<<< HEAD
 	// Debug pathfinding ------------------------------ - DEBUG PATHFINDING
 	int x, y;
 	myApp->input->GetMousePosition(x, y);
@@ -146,6 +186,8 @@ bool Scene::Update(float dt)
 	}
 
 
+=======
+>>>>>>> GroupsMovement_Jaume
 	myApp->gui->Draw();
 	return true;
 }
@@ -177,9 +219,8 @@ bool Scene::CleanUp()
 	return true;
 }
 
-
-void Scene::ChooseSpawningPoints() {
-
+void Scene::ChooseSpawningPoints()
+{
 	//Restarting round if reached 20 - for MVP this should be 5!
 	if (roundNumber == 5) {
 
@@ -187,7 +228,7 @@ void Scene::ChooseSpawningPoints() {
 		roundThreat = 0;
 	}
 
-	//This is VERY HARDCODED - I'm not proud of this, but will work for now (fck this shit) - Is just the manager of round threat
+	//This is VERY HARDCODED - I'm not proud of this, but will work for now (fck this shit) - Is just the manager of round threat TODO
 	if (roundNumber == 0 || roundNumber == 1)
 		threatIncremental = 10;
 	else if (roundNumber == 3 || roundNumber == 6)

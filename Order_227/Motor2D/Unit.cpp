@@ -2,23 +2,29 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Scene.h"
+#include "Pathfinding.h"
 #include "EntityManager.h"
 #include "Entity.h"
 #include "Unit.h"
 
+<<<<<<< HEAD
 Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT_ENT, pos)  {
 
 
 	UnitFaction = faction;
 	UnitType = unitType;
 
+=======
+Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT, pos), unitFaction(faction), unitType(unitType)
+{
+>>>>>>> GroupsMovement_Jaume
 	life = 1;
 
-	if (faction == faction_enum::FACTION_CAPITALIST) {
+	if (faction == faction_enum::CAPITALIST) {
 
 		switch (unitType) {
 
-		case (unit_type::INFANTRY_DIVISION):
+		case (unit_type::INFANTRY):
 			texture = myApp->scene->TestTexture;
 			break;
 		case(unit_type::UNKNOWN):
@@ -29,11 +35,11 @@ Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity
 
 		//hostileUnits = &myApp->entities->enemiesList;
 	}
-	else if (faction == faction_enum::FACTION_COMMUNIST) {
+	else if (faction == faction_enum::COMMUNIST) {
 
 		switch (unitType) {
 
-		case (unit_type::INFANTRY_DIVISION):
+		case (unit_type::INFANTRY):
 			texture = myApp->scene->TestTexture;
 			break;
 		case(unit_type::UNKNOWN):
@@ -41,11 +47,12 @@ Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity
 		default:
 			break;
 		}
-
-		//hostileUnits = &myApp->entities->alliesList;
 	}
+<<<<<<< HEAD
 
 	LoadEntityData();
+=======
+>>>>>>> GroupsMovement_Jaume
 }
 
 Unit::~Unit()
@@ -55,31 +62,50 @@ bool Unit::Update(float dt)
 {
 	UnitWorkflow(dt);
 
+<<<<<<< HEAD
 	UnitRect = {12, 0, 55,47};
 	CheckInCamera = {(int)position.x,(int)position.y,UnitRect.w,UnitRect.h };
+=======
+	CheckInCamera = {(int)position.x, (int)position.y, unitRect.w, unitRect.h };
+//	Draw();
+>>>>>>> GroupsMovement_Jaume
 
 	if (life <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
 		myApp->entities->DestroyEntity(this);
 
-
 	if (myApp->render->InsideCamera(CheckInCamera) == true) {
+<<<<<<< HEAD
 
 		UpdateBlitOrder();
 		myApp->render->Push(order, texture, position.x, position.y, &UnitRect);
 
+=======
+		Draw();
+>>>>>>> GroupsMovement_Jaume
 	}
 
+	if (life <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
+		myApp->entities->DestroyEntity(this);
+	
+	return true;
+}
+  
+bool Unit::Draw() 
+{
+	//myApp->render->Blit(texture, (int)position.x, (int)position.y,&UnitBlitRect);
+	UpdateBlitOrder();
+
+	myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
+
+	if (selected) {
+		myApp->render->DrawQuad(unitRect, 255, 0, 0, 255, false);
+	}
+	
 	return true;
 }
 
-bool Unit::Draw() {
-
-	myApp->render->Blit(texture, (int)position.x, (int)position.y,&UnitRect);
-	return true;
-}
-
-void Unit::UpdateBlitOrder() {
-
+void Unit::UpdateBlitOrder() 
+{
 	std::list<Entity*>::iterator item = myApp->entities->entities_list.begin();
 	while (item != myApp->entities->entities_list.end()) {
 
@@ -89,12 +115,10 @@ void Unit::UpdateBlitOrder() {
 				order += 1;
 			else
 				order -= 1;
-
-
 		}
+    
 		item = next(item);
 	}
-
 }
 
 // Main workflow
@@ -167,38 +191,47 @@ void Unit::DoHold(float dt)
 
 void Unit::DoMove(float dt)
 {
-	if (position != destination) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
+	if (NodeReached() == false) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
 		Move(dt);
 	}
 	else {
-		StartHold();
-		unitState = unit_state::IDLE;
+		currNode++;
+
+		if (DestinationReached() == false) {
+			SetupVecSpeed();
+		}
+		else {
+			StartHold();
+		}
 	}
 }
 
 void Unit::DoAttack(float dt)
 {
-	if (target->IsVisible()) {
-		destination = target->position;
+	if (target->IsVisible() == true) {
+		if (TargetDisplaced() == true) {
+			origin = { (int)position.x, (int)position.y };
+			destination = { (int)target->position.x, (int)target->position.y };
+			//TODO (LuchoAlert): Recalculate unit pathfinding using origin and destination
+		}
 	}
 
 	if (target->IsDead() == false) {
-		if (TargetInRange() == true) {
-			AttackTarget();
+		if (TargetInRange() == false) {
+			Move(dt);
 		}
 		else {
-			Move(dt);
+			AttackTarget();
 		}
 	}
 	else {
 		StartHold();
-		unitState = unit_state::IDLE;
 	}
 }
 
 void Unit::DoMoveAndAttack(float dt)
 {
-	if (position != destination) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
+	if (NodeReached() == false) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
 		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
 			target = EnemyInRange();
 			if (target != nullptr) {
@@ -215,18 +248,26 @@ void Unit::DoMoveAndAttack(float dt)
 			else {
 				target = nullptr;
 				Move(dt);
+				//TODO: Recalculate vecSpeed?
 			}
 		}
 	}
 	else {
-		StartHold();
-		unitState = unit_state::IDLE;
+		currNode++;
+
+		if (DestinationReached() == false) {
+			SetupVecSpeed();
+		}
+		else {
+			StartHold();
+			unitState = unit_state::IDLE;
+		}
 	}
 }
 
 void Unit::DoPatrol(float dt)
 {
-	if (position != destination) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
+	if (NodeReached() == false) {	//NOTE: Pathfinding should define nextNode as the tile where a specific unit should be even if it's in a group
 		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
 			target = EnemyInRange();
 			if (target != nullptr) {
@@ -243,26 +284,35 @@ void Unit::DoPatrol(float dt)
 			else {
 				target = nullptr;
 				Move(dt);
+				//TODO: Recalculate vecSpeed?
 			}
 		}
 	}
 	else {
-		StartPatrol(origin);
-		unitState = unit_state::IDLE;
+		currNode++;
+
+		if (DestinationReached() == false) {
+			SetupVecSpeed();
+		}
+		else {
+			StartPatrol(origin);
+		}
 	}
 }
 
 // Actions
-bool Unit::Move(float dt)
+bool Unit::Move(float dt)	//TODO: Make it so unit goes straight to the nextNode (divide speed into x and y, and use hipotenuse angle to decide how much it applies to each)
 {
-	position.x += (speed * dt);
-	position.y += (speed * dt);
+	position.x += (vecSpeed.x * dt);
+	position.y += (vecSpeed.y * dt);
+
 	unitState = unit_state::MOVING;
 	return true;
 }
 
 void Unit::AttackTarget()
 {
+	//TODO: Enemy interaction
 	unitState = unit_state::FIRING;
 }
 
@@ -280,6 +330,55 @@ bool Unit::IsDead()
 bool Unit::IsVisible()
 {
 	return true;	//TODO: Make function
+}
+
+bool Unit::NodeReached()
+{
+	bool ret = false;
+
+	if (vecSpeed.x > 0.0f) {
+		if (position.x >= (float)currNode->x) {
+			ret = true;
+		}
+	}
+	else if (vecSpeed.x < 0.0f) {
+		if (position.x <= (float)currNode->x) {
+			ret = true;
+		}
+	}
+
+	if (vecSpeed.y > 0.0f) {
+		if (position.y >= (float)currNode->y) {
+			ret = true;
+		}
+	}
+	else if (vecSpeed.y < 0.0f) {
+		if (position.y <= (float)currNode->y) {
+			ret = true;
+		}
+	}
+
+	return ret;
+}
+
+bool Unit::DestinationReached()
+{
+	if (currNode == nodeList.end()) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool Unit::TargetDisplaced()
+{
+	if (target->position.x != destination.x || target->position.y != destination.y) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 // Unit Calculations
@@ -308,55 +407,68 @@ bool Unit::TargetInRange()
 	return InsideRadius(position, attackRange, target->position);
 }
 
+fVec2 Unit::SetupVecSpeed()
+{
+	iPoint iPos = { (int)position.x, (int)position.y };
+
+	vecSpeed = GetVector2(iPos, *currNode);
+	vecSpeed = vecSpeed.GetUnitVector();
+	vecSpeed *= linSpeed;
+	return vecSpeed;
+}
+
 // Order calling
+void Unit::OrderStandardSetup(iPoint destination)
+{
+	nodeList.clear();
+	target = nullptr;
+
+	origin = { (int)position.x, (int)position.y };
+	this->destination = destination;
+
+	myApp->pathfinding->CreatePath(origin, destination);
+	nodeList = *myApp->pathfinding->GetLastPath();
+	currNode = nodeList.begin();
+	SetupVecSpeed();
+}
+
 void Unit::StartHold()
 {
-	/*
-	- Stop unit
-	- Cancel Pathfinding
-	- target = nullptr
-	*/
+	target = nullptr;
+
 	unitOrders = unit_orders::HOLD;
 	unitState = unit_state::IDLE;
 }
 
-void Unit::StartMove(fPoint destination)
+void Unit::StartMove(iPoint destination)
 {
-	/*
-	- Define destination
-	- Set pathfinding
-	*/
+	OrderStandardSetup(destination);
+
 	unitOrders = unit_orders::MOVE;
 	unitState = unit_state::IDLE;
 }
 
 void Unit::StartAttack(Unit* target)
 {
-	/*
-	- Define target
-	- Set destination as target position
-	*/
+	iPoint targetPos = { (int)target->position.x, (int)target->position.y };
+	OrderStandardSetup(targetPos);
+
 	unitOrders = unit_orders::ATTACK;
 	unitState = unit_state::IDLE;
 }
 
-void Unit::StartMoveAndAttack(fPoint destination)
+void Unit::StartMoveAndAttack(iPoint destination)
 {
-	/*
-	- Define destination
-	- Set pathfinding
-	*/
+	OrderStandardSetup(destination);
+
 	unitOrders = unit_orders::MOVE_AND_ATTACK;
 	unitState = unit_state::IDLE;
 }
 
-void Unit::StartPatrol(fPoint destination)
+void Unit::StartPatrol(iPoint destination)
 {
-	/*
-	- Define origin as current positiong
-	- Define destination
-	- Set pathfinding
-	*/
+	OrderStandardSetup(destination);
+
 	unitOrders = unit_orders::PATROL;
 	unitState = unit_state::IDLE;
 }

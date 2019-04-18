@@ -83,8 +83,11 @@
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Fonts.cpp" />
     <ClCompile Include="Geometry.cpp" />
+    <ClCompile Include="GroupManager.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputText.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Player.h" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="TileQuadtree.cpp" />
@@ -117,12 +120,15 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Fonts.h" />
+    <ClInclude Include="Group.h" />
+    <ClInclude Include="GroupManager.h" />
     <ClInclude Include="Main_Base.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputText.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="TileQuadtree.h" />
+    <ClInclude Include="Vector.h" />
     <ClInclude Include="VoidBox.h" />
     <ClInclude Include="ParamBox.h" />
     <ClInclude Include="Slider.h" />

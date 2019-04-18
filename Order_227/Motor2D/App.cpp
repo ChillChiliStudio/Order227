@@ -16,6 +16,8 @@
 #include "EntityManager.h"
 #include "UserInterface.h"
 #include "App.h"
+#include "GroupManager.h"
+#include "Player.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -33,7 +35,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	entities = new EntityManager();
 	fonts = new Fonts();
 	gui = new User_Interface();
-
+	groups = new GroupManager();
+	player = new Player();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -46,7 +49,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(entities);
 	AddModule(fonts);
 	AddModule(gui);
-
+	AddModule(groups);
+	AddModule(player);
 	// render last to swap buffer
 	AddModule(render);
 }
@@ -83,6 +87,7 @@ bool App::Awake()
 	{
 		// self-config
 		ret = true;
+		float fps = frame_time.Read();
 		app_config = config.child("app");
 		title.assign(app_config.child("title").child_value());
 		organization.assign(app_config.child("organization").child_value());
@@ -92,6 +97,7 @@ bool App::Awake()
 		if (cap > 0)
 			capped_ms = 1000 / cap;
 	
+		
 	}
 
 	if(ret == true)
@@ -291,6 +297,7 @@ const char* App::GetTitle() const
 const char* App::GetOrganization() const
 {
 	return organization.data();
+
 }
 
 // ---------------------------------------

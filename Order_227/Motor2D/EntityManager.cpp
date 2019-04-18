@@ -13,8 +13,13 @@
 #include "Entity.h"
 #include "Scene.h"
 #include "Render.h"
-
+#include "App.h"
 #include <assert.h>
+#include "Input.h"
+#include "Pathfinding.h"
+
+Group::Group(){}
+
 
 EntityManager::EntityManager()
 {
@@ -122,10 +127,10 @@ Entity *EntityManager::CreateEntity(entity_type entityType, fPoint position) {
 	switch (entityType) {
 
 
-	case entity_type::OBJECT_ENT:
+	case entity_type::OBJECT:
 		Entity = new Main_Base(position);
 		break;
-	case entity_type::UNIT_ENT:
+	case entity_type::UNIT:
 		break;
 	case entity_type::UNKNOWN:
 		break;
@@ -145,7 +150,7 @@ Entity *EntityManager::CreateUnit(unit_type unitType, fPoint position, faction_e
 
 	switch (unitType) {
 
-	case unit_type::INFANTRY_DIVISION:
+	case unit_type::INFANTRY:
 		Unit_Ent = new Unit(unitType, position, faction);
 		break;
 	case unit_type::UNKNOWN:
@@ -154,7 +159,14 @@ Entity *EntityManager::CreateUnit(unit_type unitType, fPoint position, faction_e
 		break;
 	}
 
-	entities_list.push_back(Unit_Ent); //Units list?? Not including them in entities_list?
+	entities_list.push_back(Unit_Ent); //TODO : Revisar esto cuando joan añada las pools
+
+	if (Unit_Ent->unitFaction == faction_enum::COMMUNIST) {
+		comunist_list.push_back(Unit_Ent);
+	}
+	if (Unit_Ent->unitFaction == faction_enum::CAPITALIST) {
+		capitalist_list.push_back(Unit_Ent);
+	}
 	return Unit_Ent;
 }
 

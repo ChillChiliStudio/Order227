@@ -73,6 +73,7 @@ public:
 	// Utils
 	void SetViewPort(const SDL_Rect& rect);
 	void ResetViewPort();
+	void ScreenToWorld(int* x, int* y) const;
 	iPoint ScreenToWorld(int x, int y) const;
 
 	// Draw & Blit
