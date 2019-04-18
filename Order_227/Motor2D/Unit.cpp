@@ -3,10 +3,11 @@
 #include "Textures.h"
 #include "Scene.h"
 #include "Pathfinding.h"
-#include "EntityManager.h"
+#include "Entity_Manager.h"
 #include "Entity.h"
 #include "Unit.h"
 
+<<<<<<< HEAD
 
 Unit::Unit(unit_type unit_Type, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT, pos)  {
 
@@ -45,6 +46,11 @@ Unit::Unit(unit_type unit_Type, fPoint pos, faction_enum faction) : Entity(entit
 	}
 
 	LoadEntityData();
+=======
+Unit::Unit(fPoint pos, entity_type Entitytype, entity_faction faction) : Entity(pos, type, faction)
+{
+	
+>>>>>>> master
 }
 
 
@@ -55,11 +61,14 @@ Unit::~Unit()
 bool Unit::Update(float dt)
 {
 
+<<<<<<< HEAD
 	UnitWorkflow(dt);
 	CheckInCamera = {(int)position.x,(int)position.y, unitRect.w, unitRect.h };
+=======
+>>>>>>> master
 
-	if (life <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
-		myApp->entities->DestroyEntity(this);
+	CheckInCamera = {(int)position.x, (int)position.y, selectionRect.w, selectionRect.h };
+//	Draw();
 
 	if (myApp->render->InsideCamera(CheckInCamera) == true) {
 
@@ -67,7 +76,7 @@ bool Unit::Update(float dt)
 		myApp->render->Push(order, texture, position.x, position.y, &unitRect);
 	}
 
-	if (life <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
+	if (currentHealth<= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
 		myApp->entities->DestroyEntity(this);
 
 	if (selected)
@@ -77,17 +86,29 @@ bool Unit::Update(float dt)
 }
 
 
+<<<<<<< HEAD
 bool Unit::Draw()
 {
 
+=======
+	if (selected) {
+		myApp->render->DrawQuad(selectionRect, 255, 0, 0, 255, false);
+	}
+	
+>>>>>>> master
 	return true;
 }
 
 
 void Unit::UpdateBlitOrder()
 {
+<<<<<<< HEAD
 
 	std::list<Entity*>::iterator item = myApp->entities->entities_list.begin();
+=======
+	//RECODE
+	/*std::list<Entity*>::iterator item = myApp->entities->entities_list.begin();
+>>>>>>> master
 	while (item != myApp->entities->entities_list.end()) {
 
 		if ((*item) != this) {
@@ -99,7 +120,7 @@ void Unit::UpdateBlitOrder()
 		}
 
 		item = next(item);
-	}
+	}*/
 }
 
 // Main workflow
@@ -309,8 +330,12 @@ void Unit::AttackTarget()
 // Unit Data
 bool Unit::IsDead()
 {
+<<<<<<< HEAD
 
 	if (life <= 0) {
+=======
+	if (currentHealth<= 0) {
+>>>>>>> master
 		return true;
 	}
 	else {
@@ -396,7 +421,7 @@ Unit* Unit::EnemyInRange()
 
 bool Unit::TargetInRange()
 {
-	return InsideRadius(position, attackRange, target->position);
+	return InsideRadius(position, stats.attackRange, target->position);
 }
 
 fVec2 Unit::SetupVecSpeed()

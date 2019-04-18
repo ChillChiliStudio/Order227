@@ -17,7 +17,7 @@ class Scene;
 class Map;
 class PathFinding;
 class Fonts;
-class EntityManager;
+class Entity_Manager;
 class User_Interface;
 class GroupManager;
 class Player;
@@ -85,11 +85,18 @@ public:
 	Scene*				scene = NULL;
 	Map*				map = NULL;
 	PathFinding*		pathfinding = NULL;
+<<<<<<< HEAD
 	EntityManager*		entities = NULL;
 	Fonts*			    fonts;
 	User_Interface*  	gui;
 	GroupManager*       groups;
 	Player*             player;
+=======
+	Entity_Manager*		entities = NULL;
+	Fonts*			fonts;
+	User_Interface*	gui;
+
+>>>>>>> master
 	bool mustShutDown = false;
 
 private:

@@ -8,7 +8,7 @@
 #include "Window.h"
 #include "Map.h"
 #include "PathFinding.h"
-#include "EntityManager.h"
+#include "Entity_Manager.h"
 #include "UserInterface.h"
 #include "ButtonActions.h"
 #include "ParamBox.h"
@@ -46,7 +46,30 @@ bool Scene::Start()
 		RELEASE_ARRAY(data);
 	}
 
+<<<<<<< HEAD
 	myApp->entities->CreateEntity(entity_type::OBJECT, fPoint(10.0f, 10.0f));
+=======
+	//Spawning Points Load
+	pugi::xml_parse_result result = SP_Doc.load_file("SpawningPoints.xml");
+	
+	if (result == NULL)
+		LOG("SPAWNING POINTS DOCUMENT COULDN'T LOAD!");
+	else {
+
+		pugi::xml_node SP_Node = SP_Doc.child("Spawning_Points");
+		for (SP_Node = SP_Node.child("SP"); SP_Node; SP_Node = SP_Node.next_sibling("SP")) {
+
+			int x = SP_Node.attribute("x").as_int();
+			int y = SP_Node.attribute("y").as_int();
+
+			Spawning_Point* new_SP = new Spawning_Point(iPoint(x, y));
+			SpawningPoints_Array.push_back(new_SP);
+		}
+	}
+
+	//RECODE OR EREASE
+	//myApp->entities->CreateEntity(entity_type::OBJECT, fPoint(10.0f, 10.0f));
+>>>>>>> master
 
 	//Debug Texture to show Pahtfinding and mouse position - DEBUG PATHFINDING
 	debug_tex = myApp->tex->Load("maps/path2.png");
@@ -57,6 +80,37 @@ bool Scene::Start()
 // Called each loop iteration
 bool Scene::PreUpdate()
 {
+<<<<<<< HEAD
+=======
+	//RECODE OR EREASE
+	
+	////Activate Spawn with F --> Just for DEBUG PURPOSES
+	//if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && SpawningPoints_Array.size() > 0)
+	//	ChooseSpawningPoints();
+
+	////Delete enemies with J --> Just for DEBUG PURPOSES
+	//if (myApp->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN && myApp->entities->entities_list.size() > 0) {
+	//	for (std::list<Entity*>::iterator item = myApp->entities->entities_list.begin(); item != myApp->entities->entities_list.end(); item = next(item)) {
+	//		if ((*item)->GetType() == entity_type::UNIT) {
+	//			myApp->entities->DestroyEntity(*item);
+	//		}
+	//	}
+	//}
+
+	//if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
+	//	for (std::list<Entity*>::iterator item = myApp->entities->entities_list.begin(); item != myApp->entities->entities_list.end(); item = next(item)) {
+	//		if ((*item)->GetType() == entity_type::UNIT) {
+	//			Unit* tmpUnit = (Unit*)(*item);
+
+	//			/*int mouseX, mouseY;	//TODO Carles: DO NOT TOUCH >:c
+	//			myApp->input->GetMousePosition(mouseX, mouseY);
+	//			iPoint wololo = myApp->render->ScreenToWorld(mouseX, mouseY);
+	//			myApp->map->WorldToMap(wololo.x, wololo.y);
+	//			tmpUnit->StartMove(wololo);*/
+	//		}
+	//	}
+	//}
+>>>>>>> master
 
 	return true;
 }
@@ -67,6 +121,7 @@ bool Scene::Update(float dt)
 
 	myApp->map->Draw();
 
+<<<<<<< HEAD
 	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 		ChooseSpawningPoints();
 
@@ -74,18 +129,47 @@ bool Scene::Update(float dt)
 	for (int i = 0; i < SpawningPoints_Array.size(); i++) {
 
 		myApp->render->Blit(debug_tex, SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
+=======
 
-		if (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0 && SpawningPoints_Array[i]->SpawnTime.Read() > 500) {
+	//RECODE OR EREASE
+	////Spawn Point Draw
+	//for (int i = 0; i < SpawningPoints_Array.size(); i++) {
+>>>>>>> master
 
-			fPoint SP_Pos = fPoint(SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
-			SpawningPoints_Array[i]->SpawnTime.Start();
+	//	myApp->render->DrawQuad(SpawningPoints_Array[i]->SP_Rect, 255, 100, 100);
 
-			myApp->entities->CreateUnit(unit_type::INFANTRY, fPoint(SP_Pos), faction_enum::CAPITALIST);
-			SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
+	//	if (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0 && SpawningPoints_Array[i]->SpawnTime.Read() > 500) {
 
-		}
-	}
+	//		fPoint SP_Pos = fPoint(SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
+	//		SpawningPoints_Array[i]->SpawnTime.Start();
 
+	//		myApp->entities->CreateUnit(unit_type::INFANTRY, fPoint(SP_Pos), faction_enum::CAPITALIST);
+	//		SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
+
+<<<<<<< HEAD
+=======
+	//	}
+	//}
+
+	////mouse selection code bellow
+	//
+	//myApp->input->GetMousePosition(mousePos.x, mousePos.y);
+	//mouseScreenPos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
+
+	//if (myApp->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
+	//	CreateUnitOnPos(mouseScreenPos);
+	//}
+
+	////group movement bellow
+	//SDL_Rect goToRect = { 10,10,20,10 };
+	//if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
+	//	goToRect.x = mouseScreenPos.x;
+	//	goToRect.y = mouseScreenPos.y;	
+	//	myApp->render->DrawQuad(goToRect, 0, 255, 100, 255, true);
+	//}
+
+	entitiesSelection();
+>>>>>>> master
 	myApp->gui->Draw();
 	return true;
 }
@@ -164,3 +248,55 @@ void Scene::ChooseSpawningPoints()
 			SpawningPoints_Array[i]->FillEnemies(roundThreat);
 
 }
+<<<<<<< HEAD
+=======
+
+void Scene::CreateUnitOnPos(iPoint mouseScreenPos_)
+{
+	fPoint position;
+	position.x = (float)mouseScreenPos_.x-30;
+	position.y = (float)mouseScreenPos_.y-35;
+	myApp->entities->CreateSoldier(position, soldier_type::BASIC, entity_faction::NEUTRAL);
+}
+
+void Scene::entitiesSelection()
+{
+	SDL_Rect SRect;
+	rectangle_width = mouseScreenPos.x - rectangle_origin.x;
+	rectangle_height = mouseScreenPos.y - rectangle_origin.y;
+
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+		rectangle_origin = mouseScreenPos;
+
+	else if (std::abs(rectangle_width) >= 5 && std::abs(rectangle_height) >= 5 && myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {
+		// --- Rectangle size ---
+		int width = mouseScreenPos.x - rectangle_origin.x;
+		int height = mouseScreenPos.y - rectangle_origin.y;
+
+		// --- Draw Rectangle ---
+		SRect = { rectangle_origin.x, rectangle_origin.y, width, height };
+		myApp->render->DrawQuad(SRect, 0, 200, 100, 255, false);
+
+		// --- Once we get to the negative side of SRect numbers must be adjusted ---
+		if (width < 0) {
+			SRect.x = mouseScreenPos.x;
+			SRect.w *= -1;
+		}
+		if (height < 0) {
+			SRect.y = mouseScreenPos.y;
+			SRect.h *= -1;
+		}
+		//units selection
+		myApp->entities->SelectUnit(SRect);
+	}
+	// 1 click selection
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
+		myApp->entities->SelectUnit(mouseScreenPos);
+	}
+
+	//groups management
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP) {
+		myApp->entities->CreateGroupForPlayer();	
+	}
+}
+>>>>>>> master

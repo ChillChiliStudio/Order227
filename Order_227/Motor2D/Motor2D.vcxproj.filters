@@ -37,9 +37,6 @@
     <ClCompile Include="Audio.cpp">
       <Filter>Game Files\Modules\Main Functionalities</Filter>
     </ClCompile>
-    <ClCompile Include="EntityManager.cpp">
-      <Filter>Game Files\Entity Management</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -50,9 +47,6 @@
       <Filter>Game Files\Modules\Main Functionalities</Filter>
     </ClCompile>
     <ClCompile Include="Unit.cpp">
-      <Filter>Game Files\Entity Management\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Main_Base.cpp">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClCompile>
     <ClCompile Include="UIElement.cpp">
@@ -94,6 +88,7 @@
     <ClCompile Include="Geometry.cpp">
       <Filter>Tools\Geometry</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="GroupManager.cpp">
       <Filter>Game Files\Entity Management</Filter>
     </ClCompile>
@@ -102,6 +97,19 @@
     </ClCompile>
     <ClCompile Include="Player.h">
       <Filter>Game Files\User Interface</Filter>
+=======
+    <ClCompile Include="Entity_Manager.cpp">
+      <Filter>Game Files\Entity Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Static_Object.cpp">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Soldier.cpp">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Base.cpp">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+>>>>>>> master
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +155,6 @@
     <ClInclude Include="Audio.h">
       <Filter>Game Files\Modules\Main Functionalities</Filter>
     </ClInclude>
-    <ClInclude Include="EntityManager.h">
-      <Filter>Game Files\Entity Management</Filter>
-    </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Game Files\Entity Management</Filter>
     </ClInclude>
@@ -166,9 +171,6 @@
       <Filter>Game Files\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Unit.h">
-      <Filter>Game Files\Entity Management\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Main_Base.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
     <ClInclude Include="UIElement.h">
@@ -225,9 +227,24 @@
     <ClInclude Include="Geometry.h">
       <Filter>Tools\Geometry</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="GroupManager.h">
       <Filter>Game Files\Entity Management</Filter>
     </ClInclude>
+=======
+    <ClInclude Include="Entity_Manager.h">
+      <Filter>Game Files\Entity Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Static_Object.h">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Soldier.h">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Base.h">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClInclude>
+>>>>>>> master
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

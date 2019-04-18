@@ -78,9 +78,10 @@
   <ItemGroup>
     <ClCompile Include="ActionBox.cpp" />
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="Base.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CheckBox.cpp" />
-    <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="Entity_Manager.cpp" />
     <ClCompile Include="Fonts.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="GroupManager.cpp" />
@@ -90,12 +91,13 @@
     <ClCompile Include="Player.h" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="Soldier.cpp" />
+    <ClCompile Include="Static_Object.cpp" />
     <ClCompile Include="TileQuadtree.cpp" />
     <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Main_Base.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
@@ -114,19 +116,25 @@
   <ItemGroup>
     <ClInclude Include="ActionBox.h" />
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="Base.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonActions.h" />
     <ClInclude Include="CheckBox.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Entity_Manager.h" />
     <ClInclude Include="Fonts.h" />
     <ClInclude Include="Group.h" />
+<<<<<<< HEAD
     <ClInclude Include="GroupManager.h" />
     <ClInclude Include="Main_Base.h" />
+=======
+>>>>>>> master
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputText.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Quadtree.h" />
+    <ClInclude Include="Soldier.h" />
+    <ClInclude Include="Static_Object.h" />
     <ClInclude Include="TileQuadtree.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="VoidBox.h" />
