@@ -40,10 +40,12 @@ enum class unit_orders {
 class Unit : public Entity {
 
 public:
-	Unit(unit_type unitType, fPoint pos, faction_enum faction);
+
+	Unit(unit_type unit_Type, fPoint pos, faction_enum faction);
 	~Unit();
 
 public:
+
 	//void Move();
 	//void Attack();
 	bool Update(float dt) override;
@@ -51,6 +53,7 @@ public:
 	void UpdateBlitOrder() override;
 
 public:
+
 	// Main Workflow
 	void UnitWorkflow(float dt);		// State workflow depending on order issued
 	void ApplyState();		// Add state effects, like current animation
@@ -91,6 +94,7 @@ public:
 	bool TargetInRange();
 
 public:
+
 	faction_enum unitFaction;
 	unit_type unitType;
 
@@ -100,8 +104,6 @@ public:
 	unit_state unitState = unit_state::IDLE;
 	unit_orders unitOrders = unit_orders::HOLD;
 	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
-
-	
 
 	iPoint origin;
 	iPoint destination;
@@ -119,7 +121,6 @@ public:
 	float attackRange = 10.0f;
   
 
-	
 	//unsigned int life;
 	//unsigned int maxLife;
 	//unit_state status;

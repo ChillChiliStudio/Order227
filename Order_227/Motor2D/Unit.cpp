@@ -7,17 +7,12 @@
 #include "Entity.h"
 #include "Unit.h"
 
-<<<<<<< HEAD
-Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT_ENT, pos)  {
 
+Unit::Unit(unit_type unit_Type, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT, pos)  {
 
-	UnitFaction = faction;
-	UnitType = unitType;
+	unitFaction = faction;
+	unitType = unit_Type;
 
-=======
-Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity_type::UNIT, pos), unitFaction(faction), unitType(unitType)
-{
->>>>>>> GroupsMovement_Jaume
 	life = 1;
 
 	if (faction == faction_enum::CAPITALIST) {
@@ -48,11 +43,8 @@ Unit::Unit(unit_type unitType, fPoint pos, faction_enum faction) : Entity(entity
 			break;
 		}
 	}
-<<<<<<< HEAD
 
 	LoadEntityData();
-=======
->>>>>>> GroupsMovement_Jaume
 }
 
 Unit::~Unit()
@@ -60,52 +52,37 @@ Unit::~Unit()
 
 bool Unit::Update(float dt)
 {
-	UnitWorkflow(dt);
 
-<<<<<<< HEAD
-	UnitRect = {12, 0, 55,47};
-	CheckInCamera = {(int)position.x,(int)position.y,UnitRect.w,UnitRect.h };
-=======
-	CheckInCamera = {(int)position.x, (int)position.y, unitRect.w, unitRect.h };
-//	Draw();
->>>>>>> GroupsMovement_Jaume
+	UnitWorkflow(dt);
+	CheckInCamera = {(int)position.x,(int)position.y, unitRect.w, unitRect.h };
 
 	if (life <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
 		myApp->entities->DestroyEntity(this);
 
 	if (myApp->render->InsideCamera(CheckInCamera) == true) {
-<<<<<<< HEAD
 
 		UpdateBlitOrder();
-		myApp->render->Push(order, texture, position.x, position.y, &UnitRect);
-
-=======
-		Draw();
->>>>>>> GroupsMovement_Jaume
+		myApp->render->Push(order, texture, position.x, position.y, &unitRect);
 	}
 
 	if (life <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
 		myApp->entities->DestroyEntity(this);
-	
-	return true;
-}
-  
-bool Unit::Draw() 
-{
-	//myApp->render->Blit(texture, (int)position.x, (int)position.y,&UnitBlitRect);
-	UpdateBlitOrder();
 
-	myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
-
-	if (selected) {
+	if (selected)
 		myApp->render->DrawQuad(unitRect, 255, 0, 0, 255, false);
-	}
-	
+
 	return true;
 }
 
-void Unit::UpdateBlitOrder() 
+bool Unit::Draw()
 {
+
+	return true;
+}
+
+void Unit::UpdateBlitOrder()
+{
+
 	std::list<Entity*>::iterator item = myApp->entities->entities_list.begin();
 	while (item != myApp->entities->entities_list.end()) {
 
@@ -116,7 +93,7 @@ void Unit::UpdateBlitOrder()
 			else
 				order -= 1;
 		}
-    
+
 		item = next(item);
 	}
 }
@@ -510,10 +487,6 @@ bool Unit::LoadEntityData() {
 
 
 	}
-
-
-
-
 
 	return ret;
 }

@@ -17,7 +17,7 @@ class Scene : public Module
 public:
 
 	Scene();
-	
+
 	// Destructor
 	virtual ~Scene();
 
@@ -39,41 +39,26 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-<<<<<<< HEAD
-=======
 public:
->>>>>>> GroupsMovement_Jaume
 
 	void ChooseSpawningPoints();
 	SDL_Texture* TestTexture = nullptr;
+	std::vector<Spawning_Point*> SpawningPoints_Array;
 
-<<<<<<< HEAD
-public:
-
-std::vector<Spawning_Point*> SpawningPoints_Array;
-
-=======
->>>>>>> GroupsMovement_Jaume
 private:
 
 	//Spawning & SP
 	int roundThreat = 0;
 	int threatIncremental = 0;
 	int roundNumber = 0;
-	//List of Spawning points
-
 
 	pugi::xml_document SP_Doc;
 
-<<<<<<< HEAD
 	//Pathfinding Debug Stuff
 	SDL_Texture* debug_tex;
 	PerfTimer PathfindingTimer;
 	float Ptime = 0.0f;
 
-=======
-	
->>>>>>> GroupsMovement_Jaume
 };
 
 #endif // SCENE_H

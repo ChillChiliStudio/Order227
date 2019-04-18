@@ -51,11 +51,7 @@ public:
 
 	Point operator +(const Point &v) const
 	{
-<<<<<<< HEAD
-		iPoint r;
-=======
 		Point<TYPE> r;
->>>>>>> GroupsMovement_Jaume
 
 		r.x = x + v.x;
 		r.y = y + v.y;
