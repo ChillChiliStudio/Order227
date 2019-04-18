@@ -25,21 +25,29 @@ Group::Group(){}
 Entity_Manager::Entity_Manager()
 {
 	name.assign("entities");
+	int entitiesIterator = 0;
 
-	for (int i = 0; i < ENTITY_POOL_SIZE; ++i)
+	for (int i = 0; i < SOLDIERS_LIST_SIZE; ++i)
 	{
-		playerSoldiersList[i] = new Soldier({ 0,0 }, soldier_type::SOLDIER_NONE, entity_faction::URSS);
-		enemySoldiersList[i] = new Soldier({ 0,0 }, soldier_type::SOLDIER_NONE, entity_faction::URSS);
+		urssSoldiersArray[i] = new Soldier({ 0,0 }, soldier_type::SOLDIER_NONE, entity_faction::URSS);
+		urssUnitsArray[i] = urssSoldiersArray[i];
+		entitiesArray[entitiesIterator++] = urssSoldiersArray[i];
+		
+		eeuuSoldiersArray[i] = new Soldier({ 0,0 }, soldier_type::SOLDIER_NONE, entity_faction::URSS);
+		eeuuUnitsArray[i] = eeuuSoldiersArray[i];
+		entitiesArray[entitiesIterator++] = eeuuSoldiersArray[i];
 	}
 
-	for (int i = 0; i < STATIC_OBJECTS; ++i)
+	for (int i = 0; i < OBJECTS_LIST_SIZE; ++i)
 	{
-		staticObjectsList[i] = new Static_Object({ 0,0 }, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
+		staticObjectsArray[i] = new Static_Object({ 0,0 }, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
+		entitiesArray[entitiesIterator++] = staticObjectsArray[i];
 	}
 
-	for (int i = 0; i < BASES; ++i)
+	for (int i = 0; i < BASES_LIST_SIZE; ++i)
 	{
-		basesList[i] = new Base({ 0,0 }, base_type::BASE_NONE, entity_faction::URSS);
+		basesArray[i] = new Base({ 0,0 }, base_type::BASE_NONE, entity_faction::URSS);
+		entitiesArray[entitiesIterator++] = basesArray[i];
 	}
 
 }
@@ -68,29 +76,36 @@ bool Entity_Manager::CleanUp() {
 
 	LOG("Clean Up Entity_Manager");
 
+	int entitiesIterator = 0;
+
 	//Clean soldiers
-	for (int i = 0; i < ENTITY_POOL_SIZE; ++i)
+	for (int i = 0; i < SOLDIERS_LIST_SIZE; ++i)
 	{
-		playerSoldiersList[i]->CleanUp();
-		playerSoldiersList[i] = nullptr;
+		urssSoldiersArray[i]->CleanUp();
+		urssSoldiersArray[i] = nullptr;
+		urssUnitsArray[i] = nullptr;
+		entitiesArray[entitiesIterator++] = nullptr;
 
-		enemySoldiersList[i]->CleanUp();
-		enemySoldiersList[i] = nullptr;
-
+		eeuuSoldiersArray[i]->CleanUp();
+		eeuuSoldiersArray[i] = nullptr;
+		eeuuUnitsArray[i] = nullptr;
+		entitiesArray[entitiesIterator++] = nullptr;
 	}
 
 	//Clean objects
-	for (int i = 0; i < STATIC_OBJECTS; ++i)
+	for (int i = 0; i < OBJECTS_LIST_SIZE; ++i)
 	{
-		staticObjectsList[i]->CleanUp();
-		staticObjectsList[i] = nullptr;
+		staticObjectsArray[i]->CleanUp();
+		staticObjectsArray[i] = nullptr;
+		entitiesArray[entitiesIterator++] = nullptr;
 	}
 
 	//Clean bases
-	for (int i = 0; i < BASES; ++i)
+	for (int i = 0; i < BASES_LIST_SIZE; ++i)
 	{
-		basesList[i]->CleanUp();
-		basesList[i] = nullptr;
+		basesArray[i]->CleanUp();
+		basesArray[i] = nullptr;
+		entitiesArray[entitiesIterator++] = nullptr;
 	}
 
 	return true;
@@ -110,20 +125,20 @@ bool Entity_Manager::Update(float dt)
 	if (accumulated_time >= update_ms_cycle)
 		do_logic = true;
 
-	for (int i = 0; i < ENTITY_POOL_SIZE; ++i)
+	for (int i = 0; i < SOLDIERS_LIST_SIZE; ++i)
 	{
-		playerSoldiersList[i]->Update(dt);
-		enemySoldiersList[i]->Update(dt);
+		urssSoldiersArray[i]->Update(dt);
+		eeuuSoldiersArray[i]->Update(dt);
 		if (do_logic)
 		{
-			playerSoldiersList[i]->FixUpdate(dt);
-			enemySoldiersList[i]->FixUpdate(dt);
+			urssSoldiersArray[i]->FixUpdate(dt);
+			eeuuSoldiersArray[i]->FixUpdate(dt);
 		}
 	}
 
-	for (int i = 0; i < BASES; ++i)
+	for (int i = 0; i < BASES_LIST_SIZE; ++i)
 	{
-		basesList[i]->Update();
+		basesArray[i]->Update();
 	}
 
 	accumulated_time -= update_ms_cycle;
@@ -138,15 +153,15 @@ bool Entity_Manager::CreateSoldier(fPoint position, soldier_type soldierType, en
 	//Player troops
 	if (entityFaction == entity_faction::URSS)
 	{
-		for (int i = 0; i < ENTITY_POOL_SIZE; ++i)
+		for (int i = 0; i < SOLDIERS_LIST_SIZE; ++i)
 		{
-			if (playerSoldiersList[i]->active == false)
+			if (urssSoldiersArray[i]->active == false)
 			{
-				playerSoldiersList[i]->position = position;
-				playerSoldiersList[i]->texture = soldierTextures[int(soldierType)];
-				playerSoldiersList[i]->stats = soldierStats[int(soldierType)];
-				playerSoldiersList[i]->active = true;
-				playerSoldiersList[i]->soldierType = soldierType;
+				urssSoldiersArray[i]->position = position;
+				urssSoldiersArray[i]->texture = soldierTextures[int(soldierType)];
+				urssSoldiersArray[i]->stats = soldierStats[int(soldierType)];
+				urssSoldiersArray[i]->active = true;
+				urssSoldiersArray[i]->soldierType = soldierType;
 				//To implement:: Update animations
 
 
@@ -158,15 +173,15 @@ bool Entity_Manager::CreateSoldier(fPoint position, soldier_type soldierType, en
 	//Enemy troops
 	else if (entityFaction == entity_faction::US)
 	{
-		for (int i = 0; i < ENTITY_POOL_SIZE; ++i)
+		for (int i = 0; i < SOLDIERS_LIST_SIZE; ++i)
 		{
-			if (enemySoldiersList[i]->active == false)
+			if (eeuuSoldiersArray[i]->active == false)
 			{
-				enemySoldiersList[i]->position = position;
-				enemySoldiersList[i]->texture = soldierTextures[int(soldierType)];
-				enemySoldiersList[i]->stats = soldierStats[int(soldierType)];
-				enemySoldiersList[i]->active = true;
-				enemySoldiersList[i]->soldierType = soldierType;
+				eeuuSoldiersArray[i]->position = position;
+				eeuuSoldiersArray[i]->texture = soldierTextures[int(soldierType)];
+				eeuuSoldiersArray[i]->stats = soldierStats[int(soldierType)];
+				eeuuSoldiersArray[i]->active = true;
+				eeuuSoldiersArray[i]->soldierType = soldierType;
 				//To implement:: Update animations
 
 				return true;
@@ -179,13 +194,13 @@ bool Entity_Manager::CreateSoldier(fPoint position, soldier_type soldierType, en
 
 bool Entity_Manager::CreateBase(fPoint position, base_type baseType)
 {
-	for (int i = 0; i < BASES; ++i)
+	for (int i = 0; i < BASES_LIST_SIZE; ++i)
 	{
-		if (basesList[i]->active == false)
+		if (basesArray[i]->active == false)
 		{
-			basesList[i]->position = position;
-			basesList[i]->baseType = baseType;
-			basesList[i]->active = true;
+			basesArray[i]->position = position;
+			basesArray[i]->baseType = baseType;
+			basesArray[i]->active = true;
 			return true;
 		}
 	}
@@ -194,13 +209,13 @@ bool Entity_Manager::CreateBase(fPoint position, base_type baseType)
 
 bool Entity_Manager::CreateObject(fPoint position, object_type objectType)
 {
-	for (int i = 0; i < ENTITY_POOL_SIZE; ++i)
+	for (int i = 0; i < SOLDIERS_LIST_SIZE; ++i)
 	{
-		if (staticObjectsList[i]->active == false)
+		if (staticObjectsArray[i]->active == false)
 		{
-			staticObjectsList[i]->position = position;
-			staticObjectsList[i]->objectType = objectType;
-			staticObjectsList[i]->active = true;
+			staticObjectsArray[i]->position = position;
+			staticObjectsArray[i]->objectType = objectType;
+			staticObjectsArray[i]->active = true;
 			return true;
 		}
 	}
@@ -211,16 +226,16 @@ bool Entity_Manager::CreateObject(fPoint position, object_type objectType)
 // SELECTION AND GROUPS SYSTEM BELLOW__________________________________________________________________________________
 
 void Entity_Manager::SelectUnit(SDL_Rect rect) {
-	for (int i = 0; i < ENTITY_POOL_SIZE; ++i)
+	for (int i = 0; i < SOLDIERS_LIST_SIZE; ++i)
 	{
-		if (playerSoldiersList[i]->active)
+		if (urssSoldiersArray[i]->active)
 		{
-			if (SDL_HasIntersection(&playerSoldiersList[i]->selectionRect, &rect))
+			if (SDL_HasIntersection(&urssSoldiersArray[i]->selectionRect, &rect))
 			{
-				playerSoldiersList[i]->selected = true;
+				urssSoldiersArray[i]->selected = true;
 			}
-			else if (!SDL_HasIntersection(&playerSoldiersList[i]->selectionRect, &rect) && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_UP) {
-				playerSoldiersList[i]->selected = false;
+			else if (!SDL_HasIntersection(&urssSoldiersArray[i]->selectionRect, &rect) && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_UP) {
+				urssSoldiersArray[i]->selected = false;
 			}
 
 		}

@@ -240,6 +240,7 @@
     <ClInclude Include="Base.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Main_Base.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

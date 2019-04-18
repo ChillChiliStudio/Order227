@@ -13,9 +13,9 @@
 
 #define TIMES_PER_SEC 5
 
-#define STATIC_OBJECTS 50
-#define ENTITY_POOL_SIZE 100
-#define BASES 5
+#define OBJECTS_LIST_SIZE 50
+#define SOLDIERS_LIST_SIZE 100
+#define BASES_LIST_SIZE 5
 
 class Entity_Manager : public Module
 {
@@ -52,10 +52,17 @@ public:
 public:
 
 	//Entity lists
-	Soldier*		playerSoldiersList[ENTITY_POOL_SIZE];		//Player soldiers
-	Soldier*		enemySoldiersList[ENTITY_POOL_SIZE];		//Enemy soldiers
-	Static_Object*	staticObjectsList[STATIC_OBJECTS];			//Static objects
-	Base*			basesList[BASES];							//Bases
+	Entity*			entitiesArray[2 * SOLDIERS_LIST_SIZE + OBJECTS_LIST_SIZE + BASES_LIST_SIZE]; //List with all the entities
+	
+	Unit*			urssUnitsArray[SOLDIERS_LIST_SIZE];			//Player units (soldiers+vehicles)
+	Unit*			eeuuUnitsArray[SOLDIERS_LIST_SIZE];			//Enemy units (soldiers+vehicles)
+	
+	Soldier*		urssSoldiersArray[SOLDIERS_LIST_SIZE];		//Player soldiers
+	Soldier*		eeuuSoldiersArray[SOLDIERS_LIST_SIZE];		//Enemy soldiers
+	
+	Static_Object*	staticObjectsArray[OBJECTS_LIST_SIZE];		//Static objects
+	
+	Base*			basesArray[BASES_LIST_SIZE];				//Bases
 
 private:
 
