@@ -46,7 +46,7 @@ bool Scene::Start()
 		RELEASE_ARRAY(data);
 	}
 
-	//Debug Texture to show Pahtfinding and mouse position - DEBUG PATHFINDING
+	//Debug Texture to show debug stuff
 	debug_tex = myApp->tex->Load("maps/path2.png");
 
 	return true;
