@@ -47,7 +47,6 @@ bool Scene::Start()
 	}
 
 	myApp->entities->CreateEntity(entity_type::OBJECT, fPoint(10.0f, 10.0f));
-	TestTexture = myApp->tex->Load("textures/troops/allied/gi.png");
 
 	//Debug Texture to show Pahtfinding and mouse position - DEBUG PATHFINDING
 	debug_tex = myApp->tex->Load("maps/path2.png");
@@ -59,43 +58,6 @@ bool Scene::Start()
 bool Scene::PreUpdate()
 {
 
-	// debug pathfing ------------------  - DEBUG PATHFINDING
-	static iPoint origin;
-	static bool origin_selected = false;
-
-	int x, y;
-	myApp->input->GetMousePosition(x, y);
-	iPoint p = myApp->render->ScreenToWorld(x, y);
-	p = myApp->map->WorldToMap(p.x, p.y);
-
-//	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
-//	{
-//		if (origin_selected == true)
-//		{
-//
-//			LOG("========PATHFINDING PERFORMANCE TEST RESULTS=========");
-//			LOG("Algorithm Used: Jump Point Search (JPS)");
-//
-//			PathfindingTimer.Start();
-//			myApp->pathfinding->CreatePath(origin, p);
-//			Ptime = PathfindingTimer.ReadMs();
-//			origin_selected = false;
-//
-//			LOG("PATHFINDING LASTED: %f ms", Ptime);
-//		}
-//		else
-//		{
-//			origin = p;
-//			origin_selected = true;
-//
-////	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
-//	//	for (std::list<Entity*>::iterator item = myApp->entities->entities_list.begin(); item != myApp->entities->entities_list.end(); item = next(item)) {
-//	//		if ((*item)->GetType() == entity_type::UNIT)
-//			//	Unit* tmpUnit = (Unit*)(*item);
-//
-//		}
-//	}
-
 	return true;
 }
 
@@ -104,6 +66,9 @@ bool Scene::Update(float dt)
 {
 
 	myApp->map->Draw();
+
+	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+		ChooseSpawningPoints();
 
 	//Spawn Point Draw
 	for (int i = 0; i < SpawningPoints_Array.size(); i++) {
@@ -120,24 +85,6 @@ bool Scene::Update(float dt)
 
 		}
 	}
-
-	// Debug pathfinding ------------------------------ - DEBUG PATHFINDING
-	int x, y;
-	myApp->input->GetMousePosition(x, y);
-	iPoint p = myApp->render->ScreenToWorld(x, y);
-	p = myApp->map->WorldToMap(p.x, p.y);
-	p = myApp->map->MapToWorld(p.x, p.y);
-
-	//myApp->render->Blit(debug_tex, p.x, p.y);
-
-	const std::vector<iPoint>* path = myApp->pathfinding->GetLastPath();
-
-	for (uint i = 0; i < path->size(); ++i)
-	{
-		iPoint pos = myApp->map->MapToWorld(path->at(i).x, path->at(i).y);
-		myApp->render->Blit(debug_tex, pos.x, pos.y);
-	}
-
 
 	myApp->gui->Draw();
 	return true;
@@ -163,8 +110,6 @@ bool Scene::CleanUp()
 		RELEASE(SpawningPoints_Array[i]);
 
 	SpawningPoints_Array.clear();
-	myApp->tex->UnLoad(TestTexture);
-
 	myApp->tex->UnLoad(debug_tex);
 
 	return true;
@@ -172,8 +117,9 @@ bool Scene::CleanUp()
 
 void Scene::ChooseSpawningPoints()
 {
-	//Restarting round if reached 20 - for MVP this should be 5!
-	if (roundNumber == 5) {
+
+	//Restarting round if reached 20 - for MVP this should be 5
+	if (roundNumber == 20) {
 
 		roundNumber = 0;
 		roundThreat = 0;
@@ -182,17 +128,18 @@ void Scene::ChooseSpawningPoints()
 	//This is VERY HARDCODED - I'm not proud of this, but will work for now (fck this shit) - Is just the manager of round threat TODO
 	if (roundNumber == 0 || roundNumber == 1)
 		threatIncremental = 10;
-	else if (roundNumber == 3 || roundNumber == 6)
-		threatIncremental = 20;
-	else if (roundNumber == 9 || roundNumber == 11)
-		threatIncremental = 30;
-	else if (roundNumber == 15 || roundNumber == 19)
-		threatIncremental = 40;
+	else if (roundNumber % 3 == 0)
+		threatIncremental += 10;
 	else
 		threatIncremental = 0;
 
-	roundNumber++;
+	
 	roundThreat += threatIncremental;
+
+	LOG("ROUND NUMBER: %i", roundNumber);
+	LOG("Rount Threat: %i", roundThreat);
+	LOG("Round Threat Incremental: %i", threatIncremental);
+	roundNumber++;
 
 	//Reseting spawning points (put them at false to choose between them)
 	for (int i = 0; i < SpawningPoints_Array.size(); i++)

@@ -20,7 +20,7 @@ Unit::Unit(unit_type unit_Type, fPoint pos, faction_enum faction) : Entity(entit
 		switch (unitType) {
 
 		case (unit_type::INFANTRY):
-			texture = myApp->scene->TestTexture;
+			texture = myApp->entities->Temp_tex;
 			break;
 		case(unit_type::UNKNOWN):
 			break;
@@ -35,7 +35,7 @@ Unit::Unit(unit_type unit_Type, fPoint pos, faction_enum faction) : Entity(entit
 		switch (unitType) {
 
 		case (unit_type::INFANTRY):
-			texture = myApp->scene->TestTexture;
+			texture = myApp->entities->Temp_tex;
 			break;
 		case(unit_type::UNKNOWN):
 			break;
@@ -47,8 +47,10 @@ Unit::Unit(unit_type unit_Type, fPoint pos, faction_enum faction) : Entity(entit
 	LoadEntityData();
 }
 
+
 Unit::~Unit()
 {}
+
 
 bool Unit::Update(float dt)
 {
@@ -74,11 +76,13 @@ bool Unit::Update(float dt)
 	return true;
 }
 
+
 bool Unit::Draw()
 {
 
 	return true;
 }
+
 
 void Unit::UpdateBlitOrder()
 {
@@ -126,6 +130,7 @@ void Unit::UnitWorkflow(float dt)
 	}
 }
 
+
 void Unit::ApplyState()
 {
 	switch (unitState) {
@@ -148,6 +153,7 @@ void Unit::ApplyState()
 void Unit::DoHold(float dt)
 {
 	switch (unitState) {
+
 	case unit_state::IDLE:
 		target = EnemyInRange();
 		if (target != nullptr) {
@@ -168,6 +174,7 @@ void Unit::DoHold(float dt)
 
 void Unit::DoMove(float dt)
 {
+
 	if (NodeReached() == false) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
 		Move(dt);
 	}
@@ -185,6 +192,7 @@ void Unit::DoMove(float dt)
 
 void Unit::DoAttack(float dt)
 {
+
 	if (target->IsVisible() == true) {
 		if (TargetDisplaced() == true) {
 			origin = { (int)position.x, (int)position.y };
@@ -208,6 +216,7 @@ void Unit::DoAttack(float dt)
 
 void Unit::DoMoveAndAttack(float dt)
 {
+
 	if (NodeReached() == false) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
 		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
 			target = EnemyInRange();
@@ -230,6 +239,7 @@ void Unit::DoMoveAndAttack(float dt)
 		}
 	}
 	else {
+
 		currNode++;
 
 		if (DestinationReached() == false) {
@@ -244,6 +254,7 @@ void Unit::DoMoveAndAttack(float dt)
 
 void Unit::DoPatrol(float dt)
 {
+
 	if (NodeReached() == false) {	//NOTE: Pathfinding should define nextNode as the tile where a specific unit should be even if it's in a group
 		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
 			target = EnemyInRange();
@@ -280,6 +291,7 @@ void Unit::DoPatrol(float dt)
 // Actions
 bool Unit::Move(float dt)	//TODO: Make it so unit goes straight to the nextNode (divide speed into x and y, and use hipotenuse angle to decide how much it applies to each)
 {
+
 	position.x += (vecSpeed.x * dt);
 	position.y += (vecSpeed.y * dt);
 
@@ -289,6 +301,7 @@ bool Unit::Move(float dt)	//TODO: Make it so unit goes straight to the nextNode 
 
 void Unit::AttackTarget()
 {
+
 	//TODO: Enemy interaction
 	unitState = unit_state::FIRING;
 }
@@ -296,6 +309,7 @@ void Unit::AttackTarget()
 // Unit Data
 bool Unit::IsDead()
 {
+
 	if (life <= 0) {
 		return true;
 	}
@@ -340,6 +354,7 @@ bool Unit::NodeReached()
 
 bool Unit::DestinationReached()
 {
+
 	if (currNode == nodeList.end()) {
 		return true;
 	}

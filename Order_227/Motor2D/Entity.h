@@ -39,7 +39,6 @@ public:
 
 
 	Entity(entity_type entityType, fPoint position) : type(entityType), position(position) {}
-
 	~Entity() {}
 
 public:
@@ -96,9 +95,6 @@ public:
 	
 	//TilesetFile
 	pugi::xml_document	tilsetTexture;
-	
-
-
 
 };
 

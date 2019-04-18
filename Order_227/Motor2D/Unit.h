@@ -7,17 +7,20 @@
 #include "Pathfinding.h"
 
 enum class unit_type {
+
 	INFANTRY,
 	UNKNOWN = 1
 };
 
 enum class faction_enum {
+
 	COMMUNIST,
 	CAPITALIST,
 	UNKNOWN = 2
 };
 
 enum class unit_state {
+
 	IDLE,	//Default state
 	MOVING,
 	FIRING,
@@ -27,6 +30,7 @@ enum class unit_state {
 };
 
 enum class unit_orders {
+
 	NONE = -1,
 	HOLD,	//Default order
 	MOVE,

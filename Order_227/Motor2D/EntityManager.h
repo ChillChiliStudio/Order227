@@ -33,12 +33,16 @@ public:
 
 	void DestroyEntity(Entity *Entity);
 
+	void LoadTextures();
+
 public:
 
 	std::list<Entity*> entities_list;
 	std::list<Unit*> comunist_list;
 	std::list<Unit*> capitalist_list;
 
+	//TEMPORAL
+	SDL_Texture* Temp_tex = nullptr;
 
 	float accumulated_time = 0.0f;
 	float update_ms_cycle = 0.0f;

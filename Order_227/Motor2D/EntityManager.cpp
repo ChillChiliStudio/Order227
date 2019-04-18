@@ -13,6 +13,7 @@
 #include "Entity.h"
 #include "Scene.h"
 #include "Render.h"
+#include "Textures.h"
 #include "App.h"
 #include <assert.h>
 #include "Input.h"
@@ -52,6 +53,8 @@ bool EntityManager::Start() {
 			(*item)->Start();
 
 	}
+
+	LoadTextures();
 	return true;
 }
 
@@ -92,7 +95,6 @@ bool EntityManager::Update(float dt) {
 
 	myApp->render->OrderBlit(myApp->render->OrderToRender);
 
-
 	return true;
 }
 
@@ -112,6 +114,9 @@ bool EntityManager::CleanUp() {
 
 		entities_list.clear();
 	}
+
+	if (Temp_tex != nullptr)
+		RELEASE(Temp_tex);
 
 	return true;
 }
@@ -161,12 +166,12 @@ Entity *EntityManager::CreateUnit(unit_type unitType, fPoint position, faction_e
 
 	entities_list.push_back(Unit_Ent); //TODO : Revisar esto cuando joan añada las pools
 
-	if (Unit_Ent->unitFaction == faction_enum::COMMUNIST) {
+	if (Unit_Ent->unitFaction == faction_enum::COMMUNIST) 
 		comunist_list.push_back(Unit_Ent);
-	}
-	if (Unit_Ent->unitFaction == faction_enum::CAPITALIST) {
+	
+	if (Unit_Ent->unitFaction == faction_enum::CAPITALIST) 
 		capitalist_list.push_back(Unit_Ent);
-	}
+	
 	return Unit_Ent;
 }
 
@@ -178,7 +183,6 @@ void EntityManager::DestroyEntity(Entity *object) {
 
 		if ((*item) == object) {
 
-			(*item)->DestroyEntity();
 			entities_list.erase(item);
 			break;
 		}
@@ -187,3 +191,8 @@ void EntityManager::DestroyEntity(Entity *object) {
 	}
 }
 
+
+void EntityManager::LoadTextures() {
+
+	Temp_tex = myApp->tex->Load("textures/troops/allied/gi.png");
+}

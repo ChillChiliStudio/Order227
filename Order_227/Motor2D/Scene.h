@@ -42,7 +42,6 @@ public:
 public:
 
 	void ChooseSpawningPoints();
-	SDL_Texture* TestTexture = nullptr;
 	std::vector<Spawning_Point*> SpawningPoints_Array;
 
 private:
@@ -54,10 +53,7 @@ private:
 
 	pugi::xml_document SP_Doc;
 
-	//Pathfinding Debug Stuff
-	SDL_Texture* debug_tex;
-	PerfTimer PathfindingTimer;
-	float Ptime = 0.0f;
+	SDL_Texture* debug_tex = nullptr;
 
 };
 
