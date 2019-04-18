@@ -102,7 +102,8 @@ public:
 	SDL_Rect CheckInCamera;
 	unit_state unitState = unit_state::IDLE;
 	unit_orders unitOrders = unit_orders::HOLD;
-	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
+	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //RECT ONLY TO DRAW PLEASE
+	
 
 	iPoint origin;
 	iPoint destination;

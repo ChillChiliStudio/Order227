@@ -5,7 +5,7 @@
 #include "Vector.h"
 #include "PugiXml\src\pugixml.hpp"
 #include "App.h"
-
+#include "SDL/include/SDL_rect.h"
 #include <string>
 
 class EntityManager;
@@ -84,6 +84,8 @@ public:
 	SDL_Texture*	texture = nullptr;
 	entity_faction	faction;
 	entity_type		type;
+	SDL_Rect UnitRect = { (int)position.x, (int)position.y, 60,60 }; //TODO desjarcodear
+
 
 	//TilesetFile
 	pugi::xml_document	tilsetTexture;

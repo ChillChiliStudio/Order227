@@ -67,8 +67,16 @@ bool Player::Update(float dt) {
 	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
 	mouseScreenPos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
 
-	if (myApp->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
-		CreateUnitOnPos(mouseScreenPos);
+	//ENTITIES TEST
+	if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		iPoint position;
+		myApp->input->GetMousePosition(position.x, position.y);
+		//position = myApp->render->ScreenToWorld(position.x, position.y);
+		fPoint position2;
+		position2.x = position.x;
+		position2.y = position.y;
+ 		myApp->entities->CreateSoldier(position2, soldier_type::BAZOOKA, entity_faction::URSS);
 	}
 
 	//group movement bellow
@@ -90,14 +98,14 @@ bool Player::Update(float dt) {
 
 
 
-void Player::CreateUnitOnPos(iPoint mouseScreenPos_)
-{
-	//RECODE
-	//fPoint position;
-	//position.x = (float)mouseScreenPos_.x - 30;
-	//position.y = (float)mouseScreenPos_.y - 35;
-	//myApp->entities->CreateUnit(unit_type::INFANTRY, position, faction_enum::COMMUNIST);
-}
+//void Player::CreateUnitOnPos(iPoint mouseScreenPos_)
+//{
+//	//RECODE
+//	//fPoint position;
+//	//position.x = (float)mouseScreenPos_.x - 30;
+//	//position.y = (float)mouseScreenPos_.y - 35;
+//	//myApp->entities->CreateUnit(unit_type::INFANTRY, position, faction_enum::COMMUNIST);
+//}
 
 void Player::entitiesSelection()
 {
@@ -130,6 +138,7 @@ void Player::entitiesSelection()
 		//units selection
 		myApp->groups->SelectUnit(SRect);
 	}
+
 	// 1 click selection
 	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
 		myApp->groups->SelectUnit(mouseScreenPos);

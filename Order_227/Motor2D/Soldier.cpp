@@ -29,7 +29,10 @@ bool Soldier::Update(float dt) {
 	UpdateBlitOrder();*/
 
 	//myApp->render->Push(order, texture, position.x, position.y, &UnitRect);
-
+	UnitRect.x = position.x;
+	UnitRect.y = position.y;
+	if (selected)
+		myApp->render->DrawQuad(UnitRect, 0, 0, 255, 255, false);
 	return true;
 }
 

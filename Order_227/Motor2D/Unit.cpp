@@ -21,7 +21,7 @@ bool Unit::Update(float dt)
 {
 
 	UnitWorkflow(dt);
-	CheckInCamera = {(int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
+	CheckInCamera = {(int)position.x,(int)position.y, UnitRect.w, UnitRect.h };
 
 	if (myApp->render->InsideCamera(CheckInCamera) == true) {
 
@@ -33,7 +33,7 @@ bool Unit::Update(float dt)
 		myApp->entities->DestroyEntity(this);
 
 	if (selected)
-		myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0, 255, false);
+		myApp->render->DrawQuad(UnitRect, 255, 0, 0, 255, false);
 
 	return true;
 }

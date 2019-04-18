@@ -55,6 +55,20 @@ bool GroupManager::CleanUp() {
 //--- SELECTION AND GROUPS SYSTEM ---
 void GroupManager::SelectUnit(SDL_Rect rect) {
 
+	for (int i = 0; i < SOLDIERS_LIST_SIZE; i++) {
+		if (myApp->entities->urssUnitsArray[i]->active == true) {
+
+			SDL_Rect entityRect = myApp->entities->urssUnitsArray[i]->UnitRect;
+
+			if (SDL_HasIntersection(&entityRect, &rect)) {
+				myApp->entities->urssUnitsArray[i]->selected = true;
+			}
+			else if (!(SDL_HasIntersection(&entityRect, &rect)) && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_UP) {
+				myApp->entities->urssUnitsArray[i]->selected = false;
+			}
+		}
+	}
+
 	//for (std::list<Unit*>::iterator it = myApp->entities->comunist_list.begin(); it != myApp->entities->comunist_list.end(); it++) {
 	//	
 	//	SDL_Rect entityRect = (*it)->unitRect;
@@ -75,8 +89,23 @@ void GroupManager::SelectUnit(SDL_Rect rect) {
 
 
 void GroupManager::SelectUnit(iPoint pos) {
+	int counter = 0;
+	for (int i = 0; i < SOLDIERS_LIST_SIZE; i++) {
+		if (myApp->entities->urssUnitsArray[i]->active == true) {
+			SDL_Rect entityRect = myApp->entities->urssUnitsArray[i]->UnitRect;
+		}
+		if ((counter < 1) && pos.x > myApp->entities->urssUnitsArray[i]->UnitRect.x && pos.x < myApp->entities->urssUnitsArray[i]->UnitRect.x + myApp->entities->urssUnitsArray[i]->UnitRect.w && pos.y > myApp->entities->urssUnitsArray[i]->UnitRect.y && pos.y < myApp->entities->urssUnitsArray[i]->UnitRect.y + myApp->entities->urssUnitsArray[i]->UnitRect.h) {
+			myApp->entities->urssUnitsArray[i]->selected = true;
+			counter++;
+		}
+		else if (myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == SDL_RELEASED)
+			myApp->entities->urssUnitsArray[i]->selected = false;
+		
+	}
 
-	//int counter = 0;
+
+
+	////int counter = 0;
 	//for (std::list<Unit*>::iterator it = myApp->entities->comunist_list.begin(); it != myApp->entities->comunist_list.end(); it++) {
 	//	
 	//	SDL_Rect entityRect = (*it)->unitRect;
@@ -132,6 +161,13 @@ void GroupManager::EmptyPlayerGroup() {
 
 
 void GroupManager::AddUnitsPlayerGroup() {
+
+	for (int i = 0; i < SOLDIERS_LIST_SIZE; i++) {
+		if (myApp->entities->urssUnitsArray[i]->selected == true) {
+			playerGroup.groupUnits_list.push_back((myApp->entities->urssUnitsArray[i]));
+			LOG("ADD UNIT TO THE GROUP");
+		}
+	}
 
 	/*for (std::list<Unit*>::iterator iterator = myApp->entities->comunist_list.begin(); iterator != myApp->entities->comunist_list.end(); iterator++) {
 		
