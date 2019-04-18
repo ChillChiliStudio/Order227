@@ -3,6 +3,7 @@
 
 #include "Quadtree.h"
 
+#define SCREEN_MARGIN 20
 
 struct TileData
 {

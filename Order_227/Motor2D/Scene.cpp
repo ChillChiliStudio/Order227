@@ -84,6 +84,21 @@ bool Scene::Update(float dt)
 		//		SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
 
 	}
+
+
+	//ENTITIES TEST
+	if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		iPoint position;
+		myApp->input->GetMousePosition(position.x, position.y);
+		fPoint position2;
+		position2.x = position.x;
+		position2.y = position.y;
+		myApp->entities->CreateSoldier(position2, soldier_type::BAZOOKA, entity_faction::URSS);
+	}
+	//ENTITIES TEST
+
+
 	myApp->gui->Draw();
 	return true;
 }
