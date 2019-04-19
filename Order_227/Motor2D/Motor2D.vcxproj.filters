@@ -103,14 +103,14 @@
     <ClCompile Include="Static_Object.cpp">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Soldier.cpp">
-      <Filter>Game Files\Entity Management\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Base.cpp">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Soldier.cpp">
+      <Filter>Game Files\Entity Management\Entities\Units</Filter>
+    </ClCompile>
     <ClCompile Include="Vehicle.cpp">
-      <Filter>Game Files\Entity Management\Entities</Filter>
+      <Filter>Game Files\Entity Management\Entities\Units</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -237,15 +237,15 @@
     <ClInclude Include="Static_Object.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Soldier.h">
-      <Filter>Game Files\Entity Management\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Base.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Main_Base.h" />
+    <ClInclude Include="Soldier.h">
+      <Filter>Game Files\Entity Management\Entities\Units</Filter>
+    </ClInclude>
     <ClInclude Include="Vehicle.h">
-      <Filter>Game Files\Entity Management\Entities</Filter>
+      <Filter>Game Files\Entity Management\Entities\Units</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -299,6 +299,9 @@
     </Filter>
     <Filter Include="Tools\Geometry">
       <UniqueIdentifier>{f7de7723-9e75-48f2-ba3a-20fbdafef3e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Entity Management\Entities\Units">
+      <UniqueIdentifier>{b2f69d09-02a3-4467-8bd9-bcc094c5f488}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

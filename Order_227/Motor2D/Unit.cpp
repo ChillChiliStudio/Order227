@@ -57,12 +57,11 @@ void Unit::UpdateBlitOrder()
 
 bool Unit::Draw()
 {
-
 	return true;
 }
 
-bool Unit::LoadEntityData() {
-
+bool Unit::LoadEntityData()
+{
 	bool ret = true;
 
 	pugi::xml_parse_result result = tilsetTexture.load_file("textures/troops/allied/IG.tmx");
@@ -165,12 +164,11 @@ void Unit::DoHold(float dt)
 
 void Unit::DoMove(float dt)
 {
-
-	if (NodeReached() == false) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
+	if (NodeReached() == false) {
 		Move(dt);
 	}
 	else {
-		currNode++;
+		currNode = next(currNode);;
 
 		if (DestinationReached() == false) {
 			SetupVecSpeed();
@@ -183,16 +181,37 @@ void Unit::DoMove(float dt)
 
 void Unit::DoAttack(float dt)
 {
-	if (target->IsVisible() == true) {
-		if (TargetDisplaced() == true) {
-			origin = { (int)position.x, (int)position.y };
-			destination = { (int)target->position.x, (int)target->position.y };
-		}
-	}
-
 	if (target->IsDead() == false) {
+
+		if (target->IsVisible() == false) {	// If target gets in Fog of War and comes out, restart Attack Order to target
+			targetLost = true;
+		}
+		else if (targetLost == true && target->IsVisible() == true) {
+			if (TargetDisplaced() == true) {
+				StartAttack(target);
+			}
+			else {
+				targetLost = false;
+			}
+		}
+
 		if (TargetInRange() == false) {
-			Move(dt);
+			if (unitState == unit_state::ATTACKING) {	// If Unit encounters target, attacks, but target leaves, start new AttackOrder to unit
+				StartAttack(target);
+			}
+			else if (NodeReached() == false) {
+				Move(dt);
+			}
+			else {
+				currNode = next(currNode);
+
+				if (DestinationReached() == false) {
+					SetupVecSpeed();
+				}
+				else {
+					StartAttack(target);
+				}
+			}
 		}
 		else {
 			AttackTarget();
@@ -205,8 +224,7 @@ void Unit::DoAttack(float dt)
 
 void Unit::DoMoveAndAttack(float dt)
 {
-
-	if (NodeReached() == false) {	//NOTE: Pathfinding should define destination as the tile where a specific unit should be even if it's in a group
+	if (NodeReached() == false) {
 		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
 			target = EnemyInRange();
 			if (target != nullptr) {
@@ -228,8 +246,7 @@ void Unit::DoMoveAndAttack(float dt)
 		}
 	}
 	else {
-
-		currNode++;
+		currNode = next(currNode);
 
 		if (DestinationReached() == false) {
 			SetupVecSpeed();
@@ -243,8 +260,7 @@ void Unit::DoMoveAndAttack(float dt)
 
 void Unit::DoPatrol(float dt)
 {
-
-	if (NodeReached() == false) {	//NOTE: Pathfinding should define nextNode as the tile where a specific unit should be even if it's in a group
+	if (NodeReached() == false) {
 		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
 			target = EnemyInRange();
 			if (target != nullptr) {
@@ -266,7 +282,7 @@ void Unit::DoPatrol(float dt)
 		}
 	}
 	else {
-		currNode++;
+		currNode = next(currNode);
 
 		if (DestinationReached() == false) {
 			SetupVecSpeed();
@@ -278,9 +294,8 @@ void Unit::DoPatrol(float dt)
 }
 
 // Actions
-bool Unit::Move(float dt)	//TODO: Make it so unit goes straight to the nextNode (divide speed into x and y, and use hipotenuse angle to decide how much it applies to each)
+bool Unit::Move(float dt)
 {
-
 	position.x += (stats.vecSpeed.x * dt);
 	position.y += (stats.vecSpeed.y * dt);
 
@@ -290,7 +305,6 @@ bool Unit::Move(float dt)	//TODO: Make it so unit goes straight to the nextNode 
 
 void Unit::AttackTarget()
 {
-
 	//TODO: Enemy interaction
 	unitState = unit_state::ATTACKING;
 }
@@ -308,7 +322,7 @@ bool Unit::IsDead()
 
 bool Unit::IsVisible()
 {
-	return true;	//TODO: Make function
+	return true;	//TODO: Make function with Fog of War
 }
 
 bool Unit::NodeReached()
@@ -363,20 +377,21 @@ bool Unit::TargetDisplaced()
 // Unit Calculations
 Unit* Unit::EnemyInRange()
 {
-	Unit* ret = nullptr;	//TODO-Carles: Detect enemies to atack them, can't do that if the lists/arrays are a fucking mess
+	Unit* ret = nullptr;
 
-	/*for (int i = 0; i > hostileUnits; ++iter) {
-		if ((*iter)->position.x > position.x + attackRange || (*iter)->position.x < position.x - attackRange
-			|| (*iter)->position.y > position.y + attackRange || (*iter)->position.y < position.y + attackRange) {
-			continue;
-		}
-		else {
-			if (InsideRadius(position, attackRange, (*iter)->position) == true) {
-				ret = (*iter);
-				break;
-			 }
-		}
-	}*/
+	//for (int i = 0; i >= SOLDIERS_LIST_SIZE; ++i) {	//TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units
+	//	if (hostileUnits[i]->active == true) {
+	//		if (InsideSquareRadius(position, (float)stats.attackRange, hostileUnits[i]->position) == false) {
+	//			continue;
+	//		}
+	//		else {
+	//			if (InsideRadius(position, (float)stats.attackRange, hostileUnits[i]->position) == true) {
+	//				ret = hostileUnits[i];
+	//				break;
+	//			}
+	//		}
+	//	}
+	//}
 
 	return ret;
 }
@@ -405,8 +420,7 @@ void Unit::OrderStandardSetup(iPoint destination)
 	origin = { (int)position.x, (int)position.y };
 	this->destination = destination;
 
-	myApp->pathfinding->CreatePath(origin, destination);
-	nodeList = *myApp->pathfinding->GetLastPath();
+	nodeList = *myApp->pathfinding->CreatePath(origin, destination);
 	currNode = nodeList.begin();
 	SetupVecSpeed();
 }
@@ -428,9 +442,17 @@ void Unit::StartMove(iPoint destination)
 }
 
 void Unit::StartAttack(Unit* target)
-{
-	iPoint targetPos = { (int)target->position.x, (int)target->position.y };
-	OrderStandardSetup(targetPos);
+{	
+	nodeList.clear();
+	this->target = target;
+	targetLost = false;
+
+	origin = { (int)position.x, (int)position.y };
+	this->destination = { (int)target->position.x, (int)target->position.y };
+
+	nodeList = *myApp->pathfinding->CreatePath(origin, destination);
+	currNode = nodeList.begin();
+	SetupVecSpeed();
 
 	unitOrders = unit_orders::ATTACK;
 	unitState = unit_state::IDLE;
