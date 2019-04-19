@@ -258,7 +258,7 @@ bool Entity_Manager::LoadEntityData() {
 				temp.h = Data.attribute("height").as_int();
 
 				std::string tempString = Data.attribute("name").as_string();
-				int degreesToArray = Data.attribute("type").as_int() / 45;//DEGREES
+				int degreesToArray = Data.attribute("type").as_int() / 45;//DEGREES    HAVE IN ACCOUNT THAT THE TILES ARE DEFINED CONTERCLOCKWISE 
 
 					if (tempString == "Pointing") 
 						animationArray[i][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
@@ -267,7 +267,11 @@ bool Entity_Manager::LoadEntityData() {
 						animationArray[i][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
 
 					if (tempString == "Shot")
-						animationArray[i][int(unit_state::FIRING)][0].PushBack(temp);								
+						animationArray[i][int(unit_state::FIRING)][degreesToArray].PushBack(temp);		
+
+					if( tempString=="DeathOne")
+						animationArray[i][int(unit_state::DEAD)][0].PushBack(temp);
+
 			}
 		}
 	}

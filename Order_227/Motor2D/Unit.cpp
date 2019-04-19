@@ -21,7 +21,7 @@ bool Unit::Update(float dt)
 {
 
 	UnitWorkflow(dt);
-	currentAnimation = myApp->entities->animationArray[]
+	currentAnimation = &myApp->entities->animationArray[0][int(unitState)][int(unitDirection)];
 	CheckInCamera = {(int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
 
 	if (myApp->render->InsideCamera(CheckInCamera) == true) {
