@@ -37,11 +37,24 @@ struct unit_stats
 	float health = 0;
 	uint damage = 0;
 
+<<<<<<< HEAD
 	uint attackRange = 0;
 	uint visionRange = 0;
 
 	float linSpeed = 100.0f;
 	fVec2 vecSpeed;
+=======
+	int linSpeed = 0;
+	float cadency = 0.0f;
+	int damage = 0;
+	int healthPoints = 0;
+	float visionRange = 0.0f;
+	float attackRange = 0.0f;
+
+	int cost = 0;
+	int productionTime = 0;
+	int unitThreat = 0;
+>>>>>>> master
 };
 
 class Unit :public Entity
@@ -51,6 +64,10 @@ public:
 	Unit(fPoint pos, entity_type entityType, entity_faction faction = entity_faction::NEUTRAL);
 	~Unit();
 
+<<<<<<< HEAD
+=======
+	bool Start() override;
+>>>>>>> master
 	bool Update(float dt) override;
 	void UpdateBlitOrder() override;
 	bool Draw();

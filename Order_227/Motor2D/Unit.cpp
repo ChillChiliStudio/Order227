@@ -7,17 +7,48 @@
 #include "Entity.h"
 #include "Unit.h"
 
+<<<<<<< HEAD
 Unit::Unit(fPoint pos, entity_type entityType, entity_faction faction) : Entity(pos, entityType, faction)
 {
 //	LoadEntityData();
+=======
+
+Unit::Unit(fPoint pos, entity_type Entitytype, entity_faction faction) : Entity(pos, Entitytype, faction) {
+
+	//LoadEntityData();
+>>>>>>> master
 }
 
 Unit::~Unit()
 {}
 
+<<<<<<< HEAD
 bool Unit::Update(float dt)
 {
 	UnitWorkflow(dt);
+=======
+
+bool Unit::Start() {
+
+	return true;
+}
+
+
+bool Unit::Update(float dt)
+{
+
+	if (currentHealth <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
+		myApp->entities->DestroyEntity(this);
+
+	UnitWorkflow(dt);
+
+	if (!active)
+		return false;
+
+	CheckInCamera = {(int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
+
+	if (myApp->render->InsideCamera(CheckInCamera) == true) {
+>>>>>>> master
 
 	if (mustDespawn) {
 		mustDespawn = false;
@@ -26,10 +57,21 @@ bool Unit::Update(float dt)
 	else {
 		CheckInCamera = { (int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
 
+<<<<<<< HEAD
 		if (myApp->render->InsideCamera(CheckInCamera) == true) {
 			UpdateBlitOrder();
 			myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
 		}
+=======
+	if (selected)
+		myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0, 255, false);
+
+	myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0);
+
+	return true;
+}
+
+>>>>>>> master
 
 		if (selected) {
 			myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0, 255, false);
@@ -499,4 +541,43 @@ void Unit::StartPatrol(iPoint destination)
 
 	unitOrders = unit_orders::PATROL;
 	unitState = unit_state::IDLE;
+<<<<<<< HEAD
 }
+=======
+}
+
+bool Unit::LoadEntityData() {
+
+	bool ret = true;
+
+	pugi::xml_parse_result result = tilsetTexture.load_file("textures/troops/allied/IG.tmx");
+
+	if (result != NULL)
+	{
+
+		for (pugi::xml_node Data = tilsetTexture.child("map").child("objectgroup").child("object"); Data && ret; Data = Data.next_sibling("object"))
+		{
+
+			EntityData*EntityDataAux = new EntityData();
+
+			EntityDataAux->Action= Data.attribute("name").as_string(); //Actions the Entityt is performing e.g.Walking,shot
+			EntityDataAux->Degrees = Data.attribute("type").as_int();//Position in degrees 0,45,90,135,180,225,270,315
+
+			//Use this int as iterator of the loop, when first Frame of an Action is read then asign this value to an iterator to store all the frame for each anim
+			EntityDataAux->AnimFrames = Data.attribute("IteratorType").as_int();//Frames that the Action has CAREFUL YOU MUST USE THIS WHEN YOU READ THE FIRST FRAME OF THE ANIM
+
+
+			EntityDataAux->TilePos.x = Data.attribute("x").as_int(); //POS X
+			EntityDataAux->TilePos.y = Data.attribute("y").as_int();//POS Y
+
+			EntityDataAux->TileSize.x = Data.attribute("width").as_int();//Width
+			EntityDataAux->TileSize.y = Data.attribute("height").as_int();//height
+			// CAREFUL need to store each o the Entity data,
+		}
+
+
+	}
+
+	return ret;
+}
+>>>>>>> master

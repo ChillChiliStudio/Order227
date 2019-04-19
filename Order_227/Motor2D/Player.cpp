@@ -63,7 +63,6 @@ bool Player::Update(float dt) {
 		myApp->render->camera.x -= 500 * dt;
 
 	//Mouse selection code bellow
-
 	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
 	mouseScreenPos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
 
