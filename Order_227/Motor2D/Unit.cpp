@@ -23,11 +23,11 @@ bool Unit::Update(float dt)
 	UnitWorkflow(dt);
 	CheckInCamera = {(int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
 
-	if (myApp->render->InsideCamera(CheckInCamera) == true) {
+
 
 		UpdateBlitOrder();
 		myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
-	}
+	
 
 	if (currentHealth<= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
 		myApp->entities->DestroyEntity(this);
@@ -456,6 +456,8 @@ bool Unit::LoadEntityData() {
 			EntityDataAux->TileSize.x = Data.attribute("width").as_int();//Width
 			EntityDataAux->TileSize.y = Data.attribute("height").as_int();//height
 			// CAREFUL need to store each o the Entity data,
+
+		
 		}
 	}
 

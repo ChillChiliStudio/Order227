@@ -32,6 +32,8 @@ public:
 
 public:
 
+	SDL_Rect TestingRect = {0,0,78,66};
+
 	//IMPLEMENT ANIMATIONS
 	//animation* currentAnimation;
 	unit_stats stats;

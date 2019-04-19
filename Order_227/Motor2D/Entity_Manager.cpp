@@ -14,6 +14,7 @@
 #include "Scene.h"
 #include "Render.h"
 #include "App.h"
+#include "Textures.h"
 #include <assert.h>
 #include "Input.h"
 #include "Pathfinding.h"
@@ -68,6 +69,7 @@ bool Entity_Manager::Awake()
 bool Entity_Manager::Start()
 {
 	//Load textures
+	soldierTextures[int(soldier_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
 
 	return true;
 }
