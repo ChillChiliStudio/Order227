@@ -49,7 +49,7 @@ bool Entity_Manager::Awake()
 bool Entity_Manager::Start()
 {
 	//Load textures
-	infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
+	//infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
 
 
 	LoadEntityData();
@@ -146,17 +146,19 @@ bool Entity_Manager::PreUpdate() {
 
 bool Entity_Manager::Update(float dt)
 {
-
+	
 	accumulated_time += dt;
 
 	if (accumulated_time >= update_ms_cycle)
 		do_logic = true;
 
 	for (int i = 0; i < UNITS_ARRAY_SIZE; ++i) {
+		if(CapitalistUnitsArray[i]->active==true)
+			CapitalistUnitsArray[i]->Update(dt);
 
-		CapitalistUnitsArray[i]->Update(dt);
-		CommunistUnitsArray[i]->Update(dt);
-
+		if(CommunistUnitsArray[i]->active==true)
+			CommunistUnitsArray[i]->Update(dt);
+		
 		if (do_logic)
 		{
 			CapitalistUnitsArray[i]->FixUpdate(dt);
@@ -164,17 +166,17 @@ bool Entity_Manager::Update(float dt)
 		}
 	}
 
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i)
-	{
-		CommunistInfantryArray[i]->Update(dt);
-		CapitalistInfantryArray[i]->Update(dt);
+	//for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i)
+	//{
+	//	CommunistInfantryArray[i]->Update(dt);
+	//	CapitalistInfantryArray[i]->Update(dt);
 
-		if (do_logic)
-		{
-			CommunistInfantryArray[i]->FixUpdate(dt);
-			CapitalistInfantryArray[i]->FixUpdate(dt);
-		}
-	}
+	//	if (do_logic)
+	//	{
+	//		CommunistInfantryArray[i]->FixUpdate(dt);
+	//		CapitalistInfantryArray[i]->FixUpdate(dt);
+	//	}
+	//}
 
 	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
 		buildingsArray[i]->Update();
@@ -361,8 +363,8 @@ bool Entity_Manager::DeActivateObject(Static_Object* object)
 bool Entity_Manager::loadTextures() {
 
 	//TODO This need to be charged by a XML
-	infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/gi.png");
-	infantryTextures[int(infantry_type::BAZOOKA)] = myApp->tex->Load("textures/troops/allied/gi.png");
+	infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
+	infantryTextures[int(infantry_type::BAZOOKA)] = myApp->tex->Load("textures/troops/allied/GI.png");
 
 	return true;
 }
