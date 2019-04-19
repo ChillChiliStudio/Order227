@@ -5,10 +5,10 @@
 
 enum class building_type {
 
-	BASE_NONE = -1,
+	BUILDING_NONE = -1,
 	MAIN_BASE,
 	REFINERY,
-	BASE_MAX
+	BUILDING_MAX
 };
 
 class Building :public Entity
@@ -27,7 +27,7 @@ public:
 
 	//ADD ANIMATION
 	//Current_animation*
-	building_type baseType;
+	building_type buildingType;
 
 };
 #endif 

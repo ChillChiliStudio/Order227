@@ -1,4 +1,4 @@
-#include "Soldier.h"
+#include "Infantry.h"
 #include "Entity.h"
 #include "Render.h"
 #include "Textures.h"
@@ -6,32 +6,11 @@
 
 #include "Render.h"
 
-Soldier::Soldier(fPoint pos, soldier_type type, entity_faction faction) : Unit(pos, entity_type::SOLDIER, faction)
+Infantry::Infantry(fPoint pos, infantry_type type, entity_faction faction) : Unit(pos, entity_type::INFANTRY, faction)
 {
-
-
 }
 
-bool Soldier::Update(float dt) {
-
-	if (!active) {
-		return false;
-	}
-
-	Move(dt);
-	Draw();
-
-	/*if (life <= 0)
-		myApp->entities->DestroyEntity(this);
-
-	UpdateBlitOrder();*/
-
-	//myApp->render->Push(order, texture, position.x, position.y, &UnitRect);
-
-	return true;
-}
-
-bool Soldier::Draw() {
+bool Infantry::Draw() {
 
 	SDL_Rect rect = { position.x,position.y,50,50 };
 
@@ -40,14 +19,14 @@ bool Soldier::Draw() {
 	return true;
 }
 
-bool Soldier::Move(float dt) {
+bool Infantry::Move(float dt) {
 
 	//position.x += (speed * dt);
 	//position.y += (speed * dt);
 	return true;
 }
 
-void Soldier::UpdateBlitOrder() {
+void Infantry::UpdateBlitOrder() {
 
 	/*std::list<Entity*>::iterator item = myApp->entities->entities_list.begin();
 	while (item != myApp->entities->entities_list.end()) {

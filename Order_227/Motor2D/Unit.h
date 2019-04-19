@@ -50,7 +50,7 @@ public:
 	Unit(fPoint pos, entity_type Entitytype, entity_faction faction = entity_faction::NEUTRAL);
 	~Unit();
 
-
+	bool Start() override;
 	bool Update(float dt) override;
 	bool Draw();
 	void UpdateBlitOrder() override;

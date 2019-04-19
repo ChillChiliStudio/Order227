@@ -91,7 +91,7 @@
     <ClCompile Include="Player.h" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Slider.cpp" />
-    <ClCompile Include="Soldier.cpp" />
+    <ClCompile Include="Infantry.cpp" />
     <ClCompile Include="Static_Object.cpp" />
     <ClCompile Include="TileQuadtree.cpp" />
     <ClCompile Include="UserInterface.cpp" />
@@ -130,7 +130,7 @@
     <ClInclude Include="InputText.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Quadtree.h" />
-    <ClInclude Include="Soldier.h" />
+    <ClInclude Include="Infantry.h" />
     <ClInclude Include="Static_Object.h" />
     <ClInclude Include="TileQuadtree.h" />
     <ClInclude Include="Vector.h" />
