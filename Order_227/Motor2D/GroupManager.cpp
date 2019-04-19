@@ -55,16 +55,16 @@ bool GroupManager::CleanUp() {
 //--- SELECTION AND GROUPS SYSTEM ---
 void GroupManager::SelectUnit(SDL_Rect rect) {
 
-	for (int i = 0; i < SOLDIERS_LIST_SIZE; i++) {
-		if (myApp->entities->urssUnitsArray[i]->active == true) {
+	for (int i = 0; i < UNITS_ARRAY_SIZE; i++) {
+		if (myApp->entities->CommunistUnitsArray[i]->active == true) {
 
-			SDL_Rect entityRect = myApp->entities->urssUnitsArray[i]->UnitRect;
+			SDL_Rect entityRect = myApp->entities->CommunistUnitsArray[i]->UnitRect;
 
 			if (SDL_HasIntersection(&entityRect, &rect)) {
-				myApp->entities->urssUnitsArray[i]->selected = true;
+				myApp->entities->CommunistUnitsArray[i]->selected = true;
 			}
 			else if (!(SDL_HasIntersection(&entityRect, &rect)) && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_UP) {
-				myApp->entities->urssUnitsArray[i]->selected = false;
+				myApp->entities->CommunistUnitsArray[i]->selected = false;
 			}
 		}
 	}
@@ -89,17 +89,26 @@ void GroupManager::SelectUnit(SDL_Rect rect) {
 
 
 void GroupManager::SelectUnit(iPoint pos) {
+
 	int counter = 0;
-	for (int i = 0; i < SOLDIERS_LIST_SIZE; i++) {
-		if (myApp->entities->urssUnitsArray[i]->active == true) {
-			SDL_Rect entityRect = myApp->entities->urssUnitsArray[i]->UnitRect;
+
+	for (int i = 0; i < UNITS_ARRAY_SIZE; i++) {
+
+		if (myApp->entities->CommunistUnitsArray[i]->active == true) {
+			SDL_Rect entityRect = myApp->entities->CommunistUnitsArray[i]->UnitRect;
 		}
-		if ((counter < 1) && pos.x > myApp->entities->urssUnitsArray[i]->UnitRect.x && pos.x < myApp->entities->urssUnitsArray[i]->UnitRect.x + myApp->entities->urssUnitsArray[i]->UnitRect.w && pos.y > myApp->entities->urssUnitsArray[i]->UnitRect.y && pos.y < myApp->entities->urssUnitsArray[i]->UnitRect.y + myApp->entities->urssUnitsArray[i]->UnitRect.h) {
-			myApp->entities->urssUnitsArray[i]->selected = true;
+
+		if ((counter < 1) && pos.x > myApp->entities->CommunistUnitsArray[i]->UnitRect.x &&
+			pos.x < myApp->entities->CommunistUnitsArray[i]->UnitRect.x + myApp->entities->CommunistUnitsArray[i]->UnitRect.w &&
+			pos.y > myApp->entities->CommunistUnitsArray[i]->UnitRect.y &&
+			pos.y < myApp->entities->CommunistUnitsArray[i]->UnitRect.y + myApp->entities->CommunistUnitsArray[i]->UnitRect.h) {
+			
+			myApp->entities->CommunistUnitsArray[i]->selected = true;
 			counter++;
 		}
+
 		else if (myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == SDL_RELEASED)
-			myApp->entities->urssUnitsArray[i]->selected = false;
+			myApp->entities->CommunistUnitsArray[i]->selected = false;
 		
 	}
 
@@ -161,9 +170,9 @@ void GroupManager::EmptyPlayerGroup() {
 
 void GroupManager::AddUnitsPlayerGroup() {
 
-	for (int i = 0; i < SOLDIERS_LIST_SIZE; i++) {
-		if (myApp->entities->urssUnitsArray[i]->selected == true) {
-			playerGroup.groupUnits_list.push_back((myApp->entities->urssUnitsArray[i]));
+	for (int i = 0; i < UNITS_ARRAY_SIZE; i++) {
+		if (myApp->entities->CommunistUnitsArray[i]->selected == true) {
+			playerGroup.groupUnits_list.push_back((myApp->entities->CommunistUnitsArray[i]));
 			LOG("ADD UNIT TO THE GROUP");
 		}
 	}
@@ -212,8 +221,8 @@ void GroupManager::CreateGroupPaths(std::list<Unit*> list, iPoint destination) {
 		(*iterator)->destination = destination;
 		{
 			myApp->pathfinding->CreatePath((*iterator)->origin, (*iterator)->destination);
-			(*iterator)->Path.clear();
-			(*iterator)->Path = *myApp->pathfinding->GetLastPath();
+			(*iterator)->unitPath.clear();
+			(*iterator)->unitPath = *myApp->pathfinding->GetLastPath();
 		}		
 	}	
 }
