@@ -18,18 +18,22 @@ Unit::~Unit()
 bool Unit::Update(float dt)
 {
 	UnitWorkflow(dt);
-	CheckInCamera = {(int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
 
-	if (myApp->render->InsideCamera(CheckInCamera) == true) {
-		UpdateBlitOrder();
-		myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
+	if (mustDespawn) {
+		mustDespawn = false;
+		myApp->entities->DestroyEntity(this);	//TODO: This should work with entity pools
 	}
+	else {
+		CheckInCamera = { (int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
 
-	if (IsDead())	//TODO-Joan: This should be included inside the workflow AND must work with entity pools
-		myApp->entities->DestroyEntity(this);
+		if (myApp->render->InsideCamera(CheckInCamera) == true) {
+			UpdateBlitOrder();
+			myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
+		}
 
-	if (selected) {
-		myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0, 255, false);
+		if (selected) {
+			myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0, 255, false);
+		}
 	}
 
 	return true;
@@ -98,7 +102,7 @@ void Unit::UnitWorkflow(float dt)
 	unit_state prevState = unitState;
 
 	switch (unitOrders) {
-	case unit_orders::HOLD:
+	case unit_orders::HOLD:	// Default order
 		DoHold(dt);
 		break;
 	case unit_orders::MOVE:
@@ -113,8 +117,13 @@ void Unit::UnitWorkflow(float dt)
 	case unit_orders::PATROL:
 		DoPatrol(dt);
 		break;
+	case unit_orders::NONE:	// It's dead
+		if (despawnTimer.Read() > timeToDespawn) {
+			mustDespawn = true;
+		}
+		break;
 	}
-
+	
 	if (prevState != unitState) {
 		ApplyState();
 	}
@@ -147,12 +156,12 @@ void Unit::DoHold(float dt)
 	case unit_state::IDLE:
 		target = EnemyInRange();
 		if (target != nullptr) {
-			AttackTarget();
+			AttackTarget(dt);
 		}
 		break;
 	case unit_state::ATTACKING:
 		if (TargetInRange() && target->IsDead() == false) {
-			AttackTarget();
+			AttackTarget(dt);
 		}
 		else {
 			target = nullptr;
@@ -214,7 +223,7 @@ void Unit::DoAttack(float dt)
 			}
 		}
 		else {
-			AttackTarget();
+			AttackTarget(dt);
 		}
 	}
 	else {
@@ -228,7 +237,7 @@ void Unit::DoMoveAndAttack(float dt)
 		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
 			target = EnemyInRange();
 			if (target != nullptr) {
-				AttackTarget();
+				AttackTarget(dt);
 			}
 			else {
 				Move(dt);
@@ -236,12 +245,11 @@ void Unit::DoMoveAndAttack(float dt)
 		}
 		else if (unitState == unit_state::ATTACKING) {
 			if (TargetInRange() && target->IsDead() == false) {
-				AttackTarget();
+				AttackTarget(dt);
 			}
 			else {
 				target = nullptr;
 				Move(dt);
-				//TODO: Recalculate vecSpeed?
 			}
 		}
 	}
@@ -264,7 +272,7 @@ void Unit::DoPatrol(float dt)
 		if (unitState == unit_state::IDLE || unitState == unit_state::MOVING) {
 			target = EnemyInRange();
 			if (target != nullptr) {
-				AttackTarget();
+				AttackTarget(dt);
 			}
 			else {
 				Move(dt);
@@ -272,12 +280,11 @@ void Unit::DoPatrol(float dt)
 		}
 		else if (unitState == unit_state::ATTACKING) {
 			if (TargetInRange() && target->IsDead() == false) {
-				AttackTarget();
+				AttackTarget(dt);
 			}
 			else {
 				target = nullptr;
 				Move(dt);
-				//TODO: Recalculate vecSpeed?
 			}
 		}
 	}
@@ -303,16 +310,36 @@ bool Unit::Move(float dt)
 	return true;
 }
 
-void Unit::AttackTarget()
+void Unit::AttackTarget(float dt)
 {
-	//TODO: Enemy interaction
+	target->Hurt((float)stats.damage * dt);
+
 	unitState = unit_state::ATTACKING;
+}
+
+float Unit::Hurt(float damage)
+{
+	stats.health -= damage;
+
+	if (stats.health <= 0.0f) {
+		Die();
+	}
+
+	return stats.health;
+}
+
+void Unit::Die()
+{
+	//TODO: Set animation to death animation
+	despawnTimer.Start();
+	unitOrders = unit_orders::NONE;
+	unitState = unit_state::DEAD;
 }
 
 // Unit Data
 bool Unit::IsDead()
 {
-	if (stats.health <= 0) {
+	if (stats.health <= 0.0f || unitState == unit_state::DEAD) {
 		return true;
 	}
 	else {
@@ -356,7 +383,7 @@ bool Unit::NodeReached()
 
 bool Unit::DestinationReached()
 {
-	if (currNode == nodeList.end()) {
+	if (currNode == unitPath.end()) {
 		return true;
 	}
 	else {
@@ -414,14 +441,14 @@ fVec2 Unit::SetupVecSpeed()
 // Order calling
 void Unit::OrderStandardSetup(iPoint destination)
 {
-	nodeList.clear();
+	unitPath.clear();
 	target = nullptr;
 
 	origin = { (int)position.x, (int)position.y };
 	this->destination = destination;
 
-	nodeList = *myApp->pathfinding->CreatePath(origin, destination);
-	currNode = nodeList.begin();
+	unitPath = *myApp->pathfinding->CreatePath(origin, destination);
+	currNode = unitPath.begin();
 	SetupVecSpeed();
 }
 
@@ -443,15 +470,15 @@ void Unit::StartMove(iPoint destination)
 
 void Unit::StartAttack(Unit* target)
 {	
-	nodeList.clear();
+	unitPath.clear();
 	this->target = target;
 	targetLost = false;
 
 	origin = { (int)position.x, (int)position.y };
 	this->destination = { (int)target->position.x, (int)target->position.y };
 
-	nodeList = *myApp->pathfinding->CreatePath(origin, destination);
-	currNode = nodeList.begin();
+	unitPath = *myApp->pathfinding->CreatePath(origin, destination);
+	currNode = unitPath.begin();
 	SetupVecSpeed();
 
 	unitOrders = unit_orders::ATTACK;

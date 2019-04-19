@@ -81,7 +81,9 @@ public:
 
 	// Actions
 	bool Move(float dt);	// Move unit position
-	void AttackTarget();
+	void AttackTarget(float dt);
+	float Hurt(float damage);
+	void Die();
 	//void Kill();
 	//void Hurt();
 
@@ -102,13 +104,12 @@ public:
 	SDL_Rect CheckInCamera;
 	unit_state unitState = unit_state::IDLE;
 	unit_orders unitOrders = unit_orders::HOLD;
-	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
+	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO-Jaume: Hardcoded
 
 	iPoint origin;
 	iPoint destination;
-	std::vector<iPoint> Path;
+	std::vector<iPoint> unitPath;
 	std::vector<iPoint>::iterator currNode;
-	std::vector<iPoint> nodeList;
 
 	Unit** hostileUnits = nullptr;
 	Unit* target = nullptr;
@@ -116,6 +117,10 @@ public:
 
 	unit_stats stats;
 	SDL_Rect selectionRect = { 0, 0, 0, 0 };
+
+	uint32 timeToDespawn = 5000;	//TODO: Hardcoded value, should be read through xml
+	Timer despawnTimer;
+	bool mustDespawn = false;
 };
 
-#endif // !UNIT_H
+#endif //UNIT_H
