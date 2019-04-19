@@ -6,7 +6,6 @@
 #include "Entity.h"
 #include "Unit.h"
 #include "Group.h"
-#include "Main_Base.h"
 #include "PugiXml\src\pugixml.hpp"
 
 class GroupManager : public Module {
@@ -39,14 +38,6 @@ public:
 
 	Group playerGroup;
 };
-
-
-
-
-
-
-
-
 
 
 #endif

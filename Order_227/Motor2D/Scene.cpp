@@ -87,19 +87,20 @@ bool Scene::Update(float dt)
 
 	}
 
-
 	//ENTITIES TEST
 	if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
+
 		iPoint position;
 		myApp->input->GetMousePosition(position.x, position.y);
+		position = myApp->render->ScreenToWorld(position.x, position.y);
+
 		fPoint position2;
 		position2.x = position.x;
 		position2.y = position.y;
-		myApp->entities->CreateSoldier(position2, soldier_type::BAZOOKA, entity_faction::URSS);
-	}
-	//ENTITIES TEST
+		myApp->entities->ActivateInfantry(position2, infantry_type::BAZOOKA, entity_faction::COMMUNIST);
 
+	}
 
 	myApp->gui->Draw();
 	return true;

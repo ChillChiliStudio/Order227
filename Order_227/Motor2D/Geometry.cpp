@@ -20,7 +20,7 @@ float GetDistance(fPoint A, fPoint B)
 	return (float)vec.GetMagnitude();
 }
 
-bool InsideRadius(fPoint center, float radius, fPoint point)
+bool InsideRadius(fPoint center, float radius, fPoint point)	//Uses circle, Accurate, Slow
 {
 	bool ret = false;
 
@@ -28,6 +28,18 @@ bool InsideRadius(fPoint center, float radius, fPoint point)
 	
 	if (distance < radius) {
 		ret = true;
+	}
+
+	return ret;
+}
+
+bool InsideSquareRadius(fPoint center, float radius, fPoint point)	//Uses square, Inaccurate, Fast
+{
+	bool ret = true;
+
+	if (point.x > center.x + radius || point.x < center.x - radius
+		|| point.y > center.y + radius || point.y < center.y + radius) {
+		ret = false;
 	}
 
 	return ret;

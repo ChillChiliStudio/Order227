@@ -1,28 +1,27 @@
-#ifndef SOLDIER_H
-#define SOLDIER_H
+#ifndef INFANTRY_H
+#define INFANTRY_H
 
 #include "Entity.h"
 #include "Unit.h"
 #include "SDL/include/SDL.h"
 
-enum class soldier_type {
+enum class infantry_type {
 
-	SOLDIER_NONE = -1,
+	INFANTRY_NONE = -1,
 	BASIC,
 	BAZOOKA,
 	MACHINE_GUN,
-	SOLDIER_MAX
+	INFANTRY_MAX
 };
 
 
-class Soldier : public Unit {
+class Infantry : public Unit {
 
 public:
 
-	Soldier(fPoint pos, soldier_type type, entity_faction faction = entity_faction::NEUTRAL);
-	~Soldier() {}
+	Infantry(fPoint pos, infantry_type type, entity_faction faction = entity_faction::NEUTRAL);
+	~Infantry() {}
 
-	bool Update(float dt);
 	bool Move(float dt);
 	bool Draw();
 
@@ -37,7 +36,7 @@ public:
 	//IMPLEMENT ANIMATIONS
 	//animation* currentAnimation;
 	unit_stats stats;
-	soldier_type soldierType;
+	infantry_type infantryType;
 };
 
 #endif
