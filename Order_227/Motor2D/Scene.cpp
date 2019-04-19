@@ -69,18 +69,6 @@ bool Scene::Update(float dt)
 	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 		ChooseSpawningPoints();
 
-	if (myApp->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN) {
-
-	
-
-		myApp->entities->CreateSoldier({10.0f,10.0f}, soldier_type::BASIC, entity_faction::US);
-		myApp->entities->CreateSoldier({ 15.0f,20.0f }, soldier_type::BASIC, entity_faction::US);
-		myApp->entities->CreateSoldier({ 20.0f,30.0f }, soldier_type::BASIC, entity_faction::US);
-		myApp->entities->CreateSoldier({ 10.0f,40.0f }, soldier_type::BASIC, entity_faction::US);
-		myApp->entities->CreateSoldier({ 15.0f,50.0f }, soldier_type::BASIC, entity_faction::US);
-
-
-	}
 
 	//Spawn Point Draw
 	for (int i = 0; i < SpawningPoints_Array.size(); i++) {

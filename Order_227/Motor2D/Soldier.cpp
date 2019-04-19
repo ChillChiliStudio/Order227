@@ -32,8 +32,6 @@ bool Soldier::Draw() {
 
 	SDL_Rect rect = { position.x,position.y,50,50 };
 
-	//myApp->render->DrawQuad(rect, 255, 0, 0);
-
 
 	UpdateBlitOrder(); 
     myApp->render->Push(order, texture, position.x, position.y,&TestingRect);
