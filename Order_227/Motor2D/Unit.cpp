@@ -24,7 +24,7 @@ bool Unit::Update(float dt)
 {
 
 	UnitWorkflow(dt);
-	currentAnimation = &myApp->entities->animationArray[0][int(unitState)][int(unitDirection)];
+	currentAnimation = &myApp->entities->animationArray[int(infatryType)][int(unitState)][int(unitDirection)];
 
 	if (mustDespawn) {
 		mustDespawn = false;

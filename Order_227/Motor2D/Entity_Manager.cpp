@@ -207,7 +207,8 @@ bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTyp
 				CommunistInfantryArray[i]->texture = infantryTextures[int(infantryType)];
 				CommunistInfantryArray[i]->stats = infantryStats[int(infantryType)];
 				CommunistInfantryArray[i]->active = true;
-				CommunistInfantryArray[i]->infantryType = infantryType;
+				CommunistUnitsArray[i]->infatryType = infantryType;
+				//CommunistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
 
 				return true;
@@ -227,7 +228,8 @@ bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTyp
 				CapitalistInfantryArray[i]->texture = infantryTextures[int(infantryType)];
 				CapitalistInfantryArray[i]->stats = infantryStats[int(infantryType)];
 				CapitalistInfantryArray[i]->active = true;
-				CapitalistInfantryArray[i]->infantryType = infantryType;
+				CapitalistUnitsArray[i]->infatryType = infantryType;
+				//CapitalistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
 
 				return true;
@@ -290,7 +292,8 @@ bool Entity_Manager::DeActivateInfantry(Infantry* infantry)
 				CommunistInfantryArray[i]->texture = nullptr;
 				CommunistInfantryArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 				CommunistInfantryArray[i]->active = false;
-				CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+				//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+				CommunistUnitsArray[i]->infatryType = infantry_type::INFANTRY_NONE;
 				//To implement:: Update animations
 
 				return true;
@@ -309,7 +312,8 @@ bool Entity_Manager::DeActivateInfantry(Infantry* infantry)
 				CapitalistInfantryArray[i]->texture = nullptr;
 				CapitalistInfantryArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 				CapitalistInfantryArray[i]->active = false;
-				CapitalistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+				//CapitalistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+				CapitalistUnitsArray[i]->infatryType = infantry_type::INFANTRY_NONE;
 				//To implement:: Update animations
 
 				return true;

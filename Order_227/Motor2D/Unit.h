@@ -7,6 +7,15 @@
 #include "Pathfinding.h"
 #include "Animation.h"
 
+enum class infantry_type {
+
+	INFANTRY_NONE = -1,
+	BASIC,
+	BAZOOKA,
+	MACHINE_GUN,
+	INFANTRY_MAX
+};
+
 enum class unit_state
 {
 	NONE = -1,
@@ -137,7 +146,8 @@ public:
 	Unit** hostileUnits = nullptr;
 	Unit* target = nullptr;
 	bool targetLost;	// Used when there's a specific target to Search & Destroy which sight of can be lost
-
+	
+	infantry_type infatryType;
 	unit_stats stats;
 	SDL_Rect selectionRect = { 0, 0, 0, 0 };
 
