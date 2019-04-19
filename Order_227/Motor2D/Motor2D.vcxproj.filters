@@ -106,7 +106,7 @@
     <ClCompile Include="Soldier.cpp">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Base.cpp">
+    <ClCompile Include="Building.cpp">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -237,10 +237,10 @@
     <ClInclude Include="Soldier.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Base.h">
+    <ClInclude Include="Main_Base.h" />
+    <ClInclude Include="Building.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Main_Base.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

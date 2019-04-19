@@ -3,7 +3,7 @@
 
 #include "Entity.h"
 
-enum class base_type {
+enum class building_type {
 
 	BASE_NONE = -1,
 	MAIN_BASE,
@@ -11,12 +11,12 @@ enum class base_type {
 	BASE_MAX
 };
 
-class Base :public Entity
+class Building :public Entity
 {
 public:
 
-	Base(fPoint position, base_type baseType, entity_faction faction = entity_faction::NEUTRAL);
-	~Base() {}
+	Building(fPoint position, building_type baseType, entity_faction faction = entity_faction::NEUTRAL);
+	~Building() {}
 
 	bool Update();
 	bool CleanUp();
@@ -27,7 +27,7 @@ public:
 
 	//ADD ANIMATION
 	//Current_animation*
-	base_type baseType;
+	building_type baseType;
 
 };
 #endif 

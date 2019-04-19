@@ -11,7 +11,7 @@ enum class object_type {
 	OBJECT_MAX
 };
 
-class Static_Object :public Entity
+class Static_Object : public Entity
 {
 public:
 

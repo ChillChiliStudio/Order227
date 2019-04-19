@@ -25,31 +25,6 @@ Group::Group(){}
 Entity_Manager::Entity_Manager()
 {
 	name.assign("entities");
-	int entitiesIterator = 0;
-
-	for (int i = 0; i < SOLDIERS_LIST_SIZE; ++i)
-	{
-		urssSoldiersArray[i] = new Soldier({ 0,0 }, soldier_type::SOLDIER_NONE, entity_faction::URSS);
-		urssUnitsArray[i] = urssSoldiersArray[i];
-		entitiesArray[entitiesIterator++] = urssSoldiersArray[i];
-		
-		eeuuSoldiersArray[i] = new Soldier({ 0,0 }, soldier_type::SOLDIER_NONE, entity_faction::URSS);
-		eeuuUnitsArray[i] = eeuuSoldiersArray[i];
-		entitiesArray[entitiesIterator++] = eeuuSoldiersArray[i];
-	}
-
-	for (int i = 0; i < OBJECTS_LIST_SIZE; ++i)
-	{
-		staticObjectsArray[i] = new Static_Object({ 0,0 }, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
-		entitiesArray[entitiesIterator++] = staticObjectsArray[i];
-	}
-
-	for (int i = 0; i < BASES_LIST_SIZE; ++i)
-	{
-		basesArray[i] = new Base({ 0,0 }, base_type::BASE_NONE, entity_faction::URSS);
-		entitiesArray[entitiesIterator++] = basesArray[i];
-	}
-
 }
 
 Entity_Manager::~Entity_Manager()
@@ -68,6 +43,34 @@ bool Entity_Manager::Awake()
 bool Entity_Manager::Start()
 {
 	//Load textures
+
+	//Allocate Memory for Units
+	int entitiesIterator = 0;
+
+	for (int i = 0; i < SOLDIERS_LIST_SIZE; ++i)
+	{
+		urssSoldiersArray[i] = new Soldier({ 0,0 }, soldier_type::SOLDIER_NONE, entity_faction::URSS);
+		urssUnitsArray[i] = urssSoldiersArray[i];
+		entitiesArray[entitiesIterator++] = urssSoldiersArray[i];
+
+		eeuuSoldiersArray[i] = new Soldier({ 0,0 }, soldier_type::SOLDIER_NONE, entity_faction::URSS);
+		eeuuUnitsArray[i] = eeuuSoldiersArray[i];
+		entitiesArray[entitiesIterator++] = eeuuSoldiersArray[i];
+	}
+
+	//Allocate Memory for Objects
+	for (int i = 0; i < OBJECTS_LIST_SIZE; ++i)
+	{
+		staticObjectsArray[i] = new Static_Object({ 0,0 }, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
+		entitiesArray[entitiesIterator++] = staticObjectsArray[i];
+	}
+
+	//Allocate Memory for Buildings
+	for (int i = 0; i < BASES_LIST_SIZE; ++i)
+	{
+		buildingsArray[i] = new Building({ 0,0 }, building_type::BASE_NONE, entity_faction::URSS);
+		entitiesArray[entitiesIterator++] = buildingsArray[i];
+	}
 
 	return true;
 }
@@ -103,8 +106,8 @@ bool Entity_Manager::CleanUp() {
 	//Clean bases
 	for (int i = 0; i < BASES_LIST_SIZE; ++i)
 	{
-		basesArray[i]->CleanUp();
-		basesArray[i] = nullptr;
+		buildingsArray[i]->CleanUp();
+		buildingsArray[i] = nullptr;
 		entitiesArray[entitiesIterator++] = nullptr;
 	}
 
@@ -129,6 +132,7 @@ bool Entity_Manager::Update(float dt)
 	{
 		urssSoldiersArray[i]->Update(dt);
 		eeuuSoldiersArray[i]->Update(dt);
+
 		if (do_logic)
 		{
 			urssSoldiersArray[i]->FixUpdate(dt);
@@ -138,7 +142,7 @@ bool Entity_Manager::Update(float dt)
 
 	for (int i = 0; i < BASES_LIST_SIZE; ++i)
 	{
-		basesArray[i]->Update();
+		buildingsArray[i]->Update();
 	}
 
 	accumulated_time -= update_ms_cycle;
@@ -192,15 +196,15 @@ bool Entity_Manager::CreateSoldier(fPoint position, soldier_type soldierType, en
 	return false;
 }
 
-bool Entity_Manager::CreateBase(fPoint position, base_type baseType)
+bool Entity_Manager::CreateBase(fPoint position, building_type baseType)
 {
 	for (int i = 0; i < BASES_LIST_SIZE; ++i)
 	{
-		if (basesArray[i]->active == false)
+		if (buildingsArray[i]->active == false)
 		{
-			basesArray[i]->position = position;
-			basesArray[i]->baseType = baseType;
-			basesArray[i]->active = true;
+			buildingsArray[i]->position = position;
+			buildingsArray[i]->baseType = baseType;
+			buildingsArray[i]->active = true;
 			return true;
 		}
 	}

@@ -6,7 +6,7 @@
 
 #include "Render.h"
 
-Soldier::Soldier(fPoint pos, soldier_type type, entity_faction faction) :Unit(pos, entity_type::SOLDIER, faction)
+Soldier::Soldier(fPoint pos, soldier_type type, entity_faction faction) : Unit(pos, entity_type::SOLDIER, faction)
 {
 
 
@@ -19,8 +19,6 @@ bool Soldier::Update(float dt) {
 	}
 
 	Move(dt);
-
-
 	Draw();
 
 	/*if (life <= 0)

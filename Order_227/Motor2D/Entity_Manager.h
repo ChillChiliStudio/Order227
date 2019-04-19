@@ -7,7 +7,7 @@
 #include "Soldier.h"
 #include "Static_Object.h"
 #include "PugiXml\src\pugixml.hpp"
-#include "Base.h"
+#include "Building.h"
 #include "Group.h"
 
 
@@ -35,7 +35,7 @@ public:
 public:
 
 	bool CreateObject(fPoint position, object_type objectType);
-	bool CreateBase(fPoint position, base_type baseType);
+	bool CreateBase(fPoint position, building_type baseType);
 	bool CreateSoldier(fPoint position, soldier_type soldierType, entity_faction entityFaction = entity_faction::NEUTRAL);
 
 	void DestroyEntity(Entity *Entity) {}
@@ -53,12 +53,12 @@ public:
 	
 	Static_Object*	staticObjectsArray[OBJECTS_LIST_SIZE];		//Static objects
 	
-	Base*			basesArray[BASES_LIST_SIZE];				//Bases
+	Building*			buildingsArray[BASES_LIST_SIZE];				//Bases
 
 private:
 
 	//Arrays with all the textures
-	SDL_Texture*	basesTextures[int(base_type::BASE_MAX)];
+	SDL_Texture*	basesTextures[int(building_type::BASE_MAX)];
 	SDL_Texture*	soldierTextures[int(soldier_type::SOLDIER_MAX)];
 	SDL_Texture*	objectTextures[int(object_type::OBJECT_MAX)];
 
