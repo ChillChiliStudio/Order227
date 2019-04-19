@@ -106,7 +106,7 @@ public:
 	
 
 	iPoint origin;
-	iPoint destination;
+	iPoint destination; 
 	std::vector<iPoint> Path;
 	std::vector<iPoint>::iterator currNode;
 	std::vector<iPoint> nodeList;

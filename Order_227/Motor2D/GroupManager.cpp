@@ -68,7 +68,7 @@ void GroupManager::SelectUnit(SDL_Rect rect) {
 			}
 		}
 	}
-
+	//NO BORRAR
 	//for (std::list<Unit*>::iterator it = myApp->entities->comunist_list.begin(); it != myApp->entities->comunist_list.end(); it++) {
 	//	
 	//	SDL_Rect entityRect = (*it)->unitRect;
@@ -103,8 +103,7 @@ void GroupManager::SelectUnit(iPoint pos) {
 		
 	}
 
-
-
+	//NO BORRAR
 	////int counter = 0;
 	//for (std::list<Unit*>::iterator it = myApp->entities->comunist_list.begin(); it != myApp->entities->comunist_list.end(); it++) {
 	//	
@@ -207,16 +206,16 @@ void GroupManager::CreateDestination(iPoint SelectedPos) {
 
 void GroupManager::CreateGroupPaths(std::list<Unit*> list, iPoint destination) {
 	
-	//for (std::list<Unit*>::iterator iterator = list.begin(); iterator != list.end(); iterator++) {
-	//	(*iterator)->origin.x = (*iterator)->unitRect.x;
-	//	(*iterator)->origin.y = (*iterator)->unitRect.y;
-	//	(*iterator)->destination = destination;
-	//	{
-	//		myApp->pathfinding->CreatePath((*iterator)->origin, (*iterator)->destination);
-	//		(*iterator)->Path.clear();
-	//		(*iterator)->Path = myApp->pathfinding->last_path;
-	//	}		
-	//}	
+	for (std::list<Unit*>::iterator iterator = list.begin(); iterator != list.end(); iterator++) {
+		(*iterator)->origin.x = (*iterator)->UnitRect.x;
+		(*iterator)->origin.y = (*iterator)->UnitRect.y;
+		(*iterator)->destination = destination;
+		{
+			myApp->pathfinding->CreatePath((*iterator)->origin, (*iterator)->destination);
+			(*iterator)->Path.clear();
+			(*iterator)->Path = myApp->pathfinding->GetLastPath();
+		}		
+	}	
 }
 
 
