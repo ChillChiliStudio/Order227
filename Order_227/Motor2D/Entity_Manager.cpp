@@ -55,11 +55,13 @@ bool Entity_Manager::Start()
 	{
 
 		Infantry *InfCom = new Infantry({ 0,0 }, infantry_type::INFANTRY_NONE, entity_faction::COMMUNIST);
+		InfCom->active = false;
 		CommunistInfantryArray[i] = InfCom;
 		CommunistUnitsArray[i] = (Unit*)InfCom;
 		entitiesArray[entitiesIterator++] = (Entity*)InfCom;
 
 		Infantry *InfCap = new Infantry({ 0,0 }, infantry_type::INFANTRY_NONE, entity_faction::COMMUNIST);
+		InfCap->active = false;
 		CapitalistInfantryArray[i] = InfCap;
 		CapitalistUnitsArray[i] = (Unit*)InfCap;
 		entitiesArray[entitiesIterator++] = (Entity*)InfCap;
@@ -69,6 +71,7 @@ bool Entity_Manager::Start()
 	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
 	{
 		staticObjectsArray[i] = new Static_Object({ 0,0 }, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
+		staticObjectsArray[i]->active = false;
 		entitiesArray[entitiesIterator++] = staticObjectsArray[i];
 	}
 
@@ -76,6 +79,7 @@ bool Entity_Manager::Start()
 	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
 	{
 		buildingsArray[i] = new Building({ 0,0 }, building_type::BUILDING_NONE, entity_faction::COMMUNIST);
+		buildingsArray[i]->active = true;
 		entitiesArray[entitiesIterator++] = buildingsArray[i];
 	}
 
