@@ -7,20 +7,20 @@
 #include "Pathfinding.h"
 
 
-enum class unit_state {
-
+enum class unit_state
+{
 	NONE = -1,
 
 	IDLE,	//Default state
 	MOVING,
-	FIRING,
+	ATTACKING,
 	DEAD,
 
 	MAX_STATES
 };
 
-enum class unit_orders {
-
+enum class unit_orders
+{
 	NONE = -1,
 
 	HOLD,	//Default order
@@ -34,28 +34,31 @@ enum class unit_orders {
 
 struct unit_stats
 {
+	float health = 0;
+	uint damage = 0;
 
-	int speed = 0;
-	int damage = 0;
-	int healtPoints = 0;
-	float visionRange = 0;
-	float attackRange = 0;
-	uint velocity = 0;
+	uint attackRange = 0;
+	uint visionRange = 0;
+
+	float linSpeed = 100.0f;
+	fVec2 vecSpeed;
 };
 
 class Unit :public Entity
 {
 public:
 
-	Unit(fPoint pos, entity_type Entitytype, entity_faction faction = entity_faction::NEUTRAL);
+	Unit(fPoint pos, entity_type entityType, entity_faction faction = entity_faction::NEUTRAL);
 	~Unit();
 
-
 	bool Update(float dt) override;
-	bool Draw();
 	void UpdateBlitOrder() override;
+	bool Draw();
 
 public:
+
+	//Setup
+	bool LoadEntityData() override;
 
 	// Main Workflow
 	void UnitWorkflow(float dt);	// State workflow depending on order issued
@@ -75,9 +78,6 @@ public:
 	void DoAttack(float dt);
 	void DoMoveAndAttack(float dt);
 	void DoPatrol(float dt);
-
-
-	bool LoadEntityData() override;
 
 	// Actions
 	bool Move(float dt);	// Move unit position
@@ -110,16 +110,14 @@ public:
 	std::vector<iPoint>::iterator currNode;
 	std::vector<iPoint> nodeList;
 
+	Unit** hostileUnits = nullptr;
 	Unit* target = nullptr;
-	std::list<Unit*>* hostileUnits = nullptr;
 
-	uint currentHealth = 0;
+	bool targetLost;
+	fPoint targetLastPos;
+
 	unit_stats stats;
 	SDL_Rect selectionRect = { 0, 0, 0, 0 };
-
-	float linSpeed=0.0f;
-	fVec2 vecSpeed;
-
 };
 
 #endif // !UNIT_H

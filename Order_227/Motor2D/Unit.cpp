@@ -7,44 +7,33 @@
 #include "Entity.h"
 #include "Unit.h"
 
-
-Unit::Unit(fPoint pos, entity_type Entitytype, entity_faction faction) : Entity(pos, Entitytype, faction) {
-
+Unit::Unit(fPoint pos, entity_type entityType, entity_faction faction) : Entity(pos, entityType, faction)
+{
 //	LoadEntityData();
 }
 
 Unit::~Unit()
 {}
 
-
 bool Unit::Update(float dt)
 {
-
 	UnitWorkflow(dt);
 	CheckInCamera = {(int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
 
 	if (myApp->render->InsideCamera(CheckInCamera) == true) {
-
 		UpdateBlitOrder();
 		myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
 	}
 
-	if (currentHealth<= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
+	if (IsDead())	//TODO-Joan: This should be included inside the workflow AND must work with entity pools
 		myApp->entities->DestroyEntity(this);
 
-	if (selected)
+	if (selected) {
 		myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0, 255, false);
+	}
 
 	return true;
 }
-
-
-bool Unit::Draw()
-{
-
-	return true;
-}
-
 
 void Unit::UpdateBlitOrder()
 {
@@ -64,6 +53,44 @@ void Unit::UpdateBlitOrder()
 	//	}
 	//}
 
+}
+
+bool Unit::Draw()
+{
+
+	return true;
+}
+
+bool Unit::LoadEntityData() {
+
+	bool ret = true;
+
+	pugi::xml_parse_result result = tilsetTexture.load_file("textures/troops/allied/IG.tmx");
+
+	if (result != NULL)
+	{
+		for (pugi::xml_node Data = tilsetTexture.child("map").child("objectgroup").child("object"); Data && ret; Data = Data.next_sibling("object"))
+		{
+
+			EntityData*EntityDataAux = new EntityData();
+
+			EntityDataAux->Action = Data.attribute("name").as_string(); //Actions the Entityt is performing e.g.Walking,shot
+			EntityDataAux->Degrees = Data.attribute("type").as_int();//Position in degrees 0,45,90,135,180,225,270,315
+
+			//Use this int as iterator of the loop, when first Frame of an Action is read then asign this value to an iterator to store all the frame for each anim
+			EntityDataAux->AnimFrames = Data.attribute("IteratorType").as_int();//Frames that the Action has CAREFUL YOU MUST USE THIS WHEN YOU READ THE FIRST FRAME OF THE ANIM
+
+
+			EntityDataAux->TilePos.x = Data.attribute("x").as_int(); //POS X
+			EntityDataAux->TilePos.y = Data.attribute("y").as_int();//POS Y
+
+			EntityDataAux->TileSize.x = Data.attribute("width").as_int();//Width
+			EntityDataAux->TileSize.y = Data.attribute("height").as_int();//height
+			// CAREFUL need to store each o the Entity data,
+		}
+	}
+
+	return ret;
 }
 
 // Main workflow
@@ -94,7 +121,7 @@ void Unit::UnitWorkflow(float dt)
 	}
 }
 
-
+// Change animation according to state
 void Unit::ApplyState()
 {
 	switch (unitState) {
@@ -104,7 +131,7 @@ void Unit::ApplyState()
 	case unit_state::MOVING:
 		//currentAnim = movingAnim;
 		break;
-	case unit_state::FIRING:
+	case unit_state::ATTACKING:
 		//currentAnim = firingAnim;
 		break;
 	case unit_state::DEAD:
@@ -124,7 +151,7 @@ void Unit::DoHold(float dt)
 			AttackTarget();
 		}
 		break;
-	case unit_state::FIRING:
+	case unit_state::ATTACKING:
 		if (TargetInRange() && target->IsDead() == false) {
 			AttackTarget();
 		}
@@ -156,12 +183,10 @@ void Unit::DoMove(float dt)
 
 void Unit::DoAttack(float dt)
 {
-
 	if (target->IsVisible() == true) {
 		if (TargetDisplaced() == true) {
 			origin = { (int)position.x, (int)position.y };
 			destination = { (int)target->position.x, (int)target->position.y };
-			//TODO (LuchoAlert): Recalculate unit pathfinding using origin and destination
 		}
 	}
 
@@ -191,7 +216,7 @@ void Unit::DoMoveAndAttack(float dt)
 				Move(dt);
 			}
 		}
-		else if (unitState == unit_state::FIRING) {
+		else if (unitState == unit_state::ATTACKING) {
 			if (TargetInRange() && target->IsDead() == false) {
 				AttackTarget();
 			}
@@ -229,7 +254,7 @@ void Unit::DoPatrol(float dt)
 				Move(dt);
 			}
 		}
-		else if (unitState == unit_state::FIRING) {
+		else if (unitState == unit_state::ATTACKING) {
 			if (TargetInRange() && target->IsDead() == false) {
 				AttackTarget();
 			}
@@ -256,8 +281,8 @@ void Unit::DoPatrol(float dt)
 bool Unit::Move(float dt)	//TODO: Make it so unit goes straight to the nextNode (divide speed into x and y, and use hipotenuse angle to decide how much it applies to each)
 {
 
-	position.x += (vecSpeed.x * dt);
-	position.y += (vecSpeed.y * dt);
+	position.x += (stats.vecSpeed.x * dt);
+	position.y += (stats.vecSpeed.y * dt);
 
 	unitState = unit_state::MOVING;
 	return true;
@@ -267,13 +292,13 @@ void Unit::AttackTarget()
 {
 
 	//TODO: Enemy interaction
-	unitState = unit_state::FIRING;
+	unitState = unit_state::ATTACKING;
 }
 
 // Unit Data
 bool Unit::IsDead()
 {
-	if (currentHealth<= 0) {
+	if (stats.health <= 0) {
 		return true;
 	}
 	else {
@@ -290,23 +315,23 @@ bool Unit::NodeReached()
 {
 	bool ret = false;
 
-	if (vecSpeed.x > 0.0f) {
+	if (stats.vecSpeed.x > 0.0f) {
 		if (position.x >= (float)currNode->x) {
 			ret = true;
 		}
 	}
-	else if (vecSpeed.x < 0.0f) {
+	else if (stats.vecSpeed.x < 0.0f) {
 		if (position.x <= (float)currNode->x) {
 			ret = true;
 		}
 	}
 
-	if (vecSpeed.y > 0.0f) {
+	if (stats.vecSpeed.y > 0.0f) {
 		if (position.y >= (float)currNode->y) {
 			ret = true;
 		}
 	}
-	else if (vecSpeed.y < 0.0f) {
+	else if (stats.vecSpeed.y < 0.0f) {
 		if (position.y <= (float)currNode->y) {
 			ret = true;
 		}
@@ -317,7 +342,6 @@ bool Unit::NodeReached()
 
 bool Unit::DestinationReached()
 {
-
 	if (currNode == nodeList.end()) {
 		return true;
 	}
@@ -339,9 +363,9 @@ bool Unit::TargetDisplaced()
 // Unit Calculations
 Unit* Unit::EnemyInRange()
 {
-	Unit* ret = nullptr;
+	Unit* ret = nullptr;	//TODO-Carles: Detect enemies to atack them, can't do that if the lists/arrays are a fucking mess
 
-	/*for (std::list<Unit*>::iterator iter = hostileUnits->begin(); iter != hostileUnits->end(); ++iter) {
+	/*for (int i = 0; i > hostileUnits; ++iter) {
 		if ((*iter)->position.x > position.x + attackRange || (*iter)->position.x < position.x - attackRange
 			|| (*iter)->position.y > position.y + attackRange || (*iter)->position.y < position.y + attackRange) {
 			continue;
@@ -366,10 +390,10 @@ fVec2 Unit::SetupVecSpeed()
 {
 	iPoint iPos = { (int)position.x, (int)position.y };
 
-	vecSpeed = GetVector2(iPos, *currNode);
-	vecSpeed = vecSpeed.GetUnitVector();
-	vecSpeed *= linSpeed;
-	return vecSpeed;
+	stats.vecSpeed = GetVector2(iPos, *currNode);
+	stats.vecSpeed = stats.vecSpeed.GetUnitVector();
+	stats.vecSpeed *= stats.linSpeed;
+	return stats.vecSpeed;
 }
 
 // Order calling
@@ -426,38 +450,4 @@ void Unit::StartPatrol(iPoint destination)
 
 	unitOrders = unit_orders::PATROL;
 	unitState = unit_state::IDLE;
-}
-
-bool Unit::LoadEntityData() {
-
-	bool ret = true;
-
-	pugi::xml_parse_result result = tilsetTexture.load_file("textures/troops/allied/IG.tmx");
-
-	if (result != NULL)
-	{
-
-
-		for (pugi::xml_node Data = tilsetTexture.child("map").child("objectgroup").child("object"); Data && ret; Data = Data.next_sibling("object"))
-		{
-
-			EntityData*EntityDataAux = new EntityData();
-
-			EntityDataAux->Action= Data.attribute("name").as_string(); //Actions the Entityt is performing e.g.Walking,shot
-			EntityDataAux->Degrees = Data.attribute("type").as_int();//Position in degrees 0,45,90,135,180,225,270,315
-
-			//Use this int as iterator of the loop, when first Frame of an Action is read then asign this value to an iterator to store all the frame for each anim
-			EntityDataAux->AnimFrames = Data.attribute("IteratorType").as_int();//Frames that the Action has CAREFUL YOU MUST USE THIS WHEN YOU READ THE FIRST FRAME OF THE ANIM
-
-
-			EntityDataAux->TilePos.x = Data.attribute("x").as_int(); //POS X
-			EntityDataAux->TilePos.y = Data.attribute("y").as_int();//POS Y
-
-			EntityDataAux->TileSize.x = Data.attribute("width").as_int();//Width
-			EntityDataAux->TileSize.y = Data.attribute("height").as_int();//height
-			// CAREFUL need to store each o the Entity data,
-		}
-	}
-
-	return ret;
 }

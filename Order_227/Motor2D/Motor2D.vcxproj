@@ -14,7 +14,7 @@
     <ProjectGuid>{2AF9969B-F202-497B-AF30-7BEF9CE8005E}</ProjectGuid>
     <RootNamespace>programacio_2</RootNamespace>
     <ProjectName>Order227</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -109,6 +109,7 @@
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UIElement.cpp" />
+    <ClCompile Include="Vehicle.cpp" />
     <ClCompile Include="VoidBox.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="Static_Object.h" />
     <ClInclude Include="TileQuadtree.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="Vehicle.h" />
     <ClInclude Include="VoidBox.h" />
     <ClInclude Include="ParamBox.h" />
     <ClInclude Include="Slider.h" />

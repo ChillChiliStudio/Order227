@@ -109,6 +109,9 @@
     <ClCompile Include="Base.cpp">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Vehicle.cpp">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -241,6 +244,9 @@
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Main_Base.h" />
+    <ClInclude Include="Vehicle.h">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
