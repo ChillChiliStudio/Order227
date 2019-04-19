@@ -98,7 +98,7 @@ bool Scene::Update(float dt)
 		fPoint position2;
 		position2.x = position.x;
 		position2.y = position.y;
-		myApp->entities->ActivateInfantry(position2, infantry_type::BAZOOKA, entity_faction::COMMUNIST);
+		myApp->entities->ActivateInfantry(position2, infantry_type::BASIC, entity_faction::COMMUNIST);
 
 	}
 

@@ -132,7 +132,7 @@ public:
 	SDL_Rect CheckInCamera;
 	unit_state unitState = unit_state::IDLE;
 	unit_orders unitOrders = unit_orders::HOLD;
-	unit_directions unitDirection = unit_directions::NORTH;
+	unit_directions unitDirection = unit_directions::SOUTH_EAST;
 	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
 
 	Animation* currentAnimation = nullptr;

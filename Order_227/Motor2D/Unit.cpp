@@ -36,7 +36,7 @@ bool Unit::Update(float dt)
 
 		if (myApp->render->InsideCamera(CheckInCamera) == true) {
 			UpdateBlitOrder();
-			myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
+			myApp->render->Push(order, texture, position.x, position.y, &currentAnimation->GetCurrentFrame(dt));
 		}
 
 		if (selected) {
