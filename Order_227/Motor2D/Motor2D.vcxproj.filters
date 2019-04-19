@@ -103,14 +103,10 @@
     <ClCompile Include="Static_Object.cpp">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="Base.cpp">
-=======
     <ClCompile Include="Building.cpp">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Infantry.cpp">
->>>>>>> master
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Soldier.cpp">
@@ -244,26 +240,12 @@
     <ClInclude Include="Static_Object.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="Base.h">
-      <Filter>Game Files\Entity Management\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Main_Base.h" />
-    <ClInclude Include="Soldier.h">
-      <Filter>Game Files\Entity Management\Entities\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Vehicle.h">
-      <Filter>Game Files\Entity Management\Entities\Units</Filter>
-    </ClInclude>
-=======
-    <ClInclude Include="Main_Base.h" />
     <ClInclude Include="Building.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Infantry.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
->>>>>>> master
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

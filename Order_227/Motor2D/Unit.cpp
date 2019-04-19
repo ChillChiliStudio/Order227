@@ -7,48 +7,22 @@
 #include "Entity.h"
 #include "Unit.h"
 
-<<<<<<< HEAD
 Unit::Unit(fPoint pos, entity_type entityType, entity_faction faction) : Entity(pos, entityType, faction)
 {
 //	LoadEntityData();
-=======
-
-Unit::Unit(fPoint pos, entity_type Entitytype, entity_faction faction) : Entity(pos, Entitytype, faction) {
-
-	//LoadEntityData();
->>>>>>> master
 }
 
 Unit::~Unit()
 {}
 
-<<<<<<< HEAD
-bool Unit::Update(float dt)
+bool Unit::Start()
 {
-	UnitWorkflow(dt);
-=======
-
-bool Unit::Start() {
-
 	return true;
 }
 
-
 bool Unit::Update(float dt)
 {
-
-	if (currentHealth <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
-		myApp->entities->DestroyEntity(this);
-
 	UnitWorkflow(dt);
-
-	if (!active)
-		return false;
-
-	CheckInCamera = {(int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
-
-	if (myApp->render->InsideCamera(CheckInCamera) == true) {
->>>>>>> master
 
 	if (mustDespawn) {
 		mustDespawn = false;
@@ -57,21 +31,10 @@ bool Unit::Update(float dt)
 	else {
 		CheckInCamera = { (int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
 
-<<<<<<< HEAD
 		if (myApp->render->InsideCamera(CheckInCamera) == true) {
 			UpdateBlitOrder();
 			myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
 		}
-=======
-	if (selected)
-		myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0, 255, false);
-
-	myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0);
-
-	return true;
-}
-
->>>>>>> master
 
 		if (selected) {
 			myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0, 255, false);
@@ -165,7 +128,7 @@ void Unit::UnitWorkflow(float dt)
 		}
 		break;
 	}
-	
+
 	if (prevState != unitState) {
 		ApplyState();
 	}
@@ -511,7 +474,7 @@ void Unit::StartMove(iPoint destination)
 }
 
 void Unit::StartAttack(Unit* target)
-{	
+{
 	unitPath.clear();
 	this->target = target;
 	targetLost = false;
@@ -541,13 +504,10 @@ void Unit::StartPatrol(iPoint destination)
 
 	unitOrders = unit_orders::PATROL;
 	unitState = unit_state::IDLE;
-<<<<<<< HEAD
-}
-=======
 }
 
-bool Unit::LoadEntityData() {
-
+bool Unit::LoadEntityData()
+{
 	bool ret = true;
 
 	pugi::xml_parse_result result = tilsetTexture.load_file("textures/troops/allied/IG.tmx");
@@ -574,10 +534,7 @@ bool Unit::LoadEntityData() {
 			EntityDataAux->TileSize.y = Data.attribute("height").as_int();//height
 			// CAREFUL need to store each o the Entity data,
 		}
-
-
 	}
 
 	return ret;
 }
->>>>>>> master
