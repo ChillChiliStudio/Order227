@@ -10,7 +10,7 @@
 
 Unit::Unit(fPoint pos, entity_type Entitytype, entity_faction faction) : Entity(pos, Entitytype, faction) {
 
-//	LoadEntityData();
+	//LoadEntityData();
 }
 
 Unit::~Unit()
@@ -449,7 +449,6 @@ bool Unit::LoadEntityData() {
 	if (result != NULL)
 	{
 
-
 		for (pugi::xml_node Data = tilsetTexture.child("map").child("objectgroup").child("object"); Data && ret; Data = Data.next_sibling("object"))
 		{
 
@@ -469,6 +468,8 @@ bool Unit::LoadEntityData() {
 			EntityDataAux->TileSize.y = Data.attribute("height").as_int();//height
 			// CAREFUL need to store each o the Entity data,
 		}
+
+
 	}
 
 	return ret;

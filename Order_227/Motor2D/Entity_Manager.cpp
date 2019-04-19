@@ -29,6 +29,7 @@ Entity_Manager::Entity_Manager()
 
 Entity_Manager::~Entity_Manager()
 {
+
 }
 
 
@@ -77,6 +78,9 @@ bool Entity_Manager::Start()
 		buildingsArray[i] = new Building({ 0,0 }, building_type::BUILDING_NONE, entity_faction::COMMUNIST);
 		entitiesArray[entitiesIterator++] = buildingsArray[i];
 	}
+
+	//Set up stats of units
+	SetupUnitStats();
 
 	return true;
 }
@@ -341,4 +345,37 @@ bool Entity_Manager::DeActivateObject(Static_Object* object)
 	}
 
 	return false;
+}
+
+
+bool Entity_Manager::SetupUnitStats() {
+	
+	bool ret = true;
+
+	pugi::xml_parse_result result = unitsDocument.load_file("textures/troops/unitsDoc.xml");
+	
+	if (result != NULL)
+	{
+
+		int i = 0;
+
+		for (pugi::xml_node Data = unitsDocument.child("Units_Document").child("Unit"); Data&&ret; Data = Data.next_sibling())
+		{
+
+			infantryStats[i].linSpeed = Data.attribute("speed").as_int();
+			infantryStats[i].cadency = Data.attribute("cadency").as_float();
+			infantryStats[i].damage = Data.attribute("damage").as_int();
+			infantryStats[i].healthPoints = Data.attribute("health").as_int();
+
+			infantryStats[i].visionRange = Data.attribute("visionRange").as_float();
+			infantryStats[i].attackRange = Data.attribute("attackRange").as_float();
+
+			infantryStats[i].cost = Data.attribute("cost").as_int();
+			infantryStats[i].productionTime = Data.attribute("prodTime").as_int();
+			infantryStats[i].unitThreat = Data.attribute("threat").as_int();
+
+			i++;
+		}
+	}
+	return ret;
 }

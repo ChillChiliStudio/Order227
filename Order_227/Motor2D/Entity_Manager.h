@@ -46,6 +46,8 @@ public:
 
 	void DestroyEntity(Entity *Entity) {}
 
+	bool SetupUnitStats();
+
 public:
 
 	//Entity lists
@@ -61,7 +63,10 @@ public:
 	
 	Building*		buildingsArray[BUILDINGS_ARRAY_SIZE];				//Bases
 
+	
 private:
+
+	
 
 	//Arrays with all the textures
 	SDL_Texture*	buildingsTextures[int(building_type::BUILDING_MAX)];
@@ -70,7 +75,7 @@ private:
 
 	//Unit stats
 	unit_stats		infantryStats[int(infantry_type::INFANTRY_MAX)];
-
+	pugi::xml_document unitsDocument;
 	//TO IMPLEMENT: Array with 2d arrays, or 3d arrays
 	//Animation[soldiertypes][state][direction]
 
