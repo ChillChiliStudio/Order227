@@ -126,7 +126,6 @@
     <ClInclude Include="Fonts.h" />
     <ClInclude Include="Group.h" />
     <ClInclude Include="GroupManager.h" />
-    <ClInclude Include="Main_Base.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputText.h" />
     <ClInclude Include="Geometry.h" />
