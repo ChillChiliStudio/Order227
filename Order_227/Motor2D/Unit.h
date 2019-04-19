@@ -35,12 +35,16 @@ enum class unit_orders {
 struct unit_stats
 {
 
-	int speed = 0;
+	int linSpeed = 0;
+	float cadency = 0.0f;
 	int damage = 0;
-	int healtPoints = 0;
-	float visionRange = 0;
-	float attackRange = 0;
-	uint velocity = 0;
+	int healthPoints = 0;
+	float visionRange = 0.0f;
+	float attackRange = 0.0f;
+
+	int cost = 0;
+	int productionTime = 0;
+	int unitThreat = 0;
 };
 
 class Unit :public Entity
@@ -50,7 +54,7 @@ public:
 	Unit(fPoint pos, entity_type Entitytype, entity_faction faction = entity_faction::NEUTRAL);
 	~Unit();
 
-
+	bool Start() override;
 	bool Update(float dt) override;
 	bool Draw();
 	void UpdateBlitOrder() override;

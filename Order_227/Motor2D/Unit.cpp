@@ -10,17 +10,30 @@
 
 Unit::Unit(fPoint pos, entity_type Entitytype, entity_faction faction) : Entity(pos, Entitytype, faction) {
 
-//	LoadEntityData();
+	//LoadEntityData();
 }
 
 Unit::~Unit()
 {}
 
 
+bool Unit::Start() {
+
+	return true;
+}
+
+
 bool Unit::Update(float dt)
 {
 
+	if (currentHealth <= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
+		myApp->entities->DestroyEntity(this);
+
 	UnitWorkflow(dt);
+
+	if (!active)
+		return false;
+
 	CheckInCamera = {(int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
 
 	if (myApp->render->InsideCamera(CheckInCamera) == true) {
@@ -29,11 +42,10 @@ bool Unit::Update(float dt)
 		myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
 	}
 
-	if (currentHealth<= 0)	//TODO: This should be included inside the workflow AND must work with entity pools
-		myApp->entities->DestroyEntity(this);
-
 	if (selected)
 		myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0, 255, false);
+
+	myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0);
 
 	return true;
 }
@@ -437,7 +449,6 @@ bool Unit::LoadEntityData() {
 	if (result != NULL)
 	{
 
-
 		for (pugi::xml_node Data = tilsetTexture.child("map").child("objectgroup").child("object"); Data && ret; Data = Data.next_sibling("object"))
 		{
 
@@ -457,6 +468,8 @@ bool Unit::LoadEntityData() {
 			EntityDataAux->TileSize.y = Data.attribute("height").as_int();//height
 			// CAREFUL need to store each o the Entity data,
 		}
+
+
 	}
 
 	return ret;
