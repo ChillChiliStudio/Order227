@@ -213,7 +213,7 @@ void GroupManager::CreateGroupPaths(std::list<Unit*> list, iPoint destination) {
 		{
 			myApp->pathfinding->CreatePath((*iterator)->origin, (*iterator)->destination);
 			(*iterator)->Path.clear();
-			(*iterator)->Path = myApp->pathfinding->GetLastPath();
+			(*iterator)->Path = *myApp->pathfinding->GetLastPath();
 		}		
 	}	
 }

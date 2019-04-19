@@ -72,7 +72,7 @@ bool Player::Update(float dt) {
 	{
 		iPoint position;
 		myApp->input->GetMousePosition(position.x, position.y);
-		//position = myApp->render->ScreenToWorld(position.x, position.y);
+		position = myApp->render->ScreenToWorld(position.x, position.y);
 		fPoint position2;
 		position2.x = position.x;
 		position2.y = position.y;
