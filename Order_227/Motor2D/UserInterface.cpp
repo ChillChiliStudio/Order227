@@ -56,7 +56,7 @@ bool User_Interface::PreUpdate()
 
 	bool ret = true;
 
-	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); ++iter) {
+	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); iter = next(iter)) {
 		if ((*iter)->active == true) {
 			ret = (*iter)->PreUpdate();
 		}
@@ -72,7 +72,7 @@ bool User_Interface::Update(float dt)
 	
 	bool ret = true;
 
-	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); ++iter) {
+	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); iter = next(iter)) {
 		if ((*iter)->active == true) {
 			ret = (*iter)->Update(dt);
 		}
@@ -88,14 +88,14 @@ bool User_Interface::Draw()
 
 	bool ret = true;
 
-	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); ++iter) {
+	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); iter = next(iter)) {
 		if ((*iter)->active == true && (*iter)->GetParent() == NULL) {	// All elements are listed, but the parent handles the drawing for its children
 			ret = (*iter)->Draw();
 		}
 	}
 
 	if (mustDebugDraw) {
-		for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); ++iter) {
+		for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); iter = next(iter)) {
 			if ((*iter)->active == true && (*iter)->GetParent() == NULL) {	// All elements must have debug blitting AFTER standard blitting, no "blitting layers"
 				ret = (*iter)->DebugDraw();
 			}
@@ -120,7 +120,7 @@ bool User_Interface::PostUpdate()
 		}
 		else {
 			ret = (*iter)->PostUpdate();
-			++iter;
+			iter = next(iter);
 		}
 	}
 
@@ -132,7 +132,7 @@ bool User_Interface::CleanUp()
 {
 	bool ret = true;
 
-	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); ++iter) {
+	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); iter = next(iter)) {
 		ret = (*iter)->CleanUp();
 		RELEASE((*iter));
 	}

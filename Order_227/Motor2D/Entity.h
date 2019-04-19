@@ -17,16 +17,16 @@ enum class entity_type {
 
 	ENT_NONE = -1,
 	OBJECT,
-	BASE,
-	SOLDIER,
+	BUILDING,
+	INFANTRY,
 	ENT_MAX
 };
 
 enum class entity_faction {
 
 	FACTION_NONE = -1,
-	URSS,
-	US,
+	COMMUNIST,
+	CAPITALIST,
 	NEUTRAL,
 	FACTION_MAX
 
@@ -46,7 +46,9 @@ class Entity {
 
 public:
 
-	Entity(fPoint position, entity_type entityType, entity_faction faction = entity_faction::NEUTRAL) : type(entityType), position(position), faction(faction) {}
+	Entity(fPoint position, entity_type entityType, entity_faction faction = entity_faction::NEUTRAL)
+		: type(entityType), position(position), faction(faction) {}
+
 	~Entity() {}
 
 public:
@@ -86,9 +88,6 @@ public:
 	entity_type		type;
 	SDL_Rect UnitRect = { (int)position.x, (int)position.y, 60,60 }; //TODO desjarcodear
 
-
-	//TilesetFile
-	pugi::xml_document	tilsetTexture;
 
 	//IMLPEMENT ANIMATION
 	//SDL_Rect		blitRect;

@@ -43,9 +43,13 @@ void Map::Draw()
 	{
 		MapLayer* layer = *item;
 
-		
-		layer->tile_tree->DrawMap();
-		layer->tile_tree->DrawQuadtree();
+		if (layer->properties.Get("Nodraw") != 1 || debugMode) {
+			layer->tile_tree->DrawMap();
+		}
+
+		if (debugMode) {
+			layer->tile_tree->DrawQuadtree();
+		}
 	}
 }
 

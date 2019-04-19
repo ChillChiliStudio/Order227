@@ -46,6 +46,7 @@ bool Scene::Start()
 		RELEASE_ARRAY(data);
 	}
 
+
 	//Debug Texture to show debug stuff
 	debug_tex = myApp->tex->Load("maps/path2.png");
 
@@ -68,10 +69,12 @@ bool Scene::Update(float dt)
 	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 		ChooseSpawningPoints();
 
+
 	//Spawn Point Draw
 	for (int i = 0; i < SpawningPoints_Array.size(); i++) {
 
-		myApp->render->Blit(debug_tex, SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
+		if(myApp->map->debugMode == true)
+			myApp->render->Blit(debug_tex, SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
 
 		//	myApp->render->DrawQuad(SpawningPoints_Array[i]->SP_Rect, 255, 100, 100);
 
@@ -85,10 +88,20 @@ bool Scene::Update(float dt)
 
 	}
 
-
-	
 	//ENTITIES TEST
+	if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
 
+		iPoint position;
+		myApp->input->GetMousePosition(position.x, position.y);
+		position = myApp->render->ScreenToWorld(position.x, position.y);
+
+		fPoint position2;
+		position2.x = position.x;
+		position2.y = position.y;
+		myApp->entities->ActivateInfantry(position2, infantry_type::BASIC, entity_faction::COMMUNIST);
+
+	}
 
 	myApp->gui->Draw();
 	return true;
