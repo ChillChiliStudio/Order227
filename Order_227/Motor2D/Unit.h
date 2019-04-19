@@ -7,20 +7,20 @@
 #include "Pathfinding.h"
 #include "Animation.h"
 
-enum class unit_state {
-
+enum class unit_state
+{
 	NONE = -1,
 
 	IDLE,	//Default state
 	MOVING,
-	FIRING,
+	ATTACKING,
 	DEAD,
 
 	MAX_STATES
 };
 
-enum class unit_orders {
-
+enum class unit_orders
+{
 	NONE = -1,
 
 	HOLD,	//Default order
@@ -50,26 +50,32 @@ enum class unit_directions {
 
 struct unit_stats
 {
+	float health = 0;
+	uint damage = 0;
+	float cadency = 0.0f;
 
-	int speed = 0;
-	int damage = 0;
-	int healtPoints = 0;
-	float visionRange = 0;
-	float attackRange = 0;
-	uint velocity = 0;
+	uint attackRange = 0;
+	uint visionRange = 0;
+
+	float linSpeed = 100.0f;
+	fVec2 vecSpeed;
+
+	int cost = 0;
+	int productionTime = 0;
+	int unitThreat = 0;
 };
 
 class Unit :public Entity
 {
 public:
 
-	Unit(fPoint pos, entity_type Entitytype, entity_faction faction = entity_faction::NEUTRAL);
+	Unit(fPoint pos, entity_type entityType, entity_faction faction = entity_faction::NEUTRAL);
 	~Unit();
 
-
+	bool Start() override;
 	bool Update(float dt) override;
-	bool Draw();
 	void UpdateBlitOrder() override;
+	bool Draw();
 
 public:
 
@@ -92,12 +98,11 @@ public:
 	void DoMoveAndAttack(float dt);
 	void DoPatrol(float dt);
 
-
-	//bool LoadEntityData() override;
-
 	// Actions
 	bool Move(float dt);	// Move unit position
-	void AttackTarget();
+	void AttackTarget(float dt);
+	float Hurt(float damage);
+	void Die();
 	//void Kill();
 	//void Hurt();
 
@@ -126,20 +131,19 @@ public:
 
 	iPoint origin;
 	iPoint destination;
-	std::vector<iPoint> Path;
+	std::vector<iPoint> unitPath;
 	std::vector<iPoint>::iterator currNode;
-	std::vector<iPoint> nodeList;
 
+	Unit** hostileUnits = nullptr;
 	Unit* target = nullptr;
-	std::list<Unit*>* hostileUnits = nullptr;
+	bool targetLost;	// Used when there's a specific target to Search & Destroy which sight of can be lost
 
-	uint currentHealth = 0;
 	unit_stats stats;
 	SDL_Rect selectionRect = { 0, 0, 0, 0 };
 
-	float linSpeed=0.0f;
-	fVec2 vecSpeed;
-
+	uint32 timeToDespawn = 5000;	//TODO: Hardcoded value, should be read through xml
+	Timer despawnTimer;
+	bool mustDespawn = false;
 };
 
-#endif // !UNIT_H
+#endif //UNIT_H

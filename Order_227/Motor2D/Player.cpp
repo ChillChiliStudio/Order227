@@ -62,8 +62,11 @@ bool Player::Update(float dt) {
 	if (myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		myApp->render->camera.x -= 500 * dt;
 
-	//Mouse selection code bellow
+	//Map drawing debug mode
+	if (myApp->input->GetKey(SDL_SCANCODE_F9)==KEY_DOWN)
+		myApp->map->debugMode = !myApp->map->debugMode;
 
+	//Mouse selection code bellow
 	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
 	mouseScreenPos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
 

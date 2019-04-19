@@ -25,7 +25,7 @@ bool UI_Element::CleanUp()
 {
 	bool ret = true;
 
-	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); ++iter) {
+	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); iter = next(iter)) {
 		(*iter)->mustDestroy = true;
 	}
 	children.clear();
@@ -69,7 +69,7 @@ void UI_Element::Activate()
 {
 	active = true;
 
-	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); ++iter) {
+	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); iter = next(iter)) {
 		(*iter)->active = true;
 	}
 }
@@ -78,7 +78,7 @@ void UI_Element::Deactivate()
 {
 	active = false;
 
-	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); ++iter) {
+	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); iter = next(iter)) {
 		(*iter)->active = false;
 	}
 }

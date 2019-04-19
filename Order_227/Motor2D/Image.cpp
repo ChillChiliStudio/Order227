@@ -52,7 +52,7 @@ bool Image::Update(float dt)
 		center.x += mouseMov.x;
 		center.y += mouseMov.y;
 
-		for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); ++iter) {
+		for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); iter = next(iter)) {
 			(*iter)->position.x += mouseMov.x;
 			(*iter)->position.y += mouseMov.y;
 			(*iter)->center.x += mouseMov.x;
@@ -77,7 +77,7 @@ bool Image::Draw()
 		ret = myApp->render->Blit(graphics, (int)position.x, (int)position.y, sprite, SDL_FLIP_HORIZONTAL, false);
 	}
 
-	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); ++iter) {
+	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); iter = next(iter)) {
 		(*iter)->Draw();
 	}
 
