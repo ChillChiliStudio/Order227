@@ -178,6 +178,8 @@ public:
 
 	MapData data;
 	
+	bool debugMode=false;
+
 private:
 
 	pugi::xml_document	map_file;
