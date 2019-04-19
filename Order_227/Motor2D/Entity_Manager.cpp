@@ -17,6 +17,7 @@
 #include <assert.h>
 #include "Input.h"
 #include "Pathfinding.h"
+#include "Textures.h"
 
 
 Group::Group(){}
@@ -69,8 +70,14 @@ bool Entity_Manager::Start()
 {
 	//Load textures
 
+
+	LoadEntityData();
+	loadTextures();
+
 	return true;
 }
+
+
 
 bool Entity_Manager::CleanUp() {
 
@@ -222,5 +229,50 @@ bool Entity_Manager::CreateObject(fPoint position, object_type objectType)
 	return false;
 }
 
+bool Entity_Manager::loadTextures() {
+
+	//TODO This need to be charged by a XML
+	soldierTextures[int(soldier_type::BASIC)] = myApp->tex->Load("textures/troops/allied/gi.png");
+	soldierTextures[int(soldier_type::BAZOOKA)] = myApp->tex->Load("textures/troops/allied/gi.png");
+
+	return true;
+}
+
+bool Entity_Manager::LoadEntityData() {
+
+	bool ret = true;
+	pugi::xml_parse_result result = tilsetTexture.load_file("textures/troops/allied/IG.tmx");
+	Animation a;
+	SDL_Rect temp;
+	
+	if (result != NULL)
+	{
+		//TODO Create a MAX UNITS DEFINITON TO DESHARCODE
+		for (int i = 0; i < 1; i++) 
+		{
+			for (pugi::xml_node Data = tilsetTexture.child("map").child("objectgroup").child("object"); Data && ret; Data = Data.next_sibling("object"))
+			{
+				temp.x = Data.attribute("x").as_int();
+				temp.y = Data.attribute("y").as_int();
+				temp.w = Data.attribute("width").as_int();
+				temp.h = Data.attribute("height").as_int();
+
+				std::string tempString = Data.attribute("name").as_string();
+				int degreesToArray = Data.attribute("type").as_int() / 45;//DEGREES
+
+					if (tempString == "Pointing") 
+						animationArray[i][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
+
+					if (tempString == "Walking")
+						animationArray[i][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
+
+					if (tempString == "Shot")
+						animationArray[i][int(unit_state::FIRING)][0].PushBack(temp);								
+			}
+		}
+	}
+
+	return ret;
+}
 
 

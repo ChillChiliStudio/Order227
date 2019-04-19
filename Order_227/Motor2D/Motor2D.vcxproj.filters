@@ -241,6 +241,9 @@
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Main_Base.h" />
+    <ClInclude Include="Animation.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

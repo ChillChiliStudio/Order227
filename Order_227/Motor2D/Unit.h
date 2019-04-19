@@ -32,6 +32,22 @@ enum class unit_orders {
 	MAX_ORDERS
 };
 
+enum class unit_directions {
+
+	NONE = -1,
+	NORTH,
+	NORTH_WEST,
+	WEST,
+	SOUTH_WEST,
+	SOUTH,
+	SOUTH_EAST,
+	EAST,
+	NORTH_EAST,
+
+	MAX_DIRECTIONS
+
+};
+
 struct unit_stats
 {
 
@@ -77,7 +93,7 @@ public:
 	void DoPatrol(float dt);
 
 
-	bool LoadEntityData() override;
+	//bool LoadEntityData() override;
 
 	// Actions
 	bool Move(float dt);	// Move unit position
@@ -103,6 +119,9 @@ public:
 	unit_state unitState = unit_state::IDLE;
 	unit_orders unitOrders = unit_orders::HOLD;
 	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
+
+	Animation* currentAnimation = nullptr;
+
 
 	iPoint origin;
 	iPoint destination;

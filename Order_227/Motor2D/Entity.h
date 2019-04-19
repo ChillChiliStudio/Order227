@@ -85,9 +85,6 @@ public:
 	entity_faction	faction;
 	entity_type		type;
 
-	//TilesetFile
-	pugi::xml_document	tilsetTexture;
-
 	//IMLPEMENT ANIMATION
 	//SDL_Rect		blitRect;
 

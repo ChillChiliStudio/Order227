@@ -9,6 +9,7 @@
 #include "PugiXml\src\pugixml.hpp"
 #include "Base.h"
 #include "Group.h"
+#include "Animation.h"
 
 
 #define TIMES_PER_SEC 5
@@ -40,6 +41,7 @@ public:
 
 	void DestroyEntity(Entity *Entity) {}
 
+
 public:
 
 	//Entity lists
@@ -55,12 +57,23 @@ public:
 	
 	Base*			basesArray[BASES_LIST_SIZE];				//Bases
 
+																//Animations Array
+	Animation		animationArray[1][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)];
+
 private:
+
+	bool LoadEntityData();
+	bool loadTextures();
+
+	//TilesetFile
+	pugi::xml_document	tilsetTexture;
 
 	//Arrays with all the textures
 	SDL_Texture*	basesTextures[int(base_type::BASE_MAX)];
 	SDL_Texture*	soldierTextures[int(soldier_type::SOLDIER_MAX)];
 	SDL_Texture*	objectTextures[int(object_type::OBJECT_MAX)];
+
+	
 
 	//Unit stats
 	unit_stats		soldierStats[int(soldier_type::SOLDIER_MAX)];
