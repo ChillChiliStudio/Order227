@@ -24,6 +24,7 @@ enum class building_type {
 	BUILDING_MAX
 };
 
+
 class Building :public Entity
 {
 public:
@@ -44,7 +45,9 @@ public:
 	//Current_animation*
 	SDL_Rect buildingBlitRect = { 605, 1882, 212, 148 };
 	building_type buildingType;
-	int income = 30;
+
+	int health = 0;
+	int income = 0;
 	Timer incomeTimer;
 
 };

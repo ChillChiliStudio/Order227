@@ -55,14 +55,6 @@ Entity_Manager::Entity_Manager()
 		entitiesArray[entitiesIterator++] = staticObjectsArray[i];
 	}
 
-	//Allocate Memory for Buildings
-	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
-	{
-		Building *newBuilding = new Building({ 0,0 }, building_type::BUILDING_NONE, entity_faction::NEUTRAL);
-		newBuilding->active = false;
-		buildingsArray[i] = newBuilding;
-		entitiesArray[entitiesIterator++] = (Entity*)newBuilding;
-	}
 }
 
 Entity_Manager::~Entity_Manager()
@@ -86,6 +78,23 @@ bool Entity_Manager::Start()
 {
 	//Load textures
 	//infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
+
+	int entityIterator = (2 * INFANTRY_ARRAY_SIZE) + OBJECTS_ARRAY_SIZE;
+
+	//Add Buildings as entities
+	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i) {
+
+		if (buildingsArray[i] == nullptr) {
+
+			Building* newBuilding = new Building({ 0, 0 }, building_type::BUILDING_NONE, entity_faction::NEUTRAL);
+			newBuilding->active = false;
+			buildingsArray[i] = newBuilding;
+
+		}
+
+		entitiesArray[entityIterator++] = (Entity*)buildingsArray[i];
+
+	}
 
 	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
 		buildingsArray[i]->Start();

@@ -585,6 +585,8 @@ void Map::PlaceGameObjects() {
 
 		if ((*item)->nameGroup == "Buildings") {
 
+			int i = 0;
+
 			std::list<GameObjectGroup::Object*>::iterator item2 = (*item)->Objectlist.begin();
 			for (; item2 != (*item)->Objectlist.end(); item2 = next(item2)) {
 
@@ -593,10 +595,15 @@ void Map::PlaceGameObjects() {
 					iPoint pos = PointToTile((int)(*item2)->x, (int)(*item2)->y);
 					fPoint fPos = fPoint(pos.x, pos.y);
 
-					myApp->entities->ActivateBuilding(fPos, building_type::MAIN_BASE, entity_faction::COMMUNIST);
+					Building* newBuilding = new Building(fPos, building_type::MAIN_BASE, entity_faction::COMMUNIST);
+					newBuilding->active = true;
 
+					newBuilding->income = 130;
+					newBuilding->health = 100;
+					
+					myApp->entities->buildingsArray[i] = newBuilding;
+					i++;
 				}
-
 			}
 		}
 	}
