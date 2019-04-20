@@ -47,11 +47,13 @@ bool Unit::Update(float dt)
 		if (selected)
 			myApp->render->DrawQuad(UnitRect, 255, 0, 0, 255, false);
 
-		if (myApp->entities->entitiesDebugDraw && unitPath.size() > 0) {
+		if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
 				myApp->render->DrawLine((int)position.x, (int)position.y, (*currNode).x, (*currNode).y, 255, 0, 0, 255, true);
 
-				for (std::vector<iPoint>::iterator it = unitPath.begin(); next(it) != unitPath.end(); it = next(it)) {	//TODO: Bugged, must fix
-					myApp->render->DrawLine((*currNode).x, (*currNode).y, (*next(currNode)).x, (*next(currNode)).y, 255, 0, 0, 255, true);	// Right
+				if (unitPath.size() > 1) {
+					for (std::vector<iPoint>::iterator it = currNode; next(it) != unitPath.end(); it = next(it)) {
+						myApp->render->DrawLine((*it).x, (*it).y, (*next(it)).x, (*next(it)).y, 255, 0, 0, 255, true);
+					}
 				}
 		}
 	}
