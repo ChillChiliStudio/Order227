@@ -88,7 +88,7 @@ public:
 	entity_type		type;
 	SDL_Rect UnitRect = { (int)position.x, (int)position.y, 60,60 }; //TODO desjarcodear
 
-
+	
 	//IMLPEMENT ANIMATION
 	//SDL_Rect		blitRect;
 
