@@ -28,20 +28,23 @@ bool Unit::Update(float dt)
 	currentAnimation = &myApp->entities->animationArray[int(infatryType)][int(unitState)][int(unitDirection)];
 
 	if (mustDespawn) {
+
 		mustDespawn = false;
 		active = false;	//TODO: Can't use "deactivate" because it only works with Infantry classes
 	}
 	else {
+
 		CheckInCamera = { (int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
 
 		if (myApp->render->InsideCamera(CheckInCamera) == true) {
+
 			UpdateBlitOrder();
 			myApp->render->Push(order, texture, position.x, position.y, &currentAnimation->GetCurrentFrame(dt));
 		}
 
-		if (selected) {
+		if (selected) 
 			myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0, 255, false);
-		}
+		
 	}
 
 	return true;
@@ -67,25 +70,14 @@ void Unit::UpdateBlitOrder()
 
 	for (int i = 0; i < UNITS_ARRAY_SIZE; ++i) {
 
-		if (myApp->entities->CapitalistUnitsArray[i] != this) {
+		if (myApp->entities->entitiesArray[i] != this) {
 
-			if (this->position.y > myApp->entities->CapitalistUnitsArray[i]->position.y)
+			if (this->position.y > myApp->entities->entitiesArray[i]->position.y)
 				order += 1;
 			else
 				order -= 1;
 
 		}
-
-		if (myApp->entities->CommunistUnitsArray[i] != this) {
-
-			if (this->position.y > myApp->entities->CommunistUnitsArray[i]->position.y)
-				order += 1;
-			else
-				order -= 1;
-
-
-		}
-
 	}
 
 }
