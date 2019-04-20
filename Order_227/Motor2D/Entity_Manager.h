@@ -67,6 +67,8 @@ public:
 																//Animations Array
 	Animation		animationArray[1][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)];
 
+	bool entitiesDebugDraw = false;
+
 private:
 
 	bool LoadEntityData();

@@ -21,12 +21,13 @@ bool Infantry::Draw() {
 	return true;
 }
 
-bool Infantry::Move(float dt) {
-
-	//position.x += (speed * dt);
-	//position.y += (speed * dt);
-	return true;
-}
+//bool Infantry::Move(float dt)
+//{
+//
+//	//position.x += (speed * dt);
+//	//position.y += (speed * dt);
+//	return true;
+//}
 
 void Infantry::UpdateBlitOrder() {
 

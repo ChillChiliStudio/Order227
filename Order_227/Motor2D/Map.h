@@ -151,6 +151,8 @@ public:
 	// Called before render is available
 	bool Awake(pugi::xml_node& conf);
 
+	bool Start();
+
 	// Called each loop iteration
 	void Draw();
 
@@ -161,7 +163,12 @@ public:
 	bool Load(const char* path);
 
 	iPoint MapToWorld(int x, int y) const;
+	iPoint MapToWorld(iPoint position) const;
+
 	iPoint WorldToMap(int x, int y) const;
+	iPoint WorldToMap(iPoint position) const;
+
+
 	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
 	void PlaceGameObjects();
 	iPoint PointToTile(int x,int y);
@@ -181,7 +188,8 @@ public:
 
 	MapData data;
 	
-	bool debugMode=false;
+	bool mapDebugDraw = false;
+	SDL_Texture* debug_tex = nullptr;
 
 private:
 

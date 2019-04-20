@@ -91,7 +91,7 @@ public:
 	GroupManager*       groups = nullptr;
 	Player*             player = nullptr;
 
-
+	bool debugMode = false;
 	bool mustShutDown = false;
 
 private:

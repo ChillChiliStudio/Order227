@@ -1,12 +1,8 @@
-#ifndef GROUPMANAGER_H_
-#define GROUPMANAGER_H_
-
+#ifndef GROUP_MANAGER_H
+#define GROUP_MANAGER_H
 
 #include "Module.h"
-#include "Entity.h"
-#include "Unit.h"
 #include "Group.h"
-#include "PugiXml\src\pugixml.hpp"
 
 class GroupManager : public Module {
 
@@ -23,21 +19,25 @@ public:
 	bool Update(float dt) override;
 	bool CleanUp() override;
 
-
+	//Functionalities for the player's groups
+	void EmptyPlayerGroup();
+	void CreateGroupForPlayer();
+	void AddUnitsPlayerGroup();
 	void SelectUnit(SDL_Rect rect);
 	void SelectUnit(iPoint position);
-	void CreateGroup();
-	void CreateGroupForPlayer();
-	void EmptyPlayerGroup();
-	void AddUnitsPlayerGroup();
-	void CreateDestination(iPoint mouseScreenPos);
-	void CreateGroupPaths(std::list<Unit*> list,iPoint destination);
-	void MoveUnitsGroup();
+
+
+	//Functionalities for all the groups
+	//void CreateGroup();
+	//void MoveUnitsGroup();
+
+	//void CreateGroupPaths(std::list<Unit*> list,iPoint destination);	//TODO: Not needed, probably
 
 public:
 
 	Group playerGroup;
+	//std::list<Group*> groupList;
 };
 
 
-#endif
+#endif	// GROUP_MANAGER_H

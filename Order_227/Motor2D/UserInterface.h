@@ -76,7 +76,7 @@ public:
 	//Window* CreateWindowPanel(fPoint center, p2List<Image*> children, SDL_Rect* texRect = NULL, SDL_Texture* tex = NULL, Text* label = NULL, UI_Element* parent = NULL);
 	
 public:
-	bool mustDebugDraw = false;
+	bool interfaceDebugDraw = false;
 	//uint defaultScale;	//IMPROVE: Future use
 
 private:
