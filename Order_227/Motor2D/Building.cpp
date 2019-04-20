@@ -10,7 +10,6 @@ Building::Building(fPoint position, building_type building_type, entity_faction 
 
 bool Building::Start() {
 
-	texture = myApp->tex->Load("textures/buildings/mainbase.png");
 	incomeTimer.Start();
 	return true;
 }

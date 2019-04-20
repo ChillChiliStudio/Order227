@@ -600,7 +600,6 @@ void Map::PlaceGameObjects() {
 					fPoint fPos = fPoint(pos.x, pos.y);
 
 					Building* newBuilding = new Building(fPos, building_type::MAIN_BASE, entity_faction::COMMUNIST);
-					newBuilding->active = true;
 
 					std::list <Properties::Property*> ::iterator itemProp = (*item2)->PropObj.list.begin();
 					for (; itemProp != (*item2)->PropObj.list.end();  itemProp = next(itemProp)) {

@@ -78,6 +78,7 @@ bool Entity_Manager::Start()
 {
 	//Load textures
 	//infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
+	loadTextures();
 
 	int entityIterator = (2 * INFANTRY_ARRAY_SIZE) + OBJECTS_ARRAY_SIZE;
 
@@ -91,6 +92,9 @@ bool Entity_Manager::Start()
 			buildingsArray[i] = newBuilding;
 
 		}
+		else
+			myApp->entities->ActivateBuilding(buildingsArray[i]->position, building_type::MAIN_BASE, entity_faction::COMMUNIST);
+		
 
 		entitiesArray[entityIterator++] = (Entity*)buildingsArray[i];
 
@@ -101,7 +105,7 @@ bool Entity_Manager::Start()
 			
 
 	LoadEntityData();
-	loadTextures();
+	
 
 	//Set up stats of units
 	SetupUnitStats();
@@ -256,6 +260,7 @@ bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTyp
 	return false;
 }
 
+
 bool Entity_Manager::ActivateBuilding(fPoint position, building_type buildingType, entity_faction entityFaction)
 {
 	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
@@ -275,6 +280,7 @@ bool Entity_Manager::ActivateBuilding(fPoint position, building_type buildingTyp
 
 	return false;
 }
+
 
 bool Entity_Manager::ActivateObject(fPoint position, object_type objectType)
 {
@@ -386,6 +392,7 @@ bool Entity_Manager::loadTextures() {
 	//TODO This need to be charged by a XML
 	infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
 	infantryTextures[int(infantry_type::BAZOOKA)] = myApp->tex->Load("textures/troops/allied/GI.png");
+
 	buildingsTextures[int(building_type::MAIN_BASE)] = myApp->tex->Load("textures/buildings/mainbase.png");
 
 	return true;

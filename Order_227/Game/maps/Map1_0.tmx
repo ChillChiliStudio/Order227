@@ -50211,7 +50211,7 @@
   <object id="42" x="277.273" y="898.485"/>
  </objectgroup>
  <objectgroup id="7" name="Buildings">
-  <object id="40" name="MainBase" x="1260" y="1230.25" width="150.375" height="119.563">
+  <object id="40" name="MainBase" x="1258.17" y="1257.25" width="154.875" height="138.396">
    <properties>
     <property name="health" type="int" value="1000"/>
     <property name="income" type="int" value="30"/>
