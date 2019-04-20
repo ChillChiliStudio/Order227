@@ -7,7 +7,7 @@
 
 #include <cmath>
 
-#define PI 3.1416f
+#define PI 3.14159f
 
 // 2D Vector
 template<class TYPE>
@@ -184,7 +184,7 @@ public:
 	// Vector Operations
 	TYPE GetMagnitude()
 	{
-		return sqrt(pow(x, (TYPE)2) + pow(y, (TYPE)2));
+		return sqrt(pow(x, 2) + pow(y, 2));
 	}
 
 	Vector2 GetUnitVector()
@@ -193,14 +193,17 @@ public:
 		return { x / magnitude, y / magnitude };
 	}
 
-	float GetXAngle()
+	float GetAngle(Vector2<TYPE> vec)	// All calculations are done in RADIANS and angle calculation goes COUNTER-CLOCKWISE
 	{
-		return atan(y / x);
-	}
+		float dot = x * vec.x + y * vec.y;
+		float det = x * vec.y - y * vec.x;
+		float angle = atan2(det, dot);
 
-	float GetYAngle()
-	{
-		return PI / 2.0f - atan(y / x);
+		if (angle < 0.0f) {
+			angle = 2 * PI + angle;
+		}
+
+		return angle;
 	}
 };
 
@@ -399,7 +402,7 @@ public:
 	//Vector Operations
 	TYPE GetMagnitude()
 	{
-		return sqrt(pow(x, (TYPE)2) + pow(y, (TYPE)2) + pow(z, (TYPE)2));
+		return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 	}
 
 	Vector3 GetUnitVector()
