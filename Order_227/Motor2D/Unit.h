@@ -146,7 +146,7 @@ public:
 	Unit** hostileUnits = nullptr;
 	Unit* target = nullptr;
 	bool targetLost;	// Used when there's a specific target to Search & Destroy which sight of can be lost
-	
+
 	infantry_type infatryType;
 	unit_stats stats;
 	SDL_Rect selectionRect = { 0, 0, 0, 0 };

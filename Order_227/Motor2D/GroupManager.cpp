@@ -55,6 +55,20 @@ bool GroupManager::CleanUp() {
 //--- SELECTION AND GROUPS SYSTEM ---
 void GroupManager::SelectUnit(SDL_Rect rect) {
 
+	for (int i = 0; i < INFANTRY_ARRAY_SIZE; i++) {
+		if (myApp->entities->CommunistUnitsArray[i]->active == true) {
+
+			SDL_Rect entityRect = myApp->entities->CommunistUnitsArray[i]->UnitRect;
+
+			if (SDL_HasIntersection(&entityRect, &rect)) {
+				myApp->entities->CommunistUnitsArray[i]->selected = true;
+			}
+			else if (!(SDL_HasIntersection(&entityRect, &rect)) && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_UP) {
+				myApp->entities->CommunistUnitsArray[i]->selected = false;
+			}
+		}
+	}
+	//NO BORRAR
 	//for (std::list<Unit*>::iterator it = myApp->entities->comunist_list.begin(); it != myApp->entities->comunist_list.end(); it++) {
 	//	
 	//	SDL_Rect entityRect = (*it)->unitRect;
@@ -76,7 +90,30 @@ void GroupManager::SelectUnit(SDL_Rect rect) {
 
 void GroupManager::SelectUnit(iPoint pos) {
 
-	//int counter = 0;
+	int counter = 0;
+
+	for (int i = 0; i < INFANTRY_ARRAY_SIZE; i++) {
+
+		if (myApp->entities->CommunistUnitsArray[i]->active == true) {
+			SDL_Rect entityRect = myApp->entities->CommunistUnitsArray[i]->UnitRect;
+		}
+
+		if ((counter < 1) && pos.x > myApp->entities->CommunistUnitsArray[i]->UnitRect.x &&
+			pos.x < myApp->entities->CommunistUnitsArray[i]->UnitRect.x + myApp->entities->CommunistUnitsArray[i]->UnitRect.w &&
+			pos.y > myApp->entities->CommunistUnitsArray[i]->UnitRect.y &&
+			pos.y < myApp->entities->CommunistUnitsArray[i]->UnitRect.y + myApp->entities->CommunistUnitsArray[i]->UnitRect.h) {
+			
+			myApp->entities->CommunistUnitsArray[i]->selected = true;
+			counter++;
+		}
+
+		else if (myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == SDL_RELEASED)
+			myApp->entities->CommunistUnitsArray[i]->selected = false;
+		
+	}
+
+	//NO BORRAR
+	////int counter = 0;
 	//for (std::list<Unit*>::iterator it = myApp->entities->comunist_list.begin(); it != myApp->entities->comunist_list.end(); it++) {
 	//	
 	//	SDL_Rect entityRect = (*it)->unitRect;
@@ -133,6 +170,13 @@ void GroupManager::EmptyPlayerGroup() {
 
 void GroupManager::AddUnitsPlayerGroup() {
 
+	for (int i = 0; i < INFANTRY_ARRAY_SIZE; i++) {
+		if (myApp->entities->CommunistUnitsArray[i]->selected == true) {
+			playerGroup.groupUnits_list.push_back((myApp->entities->CommunistUnitsArray[i]));
+			LOG("ADD UNIT TO THE GROUP");
+		}
+	}
+
 	/*for (std::list<Unit*>::iterator iterator = myApp->entities->comunist_list.begin(); iterator != myApp->entities->comunist_list.end(); iterator++) {
 		
 		if ((*iterator)->selected == true) {
@@ -144,43 +188,68 @@ void GroupManager::AddUnitsPlayerGroup() {
 }
 
 
-void GroupManager::CreateDestination(iPoint SelectedPos) {
-	
-	/*iPoint curr;
-	if (playerGroup.destinations_queue.pop(curr))
-	{
-		iPoint neighbors[4];
-		neighbors[0].create(curr.x + 1, curr.y + 0);
-		neighbors[1].create(curr.x + 0, curr.y + 1);
-		neighbors[2].create(curr.x - 1, curr.y + 0);
-		neighbors[3].create(curr.x + 0, curr.y - 1);
+void GroupManager::CreateDestination(iPoint SelectedPos, Group group)
+{
+	if (!myApp->pathfinding->IsWalkable(SelectedPos))
+		return;
 
-		for (uint i = 0; i < 4; ++i)
+	std::vector<iPoint*> visited;
+	std::queue<iPoint*> frontier;
+
+	visited.push_back(&SelectedPos);
+	frontier.push(&SelectedPos);
+
+	std::list<Unit*>::iterator currentUnit = group.groupUnits_list.begin();
+
+	(*currentUnit++)->destination = SelectedPos;
+	LOG("%d %d", SelectedPos.x, SelectedPos.y );
+
+	while (currentUnit != group.groupUnits_list.end())
+	{
+		iPoint* tile = frontier.front();
+		frontier.pop();
+
+		iPoint neighbors[4];
+		neighbors[0].create(tile->x + 1, tile->y + 0);
+		neighbors[1].create(tile->x + 0, tile->y + 1);
+		neighbors[2].create(tile->x - 1, tile->y + 0);
+		neighbors[3].create(tile->x + 0, tile->y - 1);
+
+		for (int i = 0; i < 4; ++i) 
 		{
-			if (MovementCost(neighbors[i].x, neighbors[i].y) > 0)
+			if (myApp->pathfinding->IsWalkable(neighbors[i]))
 			{
-				if (visited.find(neighbors[i]) == -1)
+				for (std::vector<iPoint*>::iterator ii = visited.begin(); ii != visited.end(); ++ii)
 				{
-					frontier.Push(neighbors[i], 0);
-					visited.add(neighbors[i]);
+					if ((*ii)->x == neighbors[i].x  && (*ii)->y == neighbors[i].y)
+						break;
 				}
+				frontier.push(&neighbors[i]);
+				visited.push_back(&neighbors[i]);
+
+				(*currentUnit)->destination = neighbors[i];
+				currentUnit++;
+				LOG("%d %d", neighbors[i].x, neighbors[i].y);
+				if (currentUnit == group.groupUnits_list.end())
+					break;
 			}
 		}
-	}*/
+	}
+
 }
 
 void GroupManager::CreateGroupPaths(std::list<Unit*> list, iPoint destination) {
 	
-	//for (std::list<Unit*>::iterator iterator = list.begin(); iterator != list.end(); iterator++) {
-	//	(*iterator)->origin.x = (*iterator)->unitRect.x;
-	//	(*iterator)->origin.y = (*iterator)->unitRect.y;
-	//	(*iterator)->destination = destination;
-	//	{
-	//		myApp->pathfinding->CreatePath((*iterator)->origin, (*iterator)->destination);
-	//		(*iterator)->Path.clear();
-	//		(*iterator)->Path = myApp->pathfinding->last_path;
-	//	}		
-	//}	
+	for (std::list<Unit*>::iterator iterator = list.begin(); iterator != list.end(); iterator++) {
+		(*iterator)->origin.x = (*iterator)->UnitRect.x;
+		(*iterator)->origin.y = (*iterator)->UnitRect.y;
+		(*iterator)->destination = destination;
+		{
+			myApp->pathfinding->CreatePath((*iterator)->origin, (*iterator)->destination);
+			(*iterator)->unitPath.clear();
+			(*iterator)->unitPath = *myApp->pathfinding->GetLastPath();
+		}		
+	}	
 }
 
 

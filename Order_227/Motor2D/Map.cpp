@@ -126,6 +126,29 @@ iPoint Map::MapToWorld(int x, int y) const
 	return ret;
 }
 
+iPoint Map::MapToWorld(iPoint position) const
+{
+	iPoint ret;
+
+	if (data.type == MAPTYPE_ORTHOGONAL)
+	{
+		ret.x = position.x * data.tile_width;
+		ret.y = position.y * data.tile_height;
+	}
+	else if (data.type == MAPTYPE_ISOMETRIC)
+	{
+		ret.x = (position.x - position.y) * (data.tile_width * 0.5f);
+		ret.y = (position.x + position.y) * (data.tile_height * 0.5f);
+	}
+	else
+	{
+		LOG("Unknown map type");
+		ret.x = position.x; ret.y = position.y;
+	}
+
+	return ret;
+}
+
 iPoint Map::WorldToMap(int x, int y) const
 {
 	iPoint ret(0,0);
@@ -147,6 +170,32 @@ iPoint Map::WorldToMap(int x, int y) const
 	{
 		LOG("Unknown map type");
 		ret.x = x; ret.y = y;
+	}
+
+	return ret;
+}
+
+iPoint Map::WorldToMap(iPoint position) const
+{
+	iPoint ret(0, 0);
+
+	if (data.type == MAPTYPE_ORTHOGONAL)
+	{
+		ret.x = position.x / data.tile_width;
+		ret.y = position.y / data.tile_height;
+	}
+	else if (data.type == MAPTYPE_ISOMETRIC)
+	{
+
+		float half_width = data.tile_width * 0.5f;
+		float half_height = data.tile_height * 0.5f;
+		ret.x = int((position.x / half_width + position.y / half_height) / 2) - 1;
+		ret.y = int((position.y / half_height - (position.x / half_width)) / 2);
+	}
+	else
+	{
+		LOG("Unknown map type");
+		ret.x = position.x; ret.y = position.y;
 	}
 
 	return ret;

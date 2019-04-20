@@ -57,14 +57,14 @@ bool Player::Update(float dt)
 
 	//group movement bellow
 	SDL_Rect goToRect = { 10,10,20,10 };
-	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
-		//goToRect.x = mouseScreenPos.x;
-		//goToRect.y = mouseScreenPos.y;
-		//myApp->render->DrawQuad(goToRect, 0, 255, 100, 255, true);
-		//myApp->input->GetMousePosition(mouseClickPos.x, mouseClickPos.y);
-		////FER WORLD TO MAP  DE MOUSECLICKPOS
-		//myApp->groups->CreateDestination(mouseClickPos);
-		//myApp->groups->CreateGroupPaths(myApp->groups->playerGroup.groupUnits_list, mouseScreenPos);
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN) {
+		goToRect.x = mouseScreenPos.x;
+		goToRect.y = mouseScreenPos.y;
+		
+		myApp->input->GetMousePosition(mouseClickPos.x, mouseClickPos.y);
+		//FER WORLD TO MAP  DE MOUSECLICKPOS
+		myApp->groups->CreateDestination(myApp->map->WorldToMap(mouseClickPos), myApp->groups->playerGroup);
+		myApp->groups->CreateGroupPaths(myApp->groups->playerGroup.groupUnits_list, mouseScreenPos);
 	}
 
 	entitiesSelection();
@@ -278,6 +278,7 @@ void Player::entitiesSelection()
 		//units selection
 		myApp->groups->SelectUnit(SRect);
 	}
+
 	// 1 click selection
 	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
 		myApp->groups->SelectUnit(mouseScreenPos);

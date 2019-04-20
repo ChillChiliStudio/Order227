@@ -27,6 +27,9 @@ bool Unit::Update(float dt)
 	UnitWorkflow(dt);
 	currentAnimation = &myApp->entities->animationArray[int(infatryType)][int(unitState)][int(unitDirection)];
 
+	UnitRect.x = position.x;
+	UnitRect.y = position.y;
+
 	if (mustDespawn) {
 
 		mustDespawn = false;
@@ -42,9 +45,8 @@ bool Unit::Update(float dt)
 			myApp->render->Push(order, texture, position.x, position.y, &currentAnimation->GetCurrentFrame(dt));
 		}
 
-		if (selected) 
-			myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0, 255, false);
-		
+		if (selected)
+			myApp->render->DrawQuad(UnitRect, 255, 0, 0, 255, false);
 	}
 
 	return true;

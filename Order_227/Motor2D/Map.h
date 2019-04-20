@@ -163,7 +163,12 @@ public:
 	bool Load(const char* path);
 
 	iPoint MapToWorld(int x, int y) const;
+	iPoint MapToWorld(iPoint position) const;
+
 	iPoint WorldToMap(int x, int y) const;
+	iPoint WorldToMap(iPoint position) const;
+
+
 	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
 	void PlaceGameObjects();
 	iPoint PointToTile(int x,int y);
