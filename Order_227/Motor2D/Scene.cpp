@@ -46,6 +46,7 @@ bool Scene::Start()
 		RELEASE_ARRAY(data);
 	}
 
+
 	//Debug Texture to show debug stuff
 	debug_tex = myApp->tex->Load("maps/path2.png");
 
@@ -67,6 +68,7 @@ bool Scene::Update(float dt)
 
 	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 		ChooseSpawningPoints();
+
 
 	//Spawn Point Draw
 	for (int i = 0; i < SpawningPoints_Array.size(); i++) {
@@ -96,7 +98,7 @@ bool Scene::Update(float dt)
 		fPoint position2;
 		position2.x = position.x;
 		position2.y = position.y;
-		myApp->entities->ActivateInfantry(position2, infantry_type::BAZOOKA, entity_faction::COMMUNIST);
+		myApp->entities->ActivateInfantry(position2, infantry_type::BASIC, entity_faction::COMMUNIST);
 
 	}
 

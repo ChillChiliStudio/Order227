@@ -22,7 +22,9 @@ bool Unit::Start()
 
 bool Unit::Update(float dt)
 {
+
 	UnitWorkflow(dt);
+	currentAnimation = &myApp->entities->animationArray[int(infatryType)][int(unitState)][int(unitDirection)];
 
 	if (mustDespawn) {
 		mustDespawn = false;
@@ -34,7 +36,7 @@ bool Unit::Update(float dt)
 
 		if (myApp->render->InsideCamera(CheckInCamera) == true) {
 			UpdateBlitOrder();
-			myApp->render->Push(order, texture, position.x, position.y, &UnitBlitRect);
+			myApp->render->Push(order, texture, position.x, position.y, &currentAnimation->GetCurrentFrame(dt));
 		}
 
 		if (selected) {
@@ -63,44 +65,34 @@ void Unit::UpdateBlitOrder()
 	//	}
 	//}
 
+	for (int i = 0; i < UNITS_ARRAY_SIZE; ++i) {
+
+		if (myApp->entities->CapitalistUnitsArray[i] != this) {
+
+			if (this->position.y > myApp->entities->CapitalistUnitsArray[i]->position.y)
+				order += 1;
+			else
+				order -= 1;
+
+		}
+
+		if (myApp->entities->CommunistUnitsArray[i] != this) {
+
+			if (this->position.y > myApp->entities->CommunistUnitsArray[i]->position.y)
+				order += 1;
+			else
+				order -= 1;
+
+
+		}
+
+	}
+
 }
 
 bool Unit::Draw()
 {
 	return true;
-}
-
-bool Unit::LoadEntityData()
-{
-	bool ret = true;
-
-	pugi::xml_parse_result result = tilsetTexture.load_file("textures/troops/allied/IG.tmx");
-
-	if (result != NULL)
-	{
-
-		for (pugi::xml_node Data = tilsetTexture.child("map").child("objectgroup").child("object"); Data && ret; Data = Data.next_sibling("object"))
-		{
-
-			EntityData*EntityDataAux = new EntityData();
-
-			EntityDataAux->Action = Data.attribute("name").as_string(); //Actions the Entityt is performing e.g.Walking,shot
-			EntityDataAux->Degrees = Data.attribute("type").as_int();//Position in degrees 0,45,90,135,180,225,270,315
-
-			//Use this int as iterator of the loop, when first Frame of an Action is read then asign this value to an iterator to store all the frame for each anim
-			EntityDataAux->AnimFrames = Data.attribute("IteratorType").as_int();//Frames that the Action has CAREFUL YOU MUST USE THIS WHEN YOU READ THE FIRST FRAME OF THE ANIM
-
-
-			EntityDataAux->TilePos.x = Data.attribute("x").as_int(); //POS X
-			EntityDataAux->TilePos.y = Data.attribute("y").as_int();//POS Y
-
-			EntityDataAux->TileSize.x = Data.attribute("width").as_int();//Width
-			EntityDataAux->TileSize.y = Data.attribute("height").as_int();//height
-			// CAREFUL need to store each o the Entity data,
-		}
-	}
-
-	return ret;
 }
 
 // Main workflow

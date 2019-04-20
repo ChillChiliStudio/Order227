@@ -6,7 +6,7 @@
 
 //Also, note that I think there is some memory leak in this module, but
 //I couldn't track them, I don't exactly know why the fuck there is a memLeak
-//if I load NOTHING 
+//if I load NOTHING
 
 #include "Entity_Manager.h"
 #include "Log.h"
@@ -14,9 +14,11 @@
 #include "Scene.h"
 #include "Render.h"
 #include "App.h"
+#include "Textures.h"
 #include <assert.h>
 #include "Input.h"
 #include "Pathfinding.h"
+#include "Textures.h"
 
 
 Group::Group(){}
@@ -47,6 +49,11 @@ bool Entity_Manager::Awake()
 bool Entity_Manager::Start()
 {
 	//Load textures
+	//infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
+
+
+	LoadEntityData();
+	loadTextures();
 
 	//Allocate Memory for Units
 	int entitiesIterator = 0;
@@ -139,17 +146,19 @@ bool Entity_Manager::PreUpdate() {
 
 bool Entity_Manager::Update(float dt)
 {
-
+	
 	accumulated_time += dt;
 
 	if (accumulated_time >= update_ms_cycle)
 		do_logic = true;
 
 	for (int i = 0; i < UNITS_ARRAY_SIZE; ++i) {
+		if(CapitalistUnitsArray[i]->active==true)
+			CapitalistUnitsArray[i]->Update(dt);
 
-		CapitalistUnitsArray[i]->Update(dt);
-		CommunistUnitsArray[i]->Update(dt);
-
+		if(CommunistUnitsArray[i]->active==true)
+			CommunistUnitsArray[i]->Update(dt);
+		
 		if (do_logic)
 		{
 			CapitalistUnitsArray[i]->FixUpdate(dt);
@@ -157,21 +166,21 @@ bool Entity_Manager::Update(float dt)
 		}
 	}
 
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i)
-	{
-		CommunistInfantryArray[i]->Update(dt);
-		CapitalistInfantryArray[i]->Update(dt);
+	//for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i)
+	//{
+	//	CommunistInfantryArray[i]->Update(dt);
+	//	CapitalistInfantryArray[i]->Update(dt);
 
-		if (do_logic)
-		{
-			CommunistInfantryArray[i]->FixUpdate(dt);
-			CapitalistInfantryArray[i]->FixUpdate(dt);
-		}
-	}
+	//	if (do_logic)
+	//	{
+	//		CommunistInfantryArray[i]->FixUpdate(dt);
+	//		CapitalistInfantryArray[i]->FixUpdate(dt);
+	//	}
+	//}
 
 	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
 		buildingsArray[i]->Update();
-	
+
 
 	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
 		staticObjectsArray[i]->Update();
@@ -198,9 +207,10 @@ bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTyp
 				CommunistInfantryArray[i]->texture = infantryTextures[int(infantryType)];
 				CommunistInfantryArray[i]->stats = infantryStats[int(infantryType)];
 				CommunistInfantryArray[i]->active = true;
-				CommunistInfantryArray[i]->infantryType = infantryType;
+				CommunistUnitsArray[i]->infatryType = infantryType;
+				//CommunistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
-				
+
 				return true;
 			}
 		}
@@ -218,7 +228,8 @@ bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTyp
 				CapitalistInfantryArray[i]->texture = infantryTextures[int(infantryType)];
 				CapitalistInfantryArray[i]->stats = infantryStats[int(infantryType)];
 				CapitalistInfantryArray[i]->active = true;
-				CapitalistInfantryArray[i]->infantryType = infantryType;
+				CapitalistUnitsArray[i]->infatryType = infantryType;
+				//CapitalistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
 
 				return true;
@@ -274,14 +285,15 @@ bool Entity_Manager::DeActivateInfantry(Infantry* infantry)
 	if (infantry->faction == entity_faction::COMMUNIST) {
 
 		for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
-		
+
 			if (CommunistInfantryArray[i] == infantry) {
 
 				CommunistInfantryArray[i]->position = fPoint(0.0f, 0.0f);
 				CommunistInfantryArray[i]->texture = nullptr;
 				CommunistInfantryArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 				CommunistInfantryArray[i]->active = false;
-				CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+				//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+				CommunistUnitsArray[i]->infatryType = infantry_type::INFANTRY_NONE;
 				//To implement:: Update animations
 
 				return true;
@@ -300,7 +312,8 @@ bool Entity_Manager::DeActivateInfantry(Infantry* infantry)
 				CapitalistInfantryArray[i]->texture = nullptr;
 				CapitalistInfantryArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 				CapitalistInfantryArray[i]->active = false;
-				CapitalistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+				//CapitalistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+				CapitalistUnitsArray[i]->infatryType = infantry_type::INFANTRY_NONE;
 				//To implement:: Update animations
 
 				return true;
@@ -351,13 +364,62 @@ bool Entity_Manager::DeActivateObject(Static_Object* object)
 	return false;
 }
 
+bool Entity_Manager::loadTextures() {
+
+	//TODO This need to be charged by a XML
+	infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
+	infantryTextures[int(infantry_type::BAZOOKA)] = myApp->tex->Load("textures/troops/allied/GI.png");
+
+	return true;
+}
+
+bool Entity_Manager::LoadEntityData() {
+
+	bool ret = true;
+	pugi::xml_parse_result result = tilsetTexture.load_file("textures/troops/allied/IG.tmx");
+	Animation a;
+	SDL_Rect temp;
+
+	if (result != NULL)
+	{
+		//TODO Create a MAX UNITS DEFINITON TO DESHARCODE
+		for (int i = 0; i < 1; i++)
+		{
+			for (pugi::xml_node Data = tilsetTexture.child("map").child("objectgroup").child("object"); Data && ret; Data = Data.next_sibling("object"))
+			{
+				temp.x = Data.attribute("x").as_int();
+				temp.y = Data.attribute("y").as_int();
+				temp.w = Data.attribute("width").as_int();
+				temp.h = Data.attribute("height").as_int();
+
+				std::string tempString = Data.attribute("name").as_string();
+				int degreesToArray = Data.attribute("type").as_int() / 45;//DEGREES    HAVE IN ACCOUNT THAT THE TILES ARE DEFINED CONTERCLOCKWISE
+
+					if (tempString == "Pointing")
+						animationArray[i][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
+
+					if (tempString == "Walking")
+						animationArray[i][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
+
+					if (tempString == "Shot")
+						animationArray[i][int(unit_state::ATTACKING)][degreesToArray].PushBack(temp);
+
+					if( tempString=="DeathOne")
+						animationArray[i][int(unit_state::DEAD)][0].PushBack(temp);
+
+			}
+		}
+	}
+
+	return ret;
+}
 
 bool Entity_Manager::SetupUnitStats() {
-	
+
 	bool ret = true;
 
 	pugi::xml_parse_result result = unitsDocument.load_file("textures/troops/unitsDoc.xml");
-	
+
 	if (result != NULL)
 	{
 

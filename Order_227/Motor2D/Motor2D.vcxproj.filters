@@ -246,6 +246,9 @@
     <ClInclude Include="Infantry.h">
       <Filter>Game Files\Entity Management\Entities\Units</Filter>
     </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

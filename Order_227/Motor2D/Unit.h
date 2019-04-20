@@ -5,7 +5,16 @@
 #include "Entity.h"
 #include "SDL/include/SDL.h"
 #include "Pathfinding.h"
+#include "Animation.h"
 
+enum class infantry_type {
+
+	INFANTRY_NONE = -1,
+	BASIC,
+	BAZOOKA,
+	MACHINE_GUN,
+	INFANTRY_MAX
+};
 
 enum class unit_state
 {
@@ -30,6 +39,22 @@ enum class unit_orders
 	PATROL,
 
 	MAX_ORDERS
+};
+
+enum class unit_directions {
+
+	NONE = -1,
+	NORTH,
+	NORTH_WEST,
+	WEST,
+	SOUTH_WEST,
+	SOUTH,
+	SOUTH_EAST,
+	EAST,
+	NORTH_EAST,
+
+	MAX_DIRECTIONS
+
 };
 
 struct unit_stats
@@ -62,9 +87,6 @@ public:
 	bool Draw();
 
 public:
-
-	//Setup
-	bool LoadEntityData() override;
 
 	// Main Workflow
 	void UnitWorkflow(float dt);	// State workflow depending on order issued
@@ -110,7 +132,11 @@ public:
 	SDL_Rect CheckInCamera;
 	unit_state unitState = unit_state::IDLE;
 	unit_orders unitOrders = unit_orders::HOLD;
-	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO-Jaume: Hardcoded
+	unit_directions unitDirection = unit_directions::SOUTH_EAST;
+	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
+
+	Animation* currentAnimation = nullptr;
+
 
 	iPoint origin;
 	iPoint destination;
@@ -120,7 +146,8 @@ public:
 	Unit** hostileUnits = nullptr;
 	Unit* target = nullptr;
 	bool targetLost;	// Used when there's a specific target to Search & Destroy which sight of can be lost
-
+	
+	infantry_type infatryType;
 	unit_stats stats;
 	SDL_Rect selectionRect = { 0, 0, 0, 0 };
 

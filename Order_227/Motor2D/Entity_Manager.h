@@ -9,6 +9,7 @@
 #include "PugiXml\src\pugixml.hpp"
 #include "Building.h"
 #include "Group.h"
+#include "Animation.h"
 
 
 #define TIMES_PER_SEC 5
@@ -52,26 +53,34 @@ public:
 
 	//Entity lists
 	Entity*			entitiesArray[UNITS_ARRAY_SIZE]; //List with all the entities
-	
+
 	Unit*			CommunistUnitsArray[INFANTRY_ARRAY_SIZE];			//Player units (soldiers+vehicles)
 	Unit*			CapitalistUnitsArray[INFANTRY_ARRAY_SIZE];			//Enemy units (soldiers+vehicles)
-	
+
 	Infantry*		CommunistInfantryArray[INFANTRY_ARRAY_SIZE];		//Player soldiers
 	Infantry*		CapitalistInfantryArray[INFANTRY_ARRAY_SIZE];		//Enemy soldiers
-	
+
 	Static_Object*	staticObjectsArray[OBJECTS_ARRAY_SIZE];		//Static objects
-	
+
 	Building*		buildingsArray[BUILDINGS_ARRAY_SIZE];				//Bases
 
-	
+																//Animations Array
+	Animation		animationArray[1][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)];
+
 private:
 
-	
+	bool LoadEntityData();
+	bool loadTextures();
+
+	//TilesetFile
+	pugi::xml_document	tilsetTexture;
 
 	//Arrays with all the textures
 	SDL_Texture*	buildingsTextures[int(building_type::BUILDING_MAX)];
 	SDL_Texture*	infantryTextures[int(infantry_type::INFANTRY_MAX)];
 	SDL_Texture*	objectTextures[int(object_type::OBJECT_MAX)];
+
+
 
 	//Unit stats
 	unit_stats		infantryStats[int(infantry_type::INFANTRY_MAX)];
