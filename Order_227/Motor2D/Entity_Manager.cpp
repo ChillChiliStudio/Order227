@@ -27,33 +27,6 @@ Group::Group(){}
 Entity_Manager::Entity_Manager()
 {
 	name.assign("entities");
-}
-
-Entity_Manager::~Entity_Manager()
-{
-
-}
-
-
-bool Entity_Manager::Awake()
-{
-
-	LOG("AWAKING ENTITY MANAGER");
-	times_per_sec = TIMES_PER_SEC;
-	update_ms_cycle = 1.0f / (float)times_per_sec;
-
-	return true;
-}
-
-
-bool Entity_Manager::Start()
-{
-	//Load textures
-	//infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
-
-
-	LoadEntityData();
-	loadTextures();
 
 	//Allocate Memory for Units
 	int entitiesIterator = 0;
@@ -85,10 +58,41 @@ bool Entity_Manager::Start()
 	//Allocate Memory for Buildings
 	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
 	{
-		buildingsArray[i] = new Building({ 0,0 }, building_type::BUILDING_NONE, entity_faction::COMMUNIST);
-		buildingsArray[i]->active = true;
-		entitiesArray[entitiesIterator++] = buildingsArray[i];
+		Building *newBuilding = new Building({ 0,0 }, building_type::BUILDING_NONE, entity_faction::NEUTRAL);
+		newBuilding->active = false;
+		buildingsArray[i] = newBuilding;
+		entitiesArray[entitiesIterator++] = (Entity*)newBuilding;
 	}
+}
+
+Entity_Manager::~Entity_Manager()
+{
+
+}
+
+
+bool Entity_Manager::Awake()
+{
+
+	LOG("AWAKING ENTITY MANAGER");
+	times_per_sec = TIMES_PER_SEC;
+	update_ms_cycle = 1.0f / (float)times_per_sec;
+
+	return true;
+}
+
+
+bool Entity_Manager::Start()
+{
+	//Load textures
+	//infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
+
+	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
+		buildingsArray[i]->Start();
+			
+
+	LoadEntityData();
+	loadTextures();
 
 	//Set up stats of units
 	SetupUnitStats();
@@ -153,6 +157,7 @@ bool Entity_Manager::Update(float dt)
 		do_logic = true;
 
 	for (int i = 0; i < UNITS_ARRAY_SIZE; ++i) {
+
 		if(CapitalistUnitsArray[i]->active==true)
 			CapitalistUnitsArray[i]->Update(dt);
 
@@ -179,7 +184,8 @@ bool Entity_Manager::Update(float dt)
 	//}
 
 	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
-		buildingsArray[i]->Update();
+		if(buildingsArray[i]->active == true)
+			buildingsArray[i]->Update(dt);
 
 
 	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
@@ -240,7 +246,7 @@ bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTyp
 	return false;
 }
 
-bool Entity_Manager::ActivateBuilding(fPoint position, building_type buildingType)
+bool Entity_Manager::ActivateBuilding(fPoint position, building_type buildingType, entity_faction entityFaction)
 {
 	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
 	{
@@ -250,12 +256,13 @@ bool Entity_Manager::ActivateBuilding(fPoint position, building_type buildingTyp
 			buildingsArray[i]->buildingType = buildingType;
 			buildingsArray[i]->active = true;
 
-			buildingsArray[i]->faction = entity_faction::NEUTRAL;
+			buildingsArray[i]->faction = entityFaction;
 			buildingsArray[i]->selected = false;
 			buildingsArray[i]->texture = buildingsTextures[int(buildingType)];
 			return true;
 		}
 	}
+
 	return false;
 }
 
@@ -369,6 +376,8 @@ bool Entity_Manager::loadTextures() {
 	//TODO This need to be charged by a XML
 	infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
 	infantryTextures[int(infantry_type::BAZOOKA)] = myApp->tex->Load("textures/troops/allied/GI.png");
+
+	buildingsTextures[int(building_type::MAIN_BASE)] = myApp->tex->Load("textures/buildings/mainbase.png");
 
 	return true;
 }

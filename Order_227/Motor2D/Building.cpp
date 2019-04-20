@@ -1,12 +1,31 @@
 #include "Building.h"
+#include "Render.h"
+#include "Textures.h"
+#include "Player.h"
+#include"Entity_Manager.h"
 
-Building::Building(fPoint position, building_type baseType, entity_faction faction) : Entity(position, entity_type::BUILDING, faction)
+Building::Building(fPoint position, building_type building_type, entity_faction faction) : Entity(position, entity_type::BUILDING, faction)
 {}
 
 
-bool Building::Update()
+bool Building::Start() {
+
+	texture = myApp->tex->Load("textures/buildings/mainbase.png");
+	incomeTimer.Start();
+	return true;
+}
+
+
+bool Building::Update(float dt)
 {
 
+	if (incomeTimer.ReadSec() >= 2) {
+
+		myApp->player->playerMoney += income;
+		incomeTimer.Start();
+	}
+
+	myApp->render->Blit(texture, (int)position.x, (int)position.y, &buildingBlitRect);
 	return true;
 }
 
@@ -22,4 +41,21 @@ bool Building::Draw(float dt)
 {
 
 	return true;
+}
+
+
+void Building::UpdateBlitOrder() {
+
+	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i) {
+
+		if (myApp->entities->buildingsArray[i] != this) {
+
+			if (this->position.y > myApp->entities->buildingsArray[i]->position.y)
+				order += 1;
+			else
+				order -= 1;
+
+		}
+	}
+
 }

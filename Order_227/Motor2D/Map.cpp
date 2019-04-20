@@ -5,6 +5,7 @@
 #include "Textures.h"
 #include "Map.h"
 #include "Scene.h"
+#include "Building.h"
 #include <cmath>
 #include <sstream>
 
@@ -571,22 +572,33 @@ void Map::PlaceGameObjects() {
 		if ((*item)->nameGroup == "spawnPoint") {
 
 			std::list<GameObjectGroup::Object*>::iterator item2 = (*item)->Objectlist.begin();
-
 			for (; item2 != (*item)->Objectlist.end(); item2 = next(item2)) {
 
 				if ((*item2)->name == "Spawn") {
 
-					
-
-					Spawning_Point* new_SP = new Spawning_Point(PointToTile((int)(*item2)->x,(int)(*item2)->y));
+					Spawning_Point* new_SP = new Spawning_Point(PointToTile((int)(*item2)->x, (int)(*item2)->y));
 					myApp->scene->SpawningPoints_Array.push_back(new_SP);
+
+				}
+			}
+		}
+
+		if ((*item)->nameGroup == "Buildings") {
+
+			std::list<GameObjectGroup::Object*>::iterator item2 = (*item)->Objectlist.begin();
+			for (; item2 != (*item)->Objectlist.end(); item2 = next(item2)) {
+
+				if ((*item2)->name == "MainBase") {
+
+					iPoint pos = PointToTile((int)(*item2)->x, (int)(*item2)->y);
+					fPoint fPos = fPoint(pos.x, pos.y);
+
+					myApp->entities->ActivateBuilding(fPos, building_type::MAIN_BASE, entity_faction::COMMUNIST);
 
 				}
 
 			}
-
 		}
-
 	}
 	
 

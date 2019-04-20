@@ -27,21 +27,24 @@ bool Unit::Update(float dt)
 	currentAnimation = &myApp->entities->animationArray[int(infatryType)][int(unitState)][int(unitDirection)];
 
 	if (mustDespawn) {
+
 		mustDespawn = false;
 		active = false;
 		myApp->entities->DestroyEntity(this);	//TODO: This should work with entity pools
 	}
 	else {
+
 		CheckInCamera = { (int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
 
 		if (myApp->render->InsideCamera(CheckInCamera) == true) {
+
 			UpdateBlitOrder();
 			myApp->render->Push(order, texture, position.x, position.y, &currentAnimation->GetCurrentFrame(dt));
 		}
 
-		if (selected) {
+		if (selected) 
 			myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0, 255, false);
-		}
+		
 	}
 
 	return true;

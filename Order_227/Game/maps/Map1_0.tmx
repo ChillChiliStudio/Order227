@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="60" tileheight="30" infinite="0" nextlayerid="7" nextobjectid="40">
+<map version="1.2" tiledversion="1.2.3" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="60" tileheight="30" infinite="0" nextlayerid="8" nextobjectid="43">
  <properties>
   <property name="Nodraw" value="0"/>
  </properties>
@@ -44326,10 +44326,10 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="280"/>
+   <tile gid="280"/>
+   <tile gid="280"/>
+   <tile gid="280"/>
    <tile/>
    <tile/>
    <tile/>
@@ -44426,10 +44426,10 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="280"/>
+   <tile gid="280"/>
+   <tile gid="280"/>
+   <tile gid="280"/>
    <tile/>
    <tile/>
    <tile/>
@@ -44526,10 +44526,10 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="280"/>
+   <tile gid="280"/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="280"/>
    <tile/>
    <tile/>
    <tile/>
@@ -44626,8 +44626,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="280"/>
+   <tile gid="280"/>
    <tile/>
    <tile/>
    <tile/>
@@ -50208,5 +50208,10 @@
   <object id="37" x="-3324" y="-900"/>
   <object id="38" name="Spawn" x="2945.25" y="2255.45" width="20.5227" height="19.4773"/>
   <object id="39" x="3306" y="2230"/>
+  <object id="42" x="277.273" y="898.485"/>
+ </objectgroup>
+ <objectgroup id="7" name="Buildings">
+  <object id="40" name="MainBase" x="1251" y="1240.5" width="167" height="121"/>
+  <object id="41" x="1214" y="1138"/>
  </objectgroup>
 </map>
