@@ -49,11 +49,11 @@ bool Building::Draw()
 
 void Building::UpdateBlitOrder() {
 
-	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i) {
+	for (int i = 0; i < UNITS_ARRAY_SIZE; ++i) {
 
-		if (myApp->entities->buildingsArray[i] != this) {
+		if (myApp->entities->entitiesArray[i] != this) {
 
-			if (this->position.y > myApp->entities->buildingsArray[i]->position.y)
+			if (this->position.y > myApp->entities->entitiesArray[i]->position.y)
 				order += 1;
 			else
 				order -= 1;
