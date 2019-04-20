@@ -151,6 +151,8 @@ public:
 	// Called before render is available
 	bool Awake(pugi::xml_node& conf);
 
+	bool Start();
+
 	// Called each loop iteration
 	void Draw();
 
@@ -181,7 +183,8 @@ public:
 
 	MapData data;
 	
-	bool debugMode=false;
+	bool mapDebugDraw = false;
+	SDL_Texture* debug_tex = nullptr;
 
 private:
 

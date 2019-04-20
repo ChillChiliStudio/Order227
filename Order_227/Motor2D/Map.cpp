@@ -5,6 +5,7 @@
 #include "Textures.h"
 #include "Map.h"
 #include "Scene.h"
+#include "Input.h"
 #include "Building.h"
 #include <cmath>
 #include <sstream>
@@ -33,6 +34,16 @@ bool Map::Awake(pugi::xml_node& config)
 	return ret;
 }
 
+bool Map::Start()
+{
+	bool ret = true;
+
+	//Default Debug Tile Texture
+	debug_tex = myApp->tex->Load("maps/path2.png");
+
+	return ret;
+}
+
 void Map::Draw()
 {
 	if(map_loaded == false)
@@ -44,12 +55,20 @@ void Map::Draw()
 	{
 		MapLayer* layer = *item;
 
-		if (layer->properties.Get("Nodraw") != 1 || debugMode) {
+		if (layer->properties.Get("Nodraw") != 1 || mapDebugDraw) {
 			layer->tile_tree->DrawMap();
 		}
 
-		if (debugMode) {
+		if (mapDebugDraw) {
 			layer->tile_tree->DrawQuadtree();
+
+			iPoint mousePos;
+			myApp->input->GetMousePosition(mousePos.x, mousePos.y);
+			mousePos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
+			mousePos = myApp->map->WorldToMap(mousePos.x, mousePos.y);
+			mousePos = myApp->map->MapToWorld(mousePos.x, mousePos.y);
+
+			myApp->render->Blit(debug_tex, mousePos.x, mousePos.y);
 		}
 	}
 }
@@ -170,6 +189,9 @@ bool Map::CleanUp()
 		item2 = next(item2);
 	}
 	data.layers.clear();
+
+	// Unload Debug Tile Texture
+	myApp->tex->UnLoad(debug_tex);
 
 	// Clean up the pugui tree
 	map_file.reset();

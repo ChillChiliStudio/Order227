@@ -7,6 +7,11 @@
 #include "Point.h"
 #include "SDL/include/SDL.h"
 
+class Group;	//TODO: Remove, this is used because playerGroup is in Group_Manager
+enum class infantry_type;
+enum class entity_faction;
+enum class unit_orders;
+
 class Player : public Module {
 public:
 	Player();
@@ -20,7 +25,16 @@ public:
 	bool Update(float dt) override;
 	bool CleanUp() override;
 
-	void CreateUnitOnPos(iPoint mouseScreenPos);
+	void CameraInputs(float dt);
+	void DebugInputs();
+	void DebugSpawnUnit(infantry_type type, entity_faction faction);
+
+	void OrderHold();
+	void OrderMove();
+	void OrderAttack();
+	void OrderMoveAndAttack();
+	void OrderPatrol();
+
 	void entitiesSelection();
 	
 public:
@@ -37,6 +51,7 @@ public:
 
 	iPoint rectangle_origin;
 
+	Group* playerGroup = nullptr;
 
 	int playerMoney = 300;
 
