@@ -26,7 +26,6 @@ bool Building::Update(float dt)
 	}
 
 	Draw();
-	//myApp->render->Blit(texture, (int)position.x, (int)position.y, &buildingBlitRect);
 	return true;
 }
 
@@ -61,5 +60,4 @@ void Building::UpdateBlitOrder() {
 
 		}
 	}
-
 }
