@@ -7,6 +7,7 @@
 
 enum class group_type {
 
+	NONE =-1,
 	GROUP_STATIC,
 	GROUP_DYNAMIC
 };
@@ -28,8 +29,8 @@ public:
 
 public:
 
-	group_type groupType;
-	int size;
+	group_type groupType=group_type::NONE;
+	int size=0;
 
 public:
 
