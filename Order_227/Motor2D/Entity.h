@@ -77,9 +77,12 @@ public:
 
 public:
 
-	//True if the entity is "alive", false if it's not
+	//Marks if entity exists in world
 	bool active = false;
+
+	//Marks if entity is selected by the player and already stored in a list
 	bool selected = false;
+	bool stored = false;
 
 	//Entity data
 	fPoint			position;

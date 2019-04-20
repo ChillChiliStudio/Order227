@@ -37,7 +37,7 @@ public:
 	// Math ------------------------------------------------
 	Vector2 operator -(const Vector2 &vec) const
 	{
-		Vector2 r;
+		Vector2<TYPE> r;
 
 		r.x = x - vec.x;
 		r.y = y - vec.y;
@@ -47,7 +47,7 @@ public:
 
 	Vector2 operator -(const TYPE &num) const
 	{
-		Vector2 r;
+		Vector2<TYPE> r;
 
 		r.x = x - num;
 		r.y = y - num;
@@ -67,7 +67,7 @@ public:
 
 	Vector2 operator +(const TYPE &num) const
 	{
-		Vector2 r;
+		Vector2<TYPE> r;
 
 		r.x = x + num;
 		r.y = y + num;
@@ -87,7 +87,7 @@ public:
 
 	Vector2 operator *(const TYPE &num) const
 	{
-		Vector2 r;
+		Vector2<TYPE> r;
 
 		r.x = x * num;
 		r.y = y * num;
@@ -105,12 +105,10 @@ public:
 
 	const Vector2& operator -=(const TYPE &num)
 	{
-		Vector2 r;
-
 		x -= num;
 		y -= num;
 
-		return(r);
+		return(*this);
 	}
 
 	const Vector2& operator +=(const Vector2 &vec)
@@ -123,32 +121,26 @@ public:
 
 	const Vector2& operator +=(const TYPE &num)
 	{
-		Vector2 r;
-
 		x += num;
 		y += num;
 
-		return(r);
+		return(*this);
 	}
 
 	const Vector2& operator *=(const Vector2 &vec)
 	{
-		Vector2<TYPE> r;
-
 		x *= vec.x;
 		y *= vec.y;
 
-		return(r);
+		return(*this);
 	}
 
 	const Vector2& operator *=(const TYPE &num)
 	{
-		Vector2 r;
-
 		x *= num;
 		y *= num;
 
-		return(r);
+		return(*this);
 	}
 
 	bool operator ==(const Vector2& vec) const
@@ -242,7 +234,7 @@ public:
 	// Math ------------------------------------------------
 	Vector3 operator -(const Vector3 &vec) const
 	{
-		Vector3 r;
+		Vector3<TYPE> r;
 
 		r.x = x - vec.x;
 		r.y = y - vec.y;
@@ -253,7 +245,7 @@ public:
 
 	Vector3 operator -(const TYPE &num) const
 	{
-		Vector3 r;
+		Vector3<TYPE> r;
 
 		r.x = x - num;
 		r.y = y - num;
@@ -275,7 +267,7 @@ public:
 
 	Vector3 operator +(const TYPE &num) const
 	{
-		Vector3 r;
+		Vector3<TYPE> r;
 
 		r.x = x + num;
 		r.y = y + num;
@@ -297,7 +289,7 @@ public:
 
 	Vector3 operator *(const TYPE &num) const
 	{
-		Vector3 r;
+		Vector3<TYPE> r;
 
 		r.x = x * num;
 		r.y = y * num;
@@ -317,13 +309,11 @@ public:
 
 	const Vector3& operator -=(const TYPE &num)
 	{
-		Vector3 r;
-
 		x -= num;
 		y -= num;
 		z -= num;
 
-		return(r);
+		return(*this);
 	}
 
 	const Vector3& operator +=(const Vector3 &vec)
@@ -337,35 +327,29 @@ public:
 
 	const Vector3& operator +=(const TYPE &num)
 	{
-		Vector3 r;
-
 		x += num;
 		y += num;
 		z += num;
 
-		return(r);
+		return(*this);
 	}
 
 	const Vector3& operator *=(const Vector3 &vec)
 	{
-		Vector3<TYPE> r;
-
 		x *= vec.x;
 		y *= vec.y;
 		z *= vec.z;
 
-		return(r);
+		return(*this);
 	}
 
 	const Vector3& operator *=(const TYPE &num)
 	{
-		Vector3 r;
-
 		x *= num;
 		y *= num;
 		z *= num;
 
-		return(r);
+		return(*this);
 	}
 
 	bool operator ==(const Vector3& vec) const

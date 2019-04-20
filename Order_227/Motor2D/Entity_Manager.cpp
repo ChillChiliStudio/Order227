@@ -20,10 +20,6 @@
 #include "Pathfinding.h"
 #include "Textures.h"
 
-
-Group::Group(){}
-
-
 Entity_Manager::Entity_Manager()
 {
 	name.assign("entities");
