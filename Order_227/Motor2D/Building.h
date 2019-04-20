@@ -36,14 +36,14 @@ public:
 	bool CleanUp();
 	bool Start();
 
-	bool Draw(float dt);
+	bool Draw();
 	void UpdateBlitOrder();
 
 public:
 
 	//ADD ANIMATION
 	//Current_animation*
-	SDL_Rect buildingBlitRect = { 605, 1882, 212, 148 };
+	SDL_Rect buildingBlitRect = {605, 1882, 212, 148 };
 	building_type buildingType;
 
 	int health = 0;

@@ -202,6 +202,7 @@ bool Entity_Manager::Update(float dt)
 
 
 	accumulated_time -= update_ms_cycle;
+
 	myApp->render->OrderBlit(myApp->render->OrderToRender);
 
 	return true;
@@ -385,7 +386,6 @@ bool Entity_Manager::loadTextures() {
 	//TODO This need to be charged by a XML
 	infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
 	infantryTextures[int(infantry_type::BAZOOKA)] = myApp->tex->Load("textures/troops/allied/GI.png");
-
 	buildingsTextures[int(building_type::MAIN_BASE)] = myApp->tex->Load("textures/buildings/mainbase.png");
 
 	return true;

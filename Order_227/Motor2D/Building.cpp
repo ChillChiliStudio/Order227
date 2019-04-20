@@ -25,7 +25,8 @@ bool Building::Update(float dt)
 		incomeTimer.Start();
 	}
 
-	myApp->render->Blit(texture, (int)position.x, (int)position.y, &buildingBlitRect);
+	Draw();
+	//myApp->render->Blit(texture, (int)position.x, (int)position.y, &buildingBlitRect);
 	return true;
 }
 
@@ -37,8 +38,11 @@ bool Building::CleanUp()
 }
 
 
-bool Building::Draw(float dt)
+bool Building::Draw()
 {
+
+	UpdateBlitOrder();
+	myApp->render->Push(order, texture, position.x, position.y, &buildingBlitRect);
 
 	return true;
 }
