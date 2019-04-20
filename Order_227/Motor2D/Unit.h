@@ -59,19 +59,19 @@ enum class unit_directions {
 
 struct unit_stats
 {
-	float health = 0;
-	uint damage = 0;
-	float cadency = 0.0f;
+	float health;
+	uint damage;
+	float cadency;
 
-	uint attackRange = 0;
-	uint visionRange = 0;
+	uint attackRange;
+	uint visionRange;
 
-	float linSpeed = 100.0f;
+	float linSpeed;
 	fVec2 vecSpeed;
 
-	int cost = 0;
-	int productionTime = 0;
-	int unitThreat = 0;
+	int cost;
+	int productionTime;
+	int unitThreat;
 };
 
 class Unit :public Entity
@@ -123,6 +123,7 @@ public:
 	bool TargetDisplaced();
 
 	//Unit calculations
+	void SetupPath();
 	fVec2 SetupVecSpeed();
 	Unit* EnemyInRange();
 	bool  TargetInRange();
@@ -136,7 +137,6 @@ public:
 	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
 
 	Animation* currentAnimation = nullptr;
-
 
 	iPoint origin;
 	iPoint destination;

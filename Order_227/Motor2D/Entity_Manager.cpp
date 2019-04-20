@@ -74,6 +74,13 @@ bool Entity_Manager::Start()
 		entitiesArray[entitiesIterator++] = (Entity*)InfCap;
 	}
 
+	//Tell Units who their enemies are
+	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
+
+		CommunistUnitsArray[i]->hostileUnits = CapitalistUnitsArray;
+		CapitalistUnitsArray[i]->hostileUnits = CommunistUnitsArray;
+	}
+
 	//Allocate Memory for Objects
 	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
 	{
@@ -428,13 +435,13 @@ bool Entity_Manager::SetupUnitStats() {
 		for (pugi::xml_node Data = unitsDocument.child("Units_Document").child("Unit"); Data&&ret; Data = Data.next_sibling())
 		{
 
-			infantryStats[i].linSpeed = Data.attribute("speed").as_int();
+			infantryStats[i].linSpeed = Data.attribute("speed").as_float();
 			infantryStats[i].cadency = Data.attribute("cadency").as_float();
-			infantryStats[i].damage = Data.attribute("damage").as_int();
-			infantryStats[i].health = Data.attribute("health").as_int();
+			infantryStats[i].damage = (uint)Data.attribute("damage").as_int();
+			infantryStats[i].health = Data.attribute("health").as_float();
 
-			infantryStats[i].visionRange = Data.attribute("visionRange").as_float();
-			infantryStats[i].attackRange = Data.attribute("attackRange").as_float();
+			infantryStats[i].visionRange = (uint)Data.attribute("visionRange").as_int();
+			infantryStats[i].attackRange = (uint)Data.attribute("attackRange").as_int();
 
 			infantryStats[i].cost = Data.attribute("cost").as_int();
 			infantryStats[i].productionTime = Data.attribute("prodTime").as_int();

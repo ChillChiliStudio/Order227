@@ -2,6 +2,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Scene.h"
+#include "Map.h"
 #include "Pathfinding.h"
 #include "Entity_Manager.h"
 #include "Entity.h"
@@ -28,8 +29,7 @@ bool Unit::Update(float dt)
 
 	if (mustDespawn) {
 		mustDespawn = false;
-		active = false;
-		myApp->entities->DestroyEntity(this);	//TODO: This should work with entity pools
+		active = false;	//TODO: Can't use "deactivate" because it only works with Infantry classes
 	}
 	else {
 		CheckInCamera = { (int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
@@ -405,19 +405,19 @@ Unit* Unit::EnemyInRange()
 {
 	Unit* ret = nullptr;
 
-	//for (int i = 0; i >= SOLDIERS_LIST_SIZE; ++i) {	//TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units
-	//	if (hostileUnits[i]->active == true) {
-	//		if (InsideSquareRadius(position, (float)stats.attackRange, hostileUnits[i]->position) == false) {
-	//			continue;
-	//		}
-	//		else {
-	//			if (InsideRadius(position, (float)stats.attackRange, hostileUnits[i]->position) == true) {
-	//				ret = hostileUnits[i];
-	//				break;
-	//			}
-	//		}
-	//	}
-	//}
+	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {	//TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units, one for each side
+		if (hostileUnits[i]->active == true) {
+			if (InsideSquareRadius(position, (float)stats.attackRange, hostileUnits[i]->position) == false) {
+				continue;
+			}
+			else {
+				if (InsideRadius(position, (float)stats.attackRange, hostileUnits[i]->position) == true) {
+					ret = hostileUnits[i];
+					break;
+				}
+			}
+		}
+	}
 
 	return ret;
 }
@@ -425,6 +425,24 @@ Unit* Unit::EnemyInRange()
 bool Unit::TargetInRange()
 {
 	return InsideRadius(position, stats.attackRange, target->position);
+}
+
+void Unit::SetupPath()
+{
+	unitPath.clear();
+
+	iPoint mapOrigin = myApp->map->WorldToMap(origin.x, origin.y);
+	iPoint mapDestination = myApp->map->WorldToMap(destination.x, destination.y);
+
+	myApp->pathfinding->CreatePath(mapOrigin, mapDestination);
+	unitPath = *myApp->pathfinding->GetLastPath();
+
+	for (std::vector<iPoint>::iterator it = unitPath.begin(); it != unitPath.end(); it = next(it)) {
+		*it = myApp->map->MapToWorld(it->x, it->y);
+	}
+
+	currNode = unitPath.begin();
+	SetupVecSpeed();
 }
 
 fVec2 Unit::SetupVecSpeed()
@@ -440,15 +458,12 @@ fVec2 Unit::SetupVecSpeed()
 // Order calling
 void Unit::OrderStandardSetup(iPoint destination)
 {
-	unitPath.clear();
 	target = nullptr;
 
 	origin = { (int)position.x, (int)position.y };
 	this->destination = destination;
 
-	unitPath = *myApp->pathfinding->CreatePath(origin, destination);
-	currNode = unitPath.begin();
-	SetupVecSpeed();
+	SetupPath();
 }
 
 void Unit::StartHold()
@@ -469,16 +484,13 @@ void Unit::StartMove(iPoint destination)
 
 void Unit::StartAttack(Unit* target)
 {
-	unitPath.clear();
 	this->target = target;
 	targetLost = false;
 
 	origin = { (int)position.x, (int)position.y };
 	this->destination = { (int)target->position.x, (int)target->position.y };
 
-	unitPath = *myApp->pathfinding->CreatePath(origin, destination);
-	currNode = unitPath.begin();
-	SetupVecSpeed();
+	SetupPath();
 
 	unitOrders = unit_orders::ATTACK;
 	unitState = unit_state::IDLE;
