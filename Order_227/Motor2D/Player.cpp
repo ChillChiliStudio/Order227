@@ -157,21 +157,23 @@ void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: 
 
 void Player::DebugOrders()
 {
-	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN && myApp->groups->playerGroup.groupUnits.size() > 0) {
-		if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_REPEAT) {
+	if (myApp->groups->playerGroup.groupUnits.size() > 0) {
+		if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_REPEAT) {	// Mantain a NumKey (1-5) for Order type
 			DebugOrderHold();
 		}
-		else if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_REPEAT) {
-			DebugOrderMove();
-		}
-		else if (myApp->input->GetKey(SDL_SCANCODE_3) == KEY_REPEAT) {
-			DebugOrderAttack();
-		}
-		else if (myApp->input->GetKey(SDL_SCANCODE_4) == KEY_REPEAT) {
-			DebugOrderMoveAndAttack();
-		}
-		else if (myApp->input->GetKey(SDL_SCANCODE_5) == KEY_REPEAT) {
-			DebugOrderPatrol();
+		else if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN) { // Press RightMouseButton to mark destination
+			if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_REPEAT) {
+				DebugOrderMove();
+			}
+			else if (myApp->input->GetKey(SDL_SCANCODE_3) == KEY_REPEAT) {
+				DebugOrderAttack();
+			}
+			else if (myApp->input->GetKey(SDL_SCANCODE_4) == KEY_REPEAT) {
+				DebugOrderMoveAndAttack();
+			}
+			else if (myApp->input->GetKey(SDL_SCANCODE_5) == KEY_REPEAT) {
+				DebugOrderPatrol();
+			}
 		}
 	}
 }
