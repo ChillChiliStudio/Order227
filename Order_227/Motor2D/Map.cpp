@@ -508,6 +508,9 @@ bool Map::LoadGameObjects(pugi::xml_node& node, GameObjectGroup*ObjGroup) {
 		objectAux->y = obj.attribute("y").as_float();
 		objectAux->width = obj.attribute("width").as_float();
 		objectAux->height = obj.attribute("height").as_float();
+		
+		LoadProperties(obj, objectAux->PropObj);
+	
 
 
 		ObjGroup->Objectlist.push_back(objectAux);
@@ -581,9 +584,10 @@ void Map::PlaceGameObjects() {
 
 				}
 			}
+
 		}
 
-		if ((*item)->nameGroup == "Buildings") {
+		 if ((*item)->nameGroup == "Buildings") {
 
 			int i = 0;
 
@@ -598,12 +602,19 @@ void Map::PlaceGameObjects() {
 					Building* newBuilding = new Building(fPos, building_type::MAIN_BASE, entity_faction::COMMUNIST);
 					newBuilding->active = true;
 
-					newBuilding->income = 130;
-					newBuilding->health = 100;
+					std::list <Properties::Property*> ::iterator itemProp = (*item2)->PropObj.list.begin();
+					for (; itemProp != (*item2)->PropObj.list.end();  itemProp = next(itemProp)) {
+
+						if ((*itemProp)->name == "income")
+							newBuilding->income = (*itemProp)->value;
+						if ((*itemProp)->name == "health")
+							newBuilding->health = (*itemProp)->value;
+					}
 					
 					myApp->entities->buildingsArray[i] = newBuilding;
 					i++;
 				}
+		
 			}
 		}
 	}
