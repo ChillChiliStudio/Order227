@@ -5,6 +5,7 @@
 #include "Textures.h"
 #include "Map.h"
 #include "Scene.h"
+#include "Building.h"
 #include <cmath>
 #include <sstream>
 
@@ -556,6 +557,9 @@ bool Map::LoadGameObjects(pugi::xml_node& node, GameObjectGroup*ObjGroup) {
 		objectAux->y = obj.attribute("y").as_float();
 		objectAux->width = obj.attribute("width").as_float();
 		objectAux->height = obj.attribute("height").as_float();
+		
+		LoadProperties(obj, objectAux->PropObj);
+	
 
 
 		ObjGroup->Objectlist.push_back(objectAux);
@@ -620,22 +624,47 @@ void Map::PlaceGameObjects() {
 		if ((*item)->nameGroup == "spawnPoint") {
 
 			std::list<GameObjectGroup::Object*>::iterator item2 = (*item)->Objectlist.begin();
-
 			for (; item2 != (*item)->Objectlist.end(); item2 = next(item2)) {
 
 				if ((*item2)->name == "Spawn") {
 
-					
-
-					Spawning_Point* new_SP = new Spawning_Point(PointToTile((int)(*item2)->x,(int)(*item2)->y));
+					Spawning_Point* new_SP = new Spawning_Point(PointToTile((int)(*item2)->x, (int)(*item2)->y));
 					myApp->scene->SpawningPoints_Array.push_back(new_SP);
 
 				}
-
 			}
 
 		}
 
+		 if ((*item)->nameGroup == "Buildings") {
+
+			int i = 0;
+
+			std::list<GameObjectGroup::Object*>::iterator item2 = (*item)->Objectlist.begin();
+			for (; item2 != (*item)->Objectlist.end(); item2 = next(item2)) {
+
+				if ((*item2)->name == "MainBase") {
+
+					iPoint pos = PointToTile((int)(*item2)->x, (int)(*item2)->y);
+					fPoint fPos = fPoint(pos.x, pos.y);
+
+					Building* newBuilding = new Building(fPos, building_type::MAIN_BASE, entity_faction::COMMUNIST);
+
+					std::list <Properties::Property*> ::iterator itemProp = (*item2)->PropObj.list.begin();
+					for (; itemProp != (*item2)->PropObj.list.end();  itemProp = next(itemProp)) {
+
+						if ((*itemProp)->name == "income")
+							newBuilding->income = (*itemProp)->value;
+						if ((*itemProp)->name == "health")
+							newBuilding->health = (*itemProp)->value;
+					}
+					
+					myApp->entities->buildingsArray[i] = newBuilding;
+					i++;
+				}
+		
+			}
+		}
 	}
 	
 

@@ -20,6 +20,16 @@ float GetDistance(fPoint A, fPoint B)
 	return (float)vec.GetMagnitude();
 }
 
+float RadsToDeg(float angle)
+{
+	return angle * 180.0f / PI;
+}
+
+float DegToRads(float angle)
+{
+	return angle * PI / 180.0f;
+}
+
 bool InsideRadius(fPoint center, float radius, fPoint point)	//Uses circle, Accurate, Slow
 {
 	bool ret = false;

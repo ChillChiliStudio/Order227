@@ -8,6 +8,9 @@ Vector2<float> GetVector2(iPoint A, iPoint B);
 Vector2<float> GetVector2(fPoint A, fPoint B);
 float GetDistance(fPoint A, fPoint B);
 
+float RadsToDeg(float angle);
+float DegToRads(float angle);
+
 bool InsideRadius(fPoint center, float radius, fPoint point);
 bool InsideSquareRadius(fPoint center, float radius, fPoint point);
 

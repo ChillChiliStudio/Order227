@@ -8,37 +8,6 @@
 
 
 
-struct GameObjectGroup 
-{
-
-	std::string nameGroup;
-
-	struct Object
-	{
-		std::string name;
-		float x, y, width, height;
-		int id;
-
-	};
-
-
-	~GameObjectGroup()
-	{
-		std::list<Object*>::iterator itemP;
-		itemP = Objectlist.begin();
-
-		while (itemP != Objectlist.end())
-		{
-			RELEASE(*itemP);
-			itemP = next(itemP);
-		}
-
-		Objectlist.clear();
-	}
-
-	std::list<Object*>	Objectlist;
-
-};
 
 struct Properties
 {
@@ -66,6 +35,40 @@ struct Properties
 	std::list<Property*>	list;
 };
 
+struct GameObjectGroup
+{
+
+	std::string nameGroup;
+
+
+	struct Object
+	{
+		std::string name;
+		float x, y, width, height;
+		int id;
+		Properties PropObj;
+
+	};
+
+
+	~GameObjectGroup()
+	{
+		std::list<Object*>::iterator itemP;
+		itemP = Objectlist.begin();
+
+		while (itemP != Objectlist.end())
+		{
+			RELEASE(*itemP);
+			itemP = next(itemP);
+		}
+
+		Objectlist.clear();
+	}
+
+	std::list<Object*>	Objectlist;
+
+
+};
 // ----------------------------------------------------
 struct MapLayer
 {

@@ -37,6 +37,9 @@ public:
 
 	iPoint rectangle_origin;
 
+
+	int playerMoney = 300;
+
 };
 
 #endif 
