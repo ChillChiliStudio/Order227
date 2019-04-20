@@ -7,7 +7,7 @@
 #include "Pathfinding.h"
 #include "Animation.h"
 
-enum class infantry_type {
+enum class infantry_type {	// TODO: This should be a single enum with ALL units saved on it, NO ramifications
 
 	INFANTRY_NONE = -1,
 	BASIC,

@@ -15,56 +15,41 @@
 #include "GroupManager.h"
 #include "Player.h"
 
-Player::Player() {
-	
-}
-Player::~Player() {
+Player::Player()
+{}
 
-}
+Player::~Player()
+{}
 
-bool Player::Awake() {
-
+bool Player::Awake()
+{
 	LOG("AWAKING PLAYER MODULE");
 
 	return true;
 }
 
-bool Player::Start() {
-
+bool Player::Start()
+{
 	LOG("STARTING PLAYER MODULE");
 
-	return true;
-}
-
-
-bool Player::PreUpdate() {
+	playerGroup = &myApp->groups->playerGroup;	// TODO: This should be in player, not in GroupManager, this is a workaround
 
 	return true;
 }
 
-
-bool Player::CleanUp() {
+bool Player::PreUpdate()
+{
 	return true;
 }
 
-bool Player::Update(float dt) {
+bool Player::Update(float dt)
+{
+	CameraInputs(dt);
+	DebugInputs();
 
-	//MOVE CAMERA
-	if (myApp->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		myApp->render->camera.y += 500 * dt;
-
-	if (myApp->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		myApp->render->camera.y -= 500 * dt;
-
-	if (myApp->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		myApp->render->camera.x += 500 * dt;
-
-	if (myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		myApp->render->camera.x -= 500 * dt;
-
-	//Map drawing debug mode
-	if (myApp->input->GetKey(SDL_SCANCODE_F9)==KEY_DOWN)
-		myApp->map->debugMode = !myApp->map->debugMode;
+	////Map drawing debug mode
+	//if (myApp->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	//	myApp->map->debugMode = !myApp->map->debugMode;
 
 	//Mouse selection code bellow
 	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
@@ -87,16 +72,180 @@ bool Player::Update(float dt) {
 	return true;
 }
 
+bool Player::CleanUp()
+{
+	return true;
+}
+
+void Player::CameraInputs(float dt)
+{
+	//Move Camera
+	if (myApp->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		myApp->render->camera.y += ceil(500 * dt);
+
+	if (myApp->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		myApp->render->camera.y -= ceil(500 * dt);
+
+	if (myApp->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		myApp->render->camera.x += ceil(500 * dt);
+
+	if (myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		myApp->render->camera.x -= ceil(500 * dt);
+}
+
+void Player::DebugInputs()
+{
+	//Toggle DebugMode
+	if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+		myApp->debugMode = !myApp->debugMode;
+
+		if (myApp->debugMode == false) {
+			myApp->map->mapDebugDraw = false;
+			myApp->gui->interfaceDebugDraw = false;
+			//myApp->entities->entitiesDebugDraw = false;
+			LOG("Debug Mode: OFF");
+		}
+		else {
+			LOG("Debug Mode: ON");
+		}
+	}
+
+	if (myApp->debugMode) {
+		if (myApp->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {	// Toggle Map debug draw
+			myApp->map->mapDebugDraw = !myApp->map->mapDebugDraw;
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {	// Toggle UI debug draw
+			myApp->gui->interfaceDebugDraw = !myApp->gui->interfaceDebugDraw;
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {	// Toggle Entities debug draw
+			//myApp->entities->entitiesDebugDraw = !myApp->entities->entitiesDebugDraw;
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {	// Insta-Win
 
 
-//void Player::CreateUnitOnPos(iPoint mouseScreenPos_)
-//{
-//	//RECODE
-//	//fPoint position;
-//	//position.x = (float)mouseScreenPos_.x - 30;
-//	//position.y = (float)mouseScreenPos_.y - 35;
-//	//myApp->entities->CreateUnit(unit_type::INFANTRY, position, faction_enum::COMMUNIST);
-//}
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {	// Insta-Lose
+
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {	// Instantaneous Next Round + Kill all active enemies
+
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Spawn Capitalist Unit on Mouse
+			DebugSpawnUnit(infantry_type::BASIC, entity_faction::CAPITALIST);
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
+			DebugSpawnUnit(infantry_type::BASIC, entity_faction::COMMUNIST);
+		}
+
+		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN) {
+			if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_REPEAT) {
+				OrderHold();
+			}
+			else if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_REPEAT) {
+				OrderMove();
+			}
+			else if (myApp->input->GetKey(SDL_SCANCODE_3) == KEY_REPEAT) {
+				OrderAttack();
+			}
+			else if (myApp->input->GetKey(SDL_SCANCODE_4) == KEY_REPEAT) {
+				OrderMoveAndAttack();
+			}
+			else if (myApp->input->GetKey(SDL_SCANCODE_5) == KEY_REPEAT) {
+				OrderPatrol();
+			}
+		}
+	}
+}
+
+void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: This should work with unit_type alone, enum ramifications like infantry or vehicles unnecesary
+{
+	iPoint mousePos;
+	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
+	mousePos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
+	myApp->entities->ActivateInfantry(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
+}
+
+void Player::OrderHold()
+{
+	iPoint mousePos;
+	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
+	mousePos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
+
+	for (std::list<Unit*>::iterator it = playerGroup->groupUnits_list.begin(); it != playerGroup->groupUnits_list.end(); it = next(it))
+	{
+		if ((*it)->IsDead() == false)
+		{
+			(*it)->StartHold();
+		}
+	}
+}
+
+void Player::OrderMove()
+{
+	iPoint mousePos;
+	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
+	mousePos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
+
+	for (std::list<Unit*>::iterator it = playerGroup->groupUnits_list.begin(); it != playerGroup->groupUnits_list.end(); it = next(it))
+	{
+		if ((*it)->IsDead() == false)
+		{
+			(*it)->StartMove(mousePos);
+		}
+	}
+}
+
+void Player::OrderAttack()
+{
+	iPoint mousePos;
+	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
+	mousePos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
+
+	for (std::list<Unit*>::iterator it = playerGroup->groupUnits_list.begin(); it != playerGroup->groupUnits_list.end(); it = next(it))
+	{
+		if ((*it)->IsDead() == false)
+		{
+			//(*it)->StartAttack(mousePos);	//TODO: Make it work
+		}
+	}
+}
+
+void Player::OrderMoveAndAttack()
+{
+	iPoint mousePos;
+	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
+	mousePos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
+
+	for (std::list<Unit*>::iterator it = playerGroup->groupUnits_list.begin(); it != playerGroup->groupUnits_list.end(); it = next(it))
+	{
+		if ((*it)->IsDead() == false)
+		{
+			(*it)->StartMoveAndAttack(mousePos);
+		}
+	}
+}
+
+void Player::OrderPatrol()
+{
+	iPoint mousePos;
+	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
+	mousePos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
+
+	for (std::list<Unit*>::iterator it = playerGroup->groupUnits_list.begin(); it != playerGroup->groupUnits_list.end(); it = next(it))
+	{
+		if ((*it)->IsDead() == false)
+		{
+			(*it)->StartPatrol(mousePos);
+		}
+	}
+}
 
 void Player::entitiesSelection()
 {
@@ -140,4 +289,3 @@ void Player::entitiesSelection()
 		myApp->groups->CreateGroupForPlayer();
 	}
 }
-

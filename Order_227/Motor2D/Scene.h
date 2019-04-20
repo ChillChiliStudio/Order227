@@ -11,7 +11,7 @@
 
 struct SDL_Texture;
 
-class Scene : public Module
+class Scene : public Module	// TODO: Change class name to Recycle Bin, as it is what everyone uses it for
 {
 
 public:
@@ -52,9 +52,6 @@ private:
 	int roundNumber = 0;
 
 	pugi::xml_document SP_Doc;
-
-	SDL_Texture* debug_tex = nullptr;
-
 };
 
 #endif // SCENE_H
