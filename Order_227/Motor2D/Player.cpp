@@ -158,7 +158,7 @@ void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: 
 void Player::DebugOrders()
 {
 	if (myApp->groups->playerGroup.groupUnits.size() > 0) {
-		if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_REPEAT) {	// Mantain a NumKey (1-5) for Order type
+		if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {	// Mantain a NumKey (1-5) for Order type
 			DebugOrderHold();
 		}
 		else if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN) { // Press RightMouseButton to mark destination
