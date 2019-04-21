@@ -30,7 +30,7 @@ _TTF_Font* Text::GetFont() const
 SDL_Texture* Text::LoadTexture(const char* string, SDL_Color color, _TTF_Font* font)
 {
 	SDL_Rect tmp = { 0, 0, 0, 0 };
-	content.append(string);
+	content = string;
 	graphics = myApp->fonts->Print(string, color, font);
 	return graphics;
 }
@@ -42,7 +42,7 @@ SDL_Rect Text::ChangeText(const char* string, SDL_Color color, _TTF_Font* font)
 		graphics = nullptr;
 	}
 
-	content.append(string);
+	content = string;
 	graphics = myApp->fonts->Print(string, color, font);
 	myApp->tex->GetSize(graphics, (uint&)this->sprite->w, (uint&)this->sprite->h);
 	return *sprite;
@@ -50,15 +50,7 @@ SDL_Rect Text::ChangeText(const char* string, SDL_Color color, _TTF_Font* font)
 
 SDL_Rect Text::ChangeText(std::string string, SDL_Color color, _TTF_Font* font)
 {
-	if (graphics != nullptr) {
-		myApp->tex->UnLoad(graphics);
-		graphics = nullptr;
-	}
-
-	content = string;
-	graphics = myApp->fonts->Print(string.c_str(), color, font);
-	myApp->tex->GetSize(graphics, (uint&)this->sprite->w, (uint&)this->sprite->h);
-	return *sprite;
+	return ChangeText(string.c_str(), color, font);
 }
 
 SDL_Rect Text::ChangeContent(const char* string)
@@ -68,7 +60,7 @@ SDL_Rect Text::ChangeContent(const char* string)
 		graphics = nullptr;
 	}
 
-	content.append(string);
+	content = string;
 	graphics = myApp->fonts->Print(string, color, font);
 	myApp->tex->GetSize(graphics, (uint&)this->sprite->w, (uint&)this->sprite->h);
 	return *sprite;
@@ -76,15 +68,7 @@ SDL_Rect Text::ChangeContent(const char* string)
 
 SDL_Rect Text::ChangeContent(std::string string)
 {
-	if (graphics != nullptr) {
-		myApp->tex->UnLoad(graphics);
-		graphics = nullptr;
-	}
-
-	content.append(string);
-	graphics = myApp->fonts->Print(string.c_str(), color, font);
-	myApp->tex->GetSize(graphics, (uint&)this->sprite->w, (uint&)this->sprite->h);
-	return *sprite;
+	return ChangeContent(string.c_str());
 }
 
 SDL_Rect Text::ChangeColor(SDL_Color color)

@@ -24,7 +24,8 @@ bool Unit::Start()
 bool Unit::Update(float dt)
 {
 	UnitWorkflow(dt);
-	currentAnimation = &myApp->entities->animationArray[int(infatryType)][int(unitState)][int(unitDirection)];
+	unitDirection = CheckDirection();
+	currentAnimation = &myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)];
 
 	UnitRect.x = position.x;
 	UnitRect.y = position.y;
@@ -167,6 +168,41 @@ void Unit::UnitWorkflow(float dt)
 	if (prevState != unitState) {
 		ApplyState();
 	}
+}
+
+unit_directions Unit::CheckDirection()
+{
+	unit_directions ret;
+
+	stats.vecAngle = stats.vecSpeed.GetAngle({ 0.0f, -1.0f });
+	stats.vecAngle = RadsToDeg(stats.vecAngle);
+
+	if (stats.vecAngle > 337.5f || stats.vecAngle <= 22.5f) {
+		ret = unit_directions::NORTH;
+	}
+	else if (stats.vecAngle > 292.5f) {
+		ret = unit_directions::NORTH_EAST;
+	}
+	else if (stats.vecAngle > 247.5f) {
+		ret = unit_directions::EAST;
+	}
+	else if (stats.vecAngle > 202.5f) {
+		ret = unit_directions::SOUTH_EAST;
+	}
+	else if (stats.vecAngle > 157.5f) {
+		ret = unit_directions::SOUTH;
+	}
+	else if (stats.vecAngle > 112.5f) {
+		ret = unit_directions::SOUTH_WEST;
+	}
+	else if (stats.vecAngle > 67.5f) {
+		ret = unit_directions::WEST;
+	}
+	else if (stats.vecAngle > 22.5f) {
+		ret = unit_directions::NORTH_WEST;
+	}
+
+	return ret;
 }
 
 // Change animation according to state
@@ -447,7 +483,7 @@ Unit* Unit::EnemyInRange()
 	Unit* ret = nullptr;
 
 	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {	//TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units, one for each side
-		if (hostileUnits[i]->active == true) {
+		if (hostileUnits[i]->active == true && hostileUnits[i]->IsDead() == false) {
 
 			if (InsideSquareRadius(position, (float)stats.attackRange, hostileUnits[i]->position)
 				&& InsideRadius(position, (float)stats.attackRange, hostileUnits[i]->position))
