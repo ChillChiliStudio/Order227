@@ -91,8 +91,10 @@ bool Entity_Manager::Start()
 			buildingsArray[i] = newBuilding;
 
 		}
-		else
+		else {
 			myApp->entities->ActivateBuilding(buildingsArray[i]->position, building_type::MAIN_BASE, entity_faction::COMMUNIST);
+			mainBase = buildingsArray[i];
+		}
 
 
 		entitiesArray[entityIterator++] = (Entity*)buildingsArray[i];
@@ -104,6 +106,7 @@ bool Entity_Manager::Start()
 
 		CommunistUnitsArray[i]->hostileUnits = CapitalistUnitsArray;
 		CapitalistUnitsArray[i]->hostileUnits = CommunistUnitsArray;
+		CapitalistUnitsArray[i]->hostileBuildings = buildingsArray;
 	}
 
 	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)

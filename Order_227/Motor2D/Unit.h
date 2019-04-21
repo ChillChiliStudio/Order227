@@ -7,6 +7,8 @@
 #include "Pathfinding.h"
 #include "Animation.h"
 
+class Building;
+
 enum class infantry_type {	// TODO: This should be a single enum with ALL units saved on it, NO ramifications
 
 	INFANTRY_NONE = -1,
@@ -130,7 +132,7 @@ public:
 	void SetupPath();
 	fVec2 SetupVecSpeed();
 	Unit* EnemyInRange();
-	bool  TargetInRange();
+	bool TargetInRange();
 
 public:
 
@@ -148,6 +150,7 @@ public:
 	std::vector<iPoint>::iterator currNode;
 
 	Unit** hostileUnits = nullptr;
+	Building** hostileBuildings = nullptr;
 	Unit* target = nullptr;
 	bool targetLost;	// Used when there's a specific target to Search & Destroy which sight of can be lost
 

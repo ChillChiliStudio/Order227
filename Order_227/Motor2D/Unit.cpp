@@ -35,6 +35,9 @@ bool Unit::Update(float dt)
 		active = false;	//TODO: Can't use "deactivate" because it only works with Infantry classes
 	}
 	else {
+		if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
+			DrawPath();
+		}
 
 		CheckInCamera = { (int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
 
@@ -42,6 +45,10 @@ bool Unit::Update(float dt)
 
 			UpdateBlitOrder();
 			Draw(dt);
+
+			if (selected) {	//TODO: This should be as a debug functionality, but for now it'll do
+				myApp->render->DrawQuad(UnitRect, 0, 255, 0, 255, false);
+			}
 
 			if (myApp->entities->entitiesDebugDraw) {
 				DebugDraw();
@@ -93,15 +100,12 @@ bool Unit::Draw(float dt)
 
 bool Unit::DebugDraw()
 {
-	if (selected) {
+	/*if (selected) {
 		myApp->render->DrawQuad(UnitRect, 0, 255, 0, 255, false);
 	}
-	else {
+	else {*/
+	if (selected == false) {
 		myApp->render->DrawQuad(UnitRect, 255, 0, 0, 255, false);
-	}
-
-	if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
-		DrawPath();
 	}
 
 	return true;
@@ -109,11 +113,25 @@ bool Unit::DebugDraw()
 
 void Unit::DrawPath()
 {
-	myApp->render->DrawLine((int)position.x, (int)position.y, (*currNode).x, (*currNode).y, 255, 0, 255, 255, true);
+	Uint8 rgb[3] = { 0, 0, 0 };
+
+	switch (faction) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+	case entity_faction::COMMUNIST:
+		rgb[1] = 255;	//Green
+		break;
+	case entity_faction::CAPITALIST:
+		rgb[0] = 255;	//Red
+		break;
+	case entity_faction::NEUTRAL:
+		rgb[2] = 255;	//Blue
+		break;
+	}
+
+	myApp->render->DrawLine((int)position.x, (int)position.y, (*currNode).x, (*currNode).y, rgb[0], rgb[1], rgb[2], 255, true);
 
 	if (unitPath.size() > 1) {
 		for (std::vector<iPoint>::iterator it = currNode; next(it) != unitPath.end(); it = next(it)) {
-			myApp->render->DrawLine((*it).x, (*it).y, (*next(it)).x, (*next(it)).y, 255, 0, 255, 255, true);
+			myApp->render->DrawLine((*it).x, (*it).y, (*next(it)).x, (*next(it)).y, rgb[0], rgb[1], rgb[2], 255, true);
 		}
 	}
 }
@@ -430,15 +448,44 @@ Unit* Unit::EnemyInRange()
 
 	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {	//TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units, one for each side
 		if (hostileUnits[i]->active == true) {
-			if (InsideSquareRadius(position, (float)stats.attackRange, hostileUnits[i]->position) == false) {
-				continue;
+
+			if (InsideSquareRadius(position, (float)stats.attackRange, hostileUnits[i]->position)
+				&& InsideRadius(position, (float)stats.attackRange, hostileUnits[i]->position))
+			{
+				ret = hostileUnits[i];
+				break;
 			}
-			else {
-				if (InsideRadius(position, (float)stats.attackRange, hostileUnits[i]->position) == true) {
-					ret = hostileUnits[i];
-					break;
+		}
+	}
+
+	// TODO: Capitalist should iterate an "attackable buildings" list
+	/*if (ret == nullptr && hostileBuildings != nullptr) {
+		for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i) {	//TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units, one for each side
+			if (hostileUnits[i]->active == true) {
+				if (InsideSquareRadius(position, (float)stats.attackRange, hostileUnits[i]->position) == false) {
+					continue;
+				}
+				else {
+					if (InsideRadius(position, (float)stats.attackRange, hostileUnits[i]->position) == true) {
+						ret = hostileUnits[i];
+						break;
+					}
 				}
 			}
+		}
+	}*/
+
+	if (ret == nullptr && faction == entity_faction::CAPITALIST) {	//TODO: Hardcoded bullshit, building should be generic, subclasses called "StrategicPoint", "MainBase", "Turret", etc
+		if (InsideSquareRadius(position, (float)stats.attackRange, myApp->entities->mainBase->position)
+			&& InsideRadius(position, (float)stats.attackRange, myApp->entities->mainBase->position))
+		{
+			myApp->entities->mainBase->health -= (float)stats.damage * myApp->GetDT();
+			
+			if (myApp->entities->mainBase->health < 0) {
+				//TODO: Lose flag
+			}
+			
+			unitState = unit_state::ATTACKING;
 		}
 	}
 
