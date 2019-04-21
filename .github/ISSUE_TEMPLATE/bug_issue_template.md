@@ -29,7 +29,6 @@ Select the severity of bug affection and mark with "x" ([x])
 
 
 **Reproduction**
-
 Steps to reproduce the behavior:
 
  1. 
@@ -37,19 +36,21 @@ Steps to reproduce the behavior:
  2.
  
  3. 
-...
 
 ## Frequency
 Select the frequency with which the bug appears and mark it "x" ([x])
 
+* [ ] Always
 * [ ] Very Often
 * [ ] Usually
-* [ ] Few Time
-* [ ] Few times under specific conditions
+* [ ] Few Times
+* [ ] Few Times under specific conditions
 
 ## Conduct 
-- **Expected result:**
--  **Actual result:**
+### **Expected result:**
+
+### **Actual result:**
+
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
@@ -58,5 +59,5 @@ If applicable, add screenshots to help explain your problem.
 - **Please specify the build:** ``Insert the build here ``
 
 
-**Additional context**
+## Observations
 Add any other context about the problem here.

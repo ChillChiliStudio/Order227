@@ -684,12 +684,9 @@ void Map::PlaceGameObjects() {
 					myApp->entities->buildingsArray[i] = newBuilding;
 					i++;
 				}
-		
 			}
 		}
 	}
-	
-
 }
 
 iPoint Map::PointToTile(int x, int y) {
