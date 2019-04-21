@@ -50,7 +50,7 @@ SDL_Rect Text::ChangeText(const char* string, SDL_Color color, _TTF_Font* font)
 
 SDL_Rect Text::ChangeText(std::string string, SDL_Color color, _TTF_Font* font)
 {
-	ChangeText(string.c_str(), color, font);
+	return ChangeText(string.c_str(), color, font);
 }
 
 SDL_Rect Text::ChangeContent(const char* string)
@@ -68,7 +68,7 @@ SDL_Rect Text::ChangeContent(const char* string)
 
 SDL_Rect Text::ChangeContent(std::string string)
 {
-	ChangeContent(string.c_str());
+	return ChangeContent(string.c_str());
 }
 
 SDL_Rect Text::ChangeColor(SDL_Color color)
