@@ -99,3 +99,8 @@ void Group::TransmitOrders(unit_orders givenOrder)
 		break;
 	}
 }
+
+void Group::AddUnit(Unit* unit)
+{
+	groupUnits.push_back(unit);
+}

@@ -115,6 +115,9 @@
     <ClCompile Include="GroupManager.cpp">
       <Filter>Game Files\Entity Management\Group Management</Filter>
     </ClCompile>
+    <ClCompile Include="Horde_Manager.cpp">
+      <Filter>Game Files\Entity Management</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -251,6 +254,9 @@
     </ClInclude>
     <ClInclude Include="Group.h">
       <Filter>Game Files\Entity Management\Group Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Horde_Manager.h">
+      <Filter>Game Files\Entity Management</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

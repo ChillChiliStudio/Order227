@@ -21,6 +21,7 @@ class Entity_Manager;
 class User_Interface;
 class GroupManager;
 class Player;
+class Horde_Manager;
 
 class App
 {
@@ -90,6 +91,7 @@ public:
 	User_Interface*  	gui = nullptr;
 	GroupManager*       groups = nullptr;
 	Player*             player = nullptr;
+	Horde_Manager*		hordes = nullptr;
 
 	bool debugMode = false;
 	bool mustShutDown = false;

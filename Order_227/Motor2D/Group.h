@@ -32,6 +32,8 @@ public:
 	void SpreadDestinations(iPoint origDest);
 	void TransmitOrders(unit_orders givenOrder);
 
+	void AddUnit(Unit* unit);
+
 	group_type groupType = group_type::NONE;
 
 	/*std::queue<iPoint*> destinations_queue;*/
