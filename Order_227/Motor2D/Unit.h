@@ -7,7 +7,7 @@
 #include "Pathfinding.h"
 #include "Animation.h"
 
-enum class infantry_type {
+enum class infantry_type {	// TODO: This should be a single enum with ALL units saved on it, NO ramifications
 
 	INFANTRY_NONE = -1,
 	BASIC,
@@ -146,7 +146,7 @@ public:
 	Unit** hostileUnits = nullptr;
 	Unit* target = nullptr;
 	bool targetLost;	// Used when there's a specific target to Search & Destroy which sight of can be lost
-	
+
 	infantry_type infatryType;
 	unit_stats stats;
 	SDL_Rect selectionRect = { 0, 0, 0, 0 };

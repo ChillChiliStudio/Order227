@@ -94,7 +94,7 @@ bool User_Interface::Draw()
 		}
 	}
 
-	if (mustDebugDraw) {
+	if (interfaceDebugDraw) {
 		for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); iter = next(iter)) {
 			if ((*iter)->active == true && (*iter)->GetParent() == NULL) {	// All elements must have debug blitting AFTER standard blitting, no "blitting layers"
 				ret = (*iter)->DebugDraw();

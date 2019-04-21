@@ -13,7 +13,7 @@ public:
 	Infantry(fPoint pos, infantry_type type, entity_faction faction = entity_faction::NEUTRAL);
 	~Infantry() {}
 
-	bool Move(float dt);
+	//bool Move(float dt);
 	bool Draw();
 
 public:

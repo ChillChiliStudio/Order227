@@ -23,9 +23,11 @@ bool Unit::Start()
 
 bool Unit::Update(float dt)
 {
-
 	UnitWorkflow(dt);
 	currentAnimation = &myApp->entities->animationArray[int(infatryType)][int(unitState)][int(unitDirection)];
+
+	UnitRect.x = position.x;
+	UnitRect.y = position.y;
 
 	if (mustDespawn) {
 
@@ -42,9 +44,18 @@ bool Unit::Update(float dt)
 			myApp->render->Push(order, texture, position.x, position.y, &currentAnimation->GetCurrentFrame(dt));
 		}
 
-		if (selected) 
-			myApp->render->DrawQuad(UnitBlitRect, 255, 0, 0, 255, false);
-		
+		if (selected)
+			myApp->render->DrawQuad(UnitRect, 255, 0, 0, 255, false);
+
+		if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
+				myApp->render->DrawLine((int)position.x, (int)position.y, (*currNode).x, (*currNode).y, 255, 0, 0, 255, true);
+
+				if (unitPath.size() > 1) {
+					for (std::vector<iPoint>::iterator it = currNode; next(it) != unitPath.end(); it = next(it)) {
+						myApp->render->DrawLine((*it).x, (*it).y, (*next(it)).x, (*next(it)).y, 255, 0, 0, 255, true);
+					}
+				}
+		}
 	}
 
 	return true;
