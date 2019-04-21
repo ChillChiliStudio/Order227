@@ -51,6 +51,9 @@ Entity_Manager::Entity_Manager()
 		entitiesArray[entitiesIterator++] = staticObjectsArray[i];
 	}
 
+	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
+		buildingsArray[i] = nullptr;
+
 }
 
 Entity_Manager::~Entity_Manager()
