@@ -66,21 +66,24 @@ bool Scene::Update(float dt)
 		ChooseSpawningPoints();
 
 	//Spawn Point Draw
-	if (myApp->map->mapDebugDraw) {	// TODO: This shouldn't be hereeeee
-		for (int i = 0; i < SpawningPoints_Array.size(); i++) {
+	if (myApp->map->mapDebugDraw)	// TODO: This shouldn't be hereeeee
+		for (int i = 0; i < SpawningPoints_Array.size(); i++) 
 			myApp->render->Blit(myApp->map->debug_tex, SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
-		}
-	}
+		
 
 	//	myApp->render->DrawQuad(SpawningPoints_Array[i]->SP_Rect, 255, 100, 100);
+	for (int i = 0; i < SpawningPoints_Array.size(); i++) {
 
-	//	if (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0 && SpawningPoints_Array[i]->SpawnTime.Read() > 500) {
+		if (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0 && SpawningPoints_Array[i]->SpawnTime.Read() > 500) {
 
-	//		fPoint SP_Pos = fPoint(SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
-	//		SpawningPoints_Array[i]->SpawnTime.Start();
+					fPoint SP_Pos = fPoint(SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
+					SpawningPoints_Array[i]->SpawnTime.Start();
 
-	//		myApp->entities->CreateUnit(unit_type::INFANTRY, fPoint(SP_Pos), faction_enum::CAPITALIST);
-	//		SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
+					myApp->entities->ActivateInfantry(SP_Pos, infantry_type::BASIC, entity_faction::CAPITALIST);
+					SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
+
+		}
+	}
 
 	myApp->gui->Draw();
 	return true;
