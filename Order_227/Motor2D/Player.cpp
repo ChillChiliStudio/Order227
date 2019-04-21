@@ -131,24 +131,23 @@ void Player::DebugInputs()
 			myApp->map->mapDebugDraw = !myApp->map->mapDebugDraw;
 
 			if (myApp->map->mapDebugDraw) {
-				mouseDebugMark->Activate();
 				LOG("Debug Map: ON");
 			}
 			else {
-				mouseDebugMark->Deactivate();
 				LOG("Debug Map: OFF");
 			}
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {	// Toggle UI debug draw
 			myApp->gui->interfaceDebugDraw = !myApp->gui->interfaceDebugDraw;
-			mouseDebugMark->active = true;
 
 			if (myApp->gui->interfaceDebugDraw) {
 				LOG("Debug UI: ON");
+				mouseDebugMark->Activate();
 			}
 			else {
 				LOG("Debug UI: OFF");
+				mouseDebugMark->Deactivate();
 			}
 		}
 
