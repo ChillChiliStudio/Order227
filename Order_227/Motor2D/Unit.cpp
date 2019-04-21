@@ -32,7 +32,7 @@ bool Unit::Update(float dt)
 	if (mustDespawn) {
 
 		mustDespawn = false;
-		active = false;	//TODO: Can't use "deactivate" because it only works with Infantry classes
+		myApp->entities->DeActivateInfantry(this);	//TODO: Can't use "deactivate" because it only works with Infantry classes
 	}
 	else {
 		if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {

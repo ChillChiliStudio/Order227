@@ -43,7 +43,7 @@ public:
 
 	bool DeActivateObject(Static_Object* Object);
 	bool DeActivateBuilding(Building* Building);
-	bool DeActivateInfantry(Infantry* Infantry);
+	bool DeActivateInfantry(Unit* Infantry);
 
 	void DestroyEntity(Entity *Entity) {}
 

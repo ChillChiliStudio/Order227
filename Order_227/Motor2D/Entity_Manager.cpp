@@ -233,10 +233,11 @@ bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTyp
 			if (CommunistInfantryArray[i]->active == false)
 			{
 
-				CommunistInfantryArray[i]->position = position;
-				CommunistInfantryArray[i]->texture = infantryTextures[int(infantryType)];
-				CommunistInfantryArray[i]->stats = infantryStats[int(infantryType)];
-				CommunistInfantryArray[i]->active = true;
+				CommunistUnitsArray[i]->position = position;
+				CommunistUnitsArray[i]->texture = infantryTextures[int(infantryType)];
+				CommunistUnitsArray[i]->stats = infantryStats[int(infantryType)];
+				CommunistUnitsArray[i]->active = true;
+				CommunistUnitsArray[i]->selected = false;
 				CommunistUnitsArray[i]->infatryType = infantryType;
 				//CommunistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
@@ -254,10 +255,11 @@ bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTyp
 			if (CapitalistInfantryArray[i]->active == false)
 			{
 
-				CapitalistInfantryArray[i]->position = position;
-				CapitalistInfantryArray[i]->texture = infantryTextures[int(infantryType)];
-				CapitalistInfantryArray[i]->stats = infantryStats[int(infantryType)];
-				CapitalistInfantryArray[i]->active = true;
+				CapitalistUnitsArray[i]->position = position;
+				CapitalistUnitsArray[i]->texture = infantryTextures[int(infantryType)];
+				CapitalistUnitsArray[i]->stats = infantryStats[int(infantryType)];
+				CapitalistUnitsArray[i]->active = true;
+				CapitalistUnitsArray[i]->selected = false;
 				CapitalistUnitsArray[i]->infatryType = infantryType;
 				//CapitalistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
@@ -312,21 +314,22 @@ bool Entity_Manager::ActivateObject(fPoint position, object_type objectType)
 }
 
 
-bool Entity_Manager::DeActivateInfantry(Infantry* infantry)
+bool Entity_Manager::DeActivateInfantry(Unit* infantry)
 {
 
 	if (infantry->faction == entity_faction::COMMUNIST) {
 
 		for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
 
-			if (CommunistInfantryArray[i] == infantry) {
+			if (CommunistUnitsArray[i] == infantry) {
 
-				CommunistInfantryArray[i]->position = fPoint(0.0f, 0.0f);
-				CommunistInfantryArray[i]->texture = nullptr;
-				CommunistInfantryArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
-				CommunistInfantryArray[i]->active = false;
+				CommunistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 				//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
 				CommunistUnitsArray[i]->infatryType = infantry_type::INFANTRY_NONE;
+				CommunistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
+				CommunistUnitsArray[i]->texture = nullptr;
+				CommunistUnitsArray[i]->active = false;
+				CommunistUnitsArray[i]->selected = false;
 				//To implement:: Update animations
 
 				return true;
@@ -334,19 +337,20 @@ bool Entity_Manager::DeActivateInfantry(Infantry* infantry)
 		}
 	}
 
-	//Enemy troops
+	////Enemy troops
 	else if (infantry->faction == entity_faction::CAPITALIST) {
 
 		for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
 
-			if (CapitalistInfantryArray[i]->active == false) {
+			if (CapitalistUnitsArray[i] == infantry) {
 
-				CapitalistInfantryArray[i]->position = fPoint(0.0f, 0.0f);
-				CapitalistInfantryArray[i]->texture = nullptr;
-				CapitalistInfantryArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
-				CapitalistInfantryArray[i]->active = false;
-				//CapitalistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+				CapitalistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
+				//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
 				CapitalistUnitsArray[i]->infatryType = infantry_type::INFANTRY_NONE;
+				CapitalistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
+				CapitalistUnitsArray[i]->texture = nullptr;
+				CapitalistUnitsArray[i]->active = false;
+				CapitalistUnitsArray[i]->selected = false;
 				//To implement:: Update animations
 
 				return true;
