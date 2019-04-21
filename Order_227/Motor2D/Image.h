@@ -41,8 +41,8 @@ public:
 
 	virtual fPoint RelocateCenterByPos();
 	virtual fPoint RelocatePosByCenter();
-	virtual fPoint MatchPosition(fPoint reference) override;
-	virtual fPoint MatchCenter(fPoint reference) override;
+	virtual fPoint ChangePosition(fPoint reference) override;
+	virtual fPoint ChangeCenter(fPoint reference) override;
 
 	virtual bool MouseOnImage();
 

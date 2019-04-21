@@ -10,6 +10,7 @@
 #include "PathFinding.h"
 #include "Entity_Manager.h"
 #include "UserInterface.h"
+#include "Text.h"
 #include "ButtonActions.h"
 #include "ParamBox.h"
 #include "GroupManager.h"
@@ -32,6 +33,8 @@ bool Player::Start()
 {
 	LOG("STARTING PLAYER MODULE");
 
+	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "", font_id::DEFAULT, { 0, 0, 255, 255 });
+
 	return true;
 }
 
@@ -42,17 +45,32 @@ bool Player::PreUpdate()
 
 bool Player::Update(float dt)
 {
-	CameraInputs(dt);
-	DebugInputs();
+	UpdateMousePos();	// Mouse Position Update
+	CameraInputs(dt);	// Camera Inputs
+	DebugInputs();		// Debug Inputs
 
-	PlayerSelect();
+	PlayerSelect();		// Player Area Selection Management
+
+	if (myApp->gui->interfaceDebugDraw) {
+		DebugMouse();	// Mouse UI Debug data update
+	}
 
 	return true;
 }
 
 bool Player::CleanUp()
 {
+	myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
+	mouseDebugMark = nullptr;
+
 	return true;
+}
+
+void Player::UpdateMousePos()
+{
+	myApp->input->GetMousePosition(mouseScreenPos.x, mouseScreenPos.y);
+	mousePos = myApp->render->ScreenToWorld(mouseScreenPos.x, mouseScreenPos.y);
+	mouseMap = myApp->map->WorldToMap(mousePos.x, mousePos.y);
 }
 
 void Player::CameraInputs(float dt)
@@ -69,6 +87,26 @@ void Player::CameraInputs(float dt)
 
 	if (myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		myApp->render->camera.x -= ceil(500 * dt);
+}
+
+void Player::DebugMouse()
+{
+	std::string mouseStr = std::to_string(mouseScreenPos.x);
+	mouseStr += " x ";
+	mouseStr += std::to_string(mouseScreenPos.y);
+	mouseStr += " / ";
+
+	mouseStr += std::to_string(mousePos.x);
+	mouseStr += " x ";
+	mouseStr += std::to_string(mousePos.y);
+	mouseStr += " / ";
+
+	mouseStr += std::to_string(mouseMap.x);
+	mouseStr += " x ";
+	mouseStr += std::to_string(mouseMap.y);
+
+	mouseDebugMark->ChangeCenter({ (float)mouseScreenPos.x, (float)(mouseScreenPos.y - 25) });
+	mouseDebugMark->ChangeContent(mouseStr);
 }
 
 void Player::DebugInputs()
@@ -93,15 +131,18 @@ void Player::DebugInputs()
 			myApp->map->mapDebugDraw = !myApp->map->mapDebugDraw;
 
 			if (myApp->map->mapDebugDraw) {
+				mouseDebugMark->Activate();
 				LOG("Debug Map: ON");
 			}
 			else {
+				mouseDebugMark->Deactivate();
 				LOG("Debug Map: OFF");
 			}
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {	// Toggle UI debug draw
 			myApp->gui->interfaceDebugDraw = !myApp->gui->interfaceDebugDraw;
+			mouseDebugMark->active = true;
 
 			if (myApp->gui->interfaceDebugDraw) {
 				LOG("Debug UI: ON");
@@ -149,9 +190,6 @@ void Player::DebugInputs()
 
 void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: This should work with unit_type alone, enum ramifications like infantry or vehicles unnecesary
 {
-	iPoint mousePos;
-	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
-	mousePos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
 	myApp->entities->ActivateInfantry(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
 }
 
@@ -191,19 +229,12 @@ void Player::DebugOrderHold()
 
 void Player::DebugOrderMove()
 {
-	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
-	myApp->render->ScreenToWorld(&mousePos.x, &mousePos.y);
-	
 	myApp->groups->playerGroup.SpreadDestinations(mousePos);
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE);
 }
 
 void Player::DebugOrderAttack()
 {
-	iPoint mousePos;
-	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
-	mousePos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
-
 	for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
 	{
 		if ((*it)->IsDead() == false)
@@ -215,35 +246,29 @@ void Player::DebugOrderAttack()
 
 void Player::DebugOrderMoveAndAttack()
 {
-	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
-	myApp->render->ScreenToWorld(&mousePos.x, &mousePos.y);
-
 	myApp->groups->playerGroup.SpreadDestinations(mousePos);
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE_AND_ATTACK);
 }
 
 void Player::DebugOrderPatrol()
 {
-	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
-	myApp->render->ScreenToWorld(&mousePos.x, &mousePos.y);
-
 	myApp->groups->playerGroup.SpreadDestinations(mousePos);
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::PATROL);
 }
 
 void Player::PlayerSelect()
 {
-	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
-	mouseScreenPos = myApp->render->ScreenToWorld(mousePos.x, mousePos.y);
-
-	rectangle_width = mouseScreenPos.x - rectangle_origin.x;
-	rectangle_height = mouseScreenPos.y - rectangle_origin.y;
-
 	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
 		StartSelect();
 	}
-	else if (std::abs(rectangle_width) > 5 && std::abs(rectangle_height) > 5 && myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {	// Process Selection Area	//TODO: Check if the first 2 conditions are necessary
-		ExpandSelect();
+	else if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {	// Process Selection Area	//TODO: Check if the first 2 conditions are necessary
+		
+		rectangle_width = mousePos.x - rectangle_origin.x;
+		rectangle_height = mousePos.y - rectangle_origin.y;
+
+		if (std::abs(rectangle_width) > 0 && std::abs(rectangle_height) > 0) {
+			ExpandSelect();
+		}
 	}
 	else if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP) {	// Create Group when Mouse is unpressed
 		FinishSelect();
@@ -252,15 +277,15 @@ void Player::PlayerSelect()
 
 void Player::StartSelect()
 {
-	rectangle_origin = mouseScreenPos;	// Set selection area Start Point
-	myApp->groups->SelectUnit(mouseScreenPos);	// Select any units on mouse click point
+	rectangle_origin = mousePos;	// Set selection area Start Point
+	myApp->groups->SelectUnit(mousePos);
 }
 
 void Player::ExpandSelect()
 {
 	// --- Rectangle size ---
-	int width = mouseScreenPos.x - rectangle_origin.x;
-	int height = mouseScreenPos.y - rectangle_origin.y;
+	int width = mousePos.x - rectangle_origin.x;
+	int height = mousePos.y - rectangle_origin.y;
 
 	// --- Draw Rectangle ---
 	SDL_Rect SRect = { rectangle_origin.x, rectangle_origin.y, width, height };
@@ -268,11 +293,11 @@ void Player::ExpandSelect()
 
 	// --- Once we get to the negative side of SRect numbers must be adjusted ---
 	if (width < 0) {
-		SRect.x = mouseScreenPos.x;
+		SRect.x = mousePos.x;
 		SRect.w *= -1;
 	}
 	if (height < 0) {
-		SRect.y = mouseScreenPos.y;
+		SRect.y = mousePos.y;
 		SRect.h *= -1;
 	}
 
