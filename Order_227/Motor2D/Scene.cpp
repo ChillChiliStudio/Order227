@@ -103,7 +103,7 @@ bool Scene::Update(float dt)
 
 	}
 
-	myApp->gui->Draw();
+
 	return true;
 }
 
@@ -123,6 +123,8 @@ bool Scene::PostUpdate()
 
 	if(myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
+
+	myApp->gui->Draw();
 
 	return ret;
 }

@@ -8,6 +8,7 @@
 #include "Fonts.h"
 #include "Input.h"
 #include "Scene.h"
+#include "Window.h"
 
 #include "UserInterface.h"
 #include "UIElement.h"
@@ -45,6 +46,19 @@ bool User_Interface::Start()
 	bool ret = true;
 
 	atlas = myApp->tex->Load(atlasFileName.c_str());
+	mainBar = myApp->tex->Load("ui/Principal_Down_Bar.png");
+
+	pauseMenuPanel_Tex= myApp->tex->Load("ui/Pause_Panel.png");;
+	selectorinGame_Tex = myApp->tex->Load("ui/inGame_selector_Units.png");
+
+	int height,width;
+	myApp->win->GetWindowSize((uint&)width, (uint&)height);
+
+	MainBarPanel = CreateImage(fPoint(width / 2, height - 87.5), SDL_Rect({0,0,1280,175}),mainBar);
+	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2-100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex);
+
+	frameSelector = CreateImage(fPoint(width / 11, height - 140), SDL_Rect({ 0,0,120,38 }), selectorinGame_Tex);
+
 
 	return ret;
 }

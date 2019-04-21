@@ -82,6 +82,18 @@ public:
 private:
 	std::list<UI_Element*> screenElements;
 
+
+	UI_Element* MainBarPanel;
+	UI_Element* pauseMenuPanel;
+	UI_Element* selectorInfantry;
+	UI_Element* selectorDefenses;
+	UI_Element* selectorTank;
+	UI_Element* frameSelector;
+
+
+	SDL_Texture* selectorinGame_Tex;
+	SDL_Texture* pauseMenuPanel_Tex;
+	SDL_Texture* mainBar;
 	SDL_Texture* atlas;
 	std::string atlasFileName;
 };
