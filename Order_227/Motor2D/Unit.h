@@ -84,9 +84,13 @@ public:
 	bool Start() override;
 	bool Update(float dt) override;
 	void UpdateBlitOrder() override;
-	bool Draw();
+	bool Draw(float dt);
 
 public:
+
+	// Debug Tools
+	bool DebugDraw();
+	void DrawPath();
 
 	// Main Workflow
 	void UnitWorkflow(float dt);	// State workflow depending on order issued

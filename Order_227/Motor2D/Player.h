@@ -2,14 +2,17 @@
 #define PLAYER_H_
 
 #include "Module.h"
-#include <vector>
-#include <ctime>
 #include "Point.h"
-#include "SDL/include/SDL.h"
+
+//#include <vector>
+//#include <ctime>
+//#include "Point.h"
+//#include "SDL/include/SDL.h"
 
 enum class infantry_type;
 enum class entity_faction;
 enum class unit_orders;
+class Text;
 
 class Player : public Module {
 public:
@@ -24,11 +27,13 @@ public:
 	bool Update(float dt) override;
 	bool CleanUp() override;
 
+	void UpdateMousePos();
 	void CameraInputs(float dt);
+	void DebugMouse();
 	void DebugInputs();
-	void DebugOrders();
 	void DebugSpawnUnit(infantry_type type, entity_faction faction);
 
+	void DebugOrders();
 	void DebugOrderHold();
 	void DebugOrderMove();
 	void DebugOrderAttack();
@@ -54,8 +59,9 @@ public:
 
 	iPoint mousePos;
 	iPoint mouseScreenPos;
+	iPoint mouseMap;
 
-	iPoint mouseClickPos;
+	Text* mouseDebugMark;
 
 	iPoint origin;
 

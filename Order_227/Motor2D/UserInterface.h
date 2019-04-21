@@ -10,6 +10,8 @@ enum class font_id;
 class UI_Element;
 class Image;
 class Text;
+class Void_Box;
+class Check_Box;
 //class Window;
 struct _TTF_Font;
 struct SDL_Rect;
@@ -52,16 +54,17 @@ public:
 	void DestroyElement(UI_Element* element);
 	std::list<UI_Element*>::iterator DestroyElement(std::list<UI_Element*>::iterator iter);
 
-	UI_Element* CreateImage(fPoint center, SDL_Rect texRect = { 0, 0, 0, 0 }, SDL_Texture* tex = NULL, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
-	UI_Element* CreateText(fPoint center, const char* content, font_id id, SDL_Color color = { 255, 255, 255, 255 }, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
+	//TODO: Factories should return their specific class type
+	Image* CreateImage(fPoint center, SDL_Rect texRect = { 0, 0, 0, 0 }, SDL_Texture* tex = NULL, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
+	Text* CreateText(fPoint center, const char* content, font_id id, SDL_Color color = { 255, 255, 255, 255 }, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
 	//UI_Element* CreateInputText();
-	UI_Element* CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL);
-	UI_Element* CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
+	Void_Box* CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL);
+	Check_Box* CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
 
 	template <class T_param>
 	UI_Element* CreateParamBox(void(*action)(T_param), T_param parameter, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL)
 	{
-		UI_Element* ret = nullptr;
+		Param_Box<T_param>* ret = nullptr;
 
 		if (tex == NULL) {
 			tex = GetAtlas();
@@ -70,7 +73,7 @@ public:
 		ret = GenerateParamBox<T_param>(action, parameter, center, spriteList, tex, parent);
 		AddElement(ret);
 
-		return ret;
+		return (UI_Element*)ret;
 	}
 
 	//Window* CreateWindowPanel(fPoint center, p2List<Image*> children, SDL_Rect* texRect = NULL, SDL_Texture* tex = NULL, Text* label = NULL, UI_Element* parent = NULL);

@@ -38,23 +38,14 @@ bool Unit::Update(float dt)
 
 		CheckInCamera = { (int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
 
-		if (myApp->render->InsideCamera(CheckInCamera) == true) {
+		if (myApp->render->InsideCamera(CheckInCamera) == true) {	// If inside camera
 
 			UpdateBlitOrder();
-			myApp->render->Push(order, texture, position.x, position.y, &currentAnimation->GetCurrentFrame(dt));
-		}
+			Draw(dt);
 
-		if (selected)
-			myApp->render->DrawQuad(UnitRect, 255, 0, 0, 255, false);
-
-		if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
-				myApp->render->DrawLine((int)position.x, (int)position.y, (*currNode).x, (*currNode).y, 255, 0, 0, 255, true);
-
-				if (unitPath.size() > 1) {
-					for (std::vector<iPoint>::iterator it = currNode; next(it) != unitPath.end(); it = next(it)) {
-						myApp->render->DrawLine((*it).x, (*it).y, (*next(it)).x, (*next(it)).y, 255, 0, 0, 255, true);
-					}
-				}
+			if (myApp->entities->entitiesDebugDraw) {
+				DebugDraw();
+			}
 		}
 	}
 
@@ -93,9 +84,38 @@ void Unit::UpdateBlitOrder()
 
 }
 
-bool Unit::Draw()
+bool Unit::Draw(float dt)
 {
+	myApp->render->Push(order, texture, position.x, position.y, &currentAnimation->GetCurrentFrame(dt));
+
 	return true;
+}
+
+bool Unit::DebugDraw()
+{
+	if (selected) {
+		myApp->render->DrawQuad(UnitRect, 0, 255, 0, 255, false);
+	}
+	else {
+		myApp->render->DrawQuad(UnitRect, 255, 0, 0, 255, false);
+	}
+
+	if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
+		DrawPath();
+	}
+
+	return true;
+}
+
+void Unit::DrawPath()
+{
+	myApp->render->DrawLine((int)position.x, (int)position.y, (*currNode).x, (*currNode).y, 255, 0, 255, 255, true);
+
+	if (unitPath.size() > 1) {
+		for (std::vector<iPoint>::iterator it = currNode; next(it) != unitPath.end(); it = next(it)) {
+			myApp->render->DrawLine((*it).x, (*it).y, (*next(it)).x, (*next(it)).y, 255, 0, 255, 255, true);
+		}
+	}
 }
 
 // Main workflow

@@ -167,7 +167,7 @@ void User_Interface::DestroyElement(UI_Element* element)	// Deletion by list con
 }
 
 //Factories
-UI_Element* User_Interface::CreateImage(fPoint center, SDL_Rect texRect, SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
+Image* User_Interface::CreateImage(fPoint center, SDL_Rect texRect, SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
 {
 	Image* ret = nullptr;
 
@@ -183,10 +183,10 @@ UI_Element* User_Interface::CreateImage(fPoint center, SDL_Rect texRect, SDL_Tex
 	ret = new Image(ui_type::IMAGE, center, texRect, tex, dynamic, parent, children);
 	AddElement((UI_Element*)ret);
 
-	return (UI_Element*)ret;
+	return ret;
 }
 
-UI_Element* User_Interface::CreateText(fPoint center, const char* content, font_id id, SDL_Color color, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
+Text* User_Interface::CreateText(fPoint center, const char* content, font_id id, SDL_Color color, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
 {
 	Text* ret = nullptr;
 	_TTF_Font* tmpFont;
@@ -201,10 +201,10 @@ UI_Element* User_Interface::CreateText(fPoint center, const char* content, font_
 	ret = new Text(content, color, tmpFont, center, dynamic, parent, children);
 	AddElement((UI_Element*)ret);
 
-	return (UI_Element*)ret;
+	return ret;
 }
 
-UI_Element* User_Interface::CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent)
+Void_Box* User_Interface::CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent)
 {
 	Void_Box* ret = nullptr;
 	
@@ -215,10 +215,10 @@ UI_Element* User_Interface::CreateVoidBox(void(*action)(void), fPoint center, SD
 	ret = new Void_Box(action, center, spriteList, tex, parent);
 	AddElement(ret);
 
-	return (UI_Element*)ret;
+	return ret;
 }
 
-UI_Element* User_Interface::CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, void(*action)(void), UI_Element* parent)
+Check_Box* User_Interface::CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, void(*action)(void), UI_Element* parent)
 {
 	Check_Box* ret = nullptr;
 
@@ -229,7 +229,7 @@ UI_Element* User_Interface::CreateCheckBox(bool* value, fPoint center, SDL_Rect 
 	ret = new Check_Box(value, action, center, spriteList, tex, parent);
 	AddElement(ret);
 
-	return (UI_Element*)ret;
+	return ret;
 }
 
 //UI_Element* User_Interface::CreateActionBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)

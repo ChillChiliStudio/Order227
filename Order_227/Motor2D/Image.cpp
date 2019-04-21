@@ -17,7 +17,7 @@ Image::Image(ui_type type, fPoint center, SDL_Rect sprite, SDL_Texture* tex, boo
 	RelocatePosByCenter();
 
 	if (parent != NULL && center.x == 0.0f && center.y == 0.0f) {
-		MatchCenter(parent->GetCenter());
+		ChangeCenter(parent->GetCenter());
 	}
 }
 
@@ -163,14 +163,14 @@ fPoint Image::RelocatePosByCenter()
 	return position;
 }
 
-fPoint Image::MatchPosition(fPoint reference)
+fPoint Image::ChangePosition(fPoint reference)
 {
 	position = reference;
 	RelocateCenterByPos();
 	return position;
 }
 
-fPoint Image::MatchCenter(fPoint reference)
+fPoint Image::ChangeCenter(fPoint reference)
 {
 	center = reference;
 	RelocatePosByCenter();
