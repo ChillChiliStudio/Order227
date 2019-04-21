@@ -53,13 +53,13 @@ fPoint UI_Element::GetCenter() const
 	return center;
 }
 
-fPoint UI_Element::MatchPosition(fPoint reference)
+fPoint UI_Element::ChangePosition(fPoint reference)
 {
 	position = reference;
 	return position;
 }
 
-fPoint UI_Element::MatchCenter(fPoint reference)
+fPoint UI_Element::ChangeCenter(fPoint reference)
 {
 	center = reference;
 	return center;

@@ -62,8 +62,8 @@ public:
 	virtual fPoint GetPosition() const;
 	virtual fPoint GetCenter() const;
 
-	virtual fPoint MatchPosition(fPoint reference);
-	virtual fPoint MatchCenter(fPoint reference);
+	virtual fPoint ChangePosition(fPoint reference);
+	virtual fPoint ChangeCenter(fPoint reference);
 
 	virtual void Activate();
 	virtual void Deactivate();

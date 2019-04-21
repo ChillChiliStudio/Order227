@@ -43,7 +43,7 @@ public:
 
 	bool DeActivateObject(Static_Object* Object);
 	bool DeActivateBuilding(Building* Building);
-	bool DeActivateInfantry(Infantry* Infantry);
+	bool DeActivateInfantry(Unit* Infantry);
 
 	void DestroyEntity(Entity *Entity) {}
 
@@ -64,8 +64,11 @@ public:
 
 	Building*		buildingsArray[BUILDINGS_ARRAY_SIZE];				//Bases
 
+	Building*		mainBase = nullptr;	//TODO: This is here because of the lack of lists, having an "attackable buildings" list to read for capitalist units would be better
 																//Animations Array
 	Animation		animationArray[1][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)];
+
+	bool entitiesDebugDraw = false;
 
 private:
 
@@ -80,7 +83,7 @@ private:
 	SDL_Texture*	infantryTextures[int(infantry_type::INFANTRY_MAX)];
 	SDL_Texture*	objectTextures[int(object_type::OBJECT_MAX)];
 
-
+	
 
 	//Unit stats
 	unit_stats		infantryStats[int(infantry_type::INFANTRY_MAX)];

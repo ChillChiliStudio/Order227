@@ -46,10 +46,6 @@ bool Scene::Start()
 		RELEASE_ARRAY(data);
 	}
 
-
-	//Debug Texture to show debug stuff
-	debug_tex = myApp->tex->Load("maps/path2.png");
-
 	return true;
 }
 
@@ -69,38 +65,24 @@ bool Scene::Update(float dt)
 	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 		ChooseSpawningPoints();
 
-
 	//Spawn Point Draw
+	if (myApp->map->mapDebugDraw)	// TODO: This shouldn't be hereeeee
+		for (int i = 0; i < SpawningPoints_Array.size(); i++) 
+			myApp->render->Blit(myApp->map->debug_tex, SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
+		
+
+	//	myApp->render->DrawQuad(SpawningPoints_Array[i]->SP_Rect, 255, 100, 100);
 	for (int i = 0; i < SpawningPoints_Array.size(); i++) {
 
-		if(myApp->map->debugMode == true)
-			myApp->render->Blit(debug_tex, SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
+		if (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0 && SpawningPoints_Array[i]->SpawnTime.Read() > 500) {
 
-		//	myApp->render->DrawQuad(SpawningPoints_Array[i]->SP_Rect, 255, 100, 100);
+					fPoint SP_Pos = fPoint(SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
+					SpawningPoints_Array[i]->SpawnTime.Start();
 
-		//	if (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0 && SpawningPoints_Array[i]->SpawnTime.Read() > 500) {
+					myApp->entities->ActivateInfantry(SP_Pos, infantry_type::BASIC, entity_faction::CAPITALIST);
+					SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
 
-		//		fPoint SP_Pos = fPoint(SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
-		//		SpawningPoints_Array[i]->SpawnTime.Start();
-
-		//		myApp->entities->CreateUnit(unit_type::INFANTRY, fPoint(SP_Pos), faction_enum::CAPITALIST);
-		//		SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
-
-	}
-
-	//ENTITIES TEST
-	if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	{
-
-		iPoint position;
-		myApp->input->GetMousePosition(position.x, position.y);
-		position = myApp->render->ScreenToWorld(position.x, position.y);
-
-		fPoint position2;
-		position2.x = position.x;
-		position2.y = position.y;
-		myApp->entities->ActivateInfantry(position2, infantry_type::BASIC, entity_faction::COMMUNIST);
-
+		}
 	}
 
 
@@ -112,14 +94,6 @@ bool Scene::Update(float dt)
 bool Scene::PostUpdate()
 {
 	bool ret = true;
-
-	int x, y;
-	myApp->input->GetMousePosition(x, y);
-	iPoint p = myApp->render->ScreenToWorld(x, y);
-	p = myApp->map->WorldToMap(p.x, p.y);
-	p = myApp->map->MapToWorld(p.x, p.y);
-
-	myApp->render->Blit(debug_tex, p.x, p.y);
 
 	if(myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
@@ -138,7 +112,6 @@ bool Scene::CleanUp()
 		RELEASE(SpawningPoints_Array[i]);
 
 	SpawningPoints_Array.clear();
-	myApp->tex->UnLoad(debug_tex);
 
 	return true;
 }

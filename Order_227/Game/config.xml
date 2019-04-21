@@ -31,7 +31,7 @@
   </user_interface>
 
   <fonts>
-    <open_sans id="0" file="fonts/open_sans/OpenSans-Regular.ttf" size="30" />
+    <open_sans id="0" file="fonts/open_sans/OpenSans-Regular.ttf" size="20" />
     <russian id="1" file="fonts/russian/Russian.ttf" size="30" />
     <molot id="2" file="fonts/molot/Molot.otf" size="30" />
     <end/>
