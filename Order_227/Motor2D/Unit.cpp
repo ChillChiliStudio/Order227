@@ -27,8 +27,8 @@ bool Unit::Update(float dt)
 	unitDirection = CheckDirection();
 	currentAnimation = &myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)];
 
-	UnitRect.x = position.x;
-	UnitRect.y = position.y;
+	UnitRect.x = (int)position.x;
+	UnitRect.y = (int)position.y;
 
 	if (mustDespawn) {
 
@@ -94,7 +94,7 @@ void Unit::UpdateBlitOrder()
 
 bool Unit::Draw(float dt)
 {
-	myApp->render->Push(order, texture, position.x, position.y, &currentAnimation->GetCurrentFrame(dt));
+	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &currentAnimation->GetCurrentFrame(dt));
 
 	return true;
 }
@@ -530,7 +530,7 @@ Unit* Unit::EnemyInRange()
 
 bool Unit::TargetInRange()
 {
-	return InsideRadius(position, stats.attackRange, target->position);
+	return InsideRadius(position, (float)stats.attackRange, target->position);
 }
 
 void Unit::SetupPath()
@@ -553,9 +553,9 @@ void Unit::SetupPath()
 
 fVec2 Unit::SetupVecSpeed()
 {
-	iPoint iPos = { (int)position.x, (int)position.y };
+	fPoint nodePos = { (float)(currNode->x), (float)(currNode->y) };
 
-	stats.vecSpeed = GetVector2(iPos, *currNode);
+	stats.vecSpeed = GetVector2(position, nodePos);
 	stats.vecSpeed = stats.vecSpeed.GetUnitVector();
 	stats.vecSpeed *= stats.linSpeed;
 	return stats.vecSpeed;

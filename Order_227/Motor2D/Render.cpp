@@ -167,7 +167,7 @@ bool Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, f
 
 //This function prints all the elements of the queue
 
-bool Render::OrderBlit(priority_queue <ImageRender*, vector<ImageRender*>, Comparer>& Queue)const {
+bool Render::OrderBlit(std::priority_queue <ImageRender*, std::vector<ImageRender*>, Comparer>& Queue)const {
 
 	bool ret = true;
 	while (Queue.empty() == false) {

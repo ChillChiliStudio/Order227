@@ -33,7 +33,8 @@ bool Player::Start()
 {
 	LOG("STARTING PLAYER MODULE");
 
-	//mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
+	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
+	mouseDebugMark->Deactivate();
 
 	return true;
 }
@@ -52,7 +53,7 @@ bool Player::Update(float dt)
 	PlayerSelect();		// Player Area Selection Management
 
 	if (myApp->gui->interfaceDebugDraw) {
-		//DebugMouse();	// Mouse UI Debug data update
+		DebugMouse();	// Mouse UI Debug data update
 	}
 
 	return true;
@@ -60,7 +61,7 @@ bool Player::Update(float dt)
 
 bool Player::CleanUp()
 {
-	//myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
+	myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
 	mouseDebugMark = nullptr;
 
 	return true;
@@ -77,16 +78,16 @@ void Player::CameraInputs(float dt)
 {
 	//Move Camera
 	if (myApp->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		myApp->render->camera.y += ceil(500 * dt);
+		myApp->render->camera.y += (int)ceil(500 * dt);
 
 	if (myApp->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		myApp->render->camera.y -= ceil(500 * dt);
+		myApp->render->camera.y -= (int)ceil(500 * dt);
 
 	if (myApp->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		myApp->render->camera.x += ceil(500 * dt);
+		myApp->render->camera.x += (int)ceil(500 * dt);
 
 	if (myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		myApp->render->camera.x -= ceil(500 * dt);
+		myApp->render->camera.x -= (int)ceil(500 * dt);
 }
 
 void Player::DebugMouse()
@@ -106,7 +107,7 @@ void Player::DebugMouse()
 	mouseStr += std::to_string(mouseMap.y);
 
 	mouseDebugMark->ChangeCenter({ (float)mouseScreenPos.x, (float)(mouseScreenPos.y - 25) });
-	mouseDebugMark->ChangeContent(mouseStr);
+	mouseDebugMark->ChangeString(mouseStr);
 }
 
 void Player::DebugInputs()
@@ -143,11 +144,11 @@ void Player::DebugInputs()
 
 			if (myApp->gui->interfaceDebugDraw) {
 				LOG("Debug UI: ON");
-				//mouseDebugMark->Activate();
+				mouseDebugMark->Activate();
 			}
 			else {
 				LOG("Debug UI: OFF");
-				//mouseDebugMark->Deactivate();
+				mouseDebugMark->Deactivate();
 			}
 		}
 
