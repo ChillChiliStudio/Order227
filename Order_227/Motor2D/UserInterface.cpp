@@ -9,6 +9,8 @@
 #include "Input.h"
 #include "Scene.h"
 #include "Window.h"
+#include "Animation.h"
+#include "Player.h"
 
 #include "UserInterface.h"
 #include "UIElement.h"
@@ -44,13 +46,11 @@ bool User_Interface::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-// Called before the first frame
-bool User_Interface::Start()
-{
-	bool ret = true;
-	int x=0, y = 0;
-	SDL_Rect Timer_temp = { 0,0,60,48 };
-	for (int i = 0; i < 55; i++) {	
+void User_Interface::loadAnim() {
+
+	int x = 0, y = 0;
+
+	for (int i = 0; i < 57; ++i) {
 		if (x < 60 * 17) {
 			Timer_anim.PushBack(SDL_Rect({ x,y,60,48 }));
 			x += 60;
@@ -60,6 +60,14 @@ bool User_Interface::Start()
 			x = 0;
 		}
 	}
+}
+
+// Called before the first frame
+bool User_Interface::Start()
+{
+	bool ret = true;
+	
+	loadAnim();
 
 	atlas = myApp->tex->Load(atlasFileName.c_str());
 	mainBar = myApp->tex->Load("ui/Principal_Down_Bar.png");
@@ -100,10 +108,15 @@ bool User_Interface::Start()
 	selectorInfantry = CreateSpawnBox(true, fPoint(width / 11-38, height - 140), selectorInfantry_Rect, selectorinGame_Tex);
 	selectorDefenses = CreateSpawnBox(false, fPoint(width / 11 , height - 140), selectorDefenses_Rect, selectorinGame_Tex);
 	selectorTank = CreateSpawnBox(false, fPoint(width / 11 + 38, height - 140), selectorTank_Rect, selectorinGame_Tex);
-	//ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,10);
+	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,10);
 
-	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2-100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex);
-	frameSelector = CreateImage(fPoint(width / 11, height - 140), SDL_Rect({ 0,0,120,38 }), selectorinGame_Tex);
+	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2-100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex,true);
+	pauseMenuPanel->Deactivate();
+	frameSelector = CreateImage(fPoint(width / 11, height - 140), SDL_Rect({ 0,0,134,38 }), selectorinGame_Tex);
+
+	SpawnSelectors.push_back(selectorInfantry);
+	SpawnSelectors.push_back(selectorDefenses);
+	SpawnSelectors.push_back(selectorTank);
 
 
 	return ret;
@@ -131,6 +144,10 @@ bool User_Interface::Update(float dt)
 	BROFILER_CATEGORY("Module User_Interface UpdateTick", Profiler::Color::DeepPink);
 	
 	bool ret = true;
+
+	if (unitCreationCD.ReadSec() >= 10) {
+		myApp->player->startCreationUnit = false;
+	}
 
 	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); iter = next(iter)) {
 		if ((*iter)->active == true) {

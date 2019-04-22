@@ -94,8 +94,8 @@ bool Scene::PostUpdate()
 {
 	bool ret = true;
 
-	if(myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+	//if(myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	//	ret = false;
 
 	myApp->gui->Draw();
 

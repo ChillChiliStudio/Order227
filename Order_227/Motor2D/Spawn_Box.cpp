@@ -1,5 +1,6 @@
 #include "Spawn_Box.h"
 #include "SDL/include/SDL_rect.h"
+#include "UserInterface.h"
 
 //Constructor
 Spawn_Box::Spawn_Box(bool value, event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent)
@@ -39,10 +40,10 @@ void Spawn_Box::OnIdle()
 
 void Spawn_Box::OnHover()
 {
-	//if (!value) {
+	if (!value) {
 		buttonStatus = button_state::HOVERING;
 		*sprite = stateSprites[(int)button_state::HOVERING];
-	//}
+	}
 }
 
 void Spawn_Box::OnPress()
@@ -52,6 +53,16 @@ void Spawn_Box::OnPress()
 	SwitchValue();
 	valueStatus = GetValueState();
 	*sprite = stateSprites[(int)valueStatus];
+	ActivateChildren();
+	for (std::list<Spawn_Box*>::iterator iter = myApp->gui->SpawnSelectors.begin(); iter != myApp->gui->SpawnSelectors.end(); iter = next(iter)) 
+	{
+		if (this != (*iter)) {
+			(*iter)->value=false;
+			(*iter)->DeactivateChildren();
+			(*iter)->valueStatus = (*iter)->GetValueState();
+			*(*iter)->sprite = (*iter)->stateSprites[(int)(*iter)->valueStatus];
+		}
+	}
 
 	if (action != nullptr) {
 		action();

@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Animation.h"
+#include "Timer.h"
 
 #define CURSOR_WIDTH 2
 
@@ -57,6 +58,8 @@ public:
 	
 	void AddElement(UI_Element* element);
 	void DestroyElement(UI_Element* element);
+	void loadAnim();
+
 	std::list<UI_Element*>::iterator DestroyElement(std::list<UI_Element*>::iterator iter);
 
 	//TODO: Factories should return their specific class type
@@ -89,6 +92,10 @@ public:
 	bool interfaceDebugDraw = false;
 	//uint defaultScale;	//IMPROVE: Future use
 	Animation Timer_anim;
+	Timer unitCreationCD;
+	Image* pauseMenuPanel;
+
+	std::list<Spawn_Box*> SpawnSelectors;
 
 private:
 	std::list<UI_Element*> screenElements;
@@ -96,7 +103,7 @@ private:
 	SDL_Texture* Timer_Texture;
 
 	Image* MainBarPanel;
-	Image* pauseMenuPanel;
+
 	Spawn_Box* selectorInfantry;
 	Spawn_Box* selectorDefenses;
 	Spawn_Box* selectorTank;
@@ -110,7 +117,7 @@ private:
 	SDL_Rect Conscript_Selection_Rect[4];
 
 	SDL_Texture* unitsSelection_Tex;
-	
+
 	SDL_Texture* selectorinGame_Tex;
 	SDL_Texture* pauseMenuPanel_Tex;
 	SDL_Texture* mainBar;

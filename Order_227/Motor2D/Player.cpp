@@ -15,6 +15,7 @@
 #include "GroupManager.h"
 #include "Player.h"
 
+
 Player::Player()
 {}
 
@@ -32,7 +33,7 @@ bool Player::Start()
 {
 	LOG("STARTING PLAYER MODULE");
 
-	//mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "", font_id::DEFAULT, { 0, 0, 255, 255 });
+	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "", font_id::DEFAULT, { 0, 0, 255, 255 });
 
 	return true;
 }
@@ -44,6 +45,10 @@ bool Player::PreUpdate()
 
 bool Player::Update(float dt)
 {
+	//if (unitCreationCD.ReadSec() >= 10) {
+	//	startCreationUnit = false;
+	//}
+
 	UpdateMousePos();	// Mouse Position Update
 	CameraInputs(dt);	// Camera Inputs
 	DebugInputs();		// Debug Inputs
@@ -52,6 +57,14 @@ bool Player::Update(float dt)
 
 	if (myApp->gui->interfaceDebugDraw) {
 		DebugMouse();	// Mouse UI Debug data update
+	}
+
+	if (myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+		if (myApp->gui->pauseMenuPanel->active == false) {
+			myApp->gui->pauseMenuPanel->Activate();
+		}
+		else
+			myApp->gui->pauseMenuPanel->Deactivate();
 	}
 
 	return true;

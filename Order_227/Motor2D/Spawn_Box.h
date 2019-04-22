@@ -1,6 +1,7 @@
 #ifndef SPAWN_BOX_H
 #define SPAWN_BOX_H	//@Carles
 
+#include "App.h"
 #include "VoidBox.h"
 #include "CheckBox.h"
 
