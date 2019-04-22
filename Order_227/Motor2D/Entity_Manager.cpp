@@ -320,6 +320,13 @@ bool Entity_Manager::ActivateObject(fPoint position, object_type objectType)
 bool Entity_Manager::DeActivateInfantry(Unit* infantry)
 {
 
+	infantry->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
+	infantry->infatryType = infantry_type::INFANTRY_NONE;
+	infantry->position = fPoint(0.0f, 0.0f);
+	infantry->texture = nullptr;
+	infantry->active = false;
+	infantry->selected = false;
+
 	if (infantry->faction == entity_faction::COMMUNIST) {
 
 		for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {

@@ -25,9 +25,8 @@ public:
 
 public:
 
-	
-
 	void ChooseSpawningPoints();
+	void ClearEnemies();
 
 	std::vector<Spawning_Point*> SpawningPoints_Array;
 	std::vector<Group*> hordes;

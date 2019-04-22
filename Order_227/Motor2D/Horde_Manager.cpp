@@ -52,6 +52,9 @@ bool Horde_Manager::Update(float dt)
 		}
 	}
 
+	if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		ClearEnemies();
+
 	return true;
 }
 
@@ -100,5 +103,16 @@ void Horde_Manager::ChooseSpawningPoints()
 			if (SpawningPoints_Array[i]->active == true)
 				SpawningPoints_Array[i]->FillEnemies(roundThreat);
 
-	
+}
+
+void Horde_Manager::ClearEnemies()
+{
+	for (int i = 0; i < hordes.size(); ++i)
+	{
+		for (std::list<Unit*>::iterator it = hordes[i]->groupUnits.begin();!hordes[i]->groupUnits.empty() ;it++ )
+		{
+			myApp->entities->DeActivateInfantry((*it));
+			hordes[i]->groupUnits.erase(it);
+		}
+	}
 }
