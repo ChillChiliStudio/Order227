@@ -239,6 +239,9 @@ bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTyp
 				CommunistUnitsArray[i]->active = true;
 				CommunistUnitsArray[i]->selected = false;
 				CommunistUnitsArray[i]->infantryType = infantryType;
+				CommunistUnitsArray[i]->UnitRect.w = 45;
+				CommunistUnitsArray[i]->UnitRect.h = 55;
+
 				//CommunistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
 
@@ -430,6 +433,10 @@ bool Entity_Manager::LoadEntityData() {
 				temp.y = Data.attribute("y").as_int();
 				temp.w = Data.attribute("width").as_int();
 				temp.h = Data.attribute("height").as_int();
+				temp.x += 26;
+				temp.y += 7;
+				temp.w = 25;
+				temp.h = 35;
 
 				std::string tempString = Data.attribute("name").as_string();
 				int degreesToArray = Data.attribute("type").as_int() / 45;//DEGREES    HAVE IN ACCOUNT THAT THE TILES ARE DEFINED CONTERCLOCKWISE

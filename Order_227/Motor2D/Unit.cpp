@@ -27,8 +27,9 @@ bool Unit::Update(float dt)
 	unitDirection = CheckDirection();
 	currentAnimation = &myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)];
 
-	UnitRect.x = (int)position.x;
-	UnitRect.y = (int)position.y;
+	UnitRect.x = position.x-10;
+	UnitRect.y = position.y-10;
+
 
 	if (mustDespawn) {
 
@@ -516,11 +517,11 @@ Unit* Unit::EnemyInRange()
 			&& InsideRadius(position, (float)stats.attackRange, myApp->entities->mainBase->position))
 		{
 			myApp->entities->mainBase->health -= (float)stats.damage * myApp->GetDT();
-			
+
 			if (myApp->entities->mainBase->health < 0) {
 				//TODO: Lose flag
 			}
-			
+
 			unitState = unit_state::ATTACKING;
 		}
 	}

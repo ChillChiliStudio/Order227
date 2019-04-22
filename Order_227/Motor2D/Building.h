@@ -39,6 +39,8 @@ public:
 	bool Draw();
 	void UpdateBlitOrder();
 
+
+
 public:
 
 	//ADD ANIMATION
@@ -46,6 +48,8 @@ public:
 	SDL_Rect buildingBlitRect = {605, 1882, 212, 148 };
 	building_type buildingType;
 
+
+	
 	int health = 0;
 	int income = 0;
 	Timer incomeTimer;
