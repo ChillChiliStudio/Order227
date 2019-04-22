@@ -5,7 +5,9 @@
 
 #define DEFAULT_MUSIC_FADE_TIME 2.0f
 #define FACTION_NUM 2
-#define VARIATION_PER_SOUND 2
+#define VARIATION_PER_SOUND 3
+#define SOV 1
+#define CAP 2
 
 struct _Mix_Music;
 struct Mix_Chunk;
@@ -70,8 +72,10 @@ public:
 	void ControlMUSVolume(int vol);
 	void ControlSFXVolume(int vol);
 
+	void FillArrayFX();
+	void LoadIntoArray();
 
-	uint* SoundFX_Array[(int)Entity_type_Sounds::MAX][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
+	uint SoundFX_Array[(int)Entity_type_Sounds::MAX][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
 
 private:
 

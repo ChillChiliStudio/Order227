@@ -50,6 +50,9 @@ bool Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
+	FillArrayFX();
+	LoadIntoArray();
+
 	return ret;
 }
 
@@ -206,5 +209,64 @@ void Audio::ControlSFXVolume(int vol) { //Range: 0-128
 
 	for(; *it != NULL; it = next(it))
 		Mix_VolumeChunk(*it, vol);
+
+}
+
+
+void Audio::FillArrayFX() {
+
+	
+	for (int i = 0; i < (int)Entity_type_Sounds::MAX; ++i) {
+
+		for (int j = 0; j < FACTION_NUM; ++j) {
+
+			for (int k = 0; k < (int)type_sounds::MAX; ++k) {
+
+				for (int l = 0; l < VARIATION_PER_SOUND; ++l) {
+
+
+
+					SoundFX_Array[i][j][k][l]= -1;
+
+
+				}
+
+			}
+
+		}
+
+	}
+
+}
+
+void Audio::LoadIntoArray() {
+
+ 
+
+//CONSCRIPT---------------------------------------------------------------------------------------------------------------------
+
+	//Shot 1 & 2
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::SHOT][1] = LoadFx("audio/AFX/conscript/Shot_one.wav");
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::SHOT][2] = LoadFx("audio/AFX/conscript/Shot_two.wav");
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::SHOT][3] = LoadFx("audio/AFX/conscript/Shot_three.wav");
+
+	//Attack
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::ATTACK][1] = LoadFx("audio/Dialogues/Troops/conscript/Attack/Attack.wav");
+
+	//Spawn
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::SPAWN][1] = LoadFx("audio/Dialogues/Troops/conscript/Spawn.wav");
+
+	//Moving
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::MOVING][1] = LoadFx("audio/Dialogues/Troops/conscript/Moving.wav");
+	
+	//Hurt
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::HURT][1] = LoadFx("audio/Dialogues/Troops/conscript/Hurt/Hurt.wav");
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::HURT][1] = LoadFx("audio/Dialogues/Troops/conscript/Hurt/Hurt_two.wav");
+
+	//Comfirmation order
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::COMFIRMATION][1] = LoadFx("audio/Dialogues/Troops/conscript/Comfirmation.wav");
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::COMFIRMATION][2] = LoadFx("audio/Dialogues/Troops/conscript/Comfirmation_two.wav");
+
+
 
 }
