@@ -1,5 +1,5 @@
-#ifndef PLAYER_H_
-#define PLAYER_H_
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include "Module.h"
 #include "Point.h"
@@ -17,7 +17,7 @@ class Text;
 class Player : public Module {
 public:
 	Player();
-	~Player();
+	virtual ~Player();
 
 public:
 
@@ -73,4 +73,4 @@ public:
 
 };
 
-#endif 
+#endif	//PLAYER_H

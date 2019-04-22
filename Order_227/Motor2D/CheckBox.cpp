@@ -57,12 +57,16 @@ bool Check_Box::GetValue()
 
 value_state Check_Box::GetValueState()
 {
+	value_state ret;
+
 	switch (*value) {
 	case true:
-		return value_state::ON;
+		ret = value_state::ON;
 	case false:
-		return value_state::OFF;
+		ret = value_state::OFF;
 	}
+
+	return ret;
 }
 
 bool Check_Box::SwitchValue()
