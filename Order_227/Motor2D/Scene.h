@@ -52,6 +52,14 @@ private:
 	int roundNumber = 0;
 
 	pugi::xml_document SP_Doc;
+
+	char* ingame_song3_loop = nullptr;
+	char* ingame_song3_intro = nullptr;
+	char* ingame_song3_outro = nullptr;
+
+	char* ingame_song4_intro = nullptr;
+	char* ingame_song4_loop = nullptr;
+
 };
 
 #endif // SCENE_H

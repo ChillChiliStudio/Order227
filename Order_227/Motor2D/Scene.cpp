@@ -7,6 +7,7 @@
 #include "Render.h"
 #include "Window.h"
 #include "Map.h"
+#include "Audio.h"
 #include "PathFinding.h"
 #include "Entity_Manager.h"
 #include "UserInterface.h"
@@ -46,12 +47,25 @@ bool Scene::Start()
 		RELEASE_ARRAY(data);
 	}
 
+	ingame_song3_loop = "audio/music/game/ingame_song3_loop.ogg";
+	ingame_song3_intro = "audio/music/game/ingame_song3_intro.ogg";
+	ingame_song3_outro = "audio/music/game/ingame_song3_outro.ogg";
+
+	myApp->audio->ControlSFXVolume(100);
+	myApp->audio->ControlMUSVolume(100);
+	myApp->audio->ControlVolume(100);
+
+	myApp->audio->PlayMusic(ingame_song3_intro, 0, 0.0f);
+
 	return true;
 }
 
 // Called each loop iteration
 bool Scene::PreUpdate()
 {
+
+	if (myApp->audio->MusicPlaying() == false)
+		myApp->audio->PlayMusic(ingame_song3_loop, -1, 0.0f);
 
 	return true;
 }

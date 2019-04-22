@@ -83,7 +83,7 @@ bool Audio::CleanUp()
 }
 
 // Play a music file
-bool Audio::PlayMusic(const char* path, float fade_time)
+bool Audio::PlayMusic(const char* path, int loops, float fade_time)
 {
 	bool ret = true;
 
@@ -124,7 +124,7 @@ bool Audio::PlayMusic(const char* path, float fade_time)
 		}
 		else
 		{
-			if (Mix_PlayMusic(music, -1) < 0)
+			if (Mix_PlayMusic(music, loops) < 0)
 			{
 				LOG("Cannot play in music %s. Mix_GetError(): %s", path, Mix_GetError());
 				ret = false;
@@ -134,6 +134,16 @@ bool Audio::PlayMusic(const char* path, float fade_time)
 
 	LOG("Successfully playing %s", path);
 	return ret;
+}
+
+
+//Check if something is being played
+bool Audio::MusicPlaying() {
+
+	if (Mix_PlayingMusic() == 0)
+		return false;
+
+	return true;
 }
 
 // Load WAV
