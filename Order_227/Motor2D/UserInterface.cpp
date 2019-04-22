@@ -8,6 +8,9 @@
 #include "Fonts.h"
 #include "Input.h"
 #include "Scene.h"
+#include "Window.h"
+#include "Animation.h"
+#include "Player.h"
 
 #include "UserInterface.h"
 #include "UIElement.h"
@@ -18,6 +21,10 @@
 #include "ParamBox.h"
 #include "VoidBox.h"
 #include "CheckBox.h"
+#include "Spawn_Box.h"
+#include "UnitButton.h"
+#include "ButtonActions.h"
+
 
 User_Interface::User_Interface() : Module()
 {
@@ -39,12 +46,78 @@ bool User_Interface::Awake(pugi::xml_node& config)
 	return ret;
 }
 
+void User_Interface::loadAnim() {
+
+	int x = 0, y = 0;
+
+	for (int i = 0; i < 57; ++i) {
+		if (x < 60 * 17) {
+			Timer_anim.PushBack(SDL_Rect({ x,y,60,48 }));
+			x += 60;
+		}
+		else {
+			y += 48;
+			x = 0;
+		}
+	}
+}
+
 // Called before the first frame
 bool User_Interface::Start()
 {
 	bool ret = true;
+	
+	loadAnim();
 
 	atlas = myApp->tex->Load(atlasFileName.c_str());
+	mainBar = myApp->tex->Load("ui/Principal_Down_Bar.png");
+
+	pauseMenuPanel_Tex= myApp->tex->Load("ui/Pause_Panel.png");;
+	selectorinGame_Tex = myApp->tex->Load("ui/inGame_selector_Units.png");
+	unitsSelection_Tex = myApp->tex->Load("ui/Troops_Icons.png");
+	Timer_Texture = myApp->tex->Load("ui/Timer_Icon.png");
+
+
+	Conscript_Selection_Rect[0] = { 120,0,60,48 };
+	Conscript_Selection_Rect[1] = { 120,0,60,48 };
+	Conscript_Selection_Rect[2] = { 120,0,60,48 };
+	Conscript_Selection_Rect[3] = { 120,0,60,48 };
+
+
+	selectorInfantry_Rect[0] = { 131,38,44,31 };
+	selectorInfantry_Rect[1] = { 131,38,44,31 };
+	selectorInfantry_Rect[2] = { 0,38,44,31 };
+	selectorInfantry_Rect[3] = { 44,38,44,31 };
+
+	selectorDefenses_Rect[0] = { 131,69,44,31 };
+	selectorDefenses_Rect[1] = { 131,69,44,31 };
+	selectorDefenses_Rect[2] = { 0,69,44,31 };
+	selectorDefenses_Rect[3] = { 44,69,44,31 };
+
+	selectorTank_Rect[0] = { 131,101,44,31 };
+	selectorTank_Rect[1] = { 131,101,44,31 };
+	selectorTank_Rect[2] = { 0,101,44,31 };
+	selectorTank_Rect[3] = { 44,101,44,31 };
+
+	//selectorInfantry_Rect[3] = { 175,38,44,31 };
+
+	int height,width;
+	myApp->win->GetWindowSize((uint&)width, (uint&)height);
+	
+	MainBarPanel = CreateImage(fPoint(width / 2, height - 87.5), SDL_Rect({0,0,1280,175}),mainBar);
+	selectorInfantry = CreateSpawnBox(true, fPoint(width / 11-38, height - 140), selectorInfantry_Rect, selectorinGame_Tex);
+	selectorDefenses = CreateSpawnBox(false, fPoint(width / 11 , height - 140), selectorDefenses_Rect, selectorinGame_Tex);
+	selectorTank = CreateSpawnBox(false, fPoint(width / 11 + 38, height - 140), selectorTank_Rect, selectorinGame_Tex);
+	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,10);
+
+	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2-100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex,true);
+	pauseMenuPanel->Deactivate();
+	frameSelector = CreateImage(fPoint(width / 11, height - 140), SDL_Rect({ 0,0,134,38 }), selectorinGame_Tex);
+
+	SpawnSelectors.push_back(selectorInfantry);
+	SpawnSelectors.push_back(selectorDefenses);
+	SpawnSelectors.push_back(selectorTank);
+
 
 	return ret;
 }
@@ -71,6 +144,10 @@ bool User_Interface::Update(float dt)
 	BROFILER_CATEGORY("Module User_Interface UpdateTick", Profiler::Color::DeepPink);
 	
 	bool ret = true;
+
+	if (unitCreationCD.ReadSec() >= 10) {
+		myApp->player->startCreationUnit = false;
+	}
 
 	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); iter = next(iter)) {
 		if ((*iter)->active == true) {
@@ -203,6 +280,19 @@ Text* User_Interface::CreateText(fPoint center, const char* content, font_id id,
 
 	return ret;
 }
+Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator) {
+	
+	Unit_Box* ret = nullptr;
+
+	if (tex == NULL) {
+		tex = GetAtlas();
+	}
+
+	ret = new Unit_Box(action, center, spriteList, tex, parent,TimerTexture,timeCreator);
+	AddElement(ret);
+
+	return ret;
+}
 
 Void_Box* User_Interface::CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent)
 {
@@ -227,6 +317,21 @@ Check_Box* User_Interface::CreateCheckBox(bool* value, fPoint center, SDL_Rect s
 	}
 
 	ret = new Check_Box(value, action, center, spriteList, tex, parent);
+	AddElement(ret);
+
+	return ret;
+}
+
+
+Spawn_Box* User_Interface::CreateSpawnBox(bool value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, void(*action)(void), UI_Element* parent)
+{
+	Spawn_Box* ret = nullptr;
+
+	if (tex == NULL) {
+		tex = GetAtlas();
+	}
+
+	ret = new Spawn_Box(value, action, center, spriteList, tex, parent);
 	AddElement(ret);
 
 	return ret;
