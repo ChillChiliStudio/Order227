@@ -36,7 +36,7 @@ Entity_Manager::Entity_Manager()
 		CommunistUnitsArray[i] = (Unit*)InfCom;
 		entitiesArray[entitiesIterator++] = (Entity*)InfCom;
 
-		Infantry *InfCap = new Infantry({ 0,0 }, infantry_type::INFANTRY_NONE, entity_faction::COMMUNIST);
+		Infantry *InfCap = new Infantry({ 0,0 }, infantry_type::INFANTRY_NONE, entity_faction::CAPITALIST);
 		InfCap->active = false;
 		CapitalistInfantryArray[i] = InfCap;
 		CapitalistUnitsArray[i] = (Unit*)InfCap;
@@ -241,7 +241,7 @@ bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTyp
 				CommunistUnitsArray[i]->infantryType = infantryType;
 				CommunistUnitsArray[i]->UnitRect.w = 45;
 				CommunistUnitsArray[i]->UnitRect.h = 55;
-        CommunistUnitsArray[i]->Start();
+				CommunistUnitsArray[i]->Start();
 				//CommunistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
 
@@ -264,7 +264,7 @@ bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTyp
 				CapitalistUnitsArray[i]->active = true;
 				CapitalistUnitsArray[i]->selected = false;
 				CapitalistUnitsArray[i]->infantryType = infantryType;
-        CapitalistUnitsArray[i]->UnitRect.w = 45;
+				CapitalistUnitsArray[i]->UnitRect.w = 45;
 				CapitalistUnitsArray[i]->UnitRect.h = 55;
 				CapitalistUnitsArray[i]->Start();
 				//CapitalistInfantryArray[i]->infantryType = infantryType;

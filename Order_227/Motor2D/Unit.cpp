@@ -117,7 +117,22 @@ bool Unit::DebugDraw()
 	}
 	else {*/
 	if (selected == false) {
-		myApp->render->DrawQuad(UnitRect, 255, 0, 0, 255, false);
+		Uint8 rgb[3] = { 0, 0, 0 };
+
+		switch (faction) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+		case entity_faction::COMMUNIST:
+			rgb[0] = 255;	//Red
+			break;
+		case entity_faction::CAPITALIST:
+			rgb[2] = 255;	//Blue
+			break;
+		case entity_faction::NEUTRAL:
+			rgb[0] = 255;
+			rgb[2] = 255;	//Magenta
+			break;
+		}
+
+		myApp->render->DrawQuad(UnitRect, rgb[0], rgb[1], rgb[2], 255, false);
 	}
 
 	return true;
@@ -129,13 +144,14 @@ void Unit::DrawPath()
 
 	switch (faction) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
 	case entity_faction::COMMUNIST:
-		rgb[1] = 255;	//Green
-		break;
-	case entity_faction::CAPITALIST:
 		rgb[0] = 255;	//Red
 		break;
-	case entity_faction::NEUTRAL:
+	case entity_faction::CAPITALIST:
 		rgb[2] = 255;	//Blue
+		break;
+	case entity_faction::NEUTRAL:
+		rgb[0] = 255;
+		rgb[2] = 255;	//Magenta
 		break;
 	}
 
