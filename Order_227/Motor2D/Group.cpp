@@ -23,21 +23,24 @@ Group::~Group()
 
 void Group::SpreadDestinations(iPoint origDest)
 {
-	origDest = myApp->map->WorldToMap(origDest);
-
-	if (!myApp->pathfinding->IsWalkable(origDest))
+	
+	iPoint mainDestination = myApp->map->WorldToMap(origDest);
+	
+	if (!myApp->pathfinding->IsWalkable(mainDestination))
+		return;
+	
+		if (!myApp->pathfinding->IsWalkable(mainDestination))
 		return;
 
 	std::vector<iPoint*> visited;
 	std::queue<iPoint*> frontier;
 
-	visited.push_back(&origDest);
-	frontier.push(&origDest);
+	visited.push_back(&mainDestination);
+	frontier.push(&mainDestination);
 
 	std::list<Unit*>::iterator currentUnit = groupUnits.begin();
 
-	(*currentUnit++)->destination = myApp->map->MapToWorld(origDest);
-	LOG("%d %d", origDest.x, origDest.y);
+	(*currentUnit++)->destination = myApp->map->MapToWorld(mainDestination);
 
 	while (currentUnit != groupUnits.end())
 	{
@@ -64,7 +67,6 @@ void Group::SpreadDestinations(iPoint origDest)
 
 				(*currentUnit)->destination = myApp->map->MapToWorld(neighbors[i]);
 				currentUnit++;
-				LOG("%d %d", neighbors[i].x, neighbors[i].y);
 				if (currentUnit == groupUnits.end())
 					break;
 			}

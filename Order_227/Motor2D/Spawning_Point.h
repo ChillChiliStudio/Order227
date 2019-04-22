@@ -13,7 +13,7 @@ public:
 	~Spawning_Point() {}
 
 	bool active = false;
-	iPoint position;
+	iPoint position = { 0,0 };
 	SDL_Rect SP_Rect = {position.x, position.y, 32, 32};
 	Timer SpawnTime;
 	bool enemiesAttacking = false;
