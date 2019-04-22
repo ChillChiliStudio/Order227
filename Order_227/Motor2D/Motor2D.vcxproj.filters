@@ -252,9 +252,6 @@
     <ClInclude Include="Infantry.h">
       <Filter>Game Files\Entity Management\Entities\Units</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Tools</Filter>
-    </ClInclude>
     <ClInclude Include="GroupManager.h">
       <Filter>Game Files\Entity Management\Group Management</Filter>
     </ClInclude>
@@ -266,6 +263,9 @@
     </ClInclude>
     <ClInclude Include="UnitButton.h">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -28,7 +28,6 @@ public:
 
 	SDL_Rect& GetCurrentFrame(float dt)
 	{
-
 		current_frame += speed;
 
 		if (current_frame >= last_frame) {
@@ -38,6 +37,7 @@ public:
 		}
 		return frames[(int)current_frame];
 	}
+
 	const float getCurrentFrame() const { return current_frame; }
 
 	bool Finished() const {
@@ -50,6 +50,7 @@ public:
 		loops = 0;
 
 	}
+
 };
 
 #endif

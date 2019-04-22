@@ -8,9 +8,11 @@
 #include "Entity.h"
 #include "Unit.h"
 
+
 Unit::Unit(fPoint pos, entity_type entityType, entity_faction faction) : Entity(pos, entityType, faction)
 {
 //	LoadEntityData();
+	
 }
 
 Unit::~Unit()
@@ -23,10 +25,11 @@ bool Unit::Start()
 
 bool Unit::Update(float dt)
 {
+
 	UnitWorkflow(dt);
 	unitDirection = CheckDirection();
-	currentAnimation = &myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)];
 
+	currentAnimation = &myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)];
 	UnitRect.x = position.x-10;
 	UnitRect.y = position.y-10;
 
@@ -173,37 +176,41 @@ void Unit::UnitWorkflow(float dt)
 
 unit_directions Unit::CheckDirection()
 {
-	unit_directions ret = unit_directions::NONE;
+	unit_directions currDirection = unitDirection;
 
 	stats.vecAngle = stats.vecSpeed.GetAngle({ 0.0f, -1.0f });
 	stats.vecAngle = RadsToDeg(stats.vecAngle);
 
 	if (stats.vecAngle > 337.5f || stats.vecAngle <= 22.5f) {
-		ret = unit_directions::NORTH;
+		unitDirection = unit_directions::NORTH;
 	}
 	else if (stats.vecAngle > 292.5f) {
-		ret = unit_directions::NORTH_EAST;
+		unitDirection = unit_directions::NORTH_EAST;
 	}
 	else if (stats.vecAngle > 247.5f) {
-		ret = unit_directions::EAST;
+		unitDirection = unit_directions::EAST;
 	}
 	else if (stats.vecAngle > 202.5f) {
-		ret = unit_directions::SOUTH_EAST;
+		unitDirection = unit_directions::SOUTH_EAST;
 	}
 	else if (stats.vecAngle > 157.5f) {
-		ret = unit_directions::SOUTH;
+		unitDirection = unit_directions::SOUTH;
 	}
 	else if (stats.vecAngle > 112.5f) {
-		ret = unit_directions::SOUTH_WEST;
+		unitDirection = unit_directions::SOUTH_WEST;
 	}
 	else if (stats.vecAngle > 67.5f) {
-		ret = unit_directions::WEST;
+		unitDirection = unit_directions::WEST;
 	}
 	else if (stats.vecAngle > 22.5f) {
-		ret = unit_directions::NORTH_WEST;
+		unitDirection = unit_directions::NORTH_WEST;
 	}
 
-	return ret;
+	if (unitDirection != currDirection) {
+		currentAnimation = &myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)];
+	}
+
+	return currDirection;
 }
 
 // Change animation according to state
