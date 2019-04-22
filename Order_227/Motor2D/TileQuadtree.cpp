@@ -29,7 +29,7 @@ TileQuadtree::TileQuadtree(uint max_levels, SDL_Rect section, uint size, uint le
 	{
 		tiles = new TileData[size];
 
-		for (int i = 0; i < size; ++i)
+		for (uint i = 0; i < size; ++i)
 			tiles[i] = TileData(0, { 0,0 });
 
 	}
@@ -124,7 +124,7 @@ void TileQuadtree::DrawMap()
 	{
 		if (level == max_levels)
 		{
-			for (int i = 0; i < tiles_contained; ++i)
+			for (uint i = 0; i < tiles_contained; ++i)
 			{
 				TileData tile = tiles[i];
 				TileSet* tileset = myApp->map->GetTilesetFromTileId(tile.id);

@@ -250,7 +250,7 @@ const std::vector<iPoint>* PathFinding::CreatePath(const iPoint& origin, const i
 	}
 
 	LOG("Path Steps: %i", last_path.size());
-	return &ret;
+	return &last_path;
 }
 
 

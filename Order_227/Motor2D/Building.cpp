@@ -43,7 +43,7 @@ bool Building::Draw()
 {
 
 	UpdateBlitOrder();
-	myApp->render->Push(order, texture, position.x, position.y, &buildingBlitRect);
+	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &buildingBlitRect);
 
 	return true;
 }

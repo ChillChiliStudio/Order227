@@ -11,11 +11,11 @@ Infantry::Infantry(fPoint pos, infantry_type type, entity_faction faction) : Uni
 
 bool Infantry::Draw() {
 
-	SDL_Rect rect = { position.x,position.y,50,50 };
+	SDL_Rect rect = { (int)position.x, (int)position.y, 50, 50 };
 
 
 	UpdateBlitOrder();
-	myApp->render->Push(order, texture, position.x, position.y,&TestingRect);
+	myApp->render->Push(order, texture, (int)position.x, (int)position.y,&TestingRect);
 
 
 	return true;

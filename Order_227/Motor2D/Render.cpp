@@ -187,13 +187,17 @@ bool Render::OrderBlit(std::priority_queue <ImageRender*, std::vector<ImageRende
 		SDL_RendererFlip flag;
 		if (Image->scale < 0) {
 			flag = SDL_FLIP_HORIZONTAL;
-			r.w *= -Image->scale;
-			r.h *= -Image->scale;
+			r.w = (int)(r.w * -Image->scale);
+			r.h = (int)(r.h * -Image->scale);
+			//r.w *= -Image->scale;
+			//r.h *= -Image->scale;
 		}
 		else {
 			flag = SDL_FLIP_NONE;
-			r.w *= Image->scale;
-			r.h *= Image->scale;
+			r.w = (int)(r.w * Image->scale);
+			r.h = (int)(r.h * Image->scale);
+			//r.w *= Image->scale;
+			//r.h *= Image->scale;
 		}
 
 		SDL_Point* point = NULL;
