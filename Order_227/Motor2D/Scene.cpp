@@ -47,19 +47,19 @@ bool Scene::Start()
 		RELEASE_ARRAY(data);
 	}
 
-	ingame_song3_loop = "audio/music/game/ingame_song3_loop.ogg";
-	ingame_song3_intro = "audio/music/game/ingame_song3_intro.ogg";
-	ingame_song3_outro = "audio/music/game/ingame_song3_outro.ogg";
+	//ingame_song3_loop = "audio/music/game/ingame_song3_loop.ogg";
+	//ingame_song3_intro = "audio/music/game/ingame_song3_intro.ogg";
+	//ingame_song3_outro = "audio/music/game/ingame_song3_outro.ogg";
 
-	ingame_song4_loop = "audio/music/game/ingame_song4_loop.ogg";
-	ingame_song4_intro = "audio/music/game/ingame_song4_intro.ogg";
+	//ingame_song4_loop = "audio/music/game/ingame_song4_loop.ogg";
+	//ingame_song4_intro = "audio/music/game/ingame_song4_intro.ogg";
 
-	myApp->audio->ControlSFXVolume(100);
-	myApp->audio->ControlMUSVolume(100);
-	myApp->audio->ControlVolume(100);
+	//myApp->audio->ControlSFXVolume(100);
+	//myApp->audio->ControlMUSVolume(100);
+	//myApp->audio->ControlVolume(100);
 
-	myApp->audio->PlayMusic(ingame_song3_intro, 0, 0.0f);
-	current_song = ingame_song3_intro;
+	//myApp->audio->PlayMusic(ingame_song3_intro, 0, 0.0f);
+	//current_song = ingame_song3_intro;
 
 	return true;
 }
@@ -68,8 +68,8 @@ bool Scene::Start()
 bool Scene::PreUpdate()
 {
 
-	if (myApp->audio->MusicPlaying() == false)
-		ManageMusic();
+	//if (myApp->audio->MusicPlaying() == false)
+	//	ManageMusic();
 
 	return true;
 }
