@@ -267,6 +267,7 @@ void Audio::LoadIntoArray() {
 	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::COMFIRMATION][1] = LoadFx("audio/Dialogues/Troops/conscript/Comfirmation.wav");
 	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::COMFIRMATION][2] = LoadFx("audio/Dialogues/Troops/conscript/Comfirmation_two.wav");
 
+//----------------------------------------------------------------------------------------------------------------------------------
 
 
 }

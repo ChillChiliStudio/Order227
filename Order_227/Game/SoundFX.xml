@@ -1,0 +1,41 @@
+<!-- Config file for the game -->
+
+<FX>
+  <Troops>
+    <SOV>
+      <Spawn>
+          <Var_one path="audio/Dialogues/Troops/conscript/Spawn.wav"/>
+      </Spawn>
+
+      <Moving>
+        <Var_one path="audio/Dialogues/Troops/conscript/Moving.wav"/>
+      </Moving>
+
+      <Comfirmation>
+        <Var_one path="audio/Dialogues/Troops/conscript/Comfirmation.wav"/>
+        <Var_two path="audio/Dialogues/Troops/conscript/Comfirmation_two.wav"/>
+      </Comfirmation>
+
+      <Hurt>
+        <Var_one path="audio/Dialogues/Troops/conscript/Hurt/Hurt.wav"/>
+        <Var_two path="audio/Dialogues/Troops/conscript/Hurt/Hurt_two.wav"/>
+      </Hurt>
+
+      <Shot>
+        <Var_one path="audio/AFX/conscript/Shot_one.wav"/>
+        <Var_two path="audio/AFX/conscript/Shot_two.wav"/>
+        <Var_two path="audio/AFX/conscript/Shot_three.wav"/>
+      </Shot>
+      
+      <Attack>
+        <Var_one path="audio/Dialogues/Troops/conscript/Attack/Attack.wav"/>
+      </Attack>
+      
+    </SOV>
+   
+    
+    <CAP>
+    </CAP>    
+       
+  </Troops>
+</FX>

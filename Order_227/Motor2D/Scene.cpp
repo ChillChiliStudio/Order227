@@ -83,6 +83,7 @@ bool Scene::Update(float dt)
 	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 		ChooseSpawningPoints();
 
+
 	//Spawn Point Draw
 	if (myApp->map->mapDebugDraw)	// TODO: This shouldn't be hereeeee
 		for (int i = 0; i < SpawningPoints_Array.size(); i++) 
