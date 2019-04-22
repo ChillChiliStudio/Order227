@@ -36,19 +36,31 @@ bool Horde_Manager::Update(float dt)
 
 	for (int i = 0; i < SpawningPoints_Array.size(); i++) 
 	{
-		if (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0 && SpawningPoints_Array[i]->SpawnTime.Read() > 500) 
+		if (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0)
 		{
-				fPoint SP_Pos = fPoint(SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
+			fPoint SP_Pos = fPoint(SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
+			while (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0)
+			{
+
 				SpawningPoints_Array[i]->SpawnTime.Start();
 
 				hordes[i]->AddUnit(myApp->entities->ActivateInfantry(SP_Pos, infantry_type::BASIC, entity_faction::CAPITALIST));
-				
+
 				SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
-			
+
 				LOG("%d", SpawningPoints_Array[i]->Enemies_to_Spawn.size());
-			
-			hordes[i]->SpreadDestinations({0,500});
-			hordes[i]->TransmitOrders(unit_orders::MOVE);
+
+			}
+			hordes[i]->SpreadDestinations({int(SP_Pos.x), int(SP_Pos.y)});
+			hordes[i]->TransmitOrders(unit_orders::MOVE_AND_ATTACK);
+		}
+		if (!hordes[i]->groupUnits.empty() &&
+			!SpawningPoints_Array[i]->enemiesAttacking && 
+			SpawningPoints_Array[i]->SpawnTime.Read() > 5000)
+		{
+			hordes[i]->SpreadDestinations({500, 500 });
+			hordes[i]->TransmitOrders(unit_orders::MOVE_AND_ATTACK);
+			SpawningPoints_Array[i]->enemiesAttacking = true;
 		}
 	}
 
@@ -98,6 +110,9 @@ void Horde_Manager::ChooseSpawningPoints()
 
 		SpawningPoints_Array[r1]->active = true;
 		SpawningPoints_Array[r2]->active = true;
+
+		SpawningPoints_Array[r1]->enemiesAttacking = false;
+		SpawningPoints_Array[r2]->enemiesAttacking = false;
 
 		for (int i = 0; i < SpawningPoints_Array.size(); i++)
 			if (SpawningPoints_Array[i]->active == true)

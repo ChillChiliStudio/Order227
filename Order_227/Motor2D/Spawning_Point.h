@@ -16,6 +16,7 @@ public:
 	iPoint position;
 	SDL_Rect SP_Rect = {position.x, position.y, 32, 32};
 	Timer SpawnTime;
+	bool enemiesAttacking = false;
 
 	std::vector<int>Enemies_to_Spawn;
 	
