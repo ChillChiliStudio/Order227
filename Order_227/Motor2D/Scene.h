@@ -53,6 +53,15 @@ private:
 
 	pugi::xml_document SP_Doc;
 
+	//Music Management
+	void ManageMusic();
+	char* ChooseNextSong(char* currSong);
+
+	int songRepetitions = 0;
+	char* current_song = nullptr;
+	char* next_song = nullptr;
+
+	//Music
 	char* ingame_song3_loop = nullptr;
 	char* ingame_song3_intro = nullptr;
 	char* ingame_song3_outro = nullptr;
