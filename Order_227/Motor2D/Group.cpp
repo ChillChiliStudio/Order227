@@ -2,7 +2,6 @@
 #include <queue>
 #include "App.h"
 #include "Log.h"
-//#include "Map.h"	//Check Group.h
 #include "Pathfinding.h"
 #include "Unit.h"
 #include "Group.h"

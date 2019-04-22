@@ -223,8 +223,9 @@ bool Entity_Manager::Update(float dt)
 }
 
 
-bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryType, entity_faction entityFaction)
+Unit* Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryType, entity_faction entityFaction)
 {
+	Unit* unit = nullptr;
 	//Player troops
 	if (entityFaction == entity_faction::COMMUNIST)
 	{
@@ -241,8 +242,9 @@ bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTyp
 				CommunistUnitsArray[i]->infatryType = infantryType;
 				//CommunistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
+				unit = CommunistUnitsArray[i];
 
-				return true;
+				return unit;
 			}
 		}
 	}
@@ -263,13 +265,14 @@ bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTyp
 				CapitalistUnitsArray[i]->infatryType = infantryType;
 				//CapitalistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
+				unit = CapitalistUnitsArray[i];
 
-				return true;
+				return unit;
 			}
 		}
 	}
 
-	return false;
+	return unit;
 }
 
 

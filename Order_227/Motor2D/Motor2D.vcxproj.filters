@@ -116,7 +116,7 @@
       <Filter>Game Files\Entity Management\Group Management</Filter>
     </ClCompile>
     <ClCompile Include="Horde_Manager.cpp">
-      <Filter>Game Files\Entity Management</Filter>
+      <Filter>Game Files\Entity Management\Entities\Enemies Management</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,9 +173,6 @@
     </ClInclude>
     <ClInclude Include="Textures.h">
       <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClInclude>
-    <ClInclude Include="Spawning_Point.h">
-      <Filter>Game Files\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Unit.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
@@ -256,7 +253,10 @@
       <Filter>Game Files\Entity Management\Group Management</Filter>
     </ClInclude>
     <ClInclude Include="Horde_Manager.h">
-      <Filter>Game Files\Entity Management</Filter>
+      <Filter>Game Files\Entity Management\Entities\Enemies Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Spawning_Point.h">
+      <Filter>Game Files\Entity Management\Entities\Enemies Management</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -316,6 +316,9 @@
     </Filter>
     <Filter Include="Game Files\Entity Management\Group Management">
       <UniqueIdentifier>{f903269a-71b3-4f83-8d72-b0ddb8e3cc63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Entity Management\Entities\Enemies Management">
+      <UniqueIdentifier>{26153dbf-e930-4f6b-81d7-2ad899eab395}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

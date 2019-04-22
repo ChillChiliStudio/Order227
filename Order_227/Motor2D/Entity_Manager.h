@@ -39,7 +39,7 @@ public:
 
 	bool ActivateObject(fPoint position, object_type objectType);
 	bool ActivateBuilding(fPoint position, building_type buildingType, entity_faction entityFaction = entity_faction::NEUTRAL);
-	bool ActivateInfantry(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+	Unit* ActivateInfantry(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
 
 	bool DeActivateObject(Static_Object* Object);
 	bool DeActivateBuilding(Building* Building);

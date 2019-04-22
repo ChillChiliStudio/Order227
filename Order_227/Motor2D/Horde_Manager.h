@@ -3,8 +3,10 @@
 
 #include "Module.h"
 #include "Point.h"
+#include "vector"
 
 class Group;
+class Spawning_Point;
 
 struct Horde {
 	Group* units;
@@ -21,9 +23,22 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
+public:
+
+	
+
+	void ChooseSpawningPoints();
+
+	std::vector<Spawning_Point*> SpawningPoints_Array;
+	std::vector<Group*> hordes;
+
 private:
 
-	std::list<Group*> hordes;
+	//Spawning & SP
+	int roundThreat = 0;
+	int threatIncremental = 0;
+	int roundNumber = 0;
+
 
 };
 
