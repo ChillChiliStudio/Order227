@@ -8,9 +8,11 @@
 #include "Entity.h"
 #include "Unit.h"
 
+
 Unit::Unit(fPoint pos, entity_type entityType, entity_faction faction) : Entity(pos, entityType, faction)
 {
 //	LoadEntityData();
+	
 }
 
 Unit::~Unit()
@@ -29,8 +31,8 @@ bool Unit::Update(float dt)
 
 	UnitWorkflow(dt);
 
-	UnitRect.x = (int)position.x;
-	UnitRect.y = (int)position.y;
+	UnitRect.x = position.x-10;
+	UnitRect.y = position.y-10;
 
 	if (mustDespawn) {
 		mustDespawn = false;
@@ -531,11 +533,11 @@ Unit* Unit::EnemyInRange()
 			&& InsideRadius(position, (float)stats.attackRange, myApp->entities->mainBase->position))
 		{
 			myApp->entities->mainBase->health -= (float)stats.damage * myApp->GetDT();
-			
+
 			if (myApp->entities->mainBase->health < 0) {
 				//TODO: Lose flag
 			}
-			
+
 			unitState = unit_state::ATTACKING;
 		}
 	}

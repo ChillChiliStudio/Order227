@@ -58,6 +58,7 @@ bool Render::Start()
 	LOG("render start");
 	// back background
 	SDL_RenderGetViewport(renderer, &viewport);
+	SDL_RenderSetLogicalSize(renderer,1280,720);
 	return true;
 }
 

@@ -14,7 +14,7 @@
     <ProjectGuid>{2AF9969B-F202-497B-AF30-7BEF9CE8005E}</ProjectGuid>
     <RootNamespace>programacio_2</RootNamespace>
     <ProjectName>Order227</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -80,6 +80,7 @@
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ButtonActions.cpp" />
     <ClCompile Include="CheckBox.cpp" />
     <ClCompile Include="Entity_Manager.cpp" />
     <ClCompile Include="Fonts.cpp" />
@@ -93,8 +94,10 @@
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Infantry.cpp" />
+    <ClCompile Include="Spawn_Box.cpp" />
     <ClCompile Include="Static_Object.cpp" />
     <ClCompile Include="TileQuadtree.cpp" />
+    <ClCompile Include="UnitButton.cpp" />
     <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="App.cpp" />
@@ -133,8 +136,10 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Infantry.h" />
+    <ClInclude Include="Spawn_Box.h" />
     <ClInclude Include="Static_Object.h" />
     <ClInclude Include="TileQuadtree.h" />
+    <ClInclude Include="UnitButton.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Vehicle.h" />
     <ClInclude Include="VoidBox.h" />

@@ -18,6 +18,8 @@ enum class ui_type
 	BUTTON,
 	ACTION_BOX,
 	CHECK_BOX,
+	SPAWN_BOX,
+	UNIT_BOX,
 	SLIDER,
 
 	MAX_TYPES
@@ -67,6 +69,9 @@ public:
 
 	virtual void Activate();
 	virtual void Deactivate();
+
+	virtual void ActivateChildren();
+	virtual void DeactivateChildren();
 
 	virtual void AttachParent(UI_Element* parent);
 	virtual void DetachParent();

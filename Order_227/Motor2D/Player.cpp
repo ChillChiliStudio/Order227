@@ -7,8 +7,10 @@
 #include "Entity_Manager.h"
 #include "UserInterface.h"
 #include "Text.h"
+#include "ParamBox.h"
 #include "GroupManager.h"
 #include "Player.h"
+
 
 Player::Player()
 {}
@@ -30,6 +32,7 @@ bool Player::Start()
 	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
 	mouseDebugMark->Deactivate();
 
+
 	return true;
 }
 
@@ -40,6 +43,10 @@ bool Player::PreUpdate()
 
 bool Player::Update(float dt)
 {
+	//if (unitCreationCD.ReadSec() >= 10) {
+	//	startCreationUnit = false;
+	//}
+
 	UpdateMousePos();	// Mouse Position Update
 	CameraInputs(dt);	// Camera Inputs
 	DebugInputs();		// Debug Inputs
@@ -50,12 +57,20 @@ bool Player::Update(float dt)
 		DebugMouse();	// Mouse UI Debug data update
 	}
 
+	if (myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+		if (myApp->gui->pauseMenuPanel->active == false) {
+			myApp->gui->pauseMenuPanel->Activate();
+		}
+		else
+			myApp->gui->pauseMenuPanel->Deactivate();
+	}
+
 	return true;
 }
 
 bool Player::CleanUp()
 {
-	myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
+	//myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
 	mouseDebugMark = nullptr;
 
 	return true;
