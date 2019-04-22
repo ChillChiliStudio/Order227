@@ -12,12 +12,7 @@
 struct _Mix_Music;
 struct Mix_Chunk;
 
-struct SFX {
 
-	std::string path;
-	uint id;
-
-};
 
 enum class type_sounds
 {
