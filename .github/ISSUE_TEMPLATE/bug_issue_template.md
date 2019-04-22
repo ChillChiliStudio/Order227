@@ -46,10 +46,10 @@ Select the frequency with which the bug appears and mark it "x" ([x])
 * [ ] Few Times under specific conditions
 
 ## Conduct 
-### **Expected result:**
+### Expected result:
 
 
-### **Actual result:**
+### Actual result:
 
 
 ## Screenshots and Illustrations
