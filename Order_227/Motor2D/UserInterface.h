@@ -93,22 +93,22 @@ public:
 	//uint defaultScale;	//IMPROVE: Future use
 	Animation Timer_anim;
 	Timer unitCreationCD;
-	Image* pauseMenuPanel;
+	Image* pauseMenuPanel = nullptr;
 
 	std::list<Spawn_Box*> SpawnSelectors;
 
 private:
 	std::list<UI_Element*> screenElements;
 
-	SDL_Texture* Timer_Texture;
+	SDL_Texture* Timer_Texture = nullptr;
 
-	Image* MainBarPanel;
+	Image* MainBarPanel = nullptr;
 
-	Spawn_Box* selectorInfantry;
-	Spawn_Box* selectorDefenses;
-	Spawn_Box* selectorTank;
-	Unit_Box* ConscriptCreator;
-	Image* frameSelector;
+	Spawn_Box* selectorInfantry=nullptr;
+	Spawn_Box* selectorDefenses = nullptr;
+	Spawn_Box* selectorTank = nullptr;
+	Unit_Box* ConscriptCreator = nullptr;
+	Image* frameSelector = nullptr;
 
 	SDL_Rect selectorInfantry_Rect[4];
 	SDL_Rect selectorDefenses_Rect[4];
@@ -118,10 +118,10 @@ private:
 
 	SDL_Texture* unitsSelection_Tex;
 
-	SDL_Texture* selectorinGame_Tex;
-	SDL_Texture* pauseMenuPanel_Tex;
-	SDL_Texture* mainBar;
-	SDL_Texture* atlas;
+	SDL_Texture* selectorinGame_Tex = nullptr;
+	SDL_Texture* pauseMenuPanel_Tex = nullptr;
+	SDL_Texture* mainBar = nullptr;
+	SDL_Texture* atlas = nullptr;
 	std::string atlasFileName;
 
 };

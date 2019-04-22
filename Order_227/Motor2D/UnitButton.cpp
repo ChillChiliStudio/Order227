@@ -13,6 +13,7 @@ Unit_Box::Unit_Box(event_function action, fPoint center, SDL_Rect spriteList[4],
 	Timer = timeCreator;
 	Animation = &myApp->gui->Timer_anim;
 	Animation->speed = Timer / 100.0f;
+	ActiveTimer = false;
 };
 
 //State Entry

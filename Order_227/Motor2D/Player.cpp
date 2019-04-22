@@ -33,7 +33,7 @@ bool Player::Start()
 {
 	LOG("STARTING PLAYER MODULE");
 
-	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "", font_id::DEFAULT, { 0, 0, 255, 255 });
+	//mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "", font_id::DEFAULT, { 0, 0, 255, 255 });
 
 	return true;
 }
@@ -72,7 +72,7 @@ bool Player::Update(float dt)
 
 bool Player::CleanUp()
 {
-	myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
+	//myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
 	mouseDebugMark = nullptr;
 
 	return true;
