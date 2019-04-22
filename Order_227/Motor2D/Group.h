@@ -31,6 +31,7 @@ public:
 
 	void SpreadDestinations(iPoint origDest);
 	void TransmitOrders(unit_orders givenOrder);
+	void FindClosestWalkable(iPoint& destination);
 
 	void AddUnit(Unit* unit);
 

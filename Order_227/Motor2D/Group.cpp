@@ -27,10 +27,9 @@ void Group::SpreadDestinations(iPoint origDest)
 	iPoint mainDestination = myApp->map->WorldToMap(origDest);
 	
 	if (!myApp->pathfinding->IsWalkable(mainDestination))
-		return;
-	
-		if (!myApp->pathfinding->IsWalkable(mainDestination))
-		return;
+	{
+		FindClosestWalkable(mainDestination);
+	}
 
 	std::vector<iPoint*> visited;
 	std::queue<iPoint*> frontier;
@@ -57,11 +56,7 @@ void Group::SpreadDestinations(iPoint origDest)
 		{
 			if (myApp->pathfinding->IsWalkable(neighbors[i]))
 			{
-				for (std::vector<iPoint*>::iterator ii = visited.begin(); ii != visited.end(); ++ii)
-				{
-					if ((*ii)->x == neighbors[i].x && (*ii)->y == neighbors[i].y)
-						break;
-				}
+				
 				frontier.push(&neighbors[i]);
 				visited.push_back(&neighbors[i]);
 
@@ -104,4 +99,48 @@ void Group::TransmitOrders(unit_orders givenOrder)
 void Group::AddUnit(Unit* unit)
 {
 	groupUnits.push_back(unit);
+}
+
+void Group::FindClosestWalkable(iPoint& destination)
+{
+	std::vector<iPoint*> visited;
+	std::queue<iPoint*> frontier;
+
+	visited.push_back(&destination);
+	frontier.push(&destination);
+
+	while (!myApp->pathfinding->IsWalkable(destination))
+	{
+		iPoint* tile = frontier.front();
+		frontier.pop();
+
+		iPoint neighbors[4];
+		neighbors[0].create(tile->x + 1, tile->y + 0);
+		neighbors[1].create(tile->x + 0, tile->y + 1);
+		neighbors[2].create(tile->x - 1, tile->y + 0);
+		neighbors[3].create(tile->x + 0, tile->y - 1);
+
+		for (int i = 0; i < 4; ++i)
+		{
+			bool tileVisited = false;
+			
+			if (myApp->pathfinding->IsWalkable(neighbors[i]))
+			{
+				destination = neighbors[i];
+				break;
+			}
+
+			for (int b =0;b<visited.size();++b)
+			{
+				if (visited[b] == &neighbors[i])
+					tileVisited = true;
+			}
+
+			if (!tileVisited)
+			{
+				frontier.push(&neighbors[i]);
+				visited.push_back(&neighbors[i]);
+			}
+		}
+	}
 }
