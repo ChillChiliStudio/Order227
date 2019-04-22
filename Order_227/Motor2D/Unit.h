@@ -144,8 +144,7 @@ public:
 	unit_directions unitDirection = unit_directions::SOUTH_EAST;
 	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
 
-	Animation* currentAnimation = nullptr;
-
+	Animation* 	currentAnimation = nullptr;
 	iPoint origin;
 	iPoint destination;
 	std::vector<iPoint> unitPath;

@@ -94,6 +94,7 @@ public:
 	Animation Timer_anim;
 	Timer unitCreationCD;
 	Image* pauseMenuPanel = nullptr;
+	Text* Moneytext = nullptr;
 
 	std::list<Spawn_Box*> SpawnSelectors;
 
