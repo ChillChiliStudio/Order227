@@ -41332,7 +41332,7 @@
    <tile gid="280"/>
    <tile gid="280"/>
    <tile gid="280"/>
-   <tile/>
+   <tile gid="280"/>
    <tile/>
    <tile/>
    <tile/>
@@ -44528,7 +44528,7 @@
    <tile/>
    <tile gid="280"/>
    <tile gid="280"/>
-   <tile/>
+   <tile gid="280"/>
    <tile gid="280"/>
    <tile/>
    <tile/>
@@ -44628,8 +44628,8 @@
    <tile/>
    <tile gid="280"/>
    <tile gid="280"/>
-   <tile/>
-   <tile/>
+   <tile gid="280"/>
+   <tile gid="280"/>
    <tile/>
    <tile/>
    <tile/>

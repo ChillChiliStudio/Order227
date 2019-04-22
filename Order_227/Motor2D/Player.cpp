@@ -33,7 +33,9 @@ bool Player::Start()
 {
 	LOG("STARTING PLAYER MODULE");
 
-	//mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "", font_id::DEFAULT, { 0, 0, 255, 255 });
+	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
+	mouseDebugMark->Deactivate();
+
 
 	return true;
 }
@@ -89,16 +91,16 @@ void Player::CameraInputs(float dt)
 {
 	//Move Camera
 	if (myApp->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		myApp->render->camera.y += ceil(500 * dt);
+		myApp->render->camera.y += (int)ceil(500 * dt);
 
 	if (myApp->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		myApp->render->camera.y -= ceil(500 * dt);
+		myApp->render->camera.y -= (int)ceil(500 * dt);
 
 	if (myApp->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		myApp->render->camera.x += ceil(500 * dt);
+		myApp->render->camera.x += (int)ceil(500 * dt);
 
 	if (myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		myApp->render->camera.x -= ceil(500 * dt);
+		myApp->render->camera.x -= (int)ceil(500 * dt);
 }
 
 void Player::DebugMouse()
@@ -118,7 +120,7 @@ void Player::DebugMouse()
 	mouseStr += std::to_string(mouseMap.y);
 
 	mouseDebugMark->ChangeCenter({ (float)mouseScreenPos.x, (float)(mouseScreenPos.y - 25) });
-	mouseDebugMark->ChangeContent(mouseStr);
+	mouseDebugMark->ChangeString(mouseStr);
 }
 
 void Player::DebugInputs()
