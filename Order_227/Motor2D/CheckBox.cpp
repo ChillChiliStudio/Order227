@@ -57,13 +57,11 @@ bool Check_Box::GetValue()
 
 value_state Check_Box::GetValueState()
 {
-	if (value != nullptr) {
-		switch (*value) {
-		case true:
-			return value_state::ON;
-		case false:
-			return value_state::OFF;
-		}
+	switch (*value) {
+	case true:
+		return value_state::ON;
+	case false:
+		return value_state::OFF;
 	}
 }
 

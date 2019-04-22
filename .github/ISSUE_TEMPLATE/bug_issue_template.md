@@ -4,8 +4,8 @@ about: Use this Template to easily issue a BUG you've found!
 
 ---
 
-## Bug Description
-
+**Describe the bug**
+A clear and concise description of what the bug is.
 
 ## Type of Bug 
 Select the type of bug with and "x" ([x])
@@ -27,7 +27,8 @@ Select the severity of bug affection and mark with "x" ([x])
 - [ ] Game stopper/slower
 - [ ] Cosmetic 
 
-## Reproduction
+
+**Reproduction**
 Steps to reproduce the behavior:
 
  1. 
@@ -46,17 +47,17 @@ Select the frequency with which the bug appears and mark it "x" ([x])
 * [ ] Few Times under specific conditions
 
 ## Conduct 
-### Expected result:
+### **Expected result:**
+
+### **Actual result:**
 
 
-### Actual result:
-
-
-## Screenshots and Illustrations
-
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
 
 ## Build
-- **Please specify the build:** ``Insert the build here``
+- **Please specify the build:** ``Insert the build here ``
 
 
-## Observations and Additional Information
+## Observations
+Add any other context about the problem here.

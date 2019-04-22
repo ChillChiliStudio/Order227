@@ -1,27 +1,23 @@
 #include "Geometry.h"
 
-iVec2 GetVector2(iPoint A, iPoint B)
+Vector2<float> GetVector2(iPoint A, iPoint B)
 {
 	iPoint tmp = B - A;
-	return { tmp.x, tmp.y };
+	Vector2<float> vec((float)tmp.x, (float)tmp.y);
+	return vec;
 }
 
-fVec2 GetVector2(fPoint A, fPoint B)
+Vector2<float> GetVector2(fPoint A, fPoint B)
 {
 	fPoint tmp = B - A;
-	return { tmp.x, tmp.y };
-}
-
-float GetDistance(iPoint A, iPoint B)
-{
-	iVec2 vec = GetVector2(A, B);
-	return (float)vec.GetMagnitude();
+	Vector2<float> vec(tmp.x, tmp.y);
+	return vec;
 }
 
 float GetDistance(fPoint A, fPoint B)
 {
-	fVec2 vec = GetVector2(A, B);
-	return vec.GetMagnitude();
+	Vector2<float> vec = GetVector2(A, B);
+	return (float)vec.GetMagnitude();
 }
 
 float RadsToDeg(float angle)

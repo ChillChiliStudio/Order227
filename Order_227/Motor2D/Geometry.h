@@ -4,8 +4,8 @@
 #include "Point.h"
 #include "Vector.h"
 
-iVec2 GetVector2(iPoint A, iPoint B);
-fVec2 GetVector2(fPoint A, fPoint B);
+Vector2<float> GetVector2(iPoint A, iPoint B);
+Vector2<float> GetVector2(fPoint A, fPoint B);
 float GetDistance(fPoint A, fPoint B);
 
 float RadsToDeg(float angle);

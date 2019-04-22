@@ -83,20 +83,6 @@ void UI_Element::Deactivate()
 	}
 }
 
-void UI_Element::ActivateChildren()
-{
-	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); iter = next(iter)) {
-		(*iter)->active = true;
-	}
-}
-
-void UI_Element::DeactivateChildren()
-{
-	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); iter = next(iter)) {
-		(*iter)->active = false;
-	}
-}
-
 void UI_Element::AttachParent(UI_Element* parent)	//WARNING: Revise if parent-child relations get fucky, std implemented
 {
 	this->parent = parent;

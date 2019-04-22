@@ -70,7 +70,6 @@ struct unit_stats
 
 	float linSpeed;
 	fVec2 vecSpeed;
-	float vecAngle;
 
 	int cost;
 	int productionTime;
@@ -98,7 +97,6 @@ public:
 	// Main Workflow
 	void UnitWorkflow(float dt);	// State workflow depending on order issued
 	void ApplyState();				// Add state effects, like current animation
-	unit_directions CheckDirection();
 
 	//Order calling
 	void OrderStandardSetup(iPoint destination);
@@ -156,7 +154,7 @@ public:
 	Unit* target = nullptr;
 	bool targetLost;	// Used when there's a specific target to Search & Destroy which sight of can be lost
 
-	infantry_type infantryType;
+	infantry_type infatryType;
 	unit_stats stats;
 	SDL_Rect selectionRect = { 0, 0, 0, 0 };
 

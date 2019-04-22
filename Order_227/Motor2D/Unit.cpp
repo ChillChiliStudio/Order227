@@ -24,12 +24,10 @@ bool Unit::Start()
 bool Unit::Update(float dt)
 {
 	UnitWorkflow(dt);
-	unitDirection = CheckDirection();
-	currentAnimation = &myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)];
+	currentAnimation = &myApp->entities->animationArray[int(infatryType)][int(unitState)][int(unitDirection)];
 
-	UnitRect.x = position.x-10;
-	UnitRect.y = position.y-10;
-
+	UnitRect.x = position.x;
+	UnitRect.y = position.y;
 
 	if (mustDespawn) {
 
@@ -95,7 +93,7 @@ void Unit::UpdateBlitOrder()
 
 bool Unit::Draw(float dt)
 {
-	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &currentAnimation->GetCurrentFrame(dt));
+	myApp->render->Push(order, texture, position.x, position.y, &currentAnimation->GetCurrentFrame(dt));
 
 	return true;
 }
@@ -169,41 +167,6 @@ void Unit::UnitWorkflow(float dt)
 	if (prevState != unitState) {
 		ApplyState();
 	}
-}
-
-unit_directions Unit::CheckDirection()
-{
-	unit_directions ret = unit_directions::NONE;
-
-	stats.vecAngle = stats.vecSpeed.GetAngle({ 0.0f, -1.0f });
-	stats.vecAngle = RadsToDeg(stats.vecAngle);
-
-	if (stats.vecAngle > 337.5f || stats.vecAngle <= 22.5f) {
-		ret = unit_directions::NORTH;
-	}
-	else if (stats.vecAngle > 292.5f) {
-		ret = unit_directions::NORTH_EAST;
-	}
-	else if (stats.vecAngle > 247.5f) {
-		ret = unit_directions::EAST;
-	}
-	else if (stats.vecAngle > 202.5f) {
-		ret = unit_directions::SOUTH_EAST;
-	}
-	else if (stats.vecAngle > 157.5f) {
-		ret = unit_directions::SOUTH;
-	}
-	else if (stats.vecAngle > 112.5f) {
-		ret = unit_directions::SOUTH_WEST;
-	}
-	else if (stats.vecAngle > 67.5f) {
-		ret = unit_directions::WEST;
-	}
-	else if (stats.vecAngle > 22.5f) {
-		ret = unit_directions::NORTH_WEST;
-	}
-
-	return ret;
 }
 
 // Change animation according to state
@@ -484,7 +447,7 @@ Unit* Unit::EnemyInRange()
 	Unit* ret = nullptr;
 
 	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {	//TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units, one for each side
-		if (hostileUnits[i]->active == true && hostileUnits[i]->IsDead() == false) {
+		if (hostileUnits[i]->active == true) {
 
 			if (InsideSquareRadius(position, (float)stats.attackRange, hostileUnits[i]->position)
 				&& InsideRadius(position, (float)stats.attackRange, hostileUnits[i]->position))
@@ -517,11 +480,11 @@ Unit* Unit::EnemyInRange()
 			&& InsideRadius(position, (float)stats.attackRange, myApp->entities->mainBase->position))
 		{
 			myApp->entities->mainBase->health -= (float)stats.damage * myApp->GetDT();
-
+			
 			if (myApp->entities->mainBase->health < 0) {
 				//TODO: Lose flag
 			}
-
+			
 			unitState = unit_state::ATTACKING;
 		}
 	}
@@ -531,7 +494,7 @@ Unit* Unit::EnemyInRange()
 
 bool Unit::TargetInRange()
 {
-	return InsideRadius(position, (float)stats.attackRange, target->position);
+	return InsideRadius(position, stats.attackRange, target->position);
 }
 
 void Unit::SetupPath()
@@ -554,9 +517,9 @@ void Unit::SetupPath()
 
 fVec2 Unit::SetupVecSpeed()
 {
-	fPoint nodePos = { (float)(currNode->x), (float)(currNode->y) };
+	iPoint iPos = { (int)position.x, (int)position.y };
 
-	stats.vecSpeed = GetVector2(position, nodePos);
+	stats.vecSpeed = GetVector2(iPos, *currNode);
 	stats.vecSpeed = stats.vecSpeed.GetUnitVector();
 	stats.vecSpeed *= stats.linSpeed;
 	return stats.vecSpeed;

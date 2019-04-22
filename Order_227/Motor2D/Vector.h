@@ -176,7 +176,7 @@ public:
 	// Vector Operations
 	TYPE GetMagnitude()
 	{
-		return (TYPE)sqrt(pow(x, 2) + pow(y, 2));
+		return sqrt(pow(x, 2) + pow(y, 2));
 	}
 
 	Vector2 GetUnitVector()

@@ -7,7 +7,6 @@
 #include "Timer.h"
 #include <list>
 
-
 // Modules
 class Window;
 class Input;

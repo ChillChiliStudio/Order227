@@ -23,13 +23,7 @@ public:
 	//Constructor
 	Param_Box(event_function action, T_param parameter, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent = NULL)
 		: Action_Box(ui_type::ACTION_BOX, center, spriteList, tex, parent), action(action), parameter(parameter)
-	{
-		stateSprites = new SDL_Rect[(int)button_state::MAX_TYPES];
-
-		for (int i = 0; i < (int)button_state::MAX_TYPES; i++) {
-			stateSprites[i] = spriteList[i];
-		}
-	};
+	{};
 
 protected:
 	//State Entry

@@ -117,15 +117,6 @@
     </ClCompile>
     <ClCompile Include="Horde_Manager.cpp">
       <Filter>Game Files\Entity Management\Entities\Enemies Management</Filter>
-        </ClCompile>
-    <ClCompile Include="Spawn_Box.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
-    </ClCompile>
-    <ClCompile Include="ButtonActions.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitButton.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,12 +257,6 @@
     </ClInclude>
     <ClInclude Include="Spawning_Point.h">
       <Filter>Game Files\Entity Management\Entities\Enemies Management</Filter>
-      </ClInclude>
-    <ClInclude Include="Spawn_Box.h">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
-    </ClInclude>
-    <ClInclude Include="UnitButton.h">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

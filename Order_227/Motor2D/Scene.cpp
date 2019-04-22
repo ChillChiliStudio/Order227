@@ -10,6 +10,7 @@
 #include "PathFinding.h"
 #include "Entity_Manager.h"
 #include "UserInterface.h"
+#include "ButtonActions.h"
 #include "ParamBox.h"
 #include "Scene.h"
 #include "GroupManager.h"
@@ -70,10 +71,8 @@ bool Scene::PostUpdate()
 {
 	bool ret = true;
 
-	//if(myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-	//	ret = false;
-
-	myApp->gui->Draw();
+	if(myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		ret = false;
 
 	return ret;
 }
