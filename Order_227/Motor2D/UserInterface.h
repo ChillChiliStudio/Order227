@@ -2,6 +2,7 @@
 #define USER_INTERFACE_H	//@Carles
 
 #include "Module.h"
+#include "Animation.h"
 
 #define CURSOR_WIDTH 2
 
@@ -12,10 +13,14 @@ class Image;
 class Text;
 class Void_Box;
 class Check_Box;
+class Spawn_Box;
+class Unit_Box;
+class Button;
 //class Window;
 struct _TTF_Font;
 struct SDL_Rect;
 struct SDL_Texture;
+
 
 class User_Interface : public Module
 {
@@ -60,6 +65,8 @@ public:
 	//UI_Element* CreateInputText();
 	Void_Box* CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL);
 	Check_Box* CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
+	Spawn_Box* CreateSpawnBox(bool value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
+	Unit_Box* CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0);
 
 	template <class T_param>
 	UI_Element* CreateParamBox(void(*action)(T_param), T_param parameter, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL)
@@ -81,24 +88,35 @@ public:
 public:
 	bool interfaceDebugDraw = false;
 	//uint defaultScale;	//IMPROVE: Future use
+	Animation Timer_anim;
 
 private:
 	std::list<UI_Element*> screenElements;
 
+	SDL_Texture* Timer_Texture;
 
-	UI_Element* MainBarPanel;
-	UI_Element* pauseMenuPanel;
-	UI_Element* selectorInfantry;
-	UI_Element* selectorDefenses;
-	UI_Element* selectorTank;
-	UI_Element* frameSelector;
+	Image* MainBarPanel;
+	Image* pauseMenuPanel;
+	Spawn_Box* selectorInfantry;
+	Spawn_Box* selectorDefenses;
+	Spawn_Box* selectorTank;
+	Unit_Box* ConscriptCreator;
+	Image* frameSelector;
 
+	SDL_Rect selectorInfantry_Rect[4];
+	SDL_Rect selectorDefenses_Rect[4];
+	SDL_Rect selectorTank_Rect[4];
 
+	SDL_Rect Conscript_Selection_Rect[4];
+
+	SDL_Texture* unitsSelection_Tex;
+	
 	SDL_Texture* selectorinGame_Tex;
 	SDL_Texture* pauseMenuPanel_Tex;
 	SDL_Texture* mainBar;
 	SDL_Texture* atlas;
 	std::string atlasFileName;
+
 };
 
 #endif // __USER_INTERFACE_H__

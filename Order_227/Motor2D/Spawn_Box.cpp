@@ -1,42 +1,51 @@
-#include "CheckBox.h"
+#include "Spawn_Box.h"
 #include "SDL/include/SDL_rect.h"
 
 //Constructor
-Check_Box::Check_Box(bool* value, event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent)
+Spawn_Box::Spawn_Box(bool value, event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent)
 	: Void_Box(action, center, spriteList, tex, parent, ui_type::CHECK_BOX), value(value)/*, valueStatus(GetValueState())*/
 {
+	stateSprites = new SDL_Rect[(int)button_state::MAX_TYPES];
+
+	for (int i = 0; i < (int)button_state::MAX_TYPES; i++) {
+		stateSprites[i] = spriteList[i];
+	}
 	valueStatus = GetValueState();
+	if(value==true)
+		Enable();
 };
 
 //Enable/Disable
-void Check_Box::Enable()
+void Spawn_Box::Enable()
 {
 	buttonStatus = button_state::IDLE;
 	valueStatus = GetValueState();
 	*sprite = stateSprites[(int)valueStatus];
 }
 
-void Check_Box::Disable()
+void Spawn_Box::Disable()
 {
 	buttonStatus = button_state::DISABLED;
 	*sprite = stateSprites[(int)buttonStatus];
 }
 
 //State Entry
-void Check_Box::OnIdle()
+void Spawn_Box::OnIdle()
 {
 	buttonStatus = button_state::IDLE;
 	valueStatus = GetValueState();
 	*sprite = stateSprites[(int)valueStatus];
 }
 
-void Check_Box::OnHover()
+void Spawn_Box::OnHover()
 {
-	buttonStatus = button_state::HOVERING;
-	*sprite = stateSprites[(int)button_state::HOVERING];
+	//if (!value) {
+		buttonStatus = button_state::HOVERING;
+		*sprite = stateSprites[(int)button_state::HOVERING];
+	//}
 }
 
-void Check_Box::OnPress()
+void Spawn_Box::OnPress()
 {
 	//myApp->audio->PlayFx(myApp->audio->buttonSfx.id, 0);
 	buttonStatus = button_state::PRESSING;
@@ -50,25 +59,23 @@ void Check_Box::OnPress()
 }
 
 //Value Methods
-bool Check_Box::GetValue()
+bool Spawn_Box::GetValue()
 {
 	return value;
 }
 
-value_state Check_Box::GetValueState()
+value_state Spawn_Box::GetValueState()
 {
-	if (value != nullptr) {
-		switch (*value) {
+		switch (value) {
 		case true:
 			return value_state::ON;
 		case false:
 			return value_state::OFF;
 		}
-	}
 }
 
-bool Check_Box::SwitchValue()
+bool Spawn_Box::SwitchValue()
 {
-	*value = !*value;
-	return *value;
+	value = !value;
+	return value;
 }

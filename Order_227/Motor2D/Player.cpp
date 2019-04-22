@@ -11,7 +11,6 @@
 #include "Entity_Manager.h"
 #include "UserInterface.h"
 #include "Text.h"
-#include "ButtonActions.h"
 #include "ParamBox.h"
 #include "GroupManager.h"
 #include "Player.h"
@@ -33,7 +32,7 @@ bool Player::Start()
 {
 	LOG("STARTING PLAYER MODULE");
 
-	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "", font_id::DEFAULT, { 0, 0, 255, 255 });
+	//mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "", font_id::DEFAULT, { 0, 0, 255, 255 });
 
 	return true;
 }

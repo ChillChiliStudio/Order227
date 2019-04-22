@@ -18,6 +18,8 @@ enum class ui_type
 	BUTTON,
 	ACTION_BOX,
 	CHECK_BOX,
+	SPAWN_BOX,
+	UNIT_BOX,
 	SLIDER,
 
 	MAX_TYPES

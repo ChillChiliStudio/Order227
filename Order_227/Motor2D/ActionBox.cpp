@@ -5,11 +5,6 @@
 Action_Box::Action_Box(ui_type type, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent)
 	: Button(type, center, spriteList[(int)button_state::IDLE], tex, false, parent, NULL)
 {
-	stateSprites = new SDL_Rect[(int)button_state::MAX_TYPES];
-
-	for (int i = 0; i < (int)button_state::MAX_TYPES; i++) {
-		stateSprites[i] = spriteList[i];
-	}
 };
 
 Action_Box::~Action_Box()
