@@ -33,7 +33,7 @@ bool Player::Start()
 {
 	LOG("STARTING PLAYER MODULE");
 
-	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
+	//mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
 
 	return true;
 }
@@ -52,7 +52,7 @@ bool Player::Update(float dt)
 	PlayerSelect();		// Player Area Selection Management
 
 	if (myApp->gui->interfaceDebugDraw) {
-		DebugMouse();	// Mouse UI Debug data update
+		//DebugMouse();	// Mouse UI Debug data update
 	}
 
 	return true;
@@ -60,7 +60,7 @@ bool Player::Update(float dt)
 
 bool Player::CleanUp()
 {
-	myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
+	//myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
 	mouseDebugMark = nullptr;
 
 	return true;
@@ -143,11 +143,11 @@ void Player::DebugInputs()
 
 			if (myApp->gui->interfaceDebugDraw) {
 				LOG("Debug UI: ON");
-				mouseDebugMark->Activate();
+				//mouseDebugMark->Activate();
 			}
 			else {
 				LOG("Debug UI: OFF");
-				mouseDebugMark->Deactivate();
+				//mouseDebugMark->Deactivate();
 			}
 		}
 
