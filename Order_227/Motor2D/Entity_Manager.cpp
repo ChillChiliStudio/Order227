@@ -239,7 +239,10 @@ Unit* Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTy
 				CommunistUnitsArray[i]->stats = infantryStats[int(infantryType)];
 				CommunistUnitsArray[i]->active = true;
 				CommunistUnitsArray[i]->selected = false;
-				CommunistUnitsArray[i]->infatryType = infantryType;
+				CommunistUnitsArray[i]->infantryType = infantryType;
+				CommunistUnitsArray[i]->UnitRect.w = 45;
+				CommunistUnitsArray[i]->UnitRect.h = 55;
+
 				//CommunistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
 				unit = CommunistUnitsArray[i];
@@ -262,7 +265,7 @@ Unit* Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTy
 				CapitalistUnitsArray[i]->stats = infantryStats[int(infantryType)];
 				CapitalistUnitsArray[i]->active = true;
 				CapitalistUnitsArray[i]->selected = false;
-				CapitalistUnitsArray[i]->infatryType = infantryType;
+				CapitalistUnitsArray[i]->infantryType = infantryType;
 				//CapitalistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
 				unit = CapitalistUnitsArray[i];
@@ -335,7 +338,7 @@ bool Entity_Manager::DeActivateInfantry(Unit* infantry)
 
 				CommunistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 				//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-				CommunistUnitsArray[i]->infatryType = infantry_type::INFANTRY_NONE;
+				CommunistUnitsArray[i]->infantryType = infantry_type::INFANTRY_NONE;
 				CommunistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
 				CommunistUnitsArray[i]->texture = nullptr;
 				CommunistUnitsArray[i]->active = false;
@@ -356,7 +359,7 @@ bool Entity_Manager::DeActivateInfantry(Unit* infantry)
 
 				CapitalistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 				//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-				CapitalistUnitsArray[i]->infatryType = infantry_type::INFANTRY_NONE;
+				CapitalistUnitsArray[i]->infantryType = infantry_type::INFANTRY_NONE;
 				CapitalistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
 				CapitalistUnitsArray[i]->texture = nullptr;
 				CapitalistUnitsArray[i]->active = false;
@@ -440,22 +443,34 @@ bool Entity_Manager::LoadEntityData() {
 				temp.y = Data.attribute("y").as_int();
 				temp.w = Data.attribute("width").as_int();
 				temp.h = Data.attribute("height").as_int();
+				temp.x += 26;
+				temp.y += 7;
+				temp.w = 25;
+				temp.h = 35;
 
 				std::string tempString = Data.attribute("name").as_string();
 				int degreesToArray = Data.attribute("type").as_int() / 45;//DEGREES    HAVE IN ACCOUNT THAT THE TILES ARE DEFINED CONTERCLOCKWISE
 
-					if (tempString == "Pointing")
-						animationArray[i][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
-
-					if (tempString == "Walking")
-						animationArray[i][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
-
-					if (tempString == "Shot")
-						animationArray[i][int(unit_state::ATTACKING)][degreesToArray].PushBack(temp);
-
-					if( tempString=="DeathOne")
-						animationArray[i][int(unit_state::DEAD)][0].PushBack(temp);
-
+				if (tempString == "Pointing") {
+					animationArray[i][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
+					animationArray[i][int(unit_state::IDLE)][degreesToArray].loop = true;
+					animationArray[i][int(unit_state::IDLE)][degreesToArray].speed = 0.03f;
+				}	
+				if (tempString == "Walking") {
+					animationArray[i][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
+					animationArray[i][int(unit_state::MOVING)][degreesToArray].loop = true;
+					animationArray[i][int(unit_state::MOVING)][degreesToArray].speed = 0.03f;
+				}
+				if (tempString == "Shot") {
+					animationArray[i][int(unit_state::ATTACKING)][degreesToArray].PushBack(temp);
+					animationArray[i][int(unit_state::ATTACKING)][degreesToArray].loop = true;
+					animationArray[i][int(unit_state::ATTACKING)][degreesToArray].speed = 0.03f;
+				}
+				if (tempString == "DeathOne") {
+					animationArray[i][int(unit_state::DEAD)][0].PushBack(temp);
+					animationArray[i][int(unit_state::DEAD)][degreesToArray].loop = false;
+					animationArray[i][int(unit_state::DEAD)][degreesToArray].speed = 0.03f;
+				}
 			}
 		}
 	}

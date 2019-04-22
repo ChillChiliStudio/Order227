@@ -7,11 +7,13 @@
 //#include <vector>
 //#include <ctime>
 //#include "Point.h"
-//#include "SDL/include/SDL.h"
+//#include "SDL/include/SDL.h
+
 
 enum class infantry_type;
 enum class entity_faction;
 enum class unit_orders;
+
 class Text;
 
 class Player : public Module {
@@ -68,8 +70,9 @@ public:
 	iPoint rectangle_origin;
 
 	//Group playerGroup = nullptr;	//TODO: On group manager, should probably be here
-
+	
 	int playerMoney = 300;
+	bool startCreationUnit = false;
 
 };
 
