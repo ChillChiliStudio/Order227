@@ -324,11 +324,12 @@ bool Entity_Manager::DeActivateInfantry(Unit* infantry)
 {
 
 	infantry->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
-	infantry->infatryType = infantry_type::INFANTRY_NONE;
+	infantry->infantryType = infantry_type::INFANTRY_NONE;
 	infantry->position = fPoint(0.0f, 0.0f);
 	infantry->texture = nullptr;
 	infantry->active = false;
 	infantry->selected = false;
+	
 
 	if (infantry->faction == entity_faction::COMMUNIST) {
 
