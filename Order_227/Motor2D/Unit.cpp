@@ -172,7 +172,7 @@ void Unit::UnitWorkflow(float dt)
 
 unit_directions Unit::CheckDirection()
 {
-	unit_directions ret;
+	unit_directions ret = unit_directions::NONE;
 
 	stats.vecAngle = stats.vecSpeed.GetAngle({ 0.0f, -1.0f });
 	stats.vecAngle = RadsToDeg(stats.vecAngle);
