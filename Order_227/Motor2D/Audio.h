@@ -4,9 +4,39 @@
 #include "Module.h"
 
 #define DEFAULT_MUSIC_FADE_TIME 2.0f
+#define FACTION_NUM 2
+#define VARIATION_PER_SOUND 2
 
 struct _Mix_Music;
 struct Mix_Chunk;
+
+struct SFX {
+
+	std::string path;
+	uint id;
+
+};
+
+enum class type_sounds
+{
+	SPAWN,
+	MOVING,
+	COMFIRMATION,
+	HURT,
+	SHOT,
+	ATTACK,
+	MAX
+
+};
+
+enum class Entity_type_Sounds {
+
+	BASIC,
+	DESOLATOR,
+	MAX
+
+};
+
 
 class Audio : public Module
 {
@@ -39,6 +69,9 @@ public:
 	void ControlVolume(int vol);
 	void ControlMUSVolume(int vol);
 	void ControlSFXVolume(int vol);
+
+
+	uint* SoundFX_Array[(int)Entity_type_Sounds::MAX][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
 
 private:
 
