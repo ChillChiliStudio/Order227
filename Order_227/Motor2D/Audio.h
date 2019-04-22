@@ -77,6 +77,8 @@ public:
 
 	uint SoundFX_Array[(int)Entity_type_Sounds::MAX][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
 
+	pugi::xml_document SFX_XML;
+
 private:
 
 	_Mix_Music *music = NULL;

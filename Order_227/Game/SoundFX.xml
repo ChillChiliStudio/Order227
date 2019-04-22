@@ -24,7 +24,7 @@
       <Shot>
         <Var_one path="audio/AFX/conscript/Shot_one.wav"/>
         <Var_two path="audio/AFX/conscript/Shot_two.wav"/>
-        <Var_two path="audio/AFX/conscript/Shot_three.wav"/>
+        <Var_three path="audio/AFX/conscript/Shot_three.wav"/>
       </Shot>
       
       <Attack>

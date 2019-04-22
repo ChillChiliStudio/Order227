@@ -241,31 +241,37 @@ void Audio::FillArrayFX() {
 
 void Audio::LoadIntoArray() {
 
- 
+
+	pugi::xml_parse_result result = SFX_XML.load_file("SoundFX.xml");
+
+	//SOV units Sound
+
+	pugi::xml_node Data = SFX_XML.child("FX").child("Troops").child("SOV");
 
 //CONSCRIPT---------------------------------------------------------------------------------------------------------------------
 
+
 	//Shot 1 & 2
-	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::SHOT][1] = LoadFx("audio/AFX/conscript/Shot_one.wav");
-	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::SHOT][2] = LoadFx("audio/AFX/conscript/Shot_two.wav");
-	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::SHOT][3] = LoadFx("audio/AFX/conscript/Shot_three.wav");
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::SHOT][0] = LoadFx(Data.child("Shot").child("Var_one").attribute("path").as_string());
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::SHOT][1] = LoadFx(Data.child("Shot").child("Var_two").attribute("path").as_string());
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::SHOT][2] = LoadFx(Data.child("Shot").child("Var_three").attribute("path").as_string());
 
 	//Attack
-	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::ATTACK][1] = LoadFx("audio/Dialogues/Troops/conscript/Attack/Attack.wav");
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::ATTACK][0] = LoadFx(Data.child("Attack").child("Var_one").attribute("path").as_string());
 
 	//Spawn
-	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::SPAWN][1] = LoadFx("audio/Dialogues/Troops/conscript/Spawn.wav");
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::SPAWN][0] = LoadFx(Data.child("Spawn").child("Var_one").attribute("path").as_string());
 
 	//Moving
-	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::MOVING][1] = LoadFx("audio/Dialogues/Troops/conscript/Moving.wav");
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::MOVING][0] = LoadFx(Data.child("Moving").child("Var_one").attribute("path").as_string());
 	
 	//Hurt
-	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::HURT][1] = LoadFx("audio/Dialogues/Troops/conscript/Hurt/Hurt.wav");
-	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::HURT][1] = LoadFx("audio/Dialogues/Troops/conscript/Hurt/Hurt_two.wav");
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::HURT][0] = LoadFx(Data.child("Hurt").child("Var_one").attribute("path").as_string());
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::HURT][1] = LoadFx(Data.child("Hurt").child("Var_two").attribute("path").as_string());
 
 	//Comfirmation order
-	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::COMFIRMATION][1] = LoadFx("audio/Dialogues/Troops/conscript/Comfirmation.wav");
-	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::COMFIRMATION][2] = LoadFx("audio/Dialogues/Troops/conscript/Comfirmation_two.wav");
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::COMFIRMATION][0] = LoadFx(Data.child("Comfirmation").child("Var_one").attribute("path").as_string());
+	SoundFX_Array[(int)Entity_type_Sounds::BASIC][SOV][(int)type_sounds::COMFIRMATION][1] = LoadFx(Data.child("Comfirmation").child("Var_two").attribute("path").as_string());
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
