@@ -25,9 +25,14 @@ bool Horde_Manager::CleanUp()
 
 bool Horde_Manager::Update(float dt)
 {
-	if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
-		ChooseSpawningPoints();
+	if (myApp->debugMode)
+	{
+		if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+			ChooseSpawningPoints();
 
+		if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+			ClearEnemies();
+	}
 	//Spawn Point Draw
 	if (myApp->map->mapDebugDraw)
 		for (int i = 0; i < SpawningPoints_Array.size(); i++) 
@@ -64,8 +69,7 @@ bool Horde_Manager::Update(float dt)
 		}
 	}
 
-	if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-		ClearEnemies();
+	
 
 	return true;
 }
