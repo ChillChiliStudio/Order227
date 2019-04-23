@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Horde_Manager.h"
 #include "GroupManager.h"
+#include "Audio.h"
 
 void CreateConscript() {
 	//srand(time(NULL));
@@ -36,6 +37,8 @@ void CreateConscript() {
 }
 void StartGame() {
 
+	//myApp->audio->PlayMusic();
+
 	//TODO make the game start Correctly
 	//myApp->scene->Start();
 	myApp->entities->mainBase->health = 1000.0f;
@@ -47,6 +50,9 @@ void StartGame() {
 
 }
 void QuitGame() {
+
+
+	//myApp->audio->PlayMusic();
 
 	myApp->hordes->hordeActive = false;
 	myApp->gui->pauseMenuPanel->Deactivate();
