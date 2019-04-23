@@ -251,9 +251,15 @@ void Unit::DoHold(float dt)
 		if (target != nullptr) {
 			AttackTarget(dt);
 		}
+		else if (faction == entity_faction::CAPITALIST && BaseInRange()) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+			AttackBase(dt);	//TODO: Should be AttackTarget, not base specifically
+		}
 		break;
 	case unit_state::ATTACKING:
-		if (TargetInRange() && target->IsDead() == false) {
+		if (faction == entity_faction::CAPITALIST && BaseInRange()) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+			AttackBase(dt);	//TODO: Should be AttackTarget, not base specifically
+		}
+		else if (TargetInRange() && target->IsDead() == false) {
 			AttackTarget(dt);
 		}
 		else {
@@ -332,12 +338,18 @@ void Unit::DoMoveAndAttack(float dt)
 			if (target != nullptr) {
 				AttackTarget(dt);
 			}
+			else if (faction == entity_faction::CAPITALIST && BaseInRange()) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+				AttackBase(dt);	//TODO: Should be AttackTarget, not base specifically
+			}
 			else {
 				Move(dt);
 			}
 		}
 		else if (unitState == unit_state::ATTACKING) {
-			if (TargetInRange() && target->IsDead() == false) {
+			if (faction == entity_faction::CAPITALIST && BaseInRange()) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+				AttackBase(dt);	//TODO: Should be AttackTarget, not base specifically
+			}
+			else if (TargetInRange() && target->IsDead() == false) {
 				AttackTarget(dt);
 			}
 			else {
@@ -367,6 +379,9 @@ void Unit::DoPatrol(float dt)
 			if (target != nullptr) {
 				AttackTarget(dt);
 			}
+			else if (faction == entity_faction::CAPITALIST && BaseInRange()) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+				AttackBase(dt);	//TODO: Should be AttackTarget, not base specifically
+			}
 			else {
 				Move(dt);
 			}
@@ -374,6 +389,9 @@ void Unit::DoPatrol(float dt)
 		else if (unitState == unit_state::ATTACKING) {
 			if (TargetInRange() && target->IsDead() == false) {
 				AttackTarget(dt);
+			}
+			else if (faction == entity_faction::CAPITALIST && BaseInRange()) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+				AttackBase(dt);	//TODO: Should be AttackTarget, not base specifically
 			}
 			else {
 				target = nullptr;
@@ -416,6 +434,29 @@ void Unit::AttackTarget(float dt)
 	}
 
 	target->Hurt((float)stats.damage * dt);
+
+	unitState = unit_state::ATTACKING;
+}
+
+void Unit::AttackBase(float dt)
+{
+	fPoint trueBasePos = { myApp->entities->mainBase->position.x + 100, myApp->entities->mainBase->position.y + 70 };
+
+	fVec2 targetDirection = GetVector2(position, trueBasePos);
+
+	unit_directions lastDirection = unitDirection;
+
+	CheckDirection(targetDirection);
+
+	if (lastDirection != unitDirection) {
+		UpdateAnimation();
+	}
+
+	myApp->entities->mainBase->health -= (float)(stats.damage * dt);
+
+	if (myApp->entities->mainBase->health < 0) {
+		//TODO: Lose flag
+	}
 
 	unitState = unit_state::ATTACKING;
 }
@@ -532,6 +573,11 @@ Unit* Unit::EnemyInRange()
 		}
 	}
 
+	return ret;
+}
+
+bool Unit::BaseInRange()
+{
 	// TODO: Capitalist should iterate an "attackable buildings" list
 	/*if (ret == nullptr && hostileBuildings != nullptr) {
 		for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i) {	//TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units, one for each side
@@ -549,18 +595,15 @@ Unit* Unit::EnemyInRange()
 		}
 	}*/
 
-	if (ret == nullptr && faction == entity_faction::CAPITALIST) {	//TODO: Hardcoded bullshit, building should be generic, subclasses called "StrategicPoint", "MainBase", "Turret", etc
-		if (InsideSquareRadius(position, (float)stats.attackRange, myApp->entities->mainBase->position)
-			&& InsideRadius(position, (float)stats.attackRange, myApp->entities->mainBase->position))
-		{
-			myApp->entities->mainBase->health -= (float)stats.damage * myApp->GetDT();
+	bool ret = false;
 
-			if (myApp->entities->mainBase->health < 0) {
-				//TODO: Lose flag
-			}
+	fPoint trueBasePos = { myApp->entities->mainBase->position.x + 100, myApp->entities->mainBase->position.y + 70 };
 
-			unitState = unit_state::ATTACKING;
-		}
+	//TODO: Hardcoded bullshit, building should be generic, subclasses called "StrategicPoint", "MainBase", "Turret", etc
+	if (InsideSquareRadius(position, (float)stats.attackRange, trueBasePos)
+		&& InsideRadius(position, (float)stats.attackRange, trueBasePos))
+	{
+		ret = true;
 	}
 
 	return ret;
