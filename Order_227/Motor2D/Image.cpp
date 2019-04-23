@@ -9,13 +9,13 @@
 #include "Text.h"
 #include "Window.h"
 
-Image::Image(ui_type type, fPoint center, SDL_Rect sprite, SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
+Image::Image(ui_type type, fPoint center, SDL_Rect sprite, SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children,float size)
 	: UI_Element(type, center, dynamic, parent, children), graphics(tex)
 {
 	this->sprite = new SDL_Rect;
 	*(this->sprite) = sprite;
 	RelocatePosByCenter();
-
+	scale = size;
 	if (parent != NULL && center.x == 0.0f && center.y == 0.0f) {
 		ChangeCenter(parent->GetCenter());
 	}
@@ -71,10 +71,10 @@ bool Image::Draw()
 	bool ret = true;
 
 	if (lookingRight) {
-		ret = myApp->render->Blit(graphics, (int)position.x, (int)position.y, sprite, SDL_FLIP_NONE, false);
+		ret = myApp->render->Blit(graphics, (int)position.x, (int)position.y, sprite, SDL_FLIP_NONE, false,0,0,scale);
 	}
 	else {
-		ret = myApp->render->Blit(graphics, (int)position.x, (int)position.y, sprite, SDL_FLIP_HORIZONTAL, false);
+		ret = myApp->render->Blit(graphics, (int)position.x, (int)position.y, sprite, SDL_FLIP_HORIZONTAL, false,0,0,scale);
 	}
 
 	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); iter = next(iter)) {

@@ -7,6 +7,7 @@
 #include "Image.h"
 #include "Scene.h"
 #include "Player.h"
+#include "Text.h"
 #include "Horde_Manager.h"
 #include "GroupManager.h"
 #include "Audio.h"
@@ -41,9 +42,12 @@ void StartGame() {
 
 	//TODO make the game start Correctly
 	//myApp->scene->Start();
+	myApp->gui->WinIcon->Deactivate();
 	myApp->entities->mainBase->health = 1000.0f;
 	myApp->entities->ResetAll();
 	myApp->hordes->hordeRoundto(0);
+	myApp->player->playerMoney = 300;
+	myApp->gui->hordeNumber_Label->ChangeString(std::to_string(0));
 	myApp->hordes->hordeActive = true;
 	myApp->hordes->roundTimerStart();
 	myApp->gui->MainMenuTemp_Image->Deactivate();
@@ -53,6 +57,8 @@ void QuitGame() {
 
 
 	//myApp->audio->PlayMusic();
+	myApp->gui->LoseIcon->Deactivate();
+	myApp->gui->WinIcon->Deactivate();
 
 	myApp->hordes->hordeActive = false;
 	myApp->gui->pauseMenuPanel->Deactivate();

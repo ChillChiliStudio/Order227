@@ -3,6 +3,8 @@
 #include "Log.h"
 #include "App.h"
 #include "Input.h"
+#include "UserInterface.h"
+#include "Text.h"
 #include "Render.h"
 
 Horde_Manager::Horde_Manager()
@@ -107,6 +109,8 @@ void Horde_Manager::ChooseSpawningPoints()
 
 		roundThreat += threatIncremental;
 		roundNumber++;
+		std::string a = std::to_string(roundNumber);
+		myApp->gui->hordeNumber_Label->ChangeString(a.c_str());
 
 		//Reseting spawning points (put them at false to choose between them)
 		for (int i = 0; i < SpawningPoints_Array.size(); i++)

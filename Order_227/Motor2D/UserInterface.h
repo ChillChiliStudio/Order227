@@ -66,7 +66,7 @@ public:
 
 	//TODO: Factories should return their specific class type
 	Image* CreateImage(fPoint center, SDL_Rect texRect = { 0, 0, 0, 0 }, SDL_Texture* tex = NULL, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
-	Text* CreateText(fPoint center, const char* content, font_id id, SDL_Color color = { 255, 255, 255, 255 }, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
+	Text* CreateText(fPoint center, const char* content, font_id id, SDL_Color color = { 255, 255, 255, 255 }, bool dynamic = false, UI_Element* parent = NULL,float size=1.0f, std::list<UI_Element*>* children = NULL);
 	//UI_Element* CreateInputText();
 	Void_Box* CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL);
 	Check_Box* CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
@@ -92,7 +92,11 @@ public:
 	//Window* CreateWindowPanel(fPoint center, p2List<Image*> children, SDL_Rect* texRect = NULL, SDL_Texture* tex = NULL, Text* label = NULL, UI_Element* parent = NULL);
 	
 public:
+
 	bool interfaceDebugDraw = false;
+
+	std::string horde;
+	std::string timerHorde_temp;
 	//uint defaultScale;	//IMPROVE: Future use
 	Animation Timer_anim;
 	Timer unitCreationCD;
@@ -104,15 +108,29 @@ public:
 	Void_Box* ExitGame_Button = nullptr;
 	Text* ExitGame_Label = nullptr;
 
+
 	Text* Damage_Label = nullptr;
 	Text* Health_Label = nullptr;
 	Text* Speed_Label = nullptr;
 	Text* Cadency_Label = nullptr;
 
+	Text* Horde_label = nullptr;
+	Text* hordeNumber_Label = nullptr;
+	Text* incomingHordein = nullptr;
+	Text* timerHorde = nullptr;
+	Image* WinIcon = nullptr;
+	Image* LoseIcon = nullptr;
 	std::list<Spawn_Box*> SpawnSelectors;
 	std::list<UI_Element*> Main_Menu_Elements;
 
+	Void_Box* ReturnMainMenu2 = nullptr;
+	Text* ReturnMainMenu_Label2 = nullptr;
+
+	Void_Box* ReturnMainMenu3 = nullptr;
+	Text* ReturnMainMenu_Label3 = nullptr;
+
 private:
+
 	std::list<UI_Element*> screenElements;
 
 	SDL_Texture* Timer_Texture = nullptr;
@@ -121,6 +139,8 @@ private:
 
 	Void_Box* ReturnMainMenu = nullptr;
 	Text* ReturnMainMenu_Label = nullptr;
+
+
 
 	Spawn_Box* selectorInfantry=nullptr;
 	Spawn_Box* selectorDefenses = nullptr;
@@ -137,7 +157,7 @@ private:
 	SDL_Rect Conscript_Selection_Rect[4];
 
 	SDL_Texture* unitsSelection_Tex= nullptr;
-
+	SDL_Texture* endingImages_Tex = nullptr;
 	SDL_Texture* unitStats_text = nullptr;
 	SDL_Texture* PauseButton_text = nullptr;
 	SDL_Texture* StartGame_text = nullptr;
