@@ -37,7 +37,9 @@ void CreateConscript() {
 }
 void StartGame() {
 
-	//myApp->audio->PlayMusic();
+
+	//MUSIC 
+	myApp->audio->PlayMusic("audio/music/game/ingame_song3_loop.ogg",-1);
 
 	//TODO make the game start Correctly
 	//myApp->scene->Start();
@@ -51,8 +53,8 @@ void StartGame() {
 }
 void QuitGame() {
 
-
-	//myApp->audio->PlayMusic();
+	//MUSIC
+	myApp->audio->PlayMusic("audio/music/main_menu/menu_song_loop.ogg",-1);
 
 	myApp->hordes->hordeActive = false;
 	myApp->gui->pauseMenuPanel->Deactivate();
