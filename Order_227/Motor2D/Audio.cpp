@@ -246,7 +246,7 @@ void Audio::LoadIntoArray() {
 
 	//SOV units Sound
 
-	pugi::xml_node Data = SFX_XML.child("FX").child("Troops").child("SOV");
+	pugi::xml_node Data = SFX_XML.child("FX").child("Troops").child("SOV").child("Conscript");
 
 //CONSCRIPT---------------------------------------------------------------------------------------------------------------------
 

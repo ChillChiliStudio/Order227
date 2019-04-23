@@ -3,6 +3,7 @@
 <FX>
   <Troops>
     <SOV>
+      <Conscript>
       <Spawn>
           <Var_one path="audio/Dialogues/Troops/conscript/Spawn.wav"/>
       </Spawn>
@@ -30,7 +31,7 @@
       <Attack>
         <Var_one path="audio/Dialogues/Troops/conscript/Attack/Attack.wav"/>
       </Attack>
-      
+        </Conscript>
     </SOV>
    
     

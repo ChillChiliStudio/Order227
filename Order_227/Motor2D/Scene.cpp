@@ -47,19 +47,7 @@ bool Scene::Start()
 		RELEASE_ARRAY(data);
 	}
 
-	//ingame_song3_loop = "audio/music/game/ingame_song3_loop.ogg";
-	//ingame_song3_intro = "audio/music/game/ingame_song3_intro.ogg";
-	//ingame_song3_outro = "audio/music/game/ingame_song3_outro.ogg";
 
-	//ingame_song4_loop = "audio/music/game/ingame_song4_loop.ogg";
-	//ingame_song4_intro = "audio/music/game/ingame_song4_intro.ogg";
-
-	//myApp->audio->ControlSFXVolume(100);
-	//myApp->audio->ControlMUSVolume(100);
-	//myApp->audio->ControlVolume(100);
-
-	//myApp->audio->PlayMusic(ingame_song3_intro, 0, 0.0f);
-	//current_song = ingame_song3_intro;
 
 	return true;
 }
@@ -68,8 +56,7 @@ bool Scene::Start()
 bool Scene::PreUpdate()
 {
 
-	//if (myApp->audio->MusicPlaying() == false)
-	//	ManageMusic();
+	
 
 	return true;
 }
@@ -181,52 +168,3 @@ void Scene::ChooseSpawningPoints()
 }
 
 
-void Scene::ManageMusic() {
-
-	next_song = ChooseNextSong(current_song);
-	myApp->audio->PlayMusic(next_song, 0, 0.0f);
-	current_song = next_song;
-
-}
-
-
-char* Scene::ChooseNextSong(char* currSong) {
-
-	char *ret = nullptr;
-
-	if (currSong == ingame_song3_intro)
-		ret = ingame_song3_loop;
-	else if (currSong == ingame_song3_outro)
-		ret = ingame_song4_intro;
-	else if (currSong == ingame_song4_intro)
-		ret = ingame_song4_loop;
-	else if (currSong == ingame_song3_loop) {
-
-		if (songRepetitions >= 0) {
-
-			ret = ingame_song3_outro;
-			songRepetitions = 0;
-		}
-		else {
-
-			ret = ingame_song3_loop;
-			songRepetitions++;
-		}
-
-	}
-	else if (currSong == ingame_song4_loop) {
-
-		if (songRepetitions >= 0) {
-
-			ret = ingame_song3_intro;
-			songRepetitions = 0;
-		}
-		else {
-
-			ret = ingame_song4_loop;
-			songRepetitions++;
-		}
-	}
-
-	return ret;
-}
