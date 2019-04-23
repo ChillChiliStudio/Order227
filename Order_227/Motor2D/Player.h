@@ -69,7 +69,7 @@ public:
 
 	//Group playerGroup = nullptr;	//TODO: On group manager, should probably be here
 
-	int playerMoney = 300;
+	int playerMoney = 400;
 	bool startCreationUnit = false;
 
 };

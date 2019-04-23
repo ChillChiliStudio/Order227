@@ -24,11 +24,11 @@ void Unit_Box::OnPress() {
 	buttonStatus = button_state::PRESSING;
 	*sprite = stateSprites[(int)buttonStatus];
 
-	if (myApp->player->playerMoney > 150&& myApp->player->startCreationUnit==false) {
+	if (myApp->player->playerMoney > 70&& myApp->player->startCreationUnit==false) {
 		ActiveTimer = true;
 		myApp->player->startCreationUnit = true;
 		myApp->gui->unitCreationCD.Start();
-		myApp->player->playerMoney -= 150;
+		myApp->player->playerMoney -= 70;
 		myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
 		action();
 	}

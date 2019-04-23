@@ -6,7 +6,7 @@
 #include "vector"
 #include "Timer.h"
 
-#define TIME_BETWEEN_ROUNDS 1*1000
+#define TIME_BETWEEN_ROUNDS 4*1000
 
 class Group;
 class Spawning_Point;
@@ -32,12 +32,36 @@ public:
 
 	void hordeRoundto(int round) {
 		roundThreat = round;
+		roundNumber = round;
+	}
+	int getRoundTimer() {
+
+		int i = roundTimer.ReadSec();
+		switch (i)
+		{
+		case 0:
+			i = 3;
+			break;
+		case 1:
+			i = 2;
+			break;
+		case 2:
+			i = 1;
+			break;
+		case 3:
+			i = 0;
+			break;
+		default:
+			break;
+		}
+		return i ;
 	}
 
 	std::vector<Spawning_Point*> SpawningPoints_Array;
 	std::vector<Group*> hordes;
 
 	bool hordeActive = false;
+	int roundNumber = 0;
 
 private:
 
@@ -45,7 +69,7 @@ private:
 
 	int roundThreat = 0;
 	int threatIncremental = 0;
-	int roundNumber = 0;
+
 
 	Timer roundTimer;
 

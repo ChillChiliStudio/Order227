@@ -11,6 +11,8 @@
 #include "Window.h"
 #include "Animation.h"
 #include "Player.h"
+#include "Horde_Manager.h"
+#include "GroupManager.h"
 
 #include "UserInterface.h"
 #include "UIElement.h"
@@ -81,8 +83,9 @@ bool User_Interface::Start()
 	StartGame_text = myApp->tex->Load("ui/Buttons_And_Slides.png");
 	PauseButton_text = myApp->tex->Load("ui/Pause_Buton_Icon.png");
 	unitStats_text = myApp->tex->Load("ui/Unit_Stats.png");
-	 
+	endingImages_Tex= myApp->tex->Load("ui/Ending_Game_Mesage_Icon.png");
 
+	SDL_Rect LoseRect = { 437,112,437,112 };
 	SDL_Rect TempButtonRect[4];
 	TempButtonRect[0] = {626,0,290,84};
 	TempButtonRect[1] = { 626,0,290,84 };
@@ -123,12 +126,14 @@ bool User_Interface::Start()
 	myApp->win->GetWindowSize((uint&)width, (uint&)height);
 
 	std::string money = std::to_string(myApp->player->playerMoney);
+	horde = std::to_string(myApp->hordes->roundNumber);
+	//timerHorde_temp = std::to_string(myApp->hordes->getRoundTimer());
 
 	MainBarPanel = CreateImage(fPoint(width / 2, height - 87.5), SDL_Rect({0,0,1280,175}),mainBar);
 	selectorInfantry = CreateSpawnBox(true, fPoint(width / 11-38, height - 140), selectorInfantry_Rect, selectorinGame_Tex);
 	selectorDefenses = CreateSpawnBox(false, fPoint(width / 11 , height - 140), selectorDefenses_Rect, selectorinGame_Tex);
 	selectorTank = CreateSpawnBox(false, fPoint(width / 11 + 38, height - 140), selectorTank_Rect, selectorinGame_Tex);
-	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,10);
+	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,60);
 
 	UnitStats = CreateImage(fPoint(width / 1.45, height - 75), SDL_Rect({ 0,0,55,90 }), unitStats_text);
 	UnitFrame = CreateImage(fPoint(width / 1.58, height - 75), SDL_Rect({ 125,5,50,43 }), unitsSelection_Tex);
@@ -141,7 +146,20 @@ bool User_Interface::Start()
 	pauseMenuPanel->Deactivate();
 	frameSelector = CreateImage(fPoint(width / 11, height - 140), SDL_Rect({ 0,0,134,38 }), selectorinGame_Tex);
 
+	Horde_label = CreateText(fPoint(width / 2.5, 30), "HORDE  ", font_id::MOLOT, White, false,NULL,1.5);
+	hordeNumber_Label = CreateText(fPoint(width / 2, 30),horde.c_str(), font_id::MOLOT, White, false, NULL, 1.5);
 
+	WinIcon = CreateImage(fPoint(width / 2, height / 2.3), SDL_Rect({ 0,112,437,112 }), endingImages_Tex);
+	ReturnMainMenu2 = CreateVoidBox(QuitGame, fPoint(width / 2, height / 1.75), Pause_Button, PauseButton_text, WinIcon);
+	ReturnMainMenu_Label2 = CreateText(fPoint(width / 2, height / 1.75), "EXIT", font_id::MOLOT, White, false, WinIcon);
+	WinIcon->Deactivate();
+
+	LoseIcon = CreateImage(fPoint(width / 2, height / 2.3), SDL_Rect({ 437,112,437,112 }), endingImages_Tex);
+	ReturnMainMenu3 = CreateVoidBox(QuitGame, fPoint(width / 2, height / 1.75), Pause_Button, PauseButton_text, LoseIcon);
+	ReturnMainMenu_Label3 = CreateText(fPoint(width / 2, height / 1.75), "EXIT", font_id::MOLOT, White, false, LoseIcon);
+	LoseIcon->Deactivate();
+	//incomingHordein = CreateText(fPoint(width / 2.9, height / 2.5), "Incoming Horde in", font_id::MOLOT, White, false, NULL, 1.5);
+	//timerHorde = CreateText(fPoint(width / 1.7, height / 2.5), timerHorde_temp.c_str(), font_id::MOLOT, White, false, NULL, 1.5);
 
 	MainMenuTemp_Image = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,1280,720 }), Main_Menu_Temp_Tex);
 	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/1.8),TempButtonRect,StartGame_text,MainMenuTemp_Image);
@@ -182,10 +200,19 @@ bool User_Interface::PreUpdate()
 bool User_Interface::Update(float dt)
 {
 	BROFILER_CATEGORY("Module User_Interface UpdateTick", Profiler::Color::DeepPink);
-	
+
 	bool ret = true;
 
-	if (unitCreationCD.ReadSec() >= 10) {
+	if (myApp->groups->playerGroup.groupUnits.size() > 0) {
+		UnitStats->Activate();
+		UnitFrame->Activate();
+	}
+	else {
+		UnitStats->Deactivate();
+		UnitFrame->Deactivate();
+	}
+
+	if (unitCreationCD.ReadSec() >= 0.7) {
 		myApp->player->startCreationUnit = false;
 	}
 
@@ -315,7 +342,7 @@ LifeBar* User_Interface::CreateLifeBar(fPoint center, Unit* parent, SDL_Texture*
 	return ret;
 }
 
-Text* User_Interface::CreateText(fPoint center, const char* content, font_id id, SDL_Color color, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
+Text* User_Interface::CreateText(fPoint center, const char* content, font_id id, SDL_Color color, bool dynamic, UI_Element* parent, float size, std::list<UI_Element*>* children)
 {
 	Text* ret = nullptr;
 	_TTF_Font* tmpFont;
@@ -327,11 +354,12 @@ Text* User_Interface::CreateText(fPoint center, const char* content, font_id id,
 		tmpFont = myApp->fonts->fontsList[(int)id]->fontPtr;
 	}
 
-	ret = new Text(content, color, tmpFont, center, dynamic, parent, children);
+	ret = new Text(content, color, tmpFont, center, dynamic, parent, children,size);
 	AddElement((UI_Element*)ret);
 
 	return ret;
 }
+
 Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator) {
 	
 	Unit_Box* ret = nullptr;

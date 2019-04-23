@@ -7,7 +7,7 @@ class Image	: public UI_Element
 {
 public:
 	//Constructor
-	Image(ui_type type, fPoint center, SDL_Rect texRect, SDL_Texture* tex, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
+	Image(ui_type type, fPoint center, SDL_Rect texRect, SDL_Texture* tex, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL,float size=1.0f);
 
 	//Destructor
 	virtual ~Image();
@@ -60,6 +60,8 @@ public:
 	//int* sliderValue = nullptr;
 
 protected:
+
+	float scale = 1.0f;
 	SDL_Rect* sprite = nullptr;
 	SDL_Texture* graphics = nullptr;
 

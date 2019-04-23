@@ -7,13 +7,14 @@
 #include "Image.h"
 #include "Scene.h"
 #include "Player.h"
+#include "Text.h"
 #include "Horde_Manager.h"
 #include "GroupManager.h"
 #include "Audio.h"
 
 void CreateConscript() {
 	//srand(time(NULL));
-	
+
 	//TODO NEED TO DESHARCODE
 	fPoint randomPos = {0,0};
 	int temp = rand() % 2;
@@ -38,15 +39,18 @@ void CreateConscript() {
 void StartGame() {
 
 
-	//MUSIC 
+	//MUSIC
 	myApp->audio->PlayMusic("audio/music/game/ingame_song3_loop.ogg",-1);
 
 	//TODO make the game start Correctly
 	//myApp->scene->Start();
+	myApp->gui->WinIcon->Deactivate();
 	myApp->entities->mainBase->health = 1000.0f;
 	myApp->entities->mainBase->Start();
 	//myApp->entities->ResetAll();
 	myApp->hordes->hordeRoundto(0);
+	myApp->player->playerMoney = 300;
+	myApp->gui->hordeNumber_Label->ChangeString(std::to_string(0));
 	myApp->hordes->hordeActive = true;
 	myApp->hordes->roundTimerStart();
 	myApp->gui->MainMenuTemp_Image->Deactivate();
@@ -54,15 +58,21 @@ void StartGame() {
 }
 void QuitGame() {
 
+
+
+	//myApp->audio->PlayMusic();
+	myApp->gui->LoseIcon->Deactivate();
+	myApp->gui->WinIcon->Deactivate();
 	//MUSIC
 	myApp->audio->PlayMusic("audio/music/main_menu/menu_song_loop.ogg",-1);
+
 
 	myApp->hordes->hordeActive = false;
 	myApp->gui->pauseMenuPanel->Deactivate();
 	myApp->gui->MainMenuTemp_Image->Activate();
 	myApp->entities->ResetAll();
 	//myApp->scene->CleanUp();
-	
+
 
 }
 void CloseGame() {

@@ -8,8 +8,8 @@
 #include "Fonts.h"
 #include "Text.h"
 
-Text::Text(const char* content, SDL_Color color, _TTF_Font* font, fPoint center, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
-	: Image(ui_type::TEXT, center, GetTexSize(content, color, font), CreateTexture(content, color, font), dynamic, parent, children), /*content(content), */color(color), font(font)
+Text::Text(const char* content, SDL_Color color, _TTF_Font* font, fPoint center, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children,float size)
+	: Image(ui_type::TEXT, center, GetTexSize(content, color, font), CreateTexture(content, color, font), dynamic, parent, children,size), /*content(content), */color(color), font(font)
 {
 	strcpy_s(this->content, sizeof(this->content), content);
 }
@@ -39,6 +39,10 @@ SDL_Color Text::GetColor() const
 _TTF_Font* Text::GetFont() const
 {
 	return font;
+}
+
+void Text::ChangeSize(float size) {
+	scale = size;
 }
 
 SDL_Rect Text::GetTexSize(const char* string, SDL_Color color, _TTF_Font* font)

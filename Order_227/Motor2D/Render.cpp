@@ -125,14 +125,15 @@ iPoint Render::ScreenToWorld(int x, int y) const
 }
 
 // Blit to screen
-bool Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivot_x, int pivot_y) const
+bool Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivot_x, int pivot_y, float scale_) const
 {
 	bool ret = true;
-	uint scale = myApp->win->GetScale();
+	if(scale_!=1.0f)
+		uint scale = myApp->win->GetScale();
 
 	SDL_Rect rect;
-	rect.x = (int)(camera.x * speed) + x * scale;
-	rect.y = (int)(camera.y * speed) + y * scale;
+	rect.x = (int)(camera.x * speed) + x;
+	rect.y = (int)(camera.y * speed) + y;
 
 	if(section != NULL)
 	{
@@ -144,8 +145,8 @@ bool Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, f
 		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
 	}
 
-	rect.w *= scale;
-	rect.h *= scale;
+	rect.w *= scale_;
+	rect.h *= scale_;
 
 	SDL_Point* p = NULL;
 	SDL_Point pivot;

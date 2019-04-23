@@ -24,7 +24,7 @@ bool Building::Update(float dt)
 {
 	if (incomeTimer.ReadSec() >= 2) {
 
-		myApp->player->playerMoney += income;
+		myApp->player->playerMoney += 60;
 		myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
 		incomeTimer.Start();
 	}

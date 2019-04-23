@@ -11,7 +11,7 @@ class Text : public Image	//TODO: Make it so text can be managed inside a block,
 {
 public:
 	//Constructor
-	Text(const char* content, SDL_Color color = { 255, 255, 255, 255 }, _TTF_Font* font = NULL, fPoint center = { 0, 0 }, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL);
+	Text(const char* content, SDL_Color color = { 255, 255, 255, 255 }, _TTF_Font* font = NULL, fPoint center = { 0, 0 }, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL,float size=1.0f);
 
 public:
 	void operator+ (const char* addition);
@@ -31,6 +31,8 @@ public:
 	SDL_Rect ChangeString(std::string string);
 	SDL_Rect ChangeColor(SDL_Color color);
 	SDL_Rect ChangeFont(_TTF_Font* font);
+	void ChangeSize(float size);
+
 
 protected:
 	char content[30];	//TODO: Temporal fix, std::string didn't work no matter how used, we should instead use owr own string class and remake Text when using it
