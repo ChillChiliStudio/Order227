@@ -10,6 +10,7 @@
 #include "PathFinding.h"
 #include "Entity_Manager.h"
 #include "UserInterface.h"
+#include "Horde_Manager.h"
 #include "ParamBox.h"
 #include "Scene.h"
 #include "GroupManager.h"
@@ -58,6 +59,14 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
+
+	if (myApp->entities->mainBase->health <= 0) {
+		myApp->hordes->hordeActive = false;
+		myApp->gui->pauseMenuPanel->Deactivate();
+		myApp->gui->MainMenuTemp_Image->Activate();
+		myApp->entities->ResetAll();
+	}
+
 	myApp->map->Draw();
 
 	myApp->gui->Draw();

@@ -10,7 +10,7 @@ Horde_Manager::Horde_Manager()
 
 bool Horde_Manager::Start()
 {
-	roundTimer.Start();
+	
 
 	return true;
 }
@@ -35,20 +35,21 @@ bool Horde_Manager::Update(float dt)
 		if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 			ClearEnemies();
 	}
-
+	
 	//Spawn Point Draw
 	if (myApp->map->mapDebugDraw)
 		for (int i = 0; i < SpawningPoints_Array.size(); i++) 
 			myApp->render->Blit(myApp->map->debug_tex, SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
-		
-	if (HordesDead() && roundTimer.Read() > TIME_BETWEEN_ROUNDS){
-		ChooseSpawningPoints();
-		roundTimer.Start();
+
+	if (hordeActive != false) {
+		if (HordesDead() && roundTimer.Read() > TIME_BETWEEN_ROUNDS) {
+			ChooseSpawningPoints();
+			roundTimer.Start();
 		}
 
-	else if (!HordesDead())
-		roundTimer.Start();
-
+		else if (!HordesDead())
+			roundTimer.Start();
+	}
 
 	for (int i = 0; i < SpawningPoints_Array.size(); i++) 
 	{

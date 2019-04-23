@@ -7,6 +7,7 @@
 #include "Image.h"
 #include "Scene.h"
 #include "Player.h"
+#include "Horde_Manager.h"
 #include "GroupManager.h"
 
 void CreateConscript() {
@@ -37,12 +38,17 @@ void StartGame() {
 
 	//TODO make the game start Correctly
 	//myApp->scene->Start();
+	myApp->entities->mainBase->health = 1000.0f;
 	myApp->entities->ResetAll();
+	myApp->hordes->hordeRoundto(0);
+	myApp->hordes->hordeActive = true;
+	myApp->hordes->roundTimerStart();
 	myApp->gui->MainMenuTemp_Image->Deactivate();
 
 }
 void QuitGame() {
 
+	myApp->hordes->hordeActive = false;
 	myApp->gui->pauseMenuPanel->Deactivate();
 	myApp->gui->MainMenuTemp_Image->Activate();
 	myApp->entities->ResetAll();

@@ -22,12 +22,12 @@ public:
 public:
 
 	float totalLife;
-	float* life;
+	float* life=nullptr;
 	unit_stats state;
 
 protected:
 
-	Unit* Currentparent;
+	Unit* Currentparent = nullptr;
 	SDL_Rect LowHealth;
 	SDL_Rect HighHealth;
 	SDL_Texture* graphics = nullptr;

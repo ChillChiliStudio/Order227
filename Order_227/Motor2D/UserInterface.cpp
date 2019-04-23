@@ -81,7 +81,7 @@ bool User_Interface::Start()
 	StartGame_text = myApp->tex->Load("ui/Buttons_And_Slides.png");
 	PauseButton_text = myApp->tex->Load("ui/Pause_Buton_Icon.png");
 	unitStats_text = myApp->tex->Load("ui/Unit_Stats.png");
-	
+	 
 
 	SDL_Rect TempButtonRect[4];
 	TempButtonRect[0] = {626,0,290,84};
