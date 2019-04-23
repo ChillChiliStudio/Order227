@@ -22,8 +22,8 @@ bool Player::Start()
 {
 	LOG("STARTING PLAYER MODULE");
 
-	//mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
-	//mouseDebugMark->Deactivate();
+	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
+	mouseDebugMark->Deactivate();
 
 
 	return true;
@@ -71,7 +71,7 @@ bool Player::Update(float dt)
 
 bool Player::CleanUp()
 {
-	//myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
+	myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
 	mouseDebugMark = nullptr;
 
 	return true;

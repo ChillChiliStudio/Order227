@@ -9,7 +9,7 @@
 #include "Text.h"
 
 Text::Text(const char* content, SDL_Color color, _TTF_Font* font, fPoint center, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
-	: Image(ui_type::TEXT, center, myApp->tex->GetSize(graphics), LoadTexture(content, color, font), dynamic, parent, children), /*content(content), */color(color), font(font)
+	: Image(ui_type::TEXT, center, GetTexSize(content, color, font), CreateTexture(content, color, font), dynamic, parent, children), /*content(content), */color(color), font(font)
 {
 	strcpy_s(this->content, sizeof(this->content), content);
 }
@@ -39,6 +39,22 @@ SDL_Color Text::GetColor() const
 _TTF_Font* Text::GetFont() const
 {
 	return font;
+}
+
+SDL_Rect Text::GetTexSize(const char* string, SDL_Color color, _TTF_Font* font)
+{
+	SDL_Texture* tmpTexture = myApp->fonts->Print(string, color, font);
+
+	/*if (tmpTexture != nullptr) {	//TODO: With this commented it works, check why
+		myApp->tex->UnLoad(tmpTexture);
+	}*/
+
+	return myApp->tex->GetSize(tmpTexture);
+}
+
+SDL_Texture* Text::CreateTexture(const char* string, SDL_Color color, _TTF_Font* font)
+{
+	return myApp->fonts->Print(string, color, font);
 }
 
 SDL_Texture* Text::LoadTexture(const char* string, SDL_Color color, _TTF_Font* font)

@@ -4,7 +4,7 @@
 #include "ActionBox.h"
 #include "Animation.h"
 
-class SDL_Texture;
+struct SDL_Texture;
 
 class Unit_Box : public Action_Box
 {
