@@ -60,7 +60,7 @@ public:
 	unsigned int LoadFx(const char* path);
 
 	// Play a previously loaded WAV
-	bool PlayFx(unsigned int fx, int repeat = 0);
+	bool PlayFx(unsigned int fx, int repeat = 0, int i = -1);
 
 	//Volume Control
 	void ControlVolume(int vol);
@@ -69,6 +69,8 @@ public:
 
 	void FillArrayFX();
 	void LoadIntoArray();
+
+
 
 	uint SoundFX_Array[(int)Entity_type_Sounds::MAX][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
 

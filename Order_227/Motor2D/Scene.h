@@ -39,6 +39,9 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+
+
+	
 };
 
 #endif // SCENE_H

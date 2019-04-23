@@ -173,7 +173,7 @@ unsigned int Audio::LoadFx(const char* path)
 }
 
 // Play WAV
-bool Audio::PlayFx(unsigned int id, int repeat)
+bool Audio::PlayFx(unsigned int id, int repeat, int i)
 {
 	bool ret = false;
 
@@ -185,7 +185,7 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 
 		std::list<Mix_Chunk*>::iterator it = fx.begin();
 		it = next(fx.begin(), id - 1);
-		Mix_PlayChannel(-1, *it, repeat);
+		Mix_PlayChannel(i, *it, repeat);
 	}
 
 	return ret;
