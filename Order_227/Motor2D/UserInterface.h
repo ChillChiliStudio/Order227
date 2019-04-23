@@ -95,8 +95,20 @@ public:
 	Timer unitCreationCD;
 	Image* pauseMenuPanel = nullptr;
 	Text* Moneytext = nullptr;
+	Image* MainMenuTemp_Image = nullptr;
+	Void_Box* StartGame_Button = nullptr;
+	Text* StartGame_Label = nullptr;
+	Void_Box* ExitGame_Button = nullptr;
+	Text* ExitGame_Label = nullptr;
+
+	Text* Damage_Label = nullptr;
+	Text* Health_Label = nullptr;
+	Text* Speed_Label = nullptr;
+	Text* Cadency_Label = nullptr;
+
 
 	std::list<Spawn_Box*> SpawnSelectors;
+	std::list<UI_Element*> Main_Menu_Elements;
 
 private:
 	std::list<UI_Element*> screenElements;
@@ -105,11 +117,16 @@ private:
 
 	Image* MainBarPanel = nullptr;
 
+	Void_Box* ReturnMainMenu = nullptr;
+	Text* ReturnMainMenu_Label = nullptr;
+
 	Spawn_Box* selectorInfantry=nullptr;
 	Spawn_Box* selectorDefenses = nullptr;
 	Spawn_Box* selectorTank = nullptr;
 	Unit_Box* ConscriptCreator = nullptr;
 	Image* frameSelector = nullptr;
+	Image* UnitStats = nullptr;
+	Image* UnitFrame = nullptr;
 
 	SDL_Rect selectorInfantry_Rect[4];
 	SDL_Rect selectorDefenses_Rect[4];
@@ -117,8 +134,12 @@ private:
 
 	SDL_Rect Conscript_Selection_Rect[4];
 
-	SDL_Texture* unitsSelection_Tex;
+	SDL_Texture* unitsSelection_Tex= nullptr;
 
+	SDL_Texture* unitStats_text = nullptr;
+	SDL_Texture* PauseButton_text = nullptr;
+	SDL_Texture* StartGame_text = nullptr;
+	SDL_Texture* Main_Menu_Temp_Tex = nullptr;
 	SDL_Texture* selectorinGame_Tex = nullptr;
 	SDL_Texture* pauseMenuPanel_Tex = nullptr;
 	SDL_Texture* mainBar = nullptr;

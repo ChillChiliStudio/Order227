@@ -7,5 +7,8 @@
 //}
 
 void CreateConscript();
+void StartGame();
+void QuitGame();
+void CloseGame();
 
 #endif //_BUTTON_ACTIONS_H_

@@ -66,16 +66,32 @@ void User_Interface::loadAnim() {
 bool User_Interface::Start()
 {
 	bool ret = true;
-	
+
 	loadAnim();
 
 	atlas = myApp->tex->Load(atlasFileName.c_str());
 	mainBar = myApp->tex->Load("ui/Principal_Down_Bar.png");
 
-	pauseMenuPanel_Tex= myApp->tex->Load("ui/Pause_Panel.png");;
+	pauseMenuPanel_Tex = myApp->tex->Load("ui/Pause_Panel.png");;
 	selectorinGame_Tex = myApp->tex->Load("ui/inGame_selector_Units.png");
 	unitsSelection_Tex = myApp->tex->Load("ui/Troops_Icons.png");
 	Timer_Texture = myApp->tex->Load("ui/Timer_Icon.png");
+	Main_Menu_Temp_Tex = myApp->tex->Load("ui/Main_Menu.png");
+	StartGame_text = myApp->tex->Load("ui/Buttons_And_Slides.png");
+	PauseButton_text = myApp->tex->Load("ui/Pause_Buton_Icon.png");
+	unitStats_text = myApp->tex->Load("ui/Unit_Stats.png");
+
+	SDL_Rect TempButtonRect[4];
+	TempButtonRect[0] = {626,0,290,84};
+	TempButtonRect[1] = { 626,0,290,84 };
+	TempButtonRect[2] = { 938,0,290,84 };
+	TempButtonRect[3] = {1250,0,290,84 };
+
+	SDL_Rect Pause_Button[4];
+	Pause_Button[0] = { 0,0,168,42 };
+	Pause_Button[1] = { 0,0,168,42 };
+	Pause_Button[2] = { 0,42,168,42 };
+	Pause_Button[3] = { 0,42,168,42 };
 
 
 	Conscript_Selection_Rect[0] = { 120,0,60,48 };
@@ -100,7 +116,7 @@ bool User_Interface::Start()
 	selectorTank_Rect[3] = { 44,101,44,31 };
 
 	//selectorInfantry_Rect[3] = { 175,38,44,31 };
-
+	SDL_Color White = { 255,255,255 };
 	int height,width;
 	myApp->win->GetWindowSize((uint&)width, (uint&)height);
 
@@ -111,17 +127,35 @@ bool User_Interface::Start()
 	selectorDefenses = CreateSpawnBox(false, fPoint(width / 11 , height - 140), selectorDefenses_Rect, selectorinGame_Tex);
 	selectorTank = CreateSpawnBox(false, fPoint(width / 11 + 38, height - 140), selectorTank_Rect, selectorinGame_Tex);
 	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,10);
-	
+
+	UnitStats = CreateImage(fPoint(width / 1.45, height - 75), SDL_Rect({ 0,0,55,90 }), unitStats_text);
+	UnitFrame = CreateImage(fPoint(width / 1.58, height - 75), SDL_Rect({ 125,5,50,43 }), unitsSelection_Tex);
+
 	Moneytext = CreateText(fPoint(width / 1.55, height - 140),money.c_str(),font_id::MOLOT);
 	
 	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2-100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex,true);
+	ReturnMainMenu = CreateVoidBox(QuitGame, fPoint(width / 2, height / 2), Pause_Button, PauseButton_text, pauseMenuPanel);
+	ReturnMainMenu_Label = CreateText(fPoint(width / 2, height / 2), "EXIT", font_id::MOLOT,White,false,pauseMenuPanel);
 	pauseMenuPanel->Deactivate();
 	frameSelector = CreateImage(fPoint(width / 11, height - 140), SDL_Rect({ 0,0,134,38 }), selectorinGame_Tex);
+
+
+
+	MainMenuTemp_Image = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,1280,720 }), Main_Menu_Temp_Tex);
+	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/1.8),TempButtonRect,StartGame_text,MainMenuTemp_Image);
+	StartGame_Label = CreateText(fPoint(width / 2, height / 1.8), "START GAME", font_id::MOLOT,White,false,StartGame_Button);
+
+	ExitGame_Button = CreateVoidBox(CloseGame, fPoint(width / 2, height / 1.2), TempButtonRect, StartGame_text, MainMenuTemp_Image);
+	ExitGame_Label = CreateText(fPoint(width / 2, height / 1.2), "QUIT GAME", font_id::MOLOT, White, false, ExitGame_Button);
+	
+
 
 	SpawnSelectors.push_back(selectorInfantry);
 	SpawnSelectors.push_back(selectorDefenses);
 	SpawnSelectors.push_back(selectorTank);
-
+	Main_Menu_Elements.push_back(MainMenuTemp_Image);
+	Main_Menu_Elements.push_back(StartGame_Button);
+	Main_Menu_Elements.push_back(StartGame_Label);
 
 	return ret;
 }
