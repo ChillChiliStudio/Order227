@@ -22,6 +22,9 @@ bool Unit::Start()
 {
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
 
+	unitState = unit_state::IDLE;
+	unitOrders = unit_orders::HOLD;
+
 	return true;
 }
 
