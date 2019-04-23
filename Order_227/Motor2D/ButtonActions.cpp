@@ -42,7 +42,8 @@ void StartGame() {
 	//TODO make the game start Correctly
 	//myApp->scene->Start();
 	myApp->entities->mainBase->health = 1000.0f;
-	myApp->entities->ResetAll();
+	myApp->entities->mainBase->Start();
+	//myApp->entities->ResetAll();
 	myApp->hordes->hordeRoundto(0);
 	myApp->hordes->hordeActive = true;
 	myApp->hordes->roundTimerStart();

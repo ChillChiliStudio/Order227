@@ -323,7 +323,6 @@ bool Entity_Manager::ActivateBuilding(fPoint position, building_type buildingTyp
 			buildingsArray[i]->faction = entityFaction;
 			buildingsArray[i]->selected = false;
 			buildingsArray[i]->texture = buildingsTextures[int(buildingType)];
-			myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, lifeBar_tex, &buildingsArray[i]->health);
 
 			return true;
 		}
@@ -478,7 +477,7 @@ bool Entity_Manager::ResetAll() {
 		CapitalistUnitsArray[i]->selected = false;
 		//To implement:: Update animations
 	}
-	//mainBase->health = ;
+	/*mainBase->Start();*/
 	return true;
 }
 
