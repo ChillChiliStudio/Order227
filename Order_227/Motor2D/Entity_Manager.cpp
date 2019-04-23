@@ -113,6 +113,25 @@ bool Entity_Manager::Start()
 		buildingsArray[i]->Start();
 
 
+	//Allocate Memory for Objects
+	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
+	{
+		if (staticObjectsArray[i] == nullptr) {
+
+			Static_Object *newStaticObject = new Static_Object({ 0, 0 }, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
+			newStaticObject->active = false;
+			staticObjectsArray[i] = newStaticObject;
+
+		}
+		else
+			myApp->entities->ActivateObject(staticObjectsArray[i]->position, object_type::TREE);
+
+		entitiesArray[entityIterator++] = (Entity*)staticObjectsArray[i];
+
+	}
+
+
+
 	LoadEntityData();
 
 
@@ -312,12 +331,17 @@ bool Entity_Manager::ActivateObject(fPoint position, object_type objectType)
 			staticObjectsArray[i]->texture = objectTextures[int(objectType)];
 			staticObjectsArray[i]->selected = false;
 
+			if (objectType == object_type::TREE)
+				staticObjectsArray[i]->UnitRect = SetupTreeType();
+
 			return true;
 
 		}
 	}
 	return false;
 }
+
+
 
 
 bool Entity_Manager::DeActivateInfantry(Unit* infantry)
@@ -412,8 +436,8 @@ bool Entity_Manager::loadTextures() {
 	//TODO This need to be charged by a XML
 	infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
 	infantryTextures[int(infantry_type::BAZOOKA)] = myApp->tex->Load("textures/troops/allied/GI.png");
-
 	buildingsTextures[int(building_type::MAIN_BASE)] = myApp->tex->Load("textures/buildings/mainbase.png");
+	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
 
 	return true;
 }
@@ -500,5 +524,34 @@ bool Entity_Manager::SetupUnitStats() {
 			i++;
 		}
 	}
+	return ret;
+}
+
+SDL_Rect Entity_Manager::SetupTreeType() {
+
+	SDL_Rect ret;
+
+	int Aux = rand() % 4;
+
+	switch (Aux)
+	{
+	case ((int)Trees::DEFAULT):
+		ret = { 0,0,60,96 };
+		break;
+	case ((int)Trees::FOREST_ONE):
+		ret = { 420, 0, 60, 96 };
+		break;
+	case ((int)Trees::FOREST_TWO):
+		ret = { 60, 96, 60, 96 };
+		break;
+	case ((int)Trees::PINE):
+		ret = { 300, 0, 60, 96 };
+		break;
+	case ((int)Trees::DESERT):
+		ret = { 300, 194, 60, 96 };
+		break;
+	}
+
+
 	return ret;
 }

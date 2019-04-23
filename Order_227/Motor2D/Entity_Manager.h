@@ -48,6 +48,7 @@ public:
 	void DestroyEntity(Entity *Entity) {}
 
 	bool SetupUnitStats();
+	SDL_Rect SetupTreeType();
 
 public:
 
