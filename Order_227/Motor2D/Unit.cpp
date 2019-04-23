@@ -193,6 +193,8 @@ void Unit::UnitWorkflow(float dt)
 	case unit_orders::NONE:	// It's dead
 		if (despawnTimer.Read() > timeToDespawn) {
 			mustDespawn = true;
+			UnitBlitRect.w += 40;
+			UnitBlitRect.h += 40;
 		}
 		break;
 	}
