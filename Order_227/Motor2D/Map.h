@@ -6,9 +6,6 @@
 
 #include "TileQuadtree.h"
 
-
-
-
 struct Properties
 {
 	struct Property

@@ -18,6 +18,7 @@
 #include "App.h"
 #include "GroupManager.h"
 #include "Player.h"
+#include "Horde_Manager.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -37,6 +38,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	gui = new User_Interface();
 	groups = new GroupManager();
 	player = new Player();
+	hordes = new Horde_Manager();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -52,6 +54,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(gui);
 	AddModule(groups);
 	AddModule(player);
+	AddModule(hordes);
 	// render last to swap buffer
 	AddModule(render);
 }

@@ -17,9 +17,6 @@ enum class unit_orders;
 class Text;
 
 class Player : public Module {
-public:
-	Player();
-	virtual ~Player();
 
 public:
 
@@ -35,18 +32,19 @@ public:
 	void DebugInputs();
 	void DebugSpawnUnit(infantry_type type, entity_faction faction);
 
-	void DebugOrders();
-	void DebugOrderHold();
-	void DebugOrderMove();
-	void DebugOrderAttack();
-	void DebugOrderMoveAndAttack();
-	void DebugOrderPatrol();
+	void CheckForOrders();
+	void ApplyOrders();
+	void OrderHold();
+	void OrderMove();
+	void OrderAttack();
+	void OrderMoveAndAttack();
+	void OrderPatrol();
 
 	void PlayerSelect();
 	void StartSelect();
 	void ExpandSelect();
 	void FinishSelect();
-	
+
 public:
 
 	/*int rectangle_width;
@@ -64,13 +62,13 @@ public:
 	iPoint mouseMap;
 
 	Text* mouseDebugMark;
-
 	iPoint origin;
-
 	iPoint rectangle_origin;
+	
+	unit_orders prepOrder = (unit_orders)-1;
 
 	//Group playerGroup = nullptr;	//TODO: On group manager, should probably be here
-	
+
 	int playerMoney = 300;
 	bool startCreationUnit = false;
 

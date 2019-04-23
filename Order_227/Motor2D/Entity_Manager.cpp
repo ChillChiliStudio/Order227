@@ -82,7 +82,7 @@ bool Entity_Manager::Start()
 	loadTextures();
 	lifeBar_tex = myApp->tex->Load("ui/Life_Icon.png");
 
-	int entityIterator = (2 * INFANTRY_ARRAY_SIZE) + OBJECTS_ARRAY_SIZE;
+	int entityIterator = 2 * INFANTRY_ARRAY_SIZE;
 
 	//Add Buildings as entities
 	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i) {
@@ -114,6 +114,25 @@ bool Entity_Manager::Start()
 
 	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
 		buildingsArray[i]->Start();
+
+
+	//Allocate Memory for Objects
+	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
+	{
+		if (staticObjectsArray[i] == nullptr) {
+
+			Static_Object *newStaticObject = new Static_Object({ 0, 0 }, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
+			newStaticObject->active = false;
+			staticObjectsArray[i] = newStaticObject;
+
+		}
+		else
+			myApp->entities->ActivateObject(staticObjectsArray[i]->position, object_type::TREE);
+
+		entitiesArray[entityIterator++] = (Entity*)staticObjectsArray[i];
+
+	}
+
 
 
 	LoadEntityData();
@@ -213,6 +232,8 @@ bool Entity_Manager::Update(float dt)
 			if (buildingsArray[i]->active == true)
 				buildingsArray[i]->Update(dt);
 
+	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
+		staticObjectsArray[i]->Update(dt);
 
 		for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
 			staticObjectsArray[i]->Update();
@@ -226,8 +247,9 @@ bool Entity_Manager::Update(float dt)
 }
 
 
-bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryType, entity_faction entityFaction)
+Unit* Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryType, entity_faction entityFaction)
 {
+	Unit* unit = nullptr;
 	//Player troops
 	if (entityFaction == entity_faction::COMMUNIST)
 	{
@@ -249,8 +271,9 @@ bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTyp
 
 				//CommunistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
+				unit = CommunistUnitsArray[i];
 
-				return true;
+				return unit;
 			}
 		}
 	}
@@ -275,12 +298,15 @@ bool Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTyp
 				//CapitalistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
 				myApp->gui->CreateLifeBar(fPoint(position.x, position.y), CapitalistUnitsArray[i], lifeBar_tex);
-				return true;
+
+				unit = CapitalistUnitsArray[i];
+
+				return unit;
 			}
 		}
 	}
 
-	return false;
+	return unit;
 }
 
 
@@ -319,6 +345,9 @@ bool Entity_Manager::ActivateObject(fPoint position, object_type objectType)
 			staticObjectsArray[i]->texture = objectTextures[int(objectType)];
 			staticObjectsArray[i]->selected = false;
 
+			if (objectType == object_type::TREE)
+				staticObjectsArray[i]->UnitRect = SetupTreeType();
+
 			return true;
 
 		}
@@ -327,49 +356,59 @@ bool Entity_Manager::ActivateObject(fPoint position, object_type objectType)
 }
 
 
+
+
 bool Entity_Manager::DeActivateInfantry(Unit* infantry)
 {
 
-	if (infantry->faction == entity_faction::COMMUNIST) {
+	infantry->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
+	infantry->infantryType = infantry_type::INFANTRY_NONE;
+	infantry->position = fPoint(0.0f, 0.0f);
+	infantry->texture = nullptr;
+	infantry->active = false;
+	infantry->selected = false;
+	//
 
-		for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
+	//if (infantry->faction == entity_faction::COMMUNIST) {
 
-			if (CommunistUnitsArray[i] == infantry) {
+	//	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
 
-				CommunistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
-				//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-				CommunistUnitsArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-				CommunistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
-				CommunistUnitsArray[i]->texture = nullptr;
-				CommunistUnitsArray[i]->active = false;
-				CommunistUnitsArray[i]->selected = false;
-				//To implement:: Update animations
+	//		if (CommunistUnitsArray[i] == infantry) {
 
-				return true;
-			}
-		}
-	}
+	//			CommunistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
+	//			//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+	//			CommunistUnitsArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+	//			CommunistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
+	//			CommunistUnitsArray[i]->texture = nullptr;
+	//			CommunistUnitsArray[i]->active = false;
+	//			CommunistUnitsArray[i]->selected = false;
+	//			//To implement:: Update animations
 
-	////Enemy troops
-	else if (infantry->faction == entity_faction::CAPITALIST) {
+	//			return true;
+	//		}
+	//	}
+	//}
 
-		for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
+	//////Enemy troops
+	//else if (infantry->faction == entity_faction::CAPITALIST) {
 
-			if (CapitalistUnitsArray[i] == infantry) {
+	//	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
 
-				CapitalistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
-				//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-				CapitalistUnitsArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-				CapitalistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
-				CapitalistUnitsArray[i]->texture = nullptr;
-				CapitalistUnitsArray[i]->active = false;
-				CapitalistUnitsArray[i]->selected = false;
-				//To implement:: Update animations
+	//		if (CapitalistUnitsArray[i] == infantry) {
 
-				return true;
-			}
-		}
-	}
+	//			CapitalistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
+	//			//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+	//			CapitalistUnitsArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+	//			CapitalistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
+	//			CapitalistUnitsArray[i]->texture = nullptr;
+	//			CapitalistUnitsArray[i]->active = false;
+	//			CapitalistUnitsArray[i]->selected = false;
+	//			//To implement:: Update animations
+
+	//			return true;
+	//		}
+	//	}
+	//}
 
 	return false;
 }
@@ -448,8 +487,8 @@ bool Entity_Manager::loadTextures() {
 	//TODO This need to be charged by a XML
 	infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
 	infantryTextures[int(infantry_type::BAZOOKA)] = myApp->tex->Load("textures/troops/allied/GI.png");
-
 	buildingsTextures[int(building_type::MAIN_BASE)] = myApp->tex->Load("textures/buildings/mainbase.png");
+	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
 
 	return true;
 }
@@ -484,7 +523,7 @@ bool Entity_Manager::LoadEntityData() {
 					animationArray[i][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
 					animationArray[i][int(unit_state::IDLE)][degreesToArray].loop = true;
 					animationArray[i][int(unit_state::IDLE)][degreesToArray].speed = 10.0f;
-				}	
+				}
 				if (tempString == "Walking") {
 					animationArray[i][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
 					animationArray[i][int(unit_state::MOVING)][degreesToArray].loop = true;
@@ -536,5 +575,34 @@ bool Entity_Manager::SetupUnitStats() {
 			i++;
 		}
 	}
+	return ret;
+}
+
+SDL_Rect Entity_Manager::SetupTreeType() {
+
+	SDL_Rect ret;
+
+	int Aux = rand() % 4;
+
+	switch (Aux)
+	{
+	case ((int)Trees::DEFAULT):
+		ret = { 0,0,60,96 };
+		break;
+	case ((int)Trees::FOREST_ONE):
+		ret = { 420, 0, 60, 96 };
+		break;
+	case ((int)Trees::FOREST_TWO):
+		ret = { 60, 96, 60, 96 };
+		break;
+	case ((int)Trees::PINE):
+		ret = { 300, 0, 60, 96 };
+		break;
+	case ((int)Trees::DESERT):
+		ret = { 300, 194, 60, 96 };
+		break;
+	}
+
+
 	return ret;
 }

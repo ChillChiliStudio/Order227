@@ -14,7 +14,7 @@
 
 #define TIMES_PER_SEC 5
 
-#define OBJECTS_ARRAY_SIZE 50
+#define OBJECTS_ARRAY_SIZE 400
 #define INFANTRY_ARRAY_SIZE 100
 #define BUILDINGS_ARRAY_SIZE 5
 #define UNITS_ARRAY_SIZE (2 * INFANTRY_ARRAY_SIZE + OBJECTS_ARRAY_SIZE + BUILDINGS_ARRAY_SIZE)
@@ -39,7 +39,7 @@ public:
 
 	bool ActivateObject(fPoint position, object_type objectType);
 	bool ActivateBuilding(fPoint position, building_type buildingType, entity_faction entityFaction = entity_faction::NEUTRAL);
-	bool ActivateInfantry(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+	Unit* ActivateInfantry(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
 
 	bool DeActivateObject(Static_Object* Object);
 	bool DeActivateBuilding(Building* Building);
@@ -49,6 +49,7 @@ public:
 	void DestroyEntity(Entity *Entity) {}
 
 	bool SetupUnitStats();
+	SDL_Rect SetupTreeType();
 
 public:
 
