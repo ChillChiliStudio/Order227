@@ -87,7 +87,7 @@ public:
 	bool Start() override;
 	bool Update(float dt) override;
 	void UpdateBlitOrder() override;
-	bool Draw(float dt);
+	bool Draw();
 
 public:
 
@@ -97,8 +97,8 @@ public:
 
 	// Main Workflow
 	void UnitWorkflow(float dt);	// State workflow depending on order issued
-	void ApplyState();				// Add state effects, like current animation
-	unit_directions CheckDirection();
+	void UpdateAnimation();				// Add state effects, like current animation
+	unit_directions CheckDirection(fVec2 direction);
 
 	//Order calling
 	void OrderStandardSetup(iPoint destination);
@@ -125,6 +125,7 @@ public:
 
 	//Get Data
 	bool IsDead();
+	bool InsideCamera();
 	bool IsVisible();
 	bool NodeReached();
 	bool DestinationReached();
@@ -138,13 +139,14 @@ public:
 
 public:
 
-	SDL_Rect CheckInCamera;
+	bool onCamera = false;
+
 	unit_state unitState = unit_state::IDLE;
 	unit_orders unitOrders = unit_orders::HOLD;
 	unit_directions unitDirection = unit_directions::SOUTH_EAST;
 	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
 
-	Animation* currentAnimation = nullptr;
+	Animation currentAnimation;
 
 	iPoint origin;
 	iPoint destination;

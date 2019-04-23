@@ -7,8 +7,6 @@
 void CreateConscript() {
 	//srand(time(NULL));
 	
-
-
 	//TODO NEED TO DESHARCODE
 	fPoint randomPos = {0,0};
 	int temp = rand() % 2;

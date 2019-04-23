@@ -36,7 +36,7 @@ Entity_Manager::Entity_Manager()
 		CommunistUnitsArray[i] = (Unit*)InfCom;
 		entitiesArray[entitiesIterator++] = (Entity*)InfCom;
 
-		Infantry *InfCap = new Infantry({ 0,0 }, infantry_type::INFANTRY_NONE, entity_faction::COMMUNIST);
+		Infantry *InfCap = new Infantry({ 0,0 }, infantry_type::INFANTRY_NONE, entity_faction::CAPITALIST);
 		InfCap->active = false;
 		CapitalistInfantryArray[i] = InfCap;
 		CapitalistUnitsArray[i] = (Unit*)InfCap;
@@ -242,7 +242,7 @@ Unit* Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTy
 				CommunistUnitsArray[i]->infantryType = infantryType;
 				CommunistUnitsArray[i]->UnitRect.w = 45;
 				CommunistUnitsArray[i]->UnitRect.h = 55;
-
+				CommunistUnitsArray[i]->Start();
 				//CommunistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
 				unit = CommunistUnitsArray[i];
@@ -266,6 +266,9 @@ Unit* Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTy
 				CapitalistUnitsArray[i]->active = true;
 				CapitalistUnitsArray[i]->selected = false;
 				CapitalistUnitsArray[i]->infantryType = infantryType;
+				CapitalistUnitsArray[i]->UnitRect.w = 45;
+				CapitalistUnitsArray[i]->UnitRect.h = 55;
+				CapitalistUnitsArray[i]->Start();
 				//CapitalistInfantryArray[i]->infantryType = infantryType;
 				//To implement:: Update animations
 				unit = CapitalistUnitsArray[i];
@@ -455,22 +458,22 @@ bool Entity_Manager::LoadEntityData() {
 				if (tempString == "Pointing") {
 					animationArray[i][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
 					animationArray[i][int(unit_state::IDLE)][degreesToArray].loop = true;
-					animationArray[i][int(unit_state::IDLE)][degreesToArray].speed = 0.03f;
+					animationArray[i][int(unit_state::IDLE)][degreesToArray].speed = 10.0f;
 				}	
 				if (tempString == "Walking") {
 					animationArray[i][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
 					animationArray[i][int(unit_state::MOVING)][degreesToArray].loop = true;
-					animationArray[i][int(unit_state::MOVING)][degreesToArray].speed = 0.03f;
+					animationArray[i][int(unit_state::MOVING)][degreesToArray].speed = 8.0f;
 				}
 				if (tempString == "Shot") {
 					animationArray[i][int(unit_state::ATTACKING)][degreesToArray].PushBack(temp);
 					animationArray[i][int(unit_state::ATTACKING)][degreesToArray].loop = true;
-					animationArray[i][int(unit_state::ATTACKING)][degreesToArray].speed = 0.03f;
+					animationArray[i][int(unit_state::ATTACKING)][degreesToArray].speed = 10.0f;
 				}
 				if (tempString == "DeathOne") {
 					animationArray[i][int(unit_state::DEAD)][0].PushBack(temp);
 					animationArray[i][int(unit_state::DEAD)][degreesToArray].loop = false;
-					animationArray[i][int(unit_state::DEAD)][degreesToArray].speed = 0.03f;
+					animationArray[i][int(unit_state::DEAD)][degreesToArray].speed = 5.0f;
 				}
 			}
 		}

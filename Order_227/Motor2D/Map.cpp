@@ -114,8 +114,8 @@ iPoint Map::MapToWorld(int x, int y) const
 	}
 	else if(data.type == MAPTYPE_ISOMETRIC)
 	{
-		ret.x = (x - y) * (data.tile_width * 0.5f);
-		ret.y = (x + y) * (data.tile_height * 0.5f);
+		ret.x = (int)((x - y) * (data.tile_width * 0.5f));
+		ret.y = (int)((x + y) * (data.tile_height * 0.5f));
 	}
 	else
 	{
@@ -137,8 +137,8 @@ iPoint Map::MapToWorld(iPoint position) const
 	}
 	else if (data.type == MAPTYPE_ISOMETRIC)
 	{
-		ret.x = (position.x - position.y) * (data.tile_width * 0.5f);
-		ret.y = (position.x + position.y) * (data.tile_height * 0.5f);
+		ret.x = (int)((position.x - position.y) * (data.tile_width * 0.5f));
+		ret.y = (int)((position.x + position.y) * (data.tile_height * 0.5f));
 	}
 	else
 	{
@@ -500,8 +500,8 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		quadT_position.x = 0;
 		break;
 	case MAPTYPE_ISOMETRIC:
-		layer_size.x = (layer->width + layer->height)*(myApp->map->data.tile_width *0.5f);
-		layer_size.y = (layer->width + layer->height + 1) * (data.tile_height *0.5f);
+		layer_size.x = (int)((layer->width + layer->height)*(myApp->map->data.tile_width *0.5f));
+		layer_size.y = (int)((layer->width + layer->height + 1) * (data.tile_height *0.5f));
 		quadT_position.x = -layer_size.x + ((layer->width + 1)*myApp->map->data.tile_width / 2);
 		break;
 	}
@@ -666,7 +666,7 @@ void Map::PlaceGameObjects() {
 				if ((*item2)->name == "MainBase") {
 
 					iPoint pos = PointToTile((int)(*item2)->x, (int)(*item2)->y);
-					fPoint fPos = fPoint(pos.x, pos.y);
+					fPoint fPos = { (float)pos.x, (float)pos.y };
 
 					Building* newBuilding = new Building(fPos, building_type::MAIN_BASE, entity_faction::COMMUNIST);
 

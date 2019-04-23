@@ -4,6 +4,7 @@
 #include "UnitButton.h"
 #include "SDL/include/SDL_rect.h"
 #include "Player.h"
+#include "Text.h"
 
 //Constructor
 Unit_Box::Unit_Box(event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator, ui_type type)
@@ -23,11 +24,12 @@ void Unit_Box::OnPress() {
 	buttonStatus = button_state::PRESSING;
 	*sprite = stateSprites[(int)buttonStatus];
 
-	if (myApp->player->playerMoney >= 150&& myApp->player->startCreationUnit==false) {
+	if (myApp->player->playerMoney > 150&& myApp->player->startCreationUnit==false) {
 		ActiveTimer = true;
 		myApp->player->startCreationUnit = true;
 		myApp->gui->unitCreationCD.Start();
 		myApp->player->playerMoney -= 150;
+		myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
 		action();
 	}
 }

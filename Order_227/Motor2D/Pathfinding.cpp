@@ -73,7 +73,7 @@ std::list<PathNode>::iterator PathList::Find(const iPoint& point)
 
 	while(item != list.end())
 	{
-	
+
 		if ((*item).pos == point)
 			return item;
 
@@ -249,8 +249,8 @@ const std::vector<iPoint>* PathFinding::CreatePath(const iPoint& origin, const i
 		}
 	}
 
-	//LOG("Path Steps: %i", last_path.size());
-	return &ret;
+	LOG("Path Steps: %i", last_path.size());
+	return &last_path;
 }
 
 

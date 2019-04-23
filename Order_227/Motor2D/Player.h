@@ -1,5 +1,5 @@
-#ifndef PLAYER_H_
-#define PLAYER_H_
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include "Module.h"
 #include "Point.h"
@@ -43,7 +43,7 @@ public:
 	void StartSelect();
 	void ExpandSelect();
 	void FinishSelect();
-	
+
 public:
 
 	/*int rectangle_width;
@@ -67,10 +67,10 @@ public:
 	iPoint rectangle_origin;
 
 	//Group playerGroup = nullptr;	//TODO: On group manager, should probably be here
-	
+
 	int playerMoney = 300;
 	bool startCreationUnit = false;
 
 };
 
-#endif 
+#endif	//PLAYER_H

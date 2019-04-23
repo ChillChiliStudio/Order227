@@ -8,9 +8,11 @@
 #include "Entity.h"
 #include "Unit.h"
 
+
 Unit::Unit(fPoint pos, entity_type entityType, entity_faction faction) : Entity(pos, entityType, faction)
 {
 //	LoadEntityData();
+	
 }
 
 Unit::~Unit()
@@ -18,21 +20,21 @@ Unit::~Unit()
 
 bool Unit::Start()
 {
+	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
+
 	return true;
 }
 
 bool Unit::Update(float dt)
 {
+	onCamera = InsideCamera();
+
 	UnitWorkflow(dt);
-	unitDirection = CheckDirection();
-	currentAnimation = &myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)];
 
 	UnitRect.x = position.x-10;
 	UnitRect.y = position.y-10;
 
-
 	if (mustDespawn) {
-
 		mustDespawn = false;
 		myApp->entities->DeActivateInfantry(this);	//TODO: Can't use "deactivate" because it only works with Infantry classes
 	}
@@ -41,12 +43,20 @@ bool Unit::Update(float dt)
 			DrawPath();
 		}
 
-		CheckInCamera = { (int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
+		currentAnimation.AdvanceAnimation(dt);	// Animation must continue even if outside camera
 
-		if (myApp->render->InsideCamera(CheckInCamera) == true) {	// If inside camera
+		if (onCamera) {	// If inside camera
+
+			if (unitState == unit_state::MOVING) {	// State changes are always updated on animation,
+				unit_directions lastDirection = unitDirection;
+
+				if (lastDirection != CheckDirection(stats.vecSpeed)) {
+					UpdateAnimation();
+				}
+			}
 
 			UpdateBlitOrder();
-			Draw(dt);
+			Draw();
 
 			if (selected) {	//TODO: This should be as a debug functionality, but for now it'll do
 				myApp->render->DrawQuad(UnitRect, 0, 255, 0, 255, false);
@@ -93,9 +103,9 @@ void Unit::UpdateBlitOrder()
 
 }
 
-bool Unit::Draw(float dt)
+bool Unit::Draw()
 {
-	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &currentAnimation->GetCurrentFrame(dt));
+	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &currentAnimation.GetTheActualCurrentFrame());
 
 	return true;
 }
@@ -107,7 +117,22 @@ bool Unit::DebugDraw()
 	}
 	else {*/
 	if (selected == false) {
-		myApp->render->DrawQuad(UnitRect, 255, 0, 0, 255, false);
+		Uint8 rgb[3] = { 0, 0, 0 };
+
+		switch (faction) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+		case entity_faction::COMMUNIST:
+			rgb[0] = 255;	//Red
+			break;
+		case entity_faction::CAPITALIST:
+			rgb[2] = 255;	//Blue
+			break;
+		case entity_faction::NEUTRAL:
+			rgb[0] = 255;
+			rgb[2] = 255;	//Magenta
+			break;
+		}
+
+		myApp->render->DrawQuad(UnitRect, rgb[0], rgb[1], rgb[2], 255, false);
 	}
 
 	return true;
@@ -119,13 +144,14 @@ void Unit::DrawPath()
 
 	switch (faction) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
 	case entity_faction::COMMUNIST:
-		rgb[1] = 255;	//Green
-		break;
-	case entity_faction::CAPITALIST:
 		rgb[0] = 255;	//Red
 		break;
-	case entity_faction::NEUTRAL:
+	case entity_faction::CAPITALIST:
 		rgb[2] = 255;	//Blue
+		break;
+	case entity_faction::NEUTRAL:
+		rgb[0] = 255;
+		rgb[2] = 255;	//Magenta
 		break;
 	}
 
@@ -167,62 +193,47 @@ void Unit::UnitWorkflow(float dt)
 	}
 
 	if (prevState != unitState) {
-		ApplyState();
+		UpdateAnimation();
 	}
 }
 
-unit_directions Unit::CheckDirection()
+unit_directions Unit::CheckDirection(fVec2 direction)
 {
-	unit_directions ret = unit_directions::NONE;
-
-	stats.vecAngle = stats.vecSpeed.GetAngle({ 0.0f, -1.0f });
+	stats.vecAngle = direction.GetAngle({ 0.0f, -1.0f });
 	stats.vecAngle = RadsToDeg(stats.vecAngle);
 
 	if (stats.vecAngle > 337.5f || stats.vecAngle <= 22.5f) {
-		ret = unit_directions::NORTH;
+		unitDirection = unit_directions::NORTH;
 	}
 	else if (stats.vecAngle > 292.5f) {
-		ret = unit_directions::NORTH_EAST;
+		unitDirection = unit_directions::NORTH_EAST;
 	}
 	else if (stats.vecAngle > 247.5f) {
-		ret = unit_directions::EAST;
+		unitDirection = unit_directions::EAST;
 	}
 	else if (stats.vecAngle > 202.5f) {
-		ret = unit_directions::SOUTH_EAST;
+		unitDirection = unit_directions::SOUTH_EAST;
 	}
 	else if (stats.vecAngle > 157.5f) {
-		ret = unit_directions::SOUTH;
+		unitDirection = unit_directions::SOUTH;
 	}
 	else if (stats.vecAngle > 112.5f) {
-		ret = unit_directions::SOUTH_WEST;
+		unitDirection = unit_directions::SOUTH_WEST;
 	}
 	else if (stats.vecAngle > 67.5f) {
-		ret = unit_directions::WEST;
+		unitDirection = unit_directions::WEST;
 	}
 	else if (stats.vecAngle > 22.5f) {
-		ret = unit_directions::NORTH_WEST;
+		unitDirection = unit_directions::NORTH_WEST;
 	}
 
-	return ret;
+	return unitDirection;
 }
 
 // Change animation according to state
-void Unit::ApplyState()
+void Unit::UpdateAnimation()
 {
-	switch (unitState) {
-	case unit_state::IDLE:
-		//currentAnim = idleAnim;
-		break;
-	case unit_state::MOVING:
-		//currentAnim = movingAnim;
-		break;
-	case unit_state::ATTACKING:
-		//currentAnim = firingAnim;
-		break;
-	case unit_state::DEAD:
-		//currentAnim = deadAnim;
-		break;
-	}
+	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
 }
 
 // Order processing
@@ -389,6 +400,16 @@ bool Unit::Move(float dt)
 
 void Unit::AttackTarget(float dt)
 {
+	fVec2 targetDirection = GetVector2(position, target->position);
+
+	unit_directions lastDirection = unitDirection;
+
+	CheckDirection(targetDirection);
+
+	if (lastDirection != unitDirection) {
+		UpdateAnimation();
+	}
+
 	target->Hurt((float)stats.damage * dt);
 
 	unitState = unit_state::ATTACKING;
@@ -407,10 +428,10 @@ float Unit::Hurt(float damage)
 
 void Unit::Die()
 {
-	//TODO: Set animation to death animation
 	despawnTimer.Start();
 	unitOrders = unit_orders::NONE;
 	unitState = unit_state::DEAD;
+	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0]);
 }
 
 // Unit Data
@@ -422,6 +443,17 @@ bool Unit::IsDead()
 	else {
 		return false;
 	}
+}
+
+bool Unit::InsideCamera()
+{
+	bool ret = false;
+
+	if (myApp->render->InsideCamera({ (int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h }) == true) {
+		ret = true;
+	}
+
+	return ret;
 }
 
 bool Unit::IsVisible()

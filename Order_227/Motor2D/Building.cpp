@@ -2,7 +2,9 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Player.h"
-#include"Entity_Manager.h"
+#include "Entity_Manager.h"
+#include "UserInterface.h"
+#include "Text.h"
 
 Building::Building(fPoint position, building_type building_type, entity_faction faction) : Entity(position, entity_type::BUILDING, faction)
 {}
@@ -21,6 +23,7 @@ bool Building::Update(float dt)
 	if (incomeTimer.ReadSec() >= 2) {
 
 		myApp->player->playerMoney += income;
+		myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
 		incomeTimer.Start();
 	}
 
@@ -40,7 +43,7 @@ bool Building::Draw()
 {
 
 	UpdateBlitOrder();
-	myApp->render->Push(order, texture, position.x, position.y, &buildingBlitRect);
+	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &buildingBlitRect);
 
 	return true;
 }

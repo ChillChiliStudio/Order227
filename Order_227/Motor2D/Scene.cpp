@@ -34,7 +34,7 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
-	srand(time(NULL));
+	srand((uint)time(NULL));
 	if(myApp->map->Load("Map1_0.tmx") == true)
 	{
 		int w, h;
