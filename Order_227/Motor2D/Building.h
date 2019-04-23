@@ -50,7 +50,7 @@ public:
 
 
 	
-	int health = 0;
+	float health = 0;
 	int income = 0;
 	Timer incomeTimer;
 
