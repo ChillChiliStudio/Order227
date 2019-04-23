@@ -236,7 +236,7 @@ bool Entity_Manager::Update(float dt)
 		staticObjectsArray[i]->Update(dt);
 
 		for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
-			staticObjectsArray[i]->Update();
+			staticObjectsArray[i]->Update(dt);
 
 
 		accumulated_time -= update_ms_cycle;
