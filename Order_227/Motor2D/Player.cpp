@@ -269,11 +269,30 @@ void Player::OrderMove()
 
 void Player::OrderAttack()
 {
-	for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
+	Unit* attackTarget = nullptr;
+
+	for (int i = 0; i < INFANTRY_ARRAY_SIZE; i++)
 	{
-		if ((*it)->IsDead() == false)
+		if (myApp->entities->CapitalistUnitsArray[i]->active == true && myApp->entities->CapitalistUnitsArray[i]->IsDead() == false &&
+			!(mousePos.x < myApp->entities->CapitalistUnitsArray[i]->UnitRect.x ||
+			mousePos.x > myApp->entities->CapitalistUnitsArray[i]->UnitRect.x + myApp->entities->CommunistUnitsArray[i]->UnitRect.w ||
+			mousePos.y < myApp->entities->CapitalistUnitsArray[i]->UnitRect.y ||
+			mousePos.y > myApp->entities->CapitalistUnitsArray[i]->UnitRect.y + myApp->entities->CommunistUnitsArray[i]->UnitRect.h))
 		{
-			//(*it)->StartAttack(mousePos);	//TODO: Make it work
+			attackTarget = myApp->entities->CapitalistUnitsArray[i];
+		}
+	}
+
+	if (attackTarget == nullptr) {
+		OrderMove();
+	}
+	else {
+		for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
+		{
+			if ((*it)->IsDead() == false)
+			{
+				(*it)->StartAttack(attackTarget);
+			}
 		}
 	}
 }
