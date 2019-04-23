@@ -79,7 +79,7 @@ bool Entity_Manager::Start()
 	//infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
 	loadTextures();
 
-	int entityIterator = (2 * INFANTRY_ARRAY_SIZE) + OBJECTS_ARRAY_SIZE;
+	int entityIterator = 2 * INFANTRY_ARRAY_SIZE;
 
 	//Add Buildings as entities
 	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i) {
