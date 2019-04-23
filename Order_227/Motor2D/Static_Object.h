@@ -11,17 +11,30 @@ enum class object_type {
 	OBJECT_MAX
 };
 
+enum class Trees {
+
+
+	NONE = -1,
+	DEFAULT,
+	FOREST_ONE,
+	FOREST_TWO,
+	PINE,
+	DESERT
+
+
+};
+
 class Static_Object : public Entity
 {
 public:
 
-	Static_Object(fPoint position, object_type objectType, entity_faction faction = entity_faction::NEUTRAL);
+	Static_Object(fPoint pos, object_type objectType, entity_faction faction = entity_faction::NEUTRAL);
 	~Static_Object() {}
 
-	bool Update();
+	bool Update(float dt);
 	bool CleanUp();
-
-	bool Draw(float dt);
+	bool Draw();
+	void UpdateBlitOrder() override;
 
 	object_type objectType;
 };

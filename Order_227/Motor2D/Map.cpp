@@ -686,6 +686,31 @@ void Map::PlaceGameObjects() {
 				}
 			}
 		}
+
+		 if ((*item)->nameGroup == "Trees") {
+
+			 int i = 0;
+
+			 std::list<GameObjectGroup::Object*>::iterator item3 = (*item)->Objectlist.begin();
+			 for (; item3 != (*item)->Objectlist.end(); item3 = next(item3)) {
+
+				 if ((*item3)->name == "Tree") {
+
+					 iPoint Aux = PointToTile((int)(*item3)->x, (int)(*item3)->y);
+					 fPoint fPos = fPoint(Aux.x, Aux.y);
+
+					 Static_Object *newStaticObject = new Static_Object(fPos, object_type::TREE, entity_faction::NEUTRAL);
+
+					 myApp->entities->staticObjectsArray[i] = newStaticObject;
+					 i++;
+
+					 if (i >= OBJECTS_ARRAY_SIZE)
+						 break;
+				 }
+			 }
+		 }
+
+
 	}
 }
 
