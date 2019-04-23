@@ -9,7 +9,6 @@
 #include "Unit.h"
 #include "Audio.h"
 
-
 Unit::Unit(fPoint pos, entity_type entityType, entity_faction faction) : Entity(pos, entityType, faction)
 {
 //	LoadEntityData();
@@ -442,8 +441,11 @@ void Unit::AttackTarget(float dt)
 	}
 
 	target->Hurt((float)stats.damage * dt);
-
-	unitState = unit_state::ATTACKING;
+	
+	if (unitState != unit_state::ATTACKING) {
+		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::SHOT][2]);
+		unitState = unit_state::ATTACKING;
+	}
 }
 
 void Unit::AttackBase(float dt)
@@ -466,7 +468,10 @@ void Unit::AttackBase(float dt)
 		//TODO: Lose flag
 	}
 
-	unitState = unit_state::ATTACKING;
+	if (unitState != unit_state::ATTACKING) {
+		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::SHOT][2]);
+		unitState = unit_state::ATTACKING;
+	}
 }
 
 float Unit::Hurt(float damage)
@@ -486,6 +491,8 @@ void Unit::Die()
 	unitOrders = unit_orders::NONE;
 	unitState = unit_state::DEAD;
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0]);
+
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::HURT][rand() % 2]);
 }
 
 // Unit Data

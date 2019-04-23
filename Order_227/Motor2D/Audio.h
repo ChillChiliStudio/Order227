@@ -6,8 +6,8 @@
 #define DEFAULT_MUSIC_FADE_TIME 2.0f
 #define FACTION_NUM 2
 #define VARIATION_PER_SOUND 3
-#define SOV 1
-#define CAP 2
+#define SOV 0
+#define CAP 1
 
 struct _Mix_Music;
 struct Mix_Chunk;
@@ -25,15 +25,6 @@ enum class type_sounds
 	MAX
 
 };
-
-enum class Entity_type_Sounds {
-
-	BASIC,
-	DESOLATOR,
-	MAX
-
-};
-
 
 class Audio : public Module
 {
@@ -71,8 +62,8 @@ public:
 	void LoadIntoArray();
 
 
-
-	uint SoundFX_Array[(int)Entity_type_Sounds::MAX][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
+	//TODO: The hardoced 4 should be entity/unit type::Max
+	uint SoundFX_Array[4][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
 
 	pugi::xml_document SFX_XML;
 
