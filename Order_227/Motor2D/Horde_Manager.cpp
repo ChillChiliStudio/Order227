@@ -149,11 +149,15 @@ void Horde_Manager::ClearEnemies()
 
 bool Horde_Manager::HordesDead()
 {
-	for (int i = 0; i < hordes.size(); ++i) {
-		if (!hordes[i]->groupUnits.empty()) {
-			return false;
+	for (int i = 0; i < hordes.size(); ++i) 
+	{
+		std::list<Unit*>::iterator iter = hordes[i]->groupUnits.begin();
+		for ( int b=0; b< hordes[i]->groupUnits.size();++b)
+		{
+			if ((*iter)->active)
+				return false;
+			++iter;
 		}
 	}
-
 	return true;
 }
