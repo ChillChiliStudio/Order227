@@ -53,6 +53,11 @@ bool Player::Update(float dt)
 
 	PlayerSelect();		// Player Area Selection Management
 
+	CheckForOrders();
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN) {
+		ApplyOrders();
+	}
+
 	if (myApp->gui->interfaceDebugDraw) {
 		DebugMouse();	// Mouse UI Debug data update
 	}
@@ -192,8 +197,6 @@ void Player::DebugInputs()
 		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
 			DebugSpawnUnit(infantry_type::BASIC, entity_faction::COMMUNIST);
 		}
-
-		DebugOrders();
 	}
 }
 
@@ -202,30 +205,52 @@ void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: 
 	myApp->entities->ActivateInfantry(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
 }
 
-void Player::DebugOrders()
+void Player::CheckForOrders()
 {
-	if (myApp->groups->playerGroup.groupUnits.size() > 0) {
-		if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {	// Mantain a NumKey (1-5) for Order type
-			DebugOrderHold();
+	if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {	// Hold is done instantly, the others need a click
+		if (myApp->groups->playerGroup.groupUnits.size() > 0) {
+			OrderHold();
 		}
-		else if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN) { // Press RightMouseButton to mark destination
-			if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_REPEAT) {
-				DebugOrderMove();
-			}
-			else if (myApp->input->GetKey(SDL_SCANCODE_3) == KEY_REPEAT) {
-				DebugOrderAttack();
-			}
-			else if (myApp->input->GetKey(SDL_SCANCODE_4) == KEY_REPEAT) {
-				DebugOrderMoveAndAttack();
-			}
-			else if (myApp->input->GetKey(SDL_SCANCODE_5) == KEY_REPEAT) {
-				DebugOrderPatrol();
-			}
-		}
+	}
+	if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
+		prepOrder = unit_orders::MOVE;
+	}
+	if (myApp->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
+		prepOrder = unit_orders::ATTACK;
+	}
+	if (myApp->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
+		prepOrder = unit_orders::MOVE_AND_ATTACK;
+	}
+	if (myApp->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN) {
+		prepOrder = unit_orders::PATROL;
 	}
 }
 
-void Player::DebugOrderHold()
+void Player::ApplyOrders()
+{
+	if (myApp->groups->playerGroup.groupUnits.size() > 0) {
+		switch (prepOrder) {
+		case unit_orders::MOVE:
+			OrderMove();
+			break;
+		case unit_orders::ATTACK:
+			OrderAttack();
+			break;
+		case unit_orders::MOVE_AND_ATTACK:
+			OrderMoveAndAttack();
+			break;
+		case unit_orders::PATROL:
+			OrderPatrol();
+			break;
+		default:
+			OrderMoveAndAttack();
+		}
+	}
+
+	prepOrder = unit_orders::NONE;
+}
+
+void Player::OrderHold()
 {
 	for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
 	{
@@ -236,13 +261,13 @@ void Player::DebugOrderHold()
 	}
 }
 
-void Player::DebugOrderMove()
+void Player::OrderMove()
 {
 	myApp->groups->playerGroup.SpreadDestinations(mousePos);
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE);
 }
 
-void Player::DebugOrderAttack()
+void Player::OrderAttack()
 {
 	for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
 	{
@@ -253,13 +278,13 @@ void Player::DebugOrderAttack()
 	}
 }
 
-void Player::DebugOrderMoveAndAttack()
+void Player::OrderMoveAndAttack()
 {
 	myApp->groups->playerGroup.SpreadDestinations(mousePos);
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE_AND_ATTACK);
 }
 
-void Player::DebugOrderPatrol()
+void Player::OrderPatrol()
 {
 	myApp->groups->playerGroup.SpreadDestinations(mousePos);
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::PATROL);
