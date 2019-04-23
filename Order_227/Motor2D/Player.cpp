@@ -11,13 +11,6 @@
 #include "GroupManager.h"
 #include "Player.h"
 
-
-Player::Player()
-{}
-
-Player::~Player()
-{}
-
 bool Player::Awake()
 {
 	LOG("AWAKING PLAYER MODULE");
@@ -46,10 +39,12 @@ bool Player::Update(float dt)
 	//if (unitCreationCD.ReadSec() >= 10) {
 	//	startCreationUnit = false;
 	//}
+	if (myApp->gui->MainMenuTemp_Image->active != true) {
+		UpdateMousePos();	// Mouse Position Update
+		CameraInputs(dt);	// Camera Inputs
+		DebugInputs();		// Debug Inputs
 
-	UpdateMousePos();	// Mouse Position Update
-	CameraInputs(dt);	// Camera Inputs
-	DebugInputs();		// Debug Inputs
+		PlayerSelect();		// Player Area Selection Management
 
 	PlayerSelect();		// Player Area Selection Management
 
@@ -62,12 +57,13 @@ bool Player::Update(float dt)
 		DebugMouse();	// Mouse UI Debug data update
 	}
 
-	if (myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
-		if (myApp->gui->pauseMenuPanel->active == false) {
-			myApp->gui->pauseMenuPanel->Activate();
+		if (myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+			if (myApp->gui->pauseMenuPanel->active == false) {
+				myApp->gui->pauseMenuPanel->Activate();
+			}
+			else
+				myApp->gui->pauseMenuPanel->Deactivate();
 		}
-		else
-			myApp->gui->pauseMenuPanel->Deactivate();
 	}
 
 	return true;
@@ -75,7 +71,7 @@ bool Player::Update(float dt)
 
 bool Player::CleanUp()
 {
-	//myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
+	myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
 	mouseDebugMark = nullptr;
 
 	return true;
@@ -315,7 +311,7 @@ void Player::PlayerSelect()
 		StartSelect();
 	}
 	else if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {	// Process Selection Area	//TODO: Check if the first 2 conditions are necessary
-		
+
 		rectangle_width = mousePos.x - rectangle_origin.x;
 		rectangle_height = mousePos.y - rectangle_origin.y;
 

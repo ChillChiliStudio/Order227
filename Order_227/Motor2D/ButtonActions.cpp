@@ -3,6 +3,12 @@
 #include "Entity_Manager.h"
 #include "time.h"
 #include "Map.h"
+#include "UserInterface.h"
+#include "Image.h"
+#include "Scene.h"
+#include "Player.h"
+#include "Horde_Manager.h"
+#include "GroupManager.h"
 
 void CreateConscript() {
 	//srand(time(NULL));
@@ -27,4 +33,29 @@ void CreateConscript() {
 	fPoint test = myApp->entities->mainBase->position;
 	myApp->entities->ActivateInfantry(fPoint(tempPoint.x,tempPoint.y), infantry_type::BASIC, entity_faction::COMMUNIST);
 
+}
+void StartGame() {
+
+	//TODO make the game start Correctly
+	//myApp->scene->Start();
+	myApp->entities->mainBase->health = 1000.0f;
+	myApp->entities->ResetAll();
+	myApp->hordes->hordeRoundto(0);
+	myApp->hordes->hordeActive = true;
+	myApp->hordes->roundTimerStart();
+	myApp->gui->MainMenuTemp_Image->Deactivate();
+
+}
+void QuitGame() {
+
+	myApp->hordes->hordeActive = false;
+	myApp->gui->pauseMenuPanel->Deactivate();
+	myApp->gui->MainMenuTemp_Image->Activate();
+	myApp->entities->ResetAll();
+	//myApp->scene->CleanUp();
+	
+
+}
+void CloseGame() {
+	myApp->mustShutDown = true;
 }

@@ -32,7 +32,7 @@ protected:
 
 private:
 	value_state valueStatus;
-	bool* value;
+	bool* value=nullptr;
 };
 
 #endif //CHECK_BOX_H

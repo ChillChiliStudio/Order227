@@ -119,6 +119,7 @@ public:
 	// Actions
 	bool Move(float dt);	// Move unit position
 	void AttackTarget(float dt);
+	void AttackBase(float dt);	//TODO: Hardcoded shit, should work with AttackTarget
 	float Hurt(float damage);
 	void Die();
 	//void Kill();
@@ -136,6 +137,7 @@ public:
 	void SetupPath();
 	fVec2 SetupVecSpeed();
 	Unit* EnemyInRange();
+	bool BaseInRange();	//TODO: Should be "building in range" or directly be included inside EnemyInRange
 	bool TargetInRange();
 
 public:

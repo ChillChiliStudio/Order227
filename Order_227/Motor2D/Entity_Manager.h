@@ -39,11 +39,12 @@ public:
 
 	bool ActivateObject(fPoint position, object_type objectType);
 	bool ActivateBuilding(fPoint position, building_type buildingType, entity_faction entityFaction = entity_faction::NEUTRAL);
-	bool ActivateInfantry(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+	Unit* ActivateInfantry(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
 
 	bool DeActivateObject(Static_Object* Object);
 	bool DeActivateBuilding(Building* Building);
 	bool DeActivateInfantry(Unit* Infantry);
+	bool ResetAll();
 
 	void DestroyEntity(Entity *Entity) {}
 
@@ -70,6 +71,8 @@ public:
 	Animation		animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)];
 
 	bool entitiesDebugDraw = false;
+
+	SDL_Texture* lifeBar_tex = nullptr;
 
 private:
 

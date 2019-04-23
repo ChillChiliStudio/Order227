@@ -73,7 +73,7 @@ std::list<PathNode>::iterator PathList::Find(const iPoint& point)
 
 	while(item != list.end())
 	{
-	
+
 		if ((*item).pos == point)
 			return item;
 

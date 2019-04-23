@@ -4,7 +4,7 @@
 #include "ActionBox.h"
 #include "Animation.h"
 
-class SDL_Texture;
+struct SDL_Texture;
 
 class Unit_Box : public Action_Box
 {
@@ -23,8 +23,8 @@ protected:
 protected:
 
 	event_function action;
-	Animation* Animation;
-	SDL_Texture* Timer_Texture;
+	Animation* Animation=nullptr;
+	SDL_Texture* Timer_Texture=nullptr;
 	int Timer;
 	bool ActiveTimer;
 };

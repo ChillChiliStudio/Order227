@@ -17,6 +17,8 @@ class Check_Box;
 class Spawn_Box;
 class Unit_Box;
 class Button;
+class LifeBar;
+class Unit;
 //class Window;
 struct _TTF_Font;
 struct SDL_Rect;
@@ -70,6 +72,7 @@ public:
 	Check_Box* CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
 	Spawn_Box* CreateSpawnBox(bool value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
 	Unit_Box* CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0);
+	LifeBar* CreateLifeBar(fPoint center, Unit* parent = nullptr, SDL_Texture* tex = NULL, float* auxHealth=NULL);
 
 	template <class T_param>
 	UI_Element* CreateParamBox(void(*action)(T_param), T_param parameter, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL)
@@ -95,8 +98,19 @@ public:
 	Timer unitCreationCD;
 	Image* pauseMenuPanel = nullptr;
 	Text* Moneytext = nullptr;
+	Image* MainMenuTemp_Image = nullptr;
+	Void_Box* StartGame_Button = nullptr;
+	Text* StartGame_Label = nullptr;
+	Void_Box* ExitGame_Button = nullptr;
+	Text* ExitGame_Label = nullptr;
+
+	Text* Damage_Label = nullptr;
+	Text* Health_Label = nullptr;
+	Text* Speed_Label = nullptr;
+	Text* Cadency_Label = nullptr;
 
 	std::list<Spawn_Box*> SpawnSelectors;
+	std::list<UI_Element*> Main_Menu_Elements;
 
 private:
 	std::list<UI_Element*> screenElements;
@@ -105,11 +119,16 @@ private:
 
 	Image* MainBarPanel = nullptr;
 
+	Void_Box* ReturnMainMenu = nullptr;
+	Text* ReturnMainMenu_Label = nullptr;
+
 	Spawn_Box* selectorInfantry=nullptr;
 	Spawn_Box* selectorDefenses = nullptr;
 	Spawn_Box* selectorTank = nullptr;
 	Unit_Box* ConscriptCreator = nullptr;
 	Image* frameSelector = nullptr;
+	Image* UnitStats = nullptr;
+	Image* UnitFrame = nullptr;
 
 	SDL_Rect selectorInfantry_Rect[4];
 	SDL_Rect selectorDefenses_Rect[4];
@@ -117,8 +136,12 @@ private:
 
 	SDL_Rect Conscript_Selection_Rect[4];
 
-	SDL_Texture* unitsSelection_Tex;
+	SDL_Texture* unitsSelection_Tex= nullptr;
 
+	SDL_Texture* unitStats_text = nullptr;
+	SDL_Texture* PauseButton_text = nullptr;
+	SDL_Texture* StartGame_text = nullptr;
+	SDL_Texture* Main_Menu_Temp_Tex = nullptr;
 	SDL_Texture* selectorinGame_Tex = nullptr;
 	SDL_Texture* pauseMenuPanel_Tex = nullptr;
 	SDL_Texture* mainBar = nullptr;

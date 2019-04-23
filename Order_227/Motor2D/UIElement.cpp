@@ -14,7 +14,7 @@ UI_Element::UI_Element(ui_type type, fPoint position, bool dynamic, UI_Element* 
 	if (parent != NULL) {
 		parent->AttachChild(this);
 	}
-
+	
 	Init();
 }
 

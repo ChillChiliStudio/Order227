@@ -9,7 +9,7 @@
 #include "Building.h"
 #include <cmath>
 #include <sstream>
-
+#include "Horde_Manager.h"
 
 class Spawning_Point;
 
@@ -490,7 +490,6 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	LoadProperties(node, layer->properties);
 	pugi::xml_node layer_data = node.child("data");
 
-	//TEST
 	iPoint layer_size;
 	iPoint quadT_position(0, 0);
 	switch (data.type)
@@ -507,7 +506,6 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		break;
 	}
 	layer->tile_tree = new TileQuadtree(6, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height * 3);
-	//TEST
 
 	if(layer_data == NULL)
 	{
@@ -523,13 +521,10 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		int i = 0;
 		for(pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
 		{
-			//TEST
 			iPoint tile_map_coordinates(myApp->map->MapToWorld((i - int(i / layer->width)*layer->width), int(i / layer->width)));
 			TileData new_tile(tile.attribute("gid").as_int(0), tile_map_coordinates);
 			if (new_tile.id!=0)
 			layer->tile_tree->InsertTile(new_tile);
-			//TEST
-
 
 			layer->data[i++] = tile.attribute("gid").as_int(0);
 		}
@@ -651,7 +646,10 @@ void Map::PlaceGameObjects() {
 				if ((*item2)->name == "Spawn") {
 
 					Spawning_Point* new_SP = new Spawning_Point(PointToTile((int)(*item2)->x, (int)(*item2)->y));
-					myApp->scene->SpawningPoints_Array.push_back(new_SP);
+					myApp->hordes->SpawningPoints_Array.push_back(new_SP);
+					Group* newHorde = new Group;
+					myApp->hordes->hordes.push_back(newHorde);
+
 
 				}
 			}

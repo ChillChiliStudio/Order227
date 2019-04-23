@@ -17,9 +17,6 @@ enum class unit_orders;
 class Text;
 
 class Player : public Module {
-public:
-	Player();
-	virtual ~Player();
 
 public:
 
@@ -47,7 +44,7 @@ public:
 	void StartSelect();
 	void ExpandSelect();
 	void FinishSelect();
-	
+
 public:
 
 	/*int rectangle_width;
@@ -64,14 +61,14 @@ public:
 	iPoint mouseScreenPos;
 	iPoint mouseMap;
 
-	Text* mouseDebugMark;
+	Text* mouseDebugMark=nullptr;
 	iPoint origin;
 	iPoint rectangle_origin;
 	
 	unit_orders prepOrder = (unit_orders)-1;
 
 	//Group playerGroup = nullptr;	//TODO: On group manager, should probably be here
-	
+
 	int playerMoney = 300;
 	bool startCreationUnit = false;
 
