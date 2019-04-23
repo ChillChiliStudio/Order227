@@ -20,7 +20,9 @@ public:
 	const char* GetText() const;
 	SDL_Color GetColor() const;
 	_TTF_Font* GetFont() const;
+	SDL_Rect GetTexSize(const char* string, SDL_Color color, _TTF_Font* font);
 
+	SDL_Texture* CreateTexture(const char* string, SDL_Color color, _TTF_Font* font);
 	SDL_Texture* LoadTexture(const char* string, SDL_Color color, _TTF_Font* font);
 
 	SDL_Rect ChangeText(const char* string, SDL_Color color, _TTF_Font* font);
@@ -31,7 +33,7 @@ public:
 	SDL_Rect ChangeFont(_TTF_Font* font);
 
 protected:
-	char content[100];	//TODO: Temporal fix, std::string didn't work no matter how used, we should instead use owr own string class and remake Text when using it
+	char content[30];	//TODO: Temporal fix, std::string didn't work no matter how used, we should instead use owr own string class and remake Text when using it
 	SDL_Color color;
 	_TTF_Font* font = nullptr;
 	

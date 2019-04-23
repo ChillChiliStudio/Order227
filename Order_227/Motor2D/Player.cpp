@@ -71,7 +71,7 @@ bool Player::Update(float dt)
 
 bool Player::CleanUp()
 {
-	//myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
+	myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
 	mouseDebugMark = nullptr;
 
 	return true;
