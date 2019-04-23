@@ -616,6 +616,8 @@ void Unit::StartHold()
 
 	unitOrders = unit_orders::HOLD;
 	unitState = unit_state::IDLE;
+
+	UpdateAnimation();
 }
 
 void Unit::StartMove(iPoint destination)
@@ -624,6 +626,8 @@ void Unit::StartMove(iPoint destination)
 
 	unitOrders = unit_orders::MOVE;
 	unitState = unit_state::IDLE;
+
+	UpdateAnimation();
 }
 
 void Unit::StartAttack(Unit* target)
@@ -638,6 +642,8 @@ void Unit::StartAttack(Unit* target)
 
 	unitOrders = unit_orders::ATTACK;
 	unitState = unit_state::IDLE;
+
+	UpdateAnimation();
 }
 
 void Unit::StartMoveAndAttack(iPoint destination)
@@ -646,6 +652,8 @@ void Unit::StartMoveAndAttack(iPoint destination)
 
 	unitOrders = unit_orders::MOVE_AND_ATTACK;
 	unitState = unit_state::IDLE;
+
+	UpdateAnimation();
 }
 
 void Unit::StartPatrol(iPoint destination)
@@ -654,4 +662,6 @@ void Unit::StartPatrol(iPoint destination)
 
 	unitOrders = unit_orders::PATROL;
 	unitState = unit_state::IDLE;
+
+	UpdateAnimation();
 }

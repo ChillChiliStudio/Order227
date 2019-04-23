@@ -32,12 +32,13 @@ public:
 	void DebugInputs();
 	void DebugSpawnUnit(infantry_type type, entity_faction faction);
 
-	void DebugOrders();
-	void DebugOrderHold();
-	void DebugOrderMove();
-	void DebugOrderAttack();
-	void DebugOrderMoveAndAttack();
-	void DebugOrderPatrol();
+	void CheckForOrders();
+	void ApplyOrders();
+	void OrderHold();
+	void OrderMove();
+	void OrderAttack();
+	void OrderMoveAndAttack();
+	void OrderPatrol();
 
 	void PlayerSelect();
 	void StartSelect();
@@ -61,10 +62,10 @@ public:
 	iPoint mouseMap;
 
 	Text* mouseDebugMark;
-
 	iPoint origin;
-
 	iPoint rectangle_origin;
+	
+	unit_orders prepOrder = (unit_orders)-1;
 
 	//Group playerGroup = nullptr;	//TODO: On group manager, should probably be here
 
