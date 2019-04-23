@@ -108,7 +108,6 @@ public:
 	Void_Box* ExitGame_Button = nullptr;
 	Text* ExitGame_Label = nullptr;
 
-
 	Text* Damage_Label = nullptr;
 	Text* Health_Label = nullptr;
 	Text* Speed_Label = nullptr;
@@ -141,7 +140,7 @@ private:
 	Text* ReturnMainMenu_Label = nullptr;
 
 
-
+	
 	Spawn_Box* selectorInfantry=nullptr;
 	Spawn_Box* selectorDefenses = nullptr;
 	Spawn_Box* selectorTank = nullptr;
@@ -149,6 +148,7 @@ private:
 	Image* frameSelector = nullptr;
 	Image* UnitStats = nullptr;
 	Image* UnitFrame = nullptr;
+	Image* miniMap_Temp = nullptr;
 
 	SDL_Rect selectorInfantry_Rect[4];
 	SDL_Rect selectorDefenses_Rect[4];
@@ -156,6 +156,7 @@ private:
 
 	SDL_Rect Conscript_Selection_Rect[4];
 
+	SDL_Texture* miniMap_tex = nullptr;
 	SDL_Texture* unitsSelection_Tex= nullptr;
 	SDL_Texture* endingImages_Tex = nullptr;
 	SDL_Texture* unitStats_text = nullptr;
