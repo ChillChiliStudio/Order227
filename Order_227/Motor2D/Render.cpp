@@ -58,6 +58,7 @@ bool Render::Start()
 	LOG("render start");
 	// back background
 	SDL_RenderGetViewport(renderer, &viewport);
+	SDL_RenderSetLogicalSize(renderer,1280,720);
 	return true;
 }
 
@@ -167,7 +168,7 @@ bool Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, f
 
 //This function prints all the elements of the queue
 
-bool Render::OrderBlit(priority_queue <ImageRender*, vector<ImageRender*>, Comparer>& Queue)const {
+bool Render::OrderBlit(std::priority_queue <ImageRender*, std::vector<ImageRender*>, Comparer>& Queue)const {
 
 	bool ret = true;
 	while (Queue.empty() == false) {
@@ -186,13 +187,17 @@ bool Render::OrderBlit(priority_queue <ImageRender*, vector<ImageRender*>, Compa
 		SDL_RendererFlip flag;
 		if (Image->scale < 0) {
 			flag = SDL_FLIP_HORIZONTAL;
-			r.w *= -Image->scale;
-			r.h *= -Image->scale;
+			r.w = (int)(r.w * -Image->scale);
+			r.h = (int)(r.h * -Image->scale);
+			//r.w *= -Image->scale;
+			//r.h *= -Image->scale;
 		}
 		else {
 			flag = SDL_FLIP_NONE;
-			r.w *= Image->scale;
-			r.h *= Image->scale;
+			r.w = (int)(r.w * Image->scale);
+			r.h = (int)(r.h * Image->scale);
+			//r.w *= Image->scale;
+			//r.h *= Image->scale;
 		}
 
 		SDL_Point* point = NULL;

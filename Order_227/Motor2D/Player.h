@@ -1,5 +1,5 @@
-#ifndef PLAYER_H_
-#define PLAYER_H_
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include "Module.h"
 #include "Point.h"
@@ -7,17 +7,16 @@
 //#include <vector>
 //#include <ctime>
 //#include "Point.h"
-//#include "SDL/include/SDL.h"
+//#include "SDL/include/SDL.h
+
 
 enum class infantry_type;
 enum class entity_faction;
 enum class unit_orders;
+
 class Text;
 
 class Player : public Module {
-public:
-	Player();
-	~Player();
 
 public:
 
@@ -33,18 +32,19 @@ public:
 	void DebugInputs();
 	void DebugSpawnUnit(infantry_type type, entity_faction faction);
 
-	void DebugOrders();
-	void DebugOrderHold();
-	void DebugOrderMove();
-	void DebugOrderAttack();
-	void DebugOrderMoveAndAttack();
-	void DebugOrderPatrol();
+	void CheckForOrders();
+	void ApplyOrders();
+	void OrderHold();
+	void OrderMove();
+	void OrderAttack();
+	void OrderMoveAndAttack();
+	void OrderPatrol();
 
 	void PlayerSelect();
 	void StartSelect();
 	void ExpandSelect();
 	void FinishSelect();
-	
+
 public:
 
 	/*int rectangle_width;
@@ -61,16 +61,17 @@ public:
 	iPoint mouseScreenPos;
 	iPoint mouseMap;
 
-	Text* mouseDebugMark;
-
+	Text* mouseDebugMark=nullptr;
 	iPoint origin;
-
 	iPoint rectangle_origin;
+	
+	unit_orders prepOrder = (unit_orders)-1;
 
 	//Group playerGroup = nullptr;	//TODO: On group manager, should probably be here
 
 	int playerMoney = 300;
+	bool startCreationUnit = false;
 
 };
 
-#endif 
+#endif	//PLAYER_H

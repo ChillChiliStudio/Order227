@@ -13,6 +13,7 @@ enum class infantry_type {	// TODO: This should be a single enum with ALL units 
 
 	INFANTRY_NONE = -1,
 	BASIC,
+	CONSCRIPT,
 	BAZOOKA,
 	MACHINE_GUN,
 	INFANTRY_MAX
@@ -70,6 +71,7 @@ struct unit_stats
 
 	float linSpeed;
 	fVec2 vecSpeed;
+	float vecAngle;
 
 	int cost;
 	int productionTime;
@@ -86,7 +88,7 @@ public:
 	bool Start() override;
 	bool Update(float dt) override;
 	void UpdateBlitOrder() override;
-	bool Draw(float dt);
+	bool Draw();
 
 public:
 
@@ -96,7 +98,8 @@ public:
 
 	// Main Workflow
 	void UnitWorkflow(float dt);	// State workflow depending on order issued
-	void ApplyState();				// Add state effects, like current animation
+	void UpdateAnimation();				// Add state effects, like current animation
+	unit_directions CheckDirection(fVec2 direction);
 
 	//Order calling
 	void OrderStandardSetup(iPoint destination);
@@ -116,6 +119,7 @@ public:
 	// Actions
 	bool Move(float dt);	// Move unit position
 	void AttackTarget(float dt);
+	void AttackBase(float dt);	//TODO: Hardcoded shit, should work with AttackTarget
 	float Hurt(float damage);
 	void Die();
 	//void Kill();
@@ -123,6 +127,7 @@ public:
 
 	//Get Data
 	bool IsDead();
+	bool InsideCamera();
 	bool IsVisible();
 	bool NodeReached();
 	bool DestinationReached();
@@ -132,17 +137,19 @@ public:
 	void SetupPath();
 	fVec2 SetupVecSpeed();
 	Unit* EnemyInRange();
+	bool BaseInRange();	//TODO: Should be "building in range" or directly be included inside EnemyInRange
 	bool TargetInRange();
 
 public:
 
-	SDL_Rect CheckInCamera;
+	bool onCamera = false;
+
 	unit_state unitState = unit_state::IDLE;
 	unit_orders unitOrders = unit_orders::HOLD;
 	unit_directions unitDirection = unit_directions::SOUTH_EAST;
 	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
 
-	Animation* currentAnimation = nullptr;
+	Animation currentAnimation;
 
 	iPoint origin;
 	iPoint destination;
@@ -154,7 +161,7 @@ public:
 	Unit* target = nullptr;
 	bool targetLost;	// Used when there's a specific target to Search & Destroy which sight of can be lost
 
-	infantry_type infatryType;
+	infantry_type infantryType;
 	unit_stats stats;
 	SDL_Rect selectionRect = { 0, 0, 0, 0 };
 

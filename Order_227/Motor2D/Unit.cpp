@@ -8,9 +8,11 @@
 #include "Entity.h"
 #include "Unit.h"
 
+
 Unit::Unit(fPoint pos, entity_type entityType, entity_faction faction) : Entity(pos, entityType, faction)
 {
 //	LoadEntityData();
+	
 }
 
 Unit::~Unit()
@@ -18,19 +20,26 @@ Unit::~Unit()
 
 bool Unit::Start()
 {
+	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
+
+	unitState = unit_state::IDLE;
+	unitOrders = unit_orders::HOLD;
+	unitDirection = unit_directions::SOUTH_EAST;
+	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
+
 	return true;
 }
 
 bool Unit::Update(float dt)
 {
-	UnitWorkflow(dt);
-	currentAnimation = &myApp->entities->animationArray[int(infatryType)][int(unitState)][int(unitDirection)];
+	onCamera = InsideCamera();
 
-	UnitRect.x = position.x;
-	UnitRect.y = position.y;
+	UnitWorkflow(dt);
+
+	UnitRect.x = position.x-10;
+	UnitRect.y = position.y-10;
 
 	if (mustDespawn) {
-
 		mustDespawn = false;
 		myApp->entities->DeActivateInfantry(this);	//TODO: Can't use "deactivate" because it only works with Infantry classes
 	}
@@ -39,12 +48,20 @@ bool Unit::Update(float dt)
 			DrawPath();
 		}
 
-		CheckInCamera = { (int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h };
+		currentAnimation.AdvanceAnimation(dt);	// Animation must continue even if outside camera
 
-		if (myApp->render->InsideCamera(CheckInCamera) == true) {	// If inside camera
+		if (onCamera) {	// If inside camera
+
+			if (unitState == unit_state::MOVING) {	// State changes are always updated on animation,
+				unit_directions lastDirection = unitDirection;
+
+				if (lastDirection != CheckDirection(stats.vecSpeed)) {
+					UpdateAnimation();
+				}
+			}
 
 			UpdateBlitOrder();
-			Draw(dt);
+			Draw();
 
 			if (selected) {	//TODO: This should be as a debug functionality, but for now it'll do
 				myApp->render->DrawQuad(UnitRect, 0, 255, 0, 255, false);
@@ -91,9 +108,9 @@ void Unit::UpdateBlitOrder()
 
 }
 
-bool Unit::Draw(float dt)
+bool Unit::Draw()
 {
-	myApp->render->Push(order, texture, position.x, position.y, &currentAnimation->GetCurrentFrame(dt));
+	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &currentAnimation.GetTheActualCurrentFrame());
 
 	return true;
 }
@@ -105,7 +122,22 @@ bool Unit::DebugDraw()
 	}
 	else {*/
 	if (selected == false) {
-		myApp->render->DrawQuad(UnitRect, 255, 0, 0, 255, false);
+		Uint8 rgb[3] = { 0, 0, 0 };
+
+		switch (faction) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+		case entity_faction::COMMUNIST:
+			rgb[0] = 255;	//Red
+			break;
+		case entity_faction::CAPITALIST:
+			rgb[2] = 255;	//Blue
+			break;
+		case entity_faction::NEUTRAL:
+			rgb[0] = 255;
+			rgb[2] = 255;	//Magenta
+			break;
+		}
+
+		myApp->render->DrawQuad(UnitRect, rgb[0], rgb[1], rgb[2], 255, false);
 	}
 
 	return true;
@@ -117,13 +149,14 @@ void Unit::DrawPath()
 
 	switch (faction) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
 	case entity_faction::COMMUNIST:
-		rgb[1] = 255;	//Green
-		break;
-	case entity_faction::CAPITALIST:
 		rgb[0] = 255;	//Red
 		break;
-	case entity_faction::NEUTRAL:
+	case entity_faction::CAPITALIST:
 		rgb[2] = 255;	//Blue
+		break;
+	case entity_faction::NEUTRAL:
+		rgb[0] = 255;
+		rgb[2] = 255;	//Magenta
 		break;
 	}
 
@@ -165,27 +198,47 @@ void Unit::UnitWorkflow(float dt)
 	}
 
 	if (prevState != unitState) {
-		ApplyState();
+		UpdateAnimation();
 	}
 }
 
-// Change animation according to state
-void Unit::ApplyState()
+unit_directions Unit::CheckDirection(fVec2 direction)
 {
-	switch (unitState) {
-	case unit_state::IDLE:
-		//currentAnim = idleAnim;
-		break;
-	case unit_state::MOVING:
-		//currentAnim = movingAnim;
-		break;
-	case unit_state::ATTACKING:
-		//currentAnim = firingAnim;
-		break;
-	case unit_state::DEAD:
-		//currentAnim = deadAnim;
-		break;
+	stats.vecAngle = direction.GetAngle({ 0.0f, -1.0f });
+	stats.vecAngle = RadsToDeg(stats.vecAngle);
+	
+	if (stats.vecAngle > 337.5f || stats.vecAngle <= 22.5f) {
+		unitDirection = unit_directions::NORTH;
 	}
+	else if (stats.vecAngle > 292.5f) {
+		unitDirection = unit_directions::NORTH_EAST;
+	}
+	else if (stats.vecAngle > 247.5f) {
+		unitDirection = unit_directions::EAST;
+	}
+	else if (stats.vecAngle > 202.5f) {
+		unitDirection = unit_directions::SOUTH_EAST;
+	}
+	else if (stats.vecAngle > 157.5f) {
+		unitDirection = unit_directions::SOUTH;
+	}
+	else if (stats.vecAngle > 112.5f) {
+		unitDirection = unit_directions::SOUTH_WEST;
+	}
+	else if (stats.vecAngle > 67.5f) {
+		unitDirection = unit_directions::WEST;
+	}
+	else if (stats.vecAngle > 22.5f) {
+		unitDirection = unit_directions::NORTH_WEST;
+	}
+
+	return unitDirection;
+}
+
+// Change animation according to state
+void Unit::UpdateAnimation()
+{
+	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
 }
 
 // Order processing
@@ -198,9 +251,15 @@ void Unit::DoHold(float dt)
 		if (target != nullptr) {
 			AttackTarget(dt);
 		}
+		else if (faction == entity_faction::CAPITALIST && BaseInRange()) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+			AttackBase(dt);	//TODO: Should be AttackTarget, not base specifically
+		}
 		break;
 	case unit_state::ATTACKING:
-		if (TargetInRange() && target->IsDead() == false) {
+		if (faction == entity_faction::CAPITALIST && BaseInRange()) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+			AttackBase(dt);	//TODO: Should be AttackTarget, not base specifically
+		}
+		else if (TargetInRange() && target->IsDead() == false) {
 			AttackTarget(dt);
 		}
 		else {
@@ -279,12 +338,18 @@ void Unit::DoMoveAndAttack(float dt)
 			if (target != nullptr) {
 				AttackTarget(dt);
 			}
+			else if (faction == entity_faction::CAPITALIST && BaseInRange()) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+				AttackBase(dt);	//TODO: Should be AttackTarget, not base specifically
+			}
 			else {
 				Move(dt);
 			}
 		}
 		else if (unitState == unit_state::ATTACKING) {
-			if (TargetInRange() && target->IsDead() == false) {
+			if (faction == entity_faction::CAPITALIST && BaseInRange()) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+				AttackBase(dt);	//TODO: Should be AttackTarget, not base specifically
+			}
+			else if (TargetInRange() && target->IsDead() == false) {
 				AttackTarget(dt);
 			}
 			else {
@@ -314,6 +379,9 @@ void Unit::DoPatrol(float dt)
 			if (target != nullptr) {
 				AttackTarget(dt);
 			}
+			else if (faction == entity_faction::CAPITALIST && BaseInRange()) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+				AttackBase(dt);	//TODO: Should be AttackTarget, not base specifically
+			}
 			else {
 				Move(dt);
 			}
@@ -321,6 +389,9 @@ void Unit::DoPatrol(float dt)
 		else if (unitState == unit_state::ATTACKING) {
 			if (TargetInRange() && target->IsDead() == false) {
 				AttackTarget(dt);
+			}
+			else if (faction == entity_faction::CAPITALIST && BaseInRange()) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+				AttackBase(dt);	//TODO: Should be AttackTarget, not base specifically
 			}
 			else {
 				target = nullptr;
@@ -352,7 +423,40 @@ bool Unit::Move(float dt)
 
 void Unit::AttackTarget(float dt)
 {
+	fVec2 targetDirection = GetVector2(position, target->position);
+
+	unit_directions lastDirection = unitDirection;
+
+	CheckDirection(targetDirection);
+
+	if (lastDirection != unitDirection) {
+		UpdateAnimation();
+	}
+
 	target->Hurt((float)stats.damage * dt);
+
+	unitState = unit_state::ATTACKING;
+}
+
+void Unit::AttackBase(float dt)
+{
+	fPoint trueBasePos = { myApp->entities->mainBase->position.x + 100, myApp->entities->mainBase->position.y + 70 };
+
+	fVec2 targetDirection = GetVector2(position, trueBasePos);
+
+	unit_directions lastDirection = unitDirection;
+
+	CheckDirection(targetDirection);
+
+	if (lastDirection != unitDirection) {
+		UpdateAnimation();
+	}
+
+	myApp->entities->mainBase->health -= (float)(stats.damage * dt);
+
+	if (myApp->entities->mainBase->health < 0) {
+		//TODO: Lose flag
+	}
 
 	unitState = unit_state::ATTACKING;
 }
@@ -370,10 +474,10 @@ float Unit::Hurt(float damage)
 
 void Unit::Die()
 {
-	//TODO: Set animation to death animation
 	despawnTimer.Start();
 	unitOrders = unit_orders::NONE;
 	unitState = unit_state::DEAD;
+	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0]);
 }
 
 // Unit Data
@@ -385,6 +489,17 @@ bool Unit::IsDead()
 	else {
 		return false;
 	}
+}
+
+bool Unit::InsideCamera()
+{
+	bool ret = false;
+
+	if (myApp->render->InsideCamera({ (int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h }) == true) {
+		ret = true;
+	}
+
+	return ret;
 }
 
 bool Unit::IsVisible()
@@ -447,7 +562,7 @@ Unit* Unit::EnemyInRange()
 	Unit* ret = nullptr;
 
 	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {	//TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units, one for each side
-		if (hostileUnits[i]->active == true) {
+		if (hostileUnits[i]->active == true && hostileUnits[i]->IsDead() == false) {
 
 			if (InsideSquareRadius(position, (float)stats.attackRange, hostileUnits[i]->position)
 				&& InsideRadius(position, (float)stats.attackRange, hostileUnits[i]->position))
@@ -458,6 +573,11 @@ Unit* Unit::EnemyInRange()
 		}
 	}
 
+	return ret;
+}
+
+bool Unit::BaseInRange()
+{
 	// TODO: Capitalist should iterate an "attackable buildings" list
 	/*if (ret == nullptr && hostileBuildings != nullptr) {
 		for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i) {	//TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units, one for each side
@@ -475,18 +595,15 @@ Unit* Unit::EnemyInRange()
 		}
 	}*/
 
-	if (ret == nullptr && faction == entity_faction::CAPITALIST) {	//TODO: Hardcoded bullshit, building should be generic, subclasses called "StrategicPoint", "MainBase", "Turret", etc
-		if (InsideSquareRadius(position, (float)stats.attackRange, myApp->entities->mainBase->position)
-			&& InsideRadius(position, (float)stats.attackRange, myApp->entities->mainBase->position))
-		{
-			myApp->entities->mainBase->health -= (float)stats.damage * myApp->GetDT();
-			
-			if (myApp->entities->mainBase->health < 0) {
-				//TODO: Lose flag
-			}
-			
-			unitState = unit_state::ATTACKING;
-		}
+	bool ret = false;
+
+	fPoint trueBasePos = { myApp->entities->mainBase->position.x + 100, myApp->entities->mainBase->position.y + 70 };
+
+	//TODO: Hardcoded bullshit, building should be generic, subclasses called "StrategicPoint", "MainBase", "Turret", etc
+	if (InsideSquareRadius(position, (float)stats.attackRange, trueBasePos)
+		&& InsideRadius(position, (float)stats.attackRange, trueBasePos))
+	{
+		ret = true;
 	}
 
 	return ret;
@@ -494,7 +611,7 @@ Unit* Unit::EnemyInRange()
 
 bool Unit::TargetInRange()
 {
-	return InsideRadius(position, stats.attackRange, target->position);
+	return InsideRadius(position, (float)stats.attackRange, target->position);
 }
 
 void Unit::SetupPath()
@@ -517,9 +634,9 @@ void Unit::SetupPath()
 
 fVec2 Unit::SetupVecSpeed()
 {
-	iPoint iPos = { (int)position.x, (int)position.y };
+	fPoint nodePos = { (float)(currNode->x), (float)(currNode->y) };
 
-	stats.vecSpeed = GetVector2(iPos, *currNode);
+	stats.vecSpeed = GetVector2(position, nodePos);
 	stats.vecSpeed = stats.vecSpeed.GetUnitVector();
 	stats.vecSpeed *= stats.linSpeed;
 	return stats.vecSpeed;
@@ -542,6 +659,8 @@ void Unit::StartHold()
 
 	unitOrders = unit_orders::HOLD;
 	unitState = unit_state::IDLE;
+
+	UpdateAnimation();
 }
 
 void Unit::StartMove(iPoint destination)
@@ -550,6 +669,8 @@ void Unit::StartMove(iPoint destination)
 
 	unitOrders = unit_orders::MOVE;
 	unitState = unit_state::IDLE;
+
+	UpdateAnimation();
 }
 
 void Unit::StartAttack(Unit* target)
@@ -564,6 +685,8 @@ void Unit::StartAttack(Unit* target)
 
 	unitOrders = unit_orders::ATTACK;
 	unitState = unit_state::IDLE;
+
+	UpdateAnimation();
 }
 
 void Unit::StartMoveAndAttack(iPoint destination)
@@ -572,6 +695,8 @@ void Unit::StartMoveAndAttack(iPoint destination)
 
 	unitOrders = unit_orders::MOVE_AND_ATTACK;
 	unitState = unit_state::IDLE;
+
+	UpdateAnimation();
 }
 
 void Unit::StartPatrol(iPoint destination)
@@ -580,4 +705,6 @@ void Unit::StartPatrol(iPoint destination)
 
 	unitOrders = unit_orders::PATROL;
 	unitState = unit_state::IDLE;
+
+	UpdateAnimation();
 }

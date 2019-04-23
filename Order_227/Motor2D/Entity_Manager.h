@@ -13,8 +13,8 @@
 
 
 #define TIMES_PER_SEC 5
-
-#define OBJECTS_ARRAY_SIZE 50
+#define TROOP_TYPES 2
+#define OBJECTS_ARRAY_SIZE 400
 #define INFANTRY_ARRAY_SIZE 100
 #define BUILDINGS_ARRAY_SIZE 5
 #define UNITS_ARRAY_SIZE (2 * INFANTRY_ARRAY_SIZE + OBJECTS_ARRAY_SIZE + BUILDINGS_ARRAY_SIZE)
@@ -39,15 +39,17 @@ public:
 
 	bool ActivateObject(fPoint position, object_type objectType);
 	bool ActivateBuilding(fPoint position, building_type buildingType, entity_faction entityFaction = entity_faction::NEUTRAL);
-	bool ActivateInfantry(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+	Unit* ActivateInfantry(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
 
 	bool DeActivateObject(Static_Object* Object);
 	bool DeActivateBuilding(Building* Building);
 	bool DeActivateInfantry(Unit* Infantry);
+	bool ResetAll();
 
 	void DestroyEntity(Entity *Entity) {}
 
 	bool SetupUnitStats();
+	SDL_Rect SetupTreeType();
 
 public:
 
@@ -66,9 +68,11 @@ public:
 
 	Building*		mainBase = nullptr;	//TODO: This is here because of the lack of lists, having an "attackable buildings" list to read for capitalist units would be better
 																//Animations Array
-	Animation		animationArray[1][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)];
+	Animation		animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)];
 
 	bool entitiesDebugDraw = false;
+
+	SDL_Texture* lifeBar_tex = nullptr;
 
 private:
 

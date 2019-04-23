@@ -2,6 +2,8 @@
 #define USER_INTERFACE_H	//@Carles
 
 #include "Module.h"
+#include "Animation.h"
+#include "Timer.h"
 
 #define CURSOR_WIDTH 2
 
@@ -12,10 +14,16 @@ class Image;
 class Text;
 class Void_Box;
 class Check_Box;
+class Spawn_Box;
+class Unit_Box;
+class Button;
+class LifeBar;
+class Unit;
 //class Window;
 struct _TTF_Font;
 struct SDL_Rect;
 struct SDL_Texture;
+
 
 class User_Interface : public Module
 {
@@ -52,6 +60,8 @@ public:
 	
 	void AddElement(UI_Element* element);
 	void DestroyElement(UI_Element* element);
+	void loadAnim();
+
 	std::list<UI_Element*>::iterator DestroyElement(std::list<UI_Element*>::iterator iter);
 
 	//TODO: Factories should return their specific class type
@@ -60,6 +70,9 @@ public:
 	//UI_Element* CreateInputText();
 	Void_Box* CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL);
 	Check_Box* CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
+	Spawn_Box* CreateSpawnBox(bool value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
+	Unit_Box* CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0);
+	LifeBar* CreateLifeBar(fPoint center, Unit* parent = nullptr, SDL_Texture* tex = NULL, float* auxHealth=NULL);
 
 	template <class T_param>
 	UI_Element* CreateParamBox(void(*action)(T_param), T_param parameter, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL)
@@ -81,12 +94,60 @@ public:
 public:
 	bool interfaceDebugDraw = false;
 	//uint defaultScale;	//IMPROVE: Future use
+	Animation Timer_anim;
+	Timer unitCreationCD;
+	Image* pauseMenuPanel = nullptr;
+	Text* Moneytext = nullptr;
+	Image* MainMenuTemp_Image = nullptr;
+	Void_Box* StartGame_Button = nullptr;
+	Text* StartGame_Label = nullptr;
+	Void_Box* ExitGame_Button = nullptr;
+	Text* ExitGame_Label = nullptr;
+
+	Text* Damage_Label = nullptr;
+	Text* Health_Label = nullptr;
+	Text* Speed_Label = nullptr;
+	Text* Cadency_Label = nullptr;
+
+	std::list<Spawn_Box*> SpawnSelectors;
+	std::list<UI_Element*> Main_Menu_Elements;
 
 private:
 	std::list<UI_Element*> screenElements;
 
-	SDL_Texture* atlas;
+	SDL_Texture* Timer_Texture = nullptr;
+
+	Image* MainBarPanel = nullptr;
+
+	Void_Box* ReturnMainMenu = nullptr;
+	Text* ReturnMainMenu_Label = nullptr;
+
+	Spawn_Box* selectorInfantry=nullptr;
+	Spawn_Box* selectorDefenses = nullptr;
+	Spawn_Box* selectorTank = nullptr;
+	Unit_Box* ConscriptCreator = nullptr;
+	Image* frameSelector = nullptr;
+	Image* UnitStats = nullptr;
+	Image* UnitFrame = nullptr;
+
+	SDL_Rect selectorInfantry_Rect[4];
+	SDL_Rect selectorDefenses_Rect[4];
+	SDL_Rect selectorTank_Rect[4];
+
+	SDL_Rect Conscript_Selection_Rect[4];
+
+	SDL_Texture* unitsSelection_Tex= nullptr;
+
+	SDL_Texture* unitStats_text = nullptr;
+	SDL_Texture* PauseButton_text = nullptr;
+	SDL_Texture* StartGame_text = nullptr;
+	SDL_Texture* Main_Menu_Temp_Tex = nullptr;
+	SDL_Texture* selectorinGame_Tex = nullptr;
+	SDL_Texture* pauseMenuPanel_Tex = nullptr;
+	SDL_Texture* mainBar = nullptr;
+	SDL_Texture* atlas = nullptr;
 	std::string atlasFileName;
+
 };
 
 #endif // __USER_INTERFACE_H__

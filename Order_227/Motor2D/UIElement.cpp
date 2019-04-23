@@ -14,7 +14,7 @@ UI_Element::UI_Element(ui_type type, fPoint position, bool dynamic, UI_Element* 
 	if (parent != NULL) {
 		parent->AttachChild(this);
 	}
-
+	
 	Init();
 }
 
@@ -78,6 +78,20 @@ void UI_Element::Deactivate()
 {
 	active = false;
 
+	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); iter = next(iter)) {
+		(*iter)->active = false;
+	}
+}
+
+void UI_Element::ActivateChildren()
+{
+	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); iter = next(iter)) {
+		(*iter)->active = true;
+	}
+}
+
+void UI_Element::DeactivateChildren()
+{
 	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); iter = next(iter)) {
 		(*iter)->active = false;
 	}

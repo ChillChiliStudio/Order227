@@ -9,7 +9,7 @@
 #include "Building.h"
 #include <cmath>
 #include <sstream>
-
+#include "Horde_Manager.h"
 
 class Spawning_Point;
 
@@ -114,8 +114,8 @@ iPoint Map::MapToWorld(int x, int y) const
 	}
 	else if(data.type == MAPTYPE_ISOMETRIC)
 	{
-		ret.x = (x - y) * (data.tile_width * 0.5f);
-		ret.y = (x + y) * (data.tile_height * 0.5f);
+		ret.x = (int)((x - y) * (data.tile_width * 0.5f));
+		ret.y = (int)((x + y) * (data.tile_height * 0.5f));
 	}
 	else
 	{
@@ -137,8 +137,8 @@ iPoint Map::MapToWorld(iPoint position) const
 	}
 	else if (data.type == MAPTYPE_ISOMETRIC)
 	{
-		ret.x = (position.x - position.y) * (data.tile_width * 0.5f);
-		ret.y = (position.x + position.y) * (data.tile_height * 0.5f);
+		ret.x = (int)((position.x - position.y) * (data.tile_width * 0.5f));
+		ret.y = (int)((position.x + position.y) * (data.tile_height * 0.5f));
 	}
 	else
 	{
@@ -490,7 +490,6 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	LoadProperties(node, layer->properties);
 	pugi::xml_node layer_data = node.child("data");
 
-	//TEST
 	iPoint layer_size;
 	iPoint quadT_position(0, 0);
 	switch (data.type)
@@ -501,13 +500,12 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		quadT_position.x = 0;
 		break;
 	case MAPTYPE_ISOMETRIC:
-		layer_size.x = (layer->width + layer->height)*(myApp->map->data.tile_width *0.5f);
-		layer_size.y = (layer->width + layer->height + 1) * (data.tile_height *0.5f);
+		layer_size.x = (int)((layer->width + layer->height)*(myApp->map->data.tile_width *0.5f));
+		layer_size.y = (int)((layer->width + layer->height + 1) * (data.tile_height *0.5f));
 		quadT_position.x = -layer_size.x + ((layer->width + 1)*myApp->map->data.tile_width / 2);
 		break;
 	}
 	layer->tile_tree = new TileQuadtree(6, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height * 3);
-	//TEST
 
 	if(layer_data == NULL)
 	{
@@ -523,13 +521,10 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		int i = 0;
 		for(pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
 		{
-			//TEST
 			iPoint tile_map_coordinates(myApp->map->MapToWorld((i - int(i / layer->width)*layer->width), int(i / layer->width)));
 			TileData new_tile(tile.attribute("gid").as_int(0), tile_map_coordinates);
 			if (new_tile.id!=0)
 			layer->tile_tree->InsertTile(new_tile);
-			//TEST
-
 
 			layer->data[i++] = tile.attribute("gid").as_int(0);
 		}
@@ -651,7 +646,10 @@ void Map::PlaceGameObjects() {
 				if ((*item2)->name == "Spawn") {
 
 					Spawning_Point* new_SP = new Spawning_Point(PointToTile((int)(*item2)->x, (int)(*item2)->y));
-					myApp->scene->SpawningPoints_Array.push_back(new_SP);
+					myApp->hordes->SpawningPoints_Array.push_back(new_SP);
+					Group* newHorde = new Group;
+					myApp->hordes->hordes.push_back(newHorde);
+
 
 				}
 			}
@@ -668,7 +666,7 @@ void Map::PlaceGameObjects() {
 				if ((*item2)->name == "MainBase") {
 
 					iPoint pos = PointToTile((int)(*item2)->x, (int)(*item2)->y);
-					fPoint fPos = fPoint(pos.x, pos.y);
+					fPoint fPos = { (float)pos.x, (float)pos.y };
 
 					Building* newBuilding = new Building(fPos, building_type::MAIN_BASE, entity_faction::COMMUNIST);
 
@@ -686,6 +684,33 @@ void Map::PlaceGameObjects() {
 				}
 			}
 		}
+
+		 //TODO:Draw threes depending on the terrain tile
+
+		 if ((*item)->nameGroup == "Trees") {
+
+			 int i = 0;
+
+			 std::list<GameObjectGroup::Object*>::iterator item3 = (*item)->Objectlist.begin();
+			 for (; item3 != (*item)->Objectlist.end(); item3 = next(item3)) {
+
+				 if ((*item3)->name == "Tree") {
+
+					 iPoint Aux = PointToTile((int)(*item3)->x, (int)(*item3)->y);
+					 fPoint fPos = fPoint(Aux.x, Aux.y);
+
+					 Static_Object *newStaticObject = new Static_Object(fPos, object_type::TREE, entity_faction::NEUTRAL);
+
+					 myApp->entities->staticObjectsArray[i] = newStaticObject;
+					 i++;
+
+					 if (i >= OBJECTS_ARRAY_SIZE)
+						 break;
+				 }
+			 }
+		 }
+
+
 	}
 }
 
