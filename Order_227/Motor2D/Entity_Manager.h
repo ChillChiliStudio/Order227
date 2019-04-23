@@ -44,6 +44,7 @@ public:
 	bool DeActivateObject(Static_Object* Object);
 	bool DeActivateBuilding(Building* Building);
 	bool DeActivateInfantry(Unit* Infantry);
+	bool ResetAll();
 
 	void DestroyEntity(Entity *Entity) {}
 
@@ -69,6 +70,8 @@ public:
 	Animation		animationArray[1][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)];
 
 	bool entitiesDebugDraw = false;
+
+	SDL_Texture* lifeBar_tex = nullptr;
 
 private:
 

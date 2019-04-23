@@ -46,23 +46,24 @@ bool Player::Update(float dt)
 	//if (unitCreationCD.ReadSec() >= 10) {
 	//	startCreationUnit = false;
 	//}
+	if (myApp->gui->MainMenuTemp_Image->active != true) {
+		UpdateMousePos();	// Mouse Position Update
+		CameraInputs(dt);	// Camera Inputs
+		DebugInputs();		// Debug Inputs
 
-	UpdateMousePos();	// Mouse Position Update
-	CameraInputs(dt);	// Camera Inputs
-	DebugInputs();		// Debug Inputs
+		PlayerSelect();		// Player Area Selection Management
 
-	PlayerSelect();		// Player Area Selection Management
-
-	if (myApp->gui->interfaceDebugDraw) {
-		DebugMouse();	// Mouse UI Debug data update
-	}
-
-	if (myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
-		if (myApp->gui->pauseMenuPanel->active == false) {
-			myApp->gui->pauseMenuPanel->Activate();
+		if (myApp->gui->interfaceDebugDraw) {
+			DebugMouse();	// Mouse UI Debug data update
 		}
-		else
-			myApp->gui->pauseMenuPanel->Deactivate();
+
+		if (myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+			if (myApp->gui->pauseMenuPanel->active == false) {
+				myApp->gui->pauseMenuPanel->Activate();
+			}
+			else
+				myApp->gui->pauseMenuPanel->Deactivate();
+		}
 	}
 
 	return true;

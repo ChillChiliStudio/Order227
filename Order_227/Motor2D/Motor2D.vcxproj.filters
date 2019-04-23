@@ -124,6 +124,9 @@
     <ClCompile Include="UnitButton.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
     </ClCompile>
+    <ClCompile Include="LifeBarBox.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -266,6 +269,9 @@
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeBarBox.h">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,8 @@
 #include "UserInterface.h"
 #include "Image.h"
 #include "Scene.h"
+#include "Player.h"
+#include "GroupManager.h"
 
 void CreateConscript() {
 	//srand(time(NULL));
@@ -35,6 +37,7 @@ void StartGame() {
 
 	//TODO make the game start Correctly
 	//myApp->scene->Start();
+	myApp->entities->ResetAll();
 	myApp->gui->MainMenuTemp_Image->Deactivate();
 
 }
@@ -42,7 +45,10 @@ void QuitGame() {
 
 	myApp->gui->pauseMenuPanel->Deactivate();
 	myApp->gui->MainMenuTemp_Image->Activate();
+	myApp->entities->ResetAll();
 	//myApp->scene->CleanUp();
+	
+
 }
 void CloseGame() {
 	myApp->mustShutDown = true;

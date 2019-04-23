@@ -89,6 +89,7 @@
     <ClCompile Include="GroupManager.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputText.cpp" />
+    <ClCompile Include="LifeBarBox.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Player.h" />
     <ClCompile Include="Quadtree.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputText.h" />
     <ClInclude Include="Geometry.h" />
+    <ClInclude Include="LifeBarBox.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Infantry.h" />
     <ClInclude Include="Spawn_Box.h" />

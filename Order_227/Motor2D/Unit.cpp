@@ -201,7 +201,7 @@ unit_directions Unit::CheckDirection(fVec2 direction)
 {
 	stats.vecAngle = direction.GetAngle({ 0.0f, -1.0f });
 	stats.vecAngle = RadsToDeg(stats.vecAngle);
-
+	
 	if (stats.vecAngle > 337.5f || stats.vecAngle <= 22.5f) {
 		unitDirection = unit_directions::NORTH;
 	}

@@ -23,6 +23,7 @@
 #include "CheckBox.h"
 #include "Spawn_Box.h"
 #include "UnitButton.h"
+#include "LifeBarBox.h"
 #include "ButtonActions.h"
 
 
@@ -80,6 +81,7 @@ bool User_Interface::Start()
 	StartGame_text = myApp->tex->Load("ui/Buttons_And_Slides.png");
 	PauseButton_text = myApp->tex->Load("ui/Pause_Buton_Icon.png");
 	unitStats_text = myApp->tex->Load("ui/Unit_Stats.png");
+	
 
 	SDL_Rect TempButtonRect[4];
 	TempButtonRect[0] = {626,0,290,84};
@@ -238,7 +240,6 @@ bool User_Interface::PostUpdate()
 			iter = next(iter);
 		}
 	}
-
 	return ret;
 }
 
@@ -296,6 +297,19 @@ Image* User_Interface::CreateImage(fPoint center, SDL_Rect texRect, SDL_Texture*
 	}
 
 	ret = new Image(ui_type::IMAGE, center, texRect, tex, dynamic, parent, children);
+	AddElement((UI_Element*)ret);
+
+	return ret;
+}
+
+LifeBar* User_Interface::CreateLifeBar(fPoint center, Unit* parent, SDL_Texture* tex, float* auxHealth) {
+
+	LifeBar* ret = nullptr;
+	if (tex == NULL) {
+		tex = GetAtlas();
+	}
+
+	ret = new LifeBar(center, parent, tex, ui_type::IMAGE,auxHealth);
 	AddElement((UI_Element*)ret);
 
 	return ret;

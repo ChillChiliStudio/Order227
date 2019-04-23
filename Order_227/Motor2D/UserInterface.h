@@ -17,6 +17,8 @@ class Check_Box;
 class Spawn_Box;
 class Unit_Box;
 class Button;
+class LifeBar;
+class Unit;
 //class Window;
 struct _TTF_Font;
 struct SDL_Rect;
@@ -70,6 +72,7 @@ public:
 	Check_Box* CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
 	Spawn_Box* CreateSpawnBox(bool value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
 	Unit_Box* CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0);
+	LifeBar* CreateLifeBar(fPoint center, Unit* parent = nullptr, SDL_Texture* tex = NULL, float* auxHealth=NULL);
 
 	template <class T_param>
 	UI_Element* CreateParamBox(void(*action)(T_param), T_param parameter, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL)
@@ -105,7 +108,6 @@ public:
 	Text* Health_Label = nullptr;
 	Text* Speed_Label = nullptr;
 	Text* Cadency_Label = nullptr;
-
 
 	std::list<Spawn_Box*> SpawnSelectors;
 	std::list<UI_Element*> Main_Menu_Elements;
