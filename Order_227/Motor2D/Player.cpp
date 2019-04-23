@@ -195,7 +195,7 @@ void Player::DebugInputs()
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
-			DebugSpawnUnit(infantry_type::BASIC, entity_faction::COMMUNIST);
+			DebugSpawnUnit(infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
 		}
 	}
 }

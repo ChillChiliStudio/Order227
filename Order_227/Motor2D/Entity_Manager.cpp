@@ -435,6 +435,7 @@ bool Entity_Manager::loadTextures() {
 
 	//TODO This need to be charged by a XML
 	infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
+	infantryTextures[int(infantry_type::CONSCRIPT)] = myApp->tex->Load("textures/troops/soviet/InfanteriaSov.png");
 	infantryTextures[int(infantry_type::BAZOOKA)] = myApp->tex->Load("textures/troops/allied/GI.png");
 	buildingsTextures[int(building_type::MAIN_BASE)] = myApp->tex->Load("textures/buildings/mainbase.png");
 	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
@@ -452,18 +453,32 @@ bool Entity_Manager::LoadEntityData() {
 	if (result != NULL)
 	{
 		//TODO Create a MAX UNITS DEFINITON TO DESHARCODE
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < 2; i++)
 		{
 			for (pugi::xml_node Data = tilsetTexture.child("map").child("objectgroup").child("object"); Data && ret; Data = Data.next_sibling("object"))
 			{
+				
 				temp.x = Data.attribute("x").as_int();
 				temp.y = Data.attribute("y").as_int();
 				temp.w = Data.attribute("width").as_int();
 				temp.h = Data.attribute("height").as_int();
-				temp.x += 26;
-				temp.y += 7;
-				temp.w = 25;
-				temp.h = 35;
+				
+				//TODO: find a method to ajust the rects automatically
+
+				if (i == 0) {
+					temp.x += 26;
+					temp.y += 7;
+					temp.w = 25;
+					temp.h = 35;
+				}
+				else {
+
+					temp.x += 26;
+					temp.y += 20;
+					temp.w = 25;
+					temp.h = 35;
+
+				}
 
 				std::string tempString = Data.attribute("name").as_string();
 				int degreesToArray = Data.attribute("type").as_int() / 45;//DEGREES    HAVE IN ACCOUNT THAT THE TILES ARE DEFINED CONTERCLOCKWISE
@@ -489,6 +504,8 @@ bool Entity_Manager::LoadEntityData() {
 					animationArray[i][int(unit_state::DEAD)][degreesToArray].speed = 5.0f;
 				}
 			}
+
+			result = tilsetTexture.load_file("textures/troops/soviet/InfantSov.tmx");
 		}
 	}
 

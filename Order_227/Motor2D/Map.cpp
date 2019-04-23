@@ -687,6 +687,8 @@ void Map::PlaceGameObjects() {
 			}
 		}
 
+		 //TODO:Draw threes depending on the terrain tile
+
 		 if ((*item)->nameGroup == "Trees") {
 
 			 int i = 0;
