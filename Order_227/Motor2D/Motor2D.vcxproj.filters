@@ -88,12 +88,6 @@
     <ClCompile Include="Geometry.cpp">
       <Filter>Tools\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Game Files\User Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.h">
-      <Filter>Game Files\User Interface</Filter>
-    </ClCompile>
     <ClCompile Include="Entity_Manager.cpp">
       <Filter>Game Files\Entity Management</Filter>
     </ClCompile>
@@ -117,7 +111,7 @@
     </ClCompile>
     <ClCompile Include="Horde_Manager.cpp">
       <Filter>Game Files\Entity Management\Entities\Enemies Management</Filter>
-        </ClCompile>
+    </ClCompile>
     <ClCompile Include="Spawn_Box.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
     </ClCompile>
@@ -129,6 +123,12 @@
     </ClCompile>
     <ClCompile Include="LifeBarBox.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.h">
+      <Filter>Game Files\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Game Files\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,7 +266,7 @@
     </ClInclude>
     <ClInclude Include="Spawning_Point.h">
       <Filter>Game Files\Entity Management\Entities\Enemies Management</Filter>
-      </ClInclude>
+    </ClInclude>
     <ClInclude Include="Spawn_Box.h">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
     </ClInclude>
