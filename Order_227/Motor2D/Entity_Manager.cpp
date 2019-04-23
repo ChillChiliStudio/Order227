@@ -111,9 +111,9 @@ bool Entity_Manager::Start()
 		CapitalistUnitsArray[i]->hostileUnits = CommunistUnitsArray;
 		CapitalistUnitsArray[i]->hostileBuildings = buildingsArray;
 	}
-
+/*
 	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
-		buildingsArray[i]->Start();
+		buildingsArray[i]->Start();*/
 
 
 	//Allocate Memory for Objects
@@ -132,8 +132,6 @@ bool Entity_Manager::Start()
 		entitiesArray[entityIterator++] = (Entity*)staticObjectsArray[i];
 
 	}
-
-
 
 	LoadEntityData();
 

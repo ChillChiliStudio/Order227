@@ -29,8 +29,6 @@ bool Building::Update(float dt)
 		incomeTimer.Start();
 	}
 
-	
-
 	Draw();
 	return true;
 }
