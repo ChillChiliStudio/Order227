@@ -259,7 +259,7 @@ void Player::OrderHold()
 	}
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::SPAWN][0]);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::COMFIRMATION][rand() % 2]);
 }
 
 void Player::OrderMove()
@@ -310,7 +310,7 @@ void Player::OrderMoveAndAttack()
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE_AND_ATTACK);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::COMFIRMATION][rand() % 2]);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::MOVING][rand() % 2]);
 }
 
 void Player::OrderPatrol()

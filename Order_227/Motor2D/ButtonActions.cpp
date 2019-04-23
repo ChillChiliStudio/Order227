@@ -32,8 +32,8 @@ void CreateConscript() {
 
 	iPoint tempPoint =myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
-	myApp->entities->ActivateInfantry(fPoint(tempPoint.x,tempPoint.y), infantry_type::BASIC, entity_faction::COMMUNIST);
-
+	myApp->entities->ActivateInfantry(fPoint(tempPoint.x,tempPoint.y), infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SPAWN][0]);
 }
 void StartGame() {
 
