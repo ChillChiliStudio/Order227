@@ -332,48 +332,48 @@ bool Entity_Manager::DeActivateInfantry(Unit* infantry)
 	infantry->texture = nullptr;
 	infantry->active = false;
 	infantry->selected = false;
-	
+	//
 
-	if (infantry->faction == entity_faction::COMMUNIST) {
+	//if (infantry->faction == entity_faction::COMMUNIST) {
 
-		for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
+	//	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
 
-			if (CommunistUnitsArray[i] == infantry) {
+	//		if (CommunistUnitsArray[i] == infantry) {
 
-				CommunistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
-				//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-				CommunistUnitsArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-				CommunistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
-				CommunistUnitsArray[i]->texture = nullptr;
-				CommunistUnitsArray[i]->active = false;
-				CommunistUnitsArray[i]->selected = false;
-				//To implement:: Update animations
+	//			CommunistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
+	//			//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+	//			CommunistUnitsArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+	//			CommunistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
+	//			CommunistUnitsArray[i]->texture = nullptr;
+	//			CommunistUnitsArray[i]->active = false;
+	//			CommunistUnitsArray[i]->selected = false;
+	//			//To implement:: Update animations
 
-				return true;
-			}
-		}
-	}
+	//			return true;
+	//		}
+	//	}
+	//}
 
-	////Enemy troops
-	else if (infantry->faction == entity_faction::CAPITALIST) {
+	//////Enemy troops
+	//else if (infantry->faction == entity_faction::CAPITALIST) {
 
-		for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
+	//	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
 
-			if (CapitalistUnitsArray[i] == infantry) {
+	//		if (CapitalistUnitsArray[i] == infantry) {
 
-				CapitalistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
-				//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-				CapitalistUnitsArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-				CapitalistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
-				CapitalistUnitsArray[i]->texture = nullptr;
-				CapitalistUnitsArray[i]->active = false;
-				CapitalistUnitsArray[i]->selected = false;
-				//To implement:: Update animations
+	//			CapitalistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
+	//			//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+	//			CapitalistUnitsArray[i]->infantryType = infantry_type::INFANTRY_NONE;
+	//			CapitalistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
+	//			CapitalistUnitsArray[i]->texture = nullptr;
+	//			CapitalistUnitsArray[i]->active = false;
+	//			CapitalistUnitsArray[i]->selected = false;
+	//			//To implement:: Update animations
 
-				return true;
-			}
-		}
-	}
+	//			return true;
+	//		}
+	//	}
+	//}
 
 	return false;
 }
