@@ -10,6 +10,8 @@ Horde_Manager::Horde_Manager()
 
 bool Horde_Manager::Start()
 {
+	roundTimer.Start();
+
 	return true;
 }
 
@@ -33,11 +35,20 @@ bool Horde_Manager::Update(float dt)
 		if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 			ClearEnemies();
 	}
+
 	//Spawn Point Draw
 	if (myApp->map->mapDebugDraw)
 		for (int i = 0; i < SpawningPoints_Array.size(); i++) 
 			myApp->render->Blit(myApp->map->debug_tex, SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
 		
+	if (HordesDead() && roundTimer.Read() > TIME_BETWEEN_ROUNDS){
+		ChooseSpawningPoints();
+		roundTimer.Start();
+		}
+
+	else if (!HordesDead())
+		roundTimer.Start();
+
 
 	for (int i = 0; i < SpawningPoints_Array.size(); i++) 
 	{
@@ -64,7 +75,7 @@ bool Horde_Manager::Update(float dt)
 			!SpawningPoints_Array[i]->enemiesAttacking && 
 			SpawningPoints_Array[i]->SpawnTime.Read() > 2000)
 		{
-			hordes[i]->SpreadDestinations({900, 11000 });
+			hordes[i]->SpreadDestinations({0, 1400 });
 			hordes[i]->TransmitOrders(unit_orders::MOVE_AND_ATTACK);
 			SpawningPoints_Array[i]->enemiesAttacking = true;
 		}
@@ -133,4 +144,15 @@ void Horde_Manager::ClearEnemies()
 			hordes[i]->groupUnits.erase(it);
 		}
 	}
+}
+
+bool Horde_Manager::HordesDead()
+{
+	for (int i = 0; i < hordes.size(); ++i) {
+		if (!hordes[i]->groupUnits.empty()) {
+			return false;
+		}
+	}
+
+	return true;
 }

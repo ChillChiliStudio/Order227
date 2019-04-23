@@ -17,9 +17,6 @@ enum class unit_orders;
 class Text;
 
 class Player : public Module {
-public:
-	Player();
-	~Player();
 
 public:
 

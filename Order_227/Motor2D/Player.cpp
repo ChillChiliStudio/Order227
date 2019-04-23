@@ -15,13 +15,6 @@
 #include "GroupManager.h"
 #include "Player.h"
 
-
-Player::Player()
-{}
-
-Player::~Player()
-{}
-
 bool Player::Awake()
 {
 	LOG("AWAKING PLAYER MODULE");

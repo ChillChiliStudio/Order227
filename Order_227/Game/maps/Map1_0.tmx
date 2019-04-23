@@ -50186,19 +50186,19 @@
   </data>
  </layer>
  <objectgroup name="spawnPoint">
-  <object id="23" name="Spawn" x="63.9205" y="62.5795" width="17.8636" height="17.0909"/>
-  <object id="24" name="Spawn" x="2915.55" y="2913.31" width="17.3333" height="18"/>
-  <object id="26" name="Spawn" x="74.3069" y="2920.21" width="18.803" height="19.197"/>
-  <object id="28" name="Spawn" x="2493.53" y="394.667" width="22.1818" height="22.5455"/>
-  <object id="30" name="Spawn" x="2919.23" y="1504.86" width="18.9545" height="18.9545"/>
-  <object id="31" name="Spawn" x="1891.92" y="2912.08" width="20.3333" height="17.6667"/>
-  <object id="32" name="Spawn" x="934.75" y="2913.55" width="22.1515" height="23.1818"/>
-  <object id="33" name="Spawn" x="725.542" y="168.383" width="20.375" height="20.6705"/>
-  <object id="34" name="Spawn" x="1534.56" y="34.6875" width="20.5" height="20"/>
-  <object id="35" name="Spawn" x="65.3826" y="1748.45" width="16.5909" height="17.6212"/>
-  <object id="36" name="Spawn" x="302.229" y="883.188" width="20.8542" height="20.3125"/>
+  <object id="23" name="Spawn" x="95.9205" y="98.5795" width="17.8636" height="17.0909"/>
+  <object id="24" name="Spawn" x="2890.55" y="2886.31" width="17.3333" height="18"/>
+  <object id="26" name="Spawn" x="66.3069" y="2892.21" width="18.803" height="19.197"/>
+  <object id="28" name="Spawn" x="2443.03" y="411.167" width="22.1818" height="22.5455"/>
+  <object id="30" name="Spawn" x="2843.23" y="1490.86" width="18.9545" height="18.9545"/>
+  <object id="31" name="Spawn" x="1848.92" y="2847.08" width="20.3333" height="17.6667"/>
+  <object id="32" name="Spawn" x="906.75" y="2885.55" width="22.1515" height="23.1818"/>
+  <object id="33" name="Spawn" x="734.542" y="183.383" width="20.375" height="20.6705"/>
+  <object id="34" name="Spawn" x="1568.56" y="76.6875" width="20.5" height="20"/>
+  <object id="35" name="Spawn" x="77.3826" y="1752.45" width="16.5909" height="17.6212"/>
+  <object id="36" name="Spawn" x="313.229" y="852.188" width="20.8542" height="20.3125"/>
   <object id="37" x="-3324" y="-900"/>
-  <object id="38" name="Spawn" x="2917.25" y="2251.45" width="20.5227" height="19.4773"/>
+  <object id="38" name="Spawn" x="2881.25" y="2227.45" width="20.5227" height="19.4773"/>
  </objectgroup>
  <objectgroup name="Buildings">
   <object id="40" name="MainBase" x="1258.17" y="1257.25" width="154.875" height="138.396">

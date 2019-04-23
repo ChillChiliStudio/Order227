@@ -4,14 +4,12 @@
 #include "Module.h"
 #include "Point.h"
 #include "vector"
+#include "Timer.h"
+
+#define TIME_BETWEEN_ROUNDS 5*1000
 
 class Group;
 class Spawning_Point;
-
-struct Horde {
-	Group* units;
-	iPoint objective;
-};
 
 class Horde_Manager : public Module
 {
@@ -27,6 +25,7 @@ public:
 
 	void ChooseSpawningPoints();
 	void ClearEnemies();
+	bool HordesDead();
 
 	std::vector<Spawning_Point*> SpawningPoints_Array;
 	std::vector<Group*> hordes;
@@ -38,6 +37,7 @@ private:
 	int threatIncremental = 0;
 	int roundNumber = 0;
 
+	Timer roundTimer;
 
 };
 

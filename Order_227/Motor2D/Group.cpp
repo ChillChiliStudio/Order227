@@ -31,11 +31,11 @@ void Group::SpreadDestinations(iPoint origDest)
 		FindClosestWalkable(mainDestination);
 	}
 
-	std::vector<iPoint*> visited;
-	std::queue<iPoint*> frontier;
+	std::vector<iPoint> visited;
+	std::queue<iPoint> frontier;
 
-	visited.push_back(&mainDestination);
-	frontier.push(&mainDestination);
+	visited.push_back(mainDestination);
+	frontier.push(mainDestination);
 
 	std::list<Unit*>::iterator currentUnit = groupUnits.begin();
 
@@ -43,22 +43,32 @@ void Group::SpreadDestinations(iPoint origDest)
 
 	while (currentUnit != groupUnits.end())
 	{
-		iPoint* tile = frontier.front();
+		iPoint tile = frontier.front();
 		frontier.pop();
 
 		iPoint neighbors[4];
-		neighbors[0].create(tile->x + 1, tile->y + 0);
-		neighbors[1].create(tile->x + 0, tile->y + 1);
-		neighbors[2].create(tile->x - 1, tile->y + 0);
-		neighbors[3].create(tile->x + 0, tile->y - 1);
+		neighbors[0].create(tile.x + 1, tile.y + 0);
+		neighbors[1].create(tile.x + 0, tile.y + 1);
+		neighbors[2].create(tile.x - 1, tile.y + 0);
+		neighbors[3].create(tile.x + 0, tile.y - 1);
 
 		for (int i = 0; i < 4; ++i)
 		{
-			if (myApp->pathfinding->IsWalkable(neighbors[i]))
+			bool tileVisited = false;
+			
+			for (int b = 0; b < visited.size(); ++b)
 			{
-				
-				frontier.push(&neighbors[i]);
-				visited.push_back(&neighbors[i]);
+				if (visited[b] == neighbors[i]) {
+					tileVisited = true;
+					break;
+				}
+					
+			}
+
+			if (myApp->pathfinding->IsWalkable(neighbors[i])&&!tileVisited)
+			{
+				frontier.push(neighbors[i]);
+				visited.push_back(neighbors[i]);
 
 				(*currentUnit)->destination = myApp->map->MapToWorld(neighbors[i]);
 				currentUnit++;
@@ -103,22 +113,22 @@ void Group::AddUnit(Unit* unit)
 
 void Group::FindClosestWalkable(iPoint& destination)
 {
-	std::vector<iPoint*> visited;
-	std::queue<iPoint*> frontier;
+	std::vector<iPoint> visited;
+	std::queue<iPoint> frontier;
 
-	visited.push_back(&destination);
-	frontier.push(&destination);
+	visited.push_back(destination);
+	frontier.push(destination);
 
 	while (!myApp->pathfinding->IsWalkable(destination))
 	{
-		iPoint* tile = frontier.front();
+		iPoint tile = frontier.front();
 		frontier.pop();
 
 		iPoint neighbors[4];
-		neighbors[0].create(tile->x + 1, tile->y + 0);
-		neighbors[1].create(tile->x + 0, tile->y + 1);
-		neighbors[2].create(tile->x - 1, tile->y + 0);
-		neighbors[3].create(tile->x + 0, tile->y - 1);
+		neighbors[0].create(tile.x + 1, tile.y + 0);
+		neighbors[1].create(tile.x + 0, tile.y + 1);
+		neighbors[2].create(tile.x - 1, tile.y + 0);
+		neighbors[3].create(tile.x + 0, tile.y - 1);
 
 		for (int i = 0; i < 4; ++i)
 		{
@@ -132,14 +142,14 @@ void Group::FindClosestWalkable(iPoint& destination)
 
 			for (int b =0;b<visited.size();++b)
 			{
-				if (visited[b] == &neighbors[i])
+				if (visited[b] == neighbors[i])
 					tileVisited = true;
 			}
 
 			if (!tileVisited)
 			{
-				frontier.push(&neighbors[i]);
-				visited.push_back(&neighbors[i]);
+				frontier.push(neighbors[i]);
+				visited.push_back(neighbors[i]);
 			}
 		}
 	}
