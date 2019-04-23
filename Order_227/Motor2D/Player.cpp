@@ -89,16 +89,16 @@ void Player::UpdateMousePos()
 void Player::CameraInputs(float dt)
 {
 	//Move Camera
-	if (myApp->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if (myApp->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		myApp->render->camera.y += (int)ceil(500 * dt);
 
-	if (myApp->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	if (myApp->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		myApp->render->camera.y -= (int)ceil(500 * dt);
 
-	if (myApp->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	if (myApp->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		myApp->render->camera.x += (int)ceil(500 * dt);
 
-	if (myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	if (myApp->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		myApp->render->camera.x -= (int)ceil(500 * dt);
 }
 
