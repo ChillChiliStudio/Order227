@@ -505,7 +505,6 @@ bool Entity_Manager::LoadEntityData() {
 		{
 			for (pugi::xml_node Data = tilsetTexture.child("map").child("objectgroup").child("object"); Data && ret; Data = Data.next_sibling("object"))
 			{
-				
 				temp.x = Data.attribute("x").as_int();
 				temp.y = Data.attribute("y").as_int();
 				temp.w = Data.attribute("width").as_int();
@@ -513,11 +512,17 @@ bool Entity_Manager::LoadEntityData() {
 				
 				//TODO: find a method to ajust the rects automatically
 
+				std::string tempString = Data.attribute("name").as_string();
+				int degreesToArray = Data.attribute("type").as_int() / 45;//DEGREES    HAVE IN ACCOUNT THAT THE TILES ARE DEFINED CONTERCLOCKWISE
+
 				if (i == 0) {
+					
 					temp.x += 26;
 					temp.y += 7;
-					temp.w = 25;
-					temp.h = 35;
+					if (tempString != "DeathOne") {
+						temp.w = 25;
+						temp.h = 35;
+					}
 				}
 				else {
 
@@ -527,10 +532,7 @@ bool Entity_Manager::LoadEntityData() {
 					temp.h = 35;
 
 				}
-
-				std::string tempString = Data.attribute("name").as_string();
-				int degreesToArray = Data.attribute("type").as_int() / 45;//DEGREES    HAVE IN ACCOUNT THAT THE TILES ARE DEFINED CONTERCLOCKWISE
-
+			
 				if (tempString == "Pointing") {
 					animationArray[i][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
 					animationArray[i][int(unit_state::IDLE)][degreesToArray].loop = true;
@@ -548,8 +550,11 @@ bool Entity_Manager::LoadEntityData() {
 				}
 				if (tempString == "DeathOne") {
 					animationArray[i][int(unit_state::DEAD)][0].PushBack(temp);
-					animationArray[i][int(unit_state::DEAD)][degreesToArray].loop = false;
-					animationArray[i][int(unit_state::DEAD)][degreesToArray].speed = 5.0f;
+					animationArray[i][int(unit_state::DEAD)][0].loop = false;
+					if (i == 0) {
+						animationArray[i][int(unit_state::DEAD)][0].speed = 3.0f;
+					}else if(i==1)
+						animationArray[i][int(unit_state::DEAD)][0].speed = 3.0f;
 				}
 			}
 
