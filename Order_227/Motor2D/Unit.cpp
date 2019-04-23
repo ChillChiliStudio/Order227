@@ -7,6 +7,7 @@
 #include "Entity_Manager.h"
 #include "Entity.h"
 #include "Unit.h"
+#include "Audio.h"
 
 
 Unit::Unit(fPoint pos, entity_type entityType, entity_faction faction) : Entity(pos, entityType, faction)
@@ -423,6 +424,13 @@ bool Unit::Move(float dt)
 
 void Unit::AttackTarget(float dt)
 {
+	
+	//Shoot sound
+
+	/*int i = rand() % 3;
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][SOV][(int)type_sounds::SHOT][i],0);*/
+
+
 	fVec2 targetDirection = GetVector2(position, target->position);
 
 	unit_directions lastDirection = unitDirection;

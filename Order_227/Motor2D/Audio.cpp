@@ -64,7 +64,7 @@ bool Audio::CleanUp()
 
 	LOG("Freeing sound FX, closing Mixer and Audio subsystem");
 
-	if (music != NULL)
+	if (music != nullptr)
 	{
 		Mix_FreeMusic(music);
 	}
@@ -72,7 +72,7 @@ bool Audio::CleanUp()
 	if (fx.empty() == false) {
 
 		std::list<Mix_Chunk*>::iterator item = fx.begin();
-		for (; *item != NULL; item = next(item))
+		for (; item != fx.end(); item = next(item))
 			Mix_FreeChunk(*item);
 
 		fx.clear();
