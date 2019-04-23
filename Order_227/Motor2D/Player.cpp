@@ -48,16 +48,14 @@ bool Player::Update(float dt)
 
 		PlayerSelect();		// Player Area Selection Management
 
-	PlayerSelect();		// Player Area Selection Management
+		CheckForOrders();
+		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN) {
+			ApplyOrders();
+		}
 
-	CheckForOrders();
-	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN) {
-		ApplyOrders();
-	}
-
-	if (myApp->gui->interfaceDebugDraw) {
-		DebugMouse();	// Mouse UI Debug data update
-	}
+		if (myApp->gui->interfaceDebugDraw) {
+			DebugMouse();	// Mouse UI Debug data update
+		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
 			if (myApp->gui->pauseMenuPanel->active == false) {

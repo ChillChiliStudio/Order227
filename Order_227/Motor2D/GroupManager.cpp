@@ -48,7 +48,7 @@ bool GroupManager::CleanUp() {
 void GroupManager::SelectUnit(SDL_Rect rect) {
 
 	for (int i = 0; i < INFANTRY_ARRAY_SIZE; i++) {
-		if (myApp->entities->CommunistUnitsArray[i]->active == true) {
+		if (myApp->entities->CommunistUnitsArray[i]->active == true && myApp->entities->CommunistUnitsArray[i]->IsDead() == false) {
 
 			SDL_Rect entityRect = myApp->entities->CommunistUnitsArray[i]->UnitRect;
 
