@@ -13,13 +13,15 @@ Building::Building(fPoint position, building_type building_type, entity_faction 
 bool Building::Start() {
 
 	incomeTimer.Start();
+
+	myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, myApp->entities->lifeBar_tex, &health);
+
 	return true;
 }
 
 
 bool Building::Update(float dt)
 {
-
 	if (incomeTimer.ReadSec() >= 2) {
 
 		myApp->player->playerMoney += 60;

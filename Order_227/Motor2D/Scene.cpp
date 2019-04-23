@@ -36,6 +36,7 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
+
 	srand((uint)time(NULL));
 	if(myApp->map->Load("Map1_0.tmx") == true)
 	{
@@ -48,6 +49,8 @@ bool Scene::Start()
 	}
 
 
+	//MUSIC
+	myApp->audio->PlayMusic("audio/music/main_menu/menu_song_loop.ogg", -1);
 
 	return true;
 }

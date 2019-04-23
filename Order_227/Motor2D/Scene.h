@@ -4,7 +4,7 @@
 #include "Module.h"
 #include "Spawning_Point.h"
 #include <vector>
-#include <time.h>
+#include <ctime>
 #include "PerfTimer.h"
 
 #include "SDL/include/SDL.h"
@@ -39,6 +39,9 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+
+
+	
 };
 
 #endif // SCENE_H

@@ -111,9 +111,9 @@ bool Entity_Manager::Start()
 		CapitalistUnitsArray[i]->hostileUnits = CommunistUnitsArray;
 		CapitalistUnitsArray[i]->hostileBuildings = buildingsArray;
 	}
-
+/*
 	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
-		buildingsArray[i]->Start();
+		buildingsArray[i]->Start();*/
 
 
 	//Allocate Memory for Objects
@@ -132,8 +132,6 @@ bool Entity_Manager::Start()
 		entitiesArray[entityIterator++] = (Entity*)staticObjectsArray[i];
 
 	}
-
-
 
 	LoadEntityData();
 
@@ -323,7 +321,6 @@ bool Entity_Manager::ActivateBuilding(fPoint position, building_type buildingTyp
 			buildingsArray[i]->faction = entityFaction;
 			buildingsArray[i]->selected = false;
 			buildingsArray[i]->texture = buildingsTextures[int(buildingType)];
-			myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, lifeBar_tex, &buildingsArray[i]->health);
 
 			return true;
 		}
@@ -478,7 +475,7 @@ bool Entity_Manager::ResetAll() {
 		CapitalistUnitsArray[i]->selected = false;
 		//To implement:: Update animations
 	}
-	//mainBase->health = ;
+	/*mainBase->Start();*/
 	return true;
 }
 
@@ -542,7 +539,7 @@ bool Entity_Manager::LoadEntityData() {
 				if (tempString == "Walking") {
 					animationArray[i][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
 					animationArray[i][int(unit_state::MOVING)][degreesToArray].loop = true;
-					animationArray[i][int(unit_state::MOVING)][degreesToArray].speed = 8.0f;
+					animationArray[i][int(unit_state::MOVING)][degreesToArray].speed = 5.0f;
 				}
 				if (tempString == "Shot") {
 					animationArray[i][int(unit_state::ATTACKING)][degreesToArray].PushBack(temp);
