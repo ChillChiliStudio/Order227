@@ -32,12 +32,14 @@ void CreateConscript() {
 
 	iPoint tempPoint =myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
-	myApp->entities->ActivateInfantry(fPoint(tempPoint.x,tempPoint.y), infantry_type::BASIC, entity_faction::COMMUNIST);
-
+	myApp->entities->ActivateInfantry(fPoint(tempPoint.x,tempPoint.y), infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SPAWN][0]);
 }
 void StartGame() {
 
-	//myApp->audio->PlayMusic();
+
+	//MUSIC 
+	myApp->audio->PlayMusic("audio/music/game/ingame_song3_loop.ogg",-1);
 
 	//TODO make the game start Correctly
 	//myApp->scene->Start();
@@ -52,8 +54,8 @@ void StartGame() {
 }
 void QuitGame() {
 
-
-	//myApp->audio->PlayMusic();
+	//MUSIC
+	myApp->audio->PlayMusic("audio/music/main_menu/menu_song_loop.ogg",-1);
 
 	myApp->hordes->hordeActive = false;
 	myApp->gui->pauseMenuPanel->Deactivate();

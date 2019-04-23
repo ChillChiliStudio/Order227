@@ -539,7 +539,7 @@ bool Entity_Manager::LoadEntityData() {
 				if (tempString == "Walking") {
 					animationArray[i][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
 					animationArray[i][int(unit_state::MOVING)][degreesToArray].loop = true;
-					animationArray[i][int(unit_state::MOVING)][degreesToArray].speed = 8.0f;
+					animationArray[i][int(unit_state::MOVING)][degreesToArray].speed = 5.0f;
 				}
 				if (tempString == "Shot") {
 					animationArray[i][int(unit_state::ATTACKING)][degreesToArray].PushBack(temp);

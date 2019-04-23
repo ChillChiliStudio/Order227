@@ -3,12 +3,14 @@
 #include "Input.h"
 #include "Fonts.h"
 #include "Render.h"
+#include "Audio.h"
 #include "Map.h"
 #include "Entity_Manager.h"
 #include "UserInterface.h"
 #include "Text.h"
 #include "ParamBox.h"
 #include "GroupManager.h"
+#include "Unit.h"
 #include "Player.h"
 
 bool Player::Awake()
@@ -87,16 +89,16 @@ void Player::UpdateMousePos()
 void Player::CameraInputs(float dt)
 {
 	//Move Camera
-	if (myApp->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if (myApp->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		myApp->render->camera.y += (int)ceil(500 * dt);
 
-	if (myApp->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	if (myApp->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		myApp->render->camera.y -= (int)ceil(500 * dt);
 
-	if (myApp->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	if (myApp->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		myApp->render->camera.x += (int)ceil(500 * dt);
 
-	if (myApp->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	if (myApp->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		myApp->render->camera.x -= (int)ceil(500 * dt);
 }
 
@@ -255,12 +257,18 @@ void Player::OrderHold()
 			(*it)->StartHold();
 		}
 	}
+
+	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::COMFIRMATION][rand() % 2]);
 }
 
 void Player::OrderMove()
 {
 	myApp->groups->playerGroup.SpreadDestinations(mousePos);
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE);
+
+	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::MOVING][0]);
 }
 
 void Player::OrderAttack()
@@ -280,7 +288,7 @@ void Player::OrderAttack()
 	}
 
 	if (attackTarget == nullptr) {
-		OrderMove();
+		OrderMoveAndAttack();
 	}
 	else {
 		for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
@@ -290,6 +298,9 @@ void Player::OrderAttack()
 				(*it)->StartAttack(attackTarget);
 			}
 		}
+
+		std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
+		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::ATTACK][0]);
 	}
 }
 
@@ -297,12 +308,18 @@ void Player::OrderMoveAndAttack()
 {
 	myApp->groups->playerGroup.SpreadDestinations(mousePos);
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE_AND_ATTACK);
+
+	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::MOVING][rand() % 2]);
 }
 
 void Player::OrderPatrol()
 {
 	myApp->groups->playerGroup.SpreadDestinations(mousePos);
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::PATROL);
+
+	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::COMFIRMATION][rand() % 2]);
 }
 
 void Player::PlayerSelect()
