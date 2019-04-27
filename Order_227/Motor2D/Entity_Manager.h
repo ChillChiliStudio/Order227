@@ -6,18 +6,25 @@
 #include "Unit.h"
 #include "Infantry.h"
 #include "Static_Object.h"
-#include "PugiXml\src\pugixml.hpp"
 #include "Building.h"
 #include "Group.h"
 #include "Animation.h"
 
+#include <vector>
+
+#include "PugiXml\src\pugixml.hpp"
+
+
 
 #define TIMES_PER_SEC 5
 #define TROOP_TYPES 2
-#define OBJECTS_ARRAY_SIZE 400
-#define INFANTRY_ARRAY_SIZE 100
-#define BUILDINGS_ARRAY_SIZE 5
-#define UNITS_ARRAY_SIZE (2 * INFANTRY_ARRAY_SIZE + OBJECTS_ARRAY_SIZE + BUILDINGS_ARRAY_SIZE)
+
+#define BUILDINGS_SIZE 5
+
+#define HALF_UNITS_INITIAL_SIZE 100
+#define OBJECTS_INITIAL_SIZE 400
+#define ENTITIES_INITIAL_SIZE (2 * HALF_UNITS_INITIAL_SIZE + OBJECTS_INITIAL_SIZE)
+#define RESIZE_VALUE 100
 
 class Entity_Manager : public Module
 {
@@ -54,25 +61,27 @@ public:
 public:
 
 	//Entity lists
-	Entity*			entitiesArray[UNITS_ARRAY_SIZE]; //List with all the entities
+	//Entity*			entitiesArray[UNITS_ARRAY_SIZE]; //List with all the entities
 
-	Unit*			CommunistUnitsArray[INFANTRY_ARRAY_SIZE];			//Player units (soldiers+vehicles)
-	Unit*			CapitalistUnitsArray[INFANTRY_ARRAY_SIZE];			//Enemy units (soldiers+vehicles)
+	std::vector<Entity*> EntitiesArray;
 
-	Infantry*		CommunistInfantryArray[INFANTRY_ARRAY_SIZE];		//Player soldiers
-	Infantry*		CapitalistInfantryArray[INFANTRY_ARRAY_SIZE];		//Enemy soldiers
+	std::vector<Unit*> CommunistUnitsArray;
+	std::vector<Unit*> CapitalistUnitsArray;
 
-	Static_Object*	staticObjectsArray[OBJECTS_ARRAY_SIZE];		//Static objects
+	std::vector<Static_Object*> ObjectsArray;
+	std::vector<Building*> buildingsArray;
 
-	Building*		buildingsArray[BUILDINGS_ARRAY_SIZE];				//Bases
+//	Unit*			CommunistUnitsArray[HALF_UNITS_SIZE];			//Player units (soldiers+vehicles)
+	//Unit*			CapitalistUnitsArray[HALF_UNITS_SIZE];			//Enemy units (soldiers+vehicles)
+	//Static_Object*	ObjectsArray[OBJECTS_SIZE];						//Static objects
+	//Bases
 
 	Building*		mainBase = nullptr;	//TODO: This is here because of the lack of lists, having an "attackable buildings" list to read for capitalist units would be better
 																//Animations Array
-	Animation		animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)];
+	Animation		animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)]; //TODO_ WTF? Troop types?
 
 	bool entitiesDebugDraw = false;
-
-	SDL_Texture* lifeBar_tex = nullptr;
+	SDL_Texture* lifeBar_tex = nullptr; //TODO: Why is this here?
 
 private:
 

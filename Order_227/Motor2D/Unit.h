@@ -156,8 +156,8 @@ public:
 	std::vector<iPoint> unitPath;
 	std::vector<iPoint>::iterator currNode;
 
-	Unit** hostileUnits = nullptr;
-	Building** hostileBuildings = nullptr;
+	std::vector <Unit*> hostileUnits;
+	std::vector<Building*> hostileBuildings;
 	Unit* target = nullptr;
 	bool targetLost;	// Used when there's a specific target to Search & Destroy which sight of can be lost
 

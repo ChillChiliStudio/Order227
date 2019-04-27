@@ -13,7 +13,6 @@ Building::Building(fPoint position, building_type building_type, entity_faction 
 bool Building::Start() {
 
 	incomeTimer.Start();
-
 	myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, myApp->entities->lifeBar_tex, &health);
 
 	return true;
@@ -53,11 +52,11 @@ bool Building::Draw()
 
 void Building::UpdateBlitOrder() {
 
-	for (int i = 0; i < UNITS_ARRAY_SIZE; ++i) {
+	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; ++i) {
 
-		if (myApp->entities->entitiesArray[i] != this) {
+		if (myApp->entities->EntitiesArray[i] != this) {
 
-			if (this->position.y > myApp->entities->entitiesArray[i]->position.y)
+			if (this->position.y > myApp->entities->EntitiesArray[i]->position.y)
 				order += 1;
 			else
 				order -= 1;

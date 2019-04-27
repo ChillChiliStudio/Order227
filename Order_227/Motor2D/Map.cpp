@@ -345,7 +345,6 @@ bool Map::Load(const char* file_name)
 
 
 	//place all game objects needed such as SpawningPoint,bases,etc.
-
 	PlaceGameObjects();
 
 
@@ -647,13 +646,11 @@ void Map::PlaceGameObjects() {
 
 					Spawning_Point* new_SP = new Spawning_Point(PointToTile((int)(*item2)->x, (int)(*item2)->y));
 					myApp->hordes->SpawningPoints_Array.push_back(new_SP);
-					Group* newHorde = new Group;
+					Group* newHorde = new Group();
 					myApp->hordes->hordes.push_back(newHorde);
-
 
 				}
 			}
-
 		}
 
 		 if ((*item)->nameGroup == "Buildings") {
@@ -701,10 +698,10 @@ void Map::PlaceGameObjects() {
 
 					 Static_Object *newStaticObject = new Static_Object(fPos, object_type::TREE, entity_faction::NEUTRAL);
 
-					 myApp->entities->staticObjectsArray[i] = newStaticObject;
+					 myApp->entities->ObjectsArray[i] = newStaticObject;
 					 i++;
 
-					 if (i >= OBJECTS_ARRAY_SIZE)
+					 if (i >= OBJECTS_INITIAL_SIZE)
 						 break;
 				 }
 			 }

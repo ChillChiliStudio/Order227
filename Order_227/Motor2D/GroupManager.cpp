@@ -47,7 +47,7 @@ bool GroupManager::CleanUp() {
 //--- SELECTION AND GROUPS SYSTEM ---
 void GroupManager::SelectUnit(SDL_Rect rect) {
 
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; i++) {
+	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; i++) {
 		if (myApp->entities->CommunistUnitsArray[i]->active == true && myApp->entities->CommunistUnitsArray[i]->IsDead() == false) {
 
 			SDL_Rect entityRect = myApp->entities->CommunistUnitsArray[i]->UnitRect;
@@ -83,7 +83,7 @@ void GroupManager::SelectUnit(iPoint pos) {
 
 	int counter = 0;
 
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; i++) {
+	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; i++) {
 
 		if (myApp->entities->CommunistUnitsArray[i]->active == true) {
 			SDL_Rect entityRect = myApp->entities->CommunistUnitsArray[i]->UnitRect;
@@ -149,7 +149,7 @@ void GroupManager::EmptyPlayerGroup() {
 
 void GroupManager::AddUnitsPlayerGroup() {
 
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; i++) {
+	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; i++) {
 		if (myApp->entities->CommunistUnitsArray[i]->selected == true && myApp->entities->CommunistUnitsArray[i]->stored == false) {
 			playerGroup.groupUnits.push_back((myApp->entities->CommunistUnitsArray[i]));
 			myApp->entities->CommunistUnitsArray[i]->stored = true;

@@ -26,41 +26,30 @@ Entity_Manager::Entity_Manager()
 {
 	name.assign("entities");
 
-	//Allocate Memory for Units
-	int entitiesIterator = 0;
+	//Allocate Memory for Units and place them also in entities array
+	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; ++i) {
 
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i)
-	{
+		Infantry *CommunistInf = new Infantry({ 0,0 }, infantry_type::INFANTRY_NONE, entity_faction::COMMUNIST);
+		CommunistInf->active = false;
 
-		Infantry *InfCom = new Infantry({ 0,0 }, infantry_type::INFANTRY_NONE, entity_faction::COMMUNIST);
-		InfCom->active = false;
-		CommunistInfantryArray[i] = InfCom;
-		CommunistUnitsArray[i] = (Unit*)InfCom;
-		entitiesArray[entitiesIterator++] = (Entity*)InfCom;
+		Infantry *CapitalistInf = new Infantry({ 0,0 }, infantry_type::INFANTRY_NONE, entity_faction::CAPITALIST);
+		CapitalistInf->active = false;
 
-		Infantry *InfCap = new Infantry({ 0,0 }, infantry_type::INFANTRY_NONE, entity_faction::CAPITALIST);
-		InfCap->active = false;
-		CapitalistInfantryArray[i] = InfCap;
-		CapitalistUnitsArray[i] = (Unit*)InfCap;
-		entitiesArray[entitiesIterator++] = (Entity*)InfCap;
+		CommunistUnitsArray.push_back(CommunistInf);
+		CapitalistUnitsArray.push_back(CapitalistInf);
+
+		EntitiesArray.push_back(CommunistInf);
+		EntitiesArray.push_back(CapitalistInf);
 	}
 
-	//Allocate Memory for Objects
-	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
-	{
-		staticObjectsArray[i] = new Static_Object({ 0,0 }, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
-		staticObjectsArray[i]->active = false;
-		entitiesArray[entitiesIterator++] = staticObjectsArray[i];
-	}
-
-	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
-		buildingsArray[i] = nullptr;
+	//Initializing to nullptr non-initialized arrays
+	ObjectsArray.assign(OBJECTS_INITIAL_SIZE, nullptr);
+	buildingsArray.assign(BUILDINGS_SIZE, nullptr);
 
 }
 
 Entity_Manager::~Entity_Manager()
 {
-
 }
 
 
@@ -82,10 +71,9 @@ bool Entity_Manager::Start()
 	loadTextures();
 	lifeBar_tex = myApp->tex->Load("ui/Life_Icon.png");
 
-	int entityIterator = 2 * INFANTRY_ARRAY_SIZE;
 
 	//Add Buildings as entities
-	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i) {
+	for (int i = 0; i < BUILDINGS_SIZE; ++i) {
 
 		if (buildingsArray[i] == nullptr) {
 
@@ -95,52 +83,44 @@ bool Entity_Manager::Start()
 
 		}
 		else {
-			myApp->entities->ActivateBuilding(buildingsArray[i]->position, building_type::MAIN_BASE, entity_faction::COMMUNIST);
+			myApp->entities->ActivateBuilding(buildingsArray[i]->position, buildingsArray[i]->buildingType, buildingsArray[i]->faction);
 			mainBase = buildingsArray[i];
 		}
 
+		EntitiesArray.push_back(buildingsArray[i]);
+	}
 
-		entitiesArray[entityIterator++] = (Entity*)buildingsArray[i];
+	//Allocate Memory for Objects
+	for (int i = 0; i < OBJECTS_INITIAL_SIZE; ++i) {
 
+		if (ObjectsArray[i] == nullptr) {
+
+			Static_Object *newObject = new Static_Object({ 0,0 }, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
+			newObject->active = false;
+
+			ObjectsArray.push_back(newObject);
+		}
+		else
+			myApp->entities->ActivateObject(ObjectsArray[i]->position, ObjectsArray[i]->objectType);
+
+		EntitiesArray.push_back(ObjectsArray[i]);
 	}
 
 	//Tell Units who their enemies are
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
+	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; ++i) {
 
 		CommunistUnitsArray[i]->hostileUnits = CapitalistUnitsArray;
 		CapitalistUnitsArray[i]->hostileUnits = CommunistUnitsArray;
 		CapitalistUnitsArray[i]->hostileBuildings = buildingsArray;
 	}
-/*
-	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
-		buildingsArray[i]->Start();*/
 
-
-	//Allocate Memory for Objects
-	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
-	{
-		if (staticObjectsArray[i] == nullptr) {
-
-			Static_Object *newStaticObject = new Static_Object({ 0, 0 }, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
-			newStaticObject->active = false;
-			staticObjectsArray[i] = newStaticObject;
-
-		}
-		else
-			myApp->entities->ActivateObject(staticObjectsArray[i]->position, object_type::TREE);
-
-		entitiesArray[entityIterator++] = (Entity*)staticObjectsArray[i];
-
-	}
 
 	LoadEntityData();
-
 
 	//Set up stats of units
 	SetupUnitStats();
 
 	return true;
-
 }
 
 
@@ -148,37 +128,44 @@ bool Entity_Manager::CleanUp() {
 
 	LOG("Clean Up Entity_Manager");
 
-	int entitiesIterator = 0;
-
 	//Clean soldiers
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i)
+	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; ++i)
 	{
-		CommunistInfantryArray[i]->CleanUp();
-		CommunistInfantryArray[i] = nullptr;
-		CommunistUnitsArray[i] = nullptr;
-		entitiesArray[entitiesIterator++] = nullptr;
 
-		CapitalistInfantryArray[i]->CleanUp();
-		CapitalistInfantryArray[i] = nullptr;
-		CapitalistUnitsArray[i] = nullptr;
-		entitiesArray[entitiesIterator++] = nullptr;
+		CommunistUnitsArray[i]->CleanUp();
+		CapitalistUnitsArray[i]->CleanUp();
+
+		RELEASE(CommunistUnitsArray[i]);
+		RELEASE(CapitalistUnitsArray[i]);
 	}
+
+	CommunistUnitsArray.clear();
+	CapitalistUnitsArray.clear();
 
 	//Clean objects
-	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
+	for (int i = 0; i < OBJECTS_INITIAL_SIZE; ++i)
 	{
-		staticObjectsArray[i]->CleanUp();
-		staticObjectsArray[i] = nullptr;
-		entitiesArray[entitiesIterator++] = nullptr;
+		ObjectsArray[i]->CleanUp();
+		RELEASE(ObjectsArray[i]);
 	}
 
-	//Clean bases
-	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
+	ObjectsArray.clear();
+
+	//Clean Buildings
+	for (int i = 0; i < BUILDINGS_SIZE; ++i)
 	{
 		buildingsArray[i]->CleanUp();
-		buildingsArray[i] = nullptr;
-		entitiesArray[entitiesIterator++] = nullptr;
+		RELEASE(buildingsArray[i]);
 	}
+
+	buildingsArray.clear();
+
+	//Finally, Clean Entities
+	for (int i = 0; i < ENTITIES_INITIAL_SIZE; ++i)
+		if (EntitiesArray[i] != nullptr)
+			RELEASE(EntitiesArray[i]);
+
+	EntitiesArray.clear();
 
 	return true;
 }
@@ -199,7 +186,7 @@ bool Entity_Manager::Update(float dt)
 		if (accumulated_time >= update_ms_cycle)
 			do_logic = true;
 
-		for (int i = 0; i < UNITS_ARRAY_SIZE; ++i) {
+		for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; ++i) {
 
 			if (CapitalistUnitsArray[i]->active == true)
 				CapitalistUnitsArray[i]->Update(dt);
@@ -214,27 +201,15 @@ bool Entity_Manager::Update(float dt)
 			}
 		}
 
-		//for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i)
-		//{
-		//	CommunistInfantryArray[i]->Update(dt);
-		//	CapitalistInfantryArray[i]->Update(dt);
-
-		//	if (do_logic)
-		//	{
-		//		CommunistInfantryArray[i]->FixUpdate(dt);
-		//		CapitalistInfantryArray[i]->FixUpdate(dt);
-		//	}
-		//}
-
-		for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
+		for (int i = 0; i < BUILDINGS_SIZE; ++i)
 			if (buildingsArray[i]->active == true)
 				buildingsArray[i]->Update(dt);
 
-	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
-		staticObjectsArray[i]->Update(dt);
+	for (int i = 0; i < OBJECTS_INITIAL_SIZE; ++i)
+		//ObjectsArray[i]->Update(dt);
 
-		for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
-			staticObjectsArray[i]->Update(dt);
+	for (int i = 0; i < OBJECTS_INITIAL_SIZE; ++i)
+		//ObjectsArray[i]->Update(dt);
 
 
 		accumulated_time -= update_ms_cycle;
@@ -251,9 +226,9 @@ Unit* Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTy
 	//Player troops
 	if (entityFaction == entity_faction::COMMUNIST)
 	{
-		for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i)
+		for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; ++i)
 		{
-			if (CommunistInfantryArray[i]->active == false)
+			if (CommunistUnitsArray[i]->active == false)
 			{
 
 				CommunistUnitsArray[i]->position = position;
@@ -279,9 +254,9 @@ Unit* Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTy
 	//Enemy troops
 	else if (entityFaction == entity_faction::CAPITALIST)
 	{
-		for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i)
+		for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; ++i)
 		{
-			if (CapitalistInfantryArray[i]->active == false)
+			if (CapitalistUnitsArray[i]->active == false)
 			{
 
 				CapitalistUnitsArray[i]->position = position;
@@ -310,7 +285,7 @@ Unit* Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTy
 
 bool Entity_Manager::ActivateBuilding(fPoint position, building_type buildingType, entity_faction entityFaction)
 {
-	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
+	for (int i = 0; i < BUILDINGS_SIZE; ++i)
 	{
 		if (buildingsArray[i]->active == false)
 		{
@@ -332,18 +307,18 @@ bool Entity_Manager::ActivateBuilding(fPoint position, building_type buildingTyp
 
 bool Entity_Manager::ActivateObject(fPoint position, object_type objectType)
 {
-	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
+	for (int i = 0; i < OBJECTS_INITIAL_SIZE; ++i)
 	{
-		if (staticObjectsArray[i]->active == false)
+		if (ObjectsArray[i]->active == false)
 		{
-			staticObjectsArray[i]->position = position;
-			staticObjectsArray[i]->objectType = objectType;
-			staticObjectsArray[i]->active = true;
-			staticObjectsArray[i]->texture = objectTextures[int(objectType)];
-			staticObjectsArray[i]->selected = false;
+			ObjectsArray[i]->position = position;
+			ObjectsArray[i]->objectType = objectType;
+			ObjectsArray[i]->active = true;
+			ObjectsArray[i]->texture = objectTextures[int(objectType)];
+			ObjectsArray[i]->selected = false;
 
 			if (objectType == object_type::TREE)
-				staticObjectsArray[i]->UnitRect = SetupTreeType();
+				ObjectsArray[i]->UnitRect = SetupTreeType();
 
 			return true;
 
@@ -413,7 +388,7 @@ bool Entity_Manager::DeActivateInfantry(Unit* infantry)
 bool Entity_Manager::DeActivateBuilding(Building* building)
 {
 
-	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i) {
+	for (int i = 0; i < BUILDINGS_SIZE; ++i) {
 
 		if (buildingsArray[i] == building) {
 
@@ -434,14 +409,14 @@ bool Entity_Manager::DeActivateBuilding(Building* building)
 bool Entity_Manager::DeActivateObject(Static_Object* object)
 {
 
-	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i) {
+	for (int i = 0; i < OBJECTS_INITIAL_SIZE; ++i) {
 
-		if (staticObjectsArray[i] == object) {
+		if (ObjectsArray[i] == object) {
 
-			staticObjectsArray[i]->position = fPoint(0.0f, 0.0f);
-			staticObjectsArray[i]->faction = entity_faction::NEUTRAL;
-			staticObjectsArray[i]->objectType = object_type::OBJECT_NONE;
-			staticObjectsArray[i]->texture = nullptr;
+			ObjectsArray[i]->position = fPoint(0.0f, 0.0f);
+			ObjectsArray[i]->faction = entity_faction::NEUTRAL;
+			ObjectsArray[i]->objectType = object_type::OBJECT_NONE;
+			ObjectsArray[i]->texture = nullptr;
 
 			return true;
 		}
@@ -452,7 +427,7 @@ bool Entity_Manager::DeActivateObject(Static_Object* object)
 
 bool Entity_Manager::ResetAll() {
 
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
+	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; ++i) {
 
 		CommunistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 		//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
@@ -464,7 +439,7 @@ bool Entity_Manager::ResetAll() {
 		//To implement:: Update animations
 	}
 
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
+	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; ++i) {
 
 		CapitalistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 		//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;

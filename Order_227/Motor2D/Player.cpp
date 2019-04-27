@@ -273,7 +273,7 @@ void Player::OrderAttack()
 {
 	Unit* attackTarget = nullptr;
 
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; i++)
+	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; i++)
 	{
 		if (myApp->entities->CapitalistUnitsArray[i]->active == true && myApp->entities->CapitalistUnitsArray[i]->IsDead() == false &&
 			!(mousePos.x < myApp->entities->CapitalistUnitsArray[i]->UnitRect.x ||

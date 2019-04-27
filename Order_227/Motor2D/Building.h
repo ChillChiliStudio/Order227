@@ -45,7 +45,7 @@ public:
 
 	//ADD ANIMATION
 	//Current_animation*
-	SDL_Rect buildingBlitRect = {605, 1882, 212, 148 };
+	SDL_Rect buildingBlitRect = {605, 1882, 212, 148 }; //TODO: Deharcode
 	building_type buildingType;
 
 

@@ -94,11 +94,11 @@ void Unit::UpdateBlitOrder()
 	//	}
 	//}
 
-	for (int i = 0; i < UNITS_ARRAY_SIZE; ++i) {
+	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; ++i) {
 
-		if (myApp->entities->entitiesArray[i] != this) {
+		if (myApp->entities->EntitiesArray[i] != this) {
 
-			if (this->position.y > myApp->entities->entitiesArray[i]->position.y)
+			if (this->position.y > myApp->entities->EntitiesArray[i]->position.y)
 				order += 1;
 			else
 				order -= 1;
@@ -578,7 +578,7 @@ Unit* Unit::EnemyInRange()
 {
 	Unit* ret = nullptr;
 
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {	//TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units, one for each side
+	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; ++i) {	//TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units, one for each side
 		if (hostileUnits[i]->active == true && hostileUnits[i]->IsDead() == false) {
 
 			if (InsideSquareRadius(position, (float)stats.attackRange, hostileUnits[i]->position)
