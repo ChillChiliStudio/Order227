@@ -63,19 +63,18 @@ public:
 	//Entity lists
 	//Entity*			entitiesArray[UNITS_ARRAY_SIZE]; //List with all the entities
 
+	//Arrays for Units, Objects & Entities
 	std::vector<Entity*> EntitiesArray;
 
 	std::vector<Unit*> CommunistUnitsArray;
 	std::vector<Unit*> CapitalistUnitsArray;
 
 	std::vector<Static_Object*> ObjectsArray;
-	std::vector<Building*> buildingsArray;
 
-//	Unit*			CommunistUnitsArray[HALF_UNITS_SIZE];			//Player units (soldiers+vehicles)
-	//Unit*			CapitalistUnitsArray[HALF_UNITS_SIZE];			//Enemy units (soldiers+vehicles)
-	//Static_Object*	ObjectsArray[OBJECTS_SIZE];						//Static objects
-	//Bases
+	//A list for buildings (not need to make it a dynamic array)
+	std::list<Building*> BuildingsList;
 
+	//Main Base Pointer
 	Building*		mainBase = nullptr;	//TODO: This is here because of the lack of lists, having an "attackable buildings" list to read for capitalist units would be better
 																//Animations Array
 	Animation		animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)]; //TODO_ WTF? Troop types?

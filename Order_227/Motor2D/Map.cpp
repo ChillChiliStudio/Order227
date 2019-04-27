@@ -634,7 +634,6 @@ bool Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 void Map::PlaceGameObjects() {
 
 	std::list<GameObjectGroup*>::iterator item = data.gameObjects.begin();
-
 	for (; item != data.gameObjects.end(); item = next(item)) {
 
 		if ((*item)->nameGroup == "spawnPoint") {
@@ -655,8 +654,6 @@ void Map::PlaceGameObjects() {
 
 		 if ((*item)->nameGroup == "Buildings") {
 
-			int i = 0;
-
 			std::list<GameObjectGroup::Object*>::iterator item2 = (*item)->Objectlist.begin();
 			for (; item2 != (*item)->Objectlist.end(); item2 = next(item2)) {
 
@@ -665,7 +662,7 @@ void Map::PlaceGameObjects() {
 					iPoint pos = PointToTile((int)(*item2)->x, (int)(*item2)->y);
 					fPoint fPos = { (float)pos.x, (float)pos.y };
 
-					Building* newBuilding = new Building(fPos, building_type::MAIN_BASE, entity_faction::COMMUNIST);
+					Building* newBuilding = new Building(fPos, building_type::BUILDING_NONE, entity_faction::COMMUNIST);
 
 					std::list <Properties::Property*> ::iterator itemProp = (*item2)->PropObj.list.begin();
 					for (; itemProp != (*item2)->PropObj.list.end();  itemProp = next(itemProp)) {
@@ -674,10 +671,12 @@ void Map::PlaceGameObjects() {
 							newBuilding->income = (*itemProp)->value;
 						if ((*itemProp)->name == "health")
 							newBuilding->health = (*itemProp)->value;
+						if ((*itemProp)->name == "type")
+							newBuilding->buildingType == (building_type)(*itemProp)->value;
+						
 					}
 					
-					myApp->entities->buildingsArray[i] = newBuilding;
-					i++;
+					myApp->entities->BuildingsList.push_back(newBuilding);
 				}
 			}
 		}

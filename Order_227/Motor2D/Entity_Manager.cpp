@@ -42,9 +42,8 @@ Entity_Manager::Entity_Manager()
 		EntitiesArray.push_back(CapitalistInf);
 	}
 
-	//Initializing to nullptr non-initialized arrays
+	//Initializing to nullptr Objects array
 	ObjectsArray.assign(OBJECTS_INITIAL_SIZE, nullptr);
-	buildingsArray.assign(BUILDINGS_SIZE, nullptr);
 
 }
 
@@ -73,21 +72,16 @@ bool Entity_Manager::Start()
 
 
 	//Add Buildings as entities
-	for (int i = 0; i < BUILDINGS_SIZE; ++i) {
+	std::list<Building*>::iterator item = BuildingsList.begin();
+	for (; (*item); item = next(item)) {
 
-		if (buildingsArray[i] == nullptr) {
+		myApp->entities->ActivateBuilding((*item)->position, (*item)->buildingType, (*item)->faction);
+		EntitiesArray.push_back(*item);
 
-			Building* newBuilding = new Building({ 0, 0 }, building_type::BUILDING_NONE, entity_faction::NEUTRAL);
-			newBuilding->active = false;
-			buildingsArray[i] = newBuilding;
+		if ((*item)->buildingType == building_type::MAIN_BASE)
+			mainBase = (*item);
 
-		}
-		else {
-			myApp->entities->ActivateBuilding(buildingsArray[i]->position, buildingsArray[i]->buildingType, buildingsArray[i]->faction);
-			mainBase = buildingsArray[i];
-		}
 
-		EntitiesArray.push_back(buildingsArray[i]);
 	}
 
 	//Allocate Memory for Objects
@@ -111,7 +105,7 @@ bool Entity_Manager::Start()
 
 		CommunistUnitsArray[i]->hostileUnits = CapitalistUnitsArray;
 		CapitalistUnitsArray[i]->hostileUnits = CommunistUnitsArray;
-		CapitalistUnitsArray[i]->hostileBuildings = buildingsArray;
+		CapitalistUnitsArray[i]->hostileBuildings = BuildingsList;
 	}
 
 
@@ -152,13 +146,15 @@ bool Entity_Manager::CleanUp() {
 	ObjectsArray.clear();
 
 	//Clean Buildings
-	for (int i = 0; i < BUILDINGS_SIZE; ++i)
+	//Add Buildings as entities
+	std::list<Building*>::iterator item = BuildingsList.begin();
+	for (; (*item); item = next(item))
 	{
-		buildingsArray[i]->CleanUp();
-		RELEASE(buildingsArray[i]);
+		(*item)->CleanUp();
+		RELEASE(*item);
 	}
 
-	buildingsArray.clear();
+	BuildingsList.clear();
 
 	//Finally, Clean Entities
 	for (int i = 0; i < ENTITIES_INITIAL_SIZE; ++i)
@@ -201,9 +197,10 @@ bool Entity_Manager::Update(float dt)
 			}
 		}
 
-		for (int i = 0; i < BUILDINGS_SIZE; ++i)
-			if (buildingsArray[i]->active == true)
-				buildingsArray[i]->Update(dt);
+		std::list<Building*>::iterator item = BuildingsList.begin();
+		for (; (*item); item = next(item))
+			if ((*item)->active == true)
+				(*item)->Update(dt);
 
 	for (int i = 0; i < OBJECTS_INITIAL_SIZE; ++i)
 		//ObjectsArray[i]->Update(dt);
@@ -285,17 +282,19 @@ Unit* Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryTy
 
 bool Entity_Manager::ActivateBuilding(fPoint position, building_type buildingType, entity_faction entityFaction)
 {
-	for (int i = 0; i < BUILDINGS_SIZE; ++i)
-	{
-		if (buildingsArray[i]->active == false)
-		{
-			buildingsArray[i]->position = position;
-			buildingsArray[i]->buildingType = buildingType;
-			buildingsArray[i]->active = true;
 
-			buildingsArray[i]->faction = entityFaction;
-			buildingsArray[i]->selected = false;
-			buildingsArray[i]->texture = buildingsTextures[int(buildingType)];
+	std::list<Building*>::iterator item = BuildingsList.begin();
+	for (; (*item); item = next(item))
+	{
+		if ((*item)->active == false)
+		{
+			(*item)->position = position;
+			(*item)->buildingType = buildingType;
+			(*item)->active = true;
+
+			(*item)->faction = entityFaction;
+			(*item)->selected = false;
+			(*item)->texture = buildingsTextures[int(buildingType)];
 
 			return true;
 		}
@@ -388,17 +387,19 @@ bool Entity_Manager::DeActivateInfantry(Unit* infantry)
 bool Entity_Manager::DeActivateBuilding(Building* building)
 {
 
-	for (int i = 0; i < BUILDINGS_SIZE; ++i) {
+	std::list<Building*>::iterator item = BuildingsList.begin();
+	for (; (*item); item = next(item))
+	{
 
-		if (buildingsArray[i] == building) {
+		if ((*item) == building) {
 
-			buildingsArray[i]->position = fPoint(0.0f, 0.0f);
-			buildingsArray[i]->buildingType = building_type::BUILDING_NONE;
-			buildingsArray[i]->active = false;
+			(*item)->position = fPoint(0.0f, 0.0f);
+			(*item)->buildingType = building_type::BUILDING_NONE;
+			(*item)->active = false;
 
-			buildingsArray[i]->faction = entity_faction::NEUTRAL;
-			buildingsArray[i]->selected = false;
-			buildingsArray[i]->texture = nullptr;
+			(*item)->faction = entity_faction::NEUTRAL;
+			(*item)->selected = false;
+			(*item)->texture = nullptr;
 		}
 
 	}
