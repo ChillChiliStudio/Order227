@@ -657,35 +657,30 @@ void Map::PlaceGameObjects() {
 			std::list<GameObjectGroup::Object*>::iterator item2 = (*item)->Objectlist.begin();
 			for (; item2 != (*item)->Objectlist.end(); item2 = next(item2)) {
 
-				if ((*item2)->name == "MainBase") {
+				iPoint pos = PointToTile((int)(*item2)->x, (int)(*item2)->y);
+				fPoint fPos = { (float)pos.x, (float)pos.y };
 
-					iPoint pos = PointToTile((int)(*item2)->x, (int)(*item2)->y);
-					fPoint fPos = { (float)pos.x, (float)pos.y };
+				Building* newBuilding = new Building(fPos, building_type::BUILDING_NONE, entity_faction::FACTION_NONE);
 
-					Building* newBuilding = new Building(fPos, building_type::BUILDING_NONE, entity_faction::COMMUNIST);
+				std::list <Properties::Property*> ::iterator itemProp = (*item2)->PropObj.list.begin();
+				for (; itemProp != (*item2)->PropObj.list.end(); itemProp = next(itemProp)) {
 
-					std::list <Properties::Property*> ::iterator itemProp = (*item2)->PropObj.list.begin();
-					for (; itemProp != (*item2)->PropObj.list.end();  itemProp = next(itemProp)) {
+					if ((*itemProp)->name == "income")
+						newBuilding->income = (*itemProp)->value;
+					if ((*itemProp)->name == "health")
+						newBuilding->health = (*itemProp)->value;
+					if ((*itemProp)->name == "type")
+						newBuilding->buildingType == (building_type)(*itemProp)->value;
 
-						if ((*itemProp)->name == "income")
-							newBuilding->income = (*itemProp)->value;
-						if ((*itemProp)->name == "health")
-							newBuilding->health = (*itemProp)->value;
-						if ((*itemProp)->name == "type")
-							newBuilding->buildingType == (building_type)(*itemProp)->value;
-						
-					}
-					
-					myApp->entities->BuildingsList.push_back(newBuilding);
 				}
+
+				myApp->entities->BuildingsList.push_back(newBuilding);
+
 			}
 		}
 
 		 //TODO:Draw threes depending on the terrain tile
-
 		 if ((*item)->nameGroup == "Trees") {
-
-			 int i = 0;
 
 			 std::list<GameObjectGroup::Object*>::iterator item3 = (*item)->Objectlist.begin();
 			 for (; item3 != (*item)->Objectlist.end(); item3 = next(item3)) {
@@ -697,16 +692,10 @@ void Map::PlaceGameObjects() {
 
 					 Static_Object *newStaticObject = new Static_Object(fPos, object_type::TREE, entity_faction::NEUTRAL);
 
-					 myApp->entities->ObjectsArray[i] = newStaticObject;
-					 i++;
-
-					 if (i >= OBJECTS_INITIAL_SIZE)
-						 break;
+					 myApp->entities->ObjectsList.push_back(newStaticObject);
 				 }
 			 }
 		 }
-
-
 	}
 }
 

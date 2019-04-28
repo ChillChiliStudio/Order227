@@ -15,15 +15,8 @@
 #include "PugiXml\src\pugixml.hpp"
 
 
-
 #define TIMES_PER_SEC 5
 #define TROOP_TYPES 2
-
-#define BUILDINGS_SIZE 5
-
-#define HALF_UNITS_INITIAL_SIZE 100
-#define OBJECTS_INITIAL_SIZE 400
-#define ENTITIES_INITIAL_SIZE (2 * HALF_UNITS_INITIAL_SIZE + OBJECTS_INITIAL_SIZE)
 #define RESIZE_VALUE 100
 
 class Entity_Manager : public Module
@@ -44,14 +37,13 @@ public:
 
 public:
 
-	bool ActivateObject(fPoint position, object_type objectType);
-	bool ActivateBuilding(fPoint position, building_type buildingType, entity_faction entityFaction = entity_faction::NEUTRAL);
-	Unit* ActivateInfantry(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+	bool ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+	bool DeActivateUnit(Unit* Unit);
+	void AllocateUnitsPool();
+	void ReleaseUnitsPool();
 
-	bool DeActivateObject(Static_Object* Object);
-	bool DeActivateBuilding(Building* Building);
-	bool DeActivateInfantry(Unit* Infantry);
-	bool ResetAll();
+	void ActivateBuildings();
+	void ActivateObjects();
 
 	void DestroyEntity(Entity *Entity) {}
 
@@ -69,10 +61,9 @@ public:
 	std::vector<Unit*> CommunistUnitsArray;
 	std::vector<Unit*> CapitalistUnitsArray;
 
-	std::vector<Static_Object*> ObjectsArray;
-
-	//A list for buildings (not need to make it a dynamic array)
+	//A list for buildings and objects (not need to make it a dynamic array)
 	std::list<Building*> BuildingsList;
+	std::list<Static_Object*> ObjectsList;
 
 	//Main Base Pointer
 	Building*		mainBase = nullptr;	//TODO: This is here because of the lack of lists, having an "attackable buildings" list to read for capitalist units would be better
@@ -94,8 +85,6 @@ private:
 	SDL_Texture*	buildingsTextures[int(building_type::BUILDING_MAX)];
 	SDL_Texture*	infantryTextures[int(infantry_type::INFANTRY_MAX)];
 	SDL_Texture*	objectTextures[int(object_type::OBJECT_MAX)];
-
-	
 
 	//Unit stats
 	unit_stats		infantryStats[int(infantry_type::INFANTRY_MAX)];

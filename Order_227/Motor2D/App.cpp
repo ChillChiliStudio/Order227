@@ -100,7 +100,8 @@ bool App::Awake()
 
 		if (cap > 0)
 			capped_ms = 1000 / cap;
-	
+
+		UnitsInitialSize = app_config.attribute("units_initial_size").as_int(0);
 		
 	}
 

@@ -97,6 +97,8 @@ public:
 	bool debugMode = false;
 	bool mustShutDown = false;
 
+	int UnitsInitialSize = 0;
+
 private:
 
 	int					argc;

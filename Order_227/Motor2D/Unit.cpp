@@ -20,12 +20,6 @@ Unit::~Unit()
 
 bool Unit::Start()
 {
-	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
-
-	unitState = unit_state::IDLE;
-	unitOrders = unit_orders::HOLD;
-	unitDirection = unit_directions::SOUTH_EAST;
-	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
 
 	return true;
 }
