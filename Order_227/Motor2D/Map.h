@@ -170,6 +170,8 @@ public:
 	void PlaceGameObjects();
 	iPoint PointToTile(int x,int y);
 
+	TileSet* GetTilesetFromTileId(int id) const;
+
 private:
 
 	bool LoadMap();
@@ -178,8 +180,6 @@ private:
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 	bool LoadGameObjects(pugi::xml_node& node, GameObjectGroup*ObjGroup);
-
-	TileSet* GetTilesetFromTileId(int id) const;
 
 public:
 

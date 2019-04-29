@@ -19,6 +19,7 @@
 #include "GroupManager.h"
 #include "Player.h"
 #include "Horde_Manager.h"
+#include "MiniMap.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -39,6 +40,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	groups = new GroupManager();
 	player = new Player();
 	hordes = new Horde_Manager();
+	minimap = new MiniMap();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -55,6 +57,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(groups);
 	AddModule(player);
 	AddModule(hordes);
+	AddModule(minimap);
 	// render last to swap buffer
 	AddModule(render);
 }

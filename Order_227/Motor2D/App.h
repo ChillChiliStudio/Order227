@@ -23,6 +23,7 @@ class User_Interface;
 class GroupManager;
 class Player;
 class Horde_Manager;
+class MiniMap;
 
 class App
 {
@@ -93,6 +94,7 @@ public:
 	GroupManager*       groups = nullptr;
 	Player*             player = nullptr;
 	Horde_Manager*		hordes = nullptr;
+	MiniMap*			minimap = nullptr;
 
 	bool debugMode = false;
 	bool mustShutDown = false;
