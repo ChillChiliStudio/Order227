@@ -17,6 +17,7 @@ enum class infantry_type {	// TODO: This should be a single enum with ALL units 
 	BAZOOKA,
 	MACHINE_GUN,
 	INFANTRY_MAX
+
 };
 
 enum class unit_state

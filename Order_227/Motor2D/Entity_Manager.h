@@ -52,9 +52,6 @@ public:
 
 public:
 
-	//Entity lists
-	//Entity*			entitiesArray[UNITS_ARRAY_SIZE]; //List with all the entities
-
 	//Arrays for Units, Objects & Entities
 	std::vector<Entity*> EntitiesArray;
 
@@ -67,7 +64,8 @@ public:
 
 	//Main Base Pointer
 	Building*		mainBase = nullptr;	//TODO: This is here because of the lack of lists, having an "attackable buildings" list to read for capitalist units would be better
-																//Animations Array
+	
+	//Animations Array
 	Animation		animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)]; //TODO_ WTF? Troop types?
 
 	bool entitiesDebugDraw = false;

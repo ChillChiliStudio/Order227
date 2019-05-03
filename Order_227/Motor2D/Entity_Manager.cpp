@@ -58,7 +58,7 @@ bool Entity_Manager::Start()
 	ActivateObjects();
 
 	//Tell Units who their enemies are
-	for (int i = 0; i < CommunistUnitsArray.size(); ++i)
+	for (int i = 0; i < CommunistUnitsArray.size(); ++i) //TODO-Carles: Check and fix if needed
 		CommunistUnitsArray[i]->hostileUnits = CapitalistUnitsArray;
 		
 	for (int i = 0; i < CapitalistUnitsArray.size(); ++i) {
@@ -492,7 +492,6 @@ SDL_Rect Entity_Manager::SetupTreeType() {
 
 
 void Entity_Manager::AllocateUnitsPool() {
-
 
 	ReleaseUnitsPool();
 

@@ -1,5 +1,4 @@
 <!-- Config file for the game -->
-
 <config>
   <app framerate_cap="60" units_initial_size="200">
     <title>Order 227</title>
