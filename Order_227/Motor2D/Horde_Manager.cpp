@@ -65,7 +65,8 @@ bool Horde_Manager::Update(float dt)
 			{
 
 				SpawningPoints_Array[i]->SpawnTime.Start();
-				hordes[i]->AddUnit(myApp->entities->ActivateInfantry(SP_Pos, infantry_type::BASIC, entity_faction::CAPITALIST));
+				myApp->entities->ActivateUnit(SP_Pos, infantry_type::BASIC, entity_faction::CAPITALIST);
+				hordes[i]->AddUnit(myApp->entities->lastUnitActivated);
 				SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
 
 				LOG("%d", SpawningPoints_Array[i]->Enemies_to_Spawn.size());
@@ -147,7 +148,7 @@ void Horde_Manager::ClearEnemies()
 	{
 		for (std::list<Unit*>::iterator it = hordes[i]->groupUnits.begin();!hordes[i]->groupUnits.empty() ;it++ )
 		{
-			myApp->entities->DeActivateInfantry((*it));
+			myApp->entities->DeActivateUnit((*it));
 			hordes[i]->groupUnits.erase(it);
 		}
 	}

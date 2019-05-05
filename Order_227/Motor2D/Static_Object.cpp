@@ -38,7 +38,7 @@ bool Static_Object::Draw()
 void Static_Object::UpdateBlitOrder() {
 
 	//ARRAY
-	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; ++i) {
+	for (int i = 0; i < myApp->entities->EntitiesArray.size(); ++i) {
 
 		if (myApp->entities->EntitiesArray[i] != this) {
 

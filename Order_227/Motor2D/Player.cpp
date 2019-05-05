@@ -198,7 +198,7 @@ void Player::DebugInputs()
 
 void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: This should work with unit_type alone, enum ramifications like infantry or vehicles unnecesary
 {
-	myApp->entities->ActivateInfantry(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
+	myApp->entities->ActivateUnit(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
 }
 
 void Player::CheckForOrders()
@@ -273,16 +273,19 @@ void Player::OrderAttack()
 {
 	Unit* attackTarget = nullptr;
 
-	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; i++)
-	{
-		if (myApp->entities->CapitalistUnitsArray[i]->active == true && myApp->entities->CapitalistUnitsArray[i]->IsDead() == false &&
-			!(mousePos.x < myApp->entities->CapitalistUnitsArray[i]->UnitRect.x ||
-			mousePos.x > myApp->entities->CapitalistUnitsArray[i]->UnitRect.x + myApp->entities->CommunistUnitsArray[i]->UnitRect.w ||
-			mousePos.y < myApp->entities->CapitalistUnitsArray[i]->UnitRect.y ||
-			mousePos.y > myApp->entities->CapitalistUnitsArray[i]->UnitRect.y + myApp->entities->CommunistUnitsArray[i]->UnitRect.h))
+	std::list<Unit*>::iterator CommunistItem = myApp->entities->ActiveCommunistUnits.begin();
+	std::list<Unit*>::iterator item = myApp->entities->ActiveCapitalistUnits.begin();
+	for (; (*item); item = next(item)) {
+
+		if ((*item)->active == true && (*item)->IsDead() == false && !(mousePos.x < (*item)->UnitRect.x
+			|| mousePos.x >(*item)->UnitRect.x + (*CommunistItem)->UnitRect.w
+			|| mousePos.y <  (*item)->UnitRect.y
+			|| mousePos.y >(*item)->UnitRect.y + (*CommunistItem)->UnitRect.h))
 		{
-			attackTarget = myApp->entities->CapitalistUnitsArray[i];
+			attackTarget = *item;
 		}
+
+		CommunistItem = next(CommunistItem);
 	}
 
 	if (attackTarget == nullptr) {

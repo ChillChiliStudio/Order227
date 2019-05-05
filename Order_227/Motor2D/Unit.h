@@ -83,13 +83,14 @@ class Unit :public Entity
 {
 public:
 
-	Unit(fPoint pos, entity_type entityType, entity_faction faction = entity_faction::NEUTRAL);
+	Unit(fPoint pos, infantry_type infType, entity_faction faction = entity_faction::NEUTRAL);
 	~Unit();
 
 	bool Start() override;
 	bool Update(float dt) override;
 	void UpdateBlitOrder() override;
 	bool Draw();
+	void UnitSetup();
 
 public:
 
@@ -152,12 +153,15 @@ public:
 
 	Animation currentAnimation;
 
+	//Pathfinding
 	iPoint origin;
 	iPoint destination;
 	std::vector<iPoint> unitPath;
 	std::vector<iPoint>::iterator currNode;
 
-	std::vector <Unit*> hostileUnits;
+public:
+
+	std::list <Unit*> hostileUnits;
 	std::list<Building*> hostileBuildings;
 	Unit* target = nullptr;
 	bool targetLost;	// Used when there's a specific target to Search & Destroy which sight of can be lost
@@ -169,6 +173,7 @@ public:
 	uint32 timeToDespawn = 5000;	//TODO: Hardcoded value, should be read through xml
 	Timer despawnTimer;
 	bool mustDespawn = false;
+
 };
 
 #endif //UNIT_H

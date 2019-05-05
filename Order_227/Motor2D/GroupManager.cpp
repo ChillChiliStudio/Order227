@@ -47,16 +47,18 @@ bool GroupManager::CleanUp() {
 //--- SELECTION AND GROUPS SYSTEM ---
 void GroupManager::SelectUnit(SDL_Rect rect) {
 
-	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; i++) {
-		if (myApp->entities->CommunistUnitsArray[i]->active == true && myApp->entities->CommunistUnitsArray[i]->IsDead() == false) {
+	std::list<Unit*>::iterator item = myApp->entities->ActiveCommunistUnits.begin();
+	for (; (*item); item = next(item)) {
 
-			SDL_Rect entityRect = myApp->entities->CommunistUnitsArray[i]->UnitRect;
+		if ((*item)->active == true && (*item)->IsDead() == false) {
+
+			SDL_Rect entityRect = (*item)->UnitRect;
 
 			if (SDL_HasIntersection(&entityRect, &rect)) {
-				myApp->entities->CommunistUnitsArray[i]->selected = true;
+				(*item)->selected = true;
 			}
 			else if (!SDL_HasIntersection(&entityRect, &rect) && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_IDLE) {
-				myApp->entities->CommunistUnitsArray[i]->selected = false;
+				(*item)->selected = false;
 			}
 		}
 	}
@@ -83,23 +85,23 @@ void GroupManager::SelectUnit(iPoint pos) {
 
 	int counter = 0;
 
-	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; i++) {
+	std::list<Unit*>::iterator item = myApp->entities->ActiveCommunistUnits.begin();
+	for (; (*item); item = next(item)) {
 
-		if (myApp->entities->CommunistUnitsArray[i]->active == true) {
-			SDL_Rect entityRect = myApp->entities->CommunistUnitsArray[i]->UnitRect;
-		}
+		if ((*item)->active == true)
+			SDL_Rect entityRect = (*item)->UnitRect;
 
-		if ((counter < 1) && pos.x > myApp->entities->CommunistUnitsArray[i]->UnitRect.x &&
-			pos.x < myApp->entities->CommunistUnitsArray[i]->UnitRect.x + myApp->entities->CommunistUnitsArray[i]->UnitRect.w &&
-			pos.y > myApp->entities->CommunistUnitsArray[i]->UnitRect.y &&
-			pos.y < myApp->entities->CommunistUnitsArray[i]->UnitRect.y + myApp->entities->CommunistUnitsArray[i]->UnitRect.h) {
+		if ((counter < 1) && pos.x > (*item)->UnitRect.x
+			&& pos.x < (*item)->UnitRect.x + (*item)->UnitRect.w
+			&& pos.y >(*item)->UnitRect.y
+			&& pos.y < (*item)->UnitRect.y + (*item)->UnitRect.h) {
 			
-			myApp->entities->CommunistUnitsArray[i]->selected = true;
+			(*item)->selected = true;
 			counter++;
 		}
 
 		else if (myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == SDL_RELEASED)
-			myApp->entities->CommunistUnitsArray[i]->selected = false;
+			(*item)->selected = false;
 		
 	}
 
@@ -149,10 +151,13 @@ void GroupManager::EmptyPlayerGroup() {
 
 void GroupManager::AddUnitsPlayerGroup() {
 
-	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; i++) {
-		if (myApp->entities->CommunistUnitsArray[i]->selected == true && myApp->entities->CommunistUnitsArray[i]->stored == false) {
-			playerGroup.groupUnits.push_back((myApp->entities->CommunistUnitsArray[i]));
-			myApp->entities->CommunistUnitsArray[i]->stored = true;
+	std::list<Unit*>::iterator item = myApp->entities->ActiveCommunistUnits.begin();
+	for (; (*item); item = next(item)) {
+
+		if ((*item)->selected == true && (*item)->stored == false) {
+
+			playerGroup.groupUnits.push_back(*item);
+			(*item)->stored = true;
 			LOG("ADD UNIT TO THE GROUP");
 		}
 	}

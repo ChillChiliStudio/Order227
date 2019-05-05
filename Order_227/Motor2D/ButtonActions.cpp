@@ -33,20 +33,23 @@ void CreateConscript() {
 
 	iPoint tempPoint =myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
-	myApp->entities->ActivateInfantry(fPoint(tempPoint.x,tempPoint.y), infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
+	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SPAWN][0]);
 }
 void StartGame() {
 
 
 	//MUSIC
-	myApp->audio->PlayMusic("audio/music/game/ingame_song3_loop.ogg",-1);
+	//myApp->audio->PlayMusic("audio/music/game/ingame_song3_loop.ogg",-1);
 
 	//TODO make the game start Correctly
 	//myApp->scene->Start();
+	myApp->entities->ActivateBuildings();
+	myApp->entities->ActivateObjects();
 	myApp->gui->WinIcon->Deactivate();
 	myApp->entities->mainBase->health = 1000.0f;
 	myApp->entities->mainBase->Start();
+	myApp->entities->AllocateUnitsPool(myApp->entities->UnitsInitialSize);
 	//myApp->entities->ResetAll();
 	myApp->hordes->hordeRoundto(0);
 	myApp->player->playerMoney = 300;
@@ -58,8 +61,6 @@ void StartGame() {
 }
 void QuitGame() {
 
-
-
 	//myApp->audio->PlayMusic();
 	myApp->gui->LoseIcon->Deactivate();
 	myApp->gui->WinIcon->Deactivate();
@@ -70,7 +71,8 @@ void QuitGame() {
 	myApp->hordes->hordeActive = false;
 	myApp->gui->pauseMenuPanel->Deactivate();
 	myApp->gui->MainMenuTemp_Image->Activate();
-	myApp->entities->ResetAll();
+	myApp->entities->ReleasePools();
+//	myApp->entities->ResetAll();
 	//myApp->scene->CleanUp();
 
 

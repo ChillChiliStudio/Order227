@@ -29,7 +29,7 @@ public:
 
 public:
 
-	bool Awake();
+	bool Awake(pugi::xml_node& config);
 	bool Start();			//Load textures here
 	bool PreUpdate();
 	bool Update(float dt);
@@ -37,10 +37,12 @@ public:
 
 public:
 
+	int UnitsInitialSize = 0;
+
 	bool ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
 	bool DeActivateUnit(Unit* Unit);
-	void AllocateUnitsPool();
-	void ReleaseUnitsPool();
+	void AllocateUnitsPool(int size);
+	void ReleasePools();
 
 	void ActivateBuildings();
 	void ActivateObjects();
@@ -55,18 +57,25 @@ public:
 	//Arrays for Units, Objects & Entities
 	std::vector<Entity*> EntitiesArray;
 
-	std::vector<Unit*> CommunistUnitsArray;
-	std::vector<Unit*> CapitalistUnitsArray;
+	/*std::vector<Unit*> CommunistUnitsArray;
+	std::vector<Unit*> CapitalistUnitsArray;*/
+	std::vector<Unit*> UnitsPool;
+
+	std::list<Unit*> ActiveCommunistUnits;
+	std::list<Unit*> ActiveCapitalistUnits;
 
 	//A list for buildings and objects (not need to make it a dynamic array)
 	std::list<Building*> BuildingsList;
 	std::list<Static_Object*> ObjectsList;
 
+	//Last Unit activated Pointer
+	Unit *lastUnitActivated = nullptr;
+
 	//Main Base Pointer
-	Building*		mainBase = nullptr;	//TODO: This is here because of the lack of lists, having an "attackable buildings" list to read for capitalist units would be better
+	Building* mainBase = nullptr;	//TODO: This is here because of the lack of lists, having an "attackable buildings" list to read for capitalist units would be better
 	
 	//Animations Array
-	Animation		animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)]; //TODO_ WTF? Troop types?
+	Animation animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)]; //TODO_ WTF? Troop types?
 
 	bool entitiesDebugDraw = false;
 	SDL_Texture* lifeBar_tex = nullptr; //TODO: Why is this here?

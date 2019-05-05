@@ -8,11 +8,13 @@
 #include "Entity.h"
 #include "Unit.h"
 #include "Audio.h"
+#include "UserInterface.h"
+#include "Image.h"
 
-Unit::Unit(fPoint pos, entity_type entityType, entity_faction faction) : Entity(pos, entityType, faction)
+Unit::Unit(fPoint pos, infantry_type infType, entity_faction faction) : Entity(pos, entity_type::INFANTRY, faction)
 {
 //	LoadEntityData();
-	
+	infantryType = infType;
 }
 
 Unit::~Unit()
@@ -22,6 +24,20 @@ bool Unit::Start()
 {
 
 	return true;
+}
+
+void Unit::UnitSetup() {
+
+	UnitRect.w = 45;
+	UnitRect.h = 55;
+	unitState = unit_state::IDLE;
+	unitOrders = unit_orders::HOLD;
+	unitDirection = unit_directions::SOUTH_EAST;
+
+	myApp->gui->CreateLifeBar(fPoint(position.x, position.y), this, myApp->entities->lifeBar_tex);
+
+	active = true;
+	selected = false;
 }
 
 bool Unit::Update(float dt)
@@ -35,7 +51,7 @@ bool Unit::Update(float dt)
 
 	if (mustDespawn) {
 		mustDespawn = false;
-		myApp->entities->DeActivateInfantry(this);	//TODO: Can't use "deactivate" because it only works with Infantry classes
+		myApp->entities->DeActivateUnit(this);	//TODO: Can't use "deactivate" because it only works with Infantry classes
 	}
 	else {
 		if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
@@ -88,7 +104,7 @@ void Unit::UpdateBlitOrder()
 	//	}
 	//}
 
-	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; ++i) {
+	for (int i = 0; i < myApp->entities->EntitiesArray.size(); ++i) {
 
 		if (myApp->entities->EntitiesArray[i] != this) {
 
@@ -572,18 +588,21 @@ Unit* Unit::EnemyInRange()
 {
 	Unit* ret = nullptr;
 
-	for (int i = 0; i < HALF_UNITS_INITIAL_SIZE; ++i) {	//TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units, one for each side
-		if (hostileUnits[i]->active == true && hostileUnits[i]->IsDead() == false) {
+	if (hostileUnits.size() > 0) {
+		std::list<Unit*>::iterator item = hostileUnits.begin();
+		for (; (*item); item = next(item)) { //TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units, one for each side
 
-			if (InsideSquareRadius(position, (float)stats.attackRange, hostileUnits[i]->position)
-				&& InsideRadius(position, (float)stats.attackRange, hostileUnits[i]->position))
-			{
-				ret = hostileUnits[i];
-				break;
+			if ((*item)->active == true && (*item)->IsDead() == false) {
+
+				if (InsideSquareRadius(position, (float)stats.attackRange, (*item)->position)
+					&& InsideRadius(position, (float)stats.attackRange, (*item)->position))
+				{
+					ret = *item;
+					break;
+				}
 			}
 		}
 	}
-
 	return ret;
 }
 

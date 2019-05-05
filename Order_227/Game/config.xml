@@ -1,6 +1,6 @@
 <!-- Config file for the game -->
 <config>
-  <app framerate_cap="60" units_initial_size="200">
+  <app framerate_cap="60">
     <title>Order 227</title>
     <organization>UPC</organization>
   </app>
@@ -24,6 +24,11 @@
   <map>
     <folder>maps/</folder>
   </map>
+  
+  <entities>
+	<units_initial_size value="200"/>
+  </entities>
+
 
   <user_interface>
     <atlas file="ui/atlas.png" />
