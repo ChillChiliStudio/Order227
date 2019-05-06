@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="10" height="31" tilewidth="98" tileheight="94" infinite="0" nextobjectid="2">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="31" tilewidth="98" tileheight="94" nextobjectid="2">
  <imagelayer name="Capa de Imagen 1">
   <image source="Flak.png" width="980" height="2914"/>
  </imagelayer>
- <objectgroup name="Capa de Objetos 1">
-  <object id="1" x="0" y="0" width="98" height="94"/>
-  <object id="1" x="98" y="0" width="98" height="94"/>
-  <object id="1" x="196" y="0" width="98" height="94"/>
-  <object id="1" x="294" y="0" width="98" height="94"/>
-  <object id="1" x="392" y="0" width="98" height="94"/>
-  <object id="1" x="490" y="0" width="98" height="94"/>
-  <object id="1" x="588" y="0" width="98" height="94"/>
-  <object id="1" x="686" y="0" width="98" height="94"/>
-  <object id="1" x="784" y="0" width="98" height="94"/>
-  <object id="1" x="882" y="0" width="98" height="94"/>
-  <object id="1" x="0" y="94" width="98" height="94"/>
-  <object id="1" x="98" y="94" width="98" height="94"/>
-  <object id="1" x="196" y="94" width="98" height="94"/>
-  <object id="1" x="294" y="94" width="98" height="94"/>
-  <object id="1" x="392" y="94" width="98" height="94"/>
-  <object id="1" x="490" y="94" width="98" height="94"/>
-  <object id="1" x="588" y="94" width="98" height="94"/>
-  <object id="1" x="686" y="94" width="98" height="94"/>
-  <object id="1" x="784" y="94" width="98" height="94"/>
-  <object id="1" x="882" y="94" width="98" height="94"/>
-  <object id="1" x="0" y="188" width="98" height="94"/>
-  <object id="1" x="98" y="188" width="98" height="94"/>
-  <object id="1" x="196" y="188" width="98" height="94"/>
-  <object id="1" x="294" y="188" width="98" height="94"/>
-  <object id="1" x="392" y="188" width="98" height="94"/>
-  <object id="1" x="490" y="188" width="98" height="94"/>
-  <object id="1" x="588" y="188" width="98" height="94"/>
-  <object id="1" x="686" y="188" width="98" height="94"/>
-  <object id="1" x="784" y="188" width="98" height="94"/>
-  <object id="1" x="882" y="188" width="98" height="94"/>
-  <object id="1" x="0" y="282" width="98" height="94"/>
-  <object id="1" x="98" y="282" width="98" height="94"/>
-  <object id="1" x="196" y="282" width="98" height="94"/>
-  <object id="1" x="294" y="282" width="98" height="94"/>
-  <object id="1" x="392" y="282" width="98" height="94"/>
-  <object id="1" x="490" y="282" width="98" height="94"/>
-  <object id="1" x="588" y="282" width="98" height="94"/>
-  <object id="1" x="686" y="282" width="98" height="94"/>
-  <object id="1" x="784" y="282" width="98" height="94"/>
-  <object id="1" x="882" y="282" width="98" height="94"/>
-  <object id="1" x="0" y="376" width="98" height="94"/>
-  <object id="1" x="98" y="376" width="98" height="94"/>
-  <object id="1" x="196" y="376" width="98" height="94"/>
-  <object id="1" x="294" y="376" width="98" height="94"/>
-  <object id="1" x="392" y="376" width="98" height="94"/>
-  <object id="1" x="490" y="376" width="98" height="94"/>
-  <object id="1" x="588" y="376" width="98" height="94"/>
-  <object id="1" x="686" y="376" width="98" height="94"/>
-  <object id="1" x="784" y="376" width="98" height="94"/>
-  <object id="1" x="882" y="376" width="98" height="94"/>
-  <object id="1" x="0" y="470" width="98" height="94"/>
-  <object id="1" x="98" y="470" width="98" height="94"/>
-  <object id="1" x="196" y="470" width="98" height="94"/>
-  <object id="1" x="294" y="470" width="98" height="94"/>
-  <object id="1" x="392" y="470" width="98" height="94"/>
-  <object id="1" x="490" y="470" width="98" height="94"/>
+ <objectgroup name="Rects">
+  <object id="1" name="Pointing" type="0" x="0" y="0" width="98" height="94"/>
+  <object id="1" name="Pointing" type="45" x="98" y="0" width="98" height="94"/>
+  <object id="1" name="Pointing" type="90" x="196" y="0" width="98" height="94"/>
+  <object id="1" name="Pointing" type="135" x="295" y="0" width="98" height="94"/>
+  <object id="1" name="Pointing" type="180" x="392" y="0" width="98" height="94"/>
+  <object id="1" name="Pointing" type="225" x="490" y="0" width="98" height="94"/>
+  <object id="1" name="Pointing" type="270" x="588" y="0" width="98" height="94"/>
+  <object id="1" name="Pointing" type="315" x="686" y="0" width="98" height="94"/>
+  <object id="1" name="Walking" type="0" x="784" y="0" width="98" height="94"/>
+  <object id="1" name="Walking" type="0" x="882" y="0" width="98" height="94"/>
+  <object id="1" name="Walking" type="0" x="0" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="0" x="98" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="0" x="196" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="0" x="294" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="45" x="392" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="45" x="490" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="45" x="588" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="45" x="686" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="45" x="784" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="45" x="882" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="90" x="0" y="188" width="98" height="94"/>
+  <object id="1" name="Walking" type="90" x="98" y="188" width="98" height="94"/>
+  <object id="1" name="Walking" type="90" x="196" y="188" width="98" height="94"/>
+  <object id="1" name="Walking" type="90" x="294" y="188" width="98" height="94"/>
+  <object id="1" name="Walking" type="90" x="392" y="188" width="98" height="94"/>
+  <object id="1" name="Walking" type="90" x="490" y="188" width="98" height="94"/>
+  <object id="1" name="Walking" type="135" x="588" y="188" width="98" height="94"/>
+  <object id="1" name="Walking" type="135" x="686" y="188" width="98" height="94"/>
+  <object id="1" name="Walking" type="135" x="784" y="188" width="98" height="94"/>
+  <object id="1" name="Walking" type="135" x="882" y="188" width="98" height="94"/>
+  <object id="1" name="Walking" type="135" x="0" y="282" width="98" height="94"/>
+  <object id="1" name="Walking" type="135" x="98" y="282" width="98" height="94"/>
+  <object id="1" name="Walking" type="180" x="196" y="282" width="98" height="94"/>
+  <object id="1" name="Walking" type="180" x="294" y="282" width="98" height="94"/>
+  <object id="1" name="Walking" type="180" x="392" y="282" width="98" height="94"/>
+  <object id="1" name="Walking" type="180" x="490" y="282" width="98" height="94"/>
+  <object id="1" name="Walking" type="180" x="588" y="282" width="98" height="94"/>
+  <object id="1" name="Walking" type="180" x="686" y="282" width="98" height="94"/>
+  <object id="1" name="Walking" type="225" x="784" y="282" width="98" height="94"/>
+  <object id="1" name="Walking" type="225" x="882" y="282" width="98" height="94"/>
+  <object id="1" name="Walking" type="225" x="0" y="376" width="98" height="94"/>
+  <object id="1" name="Walking" type="225" x="98" y="376" width="98" height="94"/>
+  <object id="1" name="Walking" type="225" x="196" y="376" width="98" height="94"/>
+  <object id="1" name="Walking" type="225" x="294" y="376" width="98" height="94"/>
+  <object id="1" name="Walking" type="270" x="392" y="376" width="98" height="94"/>
+  <object id="1" name="Walking" type="270" x="490" y="376" width="98" height="94"/>
+  <object id="1" name="Walking" type="270" x="588" y="376" width="98" height="94"/>
+  <object id="1" name="Walking" type="270" x="686" y="376" width="98" height="94"/>
+  <object id="1" name="Walking" type="270" x="784" y="376" width="98" height="94"/>
+  <object id="1" name="Walking" type="270" x="882" y="376" width="98" height="94"/>
+  <object id="1" name="Walking" type="315" x="0" y="470" width="98" height="94"/>
+  <object id="1" name="Walking" type="315" x="98" y="470" width="98" height="94"/>
+  <object id="1" name="Walking" type="315" x="196" y="470" width="98" height="94"/>
+  <object id="1" name="Walking" type="315" x="294" y="470" width="98" height="94"/>
+  <object id="1" name="Walking" type="315" x="392" y="470" width="98" height="94"/>
+  <object id="1" name="Walking" type="315" x="490" y="470" width="98" height="94"/>
   <object id="1" x="588" y="470" width="98" height="94"/>
   <object id="1" x="686" y="470" width="98" height="94"/>
   <object id="1" x="784" y="470" width="98" height="94"/>
@@ -89,85 +89,85 @@
   <object id="1" x="196" y="752" width="98" height="94"/>
   <object id="1" x="294" y="752" width="98" height="94"/>
   <object id="1" x="392" y="752" width="98" height="94"/>
-  <object id="1" x="490" y="752" width="98" height="94"/>
-  <object id="1" x="588" y="752" width="98" height="94"/>
-  <object id="1" x="686" y="752" width="98" height="94"/>
-  <object id="1" x="784" y="752" width="98" height="94"/>
-  <object id="1" x="882" y="752" width="98" height="94"/>
-  <object id="1" x="0" y="846" width="98" height="94"/>
-  <object id="1" x="98" y="846" width="98" height="94"/>
-  <object id="1" x="196" y="846" width="98" height="94"/>
-  <object id="1" x="294" y="846" width="98" height="94"/>
-  <object id="1" x="392" y="846" width="98" height="94"/>
-  <object id="1" x="490" y="846" width="98" height="94"/>
-  <object id="1" x="588" y="846" width="98" height="94"/>
-  <object id="1" x="686" y="846" width="98" height="94"/>
-  <object id="1" x="784" y="846" width="98" height="94"/>
-  <object id="1" x="882" y="846" width="98" height="94"/>
-  <object id="1" x="0" y="940" width="98" height="94"/>
-  <object id="1" x="98" y="940" width="98" height="94"/>
-  <object id="1" x="196" y="940" width="98" height="94"/>
-  <object id="1" x="294" y="940" width="98" height="94"/>
-  <object id="1" x="392" y="940" width="98" height="94"/>
-  <object id="1" x="490" y="940" width="98" height="94"/>
-  <object id="1" x="588" y="940" width="98" height="94"/>
-  <object id="1" x="686" y="940" width="98" height="94"/>
-  <object id="1" x="784" y="940" width="98" height="94"/>
-  <object id="1" x="882" y="940" width="98" height="94"/>
-  <object id="1" x="0" y="1034" width="98" height="94"/>
-  <object id="1" x="98" y="1034" width="98" height="94"/>
-  <object id="1" x="196" y="1034" width="98" height="94"/>
-  <object id="1" x="294" y="1034" width="98" height="94"/>
-  <object id="1" x="392" y="1034" width="98" height="94"/>
-  <object id="1" x="490" y="1034" width="98" height="94"/>
-  <object id="1" x="588" y="1034" width="98" height="94"/>
-  <object id="1" x="686" y="1034" width="98" height="94"/>
-  <object id="1" x="784" y="1034" width="98" height="94"/>
-  <object id="1" x="882" y="1034" width="98" height="94"/>
-  <object id="1" x="0" y="1128" width="98" height="94"/>
-  <object id="1" x="98" y="1128" width="98" height="94"/>
-  <object id="1" x="196" y="1128" width="98" height="94"/>
-  <object id="1" x="294" y="1128" width="98" height="94"/>
-  <object id="1" x="392" y="1128" width="98" height="94"/>
-  <object id="1" x="490" y="1128" width="98" height="94"/>
-  <object id="1" x="588" y="1128" width="98" height="94"/>
-  <object id="1" x="686" y="1128" width="98" height="94"/>
-  <object id="1" x="784" y="1128" width="98" height="94"/>
-  <object id="1" x="882" y="1128" width="98" height="94"/>
-  <object id="1" x="0" y="1222" width="98" height="94"/>
-  <object id="1" x="98" y="1222" width="98" height="94"/>
-  <object id="1" x="196" y="1222" width="98" height="94"/>
-  <object id="1" x="294" y="1222" width="98" height="94"/>
-  <object id="1" x="392" y="1222" width="98" height="94"/>
-  <object id="1" x="490" y="1222" width="98" height="94"/>
-  <object id="1" x="588" y="1222" width="98" height="94"/>
-  <object id="1" x="686" y="1222" width="98" height="94"/>
-  <object id="1" x="784" y="1222" width="98" height="94"/>
-  <object id="1" x="882" y="1222" width="98" height="94"/>
-  <object id="1" x="0" y="1316" width="98" height="94"/>
-  <object id="1" x="98" y="1316" width="98" height="94"/>
-  <object id="1" x="196" y="1316" width="98" height="94"/>
-  <object id="1" x="294" y="1316" width="98" height="94"/>
-  <object id="1" x="392" y="1316" width="98" height="94"/>
-  <object id="1" x="490" y="1316" width="98" height="94"/>
-  <object id="1" x="588" y="1316" width="98" height="94"/>
-  <object id="1" x="686" y="1316" width="98" height="94"/>
-  <object id="1" x="784" y="1316" width="98" height="94"/>
-  <object id="1" x="882" y="1316" width="98" height="94"/>
-  <object id="1" x="0" y="1410" width="98" height="94"/>
-  <object id="1" x="98" y="1410" width="98" height="94"/>
-  <object id="1" x="196" y="1410" width="98" height="94"/>
-  <object id="1" x="294" y="1410" width="98" height="94"/>
-  <object id="1" x="392" y="1410" width="98" height="94"/>
-  <object id="1" x="490" y="1410" width="98" height="94"/>
-  <object id="1" x="588" y="1410" width="98" height="94"/>
-  <object id="1" x="686" y="1410" width="98" height="94"/>
-  <object id="1" x="784" y="1410" width="98" height="94"/>
-  <object id="1" x="882" y="1410" width="98" height="94"/>
-  <object id="1" x="0" y="1504" width="98" height="94"/>
-  <object id="1" x="98" y="1504" width="98" height="94"/>
-  <object id="1" x="196" y="1504" width="98" height="94"/>
-  <object id="1" x="294" y="1504" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="490" y="752" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="588" y="752" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="686" y="752" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="784" y="752" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="882" y="752" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="0" y="846" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="98" y="846" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="196" y="846" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="294" y="846" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="392" y="846" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="490" y="846" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="588" y="846" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="686" y="846" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="784" y="846" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="882" y="846" width="98" height="94"/>
+  <object id="1" name="Death" type="0" x="0" y="940" width="98" height="94"/>
+  <object id="1" name="Death" type="180" x="98" y="940" width="98" height="94"/>
+  <object id="1" name="Death" type="180" x="196" y="940" width="98" height="94"/>
+  <object id="1" name="Death" type="180" x="294" y="940" width="98" height="94"/>
+  <object id="1" name="Death" type="180" x="392" y="940" width="98" height="94"/>
+  <object id="1" name="Death" type="180" x="490" y="940" width="98" height="94"/>
+  <object id="1" name="Death" type="180" x="588" y="940" width="98" height="94"/>
+  <object id="1" name="Death" type="180" x="686" y="940" width="98" height="94"/>
+  <object id="1" name="Death" type="180" x="784" y="940" width="98" height="94"/>
+  <object id="1" name="Death" type="180" x="882" y="940" width="98" height="94"/>
+  <object id="1" name="Death" type="180" x="0" y="1034" width="98" height="94"/>
+  <object id="1" name="Death" type="180" x="98" y="1034" width="98" height="94"/>
+  <object id="1" name="Death" type="180" x="196" y="1034" width="98" height="94"/>
+  <object id="1" name="Death" type="180" x="294" y="1034" width="98" height="94"/>
+  <object id="1" name="Death" type="180" x="392" y="1034" width="98" height="94"/>
+  <object id="1" name="Death" type="180" x="490" y="1034" width="98" height="94"/>
+  <object id="1" name="Shot" type="0" x="588" y="1034" width="98" height="94"/>
+  <object id="1" name="Shot" type="0" x="686" y="1034" width="98" height="94"/>
+  <object id="1" name="Shot" type="0" x="784" y="1034" width="98" height="94"/>
+  <object id="1" name="Shot" type="0" x="882" y="1034" width="98" height="94"/>
+  <object id="1" name="Shot" type="0" x="0" y="1128" width="98" height="94"/>
+  <object id="1" name="Shot" type="0" x="98" y="1128" width="98" height="94"/>
+  <object id="1" name="Shot" type="45" x="196" y="1128" width="98" height="94"/>
+  <object id="1" name="Shot" type="45" x="294" y="1128" width="98" height="94"/>
+  <object id="1" name="Shot" type="45" x="392" y="1128" width="98" height="94"/>
+  <object id="1" name="Shot" type="45" x="490" y="1128" width="98" height="94"/>
+  <object id="1" name="Shot" type="45" x="588" y="1128" width="98" height="94"/>
+  <object id="1" name="Shot" type="45" x="686" y="1128" width="98" height="94"/>
+  <object id="1" name="Shot" type="90" x="784" y="1128" width="98" height="94"/>
+  <object id="1" name="Shot" type="90" x="882" y="1128" width="98" height="94"/>
+  <object id="1" name="Shot" type="90" x="0" y="1222" width="98" height="94"/>
+  <object id="1" name="Shot" type="90" x="98" y="1222" width="98" height="94"/>
+  <object id="1" name="Shot" type="90" x="196" y="1222" width="98" height="94"/>
+  <object id="1" name="Shot" type="90" x="294" y="1222" width="98" height="94"/>
+  <object id="1" name="Shot" type="135" x="392" y="1222" width="98" height="94"/>
+  <object id="1" name="Shot" type="135" x="490" y="1222" width="98" height="94"/>
+  <object id="1" name="Shot" type="135" x="588" y="1222" width="98" height="94"/>
+  <object id="1" name="Shot" type="135" x="686" y="1222" width="98" height="94"/>
+  <object id="1" name="Shot" type="135" x="784" y="1222" width="98" height="94"/>
+  <object id="1" name="Shot" type="135" x="882" y="1222" width="98" height="94"/>
+  <object id="1" name="Shot" type="180" x="0" y="1316" width="98" height="94"/>
+  <object id="1" name="Shot" type="180" x="98" y="1316" width="98" height="94"/>
+  <object id="1" name="Shot" type="180" x="196" y="1316" width="98" height="94"/>
+  <object id="1" name="Shot" type="180" x="294" y="1316" width="98" height="94"/>
+  <object id="1" name="Shot" type="180" x="392" y="1316" width="98" height="94"/>
+  <object id="1" name="Shot" type="180" x="490" y="1316" width="98" height="94"/>
+  <object id="1" name="Shot" type="225" x="588" y="1316" width="98" height="94"/>
+  <object id="1" name="Shot" type="225" x="686" y="1316" width="98" height="94"/>
+  <object id="1" name="Shot" type="225" x="784" y="1316" width="98" height="94"/>
+  <object id="1" name="Shot" type="225" x="882" y="1316" width="98" height="94"/>
+  <object id="1" name="Shot" type="225" x="0" y="1410" width="98" height="94"/>
+  <object id="1" name="Shot" type="225" x="98" y="1410" width="98" height="94"/>
+  <object id="1" name="Shot" type="270" x="196" y="1410" width="98" height="94"/>
+  <object id="1" name="Shot" type="270" x="294" y="1410" width="98" height="94"/>
+  <object id="1" name="Shot" type="270" x="392" y="1410" width="98" height="94"/>
+  <object id="1" name="Shot" type="270" x="490" y="1410" width="98" height="94"/>
+  <object id="1" name="Shot" type="270" x="588" y="1410" width="98" height="94"/>
+  <object id="1" name="Shot" type="270" x="686" y="1410" width="98" height="94"/>
+  <object id="1" name="Shot" type="315" x="784" y="1410" width="98" height="94"/>
+  <object id="1" name="Shot" type="315" x="882" y="1410" width="98" height="94"/>
+  <object id="1" name="Shot" type="315" x="0" y="1504" width="98" height="94"/>
+  <object id="1" name="Shot" type="315" x="98" y="1504" width="98" height="94"/>
+  <object id="1" name="Shot" type="315" x="196" y="1504" width="98" height="94"/>
+  <object id="1" name="Shot" type="315" x="294" y="1504" width="98" height="94"/>
   <object id="1" x="392" y="1504" width="98" height="94"/>
   <object id="1" x="490" y="1504" width="98" height="94"/>
   <object id="1" x="588" y="1504" width="98" height="94"/>
