@@ -1,4 +1,4 @@
-#include "MiniMap.h"
+#include "Minimap.h"
 
 #include "App.h"
 #include "Window.h"
@@ -23,9 +23,8 @@ MiniMap::~MiniMap() {}
 
 bool MiniMap::Awake(pugi::xml_node & config)
 {
-	//PROVISIONAL
-	minimap_width = 100;
-	minimap_height = 50;
+	minimap_width = config.attribute("width").as_int();
+	minimap_height = config.attribute("height").as_int();
 
 	return true;
 }
@@ -38,7 +37,7 @@ bool MiniMap::Start()
 		// Initialize the variable "minimap_scale" to get the relation between the map width and
 		// the minimap width (defined at config.xml and initialized in Awake())
 		map_width = myApp->map->data.width * myApp->map->data.tile_width;
-		minimap_scale =0.1;
+		minimap_scale = minimap_width / map_width;
 
 		x_offset = myApp->map->data.tile_width / 2 * minimap_scale;
 		y_offset = myApp->map->data.tile_height / 2 * minimap_scale;
@@ -52,7 +51,7 @@ bool MiniMap::Start()
 		// Assign it to the variable "map_renderer"
 		map_renderer = SDL_CreateSoftwareRenderer(map_surface);
 
-		tex = myApp->tex->Load("maps/Tileset_Terrain.png", map_renderer);
+		tex = myApp->tex->Load("maps/Tileset_Terrain_test.png", map_renderer);
 	}
 
 	DrawMinimap();
@@ -74,8 +73,8 @@ bool MiniMap::Update(float dt)
 		if (MinimapCoords(map_x, map_y))
 		{
 			// TODO 10: Assign to the center of the camera, the coordinates "map_x" and "map_y"
-			/*myApp->render->camera.x = -map_x + myApp->win->width / 2;
-			myApp->render->camera.y = -map_y + myApp->win->height / 2;*/
+			myApp->render->camera.x = -map_x + myApp->win->width / 2;
+			myApp->render->camera.y = -map_y + myApp->win->height / 2;
 		}
 	}
 
@@ -84,7 +83,7 @@ bool MiniMap::Update(float dt)
 
 bool MiniMap::PostUpdate()
 {
-	myApp->render->Blit(minimap_tex, 0, 0, NULL,SDL_FLIP_NONE, false);
+	myApp->render->Blit(minimap_tex, 0, 0, NULL, SDL_FLIP_NONE, false);
 	MinimapBorders();
 	//DrawEntities();
 	DrawCamera();
@@ -181,7 +180,7 @@ void MiniMap::MinimapBorders()
 //{
 //	int pos_x, pos_y;
 //
-//	for (std::list<j2Entity*>::iterator item = App->entity_manager->entities.begin(); item != App->entity_manager->entities.end(); ++item)
+//	for (std::list<j2Entity*>::iterator item = myApp->entity_manager->entities.begin(); item != myApp->entity_manager->entities.end(); ++item)
 //	{
 //		// TODO 6: Initialize the variables "pos_x" and "pos_y" to get the position of an entity IN the minimap
 //		pos_x = (*item)->position.x * minimap_scale;
@@ -190,11 +189,9 @@ void MiniMap::MinimapBorders()
 //		// TODO 7: Fill the missing parameters of DrawQuad() function.
 //		// Take into account that it is an isometric map
 //		if ((*item)->type == ENTITY_TYPE::ENEMY)
-//			App->render->DrawQuad({ pos_x + minimap_width / 2, pos_y - y_offset, 4, 4 }, 255, 0, 0, 255, true, false);
+//			myApp->render->DrawQuad({ pos_x + minimap_width / 2, pos_y - y_offset, 4, 4 }, 255, 0, 0, 255, true, false);
 //
 //		else if ((*item)->type == ENTITY_TYPE::PLAYER)
-//			App->render->DrawQuad({ pos_x + minimap_width / 2, pos_y - y_offset, 4, 4 }, 0, 255, 0, 255, true, false);
+//			myApp->render->DrawQuad({ pos_x + minimap_width / 2, pos_y - y_offset, 4, 4 }, 0, 255, 0, 255, true, false);
 //	}
 //}
-
-
