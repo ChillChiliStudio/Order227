@@ -1,7 +1,6 @@
 #ifndef TEXT_H
 #define TEXT_H	//@Carles
 
-#include <cstring>
 #include "Image.h"
 #include "SDL\include\SDL_pixels.h"
 
