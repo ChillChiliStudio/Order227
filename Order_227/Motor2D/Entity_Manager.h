@@ -39,7 +39,7 @@ public:
 
 	int UnitsInitialSize = 0;
 
-	bool ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+	Unit* ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
 	bool DeActivateUnit(Unit* Unit);
 	void AllocateUnitsPool(int size);
 	void ReleasePools();

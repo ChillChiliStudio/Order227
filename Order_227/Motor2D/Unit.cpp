@@ -589,6 +589,7 @@ Unit* Unit::EnemyInRange()
 	Unit* ret = nullptr;
 
 	if (hostileUnits.size() > 0) {
+
 		std::list<Unit*>::iterator item = hostileUnits.begin();
 		for (; (*item); item = next(item)) { //TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units, one for each side
 
@@ -603,6 +604,7 @@ Unit* Unit::EnemyInRange()
 			}
 		}
 	}
+
 	return ret;
 }
 

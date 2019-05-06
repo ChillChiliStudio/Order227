@@ -160,10 +160,10 @@ bool Entity_Manager::Update(float dt)
 }
 
 
-bool Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction)
+Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction)
 {
 
-	bool ret = false;
+	bool accomplished = false;
 
 	for (int i = 0; i < UnitsPool.size(); i++) {
 
@@ -191,18 +191,18 @@ bool Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, e
 				UnitsPool[i]->hostileUnits = ActiveCapitalistUnits;
 			}
 
-			ret = true;
-			break;
+			accomplished = true;
+			return UnitsPool[i];
 		}
 	}
 
-	if (ret == false) {
+	if (accomplished == false) {
 
 		AllocateUnitsPool(RESIZE_VALUE);
 		ActivateUnit(position, infantryType, entityFaction);
 	}
 
-	return ret;
+	return nullptr;
 }
 
 
