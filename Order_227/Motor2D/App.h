@@ -94,7 +94,7 @@ public:
 	Player*             player = nullptr;
 	Horde_Manager*		hordes = nullptr;
 
-	bool debugMode = false;
+	bool debugMode;
 	bool mustShutDown = false;
 
 private:

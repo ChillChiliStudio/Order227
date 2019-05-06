@@ -14,6 +14,9 @@ class Check_Box : public Void_Box
 public:
 	//Constructor
 	Check_Box(bool* value, event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent = NULL);
+	Check_Box(bool value, event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent = NULL);
+
+	~Check_Box();
 
 public:
 	//Enable/Disable
@@ -32,7 +35,8 @@ protected:
 
 private:
 	value_state valueStatus;
-	bool* value=nullptr;
+	bool* value = nullptr;
+	bool externalValue = false;
 };
 
 #endif //CHECK_BOX_H

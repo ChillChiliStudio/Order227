@@ -95,6 +95,7 @@ bool App::Awake()
 		app_config = config.child("app");
 		title.assign(app_config.child("title").child_value());
 		organization.assign(app_config.child("organization").child_value());
+		debugMode = app_config.child("debug").attribute("active").as_bool(false);
 	
 		int cap = app_config.attribute("framerate_cap").as_int(-1);
 
@@ -114,6 +115,8 @@ bool App::Awake()
 			ret = (*item)->Awake(config.child((*item)->name.data())); 
 			item = next(item);
 		}
+
+
 	}
 
 	return ret;
