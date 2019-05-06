@@ -61,7 +61,7 @@ public:
 	iPoint mouseScreenPos;
 	iPoint mouseMap;
 
-	Text* mouseDebugMark=nullptr;
+	Text* mouseDebugMark = nullptr;
 	iPoint origin;
 	iPoint rectangle_origin;
 	

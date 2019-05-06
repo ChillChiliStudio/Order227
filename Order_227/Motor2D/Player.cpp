@@ -123,7 +123,7 @@ void Player::DebugMouse()
 void Player::DebugInputs()
 {
 	//Toggle DebugMode
-	if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+	/*if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
 		myApp->debugMode = !myApp->debugMode;
 
 		if (myApp->debugMode == false) {
@@ -135,10 +135,10 @@ void Player::DebugInputs()
 		else {
 			LOG("Debug Mode: ON");
 		}
-	}
+	}*/
 
 	if (myApp->debugMode) {
-		if (myApp->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {	// Toggle Map debug draw
+		if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {	// Toggle Map debug draw
 			myApp->map->mapDebugDraw = !myApp->map->mapDebugDraw;
 
 			if (myApp->map->mapDebugDraw) {
@@ -149,7 +149,7 @@ void Player::DebugInputs()
 			}
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {	// Toggle UI debug draw
+		if (myApp->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {	// Toggle UI debug draw
 			myApp->gui->interfaceDebugDraw = !myApp->gui->interfaceDebugDraw;
 
 			if (myApp->gui->interfaceDebugDraw) {
@@ -162,7 +162,7 @@ void Player::DebugInputs()
 			}
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {	// Toggle Entities debug draw
+		if (myApp->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {	// Toggle Entities debug draw
 			myApp->entities->entitiesDebugDraw = !myApp->entities->entitiesDebugDraw;
 
 			if (myApp->entities->entitiesDebugDraw) {
@@ -173,24 +173,24 @@ void Player::DebugInputs()
 			}
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {	// Insta-Win
+		if (myApp->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {	// Insta-Win
 
 
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {	// Insta-Lose
+		if (myApp->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {	// Insta-Lose
 
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {	// Instantaneous Next Round + Kill all active enemies
+		if (myApp->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {	// Instantaneous Next Round + Kill all active enemies
 
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Spawn Capitalist Unit on Mouse
+		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {	// Spawn Capitalist Unit on Mouse
 			DebugSpawnUnit(infantry_type::BASIC, entity_faction::CAPITALIST);
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
+		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
 			DebugSpawnUnit(infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
 		}
 	}
