@@ -100,19 +100,21 @@ public:
 	void StartHunt(Unit* target);
 	void StartAggroHunt(Unit* target);
 	void StartPatrol(iPoint destination);
+	void ResumePatrol();
+	void ResumeLastOrder();	//Used when aggro has previously interrupted an order
 
 	// Order processing
 	void DoHold(float dt);
 	void DoMove(float dt);
 	void DoHunt(float dt);
+	void DoAggroHunt(float dt);
 	void DoPatrol(float dt);
 
 	// Actions
-	bool Move(float dt);	// Move unit position
-	bool FindEnemies(float dt);
-	void PerformAttack(float dt);
-	void AttackTarget(float dt);
-	void AttackBase(float dt);	//TODO: Hardcoded shit, should work with TryAttack
+	bool Move(float dt);				// Move unit
+	bool FindEnemies(float dt);			// Find nearby enemies depending on aggro
+	void AttackCurrTarget(float dt);	
+	void AttackBase(float dt);	//TODO: Hardcoded shit, should work with FindEnemies/AttackCurrTarget
 	float Hurt(float damage);
 	void Die();
 	//void Kill();
@@ -150,12 +152,12 @@ public:
 	Animation currentAnimation;
 
 	//Sound
-	uint attackSfxId;
+	uint attackSfxId;	// Attack sfx ID
 
 	// Stats
-	float health;
-	uint damage;
-	float cadency;		// Time between attacks in miliseconds
+	float health;		// Health
+	uint damage;		// Damage inflicted on each attack
+	float cadency;		// Miliseconds/Attack (Miliseconds between each attack)
 	Timer attackTimer;	// Attack timer
 
 	// Radius
