@@ -130,9 +130,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>Game Files\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>Game Files\Modules</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -281,9 +278,6 @@
     </ClInclude>
     <ClInclude Include="LifeBarBox.h">
       <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>Game Files\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

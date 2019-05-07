@@ -82,7 +82,6 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonActions.cpp" />
     <ClCompile Include="CheckBox.cpp" />
-    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Entity_Manager.cpp" />
     <ClCompile Include="Fonts.cpp" />
     <ClCompile Include="Geometry.cpp" />
@@ -129,7 +128,6 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonActions.h" />
     <ClInclude Include="CheckBox.h" />
-    <ClInclude Include="Collision.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Entity_Manager.h" />
     <ClInclude Include="Fonts.h" />
