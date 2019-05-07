@@ -81,7 +81,7 @@ public:
 	//Marks if entity exists in world
 	bool active = false;
 
-	//Marks if entity is selected by the player and already stored in a list
+	//Marks if entity is selected by the player and already stored in a list	//TODO: A tree can be selected by the player? A bullet? This should be in Dynamic Class, not here
 	bool selected = false;
 	bool stored = false;
 

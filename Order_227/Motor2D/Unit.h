@@ -147,7 +147,6 @@ public:
 	unit_directions unitDirection = unit_directions::SOUTH_EAST;
 
 	// Animation
-	SDL_Rect selectionRect = { 0, 0, 0, 0 };
 	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
 	Animation currentAnimation;
 

@@ -788,7 +788,7 @@ void Unit::ResumeLastOrder()
 	unitState = unit_state::IDLE;
 
 
-	SetupPath({ centerPos.x, centerPos.y }, aggroDestination);
+	SetupPath({ (int)centerPos.x, (int)centerPos.y }, aggroDestination);
 
 
 	UpdateAnimation();

@@ -36,8 +36,7 @@ public:
 	void ApplyOrders();
 	void OrderHold();
 	void OrderMove();
-	void OrderAttack();
-	void OrderMoveAndAttack();
+	void OrderHunt();
 	void OrderPatrol();
 
 	void PlayerSelect();

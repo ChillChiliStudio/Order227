@@ -82,6 +82,13 @@ void Group::SpreadDestinations(iPoint origDest)
 void Group::TransmitOrders(unit_orders givenOrder)
 {
 	switch (givenOrder) {
+	case unit_orders::HOLD:
+		for (std::list<Unit*>::iterator it = groupUnits.begin(); it != groupUnits.end(); it = next(it)) {
+			if ((*it)->IsDead() == false) {
+				(*it)->StartHold((*it)->destination);
+			}
+		}
+		break;
 	case unit_orders::MOVE:
 		for (std::list<Unit*>::iterator it = groupUnits.begin(); it != groupUnits.end(); it = next(it)) {
 			if ((*it)->IsDead() == false) {
@@ -89,10 +96,10 @@ void Group::TransmitOrders(unit_orders givenOrder)
 			}
 		}
 		break;
-	case unit_orders::MOVE_AND_ATTACK:
+	case unit_orders::HUNT:
 		for (std::list<Unit*>::iterator it = groupUnits.begin(); it != groupUnits.end(); it = next(it)) {
 			if ((*it)->IsDead() == false) {
-				(*it)->StartMoveAndAttack((*it)->destination);
+				(*it)->StartHunt((*it)->destination);
 			}
 		}
 		break;

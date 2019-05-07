@@ -212,12 +212,9 @@ void Player::CheckForOrders()
 		prepOrder = unit_orders::MOVE;
 	}
 	if (myApp->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
-		prepOrder = unit_orders::ATTACK;
+		prepOrder = unit_orders::HUNT;
 	}
 	if (myApp->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
-		prepOrder = unit_orders::MOVE_AND_ATTACK;
-	}
-	if (myApp->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN) {
 		prepOrder = unit_orders::PATROL;
 	}
 }
@@ -229,17 +226,14 @@ void Player::ApplyOrders()
 		case unit_orders::MOVE:
 			OrderMove();
 			break;
-		case unit_orders::ATTACK:
-			OrderAttack();
-			break;
-		case unit_orders::MOVE_AND_ATTACK:
-			OrderMoveAndAttack();
+		case unit_orders::HUNT:
+			OrderHunt();
 			break;
 		case unit_orders::PATROL:
 			OrderPatrol();
 			break;
 		default:
-			OrderMoveAndAttack();
+			OrderMove();
 		}
 	}
 
@@ -269,9 +263,9 @@ void Player::OrderMove()
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::MOVING][0]);
 }
 
-void Player::OrderAttack()
+void Player::OrderHunt()
 {
-	Unit* TryAttack = nullptr;
+	Unit* selectedTarget = nullptr;
 
 	for (int i = 0; i < INFANTRY_ARRAY_SIZE; i++)
 	{
@@ -281,34 +275,25 @@ void Player::OrderAttack()
 			mousePos.y < myApp->entities->CapitalistUnitsArray[i]->UnitRect.y ||
 			mousePos.y > myApp->entities->CapitalistUnitsArray[i]->UnitRect.y + myApp->entities->CommunistUnitsArray[i]->UnitRect.h))
 		{
-			TryAttack = myApp->entities->CapitalistUnitsArray[i];
+			selectedTarget = myApp->entities->CapitalistUnitsArray[i];
 		}
 	}
 
-	if (TryAttack == nullptr) {
-		OrderMoveAndAttack();
+	if (selectedTarget == nullptr) {
+		OrderMove();
 	}
 	else {
 		for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
 		{
 			if ((*it)->IsDead() == false)
 			{
-				(*it)->StartAttack(TryAttack);
+				(*it)->StartHunt(selectedTarget);
 			}
 		}
 
 		std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
 		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::ATTACK][0]);
 	}
-}
-
-void Player::OrderMoveAndAttack()
-{
-	myApp->groups->playerGroup.SpreadDestinations(mousePos);
-	myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE_AND_ATTACK);
-
-	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::MOVING][rand() % 2]);
 }
 
 void Player::OrderPatrol()
