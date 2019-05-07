@@ -33,32 +33,18 @@ bool MiniMap::Start()
 {
 	if (myApp->map->active)
 	{
-		// TODO 1: Initialize the variable "map_width" to obtain the width of the map in pixels
-		// Initialize the variable "minimap_scale" to get the relation between the map width and
-		// the minimap width (defined at config.xml and initialized in Awake())
 		map_width = myApp->map->data.width * myApp->map->data.tile_width;
 		minimap_scale = minimap_width / map_width;
 
 		x_offset = myApp->map->data.tile_width / 2 * minimap_scale;
 		y_offset = myApp->map->data.tile_height / 2 * minimap_scale;
 
-		// TODO 2: Use the function SDL_CreateRGBSurface() to allocate a RGB surface to the variable "map_surface"
-		// The last four parameters should be: 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000 in order to be totally transparent
-		// You have to add the x & y offsets
 		map_surface = SDL_CreateRGBSurface(0, minimap_width + x_offset, minimap_height + y_offset, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
 
-		// TODO 3: Use the function SDL_CreateSoftwareRenderer() to create a 2D software rendering context for a surface
-		// Assign it to the variable "map_renderer"
 		map_renderer = SDL_CreateSoftwareRenderer(map_surface);
 
-		tex = myApp->tex->Load("maps/Tileset_Terrain_test.png", map_renderer);
+		minimap_tex = myApp->tex->Load("maps/minimap_texture.png");
 	}
-
-	DrawMinimap();
-
-	// TODO 5: Use the function SDL_CreateTextureFromSurface to create a texture from an existing surface
-	// Assign it to the variable "map_tex". Use the renderer from render.h
-	minimap_tex = SDL_CreateTextureFromSurface(myApp->render->renderer, map_surface);
 
 	return true;
 }
@@ -72,7 +58,6 @@ bool MiniMap::Update(float dt)
 
 		if (MinimapCoords(map_x, map_y))
 		{
-			// TODO 10: Assign to the center of the camera, the coordinates "map_x" and "map_y"
 			myApp->render->camera.x = -map_x + myApp->win->width / 2;
 			myApp->render->camera.y = -map_y + myApp->win->height / 2;
 		}
@@ -93,7 +78,7 @@ bool MiniMap::PostUpdate()
 
 bool MiniMap::CleanUp()
 {
-	myApp->tex->UnLoad(tex);
+	//myApp->tex->UnLoad(tex);
 	myApp->tex->UnLoad(minimap_tex);
 
 	if (SDL_RenderClear(map_renderer) == 0)
@@ -112,9 +97,6 @@ bool MiniMap::MinimapCoords(int& map_x, int& map_y)
 
 	if (mouse_x >= 0 && mouse_x <= minimap_width && mouse_y >= 0 && mouse_y <= minimap_height)
 	{
-		// TODO 9: Assign to "map_x" and "map_y" the mouse position respect the minimap, to the
-		// position that corresponds to the map
-		// Take into account that it is an isometric map
 		map_x = (mouse_x - minimap_width / 2) / minimap_scale;
 		map_y = mouse_y / minimap_scale;
 	}
@@ -125,43 +107,8 @@ bool MiniMap::MinimapCoords(int& map_x, int& map_y)
 	return true;
 }
 
-void MiniMap::DrawMinimap()
-{
-	std::list<MapLayer*>::const_iterator item = myApp->map->data.layers.cbegin();
-
-	for (; item != myApp->map->data.layers.end(); item = next(item))
-	{
-		MapLayer* layer = *item;
-
-		for (int y = 0; y < myApp->map->data.height; ++y)
-		{
-			for (int x = 0; x < myApp->map->data.width; ++x)
-			{
-				int tile_id = layer->Get(x, y);
-				if (tile_id > 0)
-				{
-					TileSet* tileset = myApp->map->GetTilesetFromTileId(tile_id);
-
-					SDL_Rect r = tileset->GetTileRect(tile_id);
-					iPoint pos = myApp->map->MapToWorld(x, y);
-
-					pos.x *= minimap_scale;
-					pos.y *= minimap_scale;
-
-					// TODO 4: Blit the minimap. You need to pass all the parameters until renderer included.
-					// As it is an isometric map, keep in mind that x == 0 is in the middle of the map.
-					myApp->render->Blit(tex, pos.x + minimap_width / 2, pos.y, &r, SDL_FLIP_NONE, false, minimap_scale, map_renderer);
-				}
-			}
-		}
-	}
-}
-
 void MiniMap::DrawCamera()
 {
-	// TODO 8: Fill the parameters of "map_camera"	to see in the minimap which part of the map are you seeing
-	// Take into account that it is an isometric map
-	// Reminder: The camera values are negative
 	SDL_Rect map_camera = { ((-myApp->render->camera.x)) * minimap_scale + minimap_width / 2, -myApp->render->camera.y * minimap_scale,
 							myApp->render->camera.w * minimap_scale, myApp->render->camera.h * minimap_scale };
 

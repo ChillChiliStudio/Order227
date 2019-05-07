@@ -25,11 +25,9 @@ private:
 	void DrawCamera();
 	void MinimapBorders();
 	//void DrawEntities();
-	void DrawMinimap();
 
 private:
 	SDL_Texture*		minimap_tex = nullptr;
-	SDL_Texture*		tex = nullptr;
 
 	SDL_Surface*		map_surface = nullptr;
 
