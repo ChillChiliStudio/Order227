@@ -37,6 +37,6 @@
     <end/>
   </fonts>
 
-  <minimap width="250" height="125"/>
+  <minimap width="300" height="150"/>
 
 </config>

@@ -1,7 +1,7 @@
 #include "SDL\include\SDL.h"
 #include "App.h"
 #include "Module.h"
-
+#include "Point.h"
 
 struct SDL_Texture;
 struct SDL_Rect;
@@ -29,11 +29,9 @@ private:
 private:
 	SDL_Texture*		minimap_tex = nullptr;
 
-	SDL_Surface*		map_surface = nullptr;
-
-	SDL_Renderer*		map_renderer = nullptr;
-
 	float minimap_scale;
+
+	iPoint minimapPosition;
 
 	int x_offset;
 	int y_offset;

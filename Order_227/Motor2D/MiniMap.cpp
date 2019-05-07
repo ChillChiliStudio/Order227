@@ -17,6 +17,8 @@
 MiniMap::MiniMap()
 {
 	name = "minimap";
+	minimapPosition = {442, 570};
+
 }
 
 MiniMap::~MiniMap() {}
@@ -36,14 +38,10 @@ bool MiniMap::Start()
 		map_width = myApp->map->data.width * myApp->map->data.tile_width;
 		minimap_scale = minimap_width / map_width;
 
-		x_offset = myApp->map->data.tile_width / 2 * minimap_scale;
+		x_offset = myApp->map->data.tile_width / 2 * minimap_scale ;
 		y_offset = myApp->map->data.tile_height / 2 * minimap_scale;
 
-		map_surface = SDL_CreateRGBSurface(0, minimap_width + x_offset, minimap_height + y_offset, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-
-		map_renderer = SDL_CreateSoftwareRenderer(map_surface);
-
-		minimap_tex = myApp->tex->Load("maps/minimap_texture.png");
+		minimap_tex = myApp->tex->Load("maps/minimap2.png");
 	}
 
 	return true;
@@ -68,7 +66,7 @@ bool MiniMap::Update(float dt)
 
 bool MiniMap::PostUpdate()
 {
-	myApp->render->Blit(minimap_tex, 0, 0, NULL, SDL_FLIP_NONE, false);
+	myApp->render->Blit(minimap_tex, minimapPosition.x, minimapPosition.y, NULL, SDL_FLIP_NONE, false);
 	MinimapBorders();
 	//DrawEntities();
 	DrawCamera();
@@ -81,11 +79,7 @@ bool MiniMap::CleanUp()
 	//myApp->tex->UnLoad(tex);
 	myApp->tex->UnLoad(minimap_tex);
 
-	if (SDL_RenderClear(map_renderer) == 0)
-		map_renderer = nullptr;
-
 	SDL_DestroyTexture(minimap_tex);
-	SDL_FreeSurface(map_surface);
 
 	return true;
 }
@@ -95,10 +89,10 @@ bool MiniMap::MinimapCoords(int& map_x, int& map_y)
 	int mouse_x, mouse_y;
 	myApp->input->GetMousePosition(mouse_x, mouse_y);
 
-	if (mouse_x >= 0 && mouse_x <= minimap_width && mouse_y >= 0 && mouse_y <= minimap_height)
+	if (mouse_x >= minimapPosition.x && mouse_x <= minimap_width+ minimapPosition.x && mouse_y >= minimapPosition.y && mouse_y <= minimap_height+minimapPosition.y)
 	{
-		map_x = (mouse_x - minimap_width / 2) / minimap_scale;
-		map_y = mouse_y / minimap_scale;
+		map_x =  ((mouse_x-minimapPosition.x) - minimap_width / 2) / minimap_scale;
+		map_y = (mouse_y-minimapPosition.y) / minimap_scale;
 	}
 
 	else
@@ -109,18 +103,20 @@ bool MiniMap::MinimapCoords(int& map_x, int& map_y)
 
 void MiniMap::DrawCamera()
 {
-	SDL_Rect map_camera = { ((-myApp->render->camera.x)) * minimap_scale + minimap_width / 2, -myApp->render->camera.y * minimap_scale,
-							myApp->render->camera.w * minimap_scale, myApp->render->camera.h * minimap_scale };
+	SDL_Rect map_camera = { minimapPosition.x + ((-myApp->render->camera.x)) * minimap_scale + minimap_width / 2,
+								minimapPosition.y + -myApp->render->camera.y * minimap_scale,
+								 myApp->render->camera.w * minimap_scale,
+								  myApp->render->camera.h * minimap_scale };
 
 	myApp->render->DrawQuad(map_camera, 255, 255, 0, 255, false, false);
 }
 
 void MiniMap::MinimapBorders()
 {
-	myApp->render->DrawLine(x_offset, minimap_height / 2 + y_offset, minimap_width / 2 + x_offset, y_offset, 255, 255, 255, 255, false);
-	myApp->render->DrawLine(minimap_width + x_offset, minimap_height / 2 + y_offset, minimap_width / 2 + x_offset, y_offset, 255, 255, 255, 255, false);
-	myApp->render->DrawLine(minimap_width + x_offset, minimap_height / 2 + y_offset, minimap_width / 2 + x_offset, minimap_height + y_offset, 255, 255, 255, 255, false);
-	myApp->render->DrawLine(x_offset, minimap_height / 2 + y_offset, minimap_width / 2 + x_offset, minimap_height + y_offset, 255, 255, 255, 255, false);
+	myApp->render->DrawLine(minimapPosition.x + x_offset, minimapPosition.y + minimap_height / 2 + y_offset, minimapPosition.x + minimap_width / 2 + x_offset, minimapPosition.y + y_offset, 255, 255, 255, 255, false);
+	myApp->render->DrawLine(minimapPosition.x + minimap_width + x_offset, minimapPosition.y + minimap_height / 2 + y_offset, minimapPosition.x + minimap_width / 2 + x_offset, minimapPosition.y + y_offset, 255, 255, 255, 255, false);
+	myApp->render->DrawLine(minimapPosition.x + minimap_width + x_offset, minimapPosition.y+ minimap_height / 2 + y_offset, minimapPosition.x + minimap_width / 2 + x_offset, minimapPosition.y + minimap_height + y_offset, 255, 255, 255, 255, false);
+	myApp->render->DrawLine(minimapPosition.x + x_offset, minimapPosition.y+ minimap_height / 2 + y_offset, minimapPosition.x + minimap_width / 2 + x_offset, minimapPosition.y + minimap_height + y_offset, 255, 255, 255, 255, false);
 }
 
 //void MiniMap::DrawEntities()
