@@ -13,8 +13,8 @@ LifeBar::LifeBar(fPoint center, Unit* parent,SDL_Texture* tex,ui_type type,float
 	}
 	else
 	{
-		life = &parent->stats.health;
-		totalLife = parent->stats.health;
+		life = &parent->health;
+		totalLife = parent->health;
 		position = { parent->position.x - (LowHealth.w / 2) + 10, parent->position.y - (LowHealth.h / 2) - 6 };
 		Currentparent = parent;
 

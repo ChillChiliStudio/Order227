@@ -47,7 +47,8 @@ class Entity {
 public:
 
 	Entity(fPoint position, entity_type entityType, entity_faction faction = entity_faction::NEUTRAL)
-		: type(entityType), position(position), faction(faction) {}
+		: type(entityType), position(position), centerPos(position), faction(faction)
+	{}
 
 	~Entity() {}
 
@@ -85,11 +86,17 @@ public:
 	bool stored = false;
 
 	//Entity data
-	fPoint			position;
-	SDL_Texture*	texture = nullptr;
+	fPoint			position;	//World Position (should be worldPos)
+	fPoint			centerPos;	//Rect center world position
+
 	entity_faction	faction;
 	entity_type		type;
-	SDL_Rect UnitRect = { (int)position.x, (int)position.y, 60,60 }; //TODO desjarcodear
+
+	SDL_Rect		entityRect;
+	SDL_Rect		spriteRect;
+	SDL_Texture*	texture = nullptr;
+
+	SDL_Rect		UnitRect = { (int)position.x, (int)position.y, 60,60 }; //TODO: "UnitRect" on Entity, wtf
 
 	
 	//IMLPEMENT ANIMATION

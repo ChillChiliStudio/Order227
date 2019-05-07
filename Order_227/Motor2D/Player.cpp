@@ -271,7 +271,7 @@ void Player::OrderMove()
 
 void Player::OrderAttack()
 {
-	Unit* attackTarget = nullptr;
+	Unit* TryAttack = nullptr;
 
 	for (int i = 0; i < INFANTRY_ARRAY_SIZE; i++)
 	{
@@ -281,11 +281,11 @@ void Player::OrderAttack()
 			mousePos.y < myApp->entities->CapitalistUnitsArray[i]->UnitRect.y ||
 			mousePos.y > myApp->entities->CapitalistUnitsArray[i]->UnitRect.y + myApp->entities->CommunistUnitsArray[i]->UnitRect.h))
 		{
-			attackTarget = myApp->entities->CapitalistUnitsArray[i];
+			TryAttack = myApp->entities->CapitalistUnitsArray[i];
 		}
 	}
 
-	if (attackTarget == nullptr) {
+	if (TryAttack == nullptr) {
 		OrderMoveAndAttack();
 	}
 	else {
@@ -293,7 +293,7 @@ void Player::OrderAttack()
 		{
 			if ((*it)->IsDead() == false)
 			{
-				(*it)->StartAttack(attackTarget);
+				(*it)->StartAttack(TryAttack);
 			}
 		}
 
