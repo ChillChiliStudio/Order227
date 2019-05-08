@@ -41,7 +41,7 @@ bool MiniMap::Start()
 		x_offset = myApp->map->data.tile_width / 2 * minimap_scale ;
 		y_offset = myApp->map->data.tile_height / 2 * minimap_scale;
 
-		minimap_tex = myApp->tex->Load("maps/minimap2.png");
+		minimap_tex = myApp->tex->Load("maps/minimap_texture.png");
 	}
 
 	return true;
