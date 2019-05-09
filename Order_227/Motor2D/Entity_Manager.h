@@ -17,7 +17,7 @@
 
 #define TIMES_PER_SEC 5
 #define TROOP_TYPES 2
-#define RESIZE_VALUE 100
+#define RESIZE_VALUE 50
 
 class Entity_Manager : public Module
 {
@@ -61,7 +61,7 @@ public:
 public:
 
 	//Pool sizes
-	int UnitsInitialSize = 0;
+	int unitsPoolSize = 0;
 
 	//Pools
 	std::vector<Entity>			entityPool;

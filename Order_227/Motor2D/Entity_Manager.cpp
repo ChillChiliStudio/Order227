@@ -28,7 +28,7 @@ bool Entity_Manager::Awake(pugi::xml_node& config)
 {
 
 	LOG("AWAKING ENTITY MANAGER");
-	UnitsInitialSize = config.child("units_initial_size").attribute("value").as_int(0);
+	unitsPoolSize = config.child("units_initial_size").attribute("value").as_int(0);
 
 	times_per_sec = TIMES_PER_SEC;
 	update_ms_cycle = 1.0f / (float)times_per_sec;
@@ -113,104 +113,89 @@ bool Entity_Manager::CleanUp() {
 
 	LOG("Clean Up Entity_Manager");
 
-	//Clean Units
-	//if (UnitsPool.size() > 0) {
+	Clean Units
+	if (UnitsPool.size() > 0) {
 
-	//	for (int i = 0; i < UnitsPool.size(); i++)
-	//		RELEASE(UnitsPool[i]);
+		for (int i = 0; i < UnitsPool.size(); i++)
+			RELEASE(UnitsPool[i]);
 
-	//	ActiveCapitalistUnits.clear();
-	//	ActiveCommunistUnits.clear();
-	//	UnitsPool.clear();
-	//}
+		ActiveCapitalistUnits.clear();
+		ActiveCommunistUnits.clear();
+		UnitsPool.clear();
+	}
 
-	////Clean objects
-	//if (ObjectsList.size() > 0) {
+	//Clean objects
+	if (ObjectsList.size() > 0) {
 
-	//	std::list<Static_Object*>::iterator item = ObjectsList.begin();
-	//	for (; (*item); item = next(item))
-	//	{
-	//		(*item)->CleanUp();
-	//		RELEASE(*item);
-	//	}
+		std::list<Static_Object*>::iterator item = ObjectsList.begin();
+		for (; (*item); item = next(item))
+		{
+			(*item)->CleanUp();
+			RELEASE(*item);
+		}
 
-	//	ObjectsList.clear();
-	//}
+		ObjectsList.clear();
+	}
 
-	////Clean Buildings
-	//if (BuildingsList.size() > 0) {
+	//Clean Buildings
+	if (BuildingsList.size() > 0) {
 
-	//	std::list<Building*>::iterator item2 = BuildingsList.begin();
-	//	for (; (*item2); item2 = next(item2))
-	//	{
-	//		(*item2)->CleanUp();
-	//		RELEASE(*item2);
-	//	}
+		std::list<Building*>::iterator item2 = BuildingsList.begin();
+		for (; (*item2); item2 = next(item2))
+		{
+			(*item2)->CleanUp();
+			RELEASE(*item2);
+		}
 
-	//	BuildingsList.clear();
-	//}
+		BuildingsList.clear();
+	}
 
-	////Finally, Clean Entities
-	//EntitiesArray.clear();
+	//Finally, Clean Entities
+	EntitiesArray.clear();
 
 	return true;
 }
 
 void Entity_Manager::AllocateEntityPool()
 {
-	entityPool.reserve(/*entityPoolSize*/UnitsInitialSize);
-
-	for (std::vector<Entity>::iterator it = entityPool.begin(); it != entityPool.end(); it = next(it)) {
-		
-		
-	}
+	entityPool.reserve(/*entityPoolSize*/unitsPoolSize);
 }
 
 void Entity_Manager::AllocateObjectPool()
 {
-	objectPool.reserve(/*objectPoolSize*/UnitsInitialSize);	//IMPROVE: This class should exist for all static objects, entity should be a base class with minimal members
-	
-	for (std::vector<Static_Object>::iterator it = objectPool.begin(); it != objectPool.end(); it = next(it)) {
-
-		if ((*it).selected == true) {
-			int a = 0;
-		}
-	}
+	objectPool.reserve(/*objectPoolSize*/unitsPoolSize);	//IMPROVE: This class should exist for all static objects, entity should be a base class with minimal members
 }
 
 void Entity_Manager::AllocateBuildingPool()
 {
-	buildingPool.reserve(/*buildingPoolSize*/UnitsInitialSize);
-	
+	buildingPool.reserve(/*buildingPoolSize*/unitsPoolSize);
 }
 
 void Entity_Manager::AllocateUnitPool()
 {
-	unitPool.reserve(/*unitPoolSize*/UnitsInitialSize);
-	
+	unitPool.reserve(/*unitPoolSize*/unitsPoolSize);
 }
 
 void Entity_Manager::AllocateHitscanPool()
 {
-	//hitscanPool.reserve(/*hitscanPoolSize*/UnitsInitialSize);
+	//hitscanPool.reserve(/*hitscanPoolSize*/unitsPoolSize);
 	
 }
 
 void Entity_Manager::AllocateRangedPool()
 {
-	//rangedPool.reserve(/*rangedPoolSize*/UnitsInitialSize);
+	//rangedPool.reserve(/*rangedPoolSize*/unitsPoolSize);
 }
 
 void Entity_Manager::AllocateTankPool()
 {
-	//tankPool.reserve(/*tankPoolSize*/UnitsInitialSize);
+	//tankPool.reserve(/*tankPoolSize*/unitsPoolSize);
 }
 
 
 Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction)
 {
-
-	bool accomplished = false;
+	Unit* ret = nullptr;
 
 	for (std::vector<Unit>::iterator item = unitPool.begin(); item != unitPool.end(); item = next(item)) {
 
@@ -225,7 +210,7 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 			(*item).UnitSetup();
 			(*item).currentAnimation = &myApp->entities->animationArray[int(infantryType)][int((*item).unitState)][int((*item).unitDirection)];
 
-			if (entityFaction == entity_faction::CAPITALIST) {
+			/*if (entityFaction == entity_faction::CAPITALIST) {	//TODO-Carles: I'll handle this later
 
 				ActiveCapitalistUnits.push_back(UnitsPool[i]);
 				(*item).hostileUnits = ActiveCommunistUnits;
@@ -236,20 +221,20 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 
 				ActiveCommunistUnits.push_back(UnitsPool[i]);
 				(*item).hostileUnits = ActiveCapitalistUnits;
-			}
+			}*/
 
-			accomplished = true;
-			return UnitsPool[i];
+			ret = &(*item);
 		}
 	}
 
-	if (accomplished == false) {
+	if (ret == nullptr) {
 
-		AllocateUnitsPool(RESIZE_VALUE);
+		unitsPoolSize += RESIZE_VALUE;
+		AllocateUnitPool();
 		ActivateUnit(position, infantryType, entityFaction);
 	}
 
-	return nullptr;
+	return ret;
 }
 
 
