@@ -113,45 +113,7 @@ bool Entity_Manager::CleanUp() {
 
 	LOG("Clean Up Entity_Manager");
 
-	Clean Units
-	if (UnitsPool.size() > 0) {
-
-		for (int i = 0; i < UnitsPool.size(); i++)
-			RELEASE(UnitsPool[i]);
-
-		ActiveCapitalistUnits.clear();
-		ActiveCommunistUnits.clear();
-		UnitsPool.clear();
-	}
-
-	//Clean objects
-	if (ObjectsList.size() > 0) {
-
-		std::list<Static_Object*>::iterator item = ObjectsList.begin();
-		for (; (*item); item = next(item))
-		{
-			(*item)->CleanUp();
-			RELEASE(*item);
-		}
-
-		ObjectsList.clear();
-	}
-
-	//Clean Buildings
-	if (BuildingsList.size() > 0) {
-
-		std::list<Building*>::iterator item2 = BuildingsList.begin();
-		for (; (*item2); item2 = next(item2))
-		{
-			(*item2)->CleanUp();
-			RELEASE(*item2);
-		}
-
-		BuildingsList.clear();
-	}
-
-	//Finally, Clean Entities
-	EntitiesArray.clear();
+	ReleasePools();
 
 	return true;
 }
@@ -238,7 +200,7 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 }
 
 
-bool Entity_Manager::DeActivateUnit(Unit* Unit) {
+bool Entity_Manager::DeActivateUnit(Unit* Unit) {	//TODO: Reseting values shouldn't be necessary as non-active elements are not iterated at any point, and if they become active again these values are or should be overwritten
 
 	Unit->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 	Unit->infantryType = infantry_type::INFANTRY_NONE;
@@ -251,8 +213,7 @@ bool Entity_Manager::DeActivateUnit(Unit* Unit) {
 	Unit->selected = false;
 	Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];
 
-
-	if (Unit->faction == entity_faction::CAPITALIST) {
+	/*if (Unit->faction == entity_faction::CAPITALIST) {	//TODO-Carles: I'll handle this later
 
 		Unit->hostileUnits.clear();
 		Unit->hostileBuildings.clear();
@@ -263,7 +224,7 @@ bool Entity_Manager::DeActivateUnit(Unit* Unit) {
 
 		Unit->hostileUnits.clear();
 		ActiveCommunistUnits.remove(Unit);
-	}
+	}*/
 	
 	return true;
 }
@@ -271,46 +232,41 @@ bool Entity_Manager::DeActivateUnit(Unit* Unit) {
 
 void Entity_Manager::ActivateBuildings()
 {
-	for (std::list<Building*>::iterator item = BuildingsList.begin(); (*item) && *item != nullptr; item = next(item)) {
+	for (std::vector<Building>::iterator item = buildingPool.begin(); item != buildingPool.end(); item = next(item)) {
 
-		if ((*item)->buildingType != building_type::BUILDING_MAX && (*item)->buildingType != building_type::BUILDING_NONE) {
+		if ((*item).buildingType != building_type::BUILDING_MAX && (*item).buildingType != building_type::BUILDING_NONE) {
 
-			if ((*item)->buildingType == building_type::MAIN_BASE) {
+			if ((*item).buildingType == building_type::MAIN_BASE) {	//TODO: Check if this is a workaround or hardcoded
 
-				(*item)->faction == entity_faction::COMMUNIST;
-				mainBase = (*item);
+				(*item).faction == entity_faction::COMMUNIST;
+				mainBase = &(*item);
 			}
 			else
-				(*item)->faction == entity_faction::CAPITALIST;
+				(*item).faction == entity_faction::CAPITALIST;
 
-			(*item)->active = true;
-			(*item)->selected = false;
-			(*item)->texture = buildingsTextures[int((*item)->buildingType)];
+			(*item).active = true;
+			(*item).selected = false;
+			(*item).texture = buildingsTextures[int((*item).buildingType)];
 
 		}
-
-		EntitiesArray.push_back(*item);
 	}
 }
 
 
 void Entity_Manager::ActivateObjects()
 {
-	std::list<Static_Object*>::iterator item = ObjectsList.begin();
-	for (; (*item); item = next(item)) {
+	for (std::vector<Static_Object>::iterator item = objectPool.begin(); item != objectPool.end(); item = next(item)) {
 
-		if ((*item)->objectType != object_type::OBJECT_NONE && (*item)->objectType != object_type::OBJECT_MAX) {
+		if ((*item).objectType != object_type::OBJECT_NONE && (*item).objectType != object_type::OBJECT_MAX) {
 
-			(*item)->active = true;
-			(*item)->selected = false;
-			(*item)->texture = objectTextures[int((*item)->objectType)];
+			(*item).active = true;
+			(*item).selected = false;
+			(*item).texture = objectTextures[int((*item).objectType)];
 
-			if ((*item)->objectType == object_type::TREE)
-				(*item)->UnitRect = SetupTreeType();
+			if ((*item).objectType == object_type::TREE)
+				(*item).UnitRect = SetupTreeType();
 
 		}
-
-		EntitiesArray.push_back(*item);
 	}
 }
 
@@ -462,48 +418,13 @@ SDL_Rect Entity_Manager::SetupTreeType() {
 	return ret;
 }
 
-void Entity_Manager::ReleasePools() {
-
-	if (ActiveCommunistUnits.size() > 0) {
-
-		std::list<Unit*>::iterator item = ActiveCommunistUnits.begin();
-
-		for (; (*item); item = next(item))
-			RELEASE(*item);
-
-		ActiveCommunistUnits.clear();
-	}
-
-	if (ActiveCapitalistUnits.size() > 0) {
-
-		std::list<Unit*>::iterator item = ActiveCapitalistUnits.begin();
-
-		for (; (*item); item = next(item))
-			RELEASE(*item);
-
-		ActiveCapitalistUnits.clear();
-	}
-
-	if (ObjectsList.size() > 0) {
-
-		std::list<Static_Object*>::iterator item = ObjectsList.begin();
-
-		for (; (*item); item = next(item))
-			RELEASE(*item);
-
-		ObjectsList.clear();
-	}
-
-	if (BuildingsList.size() > 0) {
-
-		std::list<Building*>::iterator item = BuildingsList.begin();
-
-		for (; (*item); item = next(item))
-			RELEASE(*item);
-
-		BuildingsList.clear();
-	}
-
-	UnitsPool.clear();
-	EntitiesArray.clear();
+void Entity_Manager::ReleasePools()
+{
+	entityPool.clear();
+	objectPool.clear();
+	buildingPool.clear();
+	unitPool.clear();
+	//hitscanPool.clear();
+	//rangedPool.clear();
+	//tankPool.clear();
 }

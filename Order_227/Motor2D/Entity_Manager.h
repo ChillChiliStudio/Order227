@@ -45,10 +45,10 @@ public:
 	void AllocateHitscanPool();
 	void AllocateRangedPool();
 	void AllocateTankPool();
+	void ReleasePools();
 
 	Unit* ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
 	bool DeActivateUnit(Unit* Unit);
-	void ReleasePools();
 
 	void ActivateBuildings();
 	void ActivateObjects();
