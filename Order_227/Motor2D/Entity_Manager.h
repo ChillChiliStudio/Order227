@@ -37,11 +37,17 @@ public:
 
 public:
 
-	int UnitsInitialSize = 0;
+	//Pools
+	void AllocateEntityPool();
+	void AllocateObjectPool();
+	void AllocateBuildingPool();
+	void AllocateUnitPool();
+	void AllocateHitscanPool();
+	void AllocateRangedPool();
+	void AllocateTankPool();
 
 	Unit* ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
 	bool DeActivateUnit(Unit* Unit);
-	void AllocateUnitsPool(int size);
 	void ReleasePools();
 
 	void ActivateBuildings();
@@ -54,11 +60,21 @@ public:
 
 public:
 
-	//Arrays for Units, Objects & Entities
-	std::vector<Entity*> EntitiesArray;
+	//Pool sizes
+	int UnitsInitialSize = 0;
 
-	/*std::vector<Unit*> CommunistUnitsArray;
-	std::vector<Unit*> CapitalistUnitsArray;*/
+	//Pools
+	std::vector<Entity>			entityPool;
+	std::vector<Static_Object>	objectPool;
+	std::vector<Building>		buildingPool;
+	std::vector<Unit>			unitPool;
+	//std::vector<Hitscan>	hitscanPool;
+	//std::vector<Ranged>		rangedPool;
+	//std::vector<Tank>		tankPool;
+
+	/*OLD
+	std::vector<Unit*> CommunistUnitsArray;
+	std::vector<Unit*> CapitalistUnitsArray;
 	std::vector<Unit*> UnitsPool;
 
 	std::list<Unit*> ActiveCommunistUnits;
@@ -67,6 +83,7 @@ public:
 	//A list for buildings and objects (not need to make it a dynamic array)
 	std::list<Building*> BuildingsList;
 	std::list<Static_Object*> ObjectsList;
+	*/
 
 	//Last Unit activated Pointer
 	Unit *lastUnitActivated = nullptr;

@@ -14,7 +14,9 @@
 
 Entity_Manager::Entity_Manager()
 {
-	name.assign("entities");}
+	name.assign("entities");
+	
+}
 
 
 Entity_Manager::~Entity_Manager()
@@ -30,7 +32,15 @@ bool Entity_Manager::Awake(pugi::xml_node& config)
 
 	times_per_sec = TIMES_PER_SEC;
 	update_ms_cycle = 1.0f / (float)times_per_sec;
-	AllocateUnitsPool(UnitsInitialSize);
+	
+	//Pool Allocation
+	AllocateEntityPool();
+	AllocateObjectPool();
+	AllocateBuildingPool();
+	AllocateUnitPool();
+	AllocateHitscanPool();
+	AllocateRangedPool();
+	AllocateTankPool();
 
 	return true;
 }
@@ -38,7 +48,6 @@ bool Entity_Manager::Awake(pugi::xml_node& config)
 
 bool Entity_Manager::Start()
 {
-
 	//Load textures
 	//infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
 	loadTextures();
@@ -56,55 +65,6 @@ bool Entity_Manager::Start()
 	return true;
 }
 
-
-bool Entity_Manager::CleanUp() {
-
-	LOG("Clean Up Entity_Manager");
-
-	//Clean Units
-	if (UnitsPool.size() > 0) {
-
-		for (int i = 0; i < UnitsPool.size(); i++)
-			RELEASE(UnitsPool[i]);
-
-		ActiveCapitalistUnits.clear();
-		ActiveCommunistUnits.clear();
-		UnitsPool.clear();
-	}
-
-	//Clean objects
-	if (ObjectsList.size() > 0) {
-
-		std::list<Static_Object*>::iterator item = ObjectsList.begin();
-		for (; (*item); item = next(item))
-		{
-			(*item)->CleanUp();
-			RELEASE(*item);
-		}
-
-		ObjectsList.clear();
-	}
-
-	//Clean Buildings
-	if (BuildingsList.size() > 0) {
-
-		std::list<Building*>::iterator item2 = BuildingsList.begin();
-		for (; (*item2); item2 = next(item2))
-		{
-			(*item2)->CleanUp();
-			RELEASE(*item2);
-		}
-
-		BuildingsList.clear();
-	}
-
-	//Finally, Clean Entities
-	EntitiesArray.clear();
-
-	return true;
-}
-
-
 bool Entity_Manager::PreUpdate() {
 
 	do_logic = false;
@@ -114,43 +74,33 @@ bool Entity_Manager::PreUpdate() {
 
 bool Entity_Manager::Update(float dt)
 {
-
 	accumulated_time += dt;
 
-	if (myApp->gui->MainMenuTemp_Image->active != true) {
+	if (myApp->gui->MainMenuTemp_Image->active != true) {	//TODO: This is very hardcoded, we should have a scene workflow
 
 		if (accumulated_time >= update_ms_cycle)
 			do_logic = true;
 
-		std::list<Unit*>::iterator units_item = ActiveCommunistUnits.begin();
-		for (; (*units_item); units_item = next(units_item)) {
+		for (std::vector<Unit>::iterator item = unitPool.begin(); item != unitPool.end(); item = next(item)) {
 
-			if ((*units_item)->active == true)
-				(*units_item)->Update(dt);
-
-			if (do_logic)
-				(*units_item)->FixUpdate(dt);
-		}
-
-		for (units_item = ActiveCapitalistUnits.begin(); (*units_item); units_item = next(units_item)) {
-
-			if ((*units_item)->active == true)
-				(*units_item)->Update(dt);
+			if (item->active == true)
+				item->Update(dt);
 
 			if (do_logic)
-				(*units_item)->FixUpdate(dt);
+				item->FixUpdate(dt);
 		}
 
-		std::list<Building*>::iterator item = BuildingsList.begin();
-		for (; (*item); item = next(item))
-			if ((*item)->active == true)
-				(*item)->Update(dt);
+		for (std::vector<Building>::iterator item = buildingPool.begin(); item != buildingPool.end(); item = next(item)) {
 
-		std::list<Static_Object*>::iterator item2 = ObjectsList.begin();
-		for (; (*item2); item2 = next(item2))
-			if ((*item2)->active == true)
-				(*item2)->Update(dt);
+			if (item->active == true)
+				item->Update(dt);
+		}
 
+		for (std::vector<Static_Object>::iterator item = objectPool.begin(); item != objectPool.end(); item = next(item)) {
+
+			if (item->active == true)
+				item->Update(dt);
+		}
 
 		accumulated_time -= update_ms_cycle;
 		myApp->render->OrderBlit(myApp->render->OrderToRender);
@@ -159,36 +109,133 @@ bool Entity_Manager::Update(float dt)
 	return true;
 }
 
+bool Entity_Manager::CleanUp() {
+
+	LOG("Clean Up Entity_Manager");
+
+	//Clean Units
+	//if (UnitsPool.size() > 0) {
+
+	//	for (int i = 0; i < UnitsPool.size(); i++)
+	//		RELEASE(UnitsPool[i]);
+
+	//	ActiveCapitalistUnits.clear();
+	//	ActiveCommunistUnits.clear();
+	//	UnitsPool.clear();
+	//}
+
+	////Clean objects
+	//if (ObjectsList.size() > 0) {
+
+	//	std::list<Static_Object*>::iterator item = ObjectsList.begin();
+	//	for (; (*item); item = next(item))
+	//	{
+	//		(*item)->CleanUp();
+	//		RELEASE(*item);
+	//	}
+
+	//	ObjectsList.clear();
+	//}
+
+	////Clean Buildings
+	//if (BuildingsList.size() > 0) {
+
+	//	std::list<Building*>::iterator item2 = BuildingsList.begin();
+	//	for (; (*item2); item2 = next(item2))
+	//	{
+	//		(*item2)->CleanUp();
+	//		RELEASE(*item2);
+	//	}
+
+	//	BuildingsList.clear();
+	//}
+
+	////Finally, Clean Entities
+	//EntitiesArray.clear();
+
+	return true;
+}
+
+void Entity_Manager::AllocateEntityPool()
+{
+	entityPool.reserve(/*entityPoolSize*/UnitsInitialSize);
+
+	for (std::vector<Entity>::iterator it = entityPool.begin(); it != entityPool.end(); it = next(it)) {
+		
+		
+	}
+}
+
+void Entity_Manager::AllocateObjectPool()
+{
+	objectPool.reserve(/*objectPoolSize*/UnitsInitialSize);	//IMPROVE: This class should exist for all static objects, entity should be a base class with minimal members
+	
+	for (std::vector<Static_Object>::iterator it = objectPool.begin(); it != objectPool.end(); it = next(it)) {
+
+		if ((*it).selected == true) {
+			int a = 0;
+		}
+	}
+}
+
+void Entity_Manager::AllocateBuildingPool()
+{
+	buildingPool.reserve(/*buildingPoolSize*/UnitsInitialSize);
+	
+}
+
+void Entity_Manager::AllocateUnitPool()
+{
+	unitPool.reserve(/*unitPoolSize*/UnitsInitialSize);
+	
+}
+
+void Entity_Manager::AllocateHitscanPool()
+{
+	//hitscanPool.reserve(/*hitscanPoolSize*/UnitsInitialSize);
+	
+}
+
+void Entity_Manager::AllocateRangedPool()
+{
+	//rangedPool.reserve(/*rangedPoolSize*/UnitsInitialSize);
+}
+
+void Entity_Manager::AllocateTankPool()
+{
+	//tankPool.reserve(/*tankPoolSize*/UnitsInitialSize);
+}
+
 
 Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction)
 {
 
 	bool accomplished = false;
 
-	for (int i = 0; i < UnitsPool.size(); i++) {
+	for (std::vector<Unit>::iterator item = unitPool.begin(); item != unitPool.end(); item = next(item)) {
 
-		if (UnitsPool[i]->active == false) {
+		if ((*item).active == false) {
 
-			UnitsPool[i]->faction = entityFaction;
-			UnitsPool[i]->position = position;
-			UnitsPool[i]->infantryType = infantryType;
-			UnitsPool[i]->texture = infantryTextures[int(infantryType)];
-			UnitsPool[i]->stats = infantryStats[int(infantryType)];
+			(*item).faction = entityFaction;
+			(*item).position = position;
+			(*item).infantryType = infantryType;
+			(*item).texture = infantryTextures[int(infantryType)];
+			(*item).stats = infantryStats[int(infantryType)];
 
-			UnitsPool[i]->UnitSetup();
-			UnitsPool[i]->currentAnimation = &myApp->entities->animationArray[int(infantryType)][int(UnitsPool[i]->unitState)][int(UnitsPool[i]->unitDirection)];
+			(*item).UnitSetup();
+			(*item).currentAnimation = &myApp->entities->animationArray[int(infantryType)][int((*item).unitState)][int((*item).unitDirection)];
 
 			if (entityFaction == entity_faction::CAPITALIST) {
 
 				ActiveCapitalistUnits.push_back(UnitsPool[i]);
-				UnitsPool[i]->hostileUnits = ActiveCommunistUnits;
-				UnitsPool[i]->hostileBuildings = BuildingsList;
+				(*item).hostileUnits = ActiveCommunistUnits;
+				(*item).hostileBuildings = BuildingsList;
 
 			}
 			else if (entityFaction == entity_faction::COMMUNIST) {
 
 				ActiveCommunistUnits.push_back(UnitsPool[i]);
-				UnitsPool[i]->hostileUnits = ActiveCapitalistUnits;
+				(*item).hostileUnits = ActiveCapitalistUnits;
 			}
 
 			accomplished = true;
@@ -239,9 +286,7 @@ bool Entity_Manager::DeActivateUnit(Unit* Unit) {
 
 void Entity_Manager::ActivateBuildings()
 {
-
-	std::list<Building*>::iterator item = BuildingsList.begin();
-	for (; (*item) && *item != nullptr; item = next(item)) {
+	for (std::list<Building*>::iterator item = BuildingsList.begin(); (*item) && *item != nullptr; item = next(item)) {
 
 		if ((*item)->buildingType != building_type::BUILDING_MAX && (*item)->buildingType != building_type::BUILDING_NONE) {
 
@@ -431,21 +476,6 @@ SDL_Rect Entity_Manager::SetupTreeType() {
 
 	return ret;
 }
-
-
-void Entity_Manager::AllocateUnitsPool(int size) {
-
-	for (int i = 0; i < size; ++i) {
-
-		Unit* newUnit = new Unit({ 0,0 }, infantry_type::INFANTRY_NONE, entity_faction::NEUTRAL);
-		newUnit->active = false;
-
-		UnitsPool.push_back(newUnit);
-		EntitiesArray.push_back(newUnit);
-	}
-
-}
-
 
 void Entity_Manager::ReleasePools() {
 
