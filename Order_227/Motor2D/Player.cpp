@@ -12,6 +12,7 @@
 #include "GroupManager.h"
 #include "Unit.h"
 #include "Player.h"
+#include "Window.h"
 
 bool Player::Awake()
 {
@@ -86,18 +87,37 @@ void Player::UpdateMousePos()
 
 void Player::CameraInputs(float dt)
 {
-	//Move Camera
+	iPoint mousePos;
+	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
+
+	//Move camera upwards
 	if (myApp->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-		myApp->render->camera.y += (int)ceil(500 * dt);
+		myApp->render->camera.y += (int)ceil(CAMERA_SPEED  * dt);
 
+	else if (mousePos.y > 0 && mousePos.y < SCREEN_MOVEMENT_MARGIN)
+		myApp->render->camera.y += (int)ceil(CAMERA_SPEED  * dt);
+
+	//Move camera downwards
 	if (myApp->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-		myApp->render->camera.y -= (int)ceil(500 * dt);
+		myApp->render->camera.y -= (int)ceil(CAMERA_SPEED * dt);
 
+	else if (mousePos.y > myApp->win->height - SCREEN_MOVEMENT_MARGIN && mousePos.y < myApp->win->height)
+		myApp->render->camera.y -= (int)ceil(CAMERA_SPEED  * dt);
+
+	//Move camera to the left
 	if (myApp->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		myApp->render->camera.x += (int)ceil(500 * dt);
+		myApp->render->camera.x += (int)ceil(CAMERA_SPEED  * dt);
 
+	else if (mousePos.x > 0 && mousePos.x < SCREEN_MOVEMENT_MARGIN)
+		myApp->render->camera.x += (int)ceil(CAMERA_SPEED  * dt);
+
+	//Move camera to the right
 	if (myApp->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		myApp->render->camera.x -= (int)ceil(500 * dt);
+		myApp->render->camera.x -= (int)ceil(CAMERA_SPEED  * dt);
+
+	else if (mousePos.x > myApp->win->width- SCREEN_MOVEMENT_MARGIN && mousePos.x < myApp->win->width)
+		myApp->render->camera.x -= (int)ceil(CAMERA_SPEED  * dt);
+
 }
 
 void Player::DebugMouse()

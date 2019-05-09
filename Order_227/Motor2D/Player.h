@@ -9,6 +9,8 @@
 //#include "Point.h"
 //#include "SDL/include/SDL.h
 
+#define CAMERA_SPEED 500
+#define SCREEN_MOVEMENT_MARGIN 200
 
 enum class infantry_type;
 enum class entity_faction;
