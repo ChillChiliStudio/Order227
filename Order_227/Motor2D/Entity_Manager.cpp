@@ -120,38 +120,38 @@ bool Entity_Manager::CleanUp() {
 
 void Entity_Manager::AllocateEntityPool()
 {
-	entityPool.reserve(/*entityPoolSize*/unitsPoolSize);
+	entityPool.resize(/*entityPoolSize*/unitsPoolSize);
 }
 
 void Entity_Manager::AllocateObjectPool()
 {
-	objectPool.reserve(/*objectPoolSize*/unitsPoolSize);	//IMPROVE: This class should exist for all static objects, entity should be a base class with minimal members
+	objectPool.resize(/*objectPoolSize*/unitsPoolSize);	//IMPROVE: This class should exist for all static objects, entity should be a base class with minimal members
 }
 
 void Entity_Manager::AllocateBuildingPool()
 {
-	buildingPool.reserve(/*buildingPoolSize*/unitsPoolSize);
+	buildingPool.resize(/*buildingPoolSize*/unitsPoolSize);
 }
 
 void Entity_Manager::AllocateUnitPool()
 {
-	unitPool.reserve(/*unitPoolSize*/unitsPoolSize);
+	unitPool.resize(/*unitPoolSize*/unitsPoolSize);
 }
 
 void Entity_Manager::AllocateHitscanPool()
 {
-	//hitscanPool.reserve(/*hitscanPoolSize*/unitsPoolSize);
+	//hitscanPool.resize(/*hitscanPoolSize*/unitsPoolSize);
 	
 }
 
 void Entity_Manager::AllocateRangedPool()
 {
-	//rangedPool.reserve(/*rangedPoolSize*/unitsPoolSize);
+	//rangedPool.resize(/*rangedPoolSize*/unitsPoolSize);
 }
 
 void Entity_Manager::AllocateTankPool()
 {
-	//tankPool.reserve(/*tankPoolSize*/unitsPoolSize);
+	//tankPool.resize(/*tankPoolSize*/unitsPoolSize);
 }
 
 

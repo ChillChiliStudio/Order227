@@ -37,7 +37,7 @@ public:
 
 public:
 
-	//Pools
+	//Pools	//TODO: With .reserve() we can reserve memory for a vector so if a resize is needed in runtime the memory is already allocated, making the process faster
 	void AllocateEntityPool();
 	void AllocateObjectPool();
 	void AllocateBuildingPool();
@@ -51,9 +51,9 @@ public:
 	bool DeActivateUnit(Unit* Unit);
 
 	void ActivateBuildings();
+	//bool DeActivateBuilding();	//TODO: Do we need this? Erase if not.
 	void ActivateObjects();
-
-	void DestroyEntity(Entity *Entity) {}
+	//void DeActivateBojects();	//TODO: Do we need this? Erase if not.
 
 	bool SetupUnitStats();
 	SDL_Rect SetupTreeType();

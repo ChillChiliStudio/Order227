@@ -49,7 +49,7 @@ void StartGame() {
 	myApp->gui->WinIcon->Deactivate();
 	myApp->entities->mainBase->health = 1000.0f;
 	myApp->entities->mainBase->Start();
-	myApp->entities->AllocateUnitsPool(myApp->entities->UnitsInitialSize);
+	myApp->entities->AllocateUnitPool();
 	//myApp->entities->ResetAll();
 	myApp->hordes->hordeRoundto(0);
 	myApp->player->playerMoney = 300;
