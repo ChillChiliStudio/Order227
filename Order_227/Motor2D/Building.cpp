@@ -6,9 +6,11 @@
 #include "UserInterface.h"
 #include "Text.h"
 
-Building::Building(fPoint position, building_type building_type, entity_faction faction) : Entity(position, entity_type::BUILDING, faction)
+Building::Building()
 {}
 
+Building::Building(fPoint position, building_type building_type, entity_faction faction) : Entity(position, entity_type::BUILDING, faction)
+{}
 
 bool Building::Start() {
 
@@ -17,7 +19,6 @@ bool Building::Start() {
 
 	return true;
 }
-
 
 bool Building::Update(float dt)
 {
@@ -32,13 +33,10 @@ bool Building::Update(float dt)
 	return true;
 }
 
-
 bool Building::CleanUp()
 {
-
 	return true;
 }
-
 
 bool Building::Draw()
 {
@@ -49,14 +47,13 @@ bool Building::Draw()
 	return true;
 }
 
-
 void Building::UpdateBlitOrder() {
 
-	for (int i = 0; i < myApp->entities->EntitiesArray.size(); ++i) {
+	for (int i = 0; i < myApp->entities->entityPool.size(); ++i) {
 
-		if (myApp->entities->EntitiesArray[i] != this) {
+		if (&myApp->entities->entityPool[i] != this) {
 
-			if (this->position.y > myApp->entities->EntitiesArray[i]->position.y)
+			if (this->position.y > myApp->entities->entityPool[i].position.y)
 				order += 1;
 			else
 				order -= 1;

@@ -154,7 +154,7 @@ void GroupManager::AddUnitsPlayerGroup() {
 
 		if ((*item).selected == true && (*item).stored == false) {
 
-			playerGroup.groupUnits.push_back&(*item);
+			playerGroup.groupUnits.push_back(&(*item));
 			(*item).stored = true;
 			LOG("ADD UNIT TO THE GROUP");
 		}

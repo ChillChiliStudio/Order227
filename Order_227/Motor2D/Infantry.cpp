@@ -32,11 +32,11 @@ bool Infantry::Draw() {
 void Infantry::UpdateBlitOrder() {
 
 	//ARRAY
-	for (int i = 0; i < myApp->entities->EntitiesArray.size(); ++i) {
+	for (int i = 0; i < myApp->entities->entityPool.size(); ++i) {
 
-		if (myApp->entities->EntitiesArray[i] != this) {
+		if (&myApp->entities->entityPool[i] != this) {
 
-			if (this->position.y > myApp->entities->EntitiesArray[i]->position.y)
+			if (this->position.y > myApp->entities->entityPool[i].position.y)
 				order += 1;
 			else
 				order -= 1;

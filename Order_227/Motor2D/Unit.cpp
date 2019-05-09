@@ -11,6 +11,9 @@
 #include "UserInterface.h"
 #include "Image.h"
 
+Unit::Unit()
+{};
+
 Unit::Unit(fPoint pos, infantry_type infType, entity_faction faction) : Entity(pos, entity_type::INFANTRY, faction)
 {
 //	LoadEntityData();
@@ -104,11 +107,11 @@ void Unit::UpdateBlitOrder()
 	//	}
 	//}
 
-	for (int i = 0; i < myApp->entities->EntitiesArray.size(); ++i) {
+	for (int i = 0; i < myApp->entities->entityPool.size(); ++i) {
 
-		if (myApp->entities->EntitiesArray[i] != this) {
+		if (&myApp->entities->entityPool[i] != this) {
 
-			if (this->position.y > myApp->entities->EntitiesArray[i]->position.y)
+			if (this->position.y > myApp->entities->entityPool[i].position.y)
 				order += 1;
 			else
 				order -= 1;

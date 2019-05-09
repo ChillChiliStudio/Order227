@@ -83,6 +83,7 @@ class Unit :public Entity
 {
 public:
 
+	Unit();
 	Unit(fPoint pos, infantry_type infType, entity_faction faction = entity_faction::NEUTRAL);
 	~Unit();
 

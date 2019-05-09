@@ -46,6 +46,7 @@ class Entity {
 
 public:
 
+	Entity() {};
 	Entity(fPoint position, entity_type entityType, entity_faction faction = entity_faction::NEUTRAL)
 		: type(entityType), position(position), faction(faction) {}
 

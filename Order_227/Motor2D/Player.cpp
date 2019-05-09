@@ -271,37 +271,32 @@ void Player::OrderMove()
 
 void Player::OrderAttack()
 {
-	Unit* attackTarget = nullptr;
+	Unit* selectedTarget = nullptr;
 
-	std::list<Unit*>::iterator CommunistItem = myApp->entities->ActiveCommunistUnits.begin();
-	std::list<Unit*>::iterator item = myApp->entities->ActiveCapitalistUnits.begin();
-	for (; (*item); item = next(item)) {
-
-		if ((*item)->active == true && (*item)->IsDead() == false && !(mousePos.x < (*item)->UnitRect.x
-			|| mousePos.x >(*item)->UnitRect.x + (*CommunistItem)->UnitRect.w
-			|| mousePos.y <  (*item)->UnitRect.y
-			|| mousePos.y >(*item)->UnitRect.y + (*CommunistItem)->UnitRect.h))
+	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
+		if ((*item).active == true && (*item).faction == entity_faction::CAPITALIST && (*item).IsDead() == false &&
+			!(mousePos.x < (*item).UnitRect.x || mousePos.x >(*item).UnitRect.x + (*item).UnitRect.w
+				|| mousePos.y < (*item).UnitRect.y || mousePos.y >(*item).UnitRect.y + (*item).UnitRect.h))
 		{
-			attackTarget = *item;
+			selectedTarget = &(*item);
+			break;
 		}
-
-		CommunistItem = next(CommunistItem);
 	}
 
-	if (attackTarget == nullptr) {
-		OrderMoveAndAttack();
-	}
-	else {
+	if (selectedTarget != nullptr) {
 		for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
 		{
 			if ((*it)->IsDead() == false)
 			{
-				(*it)->StartAttack(attackTarget);
+				//(*it)->StartHunt(selectedTarget);	//TODO: Uncomment
 			}
 		}
 
 		std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
 		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::ATTACK][0]);
+	}
+	else {
+		OrderMove();
 	}
 }
 

@@ -28,6 +28,7 @@ class Static_Object : public Entity
 {
 public:
 
+	Static_Object();
 	Static_Object(fPoint pos, object_type objectType, entity_faction faction = entity_faction::NEUTRAL);
 	~Static_Object() {}
 

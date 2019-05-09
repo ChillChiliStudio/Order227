@@ -29,6 +29,7 @@ class Building :public Entity
 {
 public:
 
+	Building();
 	Building(fPoint position, building_type baseType, entity_faction faction = entity_faction::NEUTRAL);
 	~Building() {}
 

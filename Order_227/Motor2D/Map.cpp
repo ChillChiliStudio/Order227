@@ -660,21 +660,21 @@ void Map::PlaceGameObjects() {
 				iPoint pos = PointToTile((int)(*item2)->x, (int)(*item2)->y);
 				fPoint fPos = { (float)pos.x, (float)pos.y };
 
-				Building* newBuilding = new Building(fPos, building_type::BUILDING_NONE, entity_faction::FACTION_NONE);
+				Building newBuilding(fPos, building_type::BUILDING_NONE, entity_faction::FACTION_NONE);
 
 				std::list <Properties::Property*> ::iterator itemProp = (*item2)->PropObj.list.begin();
 				for (; itemProp != (*item2)->PropObj.list.end(); itemProp = next(itemProp)) {
 
 					if ((*itemProp)->name == "income")
-						newBuilding->income = (*itemProp)->value;
+						newBuilding.income = (*itemProp)->value;
 					if ((*itemProp)->name == "health")
-						newBuilding->health = (*itemProp)->value;
+						newBuilding.health = (*itemProp)->value;
 					if ((*itemProp)->name == "type")
-						newBuilding->buildingType == (building_type)(*itemProp)->value;
+						newBuilding.buildingType == (building_type)(*itemProp)->value;
 
 				}
 
-				myApp->entities->BuildingsList.push_back(newBuilding);
+				myApp->entities->buildingPool.push_back(newBuilding);
 
 			}
 		}
@@ -690,9 +690,9 @@ void Map::PlaceGameObjects() {
 					 iPoint Aux = PointToTile((int)(*item3)->x, (int)(*item3)->y);
 					 fPoint fPos = fPoint(Aux.x, Aux.y);
 
-					 Static_Object *newStaticObject = new Static_Object(fPos, object_type::TREE, entity_faction::NEUTRAL);
+					 Static_Object newStaticObject(fPos, object_type::TREE, entity_faction::NEUTRAL);
 
-					 myApp->entities->ObjectsList.push_back(newStaticObject);
+					 myApp->entities->objectPool.push_back(newStaticObject);
 				 }
 			 }
 		 }
