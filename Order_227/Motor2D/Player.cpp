@@ -198,7 +198,8 @@ void Player::DebugInputs()
 
 void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: This should work with unit_type alone, enum ramifications like infantry or vehicles unnecesary
 {
-	myApp->entities->ActivateInfantry(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
+	Unit* tmp = myApp->entities->ActivateInfantry(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
+	tmp->StartHold();
 }
 
 void Player::CheckForOrders()
@@ -242,13 +243,7 @@ void Player::ApplyOrders()
 
 void Player::OrderHold()
 {
-	for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
-	{
-		if ((*it)->IsDead() == false)
-		{
-			(*it)->StartHold();
-		}
-	}
+	myApp->groups->playerGroup.TransmitOrders(unit_orders::HOLD);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::COMFIRMATION][rand() % 2]);

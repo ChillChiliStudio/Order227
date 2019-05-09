@@ -71,6 +71,29 @@ enum class unit_directions {
 
 };
 
+struct unit_stats {	// Data imported through xml and depends on Unit type	//IMPROVE: Move inside Unit
+
+		// Stats
+	float health;		// Health
+	uint damage;		// Damage inflicted on each attack
+	float cadency;		// Miliseconds/Attack (Miliseconds between each attack)
+
+	// Radius
+	uint attackRadius;	//Distance to attack
+	uint visionRadius;	//Distance to see
+
+	// Speed
+	float linSpeed;	// Absolute speed
+
+	//Sound
+	uint attackSfxId;	// Attack sfx ID
+
+	// Spawn
+	int cost;
+	int productionTime;
+	int unitThreat;
+};
+
 class Unit :public Entity
 {
 public:
@@ -139,6 +162,9 @@ public:
 
 	bool onCamera = false;
 
+	// Stats
+	unit_stats stats;
+
 	// State flags
 	unit_state unitState = unit_state::IDLE;
 	unit_orders unitOrders = unit_orders::HOLD;		// Primary player-given orders
@@ -150,21 +176,7 @@ public:
 	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
 	Animation currentAnimation;
 
-	//Sound
-	uint attackSfxId;	// Attack sfx ID
-
-	// Stats
-	float health;		// Health
-	uint damage;		// Damage inflicted on each attack
-	float cadency;		// Miliseconds/Attack (Miliseconds between each attack)
-	Timer attackTimer;	// Attack timer
-
-	// Radius
-	uint attackRadius;	//Distance to attack
-	uint visionRadius;	//Distance to see
-
 	// Speed
-	float linSpeed;	// Absolute speed
 	fVec2 vecSpeed;	// Vectorial speed
 	float vecAngle;	// Vector angle in reference with North-directed reference vector
 
@@ -177,7 +189,7 @@ public:
 	//Aggro
 	iPoint aggroDestination;		// Destination of secondary aggro path
 	unit_orders prevOrder;			// Order given before aggro
-	Unit* aggroTarget;				// Aggro-created target
+	Unit* aggroTarget = nullptr;	// Aggro-created target
 	bool aggroTriggered = false;	// Aggro flag
 
 	// Attack
@@ -187,17 +199,14 @@ public:
 	Unit* huntTarget = nullptr;				// Fixed hunt target
 	bool targetLost;						// Marks lost vision of hunt target
 
+	Timer attackTimer;	// Attack timer
+
 	// Death
 	uint32 timeToDespawn = 5000;	//TODO: Hardcoded value, should be read through xml
 	Timer despawnTimer;
 	bool mustDespawn = false;
-	
-	// Spawn
-	int cost;
-	int productionTime;
-	int unitThreat;
 
-	//TODO: Shit to erase
+	//TODO: Erase this
 	infantry_type infantryType;
 };
 

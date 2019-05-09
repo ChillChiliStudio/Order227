@@ -10,22 +10,23 @@
 #include "Audio.h"
 
 Unit::Unit(fPoint pos, entity_type entityType, entity_faction faction) : Entity(pos, entityType, faction)
-{
-//	LoadEntityData();
-	attackSfxId = myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::SHOT][2];	//TODO: Hardcoded audio value, this should be get by an XML
-}
+{}
 
 Unit::~Unit()
 {}
 
 bool Unit::Start()
 {
+	//centerPos = { position.x + UnitRect.w / 2, position.y + UnitRect.y / 2 };
+
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
 
 	unitState = unit_state::IDLE;
 	unitOrders = unit_orders::HOLD;
 	unitDirection = unit_directions::SOUTH_EAST;
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
+
+	stats.attackSfxId = myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::SHOT][2];	//TODO: Hardcoded audio value, this should be get by an XML
 
 	return true;
 }
@@ -257,7 +258,7 @@ void Unit::DoHold(float dt)
 	}
 	if (FindEnemies(dt) == false) {
 		if (faction == entity_faction::CAPITALIST && BaseInRange()) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
-			AttackBase(dt);	//TODO: Should be AttackCurrTarget, not base specifically
+			//AttackBase(dt);	//TODO: Should be AttackCurrTarget, not base specifically
 		}
 	}
 }
@@ -274,7 +275,7 @@ void Unit::DoMove(float dt)
 		}
 	}
 	else if (FindEnemies(dt) == false) {
-		if (NodeReached() == true) {
+		if (NodeReached() == false) {
 			Move(dt);
 		}
 		else {
@@ -317,7 +318,7 @@ void Unit::DoHunt(float dt)
 				}
 			}
 			else if (FindEnemies(dt) == false) {
-				if (NodeReached() == true) {
+				if (NodeReached() == false) {
 					Move(dt);
 				}
 				else {
@@ -361,7 +362,7 @@ void Unit::DoAggroHunt(float dt)
 				}
 			}
 			else if (FindEnemies(dt) == false) {
-				if (NodeReached() == true) {
+				if (NodeReached() == false) {
 					Move(dt);
 				}
 				else {
@@ -382,6 +383,7 @@ void Unit::DoAggroHunt(float dt)
 		}
 	}
 	else {
+		aggroTarget = nullptr;
 		ResumeLastOrder();
 	}
 }
@@ -398,7 +400,7 @@ void Unit::DoPatrol(float dt)
 		}
 	}
 	else if (FindEnemies(dt) == false) {
-		if (NodeReached() == true) {
+		if (NodeReached() == false) {
 			Move(dt);
 		}
 		else {
@@ -419,8 +421,8 @@ bool Unit::Move(float dt)
 {
 	position.x += (vecSpeed.x * dt);
 	position.y += (vecSpeed.y * dt);
-	centerPos.x += (vecSpeed.x * dt);
-	centerPos.y += (vecSpeed.y * dt);
+	//centerPos.x += (vecSpeed.x * dt);
+	//centerPos.y += (vecSpeed.y * dt);
 
 	unitState = unit_state::MOVING;
 	return true;
@@ -431,13 +433,13 @@ bool Unit::FindEnemies(float dt)
 	bool ret = false;
 
 	if (unitAggro > unit_aggro::PASSIVE) {
-		currTarget = EnemyInRadius(attackRadius);
+		currTarget = EnemyInRadius(stats.attackRadius);
 		if (currTarget != nullptr) {
 			AttackCurrTarget(dt);
 			ret = true;
 		}
 		else if (unitAggro == unit_aggro::AGRESSIVE && aggroTriggered == false) {
-			aggroTarget = EnemyInRadius(visionRadius);
+			aggroTarget = EnemyInRadius(stats.visionRadius);
 			if (aggroTarget != nullptr) {
 				StartAggroHunt(aggroTarget);
 				ret = true;
@@ -450,7 +452,7 @@ bool Unit::FindEnemies(float dt)
 
 void Unit::AttackCurrTarget(float dt)
 {
-	fVec2 targetDirection = GetVector2(centerPos, currTarget->centerPos);
+	fVec2 targetDirection = GetVector2(position, currTarget->position);
 	unit_directions lastDirection = unitDirection;
 	CheckDirection(targetDirection);
 
@@ -458,14 +460,14 @@ void Unit::AttackCurrTarget(float dt)
 		UpdateAnimation();
 	}
 
-	currTarget->Hurt((float)damage * dt);
+	currTarget->Hurt((float)stats.damage * dt);
 	
 	if (unitState != unit_state::ATTACKING) {
 		attackTimer.Start();
 		unitState = unit_state::ATTACKING;
 	}
-	else if (attackTimer.Read() > cadency) {
-		myApp->audio->PlayFx(attackSfxId);
+	else if (attackTimer.Read() > stats.cadency) {
+		myApp->audio->PlayFx(stats.attackSfxId);
 		attackTimer.Start();
 	}
 }
@@ -484,7 +486,7 @@ void Unit::AttackBase(float dt)
 		UpdateAnimation();
 	}
 
-	myApp->entities->mainBase->health -= (float)(damage * dt);
+	myApp->entities->mainBase->health -= (float)(stats.damage * dt);
 
 	if (myApp->entities->mainBase->health < 0) {
 		//TODO: Lose flag
@@ -498,13 +500,13 @@ void Unit::AttackBase(float dt)
 
 float Unit::Hurt(float damage)
 {
-	health -= damage;
+	stats.health -= damage;
 
-	if (health <= 0.0f) {
+	if (stats.health <= 0.0f) {
 		Die();
 	}
 
-	return health;
+	return stats.health;
 }
 
 void Unit::Die()
@@ -520,19 +522,20 @@ void Unit::Die()
 // Unit Data
 bool Unit::IsDead()
 {
-	if (health <= 0.0f || unitState == unit_state::DEAD) {
-		return true;
+	bool ret = false;
+
+	if (unitState == unit_state::DEAD || stats.health <= 0.0f) {
+		ret = true;
 	}
-	else {
-		return false;
-	}
+
+	return ret;
 }
 
 bool Unit::InsideCamera()
 {
 	bool ret = false;
 
-	if (myApp->render->InsideCamera({ (int)centerPos.x,(int)centerPos.y, UnitBlitRect.w, UnitBlitRect.h }) == true) {
+	if (myApp->render->InsideCamera({ (int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h }) == true) {
 		ret = true;
 	}
 
@@ -549,23 +552,23 @@ bool Unit::NodeReached()
 	bool ret = false;
 
 	if (vecSpeed.x > 0.0f) {
-		if (centerPos.x >= (float)currNode->x) {
+		if (position.x >= (float)currNode->x) {
 			ret = true;
 		}
 	}
 	else if (vecSpeed.x < 0.0f) {
-		if (centerPos.x <= (float)currNode->x) {
+		if (position.x <= (float)currNode->x) {
 			ret = true;
 		}
 	}
 
 	if (vecSpeed.y > 0.0f) {
-		if (centerPos.y >= (float)currNode->y) {
+		if (position.y >= (float)currNode->y) {
 			ret = true;
 		}
 	}
 	else if (vecSpeed.y < 0.0f) {
-		if (centerPos.y <= (float)currNode->y) {
+		if (position.y <= (float)currNode->y) {
 			ret = true;
 		}
 	}
@@ -638,8 +641,8 @@ bool Unit::BaseInRange()
 	fPoint trueBasePos = { myApp->entities->mainBase->position.x + 100, myApp->entities->mainBase->position.y + 70 };
 
 	//TODO: Hardcoded bullshit, building should be generic, subclasses called "StrategicPoint", "MainBase", "Turret", etc
-	if (InsideSquareRadius(position, (float)attackRadius, trueBasePos)
-		&& InsideRadius(position, (float)attackRadius, trueBasePos))
+	if (InsideSquareRadius(position, (float)stats.attackRadius, trueBasePos)
+		&& InsideRadius(position, (float)stats.attackRadius, trueBasePos))
 	{
 		ret = true;
 	}
@@ -649,7 +652,7 @@ bool Unit::BaseInRange()
 
 bool Unit::TargetInRange(Unit* target)
 {
-	return InsideRadius(position, (float)attackRadius, target->position);
+	return InsideRadius(position, (float)stats.attackRadius, target->position);
 }
 
 void Unit::SetupPath(iPoint origin, iPoint destination)
@@ -676,14 +679,14 @@ fVec2 Unit::SetupVecSpeed()
 
 	vecSpeed = GetVector2(position, nodePos);
 	vecSpeed = vecSpeed.GetUnitVector();
-	vecSpeed *= linSpeed;
+	vecSpeed *= stats.linSpeed;
 	return vecSpeed;
 }
 
 // Order calling
 void Unit::StartHold()
 {
-	origin = destination = { (int)centerPos.x, (int)centerPos.y };
+	origin = destination = { (int)position.x, (int)position.y };
 
 	unitOrders = unit_orders::HOLD;
 	unitState = unit_state::IDLE;
@@ -693,7 +696,7 @@ void Unit::StartHold()
 
 void Unit::StartMove(iPoint destination)
 {
-	origin = { (int)centerPos.x, (int)centerPos.y };
+	origin = { (int)position.x, (int)position.y };
 	this->destination = destination;
 
 	SetupPath(origin, destination);
@@ -709,8 +712,8 @@ void Unit::StartHunt(Unit* target)
 	this->huntTarget = target;
 	targetLost = false;
 
-	origin = { (int)centerPos.x, (int)centerPos.y };
-	this->destination = { (int)target->centerPos.x, (int)target->centerPos.y };
+	origin = { (int)position.x, (int)position.y };
+	this->destination = { (int)target->position.x, (int)target->position.y };
 
 	SetupPath(origin, destination);
 
@@ -725,9 +728,9 @@ void Unit::StartAggroHunt(Unit* target)	//NOTE: We don't touch origin or destina
 	this->aggroTarget = target;
 	targetLost = false;
 
-	aggroDestination = { (int)target->centerPos.x, (int)target->centerPos.y };
+	aggroDestination = { (int)target->position.x, (int)target->position.y };
 
-	SetupPath({ (int)centerPos.x, (int)centerPos.y }, aggroDestination);
+	SetupPath({ (int)position.x, (int)position.y }, aggroDestination);
 
 	if (aggroTriggered == false) {	// If it's the fist time aggro-hunting, save previous order
 		aggroTriggered = true;
@@ -742,7 +745,7 @@ void Unit::StartAggroHunt(Unit* target)	//NOTE: We don't touch origin or destina
 
 void Unit::StartPatrol(iPoint destination)
 {
-	origin = { (int)centerPos.x, (int)centerPos.y };
+	origin = { (int)position.x, (int)position.y };
 	this->destination = destination;
 
 	SetupPath(origin, destination);
@@ -755,7 +758,7 @@ void Unit::StartPatrol(iPoint destination)
 
 void Unit::ResumePatrol()
 {
-	SetupPath({ (int)centerPos.x, (int)centerPos.y }, destination);
+	SetupPath({ (int)position.x, (int)position.y }, destination);
 
 	unitOrders = unit_orders::PATROL;
 	unitState = unit_state::IDLE;
@@ -787,9 +790,7 @@ void Unit::ResumeLastOrder()
 	unitOrders = unit_orders::HUNT;
 	unitState = unit_state::IDLE;
 
-
-	SetupPath({ (int)centerPos.x, (int)centerPos.y }, aggroDestination);
-
+	SetupPath({ (int)position.x, (int)position.y }, aggroDestination);
 
 	UpdateAnimation();
 

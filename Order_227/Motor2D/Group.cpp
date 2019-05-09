@@ -23,7 +23,6 @@ Group::~Group()
 
 void Group::SpreadDestinations(iPoint origDest)
 {
-	
 	iPoint mainDestination = myApp->map->WorldToMap(origDest);
 	
 	if (!myApp->pathfinding->IsWalkable(mainDestination))
@@ -85,7 +84,7 @@ void Group::TransmitOrders(unit_orders givenOrder)
 	case unit_orders::HOLD:
 		for (std::list<Unit*>::iterator it = groupUnits.begin(); it != groupUnits.end(); it = next(it)) {
 			if ((*it)->IsDead() == false) {
-				(*it)->StartHold((*it)->destination);
+				(*it)->StartHold();
 			}
 		}
 		break;
@@ -96,13 +95,13 @@ void Group::TransmitOrders(unit_orders givenOrder)
 			}
 		}
 		break;
-	case unit_orders::HUNT:
-		for (std::list<Unit*>::iterator it = groupUnits.begin(); it != groupUnits.end(); it = next(it)) {
-			if ((*it)->IsDead() == false) {
-				(*it)->StartHunt((*it)->destination);
-			}
-		}
-		break;
+	//case unit_orders::HUNT:
+	//	for (std::list<Unit*>::iterator it = groupUnits.begin(); it != groupUnits.end(); it = next(it)) {
+	//		if ((*it)->IsDead() == false) {
+	//			(*it)->StartHunt((*it)->destination);
+	//		}
+	//	}
+	//	break;
 	case unit_orders::PATROL:
 		for (std::list<Unit*>::iterator it = groupUnits.begin(); it != groupUnits.end(); it = next(it)) {
 			if ((*it)->IsDead() == false) {
