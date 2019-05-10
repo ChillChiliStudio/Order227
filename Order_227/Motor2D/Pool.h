@@ -3,24 +3,35 @@
 
 #include <vector>
 
+//Pool item
+template <class TYPE>
+struct pool_item {
+	TYPE content;
+	bool active = false;
+};
+
+// Pool vector
 template <class TYPE>
 class Pool {
+
+private:
+	std::vector<pool_item<TYPE>> poolVec;
+	unsigned int activeMembers;
 
 public:
 	Pool() : activeMembers(0) {}
 	Pool(unsigned int startSize) : activeMembers(0)
 	{
-		elementVector.resize(startSize);
-		activeVector.resize(startSize);
+		poolVec.resize(startSize);
 
-		for (int i = 0; i < activeVector.size(); i++) {
-			activeVector[i] = false;
+		for (int i = 0; i < poolVec.size(); i++) {
+			poolVec[i].active = false;
 		}
 	}
 
 	TYPE operator[](unsigned int pos)	//Get element at pos
 	{
-		return elementVector[pos];
+		return poolVec[pos].content;
 	}
 
 	unsigned int GetActiveSize()
@@ -30,24 +41,22 @@ public:
 
 	void resize(int newSize)	//Resize Pool
 	{
-		if (newSize < elementVector.size()) {
-			for (int i = newSize; i < activeVector.size(); i++) {
-				if (activeVector[i] == true) {
+		if (newSize < poolVec.size()) {
+			for (int i = newSize; i < poolVec.size(); i++) {
+				if (poolVec[i].active == true) {
 					activeMembers--;
 				}
 			}
 
-			elementVector.resize(newSize);
-			activeVector.resize(newSize);
+			poolVec.resize(newSize);
 		}
-		else if (newSize > elementVector.size()) {
-			int prevSize = activeVector.size();
+		else if (newSize > poolVec.size()) {
+			int prevSize = poolVec.size();
 
-			elementVector.resize(newSize);
-			activeVector.resize(newSize);
+			poolVec.resize(newSize);
 
-			for (int i = prevSize; i < activeVector.size(); i++) {
-				activeVector[i] = false;
+			for (int i = prevSize; i < poolVec.size(); i++) {
+				poolVec[i].active = false;
 			}
 		}
 	}
@@ -56,8 +65,8 @@ public:
 	{
 		int ret = -1;
 
-		for (int i = 0; i < elementVector.size(); i++) {
-			if (&elementVector[i] == &elemPtr) {
+		for (int i = 0; i < poolVec.size(); i++) {
+			if (&poolVec[i].content == &elemPtr) {
 				ret = i;
 				break;
 			}
@@ -70,8 +79,8 @@ public:
 	{
 		TYPE ret;
 
-		if (pos < elementVector.size()) {
-			ret = elementVector.at(pos);
+		if (pos < poolVec.size()) {
+			ret = poolVec.at(pos).content;
 		}
 
 		return ret;
@@ -79,8 +88,8 @@ public:
 	
 	void fill(TYPE elem)	//Fill Pool with copies of a reference element
 	{
-		for (int i = 0; i < elementVector.size(); i++) {
-			elementVector[i] = elem;
+		for (int i = 0; i < poolVec.size(); i++) {
+			poolVec[i].content = elem;
 		}
 	}
 
@@ -88,10 +97,10 @@ public:
 	{
 		int ret = -1;
 
-		for (int i = 0; i < activeVector.size(); i++) {
-			if (activeVector[i] == false) {
-				elementVector[i] = elem;
-				activeVector[i] = true;
+		for (int i = 0; i < poolVec.size(); i++) {
+			if (poolVec[i].active == false) {
+				poolVec[i].content = elem;
+				poolVec[i].active = true;
 				activeMembers++;
 				ret = i;
 				break;
@@ -105,9 +114,9 @@ public:
 	{
 		TYPE* ret = nullptr;
 
-		if (pos < activeVector.size()) {
-			activeVector[pos] = false;
-			ret = &elementVector[pos];
+		if (pos < poolVec.size()) {
+			poolVec[pos].active = false;
+			ret = &poolVec[pos].content;
 			activeMembers--;
 		}
 
@@ -119,7 +128,7 @@ public:
 		int ret = find(elemPtr);
 
 		if (ret >= 0) {
-			activeVector[ret] = false;
+			poolVec[ret].active = false;
 			activeMembers--;
 		}
 
@@ -130,9 +139,9 @@ public:
 	{
 		TYPE* ret = nullptr;
 
-		if (pos < activeVector.size()) {
-			activeVector[pos] = true;
-			ret = &elementVector[pos];
+		if (pos < poolVec.size()) {
+			poolVec[pos].active = true;
+			ret = &poolVec[pos].content;
 			activeMembers++;
 		}
 
@@ -144,7 +153,7 @@ public:
 		int ret = find(elemPtr);
 
 		if (ret >= 0) {
-			activeVector[ret] = true;
+			poolVec[ret].active = true;
 			activeMembers++;
 		}
 
@@ -155,8 +164,8 @@ public:
 	{
 		int ret = -1;
 
-		for (int i = 0; i < activeVector.size(); i++) {
-			if (activeVector[i] == false) {
+		for (int i = 0; i < poolVec.size(); i++) {
+			if (poolVec[i].active == false) {
 				ret = i;
 				break;
 			}
@@ -169,9 +178,9 @@ public:
 	{
 		TYPE* ret = nullptr;
 
-		for (int i = 0; i < activeVector.size(); i++) {
-			if (activeVector[i] == false) {
-				ret = &elementVector[i];
+		for (int i = 0; i < poolVec.size(); i++) {
+			if (poolVec[i].active == false) {
+				ret = &poolVec[i].content;
 				break;
 			}
 		}
@@ -183,8 +192,8 @@ public:
 	{
 		bool ret = false;
 
-		if (pos < activeVector.size()) {
-			ret = activeVector[pos];
+		if (pos < poolVec.size()) {
+			ret = poolVec[pos].active;
 		}
 		
 		return ret;
@@ -197,16 +206,11 @@ public:
 		int i = find(elemPtr);
 		
 		if (i >= 0) {
-			ret = activeVector[i];
+			ret = poolVec[i].active;
 		}
 
 		return ret;
 	}
-
-private:
-	std::vector<TYPE> elementVector;
-	std::vector<bool> activeVector;
-	unsigned int activeMembers;
 };
 
 #endif	//POOL_H
