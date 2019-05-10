@@ -293,7 +293,7 @@ void Unit::DoMove(float dt)
 
 void Unit::DoHunt(float dt)
 {
-	if (huntTarget->IsDead() == false) {
+	if (huntTarget != nullptr && huntTarget->IsDead() == false) {
 		if (huntTarget->IsVisible() == false) {	// If target gets in Fog of War and comes out, restart Attack Order to target
 			targetLost = true;
 		}
@@ -346,7 +346,7 @@ void Unit::DoHunt(float dt)
 
 void Unit::DoAggroHunt(float dt)
 {
-	if (aggroTarget->IsDead() == false) {
+	if (aggroTarget != nullptr && aggroTarget->IsDead() == false) {
 		if (aggroTarget->IsVisible() == false) {	// If target gets in Fog of War and comes out, restart Attack Order to target
 			ResumeLastOrder();
 		}
@@ -511,6 +511,8 @@ float Unit::Hurt(float damage)
 
 void Unit::Die()
 {
+	selected = false;
+
 	despawnTimer.Start();
 	unitOrders = unit_orders::NONE;
 	unitState = unit_state::DEAD;
@@ -652,7 +654,13 @@ bool Unit::BaseInRange()
 
 bool Unit::TargetInRange(Unit* target)
 {
-	return InsideRadius(position, (float)stats.attackRadius, target->position);
+	bool ret = false;
+
+	if (target != nullptr) {
+		ret = InsideRadius(position, (float)stats.attackRadius, target->position);
+	}
+
+	return ret;
 }
 
 void Unit::SetupPath(iPoint origin, iPoint destination)
