@@ -3,14 +3,14 @@
 
 #include <vector>
 
-//Pool item
+//Pool Item Struct
 template <class TYPE>
 struct pool_item {
 	TYPE content;
 	bool active = false;
 };
 
-// Pool vector
+// Pool Vector Class
 template <class TYPE>
 class Pool {
 
