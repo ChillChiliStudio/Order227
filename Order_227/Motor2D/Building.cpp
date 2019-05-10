@@ -65,3 +65,30 @@ void Building::UpdateBlitOrder() {
 		}
 	}
 }
+
+float Building::Hurt(float damage)
+{
+	health -= damage;
+
+	if (health <= 0.0f) {
+		//Die();
+	}
+
+	return health;
+}
+
+bool Building::IsDead()
+{
+	bool ret = false;
+
+	if (health <= 0.0f) {
+		ret = true;
+	}
+
+	return ret;
+}
+
+bool Building::IsVisible()
+{
+	return true;	//TODO: Make function with Fog of War
+}

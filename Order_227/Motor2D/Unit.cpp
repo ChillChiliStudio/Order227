@@ -276,10 +276,8 @@ void Unit::DoHold(float dt)
 			unitState = unit_state::IDLE;
 		}
 	}
-	if (FindEnemies(dt) == false) {
-		if (faction == entity_faction::CAPITALIST && BaseInRange()) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
-			//AttackBase(dt);	//TODO: Should be AttackCurrTarget, not base specifically
-		}
+	else {
+		FindEnemies(dt);
 	}
 }
 
@@ -492,32 +490,6 @@ void Unit::AttackCurrTarget(float dt)
 	}
 }
 
-void Unit::AttackBase(float dt)
-{
-	fPoint trueBasePos = { myApp->entities->mainBase->position.x + 100, myApp->entities->mainBase->position.y + 70 };
-
-	fVec2 targetDirection = GetVector2(position, trueBasePos);
-
-	unit_directions lastDirection = unitDirection;
-
-	CheckDirection(targetDirection);
-
-	if (lastDirection != unitDirection) {
-		UpdateAnimation();
-	}
-
-	myApp->entities->mainBase->health -= (float)(stats.damage * dt);
-
-	if (myApp->entities->mainBase->health < 0) {
-		//TODO: Lose flag
-	}
-
-	if (unitState != unit_state::ATTACKING) {
-		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::SHOT][2]);
-		unitState = unit_state::ATTACKING;
-	}
-}
-
 float Unit::Hurt(float damage)
 {
 	stats.health -= damage;
@@ -608,7 +580,7 @@ bool Unit::DestinationReached()
 	}
 }
 
-bool Unit::TargetDisplaced(Unit* target)
+bool Unit::TargetDisplaced(Entity* target)
 {
 	bool ret = false;
 
@@ -620,20 +592,30 @@ bool Unit::TargetDisplaced(Unit* target)
 }
 
 // Unit Calculations
-Unit* Unit::EnemyInRadius(uint radius)
+Entity* Unit::EnemyInRadius(uint radius)
 {
-	Unit* ret = nullptr;
+	Entity* ret = nullptr;
 
-	if (hostileUnits.size() > 0) {  //TODO-Carles: Fix this after the merge (CARLESTODO)
-		std::list<Unit*>::iterator item = hostileUnits.begin();
-		for (; (*item); item = next(item)) { //TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units, one for each side
+	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
+		if ((*item).active == true && (*item).IsDead() == false && (*item).faction != faction) {
 
-			if ((*item)->active == true && (*item)->IsDead() == false) {
+			if (InsideSquareRadius(position, (float)stats.attackRadius, (*item).position)
+				&& InsideRadius(position, (float)stats.attackRadius, (*item).position))
+			{
+				ret = (Entity*)&(*item);
+				break;
+			}
+		}
+	}
 
-				if (InsideSquareRadius(position, (float)stats.attackRange, (*item)->position)
-					&& InsideRadius(position, (float)stats.attackRange, (*item)->position))
+	if (ret == nullptr && faction == entity_faction::CAPITALIST) {
+		for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); item != myApp->entities->buildingsArray.end(); item = next(item)) {
+			if ((*item).active == true && (*item).IsDead() == false) {
+
+				if (InsideSquareRadius(position, (float)stats.attackRadius, (*item).position)
+					&& InsideRadius(position, (float)stats.attackRadius, (*item).position))
 				{
-					ret = *item;
+					ret = (Entity*)&(*item);
 					break;
 				}
 			}
@@ -643,40 +625,7 @@ Unit* Unit::EnemyInRadius(uint radius)
 	return ret;
 }
 
-bool Unit::BaseInRange()
-{
-	// TODO: Capitalist should iterate an "attackable buildings" list
-	/*if (ret == nullptr && hostileBuildings != nullptr) {
-		for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i) {	//TODO-Carles: This is real fucking messy and expensive on runtime, requires list of active units, one for each side
-			if (hostileUnits[i]->active == true) {
-				if (InsideSquareRadius(position, (float)attackRange, hostileUnits[i]->position) == false) {
-					continue;
-				}
-				else {
-					if (InsideRadius(position, (float)attackRange, hostileUnits[i]->position) == true) {
-						ret = hostileUnits[i];
-						break;
-					}
-				}
-			}
-		}
-	}*/
-
-	bool ret = false;
-
-	fPoint trueBasePos = { myApp->entities->mainBase->position.x + 100, myApp->entities->mainBase->position.y + 70 };
-
-	//TODO: Hardcoded bullshit, building should be generic, subclasses called "StrategicPoint", "MainBase", "Turret", etc
-	if (InsideSquareRadius(position, (float)stats.attackRadius, trueBasePos)
-		&& InsideRadius(position, (float)stats.attackRadius, trueBasePos))
-	{
-		ret = true;
-	}
-
-	return ret;
-}
-
-bool Unit::TargetInRange(Unit* target)
+bool Unit::TargetInRange(Entity* target)
 {
 	bool ret = false;
 
@@ -739,7 +688,7 @@ void Unit::StartMove(iPoint destination)
 	UpdateAnimation();
 }
 
-void Unit::StartHunt(Unit* target)
+void Unit::StartHunt(Entity* target)
 {
 	this->huntTarget = target;
 	targetLost = false;
@@ -755,7 +704,7 @@ void Unit::StartHunt(Unit* target)
 	UpdateAnimation();
 }
 
-void Unit::StartAggroHunt(Unit* target)	//NOTE: We don't touch origin or destination, as it's info related to the previous order we'll use to resume it later
+void Unit::StartAggroHunt(Entity* target)	//NOTE: We don't touch origin or destination, as it's info related to the previous order we'll use to resume it later
 {
 	this->aggroTarget = target;
 	targetLost = false;

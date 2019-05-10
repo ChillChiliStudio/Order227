@@ -198,8 +198,8 @@ void Player::DebugInputs()
 
 void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: This should work with unit_type alone, enum ramifications like infantry or vehicles unnecesary
 {
-	myApp->entities->ActivateUnit(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
-  tmp->StartHold();
+	Unit* tmp = myApp->entities->ActivateUnit(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
+	tmp->StartHold();
 }
 
 void Player::CheckForOrders()

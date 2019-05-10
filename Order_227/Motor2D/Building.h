@@ -40,7 +40,9 @@ public:
 	bool Draw();
 	void UpdateBlitOrder();
 
-
+	virtual float Hurt(float damage);
+	virtual bool IsDead();
+	virtual bool IsVisible();
 
 public:
 

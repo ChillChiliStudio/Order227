@@ -37,6 +37,11 @@ public:
 	bool Draw();
 	void UpdateBlitOrder() override;
 
+	//NOTE from Carles: After several hours of suffering in an attempt to create a new class from entity that had this stuff, I gave up and this is the result
+	virtual float Hurt(float damage) { return 0.0f; };
+	virtual bool IsDead() { return false; };
+	virtual bool IsVisible() { return true; };
+
 	object_type objectType;
 };
 

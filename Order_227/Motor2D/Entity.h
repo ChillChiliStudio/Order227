@@ -76,6 +76,11 @@ public:
 
 
 	virtual bool DebugDraw() { return true; }
+	
+	//TODO-Carles: Tried to make a new class "between" entity and Unit/Building and the bugs that popped out from that mess made me change my mind, fuck that so hard, so I put shit here
+	virtual float Hurt(float damage) = 0;
+	virtual bool IsDead() = 0;
+	virtual bool IsVisible() = 0;
 
 public:
 

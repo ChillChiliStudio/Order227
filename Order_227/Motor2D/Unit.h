@@ -123,8 +123,8 @@ public:
 	//Order calling
 	void StartHold();
 	void StartMove(iPoint destination);
-	void StartHunt(Unit* target);
-	void StartAggroHunt(Unit* target);
+	void StartHunt(Entity* target);
+	void StartAggroHunt(Entity* target);
 	void StartPatrol(iPoint destination);
 	void ResumePatrol();
 	void ResumeLastOrder();	//Used when aggro has previously interrupted an order
@@ -140,7 +140,6 @@ public:
 	bool Move(float dt);				// Move unit
 	bool FindEnemies(float dt);			// Find nearby enemies depending on aggro
 	void AttackCurrTarget(float dt);	
-	void AttackBase(float dt);	//TODO: Hardcoded shit, should work with FindEnemies/AttackCurrTarget
 	float Hurt(float damage);
 	void Die();
 	//void Kill();
@@ -152,17 +151,17 @@ public:
 	bool IsVisible();
 	bool NodeReached();
 	bool DestinationReached();
-	bool TargetDisplaced(Unit* target);
+	bool TargetDisplaced(Entity* target);
 
 	//Unit calculations
 	void SetupPath(iPoint origin, iPoint destination);
 	fVec2 SetupVecSpeed();
-	Unit* EnemyInRadius(uint radius);
-	bool BaseInRange();	//TODO: Should be "building in range" or directly be included inside EnemyInRange
-	bool TargetInRange(Unit* target);
+	Entity* EnemyInRadius(uint radius);
+	bool TargetInRange(Entity* target);
 
 public:
 
+	infantry_type infantryType;
 	bool onCamera = false;
 
 	// Stats
@@ -192,14 +191,12 @@ public:
 	//Aggro
 	iPoint aggroDestination;		// Destination of secondary aggro path
 	unit_orders prevOrder;			// Order given before aggro
-	Unit* aggroTarget = nullptr;	// Aggro-created target
+	Entity* aggroTarget = nullptr;	// Aggro-created target
 	bool aggroTriggered = false;	// Aggro flag
 
 	// Attack
-	Unit** hostileUnits = nullptr;			// List of hostile units
-	Building** hostileBuildings = nullptr;	// List of enemy buildings
-	Unit* currTarget = nullptr;				// Currently attacking target
-	Unit* huntTarget = nullptr;				// Fixed hunt target
+	Entity* currTarget = nullptr;				// Currently attacking target
+	Entity* huntTarget = nullptr;				// Fixed hunt target
 	bool targetLost;						// Marks lost vision of hunt target
 
 	Timer attackTimer;	// Attack timer
