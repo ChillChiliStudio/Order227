@@ -40,15 +40,18 @@ bool Static_Object::Draw()
 void Static_Object::UpdateBlitOrder() {
 
 	//ARRAY
-	for (int i = 0; i < myApp->entities->entityPool.size(); ++i) {
+	for (int i = 0; i < myApp->entities->entitiesVector.size(); ++i) {
 
-		if (&myApp->entities->entityPool[i] != this) {
+		if (myApp->entities->entitiesVector[i] != nullptr) {
 
-			if (this->position.y > myApp->entities->entityPool[i].position.y)
-				order += 1;
-			else
-				order -= 1;
+			if (myApp->entities->entitiesVector[i] != this) {
 
+				if (this->position.y > myApp->entities->entitiesVector[i]->position.y)
+					order += 1;
+				else
+					order -= 1;
+
+			}
 		}
 	}
 }

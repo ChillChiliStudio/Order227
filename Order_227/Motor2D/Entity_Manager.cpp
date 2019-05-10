@@ -15,7 +15,6 @@
 Entity_Manager::Entity_Manager()
 {
 	name.assign("entities");
-	
 }
 
 
@@ -34,7 +33,6 @@ bool Entity_Manager::Awake(pugi::xml_node& config)
 	update_ms_cycle = 1.0f / (float)times_per_sec;
 	
 	//Pool Allocation
-	AllocateEntityPool();
 	AllocateUnitPool();
 	AllocateHitscanPool();
 	AllocateRangedPool();
@@ -54,6 +52,8 @@ bool Entity_Manager::Start()
 	//Activate Buildings & Objects
 	ActivateBuildings();
 	ActivateObjects();
+
+	AllocateEntityPool();
 
 	LoadEntityData();
 
@@ -79,7 +79,24 @@ bool Entity_Manager::Update(float dt)
 		if (accumulated_time >= update_ms_cycle)
 			do_logic = true;
 
-		for (std::vector<Unit>::iterator item = unitPool.begin(); item != unitPool.end(); item = next(item)) {
+		for (int i = 0; i < unitsPoolSize; ++i) {
+
+			if (unitPool[i].active) {
+
+				unitPool[i].Update(dt);
+
+				if (do_logic)
+					unitPool[i].FixUpdate(dt);
+			}
+		}
+
+		for(int i = 0; i < buildingsArray.size(); i++)
+			buildingsArray[i].Update(dt);
+
+		for (int i = 0; i < objectsArray.size(); i++)
+			objectsArray[i].Update(dt);
+
+		/*for (std::vector<Unit>::iterator item = unitPool.begin(); item != unitPool.end(); item = next(item)) {
 
 			if (item->active == true)
 				item->Update(dt);
@@ -98,7 +115,7 @@ bool Entity_Manager::Update(float dt)
 
 			if (item->active == true)
 				item->Update(dt);
-		}
+		}*/
 
 		accumulated_time -= update_ms_cycle;
 		myApp->render->OrderBlit(myApp->render->OrderToRender);
@@ -111,6 +128,14 @@ bool Entity_Manager::CleanUp() {
 
 	LOG("Clean Up Entity_Manager");
 
+	for (int i = 0; i < entitiesVector.size(); i++) {
+
+		if (entitiesVector[i] != nullptr)
+			entitiesVector[i] = nullptr;
+	}
+
+	entitiesVector.clear();
+
 	ReleasePools();
 	objectsArray.clear();
 	buildingsArray.clear();
@@ -120,7 +145,10 @@ bool Entity_Manager::CleanUp() {
 
 void Entity_Manager::AllocateEntityPool()
 {
-	entityPool.resize(/*entityPoolSize*/unitsPoolSize);
+	entitiesVector.resize(unitsPoolSize + buildingsArray.size() + objectsArray.size());
+
+	for (int i = 0; i < entitiesVector.size(); i++)
+		entitiesVector[i] = nullptr;
 }
 
 void Entity_Manager::AllocateUnitPool()
@@ -162,6 +190,13 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 			(*item).UnitSetup();
 			(*item).currentAnimation = &myApp->entities->animationArray[int(infantryType)][int((*item).unitState)][int((*item).unitDirection)];
 
+			for (int i = 0; i < entitiesVector.size(); i++) {
+
+				if (entitiesVector[i] == nullptr)
+					entitiesVector[i] = (Entity*)(&(*item));
+			}
+
+
 			/*if (entityFaction == entity_faction::CAPITALIST) {	//TODO-Carles: I'll handle this later
 
 				ActiveCapitalistUnits.push_back(UnitsPool[i]);
@@ -176,6 +211,7 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 			}*/
 
 			ret = &(*item);
+			break;
 		}
 	}
 
@@ -190,18 +226,28 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 }
 
 
-bool Entity_Manager::DeActivateUnit(Unit* Unit) {	//TODO: Reseting values shouldn't be necessary as non-active elements are not iterated at any point, and if they become active again these values are or should be overwritten
+bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shouldn't be necessary as non-active elements are not iterated at any point, and if they become active again these values are or should be overwritten
 
-	Unit->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
-	Unit->infantryType = infantry_type::INFANTRY_NONE;
-	Unit->position = fPoint(0.0f, 0.0f);
-	Unit->texture = nullptr;
+	_Unit->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
+	_Unit->infantryType = infantry_type::INFANTRY_NONE;
+	_Unit->position = fPoint(0.0f, 0.0f);
+	_Unit->texture = nullptr;
 
-	Unit->faction = entity_faction::NEUTRAL;
+	_Unit->faction = entity_faction::NEUTRAL;
 
-	Unit->active = false;
-	Unit->selected = false;
-	Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];
+	_Unit->active = false;
+	_Unit->selected = false;
+	_Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];
+
+	std::vector<Entity*>::iterator it = entitiesVector.begin();
+	for (int i = 0; i < entitiesVector.size(); i++) {
+
+		if (entitiesVector[i] == (Entity*)_Unit) {
+
+			entitiesVector[i] = nullptr;
+			break;
+		}
+	}
 
 	/*if (Unit->faction == entity_faction::CAPITALIST) {	//TODO-Carles: I'll handle this later
 
@@ -410,7 +456,7 @@ SDL_Rect Entity_Manager::SetupTreeType() {
 
 void Entity_Manager::ReleasePools()
 {
-	entityPool.clear();
+
 	unitPool.clear();
 	//hitscanPool.clear();
 	//rangedPool.clear();

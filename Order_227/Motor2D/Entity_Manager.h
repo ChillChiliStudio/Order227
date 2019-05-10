@@ -49,9 +49,7 @@ public:
 	bool DeActivateUnit(Unit* Unit);
 
 	void ActivateBuildings();
-	//bool DeActivateBuilding();	//TODO: Do we need this? Erase if not.
 	void ActivateObjects();
-	//void DeActivateBojects();	//TODO: Do we need this? Erase if not.
 
 	bool SetupUnitStats();
 	SDL_Rect SetupTreeType();
@@ -62,27 +60,14 @@ public:
 	int unitsPoolSize = 0;
 
 	//Pools
-	std::vector<Entity>			entityPool;
 	std::vector<Unit>			unitPool;
-	//std::vector<Hitscan>	hitscanPool;
+	//std::vector<Hitscan>		hitscanPool;
 	//std::vector<Ranged>		rangedPool;
-	//std::vector<Tank>		tankPool;
+	//std::vector<Tank>			tankPool;
 
 	std::vector<Static_Object>	objectsArray;
 	std::vector<Building>		buildingsArray;
-
-	/*OLD
-	std::vector<Unit*> CommunistUnitsArray;
-	std::vector<Unit*> CapitalistUnitsArray;
-	std::vector<Unit*> UnitsPool;
-
-	std::list<Unit*> ActiveCommunistUnits;
-	std::list<Unit*> ActiveCapitalistUnits;
-
-	//A list for buildings and objects (not need to make it a dynamic array)
-	std::list<Building*> BuildingsList;
-	std::list<Static_Object*> ObjectsList;
-	*/
+	std::vector<Entity*>		entitiesVector;
 
 	//Last Unit activated Pointer
 	Unit *lastUnitActivated = nullptr;
