@@ -73,7 +73,7 @@ enum class unit_directions {
 
 struct unit_stats {	// Data imported through xml and depends on Unit type	//IMPROVE: Move inside Unit
 
-		// Stats
+	// Stats
 	float health;		// Health
 	uint damage;		// Damage inflicted on each attack
 	float cadency;		// Miliseconds/Attack (Miliseconds between each attack)
