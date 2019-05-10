@@ -1,6 +1,7 @@
 #ifndef ENTITY_MANAGER_
 #define ENTITY_MANAGER_
 
+#include <vector>
 #include "Module.h"
 #include "Entity.h"
 #include "Unit.h"
@@ -9,11 +10,6 @@
 #include "Building.h"
 #include "Group.h"
 #include "Animation.h"
-
-#include <vector>
-
-#include "PugiXml\src\pugixml.hpp"
-
 
 #define TIMES_PER_SEC 5
 #define TROOP_TYPES 2
