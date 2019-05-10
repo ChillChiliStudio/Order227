@@ -2,7 +2,6 @@
 #define POOL_H	//@Carles
 
 #include <vector>
-#include <array>
 #include "Defs.h"
 
 template <class TYPE>
