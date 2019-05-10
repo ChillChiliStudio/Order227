@@ -146,6 +146,7 @@
     <ClInclude Include="InputText.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="LifeBarBox.h" />
+    <ClInclude Include="Pool.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Infantry.h" />
     <ClInclude Include="Spawn_Box.h" />

@@ -1,23 +1,19 @@
 #ifndef ENTITY_MANAGER_
 #define ENTITY_MANAGER_
 
+#include <vector>
 #include "Module.h"
 #include "Entity.h"
 #include "Unit.h"
 #include "Infantry.h"
 #include "Static_Object.h"
-#include "PugiXml\src\pugixml.hpp"
 #include "Building.h"
 #include "Group.h"
 #include "Animation.h"
 
-
 #define TIMES_PER_SEC 5
 #define TROOP_TYPES 2
-#define OBJECTS_ARRAY_SIZE 400
-#define INFANTRY_ARRAY_SIZE 100
-#define BUILDINGS_ARRAY_SIZE 5
-#define UNITS_ARRAY_SIZE (2 * INFANTRY_ARRAY_SIZE + OBJECTS_ARRAY_SIZE + BUILDINGS_ARRAY_SIZE)
+#define RESIZE_VALUE 50
 
 class Entity_Manager : public Module
 {
@@ -29,7 +25,7 @@ public:
 
 public:
 
-	bool Awake();
+	bool Awake(pugi::xml_node& config);
 	bool Start();			//Load textures here
 	bool PreUpdate();
 	bool Update(float dt);
@@ -37,42 +33,49 @@ public:
 
 public:
 
-	bool ActivateObject(fPoint position, object_type objectType);
-	bool ActivateBuilding(fPoint position, building_type buildingType, entity_faction entityFaction = entity_faction::NEUTRAL);
-	Unit* ActivateInfantry(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+	//Pools	//TODO: With .reserve() we can reserve memory for a vector so if a resize is needed in runtime the memory is already allocated, making the process faster
+	void AllocateEntityPool();
+	void AllocateUnitPool();
+	void AllocateHitscanPool();
+	void AllocateRangedPool();
+	void AllocateTankPool();
+	void ReleasePools();
 
-	bool DeActivateObject(Static_Object* Object);
-	bool DeActivateBuilding(Building* Building);
-	bool DeActivateInfantry(Unit* Infantry);
-	bool ResetAll();
+	Unit* ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+	bool DeActivateUnit(Unit* Unit);
 
-	void DestroyEntity(Entity *Entity) {}
+	void ActivateBuildings();
+	void ActivateObjects();
 
 	bool SetupUnitStats();
 	SDL_Rect SetupTreeType();
 
 public:
 
-	//Entity lists
-	Entity*			entitiesArray[UNITS_ARRAY_SIZE]; //List with all the entities
+	//Pool sizes
+	int unitsPoolSize = 0;
 
-	Unit*			CommunistUnitsArray[INFANTRY_ARRAY_SIZE];			//Player units (soldiers+vehicles)
-	Unit*			CapitalistUnitsArray[INFANTRY_ARRAY_SIZE];			//Enemy units (soldiers+vehicles)
+	//Pools
+	std::vector<Unit>			unitPool;
+	//std::vector<Hitscan>		hitscanPool;
+	//std::vector<Ranged>		rangedPool;
+	//std::vector<Tank>			tankPool;
 
-	Infantry*		CommunistInfantryArray[INFANTRY_ARRAY_SIZE];		//Player soldiers
-	Infantry*		CapitalistInfantryArray[INFANTRY_ARRAY_SIZE];		//Enemy soldiers
+	std::vector<Static_Object>	objectsArray;
+	std::vector<Building>		buildingsArray;
+	std::vector<Entity*>		entitiesVector;
 
-	Static_Object*	staticObjectsArray[OBJECTS_ARRAY_SIZE];		//Static objects
+	//Last Unit activated Pointer
+	Unit *lastUnitActivated = nullptr;
 
-	Building*		buildingsArray[BUILDINGS_ARRAY_SIZE];				//Bases
-
-	Building*		mainBase = nullptr;	//TODO: This is here because of the lack of lists, having an "attackable buildings" list to read for capitalist units would be better
-																//Animations Array
-	Animation		animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)];
+	//Main Base Pointer
+	Building* mainBase = nullptr;	//TODO: This is here because of the lack of lists, having an "attackable buildings" list to read for capitalist units would be better
+	
+	//Animations Array
+	Animation animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)]; //TODO_ WTF? Troop types?
 
 	bool entitiesDebugDraw = false;
-
-	SDL_Texture* lifeBar_tex = nullptr;
+	SDL_Texture* lifeBar_tex = nullptr; //TODO: Why is this here?
 
 private:
 
@@ -86,8 +89,6 @@ private:
 	SDL_Texture*	buildingsTextures[int(building_type::BUILDING_MAX)];
 	SDL_Texture*	infantryTextures[int(infantry_type::INFANTRY_MAX)];
 	SDL_Texture*	objectTextures[int(object_type::OBJECT_MAX)];
-
-	
 
 	//Unit stats
 	unit_stats		infantryStats[int(infantry_type::INFANTRY_MAX)];

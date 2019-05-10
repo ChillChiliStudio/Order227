@@ -29,7 +29,8 @@ class Building :public Entity
 {
 public:
 
-	Building(fPoint position, building_type baseType, entity_faction faction = entity_faction::NEUTRAL);
+	Building();
+	Building(fPoint position, building_type baseType = building_type::BUILDING_NONE, entity_faction faction = entity_faction::NEUTRAL);
 	~Building() {}
 
 	bool Update(float dt);
@@ -45,7 +46,7 @@ public:
 
 	//ADD ANIMATION
 	//Current_animation*
-	SDL_Rect buildingBlitRect = {605, 1882, 212, 148 };
+	SDL_Rect buildingBlitRect = {605, 1882, 212, 148 }; //TODO: Deharcode
 	building_type buildingType;
 
 

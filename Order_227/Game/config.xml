@@ -1,5 +1,4 @@
 <!-- Config file for the game -->
-
 <config>
   <app framerate_cap="60">
     <title>Order 227</title>
@@ -26,6 +25,11 @@
   <map>
     <folder>maps/</folder>
   </map>
+  
+  <entities>
+	<units_initial_size value="200"/>
+  </entities>
+
 
   <user_interface>
     <atlas file="ui/atlas.png" />

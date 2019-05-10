@@ -303,6 +303,9 @@
     <ClInclude Include="Building.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Pool.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

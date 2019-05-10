@@ -5,7 +5,7 @@
 #include "Scene.h"
 #include "Render.h"
 
-Infantry::Infantry(fPoint pos, infantry_type type, entity_faction faction) : Unit(pos, entity_type::INFANTRY, faction)
+Infantry::Infantry(fPoint pos, infantry_type type, entity_faction faction) : Unit(pos, type, faction)
 {
 }
 
@@ -32,15 +32,18 @@ bool Infantry::Draw() {
 void Infantry::UpdateBlitOrder() {
 
 	//ARRAY
-	for (int i = 0; i < UNITS_ARRAY_SIZE; ++i) {
+	for (int i = 0; i < myApp->entities->entitiesVector.size(); ++i) {
 
-		if (myApp->entities->entitiesArray[i] != this) {
+		if (myApp->entities->entitiesVector[i] != nullptr) {
 
-			if (this->position.y > myApp->entities->entitiesArray[i]->position.y)
-				order += 1;
-			else
-				order -= 1;
+			if (myApp->entities->entitiesVector[i] != this) {
 
+				if (this->position.y > myApp->entities->entitiesVector[i]->position.y)
+					order += 1;
+				else
+					order -= 1;
+
+			}
 		}
 	}
 

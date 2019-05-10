@@ -17,6 +17,7 @@ enum class infantry_type {	// TODO: This should be a single enum with ALL units 
 	BAZOOKA,
 	MACHINE_GUN,
 	INFANTRY_MAX
+
 };
 
 enum class unit_state
@@ -98,13 +99,15 @@ class Unit :public Entity
 {
 public:
 
-	Unit(fPoint pos, entity_type entityType, entity_faction faction = entity_faction::NEUTRAL);
+	Unit();
+	Unit(fPoint pos, infantry_type infType, entity_faction faction = entity_faction::NEUTRAL);
 	~Unit();
 
 	bool Start() override;
 	bool Update(float dt) override;
 	void UpdateBlitOrder() override;
 	bool Draw();
+	void UnitSetup();
 
 public:
 
@@ -205,9 +208,6 @@ public:
 	uint32 timeToDespawn = 5000;	//TODO: Hardcoded value, should be read through xml
 	Timer despawnTimer;
 	bool mustDespawn = false;
-
-	//TODO: Erase this
-	infantry_type infantryType;
 };
 
 #endif //UNIT_H

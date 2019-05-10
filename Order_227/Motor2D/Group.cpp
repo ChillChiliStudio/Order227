@@ -37,7 +37,6 @@ void Group::SpreadDestinations(iPoint origDest)
 	frontier.push(mainDestination);
 
 	std::list<Unit*>::iterator currentUnit = groupUnits.begin();
-
 	(*currentUnit++)->destination = myApp->map->MapToWorld(mainDestination);
 
 	while (currentUnit != groupUnits.end())
@@ -71,6 +70,7 @@ void Group::SpreadDestinations(iPoint origDest)
 
 				(*currentUnit)->destination = myApp->map->MapToWorld(neighbors[i]);
 				currentUnit++;
+
 				if (currentUnit == groupUnits.end())
 					break;
 			}

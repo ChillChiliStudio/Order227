@@ -6,19 +6,19 @@
 #include "UserInterface.h"
 #include "Text.h"
 
-Building::Building(fPoint position, building_type building_type, entity_faction faction) : Entity(position, entity_type::BUILDING, faction)
+Building::Building()
 {}
 
+Building::Building(fPoint position, building_type building_type, entity_faction faction) : Entity(position, entity_type::BUILDING, faction)
+{}
 
 bool Building::Start() {
 
 	incomeTimer.Start();
-
 	myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, myApp->entities->lifeBar_tex, &health);
 
 	return true;
 }
-
 
 bool Building::Update(float dt)
 {
@@ -33,13 +33,10 @@ bool Building::Update(float dt)
 	return true;
 }
 
-
 bool Building::CleanUp()
 {
-
 	return true;
 }
-
 
 bool Building::Draw()
 {
@@ -50,17 +47,20 @@ bool Building::Draw()
 	return true;
 }
 
-
 void Building::UpdateBlitOrder() {
 
-	for (int i = 0; i < UNITS_ARRAY_SIZE; ++i) {
+	for (int i = 0; i < myApp->entities->entitiesVector.size(); ++i) {
 
-		if (myApp->entities->entitiesArray[i] != this) {
+		if (myApp->entities->entitiesVector[i] != nullptr) {
 
-			if (this->position.y > myApp->entities->entitiesArray[i]->position.y)
-				order += 1;
-			else
-				order -= 1;
+			if (myApp->entities->entitiesVector[i] != this) {
+
+				if (this->position.y > myApp->entities->entitiesVector[i]->position.y)
+					order += 1;
+				else
+					order -= 1;
+
+			}
 
 		}
 	}

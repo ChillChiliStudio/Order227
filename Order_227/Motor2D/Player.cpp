@@ -198,8 +198,8 @@ void Player::DebugInputs()
 
 void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: This should work with unit_type alone, enum ramifications like infantry or vehicles unnecesary
 {
-	Unit* tmp = myApp->entities->ActivateInfantry(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
-	tmp->StartHold();
+	myApp->entities->ActivateUnit(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
+  tmp->StartHold();
 }
 
 void Player::CheckForOrders()
@@ -262,22 +262,17 @@ void Player::OrderHunt()
 {
 	Unit* selectedTarget = nullptr;
 
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; i++)
-	{
-		if (myApp->entities->CapitalistUnitsArray[i]->active == true && myApp->entities->CapitalistUnitsArray[i]->IsDead() == false &&
-			!(mousePos.x < myApp->entities->CapitalistUnitsArray[i]->UnitRect.x ||
-			mousePos.x > myApp->entities->CapitalistUnitsArray[i]->UnitRect.x + myApp->entities->CommunistUnitsArray[i]->UnitRect.w ||
-			mousePos.y < myApp->entities->CapitalistUnitsArray[i]->UnitRect.y ||
-			mousePos.y > myApp->entities->CapitalistUnitsArray[i]->UnitRect.y + myApp->entities->CommunistUnitsArray[i]->UnitRect.h))
+	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
+		if ((*item).active == true && (*item).faction == entity_faction::CAPITALIST && (*item).IsDead() == false &&
+			!(mousePos.x < (*item).UnitRect.x || mousePos.x >(*item).UnitRect.x + (*item).UnitRect.w
+				|| mousePos.y < (*item).UnitRect.y || mousePos.y >(*item).UnitRect.y + (*item).UnitRect.h))
 		{
-			selectedTarget = myApp->entities->CapitalistUnitsArray[i];
+			selectedTarget = &(*item);
+			break;
 		}
 	}
-
-	if (selectedTarget == nullptr) {
-		OrderMove();
-	}
-	else {
+  
+	if (selectedTarget != nullptr) {
 		for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
 		{
 			if ((*it)->IsDead() == false)
@@ -288,6 +283,9 @@ void Player::OrderHunt()
 
 		std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
 		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::ATTACK][0]);
+	}
+	else {
+		OrderMove();
 	}
 }
 
