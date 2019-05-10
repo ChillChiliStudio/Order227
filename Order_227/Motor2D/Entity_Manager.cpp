@@ -112,6 +112,8 @@ bool Entity_Manager::CleanUp() {
 	LOG("Clean Up Entity_Manager");
 
 	ReleasePools();
+	objectsArray.clear();
+	buildingsArray.clear();
 
 	return true;
 }

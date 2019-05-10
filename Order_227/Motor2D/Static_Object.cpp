@@ -8,13 +8,14 @@ Static_Object::Static_Object()
 {}
 
 Static_Object::Static_Object(fPoint pos, object_type objectType, entity_faction faction) : Entity(pos, entity_type::OBJECT, faction)
-{}
+{
+	this->objectType = objectType;
+}
 
 bool Static_Object::Update(float dt)
 {
 
 	Draw();
-
 	return true;
 }
 

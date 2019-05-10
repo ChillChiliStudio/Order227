@@ -676,7 +676,6 @@ void Map::PlaceGameObjects() {
 				}
 
 				myApp->entities->buildingsArray.push_back(newBuilding);
-
 			}
 		}
 
@@ -686,15 +685,16 @@ void Map::PlaceGameObjects() {
 			 std::list<GameObjectGroup::Object*>::iterator item3 = (*item)->Objectlist.begin();
 			 for (; item3 != (*item)->Objectlist.end(); item3 = next(item3)) {
 
-				 if ((*item3)->name == "Tree") {
+				 iPoint Aux = PointToTile((int)(*item3)->x, (int)(*item3)->y);
+				 fPoint fPos = fPoint(Aux.x, Aux.y);
 
-					 iPoint Aux = PointToTile((int)(*item3)->x, (int)(*item3)->y);
-					 fPoint fPos = fPoint(Aux.x, Aux.y);
+				 Static_Object newStaticObject(fPos, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
+				 newStaticObject.active = false;
 
-					 Static_Object newStaticObject(fPos, object_type::TREE, entity_faction::NEUTRAL);
+				 if ((*item3)->name == "Tree") 
+					 newStaticObject.objectType = object_type::TREE;
 
-					 myApp->entities->objectsArray.push_back(newStaticObject);
-				 }
+				 myApp->entities->objectsArray.push_back(newStaticObject);
 			 }
 		 }
 	}

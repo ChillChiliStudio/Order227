@@ -71,6 +71,7 @@ void Group::SpreadDestinations(iPoint origDest)
 
 				(*currentUnit)->destination = myApp->map->MapToWorld(neighbors[i]);
 				currentUnit++;
+
 				if (currentUnit == groupUnits.end())
 					break;
 			}
