@@ -6,6 +6,7 @@
 template <class TYPE>
 class Pool {
 
+public:
 	Pool() : activeMembers(0) {}
 	Pool(unsigned int startSize) : activeMembers(0)
 	{
@@ -20,6 +21,11 @@ class Pool {
 	TYPE operator[](unsigned int pos)	//Get element at pos
 	{
 		return elementVector[pos];
+	}
+
+	unsigned int GetActiveSize()
+	{
+		return activeMembers;
 	}
 
 	void resize(int newSize)	//Resize Pool
@@ -197,6 +203,7 @@ class Pool {
 		return ret;
 	}
 
+private:
 	std::vector<TYPE> elementVector;
 	std::vector<bool> activeVector;
 	unsigned int activeMembers;
