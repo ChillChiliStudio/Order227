@@ -2,13 +2,12 @@
 #define POOL_H	//@Carles
 
 #include <vector>
-#include "Defs.h"
 
 template <class TYPE>
 class Pool {
 
 	Pool() : activeMembers(0) {}
-	Pool(uint startSize) : activeMembers(0)
+	Pool(unsigned int startSize) : activeMembers(0)
 	{
 		elementVector.resize(startSize);
 		activeVector.resize(startSize);
@@ -18,7 +17,7 @@ class Pool {
 		}
 	}
 
-	TYPE operator[](uint pos)	//Get element at pos
+	TYPE operator[](unsigned int pos)	//Get element at pos
 	{
 		return elementVector[pos];
 	}
@@ -61,7 +60,7 @@ class Pool {
 		return ret;
 	}
 
-	TYPE at(uint pos)	//Find element at pos
+	TYPE at(unsigned int pos)	//Find element at pos
 	{
 		TYPE ret;
 
@@ -96,7 +95,7 @@ class Pool {
 		return ret;
 	}
 
-	TYPE* deactivate(uint pos)	//Deactivate element at given position
+	TYPE* deactivate(unsigned int pos)	//Deactivate element at given position
 	{
 		TYPE* ret = nullptr;
 
@@ -121,7 +120,7 @@ class Pool {
 		return ret;
 	}
 
-	TYPE* reactivate(uint pos)	//Mark the element in the given position as active
+	TYPE* reactivate(unsigned int pos)	//Mark the element in the given position as active
 	{
 		TYPE* ret = nullptr;
 
@@ -174,7 +173,7 @@ class Pool {
 		return ret;
 	}
 
-	bool IsActive(uint pos)	//Check if element at given position is active
+	bool IsActive(unsigned int pos)	//Check if element at given position is active
 	{
 		bool ret = false;
 
@@ -200,7 +199,7 @@ class Pool {
 
 	std::vector<TYPE> elementVector;
 	std::vector<bool> activeVector;
-	uint activeMembers;
+	unsigned int activeMembers;
 };
 
 #endif	//POOL_H
