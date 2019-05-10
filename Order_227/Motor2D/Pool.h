@@ -1,5 +1,5 @@
 #ifndef POOL_H
-#define POOL_H
+#define POOL_H	//@Carles
 
 #include <vector>
 #include <array>
