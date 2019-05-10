@@ -8,6 +8,22 @@ Check_Box::Check_Box(bool* value, event_function action, fPoint center, SDL_Rect
 	valueStatus = GetValueState();
 };
 
+Check_Box::Check_Box(bool value, event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent)
+	: Void_Box(action, center, spriteList, tex, parent, ui_type::CHECK_BOX)/*, valueStatus(GetValueState())*/
+{
+	this->value = new bool(value);
+	externalValue = true;
+	valueStatus = GetValueState();
+};
+
+//Destructor
+Check_Box::~Check_Box()
+{
+	if (externalValue) {
+		RELEASE(value);
+	}
+};
+
 //Enable/Disable
 void Check_Box::Enable()
 {

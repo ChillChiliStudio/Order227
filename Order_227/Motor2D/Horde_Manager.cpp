@@ -71,7 +71,7 @@ bool Horde_Manager::Update(float dt)
 			}
 
 			hordes[i]->SpreadDestinations(SpawningPoints_Array[i]->position);
-			hordes[i]->TransmitOrders(unit_orders::MOVE_AND_ATTACK);
+			hordes[i]->TransmitOrders(unit_orders::MOVE);
 
 		}
 		if (!hordes[i]->groupUnits.empty() &&
@@ -80,7 +80,7 @@ bool Horde_Manager::Update(float dt)
 		{
 
 			hordes[i]->SpreadDestinations({int (myApp->entities->mainBase->position.x + myApp->entities->mainBase->UnitRect.w/2), int(myApp->entities->mainBase->position.y + myApp->entities->mainBase->UnitRect.h / 2)});
-			hordes[i]->TransmitOrders(unit_orders::MOVE_AND_ATTACK);
+			hordes[i]->TransmitOrders(unit_orders::MOVE);
 			SpawningPoints_Array[i]->enemiesAttacking = true;
 		}
 	}

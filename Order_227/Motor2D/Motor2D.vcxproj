@@ -78,19 +78,26 @@
   <ItemGroup>
     <ClCompile Include="ActionBox.cpp" />
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="Bazooka.cpp" />
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonActions.cpp" />
     <ClCompile Include="CheckBox.cpp" />
+    <ClCompile Include="Dynamic.cpp" />
     <ClCompile Include="Entity_Manager.cpp" />
+    <ClCompile Include="Environment.cpp" />
     <ClCompile Include="Fonts.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="Group.cpp" />
     <ClCompile Include="GroupManager.cpp" />
+    <ClCompile Include="HeavyTank.cpp" />
+    <ClCompile Include="Hitscan.cpp" />
     <ClCompile Include="Horde_Manager.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputText.cpp" />
+    <ClCompile Include="Launcher.cpp" />
     <ClCompile Include="LifeBarBox.cpp" />
+    <ClCompile Include="LightTank.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Player.h" />
     <ClCompile Include="Quadtree.cpp" />
@@ -98,6 +105,7 @@
     <ClCompile Include="Infantry.cpp" />
     <ClCompile Include="Spawn_Box.cpp" />
     <ClCompile Include="Static_Object.cpp" />
+    <ClCompile Include="Tank.cpp" />
     <ClCompile Include="TileQuadtree.cpp" />
     <ClCompile Include="UnitButton.cpp" />
     <ClCompile Include="UserInterface.cpp" />

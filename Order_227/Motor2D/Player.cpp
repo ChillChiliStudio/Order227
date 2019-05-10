@@ -123,7 +123,7 @@ void Player::DebugMouse()
 void Player::DebugInputs()
 {
 	//Toggle DebugMode
-	if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+	/*if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
 		myApp->debugMode = !myApp->debugMode;
 
 		if (myApp->debugMode == false) {
@@ -135,10 +135,10 @@ void Player::DebugInputs()
 		else {
 			LOG("Debug Mode: ON");
 		}
-	}
+	}*/
 
 	if (myApp->debugMode) {
-		if (myApp->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {	// Toggle Map debug draw
+		if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {	// Toggle Map debug draw
 			myApp->map->mapDebugDraw = !myApp->map->mapDebugDraw;
 
 			if (myApp->map->mapDebugDraw) {
@@ -149,7 +149,7 @@ void Player::DebugInputs()
 			}
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {	// Toggle UI debug draw
+		if (myApp->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {	// Toggle UI debug draw
 			myApp->gui->interfaceDebugDraw = !myApp->gui->interfaceDebugDraw;
 
 			if (myApp->gui->interfaceDebugDraw) {
@@ -162,7 +162,7 @@ void Player::DebugInputs()
 			}
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {	// Toggle Entities debug draw
+		if (myApp->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {	// Toggle Entities debug draw
 			myApp->entities->entitiesDebugDraw = !myApp->entities->entitiesDebugDraw;
 
 			if (myApp->entities->entitiesDebugDraw) {
@@ -173,24 +173,24 @@ void Player::DebugInputs()
 			}
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {	// Insta-Win
+		if (myApp->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {	// Insta-Win
 
 
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {	// Insta-Lose
+		if (myApp->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {	// Insta-Lose
 
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {	// Instantaneous Next Round + Kill all active enemies
+		if (myApp->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {	// Instantaneous Next Round + Kill all active enemies
 
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Spawn Capitalist Unit on Mouse
+		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {	// Spawn Capitalist Unit on Mouse
 			DebugSpawnUnit(infantry_type::BASIC, entity_faction::CAPITALIST);
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
+		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
 			DebugSpawnUnit(infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
 		}
 	}
@@ -199,6 +199,7 @@ void Player::DebugInputs()
 void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: This should work with unit_type alone, enum ramifications like infantry or vehicles unnecesary
 {
 	myApp->entities->ActivateUnit(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
+  tmp->StartHold();
 }
 
 void Player::CheckForOrders()
@@ -212,12 +213,9 @@ void Player::CheckForOrders()
 		prepOrder = unit_orders::MOVE;
 	}
 	if (myApp->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
-		prepOrder = unit_orders::ATTACK;
+		prepOrder = unit_orders::HUNT;
 	}
 	if (myApp->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
-		prepOrder = unit_orders::MOVE_AND_ATTACK;
-	}
-	if (myApp->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN) {
 		prepOrder = unit_orders::PATROL;
 	}
 }
@@ -229,17 +227,14 @@ void Player::ApplyOrders()
 		case unit_orders::MOVE:
 			OrderMove();
 			break;
-		case unit_orders::ATTACK:
-			OrderAttack();
-			break;
-		case unit_orders::MOVE_AND_ATTACK:
-			OrderMoveAndAttack();
+		case unit_orders::HUNT:
+			OrderHunt();
 			break;
 		case unit_orders::PATROL:
 			OrderPatrol();
 			break;
 		default:
-			OrderMoveAndAttack();
+			OrderMove();
 		}
 	}
 
@@ -248,13 +243,7 @@ void Player::ApplyOrders()
 
 void Player::OrderHold()
 {
-	for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
-	{
-		if ((*it)->IsDead() == false)
-		{
-			(*it)->StartHold();
-		}
-	}
+	myApp->groups->playerGroup.TransmitOrders(unit_orders::HOLD);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::COMFIRMATION][rand() % 2]);
@@ -269,7 +258,7 @@ void Player::OrderMove()
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::MOVING][0]);
 }
 
-void Player::OrderAttack()
+void Player::OrderHunt()
 {
 	Unit* selectedTarget = nullptr;
 
@@ -282,13 +271,13 @@ void Player::OrderAttack()
 			break;
 		}
 	}
-
+  
 	if (selectedTarget != nullptr) {
 		for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
 		{
 			if ((*it)->IsDead() == false)
 			{
-				//(*it)->StartHunt(selectedTarget);	//TODO: Uncomment
+				(*it)->StartHunt(selectedTarget);
 			}
 		}
 
@@ -298,15 +287,6 @@ void Player::OrderAttack()
 	else {
 		OrderMove();
 	}
-}
-
-void Player::OrderMoveAndAttack()
-{
-	myApp->groups->playerGroup.SpreadDestinations(mousePos);
-	myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE_AND_ATTACK);
-
-	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::MOVING][rand() % 2]);
 }
 
 void Player::OrderPatrol()

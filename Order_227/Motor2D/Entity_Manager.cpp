@@ -412,8 +412,8 @@ bool Entity_Manager::SetupUnitStats() {
 			infantryStats[i].damage = (uint)Data.attribute("damage").as_int();
 			infantryStats[i].health = Data.attribute("health").as_float();
 
-			infantryStats[i].visionRange = (uint)Data.attribute("visionRange").as_int();
-			infantryStats[i].attackRange = (uint)Data.attribute("attackRange").as_int();
+			infantryStats[i].visionRadius = (uint)Data.attribute("visionRange").as_int();
+			infantryStats[i].attackRadius = (uint)Data.attribute("attackRange").as_int();
 
 			infantryStats[i].cost = Data.attribute("cost").as_int();
 			infantryStats[i].productionTime = Data.attribute("prodTime").as_int();

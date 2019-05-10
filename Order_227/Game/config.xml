@@ -3,6 +3,7 @@
   <app framerate_cap="60">
     <title>Order 227</title>
     <organization>UPC</organization>
+    <debug active="true" />
   </app>
 	
   <renderer>

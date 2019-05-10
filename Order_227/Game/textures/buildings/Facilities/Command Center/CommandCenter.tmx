@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="4" height="13" tilewidth="212" tileheight="213" infinite="0" nextobjectid="53">
+ <imagelayer name="Capa de Imagen 1">
+  <image source="CommandCenter_tiled.png" width="848" height="2769"/>
+ </imagelayer>
+ <objectgroup name="Spawn">
+  <object id="1" x="0" y="0" width="212" height="213"/>
+  <object id="2" x="212" y="0" width="212" height="213"/>
+  <object id="3" x="0" y="213" width="212" height="213"/>
+  <object id="4" x="212" y="213" width="212" height="213"/>
+  <object id="5" x="0" y="426" width="212" height="213"/>
+  <object id="6" x="212" y="426" width="212" height="213"/>
+  <object id="7" x="0" y="639" width="212" height="213"/>
+  <object id="8" x="212" y="639" width="212" height="213"/>
+  <object id="9" x="0" y="852" width="212" height="213"/>
+  <object id="10" x="212" y="852" width="212" height="213"/>
+  <object id="11" x="0" y="1065" width="212" height="213"/>
+  <object id="12" x="212" y="1065" width="212" height="213"/>
+  <object id="13" x="0" y="1278" width="212" height="213"/>
+  <object id="14" x="212" y="1278" width="212" height="213"/>
+  <object id="15" x="0" y="1491" width="212" height="213"/>
+  <object id="16" x="212" y="1491" width="212" height="213"/>
+  <object id="17" x="0" y="1705" width="212" height="213"/>
+  <object id="18" x="212" y="1705" width="212" height="213"/>
+  <object id="52" x="0" y="1917" width="212" height="213"/>
+  <object id="20" x="212" y="1917" width="212" height="213"/>
+  <object id="22" x="0" y="2130" width="212" height="213"/>
+  <object id="23" x="212" y="2130" width="212" height="213"/>
+  <object id="24" x="0" y="2343" width="212" height="213"/>
+  <object id="25" x="212" y="2343" width="212" height="213"/>
+  <object id="26" x="0" y="2556" width="212" height="213"/>
+ </objectgroup>
+</map>

@@ -36,8 +36,7 @@ public:
 	void ApplyOrders();
 	void OrderHold();
 	void OrderMove();
-	void OrderAttack();
-	void OrderMoveAndAttack();
+	void OrderHunt();
 	void OrderPatrol();
 
 	void PlayerSelect();
@@ -61,7 +60,7 @@ public:
 	iPoint mouseScreenPos;
 	iPoint mouseMap;
 
-	Text* mouseDebugMark=nullptr;
+	Text* mouseDebugMark = nullptr;
 	iPoint origin;
 	iPoint rectangle_origin;
 	

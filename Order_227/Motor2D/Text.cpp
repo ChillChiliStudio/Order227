@@ -9,14 +9,17 @@
 #include "Text.h"
 
 Text::Text(const char* content, SDL_Color color, _TTF_Font* font, fPoint center, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children,float size)
-	: Image(ui_type::TEXT, center, GetTexSize(content, color, font), CreateTexture(content, color, font), dynamic, parent, children,size), /*content(content), */color(color), font(font)
-{
-	strcpy_s(this->content, sizeof(this->content), content);
-}
+	: Image(ui_type::TEXT, center, GetTexSize(content, color, font), CreateTexture(content, color, font), dynamic, parent, children,size), content(content), color(color), font(font)
+{}
 
 void Text::operator+ (const char* addition)
 {
-	strcat_s(content, sizeof(this->content), addition);
+	content += addition;
+}
+
+void Text::operator+ (Text& addition)
+{
+	content += addition.content.c_str();
 }
 
 void Text::operator- (int timesBack)
@@ -28,7 +31,7 @@ void Text::operator- (int timesBack)
 
 const char* Text::GetText() const
 {
-	return content;
+	return content.c_str();
 }
 
 SDL_Color Text::GetColor() const
@@ -74,7 +77,7 @@ SDL_Texture* Text::LoadTexture(const char* string, SDL_Color color, _TTF_Font* f
 
 SDL_Rect Text::ChangeText(const char* string, SDL_Color color, _TTF_Font* font)
 {
-	strcpy_s(this->content, sizeof(this->content), content);
+	content += string;
 	LoadTexture(string, color, font);
 	myApp->tex->GetSize(graphics, (uint&)this->sprite->w, (uint&)this->sprite->h);
 	return *sprite;
@@ -87,7 +90,7 @@ SDL_Rect Text::ChangeText(std::string string, SDL_Color color, _TTF_Font* font)
 
 SDL_Rect Text::ChangeString(const char* string)
 {
-	strcpy_s(this->content, sizeof(this->content), content);
+	content += string;
 	LoadTexture(string, color, font);
 	myApp->tex->GetSize(graphics, (uint&)this->sprite->w, (uint&)this->sprite->h);
 	return *sprite;
@@ -101,14 +104,14 @@ SDL_Rect Text::ChangeString(std::string string)
 SDL_Rect Text::ChangeColor(SDL_Color color)
 {
 	this->color = color;
-	LoadTexture(content, color, font);
+	LoadTexture(content.c_str(), color, font);
 	return *sprite;
 }
 
 SDL_Rect Text::ChangeFont(_TTF_Font* font)
 {
 	this->font = font;
-	LoadTexture(content, color, font);
+	LoadTexture(content.c_str(), color, font);
 	myApp->tex->GetSize(graphics, (uint&)this->sprite->w, (uint&)this->sprite->h);
 	return *sprite;
 }

@@ -1,7 +1,6 @@
 #ifndef TEXT_H
 #define TEXT_H	//@Carles
 
-#include <cstring>
 #include "Image.h"
 #include "SDL\include\SDL_pixels.h"
 
@@ -15,6 +14,7 @@ public:
 
 public:
 	void operator+ (const char* addition);
+	void operator+ (Text& addition);
 	void operator- (int timesBack);
 
 	const char* GetText() const;
@@ -35,7 +35,7 @@ public:
 
 
 protected:
-	char content[30];	//TODO: Temporal fix, std::string didn't work no matter how used, we should instead use owr own string class and remake Text when using it
+	std::string content;	//TODO: Temporal fix, std::string didn't work no matter how used, we should instead use owr own string class and remake Text when using it
 	SDL_Color color;
 	_TTF_Font* font = nullptr;
 	

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="6" height="10" tilewidth="82" tileheight="84" infinite="0" nextobjectid="54">
+ <imagelayer name="Capa de Imagen 1">
+  <image source="Tesla_tiled.png" width="492" height="840"/>
+ </imagelayer>
+ <objectgroup name="Spawn">
+  <object id="1" x="0" y="0" width="82" height="84"/>
+  <object id="2" x="82" y="0" width="82" height="84"/>
+  <object id="3" x="164" y="0" width="82" height="84"/>
+  <object id="4" x="246" y="0" width="82" height="84"/>
+  <object id="5" x="328" y="0" width="82" height="84"/>
+  <object id="6" x="410" y="0" width="82" height="84"/>
+  <object id="7" x="0" y="84" width="82" height="84"/>
+  <object id="8" x="82" y="84" width="82" height="84"/>
+  <object id="9" x="164" y="84" width="82" height="84"/>
+  <object id="10" x="246" y="84" width="82" height="84"/>
+  <object id="11" x="328" y="84" width="82" height="84"/>
+  <object id="13" x="410" y="84" width="82" height="84"/>
+  <object id="14" x="0" y="168" width="82" height="84"/>
+  <object id="15" x="82" y="168" width="82" height="84"/>
+  <object id="16" x="164" y="168" width="82" height="84"/>
+  <object id="17" x="246" y="168" width="82" height="84"/>
+  <object id="20" x="328" y="168" width="82" height="84"/>
+  <object id="21" x="410" y="168" width="82" height="84"/>
+  <object id="22" x="0" y="252" width="82" height="84"/>
+  <object id="23" x="82" y="252" width="82" height="84"/>
+  <object id="24" x="164" y="252" width="82" height="84"/>
+  <object id="25" x="246" y="252" width="82" height="84"/>
+  <object id="26" x="328" y="252" width="82" height="84"/>
+  <object id="27" x="410" y="252" width="82" height="84"/>
+  <object id="28" x="0" y="336" width="82" height="84"/>
+ </objectgroup>
+</map>
