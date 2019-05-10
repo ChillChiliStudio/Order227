@@ -30,7 +30,7 @@ class Building :public Entity
 public:
 
 	Building();
-	Building(fPoint position, building_type baseType, entity_faction faction = entity_faction::NEUTRAL);
+	Building(fPoint position, building_type baseType = building_type::BUILDING_NONE, entity_faction faction = entity_faction::NEUTRAL);
 	~Building() {}
 
 	bool Update(float dt);

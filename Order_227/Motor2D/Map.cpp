@@ -661,6 +661,7 @@ void Map::PlaceGameObjects() {
 				fPoint fPos = { (float)pos.x, (float)pos.y };
 
 				Building newBuilding(fPos, building_type::BUILDING_NONE, entity_faction::FACTION_NONE);
+				newBuilding.active = false;
 
 				std::list <Properties::Property*> ::iterator itemProp = (*item2)->PropObj.list.begin();
 				for (; itemProp != (*item2)->PropObj.list.end(); itemProp = next(itemProp)) {
@@ -674,7 +675,7 @@ void Map::PlaceGameObjects() {
 
 				}
 
-				myApp->entities->buildingPool.push_back(newBuilding);
+				myApp->entities->buildingsArray.push_back(newBuilding);
 
 			}
 		}
@@ -692,7 +693,7 @@ void Map::PlaceGameObjects() {
 
 					 Static_Object newStaticObject(fPos, object_type::TREE, entity_faction::NEUTRAL);
 
-					 myApp->entities->objectPool.push_back(newStaticObject);
+					 myApp->entities->objectsArray.push_back(newStaticObject);
 				 }
 			 }
 		 }

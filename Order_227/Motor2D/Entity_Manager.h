@@ -39,8 +39,6 @@ public:
 
 	//Pools	//TODO: With .reserve() we can reserve memory for a vector so if a resize is needed in runtime the memory is already allocated, making the process faster
 	void AllocateEntityPool();
-	void AllocateObjectPool();
-	void AllocateBuildingPool();
 	void AllocateUnitPool();
 	void AllocateHitscanPool();
 	void AllocateRangedPool();
@@ -65,12 +63,13 @@ public:
 
 	//Pools
 	std::vector<Entity>			entityPool;
-	std::vector<Static_Object>	objectPool;
-	std::vector<Building>		buildingPool;
 	std::vector<Unit>			unitPool;
 	//std::vector<Hitscan>	hitscanPool;
 	//std::vector<Ranged>		rangedPool;
 	//std::vector<Tank>		tankPool;
+
+	std::vector<Static_Object>	objectsArray;
+	std::vector<Building>		buildingsArray;
 
 	/*OLD
 	std::vector<Unit*> CommunistUnitsArray;

@@ -35,8 +35,6 @@ bool Entity_Manager::Awake(pugi::xml_node& config)
 	
 	//Pool Allocation
 	AllocateEntityPool();
-	//AllocateObjectPool();
-	//AllocateBuildingPool();
 	AllocateUnitPool();
 	AllocateHitscanPool();
 	AllocateRangedPool();
@@ -90,13 +88,13 @@ bool Entity_Manager::Update(float dt)
 				item->FixUpdate(dt);
 		}
 
-		for (std::vector<Building>::iterator item = buildingPool.begin(); item != buildingPool.end(); item = next(item)) {
+		for (std::vector<Building>::iterator item = buildingsArray.begin(); item != buildingsArray.end(); item = next(item)) {
 
 			if (item->active == true)
 				item->Update(dt);
 		}
 
-		for (std::vector<Static_Object>::iterator item = objectPool.begin(); item != objectPool.end(); item = next(item)) {
+		for (std::vector<Static_Object>::iterator item = objectsArray.begin(); item != objectsArray.end(); item = next(item)) {
 
 			if (item->active == true)
 				item->Update(dt);
@@ -121,16 +119,6 @@ bool Entity_Manager::CleanUp() {
 void Entity_Manager::AllocateEntityPool()
 {
 	entityPool.resize(/*entityPoolSize*/unitsPoolSize);
-}
-
-void Entity_Manager::AllocateObjectPool()
-{
-	objectPool.resize(/*objectPoolSize*/unitsPoolSize);	//IMPROVE: This class should exist for all static objects, entity should be a base class with minimal members
-}
-
-void Entity_Manager::AllocateBuildingPool()
-{
-	buildingPool.resize(/*buildingPoolSize*/unitsPoolSize);
 }
 
 void Entity_Manager::AllocateUnitPool()
@@ -232,7 +220,7 @@ bool Entity_Manager::DeActivateUnit(Unit* Unit) {	//TODO: Reseting values should
 
 void Entity_Manager::ActivateBuildings()
 {
-	for (std::vector<Building>::iterator item = buildingPool.begin(); item != buildingPool.end(); item = next(item)) {
+	for (std::vector<Building>::iterator item = buildingsArray.begin(); item != buildingsArray.end(); item = next(item)) {
 
 		if ((*item).buildingType != building_type::BUILDING_MAX && (*item).buildingType != building_type::BUILDING_NONE) {
 
@@ -255,7 +243,7 @@ void Entity_Manager::ActivateBuildings()
 
 void Entity_Manager::ActivateObjects()
 {
-	for (std::vector<Static_Object>::iterator item = objectPool.begin(); item != objectPool.end(); item = next(item)) {
+	for (std::vector<Static_Object>::iterator item = objectsArray.begin(); item != objectsArray.end(); item = next(item)) {
 
 		if ((*item).objectType != object_type::OBJECT_NONE && (*item).objectType != object_type::OBJECT_MAX) {
 
@@ -421,10 +409,9 @@ SDL_Rect Entity_Manager::SetupTreeType() {
 void Entity_Manager::ReleasePools()
 {
 	entityPool.clear();
-	objectPool.clear();
-	buildingPool.clear();
 	unitPool.clear();
 	//hitscanPool.clear();
 	//rangedPool.clear();
 	//tankPool.clear();
+
 }
