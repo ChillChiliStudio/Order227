@@ -35,8 +35,8 @@ bool Entity_Manager::Awake(pugi::xml_node& config)
 	
 	//Pool Allocation
 	AllocateEntityPool();
-	AllocateObjectPool();
-	AllocateBuildingPool();
+	//AllocateObjectPool();
+	//AllocateBuildingPool();
 	AllocateUnitPool();
 	AllocateHitscanPool();
 	AllocateRangedPool();
