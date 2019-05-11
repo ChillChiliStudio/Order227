@@ -10,7 +10,7 @@
 #include <cmath>
 #include <sstream>
 #include "Horde_Manager.h"
-
+#include"Brofiler/Brofiler.h"
 class Spawning_Point;
 
 
@@ -46,6 +46,7 @@ bool Map::Start()
 
 void Map::Draw()
 {
+	BROFILER_CATEGORY("Map.cpp Draw-Black", Profiler::Color::Black);
 	if(map_loaded == false)
 		return;
 

@@ -10,7 +10,7 @@
 #include "Audio.h"
 #include "UserInterface.h"
 #include "Image.h"
-
+#include "Brofiler/Brofiler.h"
 Unit::Unit()
 {};
 
@@ -50,6 +50,7 @@ void Unit::UnitSetup()  //TODO: Just put all this stuff on Start(), do we need t
 
 bool Unit::Update(float dt)
 {
+	BROFILER_CATEGORY("Unit.cpp Update()-DarkGreen", Profiler::Color::DarkGreen);
 	onCamera = InsideCamera();
 
 	UnitWorkflow(dt);
@@ -96,7 +97,7 @@ bool Unit::Update(float dt)
 
 void Unit::UpdateBlitOrder()
 {
-
+	BROFILER_CATEGORY("Unit.cpp UpdateBlitOrder()-Yellow", Profiler::Color::Yellow);
 	//for (int i = 0; i < ENTITY_POOL_SIZE; i++) {
 
 	//	if (myApp->entities->enemySoldiersList[i] != this) {
@@ -193,6 +194,7 @@ void Unit::DrawPath()
 // Main workflow
 void Unit::UnitWorkflow(float dt)
 {
+	BROFILER_CATEGORY("Unit.cpp UnitWorkflow()-Green", Profiler::Color::Green);
 	unit_state prevState = unitState;
 
 	switch (unitOrders) {

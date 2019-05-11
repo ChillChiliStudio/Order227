@@ -12,7 +12,7 @@
 #include "GroupManager.h"
 #include "Unit.h"
 #include "Player.h"
-
+#include "Brofiler/Brofiler.h"
 bool Player::Awake()
 {
 	LOG("AWAKING PLAYER MODULE");
@@ -38,6 +38,7 @@ bool Player::PreUpdate()
 
 bool Player::Update(float dt)
 {
+	BROFILER_CATEGORY("Player.cpp Update()-Blue", Profiler::Color::Blue);
 	//if (unitCreationCD.ReadSec() >= 10) {
 	//	startCreationUnit = false;
 	//}

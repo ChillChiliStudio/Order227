@@ -11,7 +11,7 @@
 #include "Textures.h"
 #include "UserInterface.h"
 #include "Image.h"
-
+#include "Brofiler/Brofiler.h"
 Entity_Manager::Entity_Manager()
 {
 	name.assign("entities");
@@ -72,6 +72,7 @@ bool Entity_Manager::PreUpdate() {
 
 bool Entity_Manager::Update(float dt)
 {
+	BROFILER_CATEGORY("Entity_Manager Update()-Brown", Profiler::Color::Brown);
 	accumulated_time += dt;
 
 	if (myApp->gui->MainMenuTemp_Image->active != true) {	//TODO: This is very hardcoded, we should have a scene workflow
