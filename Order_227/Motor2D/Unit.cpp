@@ -25,7 +25,7 @@ Unit::~Unit()
 
 bool Unit::Start()
 {
-	//centerPos = { position.x + UnitRect.w / 2, position.y + UnitRect.y / 2 };
+	//centerPos = { position.x + entityRect.w / 2, position.y + entityRect.y / 2 };
 
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
 
@@ -34,8 +34,8 @@ bool Unit::Start()
 
 void Unit::UnitSetup()  //TODO: Just put all this stuff on Start(), do we need to call UnitSetup specifically?
 {
-	UnitRect.w = 45;
-	UnitRect.h = 55;
+	entityRect.w = 45;	//Todo: Hardcoded values
+	entityRect.h = 55;
 	unitState = unit_state::IDLE;
 	unitOrders = unit_orders::HOLD;
 	unitDirection = unit_directions::SOUTH_EAST;
@@ -54,12 +54,12 @@ bool Unit::Update(float dt)
 
 	UnitWorkflow(dt);
 
-	UnitRect.x = position.x-10;
-	UnitRect.y = position.y-10;
+	entityRect.x = position.x - 10;	//TODO: Why are we doing this?
+	entityRect.y = position.y - 10;
 
 	if (mustDespawn) {
 		mustDespawn = false;
-		myApp->entities->DeActivateUnit(this);	//TODO: Can't use "deactivate" because it only works with Infantry classes
+		myApp->entities->DeActivateUnit(this);
 	}
 	else {
 		if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
@@ -78,11 +78,10 @@ bool Unit::Update(float dt)
 				}
 			}
 
-			UpdateBlitOrder();
 			Draw();
 
 			if (selected) {	//TODO: This should be as a debug functionality, but for now it'll do
-				myApp->render->DrawQuad(UnitRect, 0, 255, 0, 255, false);
+				myApp->render->DrawQuad(entityRect, 0, 255, 0, 255, false);
 			}
 
 			if (myApp->entities->entitiesDebugDraw) {
@@ -94,44 +93,10 @@ bool Unit::Update(float dt)
 	return true;
 }
 
-void Unit::UpdateBlitOrder()
-{
-
-	//for (int i = 0; i < ENTITY_POOL_SIZE; i++) {
-
-	//	if (myApp->entities->enemySoldiersList[i] != this) {
-
-	//		if (this->position.y > (*item)->position.y)
-	//			order += 1;
-	//		else
-	//			order -= 1;
-	//	}
-	//	else if (myApp->entities->playerSoldiersList[i] != this) {
-
-
-	//	}
-	//}
-
-	for (int i = 0; i < myApp->entities->entitiesVector.size(); ++i) {
-
-		if (myApp->entities->entitiesVector[i] != nullptr) {
-
-			if (myApp->entities->entitiesVector[i] != this) {
-
-				if (this->position.y > myApp->entities->entitiesVector[i]->position.y)
-					order += 1;
-				else
-					order -= 1;
-
-			}
-		}
-	}
-
-}
-
 bool Unit::Draw()
 {
-	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &currentAnimation.GetTheActualCurrentFrame());
+	spriteRect = currentAnimation.GetTheActualCurrentFrame();	//TODO: CARLESTODO Mark of blit update
+	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &spriteRect);
 
 	return true;
 }
@@ -139,7 +104,7 @@ bool Unit::Draw()
 bool Unit::DebugDraw()
 {
 	/*if (selected) {
-		myApp->render->DrawQuad(UnitRect, 0, 255, 0, 255, false);
+		myApp->render->DrawQuad(entityRect, 0, 255, 0, 255, false);
 	}
 	else {*/
 	if (selected == false) {
@@ -158,7 +123,7 @@ bool Unit::DebugDraw()
 			break;
 		}
 
-		myApp->render->DrawQuad(UnitRect, rgb[0], rgb[1], rgb[2], 255, false);
+		myApp->render->DrawQuad(entityRect, rgb[0], rgb[1], rgb[2], 255, false);
 	}
 
 	return true;

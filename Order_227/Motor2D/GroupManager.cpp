@@ -51,12 +51,10 @@ void GroupManager::SelectUnit(SDL_Rect rect) {
 
 		if ((*item).active == true && (*item).faction == entity_faction::COMMUNIST && (*item).IsDead() == false) {
 
-			SDL_Rect entityRect = (*item).UnitRect;
-
-			if (SDL_HasIntersection(&entityRect, &rect)) {
+			if (SDL_HasIntersection(&(*item).entityRect, &rect)) {
 				(*item).selected = true;
 			}
-			else if (!SDL_HasIntersection(&entityRect, &rect) && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_IDLE) {
+			else if (!SDL_HasIntersection(&(*item).entityRect, &rect) && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_IDLE) {
 				(*item).selected = false;
 			}
 		}
@@ -85,23 +83,21 @@ void GroupManager::SelectUnit(iPoint pos) {
 
 	int counter = 0;
 
-	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
+	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {	//TODO-Jaume: Check that this works
 
-		if ((*item).active == true && (*item).faction == entity_faction::COMMUNIST)
-			SDL_Rect entityRect = (*item).UnitRect;
+		if ((*item).active == true && (*item).faction == entity_faction::COMMUNIST) {
+			if ((counter < 1) && pos.x > (*item).entityRect.x
+				&& pos.x < (*item).entityRect.x + (*item).entityRect.w
+				&& pos.y >(*item).entityRect.y
+				&& pos.y < (*item).entityRect.y + (*item).entityRect.h) {
 
-		if ((counter < 1) && pos.x > (*item).UnitRect.x
-			&& pos.x < (*item).UnitRect.x + (*item).UnitRect.w
-			&& pos.y >(*item).UnitRect.y
-			&& pos.y < (*item).UnitRect.y + (*item).UnitRect.h) {
-			
-			(*item).selected = true;
-			counter++;
+				(*item).selected = true;
+				counter++;
+			}
+			else if (myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == SDL_RELEASED) {
+				(*item).selected = false;
+			}
 		}
-
-		else if (myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == SDL_RELEASED)
-			(*item).selected = false;
-		
 	}
 
 	//NO BORRAR

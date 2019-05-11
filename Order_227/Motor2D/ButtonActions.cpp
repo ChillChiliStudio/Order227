@@ -44,12 +44,12 @@ void StartGame() {
 
 	//TODO make the game start Correctly
 	//myApp->scene->Start();
-	myApp->entities->ActivateBuildings();
-	myApp->entities->ActivateObjects();
+	//myApp->entities->ActivateBuildings();	//TODO: Check if necessary, commented because it was asumed that wasn't
+	//myApp->entities->ActivateObjects();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	myApp->gui->WinIcon->Deactivate();
 	myApp->entities->mainBase->health = 1000.0f;
 	myApp->entities->mainBase->Start();
-	myApp->entities->AllocateUnitPool();
+	//myApp->entities->AllocateUnitPool();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	//myApp->entities->ResetAll();
 	myApp->hordes->hordeRoundto(0);
 	myApp->player->playerMoney = 300;
@@ -71,7 +71,7 @@ void QuitGame() {
 	myApp->hordes->hordeActive = false;
 	myApp->gui->pauseMenuPanel->Deactivate();
 	myApp->gui->MainMenuTemp_Image->Activate();
-	myApp->entities->ReleasePools();
+	//myApp->entities->ReleasePools();	//TODO: Check if necessary, commented because it was asumed that wasn't
 //	myApp->entities->ResetAll();
 	//myApp->scene->CleanUp();
 

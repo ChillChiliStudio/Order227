@@ -264,8 +264,8 @@ void Player::OrderHunt()
 
 	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
 		if ((*item).active == true && (*item).faction == entity_faction::CAPITALIST && (*item).IsDead() == false &&
-			!(mousePos.x < (*item).UnitRect.x || mousePos.x >(*item).UnitRect.x + (*item).UnitRect.w
-				|| mousePos.y < (*item).UnitRect.y || mousePos.y >(*item).UnitRect.y + (*item).UnitRect.h))
+			!(mousePos.x < (*item).entityRect.x || mousePos.x >(*item).entityRect.x + (*item).entityRect.w
+				|| mousePos.y < (*item).entityRect.y || mousePos.y >(*item).entityRect.y + (*item).entityRect.h))
 		{
 			selectedTarget = &(*item);
 			break;

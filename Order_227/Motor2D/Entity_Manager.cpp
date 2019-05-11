@@ -12,6 +12,8 @@
 #include "UserInterface.h"
 #include "Image.h"
 
+#include <algorithm>
+
 Entity_Manager::Entity_Manager()
 {
 	name.assign("entities");
@@ -19,9 +21,7 @@ Entity_Manager::Entity_Manager()
 
 
 Entity_Manager::~Entity_Manager()
-{
-}
-
+{}
 
 bool Entity_Manager::Awake(pugi::xml_node& config)
 {
@@ -49,11 +49,11 @@ bool Entity_Manager::Start()
 	loadTextures();
 	lifeBar_tex = myApp->tex->Load("ui/Life_Icon.png");
 
+	AllocateEntityPool();
+
 	//Activate Buildings & Objects
 	ActivateBuildings();
 	ActivateObjects();
-
-	AllocateEntityPool();
 
 	LoadEntityData();
 
@@ -117,11 +117,48 @@ bool Entity_Manager::Update(float dt)
 				item->Update(dt);
 		}*/
 
+		//OLD:
+		//myApp->render->OrderBlit(myApp->render->OrderToRender);
+
+		//Blit Ordering that actually works
+		UpdateBlitOrdering();
+		BlitEntities();
+
 		accumulated_time -= update_ms_cycle;
-		myApp->render->OrderBlit(myApp->render->OrderToRender);
 	}
 
 	return true;
+}
+
+bool BlitSort(Entity* i, Entity* j)
+{
+	bool ret = false;
+
+	if (i != nullptr && j != nullptr) {
+		ret = i->position.y > j->position.y;
+	}
+
+	return ret;
+}
+
+void Entity_Manager::UpdateBlitOrdering()
+{
+	std::sort(entitiesVector.begin(), entitiesVector.end(), BlitSort);
+
+	for (int i = 0; i < entitiesVector.size(); ++i) {
+		if (entitiesVector[i] != nullptr) {
+			entitiesVector[i]->position.y;
+		}
+	}
+}
+
+void Entity_Manager::BlitEntities()
+{
+	for (int i = entitiesVector.size() - 1; i >= 0; i--) {
+		if (entitiesVector[i] != nullptr && entitiesVector[i]->texture != nullptr) {
+			myApp->render->Blit(entitiesVector[i]->texture, entitiesVector[i]->position.x, entitiesVector[i]->position.y, &entitiesVector[i]->spriteRect);
+		}
+	}
 }
 
 bool Entity_Manager::CleanUp() {
@@ -188,12 +225,14 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 			(*item).stats = infantryStats[int(infantryType)];
 
 			(*item).UnitSetup();
-			(*item).currentAnimation = &myApp->entities->animationArray[int(infantryType)][int((*item).unitState)][int((*item).unitDirection)];
+			(*item).currentAnimation = &animationArray[int(infantryType)][int((*item).unitState)][int((*item).unitDirection)];
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 
-				if (entitiesVector[i] == nullptr)
+				if (entitiesVector[i] == nullptr) {
 					entitiesVector[i] = (Entity*)(&(*item));
+					break;
+				}
 			}
 
 
@@ -243,7 +282,6 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 	for (int i = 0; i < entitiesVector.size(); i++) {
 
 		if (entitiesVector[i] == (Entity*)_Unit) {
-
 			entitiesVector[i] = nullptr;
 			break;
 		}
@@ -268,22 +306,32 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 
 void Entity_Manager::ActivateBuildings()
 {
-	for (std::vector<Building>::iterator item = buildingsArray.begin(); item != buildingsArray.end(); item = next(item)) {
+	for (std::vector<Building>::iterator item = buildingsArray.begin(); item != buildingsArray.end(); item = next(item)) {	//TODO: This entire thing is a workaround, needs to be ready to work with different building types
 
 		if ((*item).buildingType != building_type::BUILDING_MAX && (*item).buildingType != building_type::BUILDING_NONE) {
 
-			if ((*item).buildingType == building_type::MAIN_BASE) {	//TODO: Check if this is a workaround or hardcoded
+			if ((*item).buildingType == building_type::MAIN_BASE) {
 
 				(*item).faction == entity_faction::COMMUNIST;
 				mainBase = &(*item);
+				(*item).spriteRect = { 605, 1882, 212, 148 }; //TODO: Deharcode
+				(*item).entityRect.w = (*item).spriteRect.w;
+				(*item).entityRect.h = (*item).spriteRect.h;
 			}
 			else
-				(*item).faction == entity_faction::CAPITALIST;
+				(*item).faction == entity_faction::CAPITALIST;	//TODO: if not Main_Base then enemy building???
 
 			(*item).active = true;
 			(*item).selected = false;
 			(*item).texture = buildingsTextures[int((*item).buildingType)];
 
+			for (int i = 0; i < entitiesVector.size(); i++) {
+
+				if (entitiesVector[i] == nullptr) {
+					entitiesVector[i] = (Entity*)(&(*item));
+					break;
+				}
+			}
 		}
 	}
 }
@@ -299,9 +347,19 @@ void Entity_Manager::ActivateObjects()
 			(*item).selected = false;
 			(*item).texture = objectTextures[int((*item).objectType)];
 
-			if ((*item).objectType == object_type::TREE)
-				(*item).UnitRect = SetupTreeType();
+			if ((*item).objectType == object_type::TREE) {
+				(*item).spriteRect = SetupTreeType();	//TODO: CARLESTODO
+				(*item).entityRect.w = (*item).spriteRect.w;
+				(*item).entityRect.h = (*item).spriteRect.h;
+			}
 
+			for (int i = 0; i < entitiesVector.size(); i++) {
+
+				if (entitiesVector[i] == nullptr) {
+					entitiesVector[i] = (Entity*)(&(*item));
+					break;
+				}
+			}
 		}
 	}
 }

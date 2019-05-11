@@ -79,7 +79,7 @@ bool Horde_Manager::Update(float dt)
 			SpawningPoints_Array[i]->SpawnTime.Read() > 2000)
 		{
 
-			hordes[i]->SpreadDestinations({int (myApp->entities->mainBase->position.x + myApp->entities->mainBase->UnitRect.w/2), int(myApp->entities->mainBase->position.y + myApp->entities->mainBase->UnitRect.h / 2)});
+			hordes[i]->SpreadDestinations({int (myApp->entities->mainBase->position.x + myApp->entities->mainBase->entityRect.w/2), int(myApp->entities->mainBase->position.y + myApp->entities->mainBase->entityRect.h / 2)});
 			hordes[i]->TransmitOrders(unit_orders::MOVE);
 			SpawningPoints_Array[i]->enemiesAttacking = true;
 		}

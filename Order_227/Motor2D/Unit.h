@@ -105,7 +105,6 @@ public:
 
 	bool Start() override;
 	bool Update(float dt) override;
-	void UpdateBlitOrder() override;
 	bool Draw();
 	void UnitSetup();
 

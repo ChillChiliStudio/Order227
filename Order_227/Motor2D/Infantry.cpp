@@ -13,8 +13,6 @@ bool Infantry::Draw() {
 
 	SDL_Rect rect = { (int)position.x, (int)position.y, 50, 50 };
 
-
-	UpdateBlitOrder();
 	myApp->render->Push(order, texture, (int)position.x, (int)position.y,&TestingRect);
 
 
@@ -28,25 +26,6 @@ bool Infantry::Draw() {
 //	//position.y += (speed * dt);
 //	return true;
 //}
-
-void Infantry::UpdateBlitOrder() {
-
-	//ARRAY
-	for (int i = 0; i < myApp->entities->entitiesVector.size(); ++i) {
-
-		if (myApp->entities->entitiesVector[i] != nullptr) {
-
-			if (myApp->entities->entitiesVector[i] != this) {
-
-				if (this->position.y > myApp->entities->entitiesVector[i]->position.y)
-					order += 1;
-				else
-					order -= 1;
-
-			}
-		}
-	}
-
 
 //LIST METHOD
 
@@ -64,5 +43,3 @@ void Infantry::UpdateBlitOrder() {
 		}
 		item = next(item);
 	}*/
-
-}

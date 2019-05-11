@@ -18,8 +18,6 @@ public:
 
 public:
 
-	void UpdateBlitOrder() override;
-
 public:
 
 	SDL_Rect TestingRect = {0,0,78,66};
