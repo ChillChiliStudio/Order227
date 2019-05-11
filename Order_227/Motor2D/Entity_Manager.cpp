@@ -135,7 +135,7 @@ bool BlitSort(Entity* i, Entity* j)
 	bool ret = false;
 
 	if (i != nullptr && j != nullptr) {
-		ret = i->position.y > j->position.y;
+		ret = i->groundPos.y > j->groundPos.y;
 	}
 
 	return ret;
@@ -144,12 +144,6 @@ bool BlitSort(Entity* i, Entity* j)
 void Entity_Manager::UpdateBlitOrdering()
 {
 	std::sort(entitiesVector.begin(), entitiesVector.end(), BlitSort);
-
-	for (int i = 0; i < entitiesVector.size(); ++i) {
-		if (entitiesVector[i] != nullptr) {
-			entitiesVector[i]->position.y;
-		}
-	}
 }
 
 void Entity_Manager::BlitEntities()
@@ -161,8 +155,8 @@ void Entity_Manager::BlitEntities()
 	}
 }
 
-bool Entity_Manager::CleanUp() {
-
+bool Entity_Manager::CleanUp()
+{
 	LOG("Clean Up Entity_Manager");
 
 	for (int i = 0; i < entitiesVector.size(); i++) {
@@ -223,9 +217,7 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 			(*item).infantryType = infantryType;
 			(*item).texture = infantryTextures[int(infantryType)];
 			(*item).stats = infantryStats[int(infantryType)];
-
-			(*item).UnitSetup();
-			(*item).currentAnimation = &animationArray[int(infantryType)][int((*item).unitState)][int((*item).unitDirection)];
+			(*item).Start();
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 
@@ -234,7 +226,6 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 					break;
 				}
 			}
-
 
 			/*if (entityFaction == entity_faction::CAPITALIST) {	//TODO-Carles: I'll handle this later
 
@@ -264,7 +255,6 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 	return ret;
 }
 
-
 bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shouldn't be necessary as non-active elements are not iterated at any point, and if they become active again these values are or should be overwritten
 
 	_Unit->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
@@ -276,7 +266,7 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 
 	_Unit->active = false;
 	_Unit->selected = false;
-	_Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];
+	//_Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];	//TODO: This caused bugs (Carles: Not sure)
 
 	std::vector<Entity*>::iterator it = entitiesVector.begin();
 	for (int i = 0; i < entitiesVector.size(); i++) {
@@ -314,9 +304,14 @@ void Entity_Manager::ActivateBuildings()
 
 				(*item).faction == entity_faction::COMMUNIST;
 				mainBase = &(*item);
-				(*item).spriteRect = { 605, 1882, 212, 148 }; //TODO: Deharcode
+				(*item).spriteRect = { 605, 1882, 212, 148 }; //TODO: Desharcodear
 				(*item).entityRect.w = (*item).spriteRect.w;
 				(*item).entityRect.h = (*item).spriteRect.h;
+
+				(*item).centerPos.x = (*item).position.x + (*item).spriteRect.w / 2;	//TODO: Desharcodear
+				(*item).centerPos.y = (*item).position.y + (*item).spriteRect.h / 2;
+				(*item).groundPos.x = (*item).position.x + (*item).spriteRect.w / 2;
+				(*item).groundPos.y = (*item).position.y + (*item).spriteRect.h;
 			}
 			else
 				(*item).faction == entity_faction::CAPITALIST;	//TODO: if not Main_Base then enemy building???
@@ -336,7 +331,6 @@ void Entity_Manager::ActivateBuildings()
 	}
 }
 
-
 void Entity_Manager::ActivateObjects()
 {
 	for (std::vector<Static_Object>::iterator item = objectsArray.begin(); item != objectsArray.end(); item = next(item)) {
@@ -351,6 +345,11 @@ void Entity_Manager::ActivateObjects()
 				(*item).spriteRect = SetupTreeType();	//TODO: CARLESTODO
 				(*item).entityRect.w = (*item).spriteRect.w;
 				(*item).entityRect.h = (*item).spriteRect.h;
+
+				(*item).centerPos.x = (*item).position.x + (*item).spriteRect.w / 2;	//TODO: Desharcodear
+				(*item).centerPos.y = (*item).position.y + (*item).spriteRect.h / 2;
+				(*item).groundPos.x = (*item).position.x + (*item).spriteRect.w / 2;
+				(*item).groundPos.y = (*item).position.y + (*item).spriteRect.h;
 			}
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
@@ -363,7 +362,6 @@ void Entity_Manager::ActivateObjects()
 		}
 	}
 }
-
 
 bool Entity_Manager::loadTextures() {
 

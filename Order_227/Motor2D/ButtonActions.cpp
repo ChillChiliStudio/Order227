@@ -57,8 +57,8 @@ void StartGame() {
 	myApp->hordes->hordeActive = true;
 	myApp->hordes->roundTimerStart();
 	myApp->gui->MainMenuTemp_Image->Deactivate();
-
 }
+
 void QuitGame() {
 
 	//myApp->audio->PlayMusic();
@@ -67,16 +67,22 @@ void QuitGame() {
 	//MUSIC
 	myApp->audio->PlayMusic("audio/music/main_menu/menu_song_loop.ogg",-1);
 
-
 	myApp->hordes->hordeActive = false;
 	myApp->gui->pauseMenuPanel->Deactivate();
 	myApp->gui->MainMenuTemp_Image->Activate();
+	
+	for (int i = 0; i < myApp->entities->unitPool.size(); i++) {	//TODO: This "seems" to work, check if it really does or needs extra steps
+		if (myApp->entities->unitPool[i].active == true) {
+			myApp->entities->DeActivateUnit(&myApp->entities->unitPool[i]);
+		}
+	}
+
 	//myApp->entities->ReleasePools();	//TODO: Check if necessary, commented because it was asumed that wasn't
-//	myApp->entities->ResetAll();
+	//myApp->entities->ResetAll();
 	//myApp->scene->CleanUp();
-
-
 }
-void CloseGame() {
+
+void CloseGame()
+{
 	myApp->mustShutDown = true;
 }

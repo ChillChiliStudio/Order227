@@ -25,37 +25,34 @@ Unit::~Unit()
 
 bool Unit::Start()
 {
-	//centerPos = { position.x + entityRect.w / 2, position.y + entityRect.y / 2 };
+	entityRect = { (int)position.x, (int)position.y, 25, 35 };	//Todo: Use XML values for rect width, not hardcoded ones (but take these as reference)
 
-	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
+	centerPos = { position.x + entityRect.w / 2, position.y + entityRect.h / 2 };
+	groundPos = { position.x + entityRect.w / 2, position.y + entityRect.h };
 
-	return true;
-}
-
-void Unit::UnitSetup()  //TODO: Just put all this stuff on Start(), do we need to call UnitSetup specifically?
-{
-	entityRect.w = 45;	//Todo: Hardcoded values
-	entityRect.h = 55;
 	unitState = unit_state::IDLE;
 	unitOrders = unit_orders::HOLD;
 	unitDirection = unit_directions::SOUTH_EAST;
 
+	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
 	stats.attackSfxId = myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::SHOT][2];	//TODO: Hardcoded audio value, this should be get by an XML
 
-	myApp->gui->CreateLifeBar(fPoint(position.x, position.y), this, myApp->entities->lifeBar_tex);
+	myApp->gui->CreateLifeBar(fPoint(centerPos.x, position.y), this, myApp->entities->lifeBar_tex);
 
 	active = true;
 	selected = false;
+
+	return true;
 }
 
 bool Unit::Update(float dt)
 {
 	onCamera = InsideCamera();
 
-	UnitWorkflow(dt);
+	entityRect.x = position.x;
+	entityRect.y = position.y;
 
-	entityRect.x = position.x - 10;	//TODO: Why are we doing this?
-	entityRect.y = position.y - 10;
+	UnitWorkflow(dt);
 
 	if (mustDespawn) {
 		mustDespawn = false;
@@ -122,8 +119,8 @@ bool Unit::DebugDraw()
 		myApp->render->DrawQuad(entityRect, rgb[0], rgb[1], rgb[2], 255, false);
 	}
 
-	myApp->render->DrawCircle(position.x, position.y, stats.attackRadius, rgb[0], rgb[1], rgb[2], 127, true);
-	myApp->render->DrawCircle(position.x, position.y, stats.visionRadius, rgb[0], rgb[1], rgb[2], 255, true);
+	myApp->render->DrawCircle(centerPos.x, centerPos.y, stats.attackRadius, rgb[0], rgb[1], rgb[2], 127, true);
+	myApp->render->DrawCircle(centerPos.x, centerPos.y, stats.visionRadius, rgb[0], rgb[1], rgb[2], 255, true);
 
 	return true;
 }
@@ -145,7 +142,7 @@ void Unit::DrawPath()
 		break;
 	}
 
-	myApp->render->DrawLine((int)position.x, (int)position.y, (*currNode).x, (*currNode).y, rgb[0], rgb[1], rgb[2], 255, true);
+	myApp->render->DrawLine((int)centerPos.x, (int)centerPos.y, (*currNode).x, (*currNode).y, rgb[0], rgb[1], rgb[2], 255, true);
 
 	if (unitPath.size() > 1) {
 		for (std::vector<iPoint>::iterator it = currNode; next(it) != unitPath.end(); it = next(it)) {
@@ -403,8 +400,10 @@ bool Unit::Move(float dt)
 {
 	position.x += (vecSpeed.x * dt);
 	position.y += (vecSpeed.y * dt);
-	//centerPos.x += (vecSpeed.x * dt);
-	//centerPos.y += (vecSpeed.y * dt);
+	centerPos.x += (vecSpeed.x * dt);
+	centerPos.y += (vecSpeed.y * dt);
+	groundPos.x += (vecSpeed.x * dt);
+	groundPos.y += (vecSpeed.y * dt);
 
 	unitState = unit_state::MOVING;
 	return true;
@@ -434,7 +433,7 @@ bool Unit::FindEnemies(float dt)
 
 void Unit::AttackCurrTarget(float dt)
 {
-	fVec2 targetDirection = GetVector2(position, currTarget->position);
+	fVec2 targetDirection = GetVector2(centerPos, currTarget->centerPos);
 	unit_directions lastDirection = unitDirection;
 	CheckDirection(targetDirection);
 
@@ -493,7 +492,7 @@ bool Unit::InsideCamera()
 {
 	bool ret = false;
 
-	if (myApp->render->InsideCamera({ (int)position.x,(int)position.y, UnitBlitRect.w, UnitBlitRect.h }) == true) {
+	if (myApp->render->InsideCamera(entityRect) == true) {
 		ret = true;
 	}
 
@@ -510,23 +509,23 @@ bool Unit::NodeReached()
 	bool ret = false;
 
 	if (vecSpeed.x > 0.0f) {
-		if (position.x >= (float)currNode->x) {
+		if (centerPos.x >= (float)currNode->x) {
 			ret = true;
 		}
 	}
 	else if (vecSpeed.x < 0.0f) {
-		if (position.x <= (float)currNode->x) {
+		if (centerPos.x <= (float)currNode->x) {
 			ret = true;
 		}
 	}
 
 	if (vecSpeed.y > 0.0f) {
-		if (position.y >= (float)currNode->y) {
+		if (centerPos.y >= (float)currNode->y) {
 			ret = true;
 		}
 	}
 	else if (vecSpeed.y < 0.0f) {
-		if (position.y <= (float)currNode->y) {
+		if (centerPos.y <= (float)currNode->y) {
 			ret = true;
 		}
 	}
@@ -548,7 +547,7 @@ bool Unit::TargetDisplaced(Entity* target)
 {
 	bool ret = false;
 
-	if (target->position.x != destination.x || target->position.y != destination.y) {
+	if (target->centerPos.x != destination.x || target->centerPos.y != destination.y) {
 		ret = true;
 	}
 
@@ -563,8 +562,8 @@ Entity* Unit::EnemyInRadius(uint radius)
 	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
 		if ((*item).active == true && (*item).IsDead() == false && (*item).faction != faction) {
 
-			if (InsideSquareRadius(position, (float)stats.attackRadius, (*item).position)
-				&& InsideRadius(position, (float)stats.attackRadius, (*item).position))
+			if (InsideSquareRadius(centerPos, (float)stats.attackRadius, (*item).centerPos)
+				&& InsideRadius(centerPos, (float)stats.attackRadius, (*item).centerPos))
 			{
 				ret = (Entity*)&(*item);
 				break;
@@ -576,8 +575,8 @@ Entity* Unit::EnemyInRadius(uint radius)
 		for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); item != myApp->entities->buildingsArray.end(); item = next(item)) {
 			if ((*item).active == true && (*item).IsDead() == false) {
 
-				if (InsideSquareRadius(position, (float)stats.attackRadius, (*item).position)
-					&& InsideRadius(position, (float)stats.attackRadius, (*item).position))
+				if (InsideSquareRadius(centerPos, (float)stats.attackRadius, (*item).centerPos)
+					&& InsideRadius(centerPos, (float)stats.attackRadius, (*item).centerPos))
 				{
 					ret = (Entity*)&(*item);
 					break;
@@ -594,7 +593,7 @@ bool Unit::TargetInRange(Entity* target)
 	bool ret = false;
 
 	if (target != nullptr) {
-		ret = InsideRadius(position, (float)stats.attackRadius, target->position);
+		ret = InsideRadius(centerPos, (float)stats.attackRadius, target->centerPos);
 	}
 
 	return ret;
@@ -622,7 +621,7 @@ fVec2 Unit::SetupVecSpeed()
 {
 	fPoint nodePos = { (float)(currNode->x), (float)(currNode->y) };
 
-	vecSpeed = GetVector2(position, nodePos);
+	vecSpeed = GetVector2(centerPos, nodePos);
 	vecSpeed = vecSpeed.GetUnitVector();
 	vecSpeed *= stats.linSpeed;
 	return vecSpeed;
@@ -631,7 +630,7 @@ fVec2 Unit::SetupVecSpeed()
 // Order calling
 void Unit::StartHold()
 {
-	origin = destination = { (int)position.x, (int)position.y };
+	origin = destination = { (int)centerPos.x, (int)centerPos.y };
 
 	unitOrders = unit_orders::HOLD;
 	unitState = unit_state::IDLE;
@@ -641,7 +640,7 @@ void Unit::StartHold()
 
 void Unit::StartMove(iPoint destination)
 {
-	origin = { (int)position.x, (int)position.y };
+	origin = { (int)centerPos.x, (int)centerPos.y };
 	this->destination = destination;
 
 	SetupPath(origin, destination);
@@ -657,8 +656,8 @@ void Unit::StartHunt(Entity* target)
 	this->huntTarget = target;
 	targetLost = false;
 
-	origin = { (int)position.x, (int)position.y };
-	this->destination = { (int)target->position.x, (int)target->position.y };
+	origin = { (int)centerPos.x, (int)centerPos.y };
+	this->destination = { (int)target->centerPos.x, (int)target->centerPos.y };
 
 	SetupPath(origin, destination);
 
@@ -673,9 +672,9 @@ void Unit::StartAggroHunt(Entity* target)	//NOTE: We don't touch origin or desti
 	this->aggroTarget = target;
 	targetLost = false;
 
-	aggroDestination = { (int)target->position.x, (int)target->position.y };
+	aggroDestination = { (int)target->centerPos.x, (int)target->centerPos.y };
 
-	SetupPath({ (int)position.x, (int)position.y }, aggroDestination);
+	SetupPath({ (int)centerPos.x, (int)centerPos.y }, aggroDestination);
 
 	if (aggroTriggered == false) {	// If it's the fist time aggro-hunting, save previous order
 		aggroTriggered = true;
@@ -690,7 +689,7 @@ void Unit::StartAggroHunt(Entity* target)	//NOTE: We don't touch origin or desti
 
 void Unit::StartPatrol(iPoint destination)
 {
-	origin = { (int)position.x, (int)position.y };
+	origin = { (int)centerPos.x, (int)centerPos.y };
 	this->destination = destination;
 
 	SetupPath(origin, destination);
@@ -703,7 +702,7 @@ void Unit::StartPatrol(iPoint destination)
 
 void Unit::ResumePatrol()
 {
-	SetupPath({ (int)position.x, (int)position.y }, destination);
+	SetupPath({ (int)centerPos.x, (int)centerPos.y }, destination);
 
 	unitOrders = unit_orders::PATROL;
 	unitState = unit_state::IDLE;
@@ -735,7 +734,7 @@ void Unit::ResumeLastOrder()
 	unitOrders = unit_orders::HUNT;
 	unitState = unit_state::IDLE;
 
-	SetupPath({ (int)position.x, (int)position.y }, aggroDestination);
+	SetupPath({ (int)centerPos.x, (int)centerPos.y }, aggroDestination);
 
 	UpdateAnimation();
 

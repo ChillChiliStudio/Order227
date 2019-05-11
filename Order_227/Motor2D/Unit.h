@@ -106,7 +106,6 @@ public:
 	bool Start() override;
 	bool Update(float dt) override;
 	bool Draw();
-	void UnitSetup();
 
 public:
 
@@ -174,7 +173,7 @@ public:
 	unit_directions unitDirection = unit_directions::SOUTH_EAST;
 
 	// Animation
-	SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
+	//SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
 	Animation currentAnimation;
 
 	// Speed

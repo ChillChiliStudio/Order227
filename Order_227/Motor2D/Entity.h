@@ -48,7 +48,7 @@ public:
 
 	Entity() {};
 	Entity(fPoint position, entity_type entityType, entity_faction faction = entity_faction::NEUTRAL)
-		: type(entityType), position(position), entityRect({ (int)position.x, (int)position.y, 0, 0 }), faction(faction)
+		: type(entityType), position(position), centerPos(position), groundPos(position), entityRect({ (int)position.x, (int)position.y, 0, 0 }), faction(faction)
 	{}
 
 	~Entity() {}
@@ -90,8 +90,9 @@ public:
 	bool stored = false;
 
 	//Entity data
-	fPoint			position;	//World Position (should be worldPos)
-	//fPoint		centerPos;	//Rect center world position
+	fPoint		position;	//World Position (should be worldPos)
+	fPoint		centerPos;	//Rect center world position
+	fPoint		groundPos;
 
 	entity_faction	faction;
 	entity_type		type;
