@@ -95,6 +95,8 @@ public:
 
 	bool interfaceDebugDraw = false;
 
+	Text* fpsText = nullptr;
+
 	std::string horde;
 	std::string timerHorde_temp;
 	//uint defaultScale;	//IMPROVE: Future use

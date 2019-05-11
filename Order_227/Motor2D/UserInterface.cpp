@@ -86,6 +86,9 @@ bool User_Interface::Start()
 	endingImages_Tex = myApp->tex->Load("ui/Ending_Game_Mesage_Icon.png"); 
 	miniMap_tex = myApp->tex->Load("ui/miniMap_Temp.png");
 
+	//Fps debug text
+	fpsText = CreateText({ 10, 10 }, "0", font_id::DEFAULT, { 0, 255, 0, 255 });
+
 	SDL_Rect LoseRect = { 437,112,437,112 };
 	SDL_Rect TempButtonRect[4];
 	TempButtonRect[0] = {626,0,290,84};

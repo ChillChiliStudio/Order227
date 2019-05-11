@@ -20,6 +20,8 @@
 #include "Player.h"
 #include "Horde_Manager.h"
 
+#include "Text.h"
+
 #include "Brofiler/Brofiler.h"
 
 // Constructor
@@ -204,6 +206,9 @@ void App::FinishUpdate()
 
 	if (capped_ms > 0 && last_frame_ms < capped_ms)
 		SDL_Delay(capped_ms - last_frame_ms);
+
+	std::string tmp = std::to_string(prev_last_sec_frame_count);
+	gui->fpsText->ChangeString(tmp);
 }
 
 // Call modules before each loop iteration
