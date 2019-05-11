@@ -103,28 +103,27 @@ bool Unit::Draw()
 
 bool Unit::DebugDraw()
 {
-	/*if (selected) {
-		myApp->render->DrawQuad(entityRect, 0, 255, 0, 255, false);
+	Uint8 rgb[3] = { 0, 0, 0 };
+
+	switch (faction) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
+	case entity_faction::COMMUNIST:
+		rgb[0] = 255;	//Red
+		break;
+	case entity_faction::CAPITALIST:
+		rgb[2] = 255;	//Blue
+		break;
+	case entity_faction::NEUTRAL:
+		rgb[0] = 255;
+		rgb[2] = 255;	//Magenta
+		break;
 	}
-	else {*/
+
 	if (selected == false) {
-		Uint8 rgb[3] = { 0, 0, 0 };
-
-		switch (faction) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
-		case entity_faction::COMMUNIST:
-			rgb[0] = 255;	//Red
-			break;
-		case entity_faction::CAPITALIST:
-			rgb[2] = 255;	//Blue
-			break;
-		case entity_faction::NEUTRAL:
-			rgb[0] = 255;
-			rgb[2] = 255;	//Magenta
-			break;
-		}
-
 		myApp->render->DrawQuad(entityRect, rgb[0], rgb[1], rgb[2], 255, false);
 	}
+
+	myApp->render->DrawCircle(position.x, position.y, stats.attackRadius, rgb[0], rgb[1], rgb[2], 127, true);
+	myApp->render->DrawCircle(position.x, position.y, stats.visionRadius, rgb[0], rgb[1], rgb[2], 255, true);
 
 	return true;
 }

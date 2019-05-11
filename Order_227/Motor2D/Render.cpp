@@ -285,6 +285,11 @@ bool Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uin
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
 
+	if (use_camera) {
+		x = camera.x + x;
+		y = camera.y + y;
+	}
+
 	int result = -1;
 	SDL_Point points[360];
 

@@ -5,7 +5,6 @@
 #include "Module.h"
 #include "Entity.h"
 #include "Unit.h"
-#include "Infantry.h"
 #include "Static_Object.h"
 #include "Building.h"
 #include "Group.h"
