@@ -13,6 +13,10 @@
 #include "Unit.h"
 #include "Player.h"
 #include "Brofiler/Brofiler.h"
+
+
+
+
 bool Player::Awake()
 {
 	LOG("AWAKING PLAYER MODULE");
@@ -42,14 +46,15 @@ bool Player::Update(float dt)
 	//if (unitCreationCD.ReadSec() >= 10) {
 	//	startCreationUnit = false;
 	//}
-	if (myApp->gui->MainMenuTemp_Image->active != true) {
+	if (myApp->gui->MainMenuTemp_Image->active == false) {
+
 		UpdateMousePos();	// Mouse Position Update
 		CameraInputs(dt);	// Camera Inputs
 		DebugInputs();		// Debug Inputs
 
 		PlayerSelect();		// Player Area Selection Management
-
 		CheckForOrders();
+
 		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN) {
 			ApplyOrders();
 		}
@@ -67,6 +72,13 @@ bool Player::Update(float dt)
 		}
 	}
 
+	if (incomeTimer.ReadSec() >= 2) {
+
+		playerMoney += playerIncome;
+		myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
+		incomeTimer.Start();
+	}
+	
 	return true;
 }
 

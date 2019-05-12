@@ -4,7 +4,6 @@
 #include "Entity.h"
 #include "App.h"
 #include "Animation.h"
-#include "Timer.h"
 
 #include "SDL/include/SDL.h"
 
@@ -41,18 +40,38 @@ public:
 	bool DebugDraw();
 
 	virtual float Hurt(float damage);
+	virtual float Repair();
 	virtual bool IsDead();
 	virtual bool IsVisible();
+
+private:
+
+	void GiveReward();
+	void TakeReward();
 
 public:
 
 	//ADD ANIMATION
 	//Current_animation*
 	building_type buildingType;
-	
+
+	//Buffs
+	bool unitBuff = false;
+
+	int UnitsSpeedBuff = 0;
+	int UnitsLifeBuff = 0;
+	int MainBaseLifeBuff = 0;
+	int StrategicPointsLifeBuff = 0;
+
 	float health = 0;
+	int maxHealth = 0;
+	int healthRecovery = 0;
 	int income = 0;
-	Timer incomeTimer;
+
+private:
+
+	bool rewardGiven = false;
+	bool repairable = false;
 
 };
 #endif 

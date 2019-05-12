@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "Module.h"
+#include "Timer.h"
 #include "Point.h"
 
 //#include <vector>
@@ -68,7 +69,10 @@ public:
 
 	//Group playerGroup = nullptr;	//TODO: On group manager, should probably be here
 
+	int playerIncome = 0;
 	int playerMoney = 400;
+	Timer incomeTimer;
+
 	bool startCreationUnit = false;
 
 };
