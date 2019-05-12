@@ -304,7 +304,7 @@ void Entity_Manager::ActivateBuildings()
 				(*item).groundPos.y = (*item).position.y + (*item).spriteRect.h;
 			}
 			else
-				(*item).faction == entity_faction::CAPITALIST;	//TODO: if not Main_Base then enemy building???
+				(*item).faction == entity_faction::NEUTRAL;	//TODO: if not Main_Base then enemy building???
 
 			(*item).active = true;
 			(*item).selected = false;
