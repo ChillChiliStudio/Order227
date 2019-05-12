@@ -8,6 +8,7 @@
 #define VARIATION_PER_SOUND 3
 #define SOV 0
 #define CAP 1
+#define MAX_INFANTRY_NUMBER 7
 
 struct _Mix_Music;
 struct Mix_Chunk;
@@ -38,6 +39,8 @@ public:
 	// Called before render is available
 	bool Awake(pugi::xml_node&) override;
 
+	bool Start() override;
+
 	// Called before quitting
 	bool CleanUp() override;
 
@@ -63,7 +66,7 @@ public:
 
 
 	//TODO: The hardoced 4 should be entity/unit type::Max
-	uint SoundFX_Array[7][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
+	uint SoundFX_Array[MAX_INFANTRY_NUMBER][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
 
 	pugi::xml_document SFX_XML;
 

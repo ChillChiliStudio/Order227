@@ -4,6 +4,7 @@
 #include "Audio.h"
 #include "Unit.h"
 
+
 #include "SDL/include/SDL.h"
 #include "SDL_mixer\include\SDL_mixer.h"
 #pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
@@ -51,10 +52,16 @@ bool Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
+	return ret;
+}
+
+bool Audio::Start() {
+
+	static_assert((int)infantry_type::INFANTRY_MAX == MAX_INFANTRY_NUMBER, "MAX_INFANTRY_NUMBER in Audio.h is not the same that the number of unit types (infantry_type::INFANTRY_MAX). Sounds won't be loaded! Modify the MAX_INFANTRY_NUMBER define value and set it as the same as infantry_type::INFANTRY_MAX");
+
 	FillArrayFX();
 	LoadIntoArray();
-
-	return ret;
+	return true;
 }
 
 // Called before quitting
@@ -215,27 +222,15 @@ void Audio::ControlSFXVolume(int vol) { //Range: 0-128
 
 
 void Audio::FillArrayFX() {
-
 	
-	for (int i = 0; i < 7; ++i) {
-
+	for (int i = 0; i < (int)infantry_type::INFANTRY_MAX; ++i) {
 		for (int j = 0; j < FACTION_NUM; ++j) {
-
 			for (int k = 0; k < (int)type_sounds::MAX; ++k) {
-
-				for (int l = 0; l < VARIATION_PER_SOUND; ++l) {
-
-
-
+				for (int l = 0; l < VARIATION_PER_SOUND; ++l)
 					SoundFX_Array[i][j][k][l]= -1;
 
-
-				}
-
 			}
-
 		}
-
 	}
 
 }
