@@ -45,6 +45,10 @@ bool Entity_Manager::Awake(pugi::xml_node& config)
 
 bool Entity_Manager::Start()
 {
+
+
+static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number of Uniots are different from the TROOP_TYPES define, have to be equal");
+
 	//Load textures
 	//infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
 	loadTextures();

@@ -11,8 +11,10 @@
 #include "Animation.h"
 
 #define TIMES_PER_SEC 5
-#define TROOP_TYPES 6
+#define TROOP_TYPES 7
 #define RESIZE_VALUE 50
+
+
 
 class Entity_Manager : public Module
 {
