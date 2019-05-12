@@ -30,6 +30,11 @@ bool Building::Update(float dt)
 	}
 
 	Draw();
+
+	if (myApp->map->mapDebugDraw) {
+		DebugDraw();
+	}
+
 	return true;
 }
 
@@ -40,30 +45,14 @@ bool Building::CleanUp()
 
 bool Building::Draw()
 {
-
-	UpdateBlitOrder();
-	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &buildingBlitRect);
+	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &spriteRect);
 
 	return true;
 }
 
-void Building::UpdateBlitOrder() {
-
-	for (int i = 0; i < myApp->entities->entitiesVector.size(); ++i) {
-
-		if (myApp->entities->entitiesVector[i] != nullptr) {
-
-			if (myApp->entities->entitiesVector[i] != this) {
-
-				if (this->position.y > myApp->entities->entitiesVector[i]->position.y)
-					order += 1;
-				else
-					order -= 1;
-
-			}
-
-		}
-	}
+bool Building::DebugDraw()
+{
+	return myApp->render->DrawQuad(entityRect, 255, 0, 0, 255, false);
 }
 
 float Building::Hurt(float damage)

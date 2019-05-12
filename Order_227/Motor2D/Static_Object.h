@@ -35,7 +35,7 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 	bool Draw();
-	void UpdateBlitOrder() override;
+	bool DebugDraw();
 
 	//NOTE from Carles: After several hours of suffering in an attempt to create a new class from entity that had this stuff, I gave up and this is the result
 	virtual float Hurt(float damage) { return 0.0f; };

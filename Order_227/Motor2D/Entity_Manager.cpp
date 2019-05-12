@@ -12,6 +12,9 @@
 #include "UserInterface.h"
 #include "Image.h"
 #include "Brofiler/Brofiler.h"
+
+#include <algorithm>
+
 Entity_Manager::Entity_Manager()
 {
 	name.assign("entities");
@@ -19,9 +22,7 @@ Entity_Manager::Entity_Manager()
 
 
 Entity_Manager::~Entity_Manager()
-{
-}
-
+{}
 
 bool Entity_Manager::Awake(pugi::xml_node& config)
 {
@@ -31,7 +32,7 @@ bool Entity_Manager::Awake(pugi::xml_node& config)
 
 	times_per_sec = TIMES_PER_SEC;
 	update_ms_cycle = 1.0f / (float)times_per_sec;
-	
+
 	//Pool Allocation
 	AllocateUnitPool();
 	AllocateHitscanPool();
@@ -49,11 +50,11 @@ bool Entity_Manager::Start()
 	loadTextures();
 	lifeBar_tex = myApp->tex->Load("ui/Life_Icon.png");
 
+	AllocateEntityPool();
+
 	//Activate Buildings & Objects
 	ActivateBuildings();
 	ActivateObjects();
-
-	AllocateEntityPool();
 
 	LoadEntityData();
 
@@ -118,15 +119,46 @@ bool Entity_Manager::Update(float dt)
 				item->Update(dt);
 		}*/
 
+		//OLD:
+		//myApp->render->OrderBlit(myApp->render->OrderToRender);
+
+		//Blit Ordering that actually works
+		UpdateBlitOrdering();
+		BlitEntities();
+
 		accumulated_time -= update_ms_cycle;
-		myApp->render->OrderBlit(myApp->render->OrderToRender);
 	}
 
 	return true;
 }
 
-bool Entity_Manager::CleanUp() {
+bool BlitSort(Entity* i, Entity* j)
+{
+	bool ret = false;
 
+	if (i != nullptr && j != nullptr) {
+		ret = i->groundPos.y > j->groundPos.y;
+	}
+
+	return ret;
+}
+
+void Entity_Manager::UpdateBlitOrdering()
+{
+	std::sort(entitiesVector.begin(), entitiesVector.end(), BlitSort);
+}
+
+void Entity_Manager::BlitEntities()
+{
+	for (int i = entitiesVector.size() - 1; i >= 0; i--) {
+		if (entitiesVector[i] != nullptr && entitiesVector[i]->texture != nullptr) {
+			myApp->render->Blit(entitiesVector[i]->texture, entitiesVector[i]->position.x, entitiesVector[i]->position.y, &entitiesVector[i]->spriteRect);
+		}
+	}
+}
+
+bool Entity_Manager::CleanUp()
+{
 	LOG("Clean Up Entity_Manager");
 
 	for (int i = 0; i < entitiesVector.size(); i++) {
@@ -160,7 +192,7 @@ void Entity_Manager::AllocateUnitPool()
 void Entity_Manager::AllocateHitscanPool()
 {
 	//hitscanPool.resize(/*hitscanPoolSize*/unitsPoolSize);
-	
+
 }
 
 void Entity_Manager::AllocateRangedPool()
@@ -187,16 +219,15 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 			(*item).infantryType = infantryType;
 			(*item).texture = infantryTextures[int(infantryType)];
 			(*item).stats = infantryStats[int(infantryType)];
-
-			(*item).UnitSetup();
-			(*item).currentAnimation = &myApp->entities->animationArray[int(infantryType)][int((*item).unitState)][int((*item).unitDirection)];
+			(*item).Start();
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 
-				if (entitiesVector[i] == nullptr)
+				if (entitiesVector[i] == nullptr) {
 					entitiesVector[i] = (Entity*)(&(*item));
+					break;
+				}
 			}
-
 
 			/*if (entityFaction == entity_faction::CAPITALIST) {	//TODO-Carles: I'll handle this later
 
@@ -226,7 +257,6 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 	return ret;
 }
 
-
 bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shouldn't be necessary as non-active elements are not iterated at any point, and if they become active again these values are or should be overwritten
 
 	_Unit->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
@@ -238,13 +268,12 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 
 	_Unit->active = false;
 	_Unit->selected = false;
-	_Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];
+	//_Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];	//TODO: This caused bugs (Carles: Not sure)
 
 	std::vector<Entity*>::iterator it = entitiesVector.begin();
 	for (int i = 0; i < entitiesVector.size(); i++) {
 
 		if (entitiesVector[i] == (Entity*)_Unit) {
-
 			entitiesVector[i] = nullptr;
 			break;
 		}
@@ -262,33 +291,47 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 		Unit->hostileUnits.clear();
 		ActiveCommunistUnits.remove(Unit);
 	}*/
-	
+
 	return true;
 }
 
 
 void Entity_Manager::ActivateBuildings()
 {
-	for (std::vector<Building>::iterator item = buildingsArray.begin(); item != buildingsArray.end(); item = next(item)) {
+	for (std::vector<Building>::iterator item = buildingsArray.begin(); item != buildingsArray.end(); item = next(item)) {	//TODO: This entire thing is a workaround, needs to be ready to work with different building types
 
 		if ((*item).buildingType != building_type::BUILDING_MAX && (*item).buildingType != building_type::BUILDING_NONE) {
 
-			if ((*item).buildingType == building_type::MAIN_BASE) {	//TODO: Check if this is a workaround or hardcoded
+			if ((*item).buildingType == building_type::MAIN_BASE) {
 
 				(*item).faction == entity_faction::COMMUNIST;
 				mainBase = &(*item);
+				(*item).spriteRect = { 605, 1882, 212, 148 }; //TODO: Desharcodear
+				(*item).entityRect.w = (*item).spriteRect.w;
+				(*item).entityRect.h = (*item).spriteRect.h;
+
+				(*item).centerPos.x = (*item).position.x + (*item).spriteRect.w / 2;	//TODO: Desharcodear
+				(*item).centerPos.y = (*item).position.y + (*item).spriteRect.h / 2;
+				(*item).groundPos.x = (*item).position.x + (*item).spriteRect.w / 2;
+				(*item).groundPos.y = (*item).position.y + (*item).spriteRect.h;
 			}
 			else
-				(*item).faction == entity_faction::CAPITALIST;
+				(*item).faction == entity_faction::CAPITALIST;	//TODO: if not Main_Base then enemy building???
 
 			(*item).active = true;
 			(*item).selected = false;
 			(*item).texture = buildingsTextures[int((*item).buildingType)];
 
+			for (int i = 0; i < entitiesVector.size(); i++) {
+
+				if (entitiesVector[i] == nullptr) {
+					entitiesVector[i] = (Entity*)(&(*item));
+					break;
+				}
+			}
 		}
 	}
 }
-
 
 void Entity_Manager::ActivateObjects()
 {
@@ -300,13 +343,27 @@ void Entity_Manager::ActivateObjects()
 			(*item).selected = false;
 			(*item).texture = objectTextures[int((*item).objectType)];
 
-			if ((*item).objectType == object_type::TREE)
-				(*item).UnitRect = SetupTreeType();
+			if ((*item).objectType == object_type::TREE) {
+				(*item).spriteRect = SetupTreeType();	//TODO: CARLESTODO
+				(*item).entityRect.w = (*item).spriteRect.w;
+				(*item).entityRect.h = (*item).spriteRect.h;
 
+				(*item).centerPos.x = (*item).position.x + (*item).spriteRect.w / 2;	//TODO: Desharcodear
+				(*item).centerPos.y = (*item).position.y + (*item).spriteRect.h / 2;
+				(*item).groundPos.x = (*item).position.x + (*item).spriteRect.w / 2;
+				(*item).groundPos.y = (*item).position.y + (*item).spriteRect.h;
+			}
+
+			for (int i = 0; i < entitiesVector.size(); i++) {
+
+				if (entitiesVector[i] == nullptr) {
+					entitiesVector[i] = (Entity*)(&(*item));
+					break;
+				}
+			}
 		}
 	}
 }
-
 
 bool Entity_Manager::loadTextures() {
 
@@ -338,14 +395,14 @@ bool Entity_Manager::LoadEntityData() {
 				temp.y = Data.attribute("y").as_int();
 				temp.w = Data.attribute("width").as_int();
 				temp.h = Data.attribute("height").as_int();
-				
+
 				//TODO: find a method to ajust the rects automatically
 
 				std::string tempString = Data.attribute("name").as_string();
 				int degreesToArray = Data.attribute("type").as_int() / 45;//DEGREES    HAVE IN ACCOUNT THAT THE TILES ARE DEFINED CONTERCLOCKWISE
 
 				if (i == 0) {
-					
+
 					temp.x += 26;
 					temp.y += 7;
 					if (tempString != "DeathOne") {
@@ -361,7 +418,7 @@ bool Entity_Manager::LoadEntityData() {
 					temp.h = 35;
 
 				}
-			
+
 				if (tempString == "Pointing") {
 					animationArray[i][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
 					animationArray[i][int(unit_state::IDLE)][degreesToArray].loop = true;

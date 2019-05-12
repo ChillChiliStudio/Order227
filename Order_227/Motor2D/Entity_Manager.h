@@ -5,7 +5,6 @@
 #include "Module.h"
 #include "Entity.h"
 #include "Unit.h"
-#include "Infantry.h"
 #include "Static_Object.h"
 #include "Building.h"
 #include "Group.h"
@@ -40,6 +39,9 @@ public:
 	void AllocateRangedPool();
 	void AllocateTankPool();
 	void ReleasePools();
+
+	void UpdateBlitOrdering();
+	void BlitEntities();
 
 	Unit* ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
 	bool DeActivateUnit(Unit* Unit);

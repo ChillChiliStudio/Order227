@@ -38,7 +38,7 @@ public:
 	bool Start();
 
 	bool Draw();
-	void UpdateBlitOrder();
+	bool DebugDraw();
 
 	virtual float Hurt(float damage);
 	virtual bool IsDead();
@@ -48,10 +48,7 @@ public:
 
 	//ADD ANIMATION
 	//Current_animation*
-	SDL_Rect buildingBlitRect = {605, 1882, 212, 148 }; //TODO: Deharcode
 	building_type buildingType;
-
-
 	
 	float health = 0;
 	int income = 0;

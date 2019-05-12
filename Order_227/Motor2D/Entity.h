@@ -48,7 +48,7 @@ public:
 
 	Entity() {};
 	Entity(fPoint position, entity_type entityType, entity_faction faction = entity_faction::NEUTRAL)
-		: type(entityType), position(position), faction(faction)
+		: type(entityType), position(position), centerPos(position), groundPos(position), entityRect({ (int)position.x, (int)position.y, 0, 0 }), faction(faction)
 	{}
 
 	~Entity() {}
@@ -71,9 +71,7 @@ public:
 public:
 
 	virtual bool Draw(float dt) { return true; }
-	virtual void UpdateBlitOrder() {}
 	virtual bool LoadEntityData()       { return true; }
-
 
 	virtual bool DebugDraw() { return true; }
 	
@@ -92,23 +90,18 @@ public:
 	bool stored = false;
 
 	//Entity data
-	fPoint			position;	//World Position (should be worldPos)
-	//fPoint		centerPos;	//Rect center world position
+	fPoint		position;	//World Position (should be worldPos)
+	fPoint		centerPos;	//Rect center world position
+	fPoint		groundPos;
 
 	entity_faction	faction;
 	entity_type		type;
 
-	SDL_Rect		entityRect;
-	SDL_Rect		spriteRect;
-	SDL_Texture*	texture = nullptr;
+	SDL_Rect		entityRect;			// Entity SDL_Rect for world pos
+	SDL_Rect		spriteRect;			// Entity SDL_Rect for texture area cutting
+	SDL_Texture*	texture = nullptr;	// Entity Texture
 
-	SDL_Rect		UnitRect = { (int)position.x, (int)position.y, 60,60 }; //TODO: "UnitRect" on Entity, wtf
-
-	
-	//IMLPEMENT ANIMATION
-	//SDL_Rect		blitRect;
-
-	uint order = 0;
+	int order = 0;
 
 };
 

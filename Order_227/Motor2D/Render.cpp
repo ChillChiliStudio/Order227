@@ -285,6 +285,11 @@ bool Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uin
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
 
+	if (use_camera) {
+		x = camera.x + x;
+		y = camera.y + y;
+	}
+
 	int result = -1;
 	SDL_Point points[360];
 
@@ -310,12 +315,15 @@ bool Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uin
 //Checks if the rect is inside the camera
 bool Render::InsideCamera(const SDL_Rect& rect)const {
 
-	if ((rect.x+rect.w > -camera.x && (rect.x) < (-camera.x + camera.w)) &&
-		(rect.y+rect.h > -camera.y && (rect.y)< (-camera.y + camera.h))) {
+	bool ret = false;
 
-		return true;
+	if ((rect.x + rect.w > -camera.x && rect.x < (-camera.x + camera.w)) &&
+		(rect.y + rect.h > -camera.y && rect.y < (-camera.y + camera.h))) {
+
+		ret = true;
 	}
-	return false;
+
+	return ret;
 }
 
 //This fucntions create a new element for the Queue with the info of the class ImageRender

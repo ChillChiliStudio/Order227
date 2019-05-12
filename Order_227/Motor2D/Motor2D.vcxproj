@@ -14,7 +14,7 @@
     <ProjectGuid>{2AF9969B-F202-497B-AF30-7BEF9CE8005E}</ProjectGuid>
     <RootNamespace>programacio_2</RootNamespace>
     <ProjectName>Order227</ProjectName>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -83,9 +83,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonActions.cpp" />
     <ClCompile Include="CheckBox.cpp" />
-    <ClCompile Include="Dynamic.cpp" />
     <ClCompile Include="Entity_Manager.cpp" />
-    <ClCompile Include="Environment.cpp" />
     <ClCompile Include="Fonts.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="Group.cpp" />
@@ -102,7 +100,6 @@
     <ClCompile Include="Player.h" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Slider.cpp" />
-    <ClCompile Include="Infantry.cpp" />
     <ClCompile Include="Spawn_Box.cpp" />
     <ClCompile Include="Static_Object.cpp" />
     <ClCompile Include="Tank.cpp" />
@@ -148,7 +145,6 @@
     <ClInclude Include="LifeBarBox.h" />
     <ClInclude Include="Pool.h" />
     <ClInclude Include="Quadtree.h" />
-    <ClInclude Include="Infantry.h" />
     <ClInclude Include="Spawn_Box.h" />
     <ClInclude Include="Static_Object.h" />
     <ClInclude Include="TileQuadtree.h" />
