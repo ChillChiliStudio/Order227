@@ -229,18 +229,6 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 				}
 			}
 
-			/*if (entityFaction == entity_faction::CAPITALIST) {	//TODO-Carles: I'll handle this later
-
-				ActiveCapitalistUnits.push_back(UnitsPool[i]);
-				(*item).hostileUnits = ActiveCommunistUnits;
-				(*item).hostileBuildings = BuildingsList;
-
-			}
-			else if (entityFaction == entity_faction::COMMUNIST) {
-
-				ActiveCommunistUnits.push_back(UnitsPool[i]);
-				(*item).hostileUnits = ActiveCapitalistUnits;
-			}*/
 
 			ret = &(*item);
 			break;
@@ -367,121 +355,280 @@ void Entity_Manager::ActivateObjects()
 
 bool Entity_Manager::loadTextures() {
 
-	//TODO This needs to be charged by a XML
-	infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
-	infantryTextures[int(infantry_type::CONSCRIPT)] = myApp->tex->Load("textures/troops/soviet/InfanteriaSov.png");
-	infantryTextures[int(infantry_type::BAZOOKA)] = myApp->tex->Load("textures/troops/allied/GI.png");
+
+	pugi::xml_parse_result result = unitsDocument.load_file("textures/troops/unitsDoc.xml");
+
+
+	for (pugi::xml_node Data = unitsDocument.child("Entity_Document").child("Troops").child("Soviet").child("Unit"); Data != NULL; Data = Data.next_sibling("Unit")) {
+
+		switch (Data.attribute("id").as_int())
+		{
+		case(int(infantry_type::CONSCRIPT)):
+			infantryTextures[int(infantry_type::CONSCRIPT)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+			break;
+
+		case(int(infantry_type::BAZOOKA)):
+
+			infantryTextures[int(infantry_type::BAZOOKA)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+			break;
+
+		case(int(infantry_type::DESOLATOR)):
+
+			infantryTextures[int(infantry_type::DESOLATOR)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			break;
+
+		case(int(infantry_type::MACHINE_GUN)):
+
+			infantryTextures[int(infantry_type::MACHINE_GUN)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+
+			break;
+
+		case(int(infantry_type::SNIPER)):
+
+			infantryTextures[int(infantry_type::SNIPER)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			break;
+
+		}
+
+	}
+	for (pugi::xml_node Data = unitsDocument.child("Entity_Document").child("Troops").child("Capitalist").child("Unit"); Data; Data = Data.next_sibling("Unit")) {
+		
+		switch (Data.attribute("id").as_int())
+		{
+			case int(int(infantry_type::BASIC)) :
+
+				infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+				break;
+
+				case int(int(infantry_type::DOG)) :
+
+					infantryTextures[int(infantry_type::DOG)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+					break;
+
+		}
+	}
+
 	buildingsTextures[int(building_type::MAIN_BASE)] = myApp->tex->Load("textures/buildings/mainbase.png");
 	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
 
 	return true;
+
 }
 
 bool Entity_Manager::LoadEntityData() {
 
-	bool ret = true;
-	pugi::xml_parse_result result = tilsetTexture.load_file("textures/troops/allied/IG.tmx");
-	Animation a;
-	SDL_Rect temp;
+	bool ret;
+	pugi::xml_parse_result result = unitsDocument.load_file("textures/troops/unitsDoc.xml");
+
 
 	if (result != NULL)
 	{
-		//TODO Create a MAX UNITS DEFINITON TO DESHARCODE
-		for (int i = 0; i < 2; i++)
-		{
-			for (pugi::xml_node Data = tilsetTexture.child("map").child("objectgroup").child("object"); Data && ret; Data = Data.next_sibling("object"))
-			{
-				temp.x = Data.attribute("x").as_int();
-				temp.y = Data.attribute("y").as_int();
-				temp.w = Data.attribute("width").as_int();
-				temp.h = Data.attribute("height").as_int();
+		AssignAnimData("Soviet");
+		AssignAnimData("Capitalist");
 
-				//TODO: find a method to ajust the rects automatically
 
-				std::string tempString = Data.attribute("name").as_string();
-				int degreesToArray = Data.attribute("type").as_int() / 45;//DEGREES    HAVE IN ACCOUNT THAT THE TILES ARE DEFINED CONTERCLOCKWISE
+	}
 
-				if (i == 0) {
+	return true;
+}
 
-					temp.x += 26;
-					temp.y += 7;
-					if (tempString != "DeathOne") {
-						temp.w = 25;
-						temp.h = 35;
-					}
-				}
-				else {
+bool Entity_Manager::AssignAnimData(std::string faction) {
 
-					temp.x += 26;
-					temp.y += 20;
-					temp.w = 25;
-					temp.h = 35;
+	bool ret = true;
+	SDL_Rect temp;
+	int posArr;
+
+	for (pugi::xml_node DataXML = unitsDocument.child("Entity_Document").child("Troops").child(faction.c_str()).child("Unit"); DataXML; DataXML = DataXML.next_sibling("Unit")) {
+
+
+		pugi::xml_parse_result TiledFile = TiledDocument.load_file(DataXML.attribute("TiledFile").as_string());
+		
+		if (faction == "Soviet")
+			posArr = 0;
+		else
+			posArr = 1;
+
+
+		if (TiledFile != NULL) {
+
+			for (pugi::xml_node DataTMX = TiledDocument.child("map").child("objectgroup").child("object"); DataTMX && ret; DataTMX = DataTMX.next_sibling("object")) {
+
+				temp.x = DataTMX.attribute("x").as_int();
+				temp.y = DataTMX.attribute("y").as_int();
+				temp.w = DataTMX.attribute("width").as_int();
+				temp.h = DataTMX.attribute("height").as_int();
+
+
+				std::string tempString = DataTMX.attribute("name").as_string();
+				int degreesToArray = DataTMX.attribute("type").as_int() / 45;    //DEGREES    HAVE IN ACCOUNT THAT THE TILES ARE DEFINED CONTERCLOCKWISE
+
+				int id = DataXML.attribute("id").as_int();
+
+				switch (id)
+				{
+
+					case int(infantry_type::BASIC) :
+
+					   
+						break;
+
+
+					case (int(infantry_type::CONSCRIPT)):
+
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+
+						break;
+
+					case (int(infantry_type::BAZOOKA)):
+
+						//Introduce offset
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+
+						break;
+
+					case (int(infantry_type::MACHINE_GUN)):
+
+						//Introduce offset
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+						break;
+
+					case (int(infantry_type::SNIPER)):
+
+						//Introduce offset
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+						break;
+
+
+					case(int(infantry_type::DESOLATOR)):
+
+						//Introduce offset
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+						break;
+
+					case(int(infantry_type::DOG)):
+
+						//Introduce offset
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+						break;
 
 				}
 
 				if (tempString == "Pointing") {
-					animationArray[i][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
-					animationArray[i][int(unit_state::IDLE)][degreesToArray].loop = true;
-					animationArray[i][int(unit_state::IDLE)][degreesToArray].speed = 10.0f;
+
+					animationArray[id][int(unit_state::IDLE)][degreesToArray][posArr].PushBack(temp);
+					animationArray[id][int(unit_state::IDLE)][degreesToArray][posArr].loop = true;
+					animationArray[id][int(unit_state::IDLE)][degreesToArray][posArr].speed = 10.0f;
+
 				}
-				if (tempString == "Walking") {
-					animationArray[i][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
-					animationArray[i][int(unit_state::MOVING)][degreesToArray].loop = true;
-					animationArray[i][int(unit_state::MOVING)][degreesToArray].speed = 5.0f;
+				else if (tempString == "Walking") {
+
+					animationArray[id][int(unit_state::MOVING)][degreesToArray][posArr].PushBack(temp);
+					animationArray[id][int(unit_state::MOVING)][degreesToArray][posArr].loop = true;
+					animationArray[id][int(unit_state::MOVING)][degreesToArray][posArr].speed = 5.0f;
+
 				}
-				if (tempString == "Shot") {
-					animationArray[i][int(unit_state::ATTACKING)][degreesToArray].PushBack(temp);
-					animationArray[i][int(unit_state::ATTACKING)][degreesToArray].loop = true;
-					animationArray[i][int(unit_state::ATTACKING)][degreesToArray].speed = 10.0f;
+				else if (tempString == "Shot") {
+
+					animationArray[id][int(unit_state::ATTACKING)][degreesToArray][posArr].PushBack(temp);
+					animationArray[id][int(unit_state::ATTACKING)][degreesToArray][posArr].loop = true;
+					animationArray[id][int(unit_state::ATTACKING)][degreesToArray][posArr].speed = 10.0f;
+
+
 				}
-				if (tempString == "DeathOne") {
-					animationArray[i][int(unit_state::DEAD)][0].PushBack(temp);
-					animationArray[i][int(unit_state::DEAD)][0].loop = false;
-					if (i == 0) {
-						animationArray[i][int(unit_state::DEAD)][0].speed = 3.0f;
-					}else if(i==1)
-						animationArray[i][int(unit_state::DEAD)][0].speed = 3.0f;
+				else if (tempString == "DeathOne") {
+
+					animationArray[id][int(unit_state::DEAD)][0][posArr].PushBack(temp);
+					animationArray[id][int(unit_state::DEAD)][0][posArr].loop = false;
+					animationArray[id][int(unit_state::DEAD)][0][posArr].speed = DataXML.child("AnimDet").attribute("DeathOneSpeed").as_float();
+
+
 				}
+
 			}
 
-			result = tilsetTexture.load_file("textures/troops/soviet/InfantSov.tmx");
 		}
+		else
+			ret = false;
+
 	}
 
 	return ret;
+
 }
 
 bool Entity_Manager::SetupUnitStats() {
 
-	bool ret = true;
+	bool ret = false;
 
 	pugi::xml_parse_result result = unitsDocument.load_file("textures/troops/unitsDoc.xml");
 
 	if (result != NULL)
 	{
-
-		int i = 0;
-
-		for (pugi::xml_node Data = unitsDocument.child("Units_Document").child("Unit"); Data&&ret; Data = Data.next_sibling())
-		{
-
-			infantryStats[i].linSpeed = Data.attribute("speed").as_float();
-			infantryStats[i].cadency = Data.attribute("cadency").as_float();
-			infantryStats[i].damage = (uint)Data.attribute("damage").as_int();
-			infantryStats[i].health = Data.attribute("health").as_float();
-
-			infantryStats[i].visionRadius = (uint)Data.attribute("visionRange").as_int();
-			infantryStats[i].attackRadius = (uint)Data.attribute("attackRange").as_int();
-
-			infantryStats[i].cost = Data.attribute("cost").as_int();
-			infantryStats[i].productionTime = Data.attribute("prodTime").as_int();
-			infantryStats[i].unitThreat = Data.attribute("threat").as_int();
-
-			i++;
-		}
+		AssignStats("Soviet");
+		AssignStats("Capitalist");
+		
+		ret = true;
 	}
 	return ret;
 }
+
+bool Entity_Manager::AssignStats(std::string faction) {
+
+	bool ret = false;
+	for (pugi::xml_node Data = unitsDocument.child("Entity_Document").child("Troops").child(faction.c_str()).child("Unit"); Data; Data = Data.next_sibling("Unit"))
+	{
+
+		int id = Data.attribute("id").as_int();
+
+		infantryStats[id].linSpeed = Data.child("stats").attribute("speed").as_float();
+		infantryStats[id].cadency = Data.child("stats").attribute("cadency").as_float();
+		infantryStats[id].damage = (uint)Data.child("stats").attribute("damage").as_int();
+		infantryStats[id].health = Data.child("stats").attribute("health").as_float();
+
+		infantryStats[id].visionRadius = (uint)Data.child("stats").attribute("visionRange").as_int();
+		infantryStats[id].attackRadius = (uint)Data.child("stats").attribute("attackRange").as_int();
+
+		infantryStats[id].cost = Data.child("stats").attribute("cost").as_int();
+		infantryStats[id].productionTime = Data.child("stats").attribute("prodTime").as_int();
+		infantryStats[id].unitThreat = Data.child("stats").attribute("threat").as_int();
+
+
+
+		ret = true;
+	}
+
+
+	return ret;
+}
+
+
+
+
+
+
 
 SDL_Rect Entity_Manager::SetupTreeType() {
 

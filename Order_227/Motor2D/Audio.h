@@ -63,7 +63,7 @@ public:
 
 
 	//TODO: The hardoced 4 should be entity/unit type::Max
-	uint SoundFX_Array[4][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
+	uint SoundFX_Array[7][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
 
 	pugi::xml_document SFX_XML;
 

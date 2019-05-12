@@ -15,7 +15,10 @@ enum class infantry_type {	// TODO: This should be a single enum with ALL units 
 	BASIC,
 	CONSCRIPT,
 	BAZOOKA,
+	DESOLATOR,
 	MACHINE_GUN,
+	SNIPER,
+	DOG,
 	INFANTRY_MAX
 
 };
@@ -158,7 +161,7 @@ public:
 	bool TargetInRange(Entity* target);
 
 public:
-
+	entity_faction typeFaction;
 	infantry_type infantryType;
 	bool onCamera = false;
 

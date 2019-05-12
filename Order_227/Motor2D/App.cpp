@@ -47,11 +47,11 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(input);
 	AddModule(win);
 	AddModule(tex);
-	AddModule(audio);
 	AddModule(map);
 	AddModule(pathfinding);
 	AddModule(scene);
 	AddModule(entities);
+	AddModule(audio);
 	AddModule(fonts);
 	AddModule(gui);
 	AddModule(groups);

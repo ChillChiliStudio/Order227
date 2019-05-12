@@ -217,7 +217,7 @@ void Audio::ControlSFXVolume(int vol) { //Range: 0-128
 void Audio::FillArrayFX() {
 
 	
-	for (int i = 0; i < (int)infantry_type::INFANTRY_MAX; ++i) {
+	for (int i = 0; i < 7; ++i) {
 
 		for (int j = 0; j < FACTION_NUM; ++j) {
 

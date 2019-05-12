@@ -11,7 +11,7 @@
 #include "Animation.h"
 
 #define TIMES_PER_SEC 5
-#define TROOP_TYPES 2
+#define TROOP_TYPES 6
 #define RESIZE_VALUE 50
 
 class Entity_Manager : public Module
@@ -50,6 +50,8 @@ public:
 	void ActivateObjects();
 
 	bool SetupUnitStats();
+	bool AssignStats(std::string faction);
+	bool AssignAnimData(std::string faction);
 	SDL_Rect SetupTreeType();
 
 public:
@@ -74,7 +76,7 @@ public:
 	Building* mainBase = nullptr;	//TODO: This is here because of the lack of lists, having an "attackable buildings" list to read for capitalist units would be better
 	
 	//Animations Array
-	Animation animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)]; //TODO_ WTF? Troop types?
+	Animation animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)][2]; //TODO_ WTF? Troop types?
 
 	bool entitiesDebugDraw = false;
 	SDL_Texture* lifeBar_tex = nullptr; //TODO: Why is this here?
@@ -95,6 +97,7 @@ private:
 	//Unit stats
 	unit_stats		infantryStats[int(infantry_type::INFANTRY_MAX)];
 	pugi::xml_document unitsDocument;
+	pugi::xml_document TiledDocument;
 	//TO IMPLEMENT: Array with 2d arrays, or 3d arrays
 	//Animation[soldiertypes][state][direction]
 
