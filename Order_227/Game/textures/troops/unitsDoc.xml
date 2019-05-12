@@ -2,6 +2,7 @@
 <Units_Document>
   <!--REMEMBER TO UPLOAD THE MAX UNIT ENUM-->
 	<Unit name="basic" speed="80" cadency="2" damage="1" health="5" visionRange="300" attackRange="150" cost="150" prodTime="5" threat="1"/>
+	<Unit name="conscript" speed="80" cadency="2" damage="1" health="5" visionRange="300" attackRange="150" cost="150" prodTime="5" threat="1"/>
 	<Unit name="bazooka" speed="80" cadency="0.5" damage="2" health="6" visionRange="300" attackRange="150" cost="500" prodTime="8" threat="5"/>
 	<Unit name="machinegun" speed="80" cadency="4" damage="1" health="5" visionRange="300" attackRange="150" cost="300" prodTime="7" threat="2"/>
 
