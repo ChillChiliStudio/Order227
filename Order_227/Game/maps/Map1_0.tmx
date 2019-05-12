@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="60" tileheight="30" infinite="0" nextlayerid="8" nextobjectid="786">
+<map version="1.2" tiledversion="1.2.3" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="60" tileheight="30" infinite="0" nextlayerid="8" nextobjectid="787">
  <properties>
   <property name="Nodraw" value="0"/>
  </properties>
@@ -40208,6 +40208,13 @@
     <property name="health" type="int" value="1000"/>
     <property name="income" type="int" value="30"/>
     <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="786" name="EPC" x="494.441" y="437.954" width="154.875" height="138.396">
+   <properties>
+    <property name="health" type="int" value="500"/>
+    <property name="income" type="int" value="30"/>
+    <property name="type" type="int" value="6"/>
    </properties>
   </object>
  </objectgroup>

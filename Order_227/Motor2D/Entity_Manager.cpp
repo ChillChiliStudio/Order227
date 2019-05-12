@@ -418,6 +418,7 @@ bool Entity_Manager::loadTextures() {
 	}
 
 	buildingsTextures[int(building_type::MAIN_BASE)] = myApp->tex->Load("textures/buildings/mainbase.png");
+	buildingsTextures[int(building_type::EPC)] = myApp->tex->Load("textures/buildings/Barracks_anim.png");
 	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
 
 	return true;
