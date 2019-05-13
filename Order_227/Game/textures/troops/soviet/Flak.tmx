@@ -4,30 +4,30 @@
   <image source="Flak.png" width="980" height="2914"/>
  </imagelayer>
  <objectgroup name="Rects">
-  <object id="1" name="Pointing" type="0" x="0" y="0" width="120" height="94"/>
-  <object id="1" name="Pointing" type="45" x="98" y="0" width="120" height="94"/>
-  <object id="1" name="Pointing" type="90" x="196" y="0" width="120" height="94"/>
-  <object id="1" name="Pointing" type="135" x="295" y="0" width="120" height="94"/>
-  <object id="1" name="Pointing" type="180" x="392" y="0" width="120" height="94"/>
-  <object id="1" name="Pointing" type="225" x="490" y="0" width="120" height="94"/>
-  <object id="1" name="Pointing" type="270" x="588" y="0" width="120" height="94"/>
-  <object id="1" name="Pointing" type="315" x="686" y="0" width="120" height="94"/>
-  <object id="1" name="Walking" type="0" x="784" y="0" width="120" height="94"/>
-  <object id="1" name="Walking" type="0" x="882" y="0" width="120" height="94"/>
-  <object id="1" name="Walking" type="0" x="0" y="94" width="120" height="94"/>
-  <object id="1" name="Walking" type="0" x="98" y="94" width="120" height="94"/>
-  <object id="1" name="Walking" type="0" x="196" y="94" width="120" height="94"/>
-  <object id="1" name="Walking" type="0" x="294" y="94" width="120" height="94"/>
-  <object id="1" name="Walking" type="45" x="392" y="94" width="120" height="94"/>
-  <object id="1" name="Walking" type="45" x="490" y="94" width="120" height="94"/>
-  <object id="1" name="Walking" type="45" x="588" y="94" width="120" height="94"/>
-  <object id="1" name="Walking" type="45" x="686" y="94" width="120" height="94"/>
-  <object id="1" name="Walking" type="45" x="784" y="94" width="120" height="94"/>
-  <object id="1" name="Walking" type="45" x="882" y="94" width="120" height="94"/>
-  <object id="1" name="Walking" type="90" x="0" y="188" width="120" height="94"/>
-  <object id="1" name="Walking" type="90" x="98" y="188" width="120" height="94"/>
-  <object id="1" name="Walking" type="90" x="196" y="188" width="120" height="94"/>
-  <object id="1" name="Walking" type="90" x="294" y="188" width="120" height="94"/>
+  <object id="1" name="Pointing" type="0" x="0" y="0" width="98" height="94"/>
+  <object id="1" name="Pointing" type="45" x="98" y="0" width="98" height="94"/>
+  <object id="1" name="Pointing" type="90" x="196" y="0" width="98" height="94"/>
+  <object id="1" name="Pointing" type="135" x="295" y="0" width="98" height="94"/>
+  <object id="1" name="Pointing" type="180" x="392" y="0" width="98" height="94"/>
+  <object id="1" name="Pointing" type="225" x="490" y="0" width="98" height="94"/>
+  <object id="1" name="Pointing" type="270" x="588" y="0" width="98" height="94"/>
+  <object id="1" name="Pointing" type="315" x="686" y="0" width="98" height="94"/>
+  <object id="1" name="Walking" type="0" x="784" y="0" width="98" height="94"/>
+  <object id="1" name="Walking" type="0" x="882" y="0" width="98" height="94"/>
+  <object id="1" name="Walking" type="0" x="0" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="0" x="98" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="0" x="196" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="0" x="294" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="45" x="392" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="45" x="490" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="45" x="588" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="45" x="686" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="45" x="784" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="45" x="882" y="94" width="98" height="94"/>
+  <object id="1" name="Walking" type="90" x="0" y="188" width="98" height="94"/>
+  <object id="1" name="Walking" type="90" x="98" y="188" width="98" height="94"/>
+  <object id="1" name="Walking" type="90" x="196" y="188" width="98" height="94"/>
+  <object id="1" name="Walking" type="90" x="294" y="188" width="98" height="94"/>
   <object id="1" name="Walking" type="90" x="392" y="188" width="98" height="94"/>
   <object id="1" name="Walking" type="90" x="490" y="188" width="98" height="94"/>
   <object id="1" name="Walking" type="135" x="588" y="188" width="98" height="94"/>

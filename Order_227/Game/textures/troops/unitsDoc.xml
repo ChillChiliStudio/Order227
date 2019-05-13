@@ -10,16 +10,15 @@
       <Unit id="1" name="Conscript" TextPath="textures/troops/soviet/InfanteriaSov.png" TiledFile="textures/troops/soviet/InfantSov.tmx">
         <RectOffset x="26" y="20" w="25" h="35"/>
         <AnimDet DeathOneSpeed="3.0"/>
-        <stats speed="100" cadency="0.5" damage="2" health="6" visionRange="200" attackRange="150" cost="500" prodTime="8" threat="5"/>
+        <stats speed="300" cadency="0.5" damage="2" health="6" visionRange="200" attackRange="150" cost="500" prodTime="8" threat="5"/>
       </Unit>
       <Unit id="2" name="Flak" TextPath="textures/troops/soviet/Flak.png" TiledFile="textures/troops/soviet/Flak.tmx">
-        <RectOffset x="26" y="20" w="50" h="45"/>
-        <stats speed="50" cadency="0.2" damage="10" health="6" visionRange="300" attackRange="230" cost="700" prodTime="10" threat="5"/>
+        <RectOffset x="26" y="20" w="25" h="35"/>
+        <stats speed="30" cadency="0.5" damage="2" health="6" visionRange="200" attackRange="150" cost="500" prodTime="8" threat="5"/>
       </Unit>
       <Unit id="4" name="Chrono" TextPath="textures/troops/soviet/Chrono.png" TiledFile="textures/troops/soviet/Chrono.tmx">
-        <RectOffset x="10" y="5 " w="45" h="50"/>
-        <!--y was 20-->
-        <stats speed="40" cadency="0.5" damage="5" health="40" visionRange="250" attackRange="200" cost="500" prodTime="8" threat="5"/>
+        <RectOffset x="26" y="20" w="25" h="35"/>
+        <stats speed="30" cadency="0.5" damage="2" health="6" visionRange="200" attackRange="150" cost="500" prodTime="8" threat="5"/>
       </Unit>
       <Unit id="3" name="Desolator" TextPath="textures/troops/soviet/Desolator.png" TiledFile="textures/troops/soviet/Desolator.tmx">
         <RectOffset x="26" y="20" w="25" h="35"/>
@@ -34,7 +33,7 @@
     <Capitalist>
     <Unit id="0" name="IG" TextPath="textures/troops/allied/IG.png" TiledFile="textures/troops/allied/IG.tmx">
         <RectOffset x="26" y="20" w="25" h="35"/>
-        <stats speed="30" cadency="0.5" damage="1.5" health="5" visionRange="200" attackRange="130" cost="500" prodTime="8" threat="5"/>
+        <stats speed="30" cadency="0.5" damage="2" health="6" visionRange="200" attackRange="150" cost="500" prodTime="8" threat="5"/>
       </Unit>
       <Unit id="6" name="Dog" TextPath="textures/troops/allied/Dog.png"  TiledFile="textures/troops/allied/Dog.tmx">
         <RectOffset x="26" y="20" w="25" h="35"/>
