@@ -227,7 +227,7 @@ void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: 
 
 void Player::CheckForOrders()
 {
-	if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {	// Hold is done instantly, the others need a click
+	if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {	   // Hold is done instantly, the others need a click
 		if (myApp->groups->playerGroup.groupUnits.size() > 0) {
 			OrderHold();
 		}
@@ -241,6 +241,9 @@ void Player::CheckForOrders()
 	if (myApp->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
 		prepOrder = unit_orders::PATROL;
 	}
+	/*if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_IDLE) {
+		myApp->entities.ChangeAgro(unit_aggro::DEFENSIVE);
+	}*/
 }
 
 void Player::ApplyOrders()

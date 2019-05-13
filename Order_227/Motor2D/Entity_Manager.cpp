@@ -233,7 +233,7 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 				}
 			}
 
-
+			
 			ret = &(*item);
 			break;
 		}
@@ -382,11 +382,6 @@ bool Entity_Manager::loadTextures() {
 
 		switch (Data.attribute("id").as_int())
 		{
-		/*case(int(infantry_type::BASIC)):
-			infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
-
-			break;*/
-
 		case(int(infantry_type::CONSCRIPT)):
 			infantryTextures[int(infantry_type::CONSCRIPT)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
 
