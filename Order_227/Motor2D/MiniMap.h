@@ -24,12 +24,12 @@ private:
 	bool MinimapCoords(int& map_x, int& map_y);
 	void DrawCamera();
 	void MinimapBorders();
-	//void DrawEntities();
+	void DrawEntities();
 
 private:
 	SDL_Texture*		minimap_tex = nullptr;
 
-	float minimap_scale;
+	float minimapScale;
 
 	iPoint minimapPosition;
 
