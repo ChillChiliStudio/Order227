@@ -207,6 +207,15 @@ void Player::DebugInputs()
 		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
 			DebugSpawnUnit(infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
 		}
+		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
+			DebugSpawnUnit(infantry_type::BAZOOKA, entity_faction::COMMUNIST);
+		}
+		if (myApp->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
+			DebugSpawnUnit(infantry_type::CHRONO, entity_faction::COMMUNIST);
+		}
+		if (myApp->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
+			DebugSpawnUnit(infantry_type::DESOLATOR, entity_faction::COMMUNIST);
+		}
 	}
 }
 
