@@ -382,6 +382,11 @@ bool Entity_Manager::loadTextures() {
 
 		switch (Data.attribute("id").as_int())
 		{
+		/*case(int(infantry_type::BASIC)):
+			infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+			break;*/
+
 		case(int(infantry_type::CONSCRIPT)):
 			infantryTextures[int(infantry_type::CONSCRIPT)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
 
@@ -398,9 +403,9 @@ bool Entity_Manager::loadTextures() {
 			infantryTextures[int(infantry_type::DESOLATOR)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
 			break;
 
-		case(int(infantry_type::MACHINE_GUN)):
+		case(int(infantry_type::CHRONO)):
 
-			infantryTextures[int(infantry_type::MACHINE_GUN)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			infantryTextures[int(infantry_type::CHRONO)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
 
 
 			break;
@@ -517,7 +522,7 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 
 						break;
 
-					case (int(infantry_type::MACHINE_GUN)):
+					case (int(infantry_type::CHRONO)):
 
 						//Introduce offset
 						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
