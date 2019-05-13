@@ -296,7 +296,7 @@ void Entity_Manager::ActivateBuildings()
 
 			if ((*item).buildingType == building_type::MAIN_BASE) {
 
-				(*item).faction == entity_faction::COMMUNIST;
+				(*item).faction = entity_faction::COMMUNIST;
 				mainBase = &(*item);
 				(*item).spriteRect = { 605, 1882, 212, 148 }; //TODO: Desharcodear
 				(*item).entityRect.w = (*item).spriteRect.w;
@@ -310,7 +310,7 @@ void Entity_Manager::ActivateBuildings()
 			else if ((*item).buildingType == building_type::EPC) {
 
 
-				(*item).faction == entity_faction::COMMUNIST;
+				(*item).faction = entity_faction::COMMUNIST;
 				(*item).spriteRect = { 0, 804, 155, 134 }; //TODO: Desharcodear
 				(*item).entityRect.w = (*item).spriteRect.w;
 				(*item).entityRect.h = (*item).spriteRect.h;

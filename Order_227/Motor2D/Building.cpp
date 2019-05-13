@@ -21,6 +21,7 @@ bool Building::Start() {
 bool Building::Update(float dt)
 {
 
+	this;
 	if(faction == entity_faction::COMMUNIST) {
 
 		if (rewardGiven == false)
