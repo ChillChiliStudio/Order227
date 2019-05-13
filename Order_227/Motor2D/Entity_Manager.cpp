@@ -309,6 +309,8 @@ void Entity_Manager::ActivateBuildings()
 			}
 			else if ((*item).buildingType == building_type::EPC) {
 
+
+				(*item).faction == entity_faction::COMMUNIST;
 				(*item).spriteRect = { 0, 804, 155, 134 }; //TODO: Desharcodear
 				(*item).entityRect.w = (*item).spriteRect.w;
 				(*item).entityRect.h = (*item).spriteRect.h;
@@ -332,6 +334,8 @@ void Entity_Manager::ActivateBuildings()
 					break;
 				}
 			}
+
+			(*item).Start();
 		}
 	}
 }
