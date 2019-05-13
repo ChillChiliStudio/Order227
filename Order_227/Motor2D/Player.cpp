@@ -96,7 +96,7 @@ void Player::CameraInputs(float dt)
 	if (myApp->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		myApp->render->camera.y += (int)ceil(CAMERA_SPEED  * dt);
 
-	else if (mousePos.y > 0 && mousePos.y < SCREEN_MOVEMENT_MARGIN)
+	else if (mousePos.y >= 0 && mousePos.y < SCREEN_MOVEMENT_MARGIN)
 		myApp->render->camera.y += (int)ceil(CAMERA_SPEED  * dt);
 
 	//Move camera downwards
@@ -110,7 +110,7 @@ void Player::CameraInputs(float dt)
 	if (myApp->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		myApp->render->camera.x += (int)ceil(CAMERA_SPEED  * dt);
 
-	else if (mousePos.x > 0 && mousePos.x < SCREEN_MOVEMENT_MARGIN)
+	else if (mousePos.x >= 0 && mousePos.x < SCREEN_MOVEMENT_MARGIN)
 		myApp->render->camera.x += (int)ceil(CAMERA_SPEED  * dt);
 
 	//Move camera to the right
