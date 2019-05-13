@@ -60,7 +60,7 @@ public:
 	
 	void AddElement(UI_Element* element);
 	void DestroyElement(UI_Element* element);
-	void loadAnim();
+	Animation loadAnim();
 
 	std::list<UI_Element*>::iterator DestroyElement(std::list<UI_Element*>::iterator iter);
 
@@ -71,7 +71,7 @@ public:
 	Void_Box* CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL);
 	Check_Box* CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
 	Spawn_Box* CreateSpawnBox(bool value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
-	Unit_Box* CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0);
+	Unit_Box* CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0,int unitCost=0,bool* _enabletoCraft=nullptr);
 	LifeBar* CreateLifeBar(fPoint center, Unit* parent = nullptr, SDL_Texture* tex = NULL, float* auxHealth=NULL);
 
 	template <class T_param>
@@ -100,8 +100,7 @@ public:
 	std::string horde;
 	std::string timerHorde_temp;
 	//uint defaultScale;	//IMPROVE: Future use
-	Animation Timer_anim;
-	Timer unitCreationCD;
+	//Animation Timer_anim;
 	Image* pauseMenuPanel = nullptr;
 	Text* Moneytext = nullptr;
 	Image* MainMenuTemp_Image = nullptr;
@@ -141,12 +140,13 @@ private:
 	Void_Box* ReturnMainMenu = nullptr;
 	Text* ReturnMainMenu_Label = nullptr;
 
-
+	Unit_Box* ConscriptCreator = nullptr;
+	Unit_Box* BazookaCreator = nullptr;
 	
 	Spawn_Box* selectorInfantry=nullptr;
 	Spawn_Box* selectorDefenses = nullptr;
 	Spawn_Box* selectorTank = nullptr;
-	Unit_Box* ConscriptCreator = nullptr;
+	
 	Image* frameSelector = nullptr;
 	Image* UnitStats = nullptr;
 	Image* UnitFrame = nullptr;
@@ -157,6 +157,7 @@ private:
 	SDL_Rect selectorTank_Rect[4];
 
 	SDL_Rect Conscript_Selection_Rect[4];
+	SDL_Rect Bazooka_Selection_Rect[4];
 
 	SDL_Texture* miniMap_tex = nullptr;
 	SDL_Texture* unitsSelection_Tex= nullptr;

@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "Horde_Manager.h"
 #include "GroupManager.h"
+#include "Entity_Manager.h"
 
 #include "UserInterface.h"
 #include "UIElement.h"
@@ -49,13 +50,14 @@ bool User_Interface::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-void User_Interface::loadAnim() {
-
+Animation User_Interface::loadAnim() {
+	
+	Animation ret;
 	int x = 0, y = 0;
 
 	for (int i = 0; i < 57; ++i) {
 		if (x < 60 * 17) {
-			Timer_anim.PushBack(SDL_Rect({ x,y,60,48 }));
+			ret.PushBack(SDL_Rect({ x,y,60,48 }));
 			x += 60;
 		}
 		else {
@@ -63,6 +65,7 @@ void User_Interface::loadAnim() {
 			x = 0;
 		}
 	}
+	return ret;
 }
 
 // Called before the first frame
@@ -109,6 +112,12 @@ bool User_Interface::Start()
 	Conscript_Selection_Rect[3] = { 120,0,60,48 };
 
 
+	Bazooka_Selection_Rect[0] = { 120,48,60,48 };
+	Bazooka_Selection_Rect[1] = { 120,48,60,48 };
+	Bazooka_Selection_Rect[2] = { 120,48,60,48 };
+	Bazooka_Selection_Rect[3] = { 120,144,60,48 };
+
+
 	selectorInfantry_Rect[0] = { 131,38,44,31 };
 	selectorInfantry_Rect[1] = { 131,38,44,31 };
 	selectorInfantry_Rect[2] = { 0,38,44,31 };
@@ -137,7 +146,9 @@ bool User_Interface::Start()
 	selectorInfantry = CreateSpawnBox(true, fPoint(width / 11-38, height - 140), selectorInfantry_Rect, selectorinGame_Tex);
 	selectorDefenses = CreateSpawnBox(false, fPoint(width / 11 , height - 140), selectorDefenses_Rect, selectorinGame_Tex);
 	selectorTank = CreateSpawnBox(false, fPoint(width / 11 + 38, height - 140), selectorTank_Rect, selectorinGame_Tex);
-	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,60);
+
+	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,10,myApp->entities->infantryStats[(int)infantry_type::CONSCRIPT].cost,nullptr);
+	BazookaCreator = CreateUnitBox(CreateBazooka, fPoint(136, height - 95), Bazooka_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::BAZOOKA].cost,&myApp->entities->heavyUnitsUnlocked);
 
 	UnitStats = CreateImage(fPoint(width / 1.45, height - 75), SDL_Rect({ 0,0,55,90 }), unitStats_text);
 	UnitFrame = CreateImage(fPoint(width / 1.58, height - 75), SDL_Rect({ 125,5,50,43 }), unitsSelection_Tex);
@@ -218,9 +229,9 @@ bool User_Interface::Update(float dt)
 		UnitFrame->Deactivate();
 	}
 
-	if (unitCreationCD.ReadSec() >= 0.7) {
-		myApp->player->startCreationUnit = false;
-	}
+	//if (unitCreationCD.ReadSec() >= 0.7) {
+	//	myApp->player->startCreationUnit = false;
+	//}
 
 	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); iter = next(iter)) {
 		if ((*iter)->active == true) {
@@ -310,9 +321,11 @@ std::list<UI_Element*>::iterator User_Interface::DestroyElement(std::list<UI_Ele
 
 void User_Interface::DestroyElement(UI_Element* element)	// Deletion by list content comparison
 {
-	element->CleanUp();
-	screenElements.remove(element);	//WARNING: Check if the order is correct, this could lead to problems otherwise
-	RELEASE(element);
+	if (element != nullptr) {
+		element->CleanUp();
+		screenElements.remove(element);	//WARNING: Check if the order is correct, this could lead to problems otherwise
+		RELEASE(element);
+	}
 }
 
 //Factories
@@ -366,7 +379,7 @@ Text* User_Interface::CreateText(fPoint center, const char* content, font_id id,
 	return ret;
 }
 
-Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator) {
+Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator,int unitCost,bool* _enabletoCraft) {
 	
 	Unit_Box* ret = nullptr;
 
@@ -374,7 +387,7 @@ Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_
 		tex = GetAtlas();
 	}
 
-	ret = new Unit_Box(action, center, spriteList, tex, parent,TimerTexture,timeCreator);
+	ret = new Unit_Box(action, center, spriteList, tex, parent,TimerTexture,timeCreator,unitCost,_enabletoCraft);
 	AddElement(ret);
 
 	return ret;

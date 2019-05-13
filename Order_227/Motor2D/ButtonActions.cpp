@@ -36,6 +36,32 @@ void CreateConscript() {
 	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SPAWN][0]);
 }
+
+void CreateBazooka() {
+	//srand(time(NULL));
+
+	//TODO NEED TO DESHARCODE
+	fPoint randomPos = { 0,0 };
+	int temp = rand() % 2;
+
+	switch (temp)
+	{
+	case 0:
+		randomPos.x = 48;
+		randomPos.y = rand() % 5 + 40;
+		break;
+	case 1:
+		randomPos.x = rand() % 5 + 43;
+		randomPos.y = 45;
+		break;
+	}
+
+	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
+	fPoint test = myApp->entities->mainBase->position;
+	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SPAWN][0]);
+}
+
 void StartGame() {
 
 
@@ -47,11 +73,11 @@ void StartGame() {
 	//myApp->entities->ActivateBuildings();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	//myApp->entities->ActivateObjects();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	myApp->gui->WinIcon->Deactivate();
-	myApp->entities->mainBase->health = 1000.0f;
+	myApp->entities->mainBase->health = myApp->entities->mainBase->maxHealth;
 	myApp->entities->mainBase->Start();
 	//myApp->entities->AllocateUnitPool();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	//myApp->entities->ResetAll();
-	myApp->hordes->hordeRoundto(0);
+	myApp->hordes->hordeRoundto(1);
 	myApp->player->playerMoney = 300;
 	myApp->gui->hordeNumber_Label->ChangeString(std::to_string(0));
 	myApp->hordes->hordeActive = true;

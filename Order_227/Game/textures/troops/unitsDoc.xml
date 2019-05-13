@@ -10,11 +10,11 @@
       <Unit id="1" name="Conscript" TextPath="textures/troops/soviet/InfanteriaSov.png" TiledFile="textures/troops/soviet/InfantSov.tmx">
         <RectOffset x="26" y="20" w="25" h="35"/>
         <AnimDet DeathOneSpeed="3.0"/>
-        <stats speed="300" cadency="0.5" damage="2" health="6" visionRange="200" attackRange="150" cost="500" prodTime="8" threat="5"/>
+        <stats speed="300" cadency="0.5" damage="2" health="6" visionRange="200" attackRange="150" cost="70" prodTime="8" threat="5"/>
       </Unit>
       <Unit id="2" name="Flak" TextPath="textures/troops/soviet/Flak.png" TiledFile="textures/troops/soviet/Flak.tmx">
         <RectOffset x="26" y="20" w="25" h="35"/>
-        <stats speed="30" cadency="0.5" damage="2" health="6" visionRange="200" attackRange="150" cost="500" prodTime="8" threat="5"/>
+        <stats speed="30" cadency="0.5" damage="2" health="6" visionRange="200" attackRange="150" cost="100" prodTime="8" threat="5"/>
       </Unit>
       <Unit id="4" name="Chrono" TextPath="textures/troops/soviet/Chrono.png" TiledFile="textures/troops/soviet/Chrono.tmx">
         <RectOffset x="26" y="20" w="25" h="35"/>

@@ -7,14 +7,22 @@
 #include "Text.h"
 
 //Constructor
-Unit_Box::Unit_Box(event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator, ui_type type)
+Unit_Box::Unit_Box(event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator,int unitCost, bool* _abletoCraft,ui_type type)
 	: Action_Box(type, center, spriteList, tex, parent), action(action)
 {
+	UnitCost = unitCost;
 	Timer_Texture = TimerTexture;
 	Timer = timeCreator;
-	Animation = &myApp->gui->Timer_anim;
-	Animation->speed = Timer / 100.0f;
+	Animation = myApp->gui->loadAnim();
+	Animation.speed = Timer ;
 	ActiveTimer = false;
+	startCreationUnit = false;
+	if (_abletoCraft != nullptr)
+		abletoCraft = _abletoCraft;
+	else {
+		abletoCraft = new bool();
+		(*abletoCraft) = true;
+	}
 };
 
 //State Entry
@@ -23,32 +31,43 @@ void Unit_Box::OnPress() {
 
 	buttonStatus = button_state::PRESSING;
 	*sprite = stateSprites[(int)buttonStatus];
-
-	if (myApp->player->playerMoney > 70&& myApp->player->startCreationUnit==false) {
-		ActiveTimer = true;
-		myApp->player->startCreationUnit = true;
-		myApp->gui->unitCreationCD.Start();
-		myApp->player->playerMoney -= 70;
-		myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
-		action();
+	if ((*abletoCraft) == true) {
+		if (myApp->player->playerMoney > UnitCost&& startCreationUnit == false) {
+			ActiveTimer = true;
+			startCreationUnit = true;
+			unitCreationCD.Start();
+			myApp->player->playerMoney -= UnitCost;
+			myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
+			action();
+		}
 	}
 }
+
 
 bool Unit_Box::Draw() {
 
 	bool ret = true;
 
+	//if (startCreationUnit == true && unitCreationCD.Read() >= Timer)
+	//	startCreationUnit = false;
+	if ((*abletoCraft) == false) {
+		*sprite = stateSprites[3];
+	}
+	else
+		*sprite = stateSprites[0];
+
 	if (active == true) {
 		myApp->render->Blit(graphics, (int)position.x, (int)position.y, sprite, SDL_FLIP_NONE, false);
 
 		if (ActiveTimer) {
-			myApp->render->Blit(Timer_Texture, (int)position.x, (int)position.y, &Animation->GetCurrentFrame(myApp->GetDT()), SDL_FLIP_NONE, false);
-			if (Animation->Finished()) {
+			myApp->render->Blit(Timer_Texture, (int)position.x, (int)position.y, &Animation.AdvanceAnimation(myApp->GetDT()), SDL_FLIP_NONE, false);
+			if (Animation.Finished()) {
 				ActiveTimer = false;
+				startCreationUnit = false;
 			}
 		}
 		else {
-			Animation->Reset();
+			Animation.Reset();
 		}
 	}
 	return ret;

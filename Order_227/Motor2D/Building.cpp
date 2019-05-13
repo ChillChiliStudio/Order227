@@ -21,7 +21,6 @@ bool Building::Start() {
 bool Building::Update(float dt)
 {
 
-	this;
 	if(faction == entity_faction::COMMUNIST) {
 
 		if (rewardGiven == false)
@@ -55,8 +54,8 @@ void Building::GiveReward() {
 	rewardGiven = true;
 	myApp->player->playerIncome += income;
 
-	//if (buildingType == building_type::TANK_FACTORY)
-	//	player->heavyUnitsUnlocked = true; //TODO: Tocar UI con esto
+	if (buildingType == building_type::TANK_FACTORY)
+		myApp->entities->heavyUnitsUnlocked = true; //TODO: Tocar UI con esto
 
 	if (buildingType == building_type::HTPC)
 		unitBuff = true; //Tocar en ActivateUnits() que si es true, le suba velocidad y vida de los buffs
@@ -83,8 +82,8 @@ void Building::TakeReward() {
 	rewardGiven = false;
 	myApp->player->playerIncome -= income;
 
-	//if (buildingType == building_type::TANK_FACTORY)
-	//	player->heavyUnitsUnlocked = false; //TODO: Tocar UI con esto
+	if (buildingType == building_type::TANK_FACTORY)
+		myApp->entities->heavyUnitsUnlocked = false; //TODO: Tocar UI con esto
 
 	if (buildingType == building_type::HTPC)
 		unitBuff = false;

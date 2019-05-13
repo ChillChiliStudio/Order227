@@ -233,7 +233,6 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 				}
 			}
 
-
 			ret = &(*item);
 			break;
 		}
@@ -492,8 +491,8 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 				switch (id)
 				{
 
-					case int(infantry_type::BASIC) :
-
+					case (int(infantry_type::BASIC)) :
+						temp.x = temp.x;
 					   
 						break;
 

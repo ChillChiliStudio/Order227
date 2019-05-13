@@ -81,8 +81,12 @@ public:
 	Animation animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)][2]; //TODO_ WTF? Troop types?
 
 	bool entitiesDebugDraw = false;
-	SDL_Texture* lifeBar_tex = nullptr; //TODO: Why is this here?
+	SDL_Texture* lifeBar_tex = nullptr; //TODO: Why is this here?4
 
+	//Unit stats
+	unit_stats		infantryStats[int(infantry_type::INFANTRY_MAX)];
+
+	bool heavyUnitsUnlocked = true;
 private:
 
 	bool LoadEntityData();
@@ -96,8 +100,7 @@ private:
 	SDL_Texture*	infantryTextures[int(infantry_type::INFANTRY_MAX)];
 	SDL_Texture*	objectTextures[int(object_type::OBJECT_MAX)];
 
-	//Unit stats
-	unit_stats		infantryStats[int(infantry_type::INFANTRY_MAX)];
+	
 	pugi::xml_document unitsDocument;
 	pugi::xml_document TiledDocument;
 	//TO IMPLEMENT: Array with 2d arrays, or 3d arrays
