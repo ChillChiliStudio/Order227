@@ -112,7 +112,6 @@ bool Building::CleanUp()
 bool Building::Draw()
 {
 	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &spriteRect);
-
 	return true;
 }
 

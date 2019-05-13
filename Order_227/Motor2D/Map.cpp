@@ -672,7 +672,7 @@ void Map::PlaceGameObjects() {
 					if ((*itemProp)->name == "health")
 						newBuilding.health = newBuilding.maxHealth = (*itemProp)->value;
 					if ((*itemProp)->name == "type")
-						newBuilding.buildingType == (building_type)(*itemProp)->value;
+						newBuilding.buildingType = (building_type)(*itemProp)->value;
 
 				}
 

@@ -307,6 +307,17 @@ void Entity_Manager::ActivateBuildings()
 				(*item).groundPos.x = (*item).position.x + (*item).spriteRect.w / 2;
 				(*item).groundPos.y = (*item).position.y + (*item).spriteRect.h;
 			}
+			else if ((*item).buildingType == building_type::EPC) {
+
+				(*item).spriteRect = { 0, 804, 155, 134 }; //TODO: Desharcodear
+				(*item).entityRect.w = (*item).spriteRect.w;
+				(*item).entityRect.h = (*item).spriteRect.h;
+
+				(*item).centerPos.x = (*item).position.x + (*item).spriteRect.w / 2;	//TODO: Desharcodear
+				(*item).centerPos.y = (*item).position.y + (*item).spriteRect.h / 2;
+				(*item).groundPos.x = (*item).position.x + (*item).spriteRect.w / 2;
+				(*item).groundPos.y = (*item).position.y + (*item).spriteRect.h;
+			}
 			else
 				(*item).faction == entity_faction::NEUTRAL;	//TODO: if not Main_Base then enemy building???
 
@@ -418,7 +429,7 @@ bool Entity_Manager::loadTextures() {
 	}
 
 	buildingsTextures[int(building_type::MAIN_BASE)] = myApp->tex->Load("textures/buildings/mainbase.png");
-	buildingsTextures[int(building_type::EPC)] = myApp->tex->Load("textures/buildings/Barracks_anim.png");
+	buildingsTextures[int(building_type::EPC)] = myApp->tex->Load("textures/buildings/Facilities/Enhance_facility/Barracks_anim.png");
 	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
 
 	return true;
