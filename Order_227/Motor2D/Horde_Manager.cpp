@@ -12,7 +12,6 @@ Horde_Manager::Horde_Manager()
 
 bool Horde_Manager::Start()
 {
-	
 
 	return true;
 }
@@ -44,7 +43,9 @@ bool Horde_Manager::Update(float dt)
 			myApp->render->Blit(myApp->map->debug_tex, SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
 
 	if (hordeActive != false) {
+
 		if (HordesDead() && roundTimer.Read() > TIME_BETWEEN_ROUNDS) {
+
 			ChooseSpawningPoints();
 			roundTimer.Start();
 		}
@@ -61,25 +62,25 @@ bool Horde_Manager::Update(float dt)
 
 			while (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0)
 			{
+
 				SpawningPoints_Array[i]->SpawnTime.Start();
-
-				hordes[i]->AddUnit(myApp->entities->ActivateInfantry(SP_Pos, infantry_type::BASIC, entity_faction::CAPITALIST));
-
+				hordes[i]->AddUnit(myApp->entities->ActivateUnit(SP_Pos, infantry_type::BASIC, entity_faction::CAPITALIST));
 				SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
 
 				LOG("%d", SpawningPoints_Array[i]->Enemies_to_Spawn.size());
 			}
 
 			hordes[i]->SpreadDestinations(SpawningPoints_Array[i]->position);
-			hordes[i]->TransmitOrders(unit_orders::MOVE_AND_ATTACK);
+			hordes[i]->TransmitOrders(unit_orders::MOVE);
 
 		}
 		if (!hordes[i]->groupUnits.empty() &&
 			!SpawningPoints_Array[i]->enemiesAttacking &&
 			SpawningPoints_Array[i]->SpawnTime.Read() > 2000)
 		{
-			hordes[i]->SpreadDestinations({int (myApp->entities->mainBase->position.x + myApp->entities->mainBase->UnitRect.w/2), int(myApp->entities->mainBase->position.y + myApp->entities->mainBase->UnitRect.h / 2)});
-			hordes[i]->TransmitOrders(unit_orders::MOVE_AND_ATTACK);
+
+			hordes[i]->SpreadDestinations({int (myApp->entities->mainBase->position.x + myApp->entities->mainBase->entityRect.w/2), int(myApp->entities->mainBase->position.y + myApp->entities->mainBase->entityRect.h / 2)});
+			hordes[i]->TransmitOrders(unit_orders::MOVE);
 			SpawningPoints_Array[i]->enemiesAttacking = true;
 		}
 	}
@@ -145,7 +146,7 @@ void Horde_Manager::ClearEnemies()
 	{
 		for (std::list<Unit*>::iterator it = hordes[i]->groupUnits.begin();!hordes[i]->groupUnits.empty() ;it++ )
 		{
-			myApp->entities->DeActivateInfantry((*it));
+			myApp->entities->DeActivateUnit((*it));
 			hordes[i]->groupUnits.erase(it);
 		}
 	}

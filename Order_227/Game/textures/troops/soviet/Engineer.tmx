@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="13" height="20" tilewidth="76" tileheight="80" nextobjectid="5">
+ <imagelayer name="Capa de Imagen 1">
+  <image source="engineer.png" width="988" height="1600"/>
+ </imagelayer>
+ <objectgroup name="Rects">
+  <object id="4" name="Pointing" type="0" x="0" y="0" width="76" height="80"/>
+  <object id="4" name="Pointing" type="45" x="76" y="0" width="76" height="80"/>
+  <object id="4" name="Pointing" type="90" x="152" y="0" width="76" height="80"/>
+  <object id="4" name="Pointing" type="135" x="228" y="0" width="76" height="80"/>
+  <object id="4" name="Pointing" type="180" x="304" y="0" width="76" height="80"/>
+  <object id="4" name="Pointing" type="225" x="380" y="0" width="76" height="80"/>
+  <object id="4" name="Pointing" type="270" x="456" y="0" width="76" height="80"/>
+  <object id="4" name="Pointing" type="315" x="532" y="0" width="76" height="80"/>
+  <object id="4" name="Walking" type="0" x="608" y="0" width="76" height="80"/>
+  <object id="4" name="Walking" type="0" x="684" y="0" width="76" height="80"/>
+  <object id="4" name="Walking" type="0" x="760" y="0" width="76" height="80"/>
+  <object id="4" name="Walking" type="0" x="836" y="0" width="76" height="80"/>
+  <object id="4" name="Walking" type="0" x="912" y="0" width="76" height="80"/>
+  <object id="4" name="Walking" type="0" x="0" y="80" width="76" height="80"/>
+  <object id="4" name="Walking" type="45" x="76" y="80" width="76" height="80"/>
+  <object id="4" name="Walking" type="45" x="152" y="80" width="76" height="80"/>
+  <object id="4" name="Walking" type="45" x="228" y="80" width="76" height="80"/>
+  <object id="4" name="Walking" type="45" x="304" y="80" width="76" height="80"/>
+  <object id="4" name="Walking" type="45" x="380" y="80" width="76" height="80"/>
+  <object id="4" name="Walking" type="45" x="456" y="80" width="76" height="80"/>
+  <object id="4" name="Walking" type="90" x="532" y="80" width="76" height="80"/>
+  <object id="4" name="Walking" type="90" x="608" y="80" width="76" height="80"/>
+  <object id="4" name="Walking" type="90" x="684" y="80" width="76" height="80"/>
+  <object id="4" name="Walking" type="90" x="760" y="80" width="76" height="80"/>
+  <object id="4" name="Walking" type="90" x="836" y="80" width="76" height="80"/>
+  <object id="4" name="Walking" type="90" x="912" y="80" width="76" height="80"/>
+  <object id="4" name="Walking" type="135" x="0" y="160" width="76" height="80"/>
+  <object id="4" name="Walking" type="135" x="76" y="160" width="76" height="80"/>
+  <object id="4" name="Walking" type="135" x="152" y="160" width="76" height="80"/>
+  <object id="4" name="Walking" type="135" x="228" y="160" width="76" height="80"/>
+  <object id="4" name="Walking" type="135" x="304" y="160" width="76" height="80"/>
+  <object id="4" name="Walking" type="135" x="380" y="160" width="76" height="80"/>
+  <object id="4" name="Walking" type="180" x="456" y="160" width="76" height="80"/>
+  <object id="4" name="Walking" type="180" x="532" y="160" width="76" height="80"/>
+  <object id="4" name="Walking" type="180" x="608" y="160" width="76" height="80"/>
+  <object id="4" name="Walking" type="180" x="684" y="160" width="76" height="80"/>
+  <object id="4" name="Walking" type="180" x="760" y="160" width="76" height="80"/>
+  <object id="4" name="Walking" type="180" x="836" y="160" width="76" height="80"/>
+  <object id="4" name="Walking" type="225" x="912" y="160" width="76" height="80"/>
+  <object id="4" name="Walking" type="225" x="0" y="240" width="76" height="80"/>
+  <object id="4" name="Walking" type="225" x="76" y="240" width="76" height="80"/>
+  <object id="4" name="Walking" type="225" x="152" y="240" width="76" height="80"/>
+  <object id="4" name="Walking" type="225" x="228" y="240" width="76" height="80"/>
+  <object id="4" name="Walking" type="225" x="304" y="240" width="76" height="80"/>
+  <object id="4" name="Walking" type="270" x="380" y="240" width="76" height="80"/>
+  <object id="4" name="Walking" type="270" x="456" y="240" width="76" height="80"/>
+  <object id="4" name="Walking" type="270" x="532" y="240" width="76" height="80"/>
+  <object id="4" name="Walking" type="270" x="608" y="240" width="76" height="80"/>
+  <object id="4" name="Walking" type="270" x="684" y="240" width="76" height="80"/>
+  <object id="4" name="Walking" type="270" x="760" y="240" width="76" height="80"/>
+  <object id="4" name="Walking" type="315" x="836" y="240" width="76" height="80"/>
+  <object id="4" name="Walking" type="315" x="912" y="240" width="76" height="80"/>
+  <object id="4" name="Walking" type="315" x="0" y="320" width="76" height="80"/>
+  <object id="4" name="Walking" type="315" x="76" y="320" width="76" height="80"/>
+  <object id="4" name="Walking" type="315" x="152" y="320" width="76" height="80"/>
+  <object id="4" name="Walking" type="315" x="228" y="320" width="76" height="80"/>
+  <object id="4" x="304" y="320" width="76" height="80"/>
+  <object id="4" x="380" y="320" width="76" height="80"/>
+  <object id="4" x="456" y="320" width="76" height="80"/>
+  <object id="4" x="532" y="320" width="76" height="80"/>
+  <object id="4" x="608" y="320" width="76" height="80"/>
+  <object id="4" x="684" y="320" width="76" height="80"/>
+  <object id="4" x="760" y="320" width="76" height="80"/>
+  <object id="4" x="836" y="320" width="76" height="80"/>
+  <object id="4" x="912" y="320" width="76" height="80"/>
+  <object id="4" x="0" y="400" width="76" height="80"/>
+  <object id="4" x="76" y="400" width="76" height="80"/>
+  <object id="4" x="152" y="400" width="76" height="80"/>
+  <object id="4" x="228" y="400" width="76" height="80"/>
+  <object id="4" x="304" y="400" width="76" height="80"/>
+  <object id="4" x="380" y="400" width="76" height="80"/>
+  <object id="4" x="456" y="400" width="76" height="80"/>
+  <object id="4" x="532" y="400" width="76" height="80"/>
+  <object id="4" x="608" y="400" width="76" height="80"/>
+  <object id="4" x="684" y="400" width="76" height="80"/>
+  <object id="4" x="760" y="400" width="76" height="80"/>
+  <object id="4" x="836" y="400" width="76" height="80"/>
+  <object id="4" x="912" y="400" width="76" height="80"/>
+  <object id="4" x="0" y="480" width="76" height="80"/>
+  <object id="4" x="76" y="480" width="76" height="80"/>
+  <object id="4" x="152" y="480" width="76" height="80"/>
+  <object id="4" x="228" y="480" width="76" height="80"/>
+  <object id="4" x="304" y="480" width="76" height="80"/>
+  <object id="4" x="380" y="480" width="76" height="80"/>
+  <object id="4" x="456" y="480" width="76" height="80"/>
+  <object id="4" x="532" y="480" width="76" height="80"/>
+  <object id="4" x="608" y="480" width="76" height="80"/>
+  <object id="4" x="684" y="480" width="76" height="80"/>
+  <object id="4" x="760" y="480" width="76" height="80"/>
+  <object id="4" x="836" y="480" width="76" height="80"/>
+  <object id="4" x="912" y="480" width="76" height="80"/>
+  <object id="4" x="0" y="560" width="76" height="80"/>
+  <object id="4" x="76" y="560" width="76" height="80"/>
+  <object id="4" x="152" y="560" width="76" height="80"/>
+  <object id="4" x="228" y="560" width="76" height="80"/>
+  <object id="4" x="304" y="560" width="76" height="80"/>
+  <object id="4" x="380" y="560" width="76" height="80"/>
+  <object id="4" x="456" y="560" width="76" height="80"/>
+  <object id="4" x="532" y="560" width="76" height="80"/>
+  <object id="4" x="608" y="560" width="76" height="80"/>
+  <object id="4" x="684" y="560" width="76" height="80"/>
+  <object id="4" x="760" y="560" width="76" height="80"/>
+  <object id="4" x="836" y="560" width="76" height="80"/>
+  <object id="4" x="912" y="560" width="76" height="80"/>
+  <object id="4" x="0" y="640" width="76" height="80"/>
+  <object id="4" x="76" y="640" width="76" height="80"/>
+  <object id="4" x="152" y="640" width="76" height="80"/>
+  <object id="4" x="228" y="640" width="76" height="80"/>
+  <object id="4" x="304" y="640" width="76" height="80"/>
+  <object id="4" x="380" y="640" width="76" height="80"/>
+  <object id="4" x="456" y="640" width="76" height="80"/>
+  <object id="4" x="532" y="640" width="76" height="80"/>
+  <object id="4" x="608" y="640" width="76" height="80"/>
+  <object id="4" x="684" y="640" width="76" height="80"/>
+  <object id="4" x="760" y="640" width="76" height="80"/>
+  <object id="4" x="836" y="640" width="76" height="80"/>
+  <object id="4" x="912" y="640" width="76" height="80"/>
+  <object id="4" x="0" y="720" width="76" height="80"/>
+  <object id="4" x="76" y="720" width="76" height="80"/>
+  <object id="4" x="152" y="720" width="76" height="80"/>
+  <object id="4" x="228" y="720" width="76" height="80"/>
+  <object id="4" x="304" y="720" width="76" height="80"/>
+  <object id="4" x="380" y="720" width="76" height="80"/>
+  <object id="4" x="456" y="720" width="76" height="80"/>
+  <object id="4" x="532" y="720" width="76" height="80"/>
+  <object id="4" x="608" y="720" width="76" height="80"/>
+  <object id="4" x="684" y="720" width="76" height="80"/>
+  <object id="4" x="760" y="720" width="76" height="80"/>
+  <object id="4" x="836" y="720" width="76" height="80"/>
+  <object id="4" x="912" y="720" width="76" height="80"/>
+  <object id="4" x="0" y="800" width="76" height="80"/>
+  <object id="4" x="76" y="800" width="76" height="80"/>
+  <object id="4" x="152" y="800" width="76" height="80"/>
+  <object id="4" x="228" y="800" width="76" height="80"/>
+  <object id="4" name="Death" type="0" x="304" y="800" width="76" height="80"/>
+  <object id="4" name="Death" type="0" x="380" y="800" width="76" height="80"/>
+  <object id="4" name="Death" type="0" x="456" y="800" width="76" height="80"/>
+  <object id="4" name="Death" type="0" x="532" y="800" width="76" height="80"/>
+  <object id="4" name="Death" type="0" x="608" y="800" width="76" height="80"/>
+  <object id="4" name="Death" type="0" x="684" y="800" width="76" height="80"/>
+  <object id="4" name="Death" type="0" x="760" y="800" width="76" height="80"/>
+  <object id="4" name="Death" type="0" x="836" y="800" width="76" height="80"/>
+  <object id="4" name="Death" type="0" x="912" y="800" width="76" height="80"/>
+  <object id="4" name="Death" type="0" x="0" y="880" width="76" height="80"/>
+  <object id="4" name="Death" type="0" x="76" y="880" width="76" height="80"/>
+  <object id="4" name="Death" type="0" x="152" y="880" width="76" height="80"/>
+  <object id="4" name="Death" type="0" x="228" y="880" width="76" height="80"/>
+  <object id="4" name="Death" type="0" x="304" y="880" width="76" height="80"/>
+  <object id="4" name="Death" type="0" x="380" y="880" width="76" height="80"/>
+  <object id="4" name="Death" type="180" x="456" y="880" width="76" height="80"/>
+  <object id="4" name="Death" type="180" x="532" y="880" width="76" height="80"/>
+  <object id="4" name="Death" type="180" x="608" y="880" width="76" height="80"/>
+  <object id="4" name="Death" type="180" x="684" y="880" width="76" height="80"/>
+  <object id="4" name="Death" type="180" x="760" y="880" width="76" height="80"/>
+  <object id="4" name="Death" type="180" x="836" y="880" width="76" height="80"/>
+  <object id="4" name="Death" type="180" x="912" y="880" width="76" height="80"/>
+  <object id="4" name="Death" type="180" x="0" y="960" width="76" height="80"/>
+  <object id="4" name="Death" type="180" x="76" y="960" width="76" height="80"/>
+  <object id="4" name="Death" type="180" x="152" y="960" width="76" height="80"/>
+  <object id="4" name="Death" type="180" x="228" y="960" width="76" height="80"/>
+  <object id="4" name="Death" type="180" x="304" y="960" width="76" height="80"/>
+  <object id="4" name="Death" type="180" x="380" y="960" width="76" height="80"/>
+  <object id="4" name="Death" type="180" x="456" y="960" width="76" height="80"/>
+  <object id="4" name="Death" type="180" x="532" y="960" width="76" height="80"/>
+  <object id="4" name="Shot" type="0" x="608" y="960" width="76" height="80"/>
+  <object id="4" name="Shot" type="0" x="684" y="960" width="76" height="80"/>
+  <object id="4" name="Shot" type="0" x="760" y="960" width="76" height="80"/>
+  <object id="4" name="Shot" type="0" x="836" y="960" width="76" height="80"/>
+  <object id="4" name="Shot" type="0" x="912" y="960" width="76" height="80"/>
+  <object id="4" name="Shot" type="0" x="0" y="1040" width="76" height="80"/>
+  <object id="4" name="Shot" type="45" x="76" y="1040" width="76" height="80"/>
+  <object id="4" name="Shot" type="45" x="152" y="1040" width="76" height="80"/>
+  <object id="4" name="Shot" type="45" x="228" y="1040" width="76" height="80"/>
+  <object id="4" name="Shot" type="45" x="304" y="1040" width="76" height="80"/>
+  <object id="4" name="Shot" type="45" x="380" y="1040" width="76" height="80"/>
+  <object id="4" name="Shot" type="45" x="456" y="1040" width="76" height="80"/>
+  <object id="4" name="Shot" type="90" x="532" y="1040" width="76" height="80"/>
+  <object id="4" name="Shot" type="90" x="608" y="1040" width="76" height="80"/>
+  <object id="4" name="Shot" type="90" x="684" y="1040" width="76" height="80"/>
+  <object id="4" name="Shot" type="90" x="760" y="1040" width="76" height="80"/>
+  <object id="4" name="Shot" type="90" x="836" y="1040" width="76" height="80"/>
+  <object id="4" name="Shot" type="90" x="912" y="1040" width="76" height="80"/>
+  <object id="4" name="Shot" type="135" x="0" y="1120" width="76" height="80"/>
+  <object id="4" name="Shot" type="135" x="76" y="1120" width="76" height="80"/>
+  <object id="4" name="Shot" type="135" x="152" y="1120" width="76" height="80"/>
+  <object id="4" name="Shot" type="135" x="228" y="1120" width="76" height="80"/>
+  <object id="4" name="Shot" type="135" x="304" y="1120" width="76" height="80"/>
+  <object id="4" name="Shot" type="135" x="380" y="1120" width="76" height="80"/>
+  <object id="4" name="Shot" type="180" x="456" y="1120" width="76" height="80"/>
+  <object id="4" name="Shot" type="180" x="532" y="1120" width="76" height="80"/>
+  <object id="4" name="Shot" type="180" x="608" y="1120" width="76" height="80"/>
+  <object id="4" name="Shot" type="180" x="684" y="1120" width="76" height="80"/>
+  <object id="4" name="Shot" type="180" x="760" y="1120" width="76" height="80"/>
+  <object id="4" name="Shot" type="180" x="836" y="1120" width="76" height="80"/>
+  <object id="4" name="Shot" type="225" x="912" y="1120" width="76" height="80"/>
+  <object id="4" name="Shot" type="225" x="0" y="1200" width="76" height="80"/>
+  <object id="4" name="Shot" type="225" x="76" y="1200" width="76" height="80"/>
+  <object id="4" name="Shot" type="225" x="152" y="1200" width="76" height="80"/>
+  <object id="4" name="Shot" type="225" x="228" y="1200" width="76" height="80"/>
+  <object id="4" name="Shot" type="225" x="304" y="1200" width="76" height="80"/>
+  <object id="4" name="Shot" type="270" x="380" y="1200" width="76" height="80"/>
+  <object id="4" name="Shot" type="270" x="456" y="1200" width="76" height="80"/>
+  <object id="4" name="Shot" type="270" x="532" y="1200" width="76" height="80"/>
+  <object id="4" name="Shot" type="270" x="608" y="1200" width="76" height="80"/>
+  <object id="4" name="Shot" type="270" x="684" y="1200" width="76" height="80"/>
+  <object id="4" name="Shot" type="270" x="760" y="1200" width="76" height="80"/>
+  <object id="4" name="Shot" type="315" x="836" y="1200" width="76" height="80"/>
+  <object id="4" name="Shot" type="315" x="912" y="1200" width="76" height="80"/>
+  <object id="4" name="Shot" type="315" x="0" y="1280" width="76" height="80"/>
+  <object id="4" name="Shot" type="315" x="76" y="1280" width="76" height="80"/>
+  <object id="4" name="Shot" type="315" x="152" y="1280" width="76" height="80"/>
+  <object id="4" name="Shot" type="315" x="228" y="1280" width="76" height="80"/>
+  <object id="4" x="304" y="1280" width="76" height="80"/>
+  <object id="4" x="380" y="1280" width="76" height="80"/>
+  <object id="4" x="456" y="1280" width="76" height="80"/>
+  <object id="4" x="532" y="1280" width="76" height="80"/>
+  <object id="4" x="608" y="1280" width="76" height="80"/>
+  <object id="4" x="684" y="1280" width="76" height="80"/>
+  <object id="4" x="760" y="1280" width="76" height="80"/>
+  <object id="4" x="836" y="1280" width="76" height="80"/>
+  <object id="4" x="912" y="1280" width="76" height="80"/>
+  <object id="4" x="0" y="1360" width="76" height="80"/>
+  <object id="4" x="76" y="1360" width="76" height="80"/>
+  <object id="4" x="152" y="1360" width="76" height="80"/>
+  <object id="4" x="228" y="1360" width="76" height="80"/>
+  <object id="4" x="304" y="1360" width="76" height="80"/>
+  <object id="4" x="380" y="1360" width="76" height="80"/>
+  <object id="4" x="456" y="1360" width="76" height="80"/>
+  <object id="4" x="532" y="1360" width="76" height="80"/>
+  <object id="4" x="608" y="1360" width="76" height="80"/>
+  <object id="4" x="684" y="1360" width="76" height="80"/>
+  <object id="4" x="760" y="1360" width="76" height="80"/>
+  <object id="4" x="836" y="1360" width="76" height="80"/>
+  <object id="4" x="912" y="1360" width="76" height="80"/>
+  <object id="4" x="0" y="1440" width="76" height="80"/>
+  <object id="4" x="76" y="1440" width="76" height="80"/>
+  <object id="4" x="152" y="1440" width="76" height="80"/>
+  <object id="4" x="228" y="1440" width="76" height="80"/>
+  <object id="4" x="304" y="1440" width="76" height="80"/>
+  <object id="4" x="380" y="1440" width="76" height="80"/>
+  <object id="4" x="456" y="1440" width="76" height="80"/>
+  <object id="4" x="532" y="1440" width="76" height="80"/>
+  <object id="4" x="608" y="1440" width="76" height="80"/>
+  <object id="4" x="684" y="1440" width="76" height="80"/>
+  <object id="4" x="760" y="1440" width="76" height="80"/>
+  <object id="4" x="836" y="1440" width="76" height="80"/>
+  <object id="4" x="912" y="1440" width="76" height="80"/>
+  <object id="4" x="0" y="1520" width="76" height="80"/>
+  <object id="4" x="76" y="1520" width="76" height="80"/>
+  <object id="4" x="152" y="1520" width="76" height="80"/>
+  <object id="4" x="228" y="1520" width="76" height="80"/>
+  <object id="4" x="304" y="1520" width="76" height="80"/>
+  <object id="4" x="380" y="1520" width="76" height="80"/>
+ </objectgroup>
+</map>

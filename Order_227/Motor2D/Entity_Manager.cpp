@@ -1,13 +1,3 @@
-//@lucho1: Be extremely careful with shitty STL, to iterate a list,
-//if you start it with list.begin() and then check if *item is nullptr,
-//it will not "detect" that *item is nullptr and will enter wherever wants to enter
-//with an empty list.
-//Just check, before creating the iterator, that list.size() > 0
-
-//Also, note that I think there is some memory leak in this module, but
-//I couldn't track them, I don't exactly know why the fuck there is a memLeak
-//if I load NOTHING
-
 #include "Entity_Manager.h"
 #include "Log.h"
 #include "Entity.h"
@@ -21,55 +11,33 @@
 #include "Textures.h"
 #include "UserInterface.h"
 #include "Image.h"
+#include "Brofiler/Brofiler.h"
+
+#include <algorithm>
 
 Entity_Manager::Entity_Manager()
 {
 	name.assign("entities");
-
-	//Allocate Memory for Units
-	int entitiesIterator = 0;
-
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i)
-	{
-
-		Infantry *InfCom = new Infantry({ 0,0 }, infantry_type::INFANTRY_NONE, entity_faction::COMMUNIST);
-		InfCom->active = false;
-		CommunistInfantryArray[i] = InfCom;
-		CommunistUnitsArray[i] = (Unit*)InfCom;
-		entitiesArray[entitiesIterator++] = (Entity*)InfCom;
-
-		Infantry *InfCap = new Infantry({ 0,0 }, infantry_type::INFANTRY_NONE, entity_faction::CAPITALIST);
-		InfCap->active = false;
-		CapitalistInfantryArray[i] = InfCap;
-		CapitalistUnitsArray[i] = (Unit*)InfCap;
-		entitiesArray[entitiesIterator++] = (Entity*)InfCap;
-	}
-
-	//Allocate Memory for Objects
-	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
-	{
-		staticObjectsArray[i] = new Static_Object({ 0,0 }, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
-		staticObjectsArray[i]->active = false;
-		entitiesArray[entitiesIterator++] = staticObjectsArray[i];
-	}
-
-	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
-		buildingsArray[i] = nullptr;
-
 }
+
 
 Entity_Manager::~Entity_Manager()
-{
+{}
 
-}
-
-
-bool Entity_Manager::Awake()
+bool Entity_Manager::Awake(pugi::xml_node& config)
 {
 
 	LOG("AWAKING ENTITY MANAGER");
+	unitsPoolSize = config.child("units_initial_size").attribute("value").as_int(0);
+
 	times_per_sec = TIMES_PER_SEC;
 	update_ms_cycle = 1.0f / (float)times_per_sec;
+
+	//Pool Allocation
+	AllocateUnitPool();
+	AllocateHitscanPool();
+	AllocateRangedPool();
+	AllocateTankPool();
 
 	return true;
 }
@@ -77,112 +45,28 @@ bool Entity_Manager::Awake()
 
 bool Entity_Manager::Start()
 {
+
+
+static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number of Uniots are different from the TROOP_TYPES define, have to be equal");
+
 	//Load textures
 	//infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
 	loadTextures();
 	lifeBar_tex = myApp->tex->Load("ui/Life_Icon.png");
 
-	int entityIterator = 2 * INFANTRY_ARRAY_SIZE;
+	AllocateEntityPool();
 
-	//Add Buildings as entities
-	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i) {
-
-		if (buildingsArray[i] == nullptr) {
-
-			Building* newBuilding = new Building({ 0, 0 }, building_type::BUILDING_NONE, entity_faction::NEUTRAL);
-			newBuilding->active = false;
-			buildingsArray[i] = newBuilding;
-
-		}
-		else {
-			myApp->entities->ActivateBuilding(buildingsArray[i]->position, building_type::MAIN_BASE, entity_faction::COMMUNIST);
-			mainBase = buildingsArray[i];
-		}
-
-
-		entitiesArray[entityIterator++] = (Entity*)buildingsArray[i];
-
-	}
-
-	//Tell Units who their enemies are
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
-
-		CommunistUnitsArray[i]->hostileUnits = CapitalistUnitsArray;
-		CapitalistUnitsArray[i]->hostileUnits = CommunistUnitsArray;
-		CapitalistUnitsArray[i]->hostileBuildings = buildingsArray;
-	}
-/*
-	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
-		buildingsArray[i]->Start();*/
-
-
-	//Allocate Memory for Objects
-	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
-	{
-		if (staticObjectsArray[i] == nullptr) {
-
-			Static_Object *newStaticObject = new Static_Object({ 0, 0 }, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
-			newStaticObject->active = false;
-			staticObjectsArray[i] = newStaticObject;
-
-		}
-		else
-			myApp->entities->ActivateObject(staticObjectsArray[i]->position, object_type::TREE);
-
-		entitiesArray[entityIterator++] = (Entity*)staticObjectsArray[i];
-
-	}
+	//Activate Buildings & Objects
+	ActivateBuildings();
+	ActivateObjects();
 
 	LoadEntityData();
-
 
 	//Set up stats of units
 	SetupUnitStats();
 
 	return true;
-
 }
-
-
-bool Entity_Manager::CleanUp() {
-
-	LOG("Clean Up Entity_Manager");
-
-	int entitiesIterator = 0;
-
-	//Clean soldiers
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i)
-	{
-		CommunistInfantryArray[i]->CleanUp();
-		CommunistInfantryArray[i] = nullptr;
-		CommunistUnitsArray[i] = nullptr;
-		entitiesArray[entitiesIterator++] = nullptr;
-
-		CapitalistInfantryArray[i]->CleanUp();
-		CapitalistInfantryArray[i] = nullptr;
-		CapitalistUnitsArray[i] = nullptr;
-		entitiesArray[entitiesIterator++] = nullptr;
-	}
-
-	//Clean objects
-	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
-	{
-		staticObjectsArray[i]->CleanUp();
-		staticObjectsArray[i] = nullptr;
-		entitiesArray[entitiesIterator++] = nullptr;
-	}
-
-	//Clean bases
-	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
-	{
-		buildingsArray[i]->CleanUp();
-		buildingsArray[i] = nullptr;
-		entitiesArray[entitiesIterator++] = nullptr;
-	}
-
-	return true;
-}
-
 
 bool Entity_Manager::PreUpdate() {
 
@@ -193,409 +77,562 @@ bool Entity_Manager::PreUpdate() {
 
 bool Entity_Manager::Update(float dt)
 {
-
+	BROFILER_CATEGORY("Entity_Manager Update()-Brown", Profiler::Color::Brown);
 	accumulated_time += dt;
-	if (myApp->gui->MainMenuTemp_Image->active != true) {
+
+	if (myApp->gui->MainMenuTemp_Image->active != true) {	//TODO: This is very hardcoded, we should have a scene workflow
+
 		if (accumulated_time >= update_ms_cycle)
 			do_logic = true;
 
-		for (int i = 0; i < UNITS_ARRAY_SIZE; ++i) {
+		for (int i = 0; i < unitsPoolSize; ++i) {
 
-			if (CapitalistUnitsArray[i]->active == true)
-				CapitalistUnitsArray[i]->Update(dt);
+			if (unitPool[i].active) {
 
-			if (CommunistUnitsArray[i]->active == true)
-				CommunistUnitsArray[i]->Update(dt);
+				unitPool[i].Update(dt);
+
+				if (do_logic)
+					unitPool[i].FixUpdate(dt);
+			}
+		}
+
+		for(int i = 0; i < buildingsArray.size(); i++)
+			buildingsArray[i].Update(dt);
+
+		for (int i = 0; i < objectsArray.size(); i++)
+			objectsArray[i].Update(dt);
+
+		/*for (std::vector<Unit>::iterator item = unitPool.begin(); item != unitPool.end(); item = next(item)) {
+
+			if (item->active == true)
+				item->Update(dt);
 
 			if (do_logic)
-			{
-				CapitalistUnitsArray[i]->FixUpdate(dt);
-				CommunistUnitsArray[i]->FixUpdate(dt);
-			}
+				item->FixUpdate(dt);
 		}
 
-		//for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i)
-		//{
-		//	CommunistInfantryArray[i]->Update(dt);
-		//	CapitalistInfantryArray[i]->Update(dt);
+		for (std::vector<Building>::iterator item = buildingsArray.begin(); item != buildingsArray.end(); item = next(item)) {
 
-		//	if (do_logic)
-		//	{
-		//		CommunistInfantryArray[i]->FixUpdate(dt);
-		//		CapitalistInfantryArray[i]->FixUpdate(dt);
-		//	}
-		//}
+			if (item->active == true)
+				item->Update(dt);
+		}
 
-		for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
-			if (buildingsArray[i]->active == true)
-				buildingsArray[i]->Update(dt);
+		for (std::vector<Static_Object>::iterator item = objectsArray.begin(); item != objectsArray.end(); item = next(item)) {
 
-	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
-		staticObjectsArray[i]->Update(dt);
+			if (item->active == true)
+				item->Update(dt);
+		}*/
 
-		for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
-			staticObjectsArray[i]->Update(dt);
+		//OLD:
+		//myApp->render->OrderBlit(myApp->render->OrderToRender);
 
+		//Blit Ordering that actually works
+		UpdateBlitOrdering();
+		BlitEntities();
 
 		accumulated_time -= update_ms_cycle;
-
-		myApp->render->OrderBlit(myApp->render->OrderToRender);
 	}
-	return true;
-}
-
-
-Unit* Entity_Manager::ActivateInfantry(fPoint position, infantry_type infantryType, entity_faction entityFaction)
-{
-	Unit* unit = nullptr;
-	//Player troops
-	if (entityFaction == entity_faction::COMMUNIST)
-	{
-		for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i)
-		{
-			if (CommunistInfantryArray[i]->active == false)
-			{
-
-				CommunistUnitsArray[i]->position = position;
-				CommunistUnitsArray[i]->texture = infantryTextures[int(infantryType)];
-				CommunistUnitsArray[i]->stats = infantryStats[int(infantryType)];
-				CommunistUnitsArray[i]->active = true;
-				CommunistUnitsArray[i]->selected = false;
-				CommunistUnitsArray[i]->infantryType = infantryType;
-				CommunistUnitsArray[i]->UnitRect.w = 45;
-				CommunistUnitsArray[i]->UnitRect.h = 55;
-				CommunistUnitsArray[i]->Start();
-				myApp->gui->CreateLifeBar(fPoint(position.x, position.y), CommunistUnitsArray[i], lifeBar_tex);
-
-				//CommunistInfantryArray[i]->infantryType = infantryType;
-				//To implement:: Update animations
-				unit = CommunistUnitsArray[i];
-
-				return unit;
-			}
-		}
-	}
-
-	//Enemy troops
-	else if (entityFaction == entity_faction::CAPITALIST)
-	{
-		for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i)
-		{
-			if (CapitalistInfantryArray[i]->active == false)
-			{
-
-				CapitalistUnitsArray[i]->position = position;
-				CapitalistUnitsArray[i]->texture = infantryTextures[int(infantryType)];
-				CapitalistUnitsArray[i]->stats = infantryStats[int(infantryType)];
-				CapitalistUnitsArray[i]->active = true;
-				CapitalistUnitsArray[i]->selected = false;
-				CapitalistUnitsArray[i]->infantryType = infantryType;
-				CapitalistUnitsArray[i]->UnitRect.w = 45;
-				CapitalistUnitsArray[i]->UnitRect.h = 55;
-				CapitalistUnitsArray[i]->Start();
-				//CapitalistInfantryArray[i]->infantryType = infantryType;
-				//To implement:: Update animations
-				myApp->gui->CreateLifeBar(fPoint(position.x, position.y), CapitalistUnitsArray[i], lifeBar_tex);
-
-				unit = CapitalistUnitsArray[i];
-
-				return unit;
-			}
-		}
-	}
-
-	return unit;
-}
-
-
-bool Entity_Manager::ActivateBuilding(fPoint position, building_type buildingType, entity_faction entityFaction)
-{
-	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i)
-	{
-		if (buildingsArray[i]->active == false)
-		{
-			buildingsArray[i]->position = position;
-			buildingsArray[i]->buildingType = buildingType;
-			buildingsArray[i]->active = true;
-
-			buildingsArray[i]->faction = entityFaction;
-			buildingsArray[i]->selected = false;
-			buildingsArray[i]->texture = buildingsTextures[int(buildingType)];
-
-			return true;
-		}
-	}
-
-	return false;
-}
-
-
-bool Entity_Manager::ActivateObject(fPoint position, object_type objectType)
-{
-	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i)
-	{
-		if (staticObjectsArray[i]->active == false)
-		{
-			staticObjectsArray[i]->position = position;
-			staticObjectsArray[i]->objectType = objectType;
-			staticObjectsArray[i]->active = true;
-			staticObjectsArray[i]->texture = objectTextures[int(objectType)];
-			staticObjectsArray[i]->selected = false;
-
-			if (objectType == object_type::TREE)
-				staticObjectsArray[i]->UnitRect = SetupTreeType();
-
-			return true;
-
-		}
-	}
-	return false;
-}
-
-
-
-
-bool Entity_Manager::DeActivateInfantry(Unit* infantry)
-{
-
-	infantry->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
-	infantry->infantryType = infantry_type::INFANTRY_NONE;
-	infantry->position = fPoint(0.0f, 0.0f);
-	infantry->texture = nullptr;
-	infantry->active = false;
-	infantry->selected = false;
-	//
-
-	//if (infantry->faction == entity_faction::COMMUNIST) {
-
-	//	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
-
-	//		if (CommunistUnitsArray[i] == infantry) {
-
-	//			CommunistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
-	//			//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-	//			CommunistUnitsArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-	//			CommunistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
-	//			CommunistUnitsArray[i]->texture = nullptr;
-	//			CommunistUnitsArray[i]->active = false;
-	//			CommunistUnitsArray[i]->selected = false;
-	//			//To implement:: Update animations
-
-	//			return true;
-	//		}
-	//	}
-	//}
-
-	//////Enemy troops
-	//else if (infantry->faction == entity_faction::CAPITALIST) {
-
-	//	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
-
-	//		if (CapitalistUnitsArray[i] == infantry) {
-
-	//			CapitalistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
-	//			//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-	//			CapitalistUnitsArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-	//			CapitalistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
-	//			CapitalistUnitsArray[i]->texture = nullptr;
-	//			CapitalistUnitsArray[i]->active = false;
-	//			CapitalistUnitsArray[i]->selected = false;
-	//			//To implement:: Update animations
-
-	//			return true;
-	//		}
-	//	}
-	//}
-
-	return false;
-}
-
-bool Entity_Manager::DeActivateBuilding(Building* building)
-{
-
-	for (int i = 0; i < BUILDINGS_ARRAY_SIZE; ++i) {
-
-		if (buildingsArray[i] == building) {
-
-			buildingsArray[i]->position = fPoint(0.0f, 0.0f);
-			buildingsArray[i]->buildingType = building_type::BUILDING_NONE;
-			buildingsArray[i]->active = false;
-
-			buildingsArray[i]->faction = entity_faction::NEUTRAL;
-			buildingsArray[i]->selected = false;
-			buildingsArray[i]->texture = nullptr;
-		}
-
-	}
-
-	return false;
-}
-
-bool Entity_Manager::DeActivateObject(Static_Object* object)
-{
-
-	for (int i = 0; i < OBJECTS_ARRAY_SIZE; ++i) {
-
-		if (staticObjectsArray[i] == object) {
-
-			staticObjectsArray[i]->position = fPoint(0.0f, 0.0f);
-			staticObjectsArray[i]->faction = entity_faction::NEUTRAL;
-			staticObjectsArray[i]->objectType = object_type::OBJECT_NONE;
-			staticObjectsArray[i]->texture = nullptr;
-
-			return true;
-		}
-	}
-
-	return false;
-}
-
-bool Entity_Manager::ResetAll() {
-
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
-
-		CommunistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
-		//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-		CommunistUnitsArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-		CommunistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
-		CommunistUnitsArray[i]->texture = nullptr;
-		CommunistUnitsArray[i]->active = false;
-		CommunistUnitsArray[i]->selected = false;
-		//To implement:: Update animations
-	}
-
-	for (int i = 0; i < INFANTRY_ARRAY_SIZE; ++i) {
-
-		CapitalistUnitsArray[i]->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
-		//CommunistInfantryArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-		CapitalistUnitsArray[i]->infantryType = infantry_type::INFANTRY_NONE;
-		CapitalistUnitsArray[i]->position = fPoint(0.0f, 0.0f);
-		CapitalistUnitsArray[i]->texture = nullptr;
-		CapitalistUnitsArray[i]->active = false;
-		CapitalistUnitsArray[i]->selected = false;
-		//To implement:: Update animations
-	}
-	/*mainBase->Start();*/
-	return true;
-}
-
-bool Entity_Manager::loadTextures() {
-
-	//TODO This need to be charged by a XML
-	infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
-	infantryTextures[int(infantry_type::CONSCRIPT)] = myApp->tex->Load("textures/troops/soviet/InfanteriaSov.png");
-	infantryTextures[int(infantry_type::BAZOOKA)] = myApp->tex->Load("textures/troops/allied/GI.png");
-	buildingsTextures[int(building_type::MAIN_BASE)] = myApp->tex->Load("textures/buildings/mainbase.png");
-	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
 
 	return true;
 }
 
-bool Entity_Manager::LoadEntityData() {
+bool BlitSort(Entity* i, Entity* j)
+{
+	bool ret = false;
 
-	bool ret = true;
-	pugi::xml_parse_result result = tilsetTexture.load_file("textures/troops/allied/IG.tmx");
-	Animation a;
-	SDL_Rect temp;
-
-	if (result != NULL)
-	{
-		//TODO Create a MAX UNITS DEFINITON TO DESHARCODE
-		for (int i = 0; i < 2; i++)
-		{
-			for (pugi::xml_node Data = tilsetTexture.child("map").child("objectgroup").child("object"); Data && ret; Data = Data.next_sibling("object"))
-			{
-				temp.x = Data.attribute("x").as_int();
-				temp.y = Data.attribute("y").as_int();
-				temp.w = Data.attribute("width").as_int();
-				temp.h = Data.attribute("height").as_int();
-				
-				//TODO: find a method to ajust the rects automatically
-
-				std::string tempString = Data.attribute("name").as_string();
-				int degreesToArray = Data.attribute("type").as_int() / 45;//DEGREES    HAVE IN ACCOUNT THAT THE TILES ARE DEFINED CONTERCLOCKWISE
-
-				if (i == 0) {
-					
-					temp.x += 26;
-					temp.y += 7;
-					if (tempString != "DeathOne") {
-						temp.w = 25;
-						temp.h = 35;
-					}
-				}
-				else {
-
-					temp.x += 26;
-					temp.y += 20;
-					temp.w = 25;
-					temp.h = 35;
-
-				}
-			
-				if (tempString == "Pointing") {
-					animationArray[i][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
-					animationArray[i][int(unit_state::IDLE)][degreesToArray].loop = true;
-					animationArray[i][int(unit_state::IDLE)][degreesToArray].speed = 10.0f;
-				}
-				if (tempString == "Walking") {
-					animationArray[i][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
-					animationArray[i][int(unit_state::MOVING)][degreesToArray].loop = true;
-					animationArray[i][int(unit_state::MOVING)][degreesToArray].speed = 5.0f;
-				}
-				if (tempString == "Shot") {
-					animationArray[i][int(unit_state::ATTACKING)][degreesToArray].PushBack(temp);
-					animationArray[i][int(unit_state::ATTACKING)][degreesToArray].loop = true;
-					animationArray[i][int(unit_state::ATTACKING)][degreesToArray].speed = 10.0f;
-				}
-				if (tempString == "DeathOne") {
-					animationArray[i][int(unit_state::DEAD)][0].PushBack(temp);
-					animationArray[i][int(unit_state::DEAD)][0].loop = false;
-					if (i == 0) {
-						animationArray[i][int(unit_state::DEAD)][0].speed = 3.0f;
-					}else if(i==1)
-						animationArray[i][int(unit_state::DEAD)][0].speed = 3.0f;
-				}
-			}
-
-			result = tilsetTexture.load_file("textures/troops/soviet/InfantSov.tmx");
-		}
+	if (i != nullptr && j != nullptr) {
+		ret = i->groundPos.y > j->groundPos.y;
 	}
 
 	return ret;
 }
 
-bool Entity_Manager::SetupUnitStats() {
+void Entity_Manager::UpdateBlitOrdering()
+{
+	std::sort(entitiesVector.begin(), entitiesVector.end(), BlitSort);
+}
+
+void Entity_Manager::BlitEntities()
+{
+	for (int i = entitiesVector.size() - 1; i >= 0; i--) {
+		if (entitiesVector[i] != nullptr && entitiesVector[i]->texture != nullptr) {
+			myApp->render->Blit(entitiesVector[i]->texture, entitiesVector[i]->position.x, entitiesVector[i]->position.y, &entitiesVector[i]->spriteRect);
+		}
+	}
+}
+
+bool Entity_Manager::CleanUp()
+{
+	LOG("Clean Up Entity_Manager");
+
+	for (int i = 0; i < entitiesVector.size(); i++) {
+
+		if (entitiesVector[i] != nullptr)
+			entitiesVector[i] = nullptr;
+	}
+
+	entitiesVector.clear();
+
+	ReleasePools();
+	objectsArray.clear();
+	buildingsArray.clear();
+
+	return true;
+}
+
+void Entity_Manager::AllocateEntityPool()
+{
+	entitiesVector.resize(unitsPoolSize + buildingsArray.size() + objectsArray.size());
+
+	for (int i = 0; i < entitiesVector.size(); i++)
+		entitiesVector[i] = nullptr;
+}
+
+void Entity_Manager::AllocateUnitPool()
+{
+	unitPool.resize(/*unitPoolSize*/unitsPoolSize);
+}
+
+void Entity_Manager::AllocateHitscanPool()
+{
+	//hitscanPool.resize(/*hitscanPoolSize*/unitsPoolSize);
+
+}
+
+void Entity_Manager::AllocateRangedPool()
+{
+	//rangedPool.resize(/*rangedPoolSize*/unitsPoolSize);
+}
+
+void Entity_Manager::AllocateTankPool()
+{
+	//tankPool.resize(/*tankPoolSize*/unitsPoolSize);
+}
+
+
+Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction)
+{
+	Unit* ret = nullptr;
+
+	for (std::vector<Unit>::iterator item = unitPool.begin(); item != unitPool.end(); item = next(item)) {
+
+		if ((*item).active == false) {
+
+			(*item).faction = entityFaction;
+			(*item).position = position;
+			(*item).infantryType = infantryType;
+			(*item).texture = infantryTextures[int(infantryType)];
+			(*item).stats = infantryStats[int(infantryType)];
+			(*item).Start();
+
+			for (int i = 0; i < entitiesVector.size(); i++) {
+
+				if (entitiesVector[i] == nullptr) {
+					entitiesVector[i] = (Entity*)(&(*item));
+					break;
+				}
+			}
+
+
+			ret = &(*item);
+			break;
+		}
+	}
+
+	if (ret == nullptr) {
+
+		unitsPoolSize += RESIZE_VALUE;
+		AllocateUnitPool();
+		ActivateUnit(position, infantryType, entityFaction);
+	}
+
+	return ret;
+}
+
+bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shouldn't be necessary as non-active elements are not iterated at any point, and if they become active again these values are or should be overwritten
+
+	_Unit->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
+	_Unit->infantryType = infantry_type::INFANTRY_NONE;
+	_Unit->position = fPoint(0.0f, 0.0f);
+	_Unit->texture = nullptr;
+
+	_Unit->faction = entity_faction::NEUTRAL;
+
+	_Unit->active = false;
+	_Unit->selected = false;
+	//_Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];	//TODO: This caused bugs (Carles: Not sure)
+
+	std::vector<Entity*>::iterator it = entitiesVector.begin();
+	for (int i = 0; i < entitiesVector.size(); i++) {
+
+		if (entitiesVector[i] == (Entity*)_Unit) {
+			entitiesVector[i] = nullptr;
+			break;
+		}
+	}
+
+	/*if (Unit->faction == entity_faction::CAPITALIST) {	//TODO-Carles: I'll handle this later
+
+		Unit->hostileUnits.clear();
+		Unit->hostileBuildings.clear();
+		ActiveCapitalistUnits.remove(Unit);
+
+	}
+	else if (Unit->faction == entity_faction::COMMUNIST) {
+
+		Unit->hostileUnits.clear();
+		ActiveCommunistUnits.remove(Unit);
+	}*/
+
+	return true;
+}
+
+
+void Entity_Manager::ActivateBuildings()
+{
+	for (std::vector<Building>::iterator item = buildingsArray.begin(); item != buildingsArray.end(); item = next(item)) {	//TODO: This entire thing is a workaround, needs to be ready to work with different building types
+
+		if ((*item).buildingType != building_type::BUILDING_MAX && (*item).buildingType != building_type::BUILDING_NONE) {
+
+			if ((*item).buildingType == building_type::MAIN_BASE) {
+
+				(*item).faction == entity_faction::COMMUNIST;
+				mainBase = &(*item);
+				(*item).spriteRect = { 605, 1882, 212, 148 }; //TODO: Desharcodear
+				(*item).entityRect.w = (*item).spriteRect.w;
+				(*item).entityRect.h = (*item).spriteRect.h;
+
+				(*item).centerPos.x = (*item).position.x + (*item).spriteRect.w / 2;	//TODO: Desharcodear
+				(*item).centerPos.y = (*item).position.y + (*item).spriteRect.h / 2;
+				(*item).groundPos.x = (*item).position.x + (*item).spriteRect.w / 2;
+				(*item).groundPos.y = (*item).position.y + (*item).spriteRect.h;
+			}
+			else
+				(*item).faction == entity_faction::NEUTRAL;	//TODO: if not Main_Base then enemy building???
+
+			(*item).active = true;
+			(*item).selected = false;
+			(*item).texture = buildingsTextures[int((*item).buildingType)];
+
+			for (int i = 0; i < entitiesVector.size(); i++) {
+
+				if (entitiesVector[i] == nullptr) {
+					entitiesVector[i] = (Entity*)(&(*item));
+					break;
+				}
+			}
+		}
+	}
+}
+
+void Entity_Manager::ActivateObjects()
+{
+	for (std::vector<Static_Object>::iterator item = objectsArray.begin(); item != objectsArray.end(); item = next(item)) {
+
+		if ((*item).objectType != object_type::OBJECT_NONE && (*item).objectType != object_type::OBJECT_MAX) {
+
+			(*item).active = true;
+			(*item).selected = false;
+			(*item).texture = objectTextures[int((*item).objectType)];
+
+			if ((*item).objectType == object_type::TREE) {
+				(*item).spriteRect = SetupTreeType();	//TODO: CARLESTODO
+				(*item).entityRect.w = (*item).spriteRect.w;
+				(*item).entityRect.h = (*item).spriteRect.h;
+
+				(*item).centerPos.x = (*item).position.x + (*item).spriteRect.w / 2;	//TODO: Desharcodear
+				(*item).centerPos.y = (*item).position.y + (*item).spriteRect.h / 2;
+				(*item).groundPos.x = (*item).position.x + (*item).spriteRect.w / 2;
+				(*item).groundPos.y = (*item).position.y + (*item).spriteRect.h;
+			}
+
+			for (int i = 0; i < entitiesVector.size(); i++) {
+
+				if (entitiesVector[i] == nullptr) {
+					entitiesVector[i] = (Entity*)(&(*item));
+					break;
+				}
+			}
+		}
+	}
+}
+
+bool Entity_Manager::loadTextures() {
+
+
+	pugi::xml_parse_result result = unitsDocument.load_file("textures/troops/unitsDoc.xml");
+
+
+	for (pugi::xml_node Data = unitsDocument.child("Entity_Document").child("Troops").child("Soviet").child("Unit"); Data != NULL; Data = Data.next_sibling("Unit")) {
+
+		switch (Data.attribute("id").as_int())
+		{
+		case(int(infantry_type::CONSCRIPT)):
+			infantryTextures[int(infantry_type::CONSCRIPT)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+			break;
+
+		case(int(infantry_type::BAZOOKA)):
+
+			infantryTextures[int(infantry_type::BAZOOKA)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+			break;
+
+		case(int(infantry_type::DESOLATOR)):
+
+			infantryTextures[int(infantry_type::DESOLATOR)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			break;
+
+		case(int(infantry_type::MACHINE_GUN)):
+
+			infantryTextures[int(infantry_type::MACHINE_GUN)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+
+			break;
+
+		case(int(infantry_type::SNIPER)):
+
+			infantryTextures[int(infantry_type::SNIPER)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			break;
+
+		}
+
+	}
+	for (pugi::xml_node Data = unitsDocument.child("Entity_Document").child("Troops").child("Capitalist").child("Unit"); Data; Data = Data.next_sibling("Unit")) {
+		
+		switch (Data.attribute("id").as_int())
+		{
+			case int(int(infantry_type::BASIC)) :
+
+				infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+				break;
+
+				case int(int(infantry_type::DOG)) :
+
+					infantryTextures[int(infantry_type::DOG)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+					break;
+
+		}
+	}
+
+	buildingsTextures[int(building_type::MAIN_BASE)] = myApp->tex->Load("textures/buildings/mainbase.png");
+	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
+
+	return true;
+
+}
+
+bool Entity_Manager::LoadEntityData() {
+
+	bool ret;
+	pugi::xml_parse_result result = unitsDocument.load_file("textures/troops/unitsDoc.xml");
+
+
+	if (result != NULL)
+	{
+		AssignAnimData("Soviet");
+		AssignAnimData("Capitalist");
+
+
+	}
+
+	return true;
+}
+
+bool Entity_Manager::AssignAnimData(std::string faction) {
 
 	bool ret = true;
+	SDL_Rect temp;
+	int posArr;
+
+	for (pugi::xml_node DataXML = unitsDocument.child("Entity_Document").child("Troops").child(faction.c_str()).child("Unit"); DataXML; DataXML = DataXML.next_sibling("Unit")) {
+
+
+		pugi::xml_parse_result TiledFile = TiledDocument.load_file(DataXML.attribute("TiledFile").as_string());
+		
+		if (faction == "Soviet")
+			posArr = 0;
+		else
+			posArr = 1;
+
+
+		if (TiledFile != NULL) {
+
+			for (pugi::xml_node DataTMX = TiledDocument.child("map").child("objectgroup").child("object"); DataTMX && ret; DataTMX = DataTMX.next_sibling("object")) {
+
+				temp.x = DataTMX.attribute("x").as_int();
+				temp.y = DataTMX.attribute("y").as_int();
+				temp.w = DataTMX.attribute("width").as_int();
+				temp.h = DataTMX.attribute("height").as_int();
+
+
+				std::string tempString = DataTMX.attribute("name").as_string();
+				int degreesToArray = DataTMX.attribute("type").as_int() / 45;    //DEGREES    HAVE IN ACCOUNT THAT THE TILES ARE DEFINED CONTERCLOCKWISE
+
+				int id = DataXML.attribute("id").as_int();
+
+				switch (id)
+				{
+
+					case int(infantry_type::BASIC) :
+
+					   
+						break;
+
+
+					case (int(infantry_type::CONSCRIPT)):
+
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+
+						break;
+
+					case (int(infantry_type::BAZOOKA)):
+
+						//Introduce offset
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+
+						break;
+
+					case (int(infantry_type::MACHINE_GUN)):
+
+						//Introduce offset
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+						break;
+
+					case (int(infantry_type::SNIPER)):
+
+						//Introduce offset
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+						break;
+
+
+					case(int(infantry_type::DESOLATOR)):
+
+						//Introduce offset
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+						break;
+
+					case(int(infantry_type::DOG)):
+
+						//Introduce offset
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+						break;
+
+				}
+
+				if (tempString == "Pointing") {
+
+					animationArray[id][int(unit_state::IDLE)][degreesToArray][posArr].PushBack(temp);
+					animationArray[id][int(unit_state::IDLE)][degreesToArray][posArr].loop = true;
+					animationArray[id][int(unit_state::IDLE)][degreesToArray][posArr].speed = 10.0f;
+
+				}
+				else if (tempString == "Walking") {
+
+					animationArray[id][int(unit_state::MOVING)][degreesToArray][posArr].PushBack(temp);
+					animationArray[id][int(unit_state::MOVING)][degreesToArray][posArr].loop = true;
+					animationArray[id][int(unit_state::MOVING)][degreesToArray][posArr].speed = 5.0f;
+
+				}
+				else if (tempString == "Shot") {
+
+					animationArray[id][int(unit_state::ATTACKING)][degreesToArray][posArr].PushBack(temp);
+					animationArray[id][int(unit_state::ATTACKING)][degreesToArray][posArr].loop = true;
+					animationArray[id][int(unit_state::ATTACKING)][degreesToArray][posArr].speed = 10.0f;
+
+
+				}
+				else if (tempString == "DeathOne") {
+
+					animationArray[id][int(unit_state::DEAD)][0][posArr].PushBack(temp);
+					animationArray[id][int(unit_state::DEAD)][0][posArr].loop = false;
+					animationArray[id][int(unit_state::DEAD)][0][posArr].speed = DataXML.child("AnimDet").attribute("DeathOneSpeed").as_float();
+
+
+				}
+
+			}
+
+		}
+		else
+			ret = false;
+
+	}
+
+	return ret;
+
+}
+
+bool Entity_Manager::SetupUnitStats() {
+
+	bool ret = false;
 
 	pugi::xml_parse_result result = unitsDocument.load_file("textures/troops/unitsDoc.xml");
 
 	if (result != NULL)
 	{
-
-		int i = 0;
-
-		for (pugi::xml_node Data = unitsDocument.child("Units_Document").child("Unit"); Data&&ret; Data = Data.next_sibling())
-		{
-
-			infantryStats[i].linSpeed = Data.attribute("speed").as_float();
-			infantryStats[i].cadency = Data.attribute("cadency").as_float();
-			infantryStats[i].damage = (uint)Data.attribute("damage").as_int();
-			infantryStats[i].health = Data.attribute("health").as_float();
-
-			infantryStats[i].visionRange = (uint)Data.attribute("visionRange").as_int();
-			infantryStats[i].attackRange = (uint)Data.attribute("attackRange").as_int();
-
-			infantryStats[i].cost = Data.attribute("cost").as_int();
-			infantryStats[i].productionTime = Data.attribute("prodTime").as_int();
-			infantryStats[i].unitThreat = Data.attribute("threat").as_int();
-
-			i++;
-		}
+		AssignStats("Soviet");
+		AssignStats("Capitalist");
+		
+		ret = true;
 	}
 	return ret;
 }
+
+bool Entity_Manager::AssignStats(std::string faction) {
+
+	bool ret = false;
+	for (pugi::xml_node Data = unitsDocument.child("Entity_Document").child("Troops").child(faction.c_str()).child("Unit"); Data; Data = Data.next_sibling("Unit"))
+	{
+
+		int id = Data.attribute("id").as_int();
+
+		infantryStats[id].linSpeed = Data.child("stats").attribute("speed").as_float();
+		infantryStats[id].cadency = Data.child("stats").attribute("cadency").as_float();
+		infantryStats[id].damage = (uint)Data.child("stats").attribute("damage").as_int();
+		infantryStats[id].health = Data.child("stats").attribute("health").as_float();
+
+		infantryStats[id].visionRadius = (uint)Data.child("stats").attribute("visionRange").as_int();
+		infantryStats[id].attackRadius = (uint)Data.child("stats").attribute("attackRange").as_int();
+
+		infantryStats[id].cost = Data.child("stats").attribute("cost").as_int();
+		infantryStats[id].productionTime = Data.child("stats").attribute("prodTime").as_int();
+		infantryStats[id].unitThreat = Data.child("stats").attribute("threat").as_int();
+
+
+
+		ret = true;
+	}
+
+
+	return ret;
+}
+
+
+
+
+
+
 
 SDL_Rect Entity_Manager::SetupTreeType() {
 
@@ -624,4 +661,14 @@ SDL_Rect Entity_Manager::SetupTreeType() {
 
 
 	return ret;
+}
+
+void Entity_Manager::ReleasePools()
+{
+
+	unitPool.clear();
+	//hitscanPool.clear();
+	//rangedPool.clear();
+	//tankPool.clear();
+
 }

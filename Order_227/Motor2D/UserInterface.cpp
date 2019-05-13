@@ -85,6 +85,9 @@ bool User_Interface::Start()
 	unitStats_text = myApp->tex->Load("ui/Unit_Stats.png");
 	endingImages_Tex = myApp->tex->Load("ui/Ending_Game_Mesage_Icon.png"); 
 
+	//Fps debug text
+	fpsText = CreateText({ 10, 10 }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
+
 	SDL_Rect LoseRect = { 437,112,437,112 };
 	SDL_Rect TempButtonRect[4];
 	TempButtonRect[0] = {626,0,290,84};
@@ -183,7 +186,7 @@ bool User_Interface::Start()
 // Called each loop iteration
 bool User_Interface::PreUpdate()
 {
-	BROFILER_CATEGORY("Module User_Interface PreUpdate", Profiler::Color::Pink);
+	BROFILER_CATEGORY("Module User_Interface PreUpdate-Pink", Profiler::Color::Pink);
 
 	bool ret = true;
 
@@ -199,7 +202,7 @@ bool User_Interface::PreUpdate()
 // Called each frame (logic)
 bool User_Interface::Update(float dt)
 {
-	BROFILER_CATEGORY("Module User_Interface UpdateTick", Profiler::Color::DeepPink);
+	BROFILER_CATEGORY("Module User_Interface UpdateTick-DeepPink", Profiler::Color::DeepPink);
 
 	bool ret = true;
 
@@ -228,7 +231,7 @@ bool User_Interface::Update(float dt)
 // Called each frame (graphic)
 bool User_Interface::Draw()
 {
-	BROFILER_CATEGORY("Module User_Interface Update", Profiler::Color::HotPink);
+	BROFILER_CATEGORY("Module User_Interface Draw-HotPink", Profiler::Color::HotPink);
 
 	bool ret = true;
 
@@ -252,7 +255,7 @@ bool User_Interface::Draw()
 // Called each loop iteration
 bool User_Interface::PostUpdate()
 {
-	BROFILER_CATEGORY("Module User_Interface PostUpdate", Profiler::Color::LightPink);
+	BROFILER_CATEGORY("Module User_Interface PostUpdate-LightPink", Profiler::Color::LightPink);
 
 	bool ret = true;
 

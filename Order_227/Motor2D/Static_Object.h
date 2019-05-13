@@ -28,13 +28,19 @@ class Static_Object : public Entity
 {
 public:
 
-	Static_Object(fPoint pos, object_type objectType, entity_faction faction = entity_faction::NEUTRAL);
+	Static_Object();
+	Static_Object(fPoint pos, object_type objectType = object_type::OBJECT_NONE, entity_faction faction = entity_faction::NEUTRAL);
 	~Static_Object() {}
 
 	bool Update(float dt);
 	bool CleanUp();
 	bool Draw();
-	void UpdateBlitOrder() override;
+	bool DebugDraw();
+
+	//NOTE from Carles: After several hours of suffering in an attempt to create a new class from entity that had this stuff, I gave up and this is the result
+	virtual float Hurt(float damage) { return 0.0f; };
+	virtual bool IsDead() { return false; };
+	virtual bool IsVisible() { return true; };
 
 	object_type objectType;
 };

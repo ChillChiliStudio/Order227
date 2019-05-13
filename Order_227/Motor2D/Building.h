@@ -29,7 +29,8 @@ class Building :public Entity
 {
 public:
 
-	Building(fPoint position, building_type baseType, entity_faction faction = entity_faction::NEUTRAL);
+	Building();
+	Building(fPoint position, building_type baseType = building_type::BUILDING_NONE, entity_faction faction = entity_faction::NEUTRAL);
 	~Building() {}
 
 	bool Update(float dt);
@@ -37,18 +38,17 @@ public:
 	bool Start();
 
 	bool Draw();
-	void UpdateBlitOrder();
+	bool DebugDraw();
 
-
+	virtual float Hurt(float damage);
+	virtual bool IsDead();
+	virtual bool IsVisible();
 
 public:
 
 	//ADD ANIMATION
 	//Current_animation*
-	SDL_Rect buildingBlitRect = {605, 1882, 212, 148 };
 	building_type buildingType;
-
-
 	
 	float health = 0;
 	int income = 0;

@@ -51,6 +51,7 @@ bool Scene::Start()
 
 	//MUSIC
 	myApp->audio->PlayMusic("audio/music/main_menu/menu_song_loop.ogg", -1);
+	myApp->audio->ControlMUSVolume(0);
 
 	return true;
 }
@@ -58,8 +59,6 @@ bool Scene::Start()
 // Called each loop iteration
 bool Scene::PreUpdate()
 {
-
-
 
 	return true;
 }

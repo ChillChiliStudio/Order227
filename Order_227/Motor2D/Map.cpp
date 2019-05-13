@@ -10,7 +10,7 @@
 #include <cmath>
 #include <sstream>
 #include "Horde_Manager.h"
-
+#include"Brofiler/Brofiler.h"
 class Spawning_Point;
 
 
@@ -46,6 +46,7 @@ bool Map::Start()
 
 void Map::Draw()
 {
+	BROFILER_CATEGORY("Map.cpp Draw-Black", Profiler::Color::Black);
 	if(map_loaded == false)
 		return;
 
@@ -345,7 +346,6 @@ bool Map::Load(const char* file_name)
 
 
 	//place all game objects needed such as SpawningPoint,bases,etc.
-
 	PlaceGameObjects();
 
 
@@ -635,7 +635,6 @@ bool Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 void Map::PlaceGameObjects() {
 
 	std::list<GameObjectGroup*>::iterator item = data.gameObjects.begin();
-
 	for (; item != data.gameObjects.end(); item = next(item)) {
 
 		if ((*item)->nameGroup == "spawnPoint") {
@@ -647,70 +646,58 @@ void Map::PlaceGameObjects() {
 
 					Spawning_Point* new_SP = new Spawning_Point(PointToTile((int)(*item2)->x, (int)(*item2)->y));
 					myApp->hordes->SpawningPoints_Array.push_back(new_SP);
-					Group* newHorde = new Group;
+					Group* newHorde = new Group();
 					myApp->hordes->hordes.push_back(newHorde);
-
 
 				}
 			}
-
 		}
 
 		 if ((*item)->nameGroup == "Buildings") {
 
-			int i = 0;
-
 			std::list<GameObjectGroup::Object*>::iterator item2 = (*item)->Objectlist.begin();
 			for (; item2 != (*item)->Objectlist.end(); item2 = next(item2)) {
 
-				if ((*item2)->name == "MainBase") {
+				iPoint pos = PointToTile((int)(*item2)->x, (int)(*item2)->y);
+				fPoint fPos = { (float)pos.x, (float)pos.y };
 
-					iPoint pos = PointToTile((int)(*item2)->x, (int)(*item2)->y);
-					fPoint fPos = { (float)pos.x, (float)pos.y };
+				Building newBuilding(fPos, building_type::BUILDING_NONE, entity_faction::FACTION_NONE);
+				newBuilding.active = false;
 
-					Building* newBuilding = new Building(fPos, building_type::MAIN_BASE, entity_faction::COMMUNIST);
+				std::list <Properties::Property*> ::iterator itemProp = (*item2)->PropObj.list.begin();
+				for (; itemProp != (*item2)->PropObj.list.end(); itemProp = next(itemProp)) {
 
-					std::list <Properties::Property*> ::iterator itemProp = (*item2)->PropObj.list.begin();
-					for (; itemProp != (*item2)->PropObj.list.end();  itemProp = next(itemProp)) {
+					if ((*itemProp)->name == "income")
+						newBuilding.income = (*itemProp)->value;
+					if ((*itemProp)->name == "health")
+						newBuilding.health = (*itemProp)->value;
+					if ((*itemProp)->name == "type")
+						newBuilding.buildingType == (building_type)(*itemProp)->value;
 
-						if ((*itemProp)->name == "income")
-							newBuilding->income = (*itemProp)->value;
-						if ((*itemProp)->name == "health")
-							newBuilding->health = (*itemProp)->value;
-					}
-					
-					myApp->entities->buildingsArray[i] = newBuilding;
-					i++;
 				}
+
+				myApp->entities->buildingsArray.push_back(newBuilding);
 			}
 		}
 
 		 //TODO:Draw threes depending on the terrain tile
-
 		 if ((*item)->nameGroup == "Trees") {
-
-			 int i = 0;
 
 			 std::list<GameObjectGroup::Object*>::iterator item3 = (*item)->Objectlist.begin();
 			 for (; item3 != (*item)->Objectlist.end(); item3 = next(item3)) {
 
-				 if ((*item3)->name == "Tree") {
+				 iPoint Aux = PointToTile((int)(*item3)->x, (int)(*item3)->y);
+				 fPoint fPos = fPoint(Aux.x, Aux.y);
 
-					 iPoint Aux = PointToTile((int)(*item3)->x, (int)(*item3)->y);
-					 fPoint fPos = fPoint(Aux.x, Aux.y);
+				 Static_Object newStaticObject(fPos, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
+				 newStaticObject.active = false;
 
-					 Static_Object *newStaticObject = new Static_Object(fPos, object_type::TREE, entity_faction::NEUTRAL);
+				 if ((*item3)->name == "Tree") 
+					 newStaticObject.objectType = object_type::TREE;
 
-					 myApp->entities->staticObjectsArray[i] = newStaticObject;
-					 i++;
-
-					 if (i >= OBJECTS_ARRAY_SIZE)
-						 break;
-				 }
+				 myApp->entities->objectsArray.push_back(newStaticObject);
 			 }
 		 }
-
-
 	}
 }
 

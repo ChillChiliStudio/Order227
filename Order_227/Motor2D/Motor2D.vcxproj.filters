@@ -46,9 +46,6 @@
     <ClCompile Include="Textures.cpp">
       <Filter>Game Files\Modules\Main Functionalities</Filter>
     </ClCompile>
-    <ClCompile Include="Unit.cpp">
-      <Filter>Game Files\Entity Management\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="UIElement.cpp">
       <Filter>Game Files\User Interface</Filter>
     </ClCompile>
@@ -94,13 +91,7 @@
     <ClCompile Include="Static_Object.cpp">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Building.cpp">
-      <Filter>Game Files\Entity Management\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Vehicle.cpp">
-      <Filter>Game Files\Entity Management\Entities\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="Infantry.cpp">
       <Filter>Game Files\Entity Management\Entities\Units</Filter>
     </ClCompile>
     <ClCompile Include="Group.cpp">
@@ -110,7 +101,7 @@
       <Filter>Game Files\Entity Management\Group Management</Filter>
     </ClCompile>
     <ClCompile Include="Horde_Manager.cpp">
-      <Filter>Game Files\Entity Management\Entities\Enemies Management</Filter>
+      <Filter>Game Files\Entity Management\Enemies Management</Filter>
     </ClCompile>
     <ClCompile Include="Spawn_Box.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
@@ -130,8 +121,34 @@
     <ClCompile Include="Player.cpp">
       <Filter>Game Files\Modules</Filter>
     </ClCompile>
+
     <ClCompile Include="MiniMap.cpp">
       <Filter>Game Files\Modules</Filter>
+      </ClCompile>
+
+    <ClCompile Include="Unit.cpp">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Building.cpp">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Hitscan.cpp">
+      <Filter>Game Files\Entity Management\Entities\New Units\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="Launcher.cpp">
+      <Filter>Game Files\Entity Management\Entities\New Units\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="Bazooka.cpp">
+      <Filter>Game Files\Entity Management\Entities\New Units\Units\Launchers</Filter>
+    </ClCompile>
+    <ClCompile Include="Tank.cpp">
+      <Filter>Game Files\Entity Management\Entities\New Units\Units\Launchers</Filter>
+    </ClCompile>
+    <ClCompile Include="LightTank.cpp">
+      <Filter>Game Files\Entity Management\Entities\New Units\Units\Launchers\Tank</Filter>
+    </ClCompile>
+    <ClCompile Include="HeavyTank.cpp">
+      <Filter>Game Files\Entity Management\Entities\New Units\Units\Launchers\Tank</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -188,9 +205,6 @@
     </ClInclude>
     <ClInclude Include="Textures.h">
       <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClInclude>
-    <ClInclude Include="Unit.h">
-      <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
     <ClInclude Include="UIElement.h">
       <Filter>Game Files\User Interface</Filter>
@@ -249,13 +263,7 @@
     <ClInclude Include="Static_Object.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Building.h">
-      <Filter>Game Files\Entity Management\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Vehicle.h">
-      <Filter>Game Files\Entity Management\Entities\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Infantry.h">
       <Filter>Game Files\Entity Management\Entities\Units</Filter>
     </ClInclude>
     <ClInclude Include="GroupManager.h">
@@ -265,10 +273,10 @@
       <Filter>Game Files\Entity Management\Group Management</Filter>
     </ClInclude>
     <ClInclude Include="Horde_Manager.h">
-      <Filter>Game Files\Entity Management\Entities\Enemies Management</Filter>
+      <Filter>Game Files\Entity Management\Enemies Management</Filter>
     </ClInclude>
     <ClInclude Include="Spawning_Point.h">
-      <Filter>Game Files\Entity Management\Entities\Enemies Management</Filter>
+      <Filter>Game Files\Entity Management\Enemies Management</Filter>
     </ClInclude>
     <ClInclude Include="Spawn_Box.h">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
@@ -284,6 +292,15 @@
     </ClInclude>
     <ClInclude Include="MiniMap.h">
       <Filter>Game Files\Modules</Filter>
+        </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Building.h">
+      <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Pool.h">
+      <Filter>Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -341,11 +358,23 @@
     <Filter Include="Game Files\Entity Management\Entities\Units">
       <UniqueIdentifier>{b2f69d09-02a3-4467-8bd9-bcc094c5f488}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Entity Management\Entities\New Units">
+      <UniqueIdentifier>{6d9abc30-28dd-4e2b-a74e-75ae1bbcf3f5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game Files\Entity Management\Group Management">
       <UniqueIdentifier>{f903269a-71b3-4f83-8d72-b0ddb8e3cc63}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Files\Entity Management\Entities\Enemies Management">
+    <Filter Include="Game Files\Entity Management\Enemies Management">
       <UniqueIdentifier>{26153dbf-e930-4f6b-81d7-2ad899eab395}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Entity Management\Entities\New Units\Units">
+      <UniqueIdentifier>{5aa7585a-aee7-4136-b3f0-dc914281d86e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Entity Management\Entities\New Units\Units\Launchers">
+      <UniqueIdentifier>{0e4b77e7-c7e5-4193-ad67-5fc70790e4c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Entity Management\Entities\New Units\Units\Launchers\Tank">
+      <UniqueIdentifier>{0c354504-3846-4365-a11f-cfe200424061}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

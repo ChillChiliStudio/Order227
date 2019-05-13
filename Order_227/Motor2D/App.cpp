@@ -21,6 +21,8 @@
 #include "Horde_Manager.h"
 #include "MiniMap.h"
 
+#include "Text.h"
+
 #include "Brofiler/Brofiler.h"
 
 // Constructor
@@ -47,11 +49,11 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(input);
 	AddModule(win);
 	AddModule(tex);
-	AddModule(audio);
 	AddModule(map);
 	AddModule(pathfinding);
 	AddModule(scene);
 	AddModule(entities);
+	AddModule(audio);
 	AddModule(fonts);
 	AddModule(gui);
 	AddModule(groups);
@@ -98,12 +100,12 @@ bool App::Awake()
 		app_config = config.child("app");
 		title.assign(app_config.child("title").child_value());
 		organization.assign(app_config.child("organization").child_value());
+		debugMode = app_config.child("debug").attribute("active").as_bool(false);
 	
 		int cap = app_config.attribute("framerate_cap").as_int(-1);
 
 		if (cap > 0)
 			capped_ms = 1000 / cap;
-	
 		
 	}
 
@@ -117,6 +119,8 @@ bool App::Awake()
 			ret = (*item)->Awake(config.child((*item)->name.data())); 
 			item = next(item);
 		}
+
+
 	}
 
 	return ret;
@@ -205,6 +209,9 @@ void App::FinishUpdate()
 
 	if (capped_ms > 0 && last_frame_ms < capped_ms)
 		SDL_Delay(capped_ms - last_frame_ms);
+
+	std::string tmp = std::to_string(prev_last_sec_frame_count);
+	gui->fpsText->ChangeString(tmp);
 }
 
 // Call modules before each loop iteration

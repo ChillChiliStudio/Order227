@@ -96,7 +96,7 @@ public:
 	Horde_Manager*		hordes = nullptr;
 	MiniMap*			minimap = nullptr;
 
-	bool debugMode = false;
+	bool debugMode;
 	bool mustShutDown = false;
 
 private:

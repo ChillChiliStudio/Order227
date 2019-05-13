@@ -23,7 +23,6 @@ Group::~Group()
 
 void Group::SpreadDestinations(iPoint origDest)
 {
-	
 	iPoint mainDestination = myApp->map->WorldToMap(origDest);
 	
 	if (!myApp->pathfinding->IsWalkable(mainDestination))
@@ -38,7 +37,6 @@ void Group::SpreadDestinations(iPoint origDest)
 	frontier.push(mainDestination);
 
 	std::list<Unit*>::iterator currentUnit = groupUnits.begin();
-
 	(*currentUnit++)->destination = myApp->map->MapToWorld(mainDestination);
 
 	while (currentUnit != groupUnits.end())
@@ -72,6 +70,7 @@ void Group::SpreadDestinations(iPoint origDest)
 
 				(*currentUnit)->destination = myApp->map->MapToWorld(neighbors[i]);
 				currentUnit++;
+
 				if (currentUnit == groupUnits.end())
 					break;
 			}
@@ -82,6 +81,13 @@ void Group::SpreadDestinations(iPoint origDest)
 void Group::TransmitOrders(unit_orders givenOrder)
 {
 	switch (givenOrder) {
+	case unit_orders::HOLD:
+		for (std::list<Unit*>::iterator it = groupUnits.begin(); it != groupUnits.end(); it = next(it)) {
+			if ((*it)->IsDead() == false) {
+				(*it)->StartHold();
+			}
+		}
+		break;
 	case unit_orders::MOVE:
 		for (std::list<Unit*>::iterator it = groupUnits.begin(); it != groupUnits.end(); it = next(it)) {
 			if ((*it)->IsDead() == false) {
@@ -89,13 +95,13 @@ void Group::TransmitOrders(unit_orders givenOrder)
 			}
 		}
 		break;
-	case unit_orders::MOVE_AND_ATTACK:
-		for (std::list<Unit*>::iterator it = groupUnits.begin(); it != groupUnits.end(); it = next(it)) {
-			if ((*it)->IsDead() == false) {
-				(*it)->StartMoveAndAttack((*it)->destination);
-			}
-		}
-		break;
+	//case unit_orders::HUNT:
+	//	for (std::list<Unit*>::iterator it = groupUnits.begin(); it != groupUnits.end(); it = next(it)) {
+	//		if ((*it)->IsDead() == false) {
+	//			(*it)->StartHunt((*it)->destination);
+	//		}
+	//	}
+	//	break;
 	case unit_orders::PATROL:
 		for (std::list<Unit*>::iterator it = groupUnits.begin(); it != groupUnits.end(); it = next(it)) {
 			if ((*it)->IsDead() == false) {

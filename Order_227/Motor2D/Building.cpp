@@ -6,19 +6,19 @@
 #include "UserInterface.h"
 #include "Text.h"
 
-Building::Building(fPoint position, building_type building_type, entity_faction faction) : Entity(position, entity_type::BUILDING, faction)
+Building::Building()
 {}
 
+Building::Building(fPoint position, building_type building_type, entity_faction faction) : Entity(position, entity_type::BUILDING, faction)
+{}
 
 bool Building::Start() {
 
 	incomeTimer.Start();
-
 	myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, myApp->entities->lifeBar_tex, &health);
 
 	return true;
 }
-
 
 bool Building::Update(float dt)
 {
@@ -30,38 +30,54 @@ bool Building::Update(float dt)
 	}
 
 	Draw();
+
+	if (myApp->map->mapDebugDraw) {
+		DebugDraw();
+	}
+
 	return true;
 }
-
 
 bool Building::CleanUp()
 {
-
 	return true;
 }
-
 
 bool Building::Draw()
 {
-
-	UpdateBlitOrder();
-	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &buildingBlitRect);
+	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &spriteRect);
 
 	return true;
 }
 
+bool Building::DebugDraw()
+{
+	return myApp->render->DrawQuad(entityRect, 255, 0, 0, 255, false);
+}
 
-void Building::UpdateBlitOrder() {
+float Building::Hurt(float damage)
+{
+	health -= damage;
 
-	for (int i = 0; i < UNITS_ARRAY_SIZE; ++i) {
-
-		if (myApp->entities->entitiesArray[i] != this) {
-
-			if (this->position.y > myApp->entities->entitiesArray[i]->position.y)
-				order += 1;
-			else
-				order -= 1;
-
-		}
+	if (health <= 0.0f) {
+		//Die();
 	}
+
+	return health;
+}
+
+bool Building::IsDead()
+{
+	bool ret = false;
+
+	if (health <= 0.0f) {
+		ret = true;
+	}
+
+	return ret;
+}
+
+bool Building::IsVisible()
+{
+	return true;	//TODO: Make function with Fog of War
 }
