@@ -9,8 +9,8 @@
 
 class Building;
 
-enum class infantry_type {	// TODO: This should be a single enum with ALL units saved on it, NO ramifications
-
+enum class infantry_type	// TODO: This should be a single enum with ALL units saved on it, NO ramifications
+{
 	INFANTRY_NONE = -1,
 	BASIC,
 	CONSCRIPT,
@@ -19,8 +19,8 @@ enum class infantry_type {	// TODO: This should be a single enum with ALL units 
 	MACHINE_GUN,
 	SNIPER,
 	DOG,
-	INFANTRY_MAX
 
+	INFANTRY_MAX
 };
 
 enum class unit_state
