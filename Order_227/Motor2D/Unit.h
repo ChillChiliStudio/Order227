@@ -53,7 +53,7 @@ enum class unit_aggro
 
 	PASSIVE,	// SHIFT: Don't attack hostiles
 	DEFENSIVE,	// DEFAULT: Attack hostiles on your range radius
-	AGRESSIVE,	// CONTROL: Go Attack hostiles on your vision radius
+	AGGRESSIVE,	// CONTROL: Go Attack hostiles on your vision radius
 
 	MAX_AGGRO
 };

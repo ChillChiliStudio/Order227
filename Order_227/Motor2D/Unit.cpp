@@ -426,7 +426,7 @@ bool Unit::FindEnemies(float dt)
 				StartAggroHunt(tmpPtr->currTarget);
 				ret = true;
 			}
-			else if (unitAggro == unit_aggro::AGRESSIVE) {
+			else if (unitAggro == unit_aggro::AGGRESSIVE) {
 				aggroTarget = EnemyInRadius(stats.visionRadius);
 				if (aggroTarget != nullptr) {
 					StartAggroHunt(aggroTarget);

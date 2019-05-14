@@ -227,19 +227,46 @@ void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: 
 
 void Player::CheckForOrders()
 {
-	if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {	// Hold is done instantly, the others need a click
+	unit_aggro aggro;
+
+	if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {	// Hold is done instantly, the others need a click
 		if (myApp->groups->playerGroup.groupUnits.size() > 0) {
+			ApplyAggroLevel(GetAggroLevel());
 			OrderHold();
 		}
 	}
-	if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
+	if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
 		prepOrder = unit_orders::MOVE;
 	}
-	if (myApp->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
+	if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
 		prepOrder = unit_orders::HUNT;
 	}
-	if (myApp->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
+	if (myApp->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
 		prepOrder = unit_orders::PATROL;
+	}
+}
+
+unit_aggro Player::GetAggroLevel()
+{
+	unit_aggro ret = unit_aggro::DEFENSIVE;	// Default Defensive
+
+	if (myApp->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT) {	// Hold LEFT CONTROL for Aggresive
+		ret = unit_aggro::AGGRESSIVE;
+	}
+	else if (myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {	// Hold LEFT SHIFT for Passive
+		ret = unit_aggro::PASSIVE;
+	}
+	
+	return ret;
+}
+
+void Player::ApplyAggroLevel(unit_aggro aggro)
+{
+	for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
+	{
+		if ((*it)->IsDead() == false) {
+			(*it)->unitAggro = aggro;
+		}
 	}
 }
 
@@ -248,15 +275,19 @@ void Player::ApplyOrders()
 	if (myApp->groups->playerGroup.groupUnits.size() > 0) {
 		switch (prepOrder) {
 		case unit_orders::MOVE:
+			ApplyAggroLevel(GetAggroLevel());
 			OrderMove();
 			break;
 		case unit_orders::HUNT:
+			ApplyAggroLevel(GetAggroLevel());
 			OrderHunt();
 			break;
 		case unit_orders::PATROL:
+			ApplyAggroLevel(GetAggroLevel());
 			OrderPatrol();
 			break;
 		default:
+			ApplyAggroLevel(GetAggroLevel());
 			OrderMove();
 		}
 	}
@@ -298,8 +329,7 @@ void Player::OrderHunt()
 	if (selectedTarget != nullptr) {
 		for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
 		{
-			if ((*it)->IsDead() == false)
-			{
+			if ((*it)->IsDead() == false) {
 				(*it)->StartHunt(selectedTarget);
 			}
 		}
