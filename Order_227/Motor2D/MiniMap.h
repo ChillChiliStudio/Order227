@@ -26,20 +26,25 @@ private:
 	void MinimapBorders();
 	void DrawEntities();
 
+
+public:
+
+	iPoint minimapPosition;
+
+	int minimap_width;
+	int minimap_height;
+
 private:
 	SDL_Texture*		minimap_tex = nullptr;
 
 	float minimapScale;
-
-	iPoint minimapPosition;
 
 	int x_offset;
 	int y_offset;
 
 	float map_width;
 
-	int minimap_width;
-	int minimap_height;
+	bool minimapClicked=false;
 
 };
 

@@ -50,16 +50,20 @@ bool MiniMap::Start()
 
 bool MiniMap::Update(float dt)
 {
-	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT)!=KEY_IDLE )
 	{
 		int map_x, map_y;
 
-		if (MinimapCoords(map_x, map_y))
+		if (MinimapCoords(map_x, map_y) && minimapClicked)
 		{
 			myApp->render->camera.x = -map_x + myApp->win->width / 2;
 			myApp->render->camera.y = -map_y + myApp->win->height / 2;
+			
 		}
 	}
+
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+		minimapClicked = false;
 
 	return true;
 }
@@ -91,8 +95,12 @@ bool MiniMap::MinimapCoords(int& map_x, int& map_y)
 
 	if (mouse_x >= minimapPosition.x && mouse_x <= minimap_width+ minimapPosition.x && mouse_y >= minimapPosition.y && mouse_y <= minimap_height+minimapPosition.y)
 	{
-		map_x =  ((mouse_x-minimapPosition.x) - minimap_width / 2) / minimapScale;
-		map_y = (mouse_y-minimapPosition.y) / minimapScale;
+		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+			minimapClicked = true;
+
+			map_x = ((mouse_x - minimapPosition.x) - minimap_width / 2) / minimapScale;
+			map_y = (mouse_y - minimapPosition.y) / minimapScale;
+		
 	}
 
 	else

@@ -15,6 +15,7 @@
 #include "Player.h"
 #include "Window.h"
 #include "Brofiler/Brofiler.h"
+#include "MiniMap.h"
 
 bool Player::Awake()
 {
@@ -25,11 +26,11 @@ bool Player::Awake()
 
 bool Player::Start()
 {
-	LOG("STARTING PLAYER MODULE");
+	//LOG("STARTING PLAYER MODULE");
 
-	incomeTimer.Start();
-	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
-	mouseDebugMark->Deactivate();
+	//incomeTimer.Start();
+	//mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
+	//mouseDebugMark->Deactivate();
 
 
 	return true;
@@ -374,6 +375,15 @@ void Player::OrderPatrol()
 void Player::PlayerSelect()
 {
 	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
+		iPoint mousePosition;
+		myApp->input->GetMousePosition(mousePosition.x, mousePosition.y);
+
+		if (mousePosition.x > myApp->minimap->minimapPosition.x + myApp->minimap->minimap_width &&
+			mousePosition.x < myApp->minimap->minimapPosition.x &&
+			mousePosition.y > myApp->minimap->minimapPosition.y + myApp->minimap->minimap_height &&
+			mousePosition.y < myApp->minimap->minimapPosition.y)
+			return;
+
 		StartSelect();
 	}
 	else if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {	// Process Selection Area	//TODO: Check if the first 2 conditions are necessary
