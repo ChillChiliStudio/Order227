@@ -57,8 +57,7 @@ static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number
 	AllocateEntityPool();
 
 	//Activate Buildings & Objects
-	ActivateBuildings();
-	ActivateObjects();
+	
 
 	LoadEntityData();
 
@@ -289,42 +288,22 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 
 void Entity_Manager::ActivateBuildings()
 {
+
 	for (std::vector<Building>::iterator item = buildingsArray.begin(); item != buildingsArray.end(); item = next(item)) {	//TODO: This entire thing is a workaround, needs to be ready to work with different building types
 
 		if ((*item).buildingType != building_type::BUILDING_MAX && (*item).buildingType != building_type::BUILDING_NONE) {
 
-			if ((*item).buildingType == building_type::MAIN_BASE) {
 
-				(*item).faction = entity_faction::COMMUNIST;
+			if((*item).buildingType == building_type::COMMAND_CENTER)
 				mainBase = &(*item);
-				(*item).spriteRect = { 605, 1882, 212, 148 }; //TODO: Desharcodear
-				(*item).entityRect.w = (*item).spriteRect.w;
-				(*item).entityRect.h = (*item).spriteRect.h;
-
-				(*item).centerPos.x = (*item).position.x + (*item).spriteRect.w / 2;	//TODO: Desharcodear
-				(*item).centerPos.y = (*item).position.y + (*item).spriteRect.h / 2;
-				(*item).groundPos.x = (*item).position.x + (*item).spriteRect.w / 2;
-				(*item).groundPos.y = (*item).position.y + (*item).spriteRect.h;
-			}
-			else if ((*item).buildingType == building_type::EPC) {
 
 
-				(*item).faction = entity_faction::COMMUNIST;
-				(*item).spriteRect = { 0, 804, 155, 134 }; //TODO: Desharcodear
-				(*item).entityRect.w = (*item).spriteRect.w;
-				(*item).entityRect.h = (*item).spriteRect.h;
+			  (*item).faction == entity_faction::COMMUNIST;
 
-				(*item).centerPos.x = (*item).position.x + (*item).spriteRect.w / 2;	//TODO: Desharcodear
-				(*item).centerPos.y = (*item).position.y + (*item).spriteRect.h / 2;
-				(*item).groundPos.x = (*item).position.x + (*item).spriteRect.w / 2;
-				(*item).groundPos.y = (*item).position.y + (*item).spriteRect.h;
-			}
-			else
-				(*item).faction == entity_faction::NEUTRAL;	//TODO: if not Main_Base then enemy building???
+				(*item).active = true;
+				(*item).selected = false;
+				(*item).texture = buildingsTextures[int((*item).buildingType)];
 
-			(*item).active = true;
-			(*item).selected = false;
-			(*item).texture = buildingsTextures[int((*item).buildingType)];
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 
@@ -337,6 +316,8 @@ void Entity_Manager::ActivateBuildings()
 			(*item).Start();
 		}
 	}
+
+
 }
 
 void Entity_Manager::ActivateObjects()
@@ -373,9 +354,25 @@ void Entity_Manager::ActivateObjects()
 
 bool Entity_Manager::loadTextures() {
 
-
 	pugi::xml_parse_result result = unitsDocument.load_file("textures/troops/unitsDoc.xml");
+	pugi::xml_parse_result result2 = BuildingsDocument.load_file("textures/buildings/BuildingsDoc.xml");
 
+
+	if(result!=NULL)
+	loadTroopsTextures();
+	if (result2 != NULL)
+	loadBuildingsTextures();
+
+
+
+
+	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
+
+	return true;
+
+}
+
+bool Entity_Manager::loadTroopsTextures() {
 
 	for (pugi::xml_node Data = unitsDocument.child("Entity_Document").child("Troops").child("Soviet").child("Unit"); Data != NULL; Data = Data.next_sibling("Unit")) {
 
@@ -413,7 +410,7 @@ bool Entity_Manager::loadTextures() {
 
 	}
 	for (pugi::xml_node Data = unitsDocument.child("Entity_Document").child("Troops").child("Capitalist").child("Unit"); Data; Data = Data.next_sibling("Unit")) {
-		
+
 		switch (Data.attribute("id").as_int())
 		{
 			case int(int(infantry_type::BASIC)) :
@@ -431,30 +428,132 @@ bool Entity_Manager::loadTextures() {
 		}
 	}
 
-	buildingsTextures[int(building_type::MAIN_BASE)] = myApp->tex->Load("textures/buildings/mainbase.png");
-	buildingsTextures[int(building_type::EPC)] = myApp->tex->Load("textures/buildings/Facilities/Enhance_facility/Barracks_anim.png");
-	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
-
 	return true;
 
 }
+bool Entity_Manager::loadBuildingsTextures() {
 
-bool Entity_Manager::LoadEntityData() {
+	for (pugi::xml_node Data = BuildingsDocument.child("Buildings_Document").child("Building"); Data != NULL; Data = Data.next_sibling("Building")) {
 
-	bool ret;
-	pugi::xml_parse_result result = unitsDocument.load_file("textures/troops/unitsDoc.xml");
+		switch (Data.attribute("id").as_int())
+		{
+			case int(building_type::COMMAND_CENTER) :
+				buildingsTextures[int(building_type::COMMAND_CENTER)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+				break;
+
+			case int(building_type::TANK_FACTORY) :
+				buildingsTextures[int(building_type::TANK_FACTORY)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+				break;
+
+			case int(building_type::RADAR) :
+
+				buildingsTextures[int(building_type::RADAR)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+				break;
+
+			case int(building_type::GOLDYARD) :
+
+				buildingsTextures[int(building_type::GOLDYARD)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+				break;
+
+				case int(building_type::HTPC) :
+
+					buildingsTextures[int(building_type::HTPC)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+				break;
 
 
-	if (result != NULL)
-	{
-		AssignAnimData("Soviet");
-		AssignAnimData("Capitalist");
+				case int(building_type::PEOPLE_HEART) :
+
+					buildingsTextures[int(building_type::PEOPLE_HEART)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+					break;
+
+				case int(building_type::EPC) :
+					buildingsTextures[int(building_type::EPC)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+					break;
+
+		}
+
 
 
 	}
 
+
 	return true;
 }
+
+
+bool Entity_Manager::LoadEntityData() {
+
+	bool ret=false;
+	pugi::xml_parse_result result = unitsDocument.load_file("textures/troops/unitsDoc.xml");
+	pugi::xml_parse_result result2 = BuildingsDocument.load_file("textures/buildings/BuildingsDoc.xml");
+
+	if (result != NULL && result!=NULL)
+	{
+		AssignAnimData("Soviet");
+		AssignAnimData("Capitalist");
+		LoadBuildingsData();
+
+		ret = true;
+	}
+
+	return ret;
+}
+
+
+bool Entity_Manager::LoadBuildingsData() {
+
+	bool ret=true;
+	SDL_Rect temp;
+
+
+	for (pugi::xml_node DataXML = BuildingsDocument.child("Buildings_Document").child("Building"); DataXML; DataXML = DataXML.next_sibling("Building")) {
+
+		pugi::xml_parse_result TiledFile = TiledDocument.load_file(DataXML.attribute("TiledFile").as_string());
+
+		if (TiledFile != NULL) {
+
+			for (pugi::xml_node DataTMX = TiledDocument.child("map").child("objectgroup").child("object"); DataTMX && ret; DataTMX = DataTMX.next_sibling("object")) {
+
+				temp.x = DataTMX.attribute("x").as_int();
+				temp.y = DataTMX.attribute("y").as_int();
+				temp.w = DataTMX.attribute("width").as_int();
+				temp.h = DataTMX.attribute("height").as_int();
+
+
+				std::string tempString = DataTMX.attribute("name").as_string();
+				int id = DataXML.attribute("id").as_int();
+
+
+				if (tempString == "Spawn") {
+
+					BuildingAnimationArray[id][0].PushBack(temp);
+					BuildingAnimationArray[id][0].loop = false;
+					BuildingAnimationArray[id][0].speed = 10.0f;
+
+				}
+				else if (tempString == "Idle") {
+
+					BuildingAnimationArray[id][1].PushBack(temp);
+					BuildingAnimationArray[id][1].loop = true;
+					BuildingAnimationArray[id][1].speed = 5.0f;
+
+				}
+
+			}
+
+		}
+
+
+
+	}
+
+	return ret;
+}
+
 
 bool Entity_Manager::AssignAnimData(std::string faction) {
 
@@ -466,7 +565,7 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 
 
 		pugi::xml_parse_result TiledFile = TiledDocument.load_file(DataXML.attribute("TiledFile").as_string());
-		
+
 		if (faction == "Soviet")
 			posArr = 0;
 		else
@@ -493,7 +592,7 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 
 					case (int(infantry_type::BASIC)) :
 						temp.x = temp.x;
-					   
+
 						break;
 
 
@@ -608,7 +707,7 @@ bool Entity_Manager::SetupUnitStats() {
 	{
 		AssignStats("Soviet");
 		AssignStats("Capitalist");
-		
+
 		ret = true;
 	}
 	return ret;

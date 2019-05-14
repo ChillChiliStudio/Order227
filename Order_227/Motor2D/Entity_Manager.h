@@ -79,6 +79,7 @@ public:
 	
 	//Animations Array
 	Animation animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)][2]; //TODO_ WTF? Troop types?
+	Animation BuildingAnimationArray[int(building_type::BUILDING_MAX)][2];
 
 	bool entitiesDebugDraw = false;
 	SDL_Texture* lifeBar_tex = nullptr; //TODO: Why is this here?4
@@ -90,7 +91,11 @@ public:
 private:
 
 	bool LoadEntityData();
+	bool LoadBuildingsData();
 	bool loadTextures();
+	bool loadTroopsTextures();
+	bool loadBuildingsTextures();
+
 
 	//TilesetFile
 	pugi::xml_document	tilsetTexture;
@@ -102,6 +107,7 @@ private:
 
 	
 	pugi::xml_document unitsDocument;
+	pugi::xml_document BuildingsDocument;
 	pugi::xml_document TiledDocument;
 	//TO IMPLEMENT: Array with 2d arrays, or 3d arrays
 	//Animation[soldiertypes][state][direction]

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="6" height="6" tilewidth="148" tileheight="130" nextobjectid="34">
+ <imagelayer name="Capa de Imagen 1">
+  <image source="Flags.png" width="888" height="780"/>
+ </imagelayer>
+ <objectgroup name="Idle">
+  <object id="1" name="Idle" x="0" y="0" width="148" height="130"/>
+  <object id="2" name="Idle" x="148" y="0" width="148" height="130"/>
+  <object id="3" name="Idle" x="296" y="0" width="148" height="130"/>
+  <object id="4" name="Idle" x="444" y="0" width="148" height="130"/>
+  <object id="5" name="Idle" x="592" y="0" width="148" height="130"/>
+  <object id="6" x="740" y="0" width="148" height="130"/>
+  <object id="7" name="Idle" x="0" y="130" width="148" height="130"/>
+  <object id="8" name="Idle" x="148" y="130" width="148" height="130"/>
+  <object id="9" name="Idle" x="296" y="130" width="148" height="130"/>
+  <object id="10" name="Idle" x="444" y="130" width="148" height="130"/>
+  <object id="11" name="Idle" x="592" y="130" width="148" height="130"/>
+  <object id="12" x="740" y="130" width="148" height="130"/>
+  <object id="14" name="Idle" x="0" y="260" width="148" height="130"/>
+  <object id="15" name="Idle" x="148" y="260" width="148" height="130"/>
+  <object id="16" name="Idle" x="296" y="260" width="148" height="130"/>
+  <object id="17" name="Idle" x="444" y="260" width="148" height="130"/>
+ </objectgroup>
+</map>

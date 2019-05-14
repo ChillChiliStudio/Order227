@@ -18,6 +18,10 @@ Building::Building(fPoint position, building_type building_type, entity_faction 
 bool Building::Start() {
 
 	myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, myApp->entities->lifeBar_tex, &health);
+	
+	CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][0]);
+
+	
 	return true;
 }
 
@@ -42,11 +46,30 @@ bool Building::Update(float dt)
 			faction = entity_faction::COMMUNIST;
 
 
+
+	if (myApp->entities->mainBase->health <= 0) {
+		myApp->gui->LoseIcon->Activate();
+		//myApp->hordes->hordeActive = false;
+		//myApp->gui->pauseMenuPanel->Deactivate();
+		//myApp->gui->MainMenuTemp_Image->Activate();
+		//myApp->entities->ResetAll();
+
+	}
+
+
+
+	CurrentAnim.AdvanceAnimation(dt);
+
 	Draw();
 
 	if (myApp->map->mapDebugDraw)
 		DebugDraw();
 	
+	if (buildingType != building_type::COMMAND_CENTER && CurrentAnim.Finished()==true) {
+		
+		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][1]);
+
+	}
 
 	return true;
 }
@@ -70,7 +93,7 @@ void Building::GiveReward() {
 
 		for(int i = 0; i < myApp->entities->buildingsArray.size(); i++) {
 
-			if (myApp->entities->buildingsArray[i].buildingType != building_type::MAIN_BASE)
+			if (myApp->entities->buildingsArray[i].buildingType != building_type::COMMAND_CENTER)
 				myApp->entities->buildingsArray[i].maxHealth += StrategicPointsLifeBuff;
 
 			myApp->entities->buildingsArray[i].health = maxHealth;
@@ -98,7 +121,7 @@ void Building::TakeReward() {
 
 		for (int i = 0; i < myApp->entities->buildingsArray.size(); i++) {
 
-			if (myApp->entities->buildingsArray[i].buildingType != building_type::MAIN_BASE)
+			if (myApp->entities->buildingsArray[i].buildingType != building_type::COMMAND_CENTER)
 				myApp->entities->buildingsArray[i].maxHealth -= StrategicPointsLifeBuff;
 
 		}
@@ -113,6 +136,9 @@ bool Building::CleanUp()
 
 bool Building::Draw()
 {
+
+	
+	spriteRect = CurrentAnim.GetTheActualCurrentFrame();
 	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &spriteRect);
 	return true;
 }

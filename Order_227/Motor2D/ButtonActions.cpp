@@ -64,7 +64,6 @@ void CreateBazooka() {
 
 void StartGame() {
 
-
 	//MUSIC
 	//myApp->audio->PlayMusic("audio/music/game/ingame_song3_loop.ogg",-1);
 
@@ -73,8 +72,13 @@ void StartGame() {
 	//myApp->entities->ActivateBuildings();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	//myApp->entities->ActivateObjects();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	myApp->gui->WinIcon->Deactivate();
-	myApp->entities->mainBase->health = myApp->entities->mainBase->maxHealth;
-	myApp->entities->mainBase->Start();
+	
+	//myApp->entities->mainBase->Start();
+	//myApp->entities->ActivateBuildings();
+	myApp->entities->ActivateBuildings();
+	myApp->entities->ActivateObjects();
+
+
 	//myApp->entities->AllocateUnitPool();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	//myApp->entities->ResetAll();
 	myApp->hordes->hordeRoundto(1);
