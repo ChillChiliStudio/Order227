@@ -14,29 +14,96 @@ Building::Building(fPoint position, building_type building_type, entity_faction 
 
 bool Building::Start() {
 
-	incomeTimer.Start();
 	myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, myApp->entities->lifeBar_tex, &health);
-
 	return true;
 }
 
 bool Building::Update(float dt)
 {
-	if (incomeTimer.ReadSec() >= 2) {
 
-		myApp->player->playerMoney += 80;
-		myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
-		incomeTimer.Start();
+	this;
+	if(faction == entity_faction::COMMUNIST) {
+
+		if (rewardGiven == false)
+			GiveReward();
+
+		if (health <= 0) {
+
+			faction = entity_faction::NEUTRAL;
+			health = 0;
+			TakeReward();
+		}
+		else
+			repairable = true;
 	}
+	else if (faction == entity_faction::NEUTRAL && health > 0)
+			faction = entity_faction::COMMUNIST;
+
 
 	Draw();
 
-	if (myApp->map->mapDebugDraw) {
+	if (myApp->map->mapDebugDraw)
 		DebugDraw();
-	}
+	
 
 	return true;
 }
+
+
+void Building::GiveReward() {
+
+	rewardGiven = true;
+	myApp->player->playerIncome += income;
+
+	//if (buildingType == building_type::TANK_FACTORY)
+	//	player->heavyUnitsUnlocked = true; //TODO: Tocar UI con esto
+
+	if (buildingType == building_type::HTPC)
+		unitBuff = true; //Tocar en ActivateUnits() que si es true, le suba velocidad y vida de los buffs
+
+	else if (buildingType == building_type::EPC) {
+
+		healthRecovery *= 1.5;
+		myApp->entities->mainBase->health += MainBaseLifeBuff;
+
+		for(int i = 0; i < myApp->entities->buildingsArray.size(); i++) {
+
+			if (myApp->entities->buildingsArray[i].buildingType != building_type::MAIN_BASE)
+				myApp->entities->buildingsArray[i].maxHealth += StrategicPointsLifeBuff;
+
+			myApp->entities->buildingsArray[i].health = maxHealth;
+		}
+	}
+
+}
+
+
+void Building::TakeReward() {
+
+	rewardGiven = false;
+	myApp->player->playerIncome -= income;
+
+	//if (buildingType == building_type::TANK_FACTORY)
+	//	player->heavyUnitsUnlocked = false; //TODO: Tocar UI con esto
+
+	if (buildingType == building_type::HTPC)
+		unitBuff = false;
+
+	else if (buildingType == building_type::EPC) {
+
+		healthRecovery /= 1.5;
+		myApp->entities->mainBase->health -= MainBaseLifeBuff;
+
+		for (int i = 0; i < myApp->entities->buildingsArray.size(); i++) {
+
+			if (myApp->entities->buildingsArray[i].buildingType != building_type::MAIN_BASE)
+				myApp->entities->buildingsArray[i].maxHealth -= StrategicPointsLifeBuff;
+
+			myApp->entities->buildingsArray[i].health = maxHealth;
+		}
+	}
+}
+
 
 bool Building::CleanUp()
 {
@@ -46,7 +113,6 @@ bool Building::CleanUp()
 bool Building::Draw()
 {
 	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &spriteRect);
-
 	return true;
 }
 
@@ -62,6 +128,16 @@ float Building::Hurt(float damage)
 	if (health <= 0.0f) {
 		//Die();
 	}
+
+	return health;
+}
+
+float Building::Repair()
+{
+	health += healthRecovery;
+
+	if (health >= maxHealth)
+		health = maxHealth;
 
 	return health;
 }

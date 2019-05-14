@@ -255,11 +255,17 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 	_Unit->infantryType = infantry_type::INFANTRY_NONE;
 	_Unit->position = fPoint(0.0f, 0.0f);
 	_Unit->texture = nullptr;
+	
+	_Unit->currTarget = nullptr;
+	_Unit->aggroTriggered = false;
+
+	_Unit->unitPath.clear();
+	_Unit->currNode = _Unit->unitPath.end();
 
 	_Unit->faction = entity_faction::NEUTRAL;
-
 	_Unit->active = false;
 	_Unit->selected = false;
+
 	//_Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];	//TODO: This caused bugs (Carles: Not sure)
 
 	std::vector<Entity*>::iterator it = entitiesVector.begin();
@@ -296,9 +302,22 @@ void Entity_Manager::ActivateBuildings()
 
 			if ((*item).buildingType == building_type::MAIN_BASE) {
 
-				(*item).faction == entity_faction::COMMUNIST;
+				(*item).faction = entity_faction::COMMUNIST;
 				mainBase = &(*item);
 				(*item).spriteRect = { 605, 1882, 212, 148 }; //TODO: Desharcodear
+				(*item).entityRect.w = (*item).spriteRect.w;
+				(*item).entityRect.h = (*item).spriteRect.h;
+
+				(*item).centerPos.x = (*item).position.x + (*item).spriteRect.w / 2;	//TODO: Desharcodear
+				(*item).centerPos.y = (*item).position.y + (*item).spriteRect.h / 2;
+				(*item).groundPos.x = (*item).position.x + (*item).spriteRect.w / 2;
+				(*item).groundPos.y = (*item).position.y + (*item).spriteRect.h;
+			}
+			else if ((*item).buildingType == building_type::EPC) {
+
+
+				(*item).faction = entity_faction::COMMUNIST;
+				(*item).spriteRect = { 0, 804, 155, 134 }; //TODO: Desharcodear
 				(*item).entityRect.w = (*item).spriteRect.w;
 				(*item).entityRect.h = (*item).spriteRect.h;
 
@@ -321,6 +340,8 @@ void Entity_Manager::ActivateBuildings()
 					break;
 				}
 			}
+
+			(*item).Start();
 		}
 	}
 }
@@ -418,6 +439,7 @@ bool Entity_Manager::loadTextures() {
 	}
 
 	buildingsTextures[int(building_type::MAIN_BASE)] = myApp->tex->Load("textures/buildings/mainbase.png");
+	buildingsTextures[int(building_type::EPC)] = myApp->tex->Load("textures/buildings/Facilities/Enhance_facility/Barracks_anim.png");
 	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
 
 	return true;
