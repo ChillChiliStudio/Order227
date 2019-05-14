@@ -127,9 +127,6 @@
     <ClCompile Include="Building.cpp">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Hitscan.cpp">
-      <Filter>Game Files\Entity Management\Entities\New Units\Units</Filter>
-    </ClCompile>
     <ClCompile Include="Launcher.cpp">
       <Filter>Game Files\Entity Management\Entities\New Units\Units</Filter>
     </ClCompile>
@@ -144,6 +141,9 @@
     </ClCompile>
     <ClCompile Include="HeavyTank.cpp">
       <Filter>Game Files\Entity Management\Entities\New Units\Units\Launchers\Tank</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Game Files\Entity Management\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -293,6 +293,12 @@
     </ClInclude>
     <ClInclude Include="Pool.h">
       <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Launcher.h">
+      <Filter>Game Files\Entity Management\Entities\New Units\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

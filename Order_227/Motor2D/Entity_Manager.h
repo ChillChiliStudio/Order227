@@ -62,7 +62,8 @@ public:
 	int unitsPoolSize = 0;
 
 	//Pools
-	std::vector<Unit>			unitPool;
+	std::vector<Unit>			unitPool; //Unist will always be Hitscan type
+	//std::vector<Unit>			unitPool;
 	//std::vector<Hitscan>		hitscanPool;
 	//std::vector<Ranged>		rangedPool;
 	//std::vector<Tank>			tankPool;

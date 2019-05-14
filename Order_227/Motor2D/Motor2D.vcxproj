@@ -89,7 +89,6 @@
     <ClCompile Include="Group.cpp" />
     <ClCompile Include="GroupManager.cpp" />
     <ClCompile Include="HeavyTank.cpp" />
-    <ClCompile Include="Hitscan.cpp" />
     <ClCompile Include="Horde_Manager.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputText.cpp" />
@@ -98,6 +97,7 @@
     <ClCompile Include="LightTank.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Player.h" />
+    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Spawn_Box.cpp" />
@@ -142,8 +142,10 @@
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputText.h" />
     <ClInclude Include="Geometry.h" />
+    <ClInclude Include="Launcher.h" />
     <ClInclude Include="LifeBarBox.h" />
     <ClInclude Include="Pool.h" />
+    <ClInclude Include="Projectile.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Spawn_Box.h" />
     <ClInclude Include="Static_Object.h" />

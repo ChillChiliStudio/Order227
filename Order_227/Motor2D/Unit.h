@@ -140,7 +140,7 @@ public:
 	// Actions
 	bool Move(float dt);				// Move unit
 	bool FindEnemies(float dt);			// Find nearby enemies depending on aggro
-	void AttackCurrTarget(float dt);	
+	virtual void AttackCurrTarget(float dt);	
 	float Hurt(float damage);
 	void Die();
 	//void Kill();

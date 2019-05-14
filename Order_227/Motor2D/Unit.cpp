@@ -18,6 +18,7 @@ Unit::Unit(fPoint pos, infantry_type infType, entity_faction faction) : Entity(p
 {
 //	LoadEntityData();
 	infantryType = infType;
+	
 }
 
 Unit::~Unit()
@@ -397,7 +398,7 @@ void Unit::DoPatrol(float dt)
 	}
 }
 
-// Actions
+ //Actions
 bool Unit::Move(float dt)
 {
 	position.x += (vecSpeed.x * dt);
@@ -478,7 +479,7 @@ void Unit::Die()
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::HURT][rand() % 2]);
 }
 
-// Unit Data
+ //Unit Data
 bool Unit::IsDead()
 {
 	bool ret = false;
@@ -556,7 +557,7 @@ bool Unit::TargetDisplaced(Entity* target)
 	return ret;
 }
 
-// Unit Calculations
+ //Unit Calculations
 Entity* Unit::EnemyInRadius(uint radius)
 {
 	Entity* ret = nullptr;
@@ -629,7 +630,7 @@ fVec2 Unit::SetupVecSpeed()
 	return vecSpeed;
 }
 
-// Order calling
+ //Order calling
 void Unit::StartHold()
 {
 	origin = destination = { (int)centerPos.x, (int)centerPos.y };
