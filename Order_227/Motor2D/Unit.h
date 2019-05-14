@@ -14,7 +14,7 @@ enum class infantry_type {	// TODO: This should be a single enum with ALL units 
 	INFANTRY_NONE = -1,
 	BASIC,
 	CONSCRIPT,
-	BAZOOKA,
+	BAZOOKA,  //Unit of type Launcher
 	DESOLATOR,
 	CHRONO,
 	SNIPER,

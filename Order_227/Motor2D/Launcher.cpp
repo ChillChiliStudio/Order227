@@ -14,9 +14,67 @@
 #include "Launcher.h"
 #include "Projectile.h"
 
-Launcher::Launcher(){}
+Launcher::Launcher(){
+	//ProjectilePool.resize(10);
+}
 
 Launcher::~Launcher(){}
+
+bool Launcher::Start() {
+	return true;
+}
+
+
+bool Launcher::Update(float dt) {
+
+	/*for (int i = 0; i < ProjectilePool.size(); i++) {
+		if (ProjectilePool[i].active == true) {
+			ProjectilePool[i].Fly();
+		}
+	}*/
+
+	onCamera = InsideCamera();
+
+	entityRect.x = position.x;
+	entityRect.y = position.y;
+
+	UnitWorkflow(dt);
+
+	if (mustDespawn) {
+		mustDespawn = false;
+		myApp->entities->DeActivateUnit(this);
+	}
+	else {
+		if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
+			DrawPath();
+		}
+
+		currentAnimation.AdvanceAnimation(dt);	// Animation must continue even if outside camera
+
+		if (onCamera) {	// If inside camera
+
+			if (unitState == unit_state::MOVING) {	// State changes are always updated on animation,
+				unit_directions lastDirection = unitDirection;
+
+				if (lastDirection != CheckDirection(vecSpeed)) {
+					UpdateAnimation();
+				}
+			}
+
+			Draw();
+
+			if (selected) {	//TODO: This should be as a debug functionality, but for now it'll do
+				myApp->render->DrawQuad(entityRect, 0, 255, 0, 255, false);
+			}
+
+			if (myApp->entities->entitiesDebugDraw) {
+				DebugDraw();
+			}
+		}
+	}
+
+	return true;
+}
 
 void Launcher::AttackCurrTarget(float dt) {
 	fVec2 targetDirection = GetVector2(centerPos, currTarget->centerPos);
@@ -27,15 +85,27 @@ void Launcher::AttackCurrTarget(float dt) {
 		UpdateAnimation();
 	}
 
-	currTarget->Hurt((float)stats.damage * dt); //CHANGE FOR LAUNCH PROJECTILE
-	currTarget.
+	//currTarget->Hurt((float)stats.damage * dt); //CHANGE FOR LAUNCH PROJECTILE
+	LaunchProjectile(currTarget->centerPos);
 
 	if (unitState != unit_state::ATTACKING) {
 		attackTimer.Start();
 		unitState = unit_state::ATTACKING;
 	}
+
 	else if (attackTimer.Read() > stats.cadency) {
 		myApp->audio->PlayFx(stats.attackSfxId);
 		attackTimer.Start();
 	}
+}
+
+void Launcher::LaunchProjectile(fPoint destination) {
+	
+	/*for (int i = 0; i < ProjectilePool.size(); i++) {
+		if (ProjectilePool[i].active == false) {
+			ProjectilePool[i].active = true;
+			ProjectilePool[i].position = this->position;
+			ProjectilePool[i].Destination = destination;
+		}
+	}*/
 }

@@ -12,7 +12,7 @@
 #include "UserInterface.h"
 #include "Image.h"
 #include "Brofiler/Brofiler.h"
-
+#include "Launcher.h"
 #include <algorithm>
 
 Entity_Manager::Entity_Manager()
@@ -29,12 +29,14 @@ bool Entity_Manager::Awake(pugi::xml_node& config)
 
 	LOG("AWAKING ENTITY MANAGER");
 	unitsPoolSize = config.child("units_initial_size").attribute("value").as_int(0);
+	launcherPoolSize = 100; //TODO DESJARCODE
 
 	times_per_sec = TIMES_PER_SEC;
 	update_ms_cycle = 1.0f / (float)times_per_sec;
 
 	//Pool Allocation
 	AllocateUnitPool();
+	AllocateLauncherPool();
 	AllocateHitscanPool();
 	AllocateRangedPool();
 	AllocateTankPool();
@@ -84,7 +86,7 @@ bool Entity_Manager::Update(float dt)
 
 		if (accumulated_time >= update_ms_cycle)
 			do_logic = true;
-
+		//HITSCAN UNITS
 		for (int i = 0; i < unitsPoolSize; ++i) {
 
 			if (unitPool[i].active) {
@@ -93,6 +95,17 @@ bool Entity_Manager::Update(float dt)
 
 				if (do_logic)
 					unitPool[i].FixUpdate(dt);
+			}
+		}
+		//LAUNCHER UNITS
+		for (int i = 0; i < launcherPoolSize; ++i) {
+
+			if (launcherPool[i].active) {
+
+				launcherPool[i].Update(dt);
+
+				if (do_logic)
+					launcherPool[i].FixUpdate(dt);
 			}
 		}
 
@@ -209,6 +222,9 @@ void Entity_Manager::AllocateTankPool()
 	//tankPool.resize(/*tankPoolSize*/unitsPoolSize);
 }
 
+void Entity_Manager::AllocateLauncherPool() {
+	launcherPool.resize(launcherPoolSize);
+}
 
 Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction)
 {
@@ -234,6 +250,45 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 			}
 
 			
+			ret = &(*item);
+			break;
+		}
+	}
+
+	if (ret == nullptr) {
+
+		unitsPoolSize += RESIZE_VALUE;
+		AllocateUnitPool();
+		ActivateUnit(position, infantryType, entityFaction);
+	}
+
+	return ret;
+}
+
+Launcher* Entity_Manager::ActivateLauncher(fPoint position, infantry_type infantryType, entity_faction entityFaction)
+{
+	Launcher* ret = nullptr;
+
+	for (std::vector<Launcher>::iterator item = launcherPool.begin(); item != launcherPool.end(); item = next(item)) {
+
+		if ((*item).active == false) {
+
+			(*item).faction = entityFaction;
+			(*item).position = position;
+			(*item).infantryType = infantryType;
+			(*item).texture = infantryTextures[int(infantryType)];
+			(*item).stats = infantryStats[int(infantryType)];
+			(*item).Start();
+
+			for (int i = 0; i < entitiesVector.size(); i++) {
+
+				if (entitiesVector[i] == nullptr) {
+					entitiesVector[i] = (Entity*)(&(*item));
+					break;
+				}
+			}
+
+
 			ret = &(*item);
 			break;
 		}

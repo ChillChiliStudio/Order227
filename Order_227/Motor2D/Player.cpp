@@ -208,7 +208,8 @@ void Player::DebugInputs()
 			DebugSpawnUnit(infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
 		}
 		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
-			DebugSpawnUnit(infantry_type::BAZOOKA, entity_faction::COMMUNIST);
+			//DebugSpawnUnit(infantry_type::BAZOOKA, entity_faction::COMMUNIST);
+			DebugSpawnLauncher(infantry_type::BAZOOKA, entity_faction::COMMUNIST);
 		}
 		if (myApp->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
 			DebugSpawnUnit(infantry_type::CHRONO, entity_faction::COMMUNIST);
@@ -216,12 +217,19 @@ void Player::DebugInputs()
 		if (myApp->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
 			DebugSpawnUnit(infantry_type::DESOLATOR, entity_faction::COMMUNIST);
 		}
+		
 	}
 }
 
 void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: This should work with unit_type alone, enum ramifications like infantry or vehicles unnecesary
 {
 	Unit* tmp = myApp->entities->ActivateUnit(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
+	tmp->StartHold();
+}
+
+void Player::DebugSpawnLauncher(infantry_type unit, entity_faction faction)	//TODO: This should work with unit_type alone, enum ramifications like infantry or vehicles unnecesary
+{
+	Launcher* tmp = myApp->entities->ActivateLauncher(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
 	tmp->StartHold();
 }
 

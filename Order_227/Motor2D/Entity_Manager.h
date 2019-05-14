@@ -9,7 +9,7 @@
 #include "Building.h"
 #include "Group.h"
 #include "Animation.h"
-
+#include "Launcher.h"
 #define TIMES_PER_SEC 5
 #define TROOP_TYPES 7
 #define RESIZE_VALUE 50
@@ -36,6 +36,7 @@ public:
 
 	//Pools	//TODO: With .reserve() we can reserve memory for a vector so if a resize is needed in runtime the memory is already allocated, making the process faster
 	void AllocateEntityPool();
+	void AllocateLauncherPool();
 	void AllocateUnitPool();
 	void AllocateHitscanPool();
 	void AllocateRangedPool();
@@ -46,6 +47,8 @@ public:
 	void BlitEntities();
 
 	Unit* ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+	Launcher* ActivateLauncher(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+
 	bool DeActivateUnit(Unit* Unit);
 
 	void ActivateBuildings();
@@ -60,9 +63,10 @@ public:
 
 	//Pool sizes
 	int unitsPoolSize = 0;
-
+	int launcherPoolSize = 0;
 	//Pools
 	std::vector<Unit>			unitPool; //Unist will always be Hitscan type
+	std::vector<Launcher>	    launcherPool;//Launcher will always be Launcher type such as tanks or bazookas that use missiles
 	//std::vector<Unit>			unitPool;
 	//std::vector<Hitscan>		hitscanPool;
 	//std::vector<Ranged>		rangedPool;

@@ -9,13 +9,17 @@ public:
 	Launcher();
 	~Launcher();
 
+	bool Start() ;
+	bool Update(float dt);
+	
+
 public:
 
 	void AttackCurrTarget(float dt);
 	void LaunchProjectile(fPoint destination);
 	
-	Projectile
-
+	//std::vector<Projectile>			ProjectilePool;
+	
 };
 
 

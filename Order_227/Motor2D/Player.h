@@ -32,7 +32,7 @@ public:
 	void DebugMouse();
 	void DebugInputs();
 	void DebugSpawnUnit(infantry_type type, entity_faction faction);
-
+	void DebugSpawnLauncher(infantry_type type, entity_faction faction);
 	void CheckForOrders();
 	void ApplyOrders();
 	void OrderHold();
