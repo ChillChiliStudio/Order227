@@ -10161,7 +10161,6 @@
    <property name="Nodraw" value="0"/>
   </properties>
   <data>
-   <tile/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
