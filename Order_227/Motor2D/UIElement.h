@@ -14,13 +14,13 @@ enum class ui_type
 
 	IMAGE,
 	TEXT,
+	SLIDER,
 
 	BUTTON,
 	ACTION_BOX,
 	CHECK_BOX,
 	SPAWN_BOX,
 	UNIT_BOX,
-	SLIDER,
 
 	MAX_TYPES
 };

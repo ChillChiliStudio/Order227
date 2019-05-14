@@ -28,15 +28,6 @@ bool Horde_Manager::CleanUp()
 
 bool Horde_Manager::Update(float dt)
 {
-	if (myApp->debugMode)
-	{
-		if (myApp->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
-			ChooseSpawningPoints();
-
-		if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-			ClearEnemies();
-	}
-	
 	//Spawn Point Draw
 	if (myApp->map->mapDebugDraw)
 		for (int i = 0; i < SpawningPoints_Array.size(); i++) 
@@ -144,7 +135,7 @@ void Horde_Manager::ClearEnemies()
 {
 	for (int i = 0; i < hordes.size(); ++i)
 	{
-		for (std::list<Unit*>::iterator it = hordes[i]->groupUnits.begin();!hordes[i]->groupUnits.empty() ;it++ )
+		for (std::list<Unit*>::iterator it = hordes[i]->groupUnits.begin();!hordes[i]->groupUnits.empty() ;it++ )	//TODO: DeActivate all then clear list, not necessary to erase one by one
 		{
 			myApp->entities->DeActivateUnit((*it));
 			hordes[i]->groupUnits.erase(it);
