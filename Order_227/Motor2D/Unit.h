@@ -1,5 +1,5 @@
 #ifndef UNIT_H
-#define UNIT_H
+#define UNIT_H	//@Carles
 
 #include <vector>
 #include "Entity.h"
@@ -158,10 +158,11 @@ public:
 	void SetupPath(iPoint origin, iPoint destination);
 	fVec2 SetupVecSpeed();
 	Entity* EnemyInRadius(uint radius);
+	Unit* AttackingAllyInRadius(uint radius);
 	bool TargetInRange(Entity* target);
 
 public:
-	entity_faction typeFaction;
+	entity_type typeFaction;
 	infantry_type infantryType;
 	bool onCamera = false;
 
@@ -176,7 +177,6 @@ public:
 	unit_directions unitDirection = unit_directions::SOUTH_EAST;
 
 	// Animation
-	//SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
 	Animation currentAnimation;
 
 	// Speed
@@ -196,9 +196,9 @@ public:
 	bool aggroTriggered = false;	// Aggro flag
 
 	// Attack
-	Entity* currTarget = nullptr;				// Currently attacking target
-	Entity* huntTarget = nullptr;				// Fixed hunt target
-	bool targetLost;						// Marks lost vision of hunt target
+	Entity* currTarget = nullptr;	// Currently attacking target
+	Entity* huntTarget = nullptr;	// Fixed hunt target
+	bool targetLost;				// Marks lost vision of hunt target
 
 	Timer attackTimer;	// Attack timer
 
