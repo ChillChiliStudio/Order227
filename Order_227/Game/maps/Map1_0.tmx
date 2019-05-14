@@ -40210,11 +40210,11 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="786" name="EPC" x="494.441" y="437.954" width="154.875" height="138.396">
+  <object id="786" name="Tank Factory" x="494.441" y="437.954" width="154.875" height="138.396">
    <properties>
     <property name="health" type="int" value="500"/>
     <property name="income" type="int" value="30"/>
-    <property name="type" type="int" value="6"/>
+    <property name="type" type="int" value="1"/>
    </properties>
   </object>
  </objectgroup>

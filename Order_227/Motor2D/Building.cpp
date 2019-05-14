@@ -9,8 +9,11 @@
 Building::Building()
 {}
 
-Building::Building(fPoint position, building_type building_type, entity_faction faction) : Entity(position, entity_type::BUILDING, faction)
-{}
+Building::Building(fPoint position, building_type building_type, entity_faction _faction) : Entity(position, entity_type::BUILDING, faction)
+{
+	buildingType = building_type;
+	faction = entity_faction::COMMUNIST;
+}
 
 bool Building::Start() {
 
@@ -32,7 +35,7 @@ bool Building::Update(float dt)
 			health = 0;
 			TakeReward();
 		}
-		else
+		else if (health > 0 && health < maxHealth)
 			repairable = true;
 	}
 	else if (faction == entity_faction::NEUTRAL && health > 0)
@@ -98,7 +101,6 @@ void Building::TakeReward() {
 			if (myApp->entities->buildingsArray[i].buildingType != building_type::MAIN_BASE)
 				myApp->entities->buildingsArray[i].maxHealth -= StrategicPointsLifeBuff;
 
-			myApp->entities->buildingsArray[i].health = maxHealth;
 		}
 	}
 }
