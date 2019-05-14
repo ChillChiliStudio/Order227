@@ -400,14 +400,17 @@ void Unit::DoPatrol(float dt)
 // Actions
 bool Unit::Move(float dt)
 {
-	position.x += (vecSpeed.x * dt);
-	position.y += (vecSpeed.y * dt);
-	centerPos.x += (vecSpeed.x * dt);
-	centerPos.y += (vecSpeed.y * dt);
-	groundPos.x += (vecSpeed.x * dt);
-	groundPos.y += (vecSpeed.y * dt);
+	fVec2 distanceMoved = { vecSpeed.x * dt, vecSpeed.y * dt };
+
+	position.x += distanceMoved.x;
+	position.y += distanceMoved.y;
+	centerPos.x += distanceMoved.x;
+	centerPos.y += distanceMoved.y;
+	groundPos.x += distanceMoved.x;
+	groundPos.y += distanceMoved.y;
 
 	unitState = unit_state::MOVING;
+
 	return true;
 }
 
