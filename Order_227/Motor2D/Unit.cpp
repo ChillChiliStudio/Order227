@@ -666,6 +666,10 @@ fVec2 Unit::SetupVecSpeed()
 // Order calling
 void Unit::StartHold()
 {
+	if (unitAggro == unit_aggro::PASSIVE) {
+		unitAggro = unit_aggro::DEFENSIVE;
+	}
+
 	origin = destination = { (int)centerPos.x, (int)centerPos.y };
 
 	unitOrders = unit_orders::HOLD;
