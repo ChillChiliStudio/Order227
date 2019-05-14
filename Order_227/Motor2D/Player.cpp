@@ -9,13 +9,11 @@
 #include "UserInterface.h"
 #include "Text.h"
 #include "ParamBox.h"
+#include "Horde_Manager.h"
 #include "GroupManager.h"
 #include "Unit.h"
 #include "Player.h"
 #include "Brofiler/Brofiler.h"
-
-
-
 
 bool Player::Awake()
 {
@@ -188,23 +186,34 @@ void Player::DebugInputs()
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {	// Insta-Win
-
-
+			
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {	// Insta-Lose
 
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {	// Instantaneous Next Round + Kill all active enemies
+		if (myApp->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
 
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {	// Spawn Capitalist Unit on Mouse
+		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
+			
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Instantly start next round
+			myApp->hordes->ChooseSpawningPoints();
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Destroy all enemies
+			myApp->hordes->ClearEnemies();
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {	// Spawn Capitalist Unit on Mouse
 			DebugSpawnUnit(infantry_type::BASIC, entity_faction::CAPITALIST);
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
+		if (myApp->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
 			DebugSpawnUnit(infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
 		}
 	}
