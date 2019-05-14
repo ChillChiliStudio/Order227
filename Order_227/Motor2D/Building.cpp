@@ -47,15 +47,15 @@ bool Building::Update(float dt)
 
 
 
-	if (myApp->entities->mainBase->health <= 0) {
-		myApp->gui->LoseIcon->Activate();
+	if (this == myApp->entities->mainBase) {
+		if(health<=0)
+			myApp->gui->LoseIcon->Activate();
 		//myApp->hordes->hordeActive = false;
 		//myApp->gui->pauseMenuPanel->Deactivate();
 		//myApp->gui->MainMenuTemp_Image->Activate();
 		//myApp->entities->ResetAll();
 
 	}
-
 
 
 	CurrentAnim.AdvanceAnimation(dt);
@@ -66,9 +66,8 @@ bool Building::Update(float dt)
 		DebugDraw();
 	
 	if (buildingType != building_type::COMMAND_CENTER && CurrentAnim.Finished()==true) {
-		
-		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][1]);
 
+		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][1]);
 	}
 
 	return true;
