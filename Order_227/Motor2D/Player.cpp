@@ -414,7 +414,8 @@ void Player::ExpandSelect()
 
 	// --- Draw Rectangle ---
 	SDL_Rect SRect = { rectangle_origin.x, rectangle_origin.y, width, height };
-	myApp->render->DrawQuad(SRect, 0, 200, 100, 255, false);
+	myApp->render->DrawQuad(SRect, 0, 255, 100, 255, false);
+	myApp->render->DrawQuad(SRect, 0, 200, 100, 40, true);
 
 	// --- Once we get to the negative side of SRect numbers must be adjusted ---
 	if (width < 0) {
