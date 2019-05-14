@@ -1,5 +1,5 @@
 #ifndef UNIT_H
-#define UNIT_H
+#define UNIT_H	//@Carles
 
 #include <vector>
 #include "Entity.h"
@@ -9,9 +9,10 @@
 
 class Building;
 
-enum class infantry_type {	// TODO: This should be a single enum with ALL units saved on it, NO ramifications
-
+enum class infantry_type	// TODO: This should be a single enum with ALL units saved on it, NO ramifications
+{
 	INFANTRY_NONE = -1,
+
 	BASIC,
 	CONSCRIPT,
 	BAZOOKA,
@@ -19,8 +20,8 @@ enum class infantry_type {	// TODO: This should be a single enum with ALL units 
 	MACHINE_GUN,
 	SNIPER,
 	DOG,
-	INFANTRY_MAX
 
+	INFANTRY_MAX
 };
 
 enum class unit_state
@@ -53,7 +54,7 @@ enum class unit_aggro
 
 	PASSIVE,	// SHIFT: Don't attack hostiles
 	DEFENSIVE,	// DEFAULT: Attack hostiles on your range radius
-	AGRESSIVE,	// CONTROL: Go Attack hostiles on your vision radius
+	AGGRESSIVE,	// CONTROL: Go Attack hostiles on your vision radius
 
 	MAX_AGGRO
 };
@@ -158,10 +159,11 @@ public:
 	void SetupPath(iPoint origin, iPoint destination);
 	fVec2 SetupVecSpeed();
 	Entity* EnemyInRadius(uint radius);
+	Unit* AttackingAllyInRadius(uint radius);
 	bool TargetInRange(Entity* target);
 
 public:
-	entity_faction typeFaction;
+	entity_type typeFaction;
 	infantry_type infantryType;
 	bool onCamera = false;
 
@@ -176,7 +178,6 @@ public:
 	unit_directions unitDirection = unit_directions::SOUTH_EAST;
 
 	// Animation
-	//SDL_Rect UnitBlitRect = { 12, 0, 55,47 }; //TODO desjarcodear
 	Animation currentAnimation;
 
 	// Speed
@@ -196,9 +197,9 @@ public:
 	bool aggroTriggered = false;	// Aggro flag
 
 	// Attack
-	Entity* currTarget = nullptr;				// Currently attacking target
-	Entity* huntTarget = nullptr;				// Fixed hunt target
-	bool targetLost;						// Marks lost vision of hunt target
+	Entity* currTarget = nullptr;	// Currently attacking target
+	Entity* huntTarget = nullptr;	// Fixed hunt target
+	bool targetLost;				// Marks lost vision of hunt target
 
 	Timer attackTimer;	// Attack timer
 
