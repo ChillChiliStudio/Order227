@@ -60,7 +60,7 @@ bool Player::Update(float dt)
 			ApplyOrders();
 		}
 
-		if (myApp->gui->interfaceDebugDraw) {
+		if (myApp->map->mapDebugDraw) {
 			DebugMouse();	// Mouse UI Debug data update
 		}
 
@@ -176,9 +176,11 @@ void Player::DebugInputs()
 
 			if (myApp->map->mapDebugDraw) {
 				LOG("Debug Map: ON");
+				mouseDebugMark->Activate();
 			}
 			else {
 				LOG("Debug Map: OFF");
+				mouseDebugMark->Deactivate();
 			}
 		}
 
@@ -187,11 +189,9 @@ void Player::DebugInputs()
 
 			if (myApp->gui->interfaceDebugDraw) {
 				LOG("Debug UI: ON");
-				mouseDebugMark->Activate();
 			}
 			else {
 				LOG("Debug UI: OFF");
-				mouseDebugMark->Deactivate();
 			}
 		}
 
@@ -326,8 +326,15 @@ void Player::OrderHold()
 
 void Player::OrderMove()
 {
-	myApp->groups->playerGroup.SpreadDestinations(mousePos);
-	myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE);
+	//myApp->groups->playerGroup.SpreadDestinations(mousePos);
+	//myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE);
+
+	for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
+	{
+		if ((*it)->IsDead() == false) {
+			(*it)->StartMove(mousePos);
+		}
+	}
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::MOVING][0]);

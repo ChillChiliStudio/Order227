@@ -145,7 +145,7 @@ void Unit::DrawPath()
 		break;
 	}
 
-	myApp->render->DrawLine((int)centerPos.x, (int)centerPos.y, (*currNode).x, (*currNode).y, rgb[0], rgb[1], rgb[2], 255, true);
+	myApp->render->DrawLine((int)groundPos.x, (int)groundPos.y, (*currNode).x, (*currNode).y, rgb[0], rgb[1], rgb[2], 255, true);
 
 	if (unitPath.size() > 1) {
 		for (std::vector<iPoint>::iterator it = currNode; next(it) != unitPath.end(); it = next(it)) {
@@ -527,23 +527,23 @@ bool Unit::NodeReached()
 	bool ret = false;
 
 	if (vecSpeed.x > 0.0f) {
-		if (centerPos.x >= (float)currNode->x) {
+		if (groundPos.x >= (float)currNode->x) {
 			ret = true;
 		}
 	}
 	else if (vecSpeed.x < 0.0f) {
-		if (centerPos.x <= (float)currNode->x) {
+		if (groundPos.x <= (float)currNode->x) {
 			ret = true;
 		}
 	}
 
 	if (vecSpeed.y > 0.0f) {
-		if (centerPos.y >= (float)currNode->y) {
+		if (groundPos.y >= (float)currNode->y) {
 			ret = true;
 		}
 	}
 	else if (vecSpeed.y < 0.0f) {
-		if (centerPos.y <= (float)currNode->y) {
+		if (groundPos.y <= (float)currNode->y) {
 			ret = true;
 		}
 	}
@@ -565,7 +565,7 @@ bool Unit::TargetDisplaced(Entity* target)
 {
 	bool ret = false;
 
-	if (target->centerPos.x != destination.x || target->centerPos.y != destination.y) {
+	if (target->groundPos.x != destination.x || target->groundPos.y != destination.y) {
 		ret = true;
 	}
 
@@ -638,69 +638,132 @@ bool Unit::TargetInRange(Entity* target)
 	return ret;
 }
 
-void Unit::SetupPath(iPoint origin, iPoint destination)
+bool Unit::SetupPath(iPoint origin, iPoint destination)
 {
+	bool ret = true;
+
 	unitPath.clear();
 
 	iPoint mapOrigin = myApp->map->WorldToMap(origin.x, origin.y);
 	iPoint mapDestination = myApp->map->WorldToMap(destination.x, destination.y);
 
-	myApp->pathfinding->CreatePath(mapOrigin, mapDestination);
-	unitPath = *myApp->pathfinding->GetLastPath();
+	if (mapOrigin != mapDestination) {
+		myApp->pathfinding->CreatePath(mapOrigin, mapDestination);	//Create path
+		unitPath = *myApp->pathfinding->GetLastPath();
 
-	for (std::vector<iPoint>::iterator it = unitPath.begin(); it != unitPath.end(); it = next(it)) {
-		*it = myApp->map->MapToWorld(it->x, it->y);
+		for (int i = 0; i < unitPath.size(); i++) {					//Translate and correct all in-between nodes
+			unitPath[i] = myApp->map->MapToWorld(unitPath[i].x, unitPath[i].y);
+
+			//Pathfinding correction (Tile size: 60 width x 30 height)	//TODO: Something's wrong with MapToWorld/WorldToMap (specially suspicious -1 in the formula)
+			unitPath[i].x += 30;	//Tile width / 2
+			unitPath[i].y += 30;	//Tile height
+		}
+
+		currNode = next(unitPath.begin());	// Unit should move directly to 2nd node, as 1st is curr position
+		SetupVecSpeed();
+	}
+	else {	//If origin == destination, do nothing
+		ret = false;
 	}
 
-	currNode = unitPath.begin();
-	SetupVecSpeed();
+	return ret;
+
+
+	//NEW
+	//bool ret = true;
+
+	//unitPath.clear();
+
+	//iPoint mapOrigin = myApp->map->WorldToMap(origin.x, origin.y);
+	//iPoint mapDestination = myApp->map->WorldToMap(destination.x, destination.y);
+
+	//mapOrigin.x++;		//TODO: WorldToMap & MapToWorld are bugged and translate the x position off (always -1 x tile than it should), this corrects it
+	//mapDestination.x++;
+
+	//if (mapOrigin != mapDestination) {
+	//	myApp->pathfinding->CreatePath(mapOrigin, mapDestination);	//Create path
+	//	unitPath = *myApp->pathfinding->GetLastPath();
+
+	//	*unitPath.begin() = myApp->map->MapToWorld(unitPath.begin()->x, unitPath.begin()->y);	//Translate and correct begin and end tiles to world pos
+	//	(*unitPath.begin()).y += 15;
+	//	*unitPath.end() = myApp->map->MapToWorld(unitPath.end()->x, unitPath.end()->y);
+	//	(*unitPath.begin()).y += 15;
+
+	//	if (unitPath.size() > 2) {
+	//		for (std::vector<iPoint>::iterator it = next(unitPath.begin()); it != prev(unitPath.end()); it = next(it)) {	//Translate and correct all in-between nodes
+	//			*it = myApp->map->MapToWorld(it->x, it->y);
+
+	//			//Pathfinding bug correction (Tile size: 60 width x 30 height)
+	//			(*it).x += 60;	//Tile width++
+	//			(*it).y += 15;	//Tile height / 2	//TODO: WorldToMap & MapToWorld are bugged and translate the x position off (always -1 x tile than it should)
+	//		}
+	//	}
+
+	//	//currNode = next(unitPath.begin());
+	//	currNode = next(unitPath.begin());
+	//	SetupVecSpeed();
+	//}
+	//else {	//If origin == destination, do nothing
+	//	ret = false;
+	//}
+
+	//return ret;
 }
 
 fVec2 Unit::SetupVecSpeed()
 {
 	fPoint nodePos = { (float)(currNode->x), (float)(currNode->y) };
 
-	vecSpeed = GetVector2(centerPos, nodePos);
+	vecSpeed = GetVector2(groundPos, nodePos);
 	vecSpeed = vecSpeed.GetUnitVector();
 	vecSpeed *= stats.linSpeed;
 	return vecSpeed;
 }
 
 // Order calling
-void Unit::StartHold()
+bool Unit::StartHold()
 {
 	if (unitAggro == unit_aggro::PASSIVE) {
 		unitAggro = unit_aggro::DEFENSIVE;
 	}
 
-	origin = destination = { (int)centerPos.x, (int)centerPos.y };
+	origin = destination = { (int)groundPos.x, (int)groundPos.y };
 
 	unitOrders = unit_orders::HOLD;
 	unitState = unit_state::IDLE;
 
 	UpdateAnimation();
+
+	return true;
 }
 
-void Unit::StartMove(iPoint destination)
+bool Unit::StartMove(iPoint destination)
 {
-	origin = { (int)centerPos.x, (int)centerPos.y };
-	this->destination = destination;
+	bool ret = false;
 
-	SetupPath(origin, destination);
+	if (SetupPath({ (int)groundPos.x, (int)groundPos.y }, destination)) {
 
-	unitOrders = unit_orders::MOVE;
-	unitState = unit_state::IDLE;
+		origin = { (int)groundPos.x, (int)groundPos.y };
+		this->destination = destination;
 
-	UpdateAnimation();
+		unitOrders = unit_orders::MOVE;
+		unitState = unit_state::IDLE;
+
+		UpdateAnimation();
+
+		ret = true;
+	}
+
+	return ret;
 }
 
-void Unit::StartHunt(Entity* target)
+bool Unit::StartHunt(Entity* target)
 {
 	this->huntTarget = target;
 	targetLost = false;
 
-	origin = { (int)centerPos.x, (int)centerPos.y };
-	this->destination = { (int)target->centerPos.x, (int)target->centerPos.y };
+	origin = { (int)groundPos.x, (int)groundPos.y };
+	this->destination = { (int)target->groundPos.x, (int)target->groundPos.y };
 
 	SetupPath(origin, destination);
 
@@ -708,16 +771,18 @@ void Unit::StartHunt(Entity* target)
 	unitState = unit_state::IDLE;
 
 	UpdateAnimation();
+
+	return true;
 }
 
-void Unit::StartAggroHunt(Entity* target)	//NOTE: We don't touch origin or destination, as it's info related to the previous order we'll use to resume it later
+bool Unit::StartAggroHunt(Entity* target)	//NOTE: We don't touch origin or destination, as it's info related to the previous order we'll use to resume it later
 {
 	this->aggroTarget = target;
 	targetLost = false;
 
-	aggroDestination = { (int)target->centerPos.x, (int)target->centerPos.y };
+	aggroDestination = { (int)target->groundPos.x, (int)target->groundPos.y };
 
-	SetupPath({ (int)centerPos.x, (int)centerPos.y }, aggroDestination);
+	SetupPath({ (int)groundPos.x, (int)groundPos.y }, aggroDestination);
 
 	if (aggroTriggered == false) {	// If it's the fist time aggro-hunting, save previous order
 		aggroTriggered = true;
@@ -728,32 +793,34 @@ void Unit::StartAggroHunt(Entity* target)	//NOTE: We don't touch origin or desti
 	unitState = unit_state::IDLE;
 
 	UpdateAnimation();
+
+	return true;
 }
 
-void Unit::StartPatrol(iPoint destination)
+bool Unit::StartPatrol(iPoint destination)
 {
-	origin = { (int)centerPos.x, (int)centerPos.y };
-	this->destination = destination;
+	bool ret = StartMove(destination);
 
-	SetupPath(origin, destination);
+	if (ret) {
+		unitOrders = unit_orders::PATROL;
+	}
+
+	return ret;
+}
+
+bool Unit::ResumePatrol()
+{
+	SetupPath({ (int)groundPos.x, (int)groundPos.y }, destination);
 
 	unitOrders = unit_orders::PATROL;
 	unitState = unit_state::IDLE;
 
 	UpdateAnimation();
+
+	return true;
 }
 
-void Unit::ResumePatrol()
-{
-	SetupPath({ (int)centerPos.x, (int)centerPos.y }, destination);
-
-	unitOrders = unit_orders::PATROL;
-	unitState = unit_state::IDLE;
-
-	UpdateAnimation();
-}
-
-void Unit::ResumeLastOrder()
+bool Unit::ResumeLastOrder()
 {
 	aggroTriggered = false;
 	unitOrders = prevOrder;
@@ -776,4 +843,6 @@ void Unit::ResumeLastOrder()
 	UpdateAnimation();
 
 	prevOrder = unit_orders::NONE;
+
+	return true;
 }
