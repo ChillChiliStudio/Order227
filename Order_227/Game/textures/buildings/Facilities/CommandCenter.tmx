@@ -29,6 +29,7 @@
   <object id="24" name="Spawn" x="0" y="2343" width="212" height="213"/>
   <object id="25" name="Spawn" x="212" y="2343" width="212" height="213"/>
   <object id="26" name="Spawn" x="0" y="2556" width="212" height="213"/>
+   <object id="26" name="Idle" x="0" y="2556" width="212" height="213"/>
   <object id="53" name="DestStateOne" x="424" y="0" width="212" height="213"/>
   <object id="54" name="DestStateTwo" x="636" y="0" width="212" height="213"/>
   <object id="53" name="Destruction" x="424" y="213" width="212" height="213"/>

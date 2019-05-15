@@ -18,9 +18,8 @@ Building::Building(fPoint position, building_type building_type, entity_faction 
 bool Building::Start() {
 
 	myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, myApp->entities->lifeBar_tex, &health);
-	
-	CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][0]);
-
+	CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::SPAWN)]);
+	maxHealth = health;
 	
 	return true;
 }
@@ -47,8 +46,27 @@ bool Building::Update(float dt)
 
 
 
+	CurrentAnim.AdvanceAnimation(dt);
+
+	Draw();
+
+	if (myApp->map->mapDebugDraw)
+		DebugDraw();
+	
+	if (CurrentAnim.Finished()==true && health> maxHealth/2) {
+
+		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::IDLE)]);
+	}
+	else if (health < maxHealth / 4)
+		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::CRITICAL)]);
+	else if(health>= maxHealth/4 && health< maxHealth/2)
+		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::DAMAGED)]);
+	else if(health<=0)
+		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::DESTROYED)]);
+	
+
 	if (this == myApp->entities->mainBase && health <= 0) {
-		
+
 		myApp->gui->LoseIcon->Activate();
 		//myApp->hordes->hordeActive = false;
 		//myApp->gui->pauseMenuPanel->Deactivate();
@@ -57,18 +75,6 @@ bool Building::Update(float dt)
 
 	}
 
-
-	CurrentAnim.AdvanceAnimation(dt);
-
-	Draw();
-
-	if (myApp->map->mapDebugDraw)
-		DebugDraw();
-	
-	if (buildingType != building_type::COMMAND_CENTER && CurrentAnim.Finished()==true) {
-
-		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][1]);
-	}
 
 	return true;
 }

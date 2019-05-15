@@ -23,6 +23,17 @@ enum class building_type {
 	BUILDING_MAX
 };
 
+enum class Building_State {
+
+	SPAWN,
+	IDLE,
+	DAMAGED,
+	CRITICAL,
+	DESTROYED,
+	MAX
+
+};
+
 
 class Building :public Entity
 {
