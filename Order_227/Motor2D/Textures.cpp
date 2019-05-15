@@ -58,7 +58,7 @@ bool Textures::CleanUp()
 }
 
 // Load new texture from file path
-SDL_Texture* const Textures::Load(const char* path)
+SDL_Texture* const Textures::Load(const char* path, SDL_Renderer*renderer)
 {
 	SDL_Texture* texture = NULL;
 	SDL_Surface* surface = IMG_Load(path);
@@ -69,7 +69,7 @@ SDL_Texture* const Textures::Load(const char* path)
 	}
 	else
 	{
-		texture = LoadSurface(surface);
+		texture = LoadSurface(surface, renderer);
 		SDL_FreeSurface(surface);
 	}
 
@@ -95,9 +95,9 @@ bool Textures::UnLoad(SDL_Texture* texture)
 }
 
 // Translate a surface into a texture
-SDL_Texture* const Textures::LoadSurface(SDL_Surface* surface)
+SDL_Texture* const Textures::LoadSurface(SDL_Surface* surface, SDL_Renderer*renderer)
 {
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(myApp->render->renderer, surface);
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 	if(texture == NULL)
 		LOG("Unable to create texture from surface! SDL Error: %s\n", SDL_GetError());
 	else

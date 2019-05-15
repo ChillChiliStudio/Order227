@@ -1,5 +1,5 @@
 #ifndef GEOMETRY_H
-#define GEOMETRY_H	//IMPROVE: Implement with std::vector?
+#define GEOMETRY_H	//@Carles
 
 #include "Point.h"
 #include "Vector.h"

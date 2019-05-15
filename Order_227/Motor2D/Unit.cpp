@@ -33,6 +33,8 @@ bool Unit::Start()
 	unitState = unit_state::IDLE;
 	unitOrders = unit_orders::HOLD;
 	unitDirection = unit_directions::SOUTH_EAST;
+	
+	currNode = unitPath.end();
 
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)][(int)faction]);
 	stats.attackSfxId = myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::SHOT][2];	//TODO: Hardcoded audio value, this should be get by an XML
@@ -275,7 +277,7 @@ void Unit::DoMove(float dt)
 void Unit::DoHunt(float dt)
 {
 	if (huntTarget != nullptr && huntTarget->IsDead() == false) {
-		if (huntTarget->IsVisible() == false) {	// If target gets in Fog of War and comes out, restart Attack Order to target
+		if (targetLost == false && huntTarget->IsVisible() == false) {	// If target gets in Fog of War and comes out, restart Attack Order to target
 			targetLost = true;
 		}
 		else if (targetLost == true && huntTarget->IsVisible() == true) {
@@ -286,8 +288,7 @@ void Unit::DoHunt(float dt)
 				targetLost = false;
 			}
 		}
-
-		if (TargetInRange(huntTarget) == false) {
+		else if (TargetInRange(huntTarget) == false) {
 
 			if (unitState == unit_state::ATTACKING) {
 				if (TargetInRange(currTarget) && currTarget->IsDead() == false) {
@@ -320,6 +321,7 @@ void Unit::DoHunt(float dt)
 		}
 	}
 	else {
+		currTarget = nullptr;
 		huntTarget = nullptr;
 		StartHold();
 	}
@@ -327,43 +329,38 @@ void Unit::DoHunt(float dt)
 
 void Unit::DoAggroHunt(float dt)
 {
-	if (aggroTarget != nullptr && aggroTarget->IsDead() == false) {
-		if (aggroTarget->IsVisible() == false) {	// If target gets in Fog of War and comes out, restart Attack Order to target
-			ResumeLastOrder();
-		}
-		else if (TargetInRange(aggroTarget) == false) {
-
-			if (unitState == unit_state::ATTACKING) {
-				if (TargetInRange(currTarget) && currTarget->IsDead() == false) {
-					AttackCurrTarget(dt);
-				}
-				else {
-					currTarget = nullptr;
-					unitState = unit_state::IDLE;
-				}
-			}
-			else if (FindEnemies(dt) == false) {
-				if (NodeReached() == false) {
-					Move(dt);
-				}
-				else {
-					currNode = next(currNode);
-
-					if (DestinationReached() == false) {
-						SetupVecSpeed();
-					}
-					else {
-						StartAggroHunt(aggroTarget);
-					}
-				}
-			}
-		}
-		else {
+	if (aggroTarget != nullptr && aggroTarget->IsDead() == false && aggroTarget->IsVisible() == true) {
+		if (TargetInRange(aggroTarget) == true) {
 			currTarget = aggroTarget;
 			AttackCurrTarget(dt);
 		}
+		else if (unitState == unit_state::ATTACKING) {
+			if (TargetInRange(currTarget) && currTarget->IsDead() == false) {
+				AttackCurrTarget(dt);
+			}
+			else {
+				currTarget = nullptr;
+				unitState = unit_state::IDLE;
+			}
+		}
+		else if (FindEnemies(dt) == false) {
+			if (NodeReached() == false) {
+				Move(dt);
+			}
+			else {
+				currNode = next(currNode);
+
+				if (DestinationReached() == false) {
+					SetupVecSpeed();
+				}
+				else {
+					StartAggroHunt(aggroTarget);
+				}
+			}
+		}
 	}
 	else {
+		currTarget = nullptr;
 		aggroTarget = nullptr;
 		ResumeLastOrder();
 	}
@@ -400,14 +397,17 @@ void Unit::DoPatrol(float dt)
 // Actions
 bool Unit::Move(float dt)
 {
-	position.x += (vecSpeed.x * dt);
-	position.y += (vecSpeed.y * dt);
-	centerPos.x += (vecSpeed.x * dt);
-	centerPos.y += (vecSpeed.y * dt);
-	groundPos.x += (vecSpeed.x * dt);
-	groundPos.y += (vecSpeed.y * dt);
+	fVec2 distanceMoved = { vecSpeed.x * dt, vecSpeed.y * dt };
+
+	position.x += distanceMoved.x;
+	position.y += distanceMoved.y;
+	centerPos.x += distanceMoved.x;
+	centerPos.y += distanceMoved.y;
+	groundPos.x += distanceMoved.x;
+	groundPos.y += distanceMoved.y;
 
 	unitState = unit_state::MOVING;
+
 	return true;
 }
 
@@ -421,11 +421,27 @@ bool Unit::FindEnemies(float dt)
 			AttackCurrTarget(dt);
 			ret = true;
 		}
-		else if (unitAggro == unit_aggro::AGRESSIVE && aggroTriggered == false) {
-			aggroTarget = EnemyInRadius(stats.visionRadius);
-			if (aggroTarget != nullptr) {
-				StartAggroHunt(aggroTarget);
+		else if (aggroTriggered == false) {
+			Unit* tmpPtr;
+
+			tmpPtr = AttackingAllyInRadius(stats.attackRadius);
+			if (tmpPtr != nullptr) {
+				StartAggroHunt(tmpPtr->currTarget);
 				ret = true;
+			}
+			else if (unitAggro == unit_aggro::AGGRESSIVE) {
+				aggroTarget = EnemyInRadius(stats.visionRadius);
+				if (aggroTarget != nullptr) {
+					StartAggroHunt(aggroTarget);
+					ret = true;
+				}
+				else {
+					tmpPtr = AttackingAllyInRadius(stats.visionRadius);
+					if (tmpPtr != nullptr) {
+						StartAggroHunt(tmpPtr->currTarget);
+						ret = true;
+					}
+				}
 			}
 		}
 	}
@@ -561,11 +577,12 @@ Entity* Unit::EnemyInRadius(uint radius)
 {
 	Entity* ret = nullptr;
 
+	//Units
 	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
 		if ((*item).active == true && (*item).IsDead() == false && (*item).faction != faction) {
 
-			if (InsideSquareRadius(centerPos, (float)stats.attackRadius, (*item).centerPos)
-				&& InsideRadius(centerPos, (float)stats.attackRadius, (*item).centerPos))
+			if (InsideSquareRadius(centerPos, (float)radius, (*item).centerPos)
+				&& InsideRadius(centerPos, (float)radius, (*item).centerPos))
 			{
 				ret = (Entity*)&(*item);
 				break;
@@ -573,16 +590,36 @@ Entity* Unit::EnemyInRadius(uint radius)
 		}
 	}
 
+	//Buildings
 	if (ret == nullptr && faction == entity_faction::CAPITALIST) {
 		for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); item != myApp->entities->buildingsArray.end(); item = next(item)) {
 			if ((*item).active == true && (*item).IsDead() == false) {
 
-				if (InsideSquareRadius(centerPos, (float)stats.attackRadius, (*item).centerPos)
-					&& InsideRadius(centerPos, (float)stats.attackRadius, (*item).centerPos))
+				if (InsideSquareRadius(centerPos, (float)radius, (*item).centerPos)
+					&& InsideRadius(centerPos, (float)radius, (*item).centerPos))
 				{
 					ret = (Entity*)&(*item);
 					break;
 				}
+			}
+		}
+	}
+
+	return ret;
+}
+
+Unit* Unit::AttackingAllyInRadius(uint radius)
+{
+	Unit* ret = nullptr;
+
+	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
+		if ((*item).active == true && (*item).IsDead() == false && (*item).faction == faction && (*item).currTarget != nullptr) {
+
+			if (InsideSquareRadius(centerPos, (float)radius, (*item).centerPos)
+				&& InsideRadius(centerPos, (float)radius, (*item).centerPos))
+			{
+				ret = &(*item);
+				break;
 			}
 		}
 	}
@@ -632,6 +669,10 @@ fVec2 Unit::SetupVecSpeed()
 // Order calling
 void Unit::StartHold()
 {
+	if (unitAggro == unit_aggro::PASSIVE) {
+		unitAggro = unit_aggro::DEFENSIVE;
+	}
+
 	origin = destination = { (int)centerPos.x, (int)centerPos.y };
 
 	unitOrders = unit_orders::HOLD;
@@ -731,12 +772,6 @@ void Unit::ResumeLastOrder()
 		ResumePatrol();
 		break;
 	}
-
-	prevOrder = unitOrders;
-	unitOrders = unit_orders::HUNT;
-	unitState = unit_state::IDLE;
-
-	SetupPath({ (int)centerPos.x, (int)centerPos.y }, aggroDestination);
 
 	UpdateAnimation();
 

@@ -253,11 +253,17 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 	_Unit->infantryType = infantry_type::INFANTRY_NONE;
 	_Unit->position = fPoint(0.0f, 0.0f);
 	_Unit->texture = nullptr;
+	
+	_Unit->currTarget = nullptr;
+	_Unit->aggroTriggered = false;
+
+	_Unit->unitPath.clear();
+	_Unit->currNode = _Unit->unitPath.end();
 
 	_Unit->faction = entity_faction::NEUTRAL;
-
 	_Unit->active = false;
 	_Unit->selected = false;
+
 	//_Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];	//TODO: This caused bugs (Carles: Not sure)
 
 	std::vector<Entity*>::iterator it = entitiesVector.begin();

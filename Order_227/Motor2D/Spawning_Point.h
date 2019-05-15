@@ -1,5 +1,4 @@
 #include "Point.h"
-#include "Timer.h"
 #include "App.h"
 #include "Entity_Manager.h"
 #include <vector>

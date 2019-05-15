@@ -95,6 +95,7 @@
     <ClCompile Include="InputText.cpp" />
     <ClCompile Include="Launcher.cpp" />
     <ClCompile Include="LifeBarBox.cpp" />
+    <ClCompile Include="MiniMap.cpp" />
     <ClCompile Include="LightTank.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Player.h" />
@@ -143,6 +144,7 @@
     <ClInclude Include="InputText.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="LifeBarBox.h" />
+    <ClInclude Include="MiniMap.h" />
     <ClInclude Include="Pool.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Spawn_Box.h" />
