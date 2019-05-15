@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="3" height="27" tilewidth="284" tileheight="226" nextobjectid="2">
+ <imagelayer name="Image Layer 1">
+  <image source="Tank_Factory.png" width="852" height="6102"/>
+ </imagelayer>
+ <objectgroup name="Rects">
+  <object id="1" name="Spawn" x="0" y="0" width="284" height="226"/>
+  <object id="1" name="Spawn" x="284" y="0" width="284" height="226"/>
+  <object id="1" name="Spawn" x="568" y="0" width="284" height="226"/>
+  <object id="1" name="Spawn" x="0" y="226" width="284" height="226"/>
+  <object id="1" name="Spawn" x="284" y="226" width="284" height="226"/>
+  <object id="1" name="Spawn" x="568" y="226" width="284" height="226"/>
+  <object id="1" name="Spawn" x="0" y="452" width="284" height="226"/>
+  <object id="1" name="Spawn" x="284" y="452" width="284" height="226"/>
+  <object id="1" name="Spawn" x="568" y="452" width="284" height="226"/>
+  <object id="1" name="Spawn" x="0" y="678" width="284" height="226"/>
+  <object id="1" name="Spawn" x="284" y="678" width="284" height="226"/>
+  <object id="1" name="Spawn" x="568" y="678" width="284" height="226"/>
+  <object id="1" name="Spawn" x="0" y="904" width="284" height="226"/>
+  <object id="1" name="Spawn" x="284" y="904" width="284" height="226"/>
+  <object id="1" name="Spawn" x="568" y="904" width="284" height="226"/>
+  <object id="1" name="Spawn" x="0" y="1130" width="284" height="226"/>
+  <object id="1" name="Spawn" x="284" y="1130" width="284" height="226"/>
+  <object id="1" name="Spawn" x="568" y="1130" width="284" height="226"/>
+  <object id="1" name="Spawn" x="0" y="1356" width="284" height="226"/>
+  <object id="1" name="Spawn" x="284" y="1356" width="284" height="226"/>
+  <object id="1" name="Spawn" x="568" y="1356" width="284" height="226"/>
+  <object id="1" name="Spawn" x="0" y="1582" width="284" height="226"/>
+  <object id="1" name="Spawn" x="284" y="1582" width="284" height="226"/>
+  <object id="1" name="Spawn" x="568" y="1582" width="284" height="226"/>
+  <object id="1" name="Spawn" x="0" y="1808" width="284" height="226"/>
+  <object id="1" name="Spawn" x="284" y="1808" width="284" height="226"/>
+  <object id="1" name="Spawn" x="568" y="1808" width="284" height="226"/>
+  <object id="1" name="Spawn" x="0" y="2034" width="284" height="226"/>
+  <object id="1" name="Spawn" x="284" y="2034" width="284" height="226"/>
+  <object id="1" name="DestStateOne" x="0" y="2260" width="284" height="226"/>
+  <object id="1" name="DestStateTwo" x="284" y="2260" width="284" height="226"/>
+  <object id="1" name="Destruction" type="Idle" x="568" y="2260" width="284" height="226"/>
+  <object id="1" name="Destruction" x="0" y="2486" width="284" height="226"/>
+  <object id="1" name="Destruction" x="284" y="2486" width="284" height="226"/>
+  <object id="1" name="Destruction" x="568" y="2486" width="284" height="226"/>
+  <object id="1" name="Destruction" x="0" y="2712" width="284" height="226"/>
+  <object id="1" name="Destruction" x="284" y="2712" width="284" height="226"/>
+  <object id="1" name="Destruction" x="568" y="2712" width="284" height="226"/>
+  <object id="1" name="Destruction" x="0" y="2938" width="284" height="226"/>
+  <object id="1" name="Destruction" x="284" y="2938" width="284" height="226"/>
+  <object id="1" name="Destruction" x="568" y="2938" width="284" height="226"/>
+  <object id="1" name="Destruction" x="0" y="3164" width="284" height="226"/>
+  <object id="1" name="Destruction" x="284" y="3164" width="284" height="226"/>
+  <object id="1" name="Destruction" x="568" y="3164" width="284" height="226"/>
+  <object id="1" name="Destruction" x="0" y="3390" width="284" height="226"/>
+  <object id="1" name="Destruction" x="284" y="3390" width="284" height="226"/>
+  <object id="1" name="Destruction" x="568" y="3390" width="284" height="226"/>
+  <object id="1" name="Destruction" x="0" y="3616" width="284" height="226"/>
+  <object id="1" name="Destruction" x="284" y="3616" width="284" height="226"/>
+  <object id="1" name="Destruction" x="568" y="3616" width="284" height="226"/>
+  <object id="1" name="Destruction" x="0" y="3842" width="284" height="226"/>
+  <object id="1" name="Destruction" x="284" y="3842" width="284" height="226"/>
+  <object id="1" name="Destruction" x="568" y="3842" width="284" height="226"/>
+  <object id="1" name="Destruction" x="0" y="4068" width="284" height="226"/>
+  <object id="1" name="Destruction" x="284" y="4068" width="284" height="226"/>
+  <object id="1" name="Destruction" x="568" y="4068" width="284" height="226"/>
+  <object id="1" name="Destruction" x="0" y="4294" width="284" height="226"/>
+  <object id="1" name="Destruction" x="284" y="4294" width="284" height="226"/>
+  <object id="1" name="Idle" x="0" y="4520" width="284" height="226"/>
+  <object id="1" name="Idle" x="284" y="4520" width="284" height="226"/>
+  <object id="1" name="Idle" x="568" y="4520" width="284" height="226"/>
+  <object id="1" name="Idle" x="0" y="4746" width="284" height="226"/>
+  <object id="1" name="Idle" x="284" y="4746" width="284" height="226"/>
+  <object id="1" name="Idle" x="568" y="4746" width="284" height="226"/>
+  <object id="1" name="Idle" x="0" y="4972" width="284" height="226"/>
+  <object id="1" name="Idle" x="284" y="4972" width="284" height="226"/>
+  <object id="1" name="Idle" x="568" y="4972" width="284" height="226"/>
+  <object id="1" name="Idle" x="0" y="5198" width="284" height="226"/>
+  <object id="1" name="Idle" x="284" y="5198" width="284" height="226"/>
+  <object id="1" name="Idle" x="568" y="5198" width="284" height="226"/>
+  <object id="1" name="Idle" x="0" y="5424" width="284" height="226"/>
+  <object id="1" name="Idle" x="284" y="5424" width="284" height="226"/>
+  <object id="1" name="Idle" x="568" y="5424" width="284" height="226"/>
+  <object id="1" name="Idle" x="0" y="5650" width="284" height="226"/>
+  <object id="1" name="Idle" x="284" y="5650" width="284" height="226"/>
+  <object id="1" name="Idle" x="568" y="5650" width="284" height="226"/>
+  <object id="1" name="Idle" x="0" y="5876" width="284" height="226"/>
+  <object id="1" name="Idle" x="284" y="5876" width="284" height="226"/>
+ </objectgroup>
+</map>
