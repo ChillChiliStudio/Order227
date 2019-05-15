@@ -154,6 +154,7 @@ public:
 	bool NodeReached();
 	bool DestinationReached();
 	bool TargetDisplaced(Entity* target);
+	//bool IsSelected();
 
 	//Unit calculations
 	void SetupPath(iPoint origin, iPoint destination);

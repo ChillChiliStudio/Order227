@@ -19,6 +19,7 @@ class Unit_Box;
 class Button;
 class LifeBar;
 class Unit;
+class Mouse;
 //class Window;
 struct _TTF_Font;
 struct SDL_Rect;
@@ -73,6 +74,7 @@ public:
 	Spawn_Box* CreateSpawnBox(bool value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
 	Unit_Box* CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0,int unitCost=0,bool* _enabletoCraft=nullptr);
 	LifeBar* CreateLifeBar(fPoint center, Unit* parent = nullptr, SDL_Texture* tex = NULL, float* auxHealth=NULL);
+	Mouse* CreateMouse( SDL_Texture*tex);
 
 	template <class T_param>
 	UI_Element* CreateParamBox(void(*action)(T_param), T_param parameter, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL)
@@ -129,6 +131,8 @@ public:
 	Void_Box* ReturnMainMenu3 = nullptr;
 	Text* ReturnMainMenu_Label3 = nullptr;
 
+	Mouse* Mouse_UI = nullptr;
+
 private:
 
 	std::list<UI_Element*> screenElements;
@@ -170,6 +174,7 @@ private:
 	SDL_Texture* pauseMenuPanel_Tex = nullptr;
 	SDL_Texture* mainBar = nullptr;
 	SDL_Texture* atlas = nullptr;
+	SDL_Texture* mouse_tex = nullptr;
 	std::string atlasFileName;
 
 };

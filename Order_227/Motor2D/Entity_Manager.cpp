@@ -299,7 +299,7 @@ void Entity_Manager::ActivateBuildings()
 				(*item).active = true;
 				(*item).selected = false;
 				(*item).texture = buildingsTextures[int((*item).buildingType)];
-
+				(*item).Start();
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 

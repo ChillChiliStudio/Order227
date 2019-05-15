@@ -15,6 +15,7 @@
 #include "GroupManager.h"
 #include "Entity_Manager.h"
 
+
 #include "UserInterface.h"
 #include "UIElement.h"
 #include "Image.h"
@@ -28,6 +29,7 @@
 #include "UnitButton.h"
 #include "LifeBarBox.h"
 #include "ButtonActions.h"
+#include "Mouse.h"
 
 
 User_Interface::User_Interface() : Module()
@@ -73,6 +75,8 @@ bool User_Interface::Start()
 {
 	bool ret = true;
 
+	SDL_ShowCursor(SDL_DISABLE);
+
 	loadAnim();
 
 	atlas = myApp->tex->Load(atlasFileName.c_str());
@@ -87,6 +91,7 @@ bool User_Interface::Start()
 	PauseButton_text = myApp->tex->Load("ui/Pause_Buton_Icon.png");
 	unitStats_text = myApp->tex->Load("ui/Unit_Stats.png");
 	endingImages_Tex = myApp->tex->Load("ui/Ending_Game_Mesage_Icon.png"); 
+	mouse_tex = myApp->tex->Load("ui/Mouse_Actions.png");
 
 	//Fps debug text
 	fpsText = CreateText({ 10, 10 }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
@@ -172,6 +177,7 @@ bool User_Interface::Start()
 	ReturnMainMenu3 = CreateVoidBox(QuitGame, fPoint(width / 2, height / 1.75), Pause_Button, PauseButton_text, LoseIcon);
 	ReturnMainMenu_Label3 = CreateText(fPoint(width / 2, height / 1.75), "EXIT", font_id::MOLOT, White, false, LoseIcon);
 	LoseIcon->Deactivate();
+
 	//incomingHordein = CreateText(fPoint(width / 2.9, height / 2.5), "Incoming Horde in", font_id::MOLOT, White, false, NULL, 1.5);
 	//timerHorde = CreateText(fPoint(width / 1.7, height / 2.5), timerHorde_temp.c_str(), font_id::MOLOT, White, false, NULL, 1.5);
 
@@ -182,7 +188,7 @@ bool User_Interface::Start()
 	ExitGame_Button = CreateVoidBox(CloseGame, fPoint(width / 2, height / 1.2), TempButtonRect, StartGame_text, MainMenuTemp_Image);
 	ExitGame_Label = CreateText(fPoint(width / 2, height / 1.2), "QUIT GAME", font_id::MOLOT, White, false, ExitGame_Button);
 	
-
+	Mouse_UI = CreateMouse(mouse_tex);
 
 	SpawnSelectors.push_back(selectorInfantry);
 	SpawnSelectors.push_back(selectorDefenses);
@@ -387,6 +393,12 @@ Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_
 	ret = new Unit_Box(action, center, spriteList, tex, parent,TimerTexture,timeCreator,unitCost,_enabletoCraft);
 	AddElement(ret);
 
+	return ret;
+}
+Mouse* User_Interface::CreateMouse(SDL_Texture*tex ) {
+	Mouse* ret = nullptr;
+	ret = new Mouse(tex);
+	AddElement(ret);
 	return ret;
 }
 
