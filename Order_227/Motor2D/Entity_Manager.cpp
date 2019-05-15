@@ -227,6 +227,7 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 
 				if (entitiesVector[i] == nullptr) {
+
 					entitiesVector[i] = (Entity*)(&(*item));
 					break;
 				}
@@ -264,6 +265,8 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 	_Unit->active = false;
 	_Unit->selected = false;
 
+	
+
 	//_Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];	//TODO: This caused bugs (Carles: Not sure)
 
 	std::vector<Entity*>::iterator it = entitiesVector.begin();
@@ -274,19 +277,6 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 			break;
 		}
 	}
-
-	/*if (Unit->faction == entity_faction::CAPITALIST) {	//TODO-Carles: I'll handle this later
-
-		Unit->hostileUnits.clear();
-		Unit->hostileBuildings.clear();
-		ActiveCapitalistUnits.remove(Unit);
-
-	}
-	else if (Unit->faction == entity_faction::COMMUNIST) {
-
-		Unit->hostileUnits.clear();
-		ActiveCommunistUnits.remove(Unit);
-	}*/
 
 	return true;
 }
