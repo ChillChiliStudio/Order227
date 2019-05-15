@@ -14,7 +14,7 @@
     <ProjectGuid>{2AF9969B-F202-497B-AF30-7BEF9CE8005E}</ProjectGuid>
     <RootNamespace>programacio_2</RootNamespace>
     <ProjectName>Order227</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -83,6 +83,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonActions.cpp" />
     <ClCompile Include="CheckBox.cpp" />
+    <ClCompile Include="EntityQuadtree.cpp" />
     <ClCompile Include="Entity_Manager.cpp" />
     <ClCompile Include="Fonts.cpp" />
     <ClCompile Include="Geometry.cpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="ButtonActions.h" />
     <ClInclude Include="CheckBox.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityQuadtree.h" />
     <ClInclude Include="Entity_Manager.h" />
     <ClInclude Include="Fonts.h" />
     <ClInclude Include="Group.h" />

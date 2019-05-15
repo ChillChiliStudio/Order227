@@ -12,6 +12,7 @@
 #include "UserInterface.h"
 #include "Image.h"
 #include "Brofiler/Brofiler.h"
+#include "EntityQuadtree.h"
 
 #include <algorithm>
 
@@ -64,6 +65,15 @@ static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number
 	//Set up stats of units
 	SetupUnitStats();
 
+	//Set up the quadtree
+	SDL_Rect quadtreeRect;
+	quadtreeRect.x = -(myApp->map->data.width*myApp->map->data.tile_width) / 2;
+	quadtreeRect.y = 0;
+	quadtreeRect.w = myApp->map->data.width*myApp->map->data.tile_width;
+	quadtreeRect.h = myApp->map->data.height*myApp->map->data.tile_height;
+
+	entitiesQuadtree = new EntityQuadtree(QUADTREE_DIVISIONS, quadtreeRect);
+	entitiesQuadtree->Split(QUADTREE_DIVISIONS);
 	return true;
 }
 
@@ -76,6 +86,8 @@ bool Entity_Manager::PreUpdate() {
 
 bool Entity_Manager::Update(float dt)
 {
+	entitiesQuadtree->FillTree();
+
 	BROFILER_CATEGORY("Entity_Manager Update()-Brown", Profiler::Color::Brown);
 	accumulated_time += dt;
 
@@ -101,36 +113,16 @@ bool Entity_Manager::Update(float dt)
 		for (int i = 0; i < objectsArray.size(); i++)
 			objectsArray[i].Update(dt);
 
-		/*for (std::vector<Unit>::iterator item = unitPool.begin(); item != unitPool.end(); item = next(item)) {
-
-			if (item->active == true)
-				item->Update(dt);
-
-			if (do_logic)
-				item->FixUpdate(dt);
-		}
-
-		for (std::vector<Building>::iterator item = buildingsArray.begin(); item != buildingsArray.end(); item = next(item)) {
-
-			if (item->active == true)
-				item->Update(dt);
-		}
-
-		for (std::vector<Static_Object>::iterator item = objectsArray.begin(); item != objectsArray.end(); item = next(item)) {
-
-			if (item->active == true)
-				item->Update(dt);
-		}*/
-
-		//OLD:
-		//myApp->render->OrderBlit(myApp->render->OrderToRender);
-
 		//Blit Ordering that actually works
 		UpdateBlitOrdering();
 		BlitEntities();
 
 		accumulated_time -= update_ms_cycle;
 	}
+
+	entitiesQuadtree->DrawQuadtree();
+	entitiesQuadtree->ClearTree();
+
 
 	return true;
 }

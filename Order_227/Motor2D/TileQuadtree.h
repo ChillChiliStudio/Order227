@@ -3,8 +3,6 @@
 
 #include "Quadtree.h"
 
-#define SCREEN_MARGIN 20
-
 struct TileData
 {
 	TileData() {}
@@ -18,15 +16,13 @@ class TileQuadtree : public Quadtree
 {
 public:
 
-	TileQuadtree(uint max_levels, SDL_Rect section, uint size, uint level = 1);
+	TileQuadtree(uint maxLevels, SDL_Rect section, uint size, uint level = 1);
 
 	void CleanUp();
 
 	void Split();
 
 	void InsertTile(TileData tile);
-
-	bool CheckVisibility();
 
 	void DrawMap();
 
@@ -43,7 +39,7 @@ protected:
 	TileData* tiles;			//Array which contains all the tiles
 
 	uint	size;				//Amount of tiles this node can store
-	uint	tiles_contained;	//Amount of tiles this node currently stores
+	uint	tilesContained;	//Amount of tiles this node currently stores
 
 
 };

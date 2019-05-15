@@ -14,7 +14,10 @@
 #define TROOP_TYPES 7
 #define RESIZE_VALUE 50
 
+//Entities quadtree max divisions
+#define QUADTREE_DIVISIONS 5
 
+class EntityQuadtree;
 
 class Entity_Manager : public Module
 {
@@ -88,6 +91,10 @@ public:
 	unit_stats		infantryStats[int(infantry_type::INFANTRY_MAX)];
 
 	bool heavyUnitsUnlocked = true;
+
+	//Quadtree with all the active entities
+	EntityQuadtree* entitiesQuadtree;
+
 private:
 
 	bool LoadEntityData();
