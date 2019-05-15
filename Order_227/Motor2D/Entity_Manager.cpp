@@ -108,6 +108,9 @@ bool Entity_Manager::Update(float dt)
 					launcherPool[i].FixUpdate(dt);
 			}
 		}
+		
+	
+
 
 		for(int i = 0; i < buildingsArray.size(); i++)
 			buildingsArray[i].Update(dt);

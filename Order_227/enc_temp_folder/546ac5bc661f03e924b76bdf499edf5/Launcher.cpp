@@ -75,6 +75,7 @@ bool Launcher::Update(float dt) {
 			}
 		}
 	}
+
 	return true;
 }
 
@@ -105,6 +106,7 @@ void Launcher::AttackCurrTarget(float dt) {
 			unitState = unit_state::IDLE;
 		}
 	}
+
 }
 
 void Launcher::LaunchProjectile(fPoint destination) {

@@ -35,7 +35,7 @@ bool Unit::Start()
 	unitOrders = unit_orders::HOLD;
 	unitDirection = unit_directions::SOUTH_EAST;
 
-	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)][(int)typeFaction]);
+	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)][(int)faction]);
 	stats.attackSfxId = myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::SHOT][2];	//TODO: Hardcoded audio value, this should be get by an XML
 
 	myApp->gui->CreateLifeBar(fPoint(centerPos.x, position.y), this, myApp->entities->lifeBar_tex);
@@ -225,7 +225,7 @@ unit_directions Unit::CheckDirection(fVec2 direction)
 // Change animation according to state
 void Unit::UpdateAnimation()
 {
-	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)][(int)typeFaction]);
+	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)][(int)faction]);
 }
 
 // Order processing
@@ -474,7 +474,7 @@ void Unit::Die()
 	despawnTimer.Start();
 	unitOrders = unit_orders::NONE;
 	unitState = unit_state::DEAD;
-	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0][(int)typeFaction]);
+	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0][(int)faction]);
 
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::HURT][rand() % 2]);
 }

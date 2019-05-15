@@ -8,7 +8,7 @@ public:
 	~Projectile();
 
 public:
-
+	
 	bool Update(float dt);
 
 	void Fly();
@@ -18,7 +18,7 @@ public:
 	virtual bool IsDead() { return false; };
 	virtual bool IsVisible() { return true; };
 
-
+	
 
 	fPoint InitialPos;
 	fPoint Destination;
