@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<Buildings_Document>
+  <!--REMEMBER TO UPLOAD THE MAX UNIT ENUM-->
+ 
+  <Building id="0" name="Command_Center" TextPath="textures/buildings/Facilities/CommandCenter.png"  TiledFile="textures/buildings/Facilities/CommandCenter.tmx"/>
+ 
+  <Building id="1" name="Tank_Factory"  TextPath=""  TiledFile=""/>
+  
+  <Building id="2" name="Radar" TextPath=""  TiledFile=""/>
+    
+  <Building id="3" name="Gold_Yard" TextPath="textures/buildings/Facilities/GoldMine.png" TiledFile="textures/buildings/Facilities/GoldMine.tmx"/>
+    
+  <Building id="4" name="HTPC" TextPath="" TiledFile=""/>
+    
+  <Building id="5" name="People_Heart" TextPath=""  TiledFile=""/>
+    
+  <Building id="6" name="EPC" TextPath="textures/buildings/Facilities/EnhancedFacility.png" TiledFile="textures/buildings/Facilities/EnhancedFacility.tmx"/>
+   
+  <Building id="7" name="Flags" TextPath="textures/buildings/Facilities/Flags.png" TiledFile="textures/buildings/Facilities/Flags.tmx"/>
+  
+ 
+
+</Buildings_Document>

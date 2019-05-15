@@ -67,13 +67,6 @@ bool Scene::PreUpdate()
 bool Scene::Update(float dt)
 {
 
-	if (myApp->entities->mainBase->health <= 0) {
-		myApp->gui->LoseIcon->Activate();
-		//myApp->hordes->hordeActive = false;
-		//myApp->gui->pauseMenuPanel->Deactivate();
-		//myApp->gui->MainMenuTemp_Image->Activate();
-		//myApp->entities->ResetAll();
-	}
 	if (myApp->hordes->roundNumber >= 6) {
 		myApp->gui->WinIcon->Activate();
 	}

@@ -77,6 +77,7 @@ public:
 	int playerIncome = 0;
 	int playerMoney = 400;
 	Timer incomeTimer;
+	
 
 	bool startCreationUnit = false;
 

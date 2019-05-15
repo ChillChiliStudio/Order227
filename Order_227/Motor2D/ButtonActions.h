@@ -7,6 +7,7 @@
 //}
 
 void CreateConscript();
+void CreateBazooka();
 void StartGame();
 void QuitGame();
 void CloseGame();

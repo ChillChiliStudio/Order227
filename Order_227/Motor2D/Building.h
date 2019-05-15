@@ -13,7 +13,7 @@ struct SDL_Rect;
 enum class building_type {
 
 	BUILDING_NONE = -1,
-	MAIN_BASE,
+	COMMAND_CENTER,
 	TANK_FACTORY,
 	RADAR,
 	GOLDYARD,
@@ -54,6 +54,8 @@ public:
 	//ADD ANIMATION
 	//Current_animation*
 	building_type buildingType;
+	Animation StartAnim;
+	Animation CurrentAnim;
 
 	//Buffs
 	bool unitBuff = false;

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="10" tilewidth="174" tileheight="142" nextobjectid="80">
+ <imagelayer name="Capa de Imagen 1">
+  <image source="GoldMine_tiled.png"/>
+ </imagelayer>
+ <objectgroup name="Rects">
+  <object id="1" name="Spawn" x="0" y="0" width="174" height="142"/>
+  <object id="2" name="Spawn" x="174" y="0" width="174" height="142"/>
+  <object id="3" name="Spawn" x="348" y="0" width="174" height="142"/>
+  <object id="4" name="Spawn" x="522" y="0" width="174" height="142"/>
+  <object id="5" name="Spawn" x="0" y="142" width="174" height="142"/>
+  <object id="6" name="Spawn" x="174" y="142" width="174" height="142"/>
+  <object id="7" name="Spawn" x="348" y="142" width="174" height="142"/>
+  <object id="8" name="Spawn" x="522" y="142" width="174" height="142"/>
+  <object id="9" name="Spawn" x="0" y="284" width="174" height="142"/>
+  <object id="10" name="Spawn" x="174" y="284" width="174" height="142"/>
+  <object id="11" name="Spawn" x="348" y="284" width="174" height="142"/>
+  <object id="12" name="Spawn" x="522" y="284" width="174" height="142"/>
+  <object id="13" name="Spawn" x="0" y="426" width="174" height="142"/>
+  <object id="14" name="Spawn" x="174" y="426" width="174" height="142"/>
+  <object id="15" name="Spawn" x="348" y="426" width="174" height="142"/>
+  <object id="16" name="Spawn" x="522" y="426" width="174" height="142"/>
+  <object id="17" name="Spawn" x="0" y="568" width="174" height="142"/>
+  <object id="18" name="Spawn" x="174" y="568" width="174" height="142"/>
+  <object id="19" name="Spawn" x="348" y="568" width="174" height="142"/>
+  <object id="20" name="Spawn" x="522" y="568" width="174" height="142"/>
+  <object id="21" name="Spawn" x="0" y="710" width="174" height="142"/>
+  <object id="22" name="Spawn" x="174" y="710" width="174" height="142"/>
+  <object id="23" name="Spawn" x="348" y="710" width="174" height="142"/>
+  <object id="24" name="Spawn" x="522" y="710" width="174" height="142"/>
+  <object id="25" name="Spawn" x="0" y="852" width="174" height="142"/>
+  <object id="26" name="Spawn" x="174" y="852" width="174" height="142"/>
+  <object id="54" name="Idle" x="0" y="994" width="174" height="142"/>
+  <object id="55" name="Idle" x="174" y="994" width="174" height="142"/>
+  <object id="56" name="Idle" x="348" y="994" width="174" height="142"/>
+  <object id="57" name="Idle" x="522" y="994" width="174" height="142"/>
+  <object id="58" name="Idle" x="0" y="1136" width="174" height="142"/>
+  <object id="59" name="Idle" x="174" y="1136" width="174" height="142"/>
+  <object id="60" name="Idle" x="348" y="1136" width="174" height="142"/>
+  <object id="61" name="Idle" x="522" y="1136" width="174" height="142"/>
+  <object id="62" name="Idle" x="0" y="1278" width="174" height="142"/>
+  <object id="63" name="Idle" x="174" y="1278" width="174" height="142"/>
+  <object id="64" name="Idle" x="348" y="1278" width="174" height="142"/>
+  <object id="65" name="Idle" x="522" y="1278" width="174" height="142"/>
+ </objectgroup>
+</map>

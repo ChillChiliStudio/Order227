@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="10" tilewidth="155" tileheight="134" nextobjectid="92">
+ <imagelayer name="Capa de Imagen 1">
+  <image source="EnhancedFacility.png" width="1240" height="1340"/>
+ </imagelayer>
+ <objectgroup name="Rects">
+  <object id="1" name="Spawn" x="0" y="0" width="155" height="134"/>
+  <object id="2" name="Spawn" x="155" y="0" width="155" height="134"/>
+  <object id="4" name="Spawn" x="310" y="0" width="155" height="134"/>
+  <object id="5" name="Spawn" x="465" y="0" width="155" height="134"/>
+  <object id="6" name="Spawn" x="0" y="134" width="155" height="134"/>
+  <object id="7" name="Spawn" x="155" y="134" width="155" height="134"/>
+  <object id="8" name="Spawn" x="310" y="134" width="155" height="134"/>
+  <object id="11" name="Spawn" x="465" y="134" width="155" height="134"/>
+  <object id="12" name="Spawn" x="0" y="268" width="155" height="134"/>
+  <object id="13" name="Spawn" x="155" y="268" width="155" height="134"/>
+  <object id="14" name="Spawn" x="310" y="268" width="155" height="134"/>
+  <object id="15" name="Spawn" x="465" y="268" width="155" height="134"/>
+  <object id="16" name="Spawn" x="0" y="402" width="155" height="134"/>
+  <object id="17" name="Spawn" x="155" y="402" width="155" height="134"/>
+  <object id="18" name="Spawn" x="310" y="402" width="155" height="134"/>
+  <object id="19" name="Spawn" x="465" y="402" width="155" height="134"/>
+  <object id="20" name="Spawn" x="0" y="536" width="155" height="134"/>
+  <object id="21" name="Spawn" x="155" y="536" width="155" height="134"/>
+  <object id="22" name="Spawn" x="310" y="536" width="155" height="134"/>
+  <object id="23" name="Spawn" x="465" y="536" width="155" height="134"/>
+  <object id="24" name="Spawn" x="0" y="670" width="155" height="134"/>
+  <object id="25" name="Spawn" x="155" y="670" width="155" height="134"/>
+  <object id="26" name="Spawn" x="310" y="670" width="155" height="134"/>
+  <object id="27" name="Spawn" x="465" y="670" width="155" height="134"/>
+  <object id="28" name="Spawn" x="0" y="804" width="155" height="134"/>
+  <object id="56" name="Idle" x="0" y="938" width="155" height="134"/>
+  <object id="57" name="Idle" x="155" y="938" width="155" height="134"/>
+  <object id="58" name="Idle" x="310" y="938" width="155" height="134"/>
+  <object id="59" name="Idle" x="465" y="938" width="155" height="134"/>
+  <object id="60" name="Idle" x="0" y="1072" width="155" height="134"/>
+  <object id="61" name="Idle" x="155" y="1072" width="155" height="134"/>
+  <object id="62" name="Idle" x="310" y="1072" width="155" height="134"/>
+  <object id="63" name="Idle" x="465" y="1072" width="155" height="134"/>
+  <object id="88" name="Idle" x="0" y="1206" width="155" height="134"/>
+  <object id="89" name="Idle" x="155" y="1206" width="155" height="134"/>
+  <object id="90" name="Idle" x="310" y="1206" width="155" height="134"/>
+ </objectgroup>
+</map>
