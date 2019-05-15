@@ -163,7 +163,6 @@ public:
 	bool TargetInRange(Entity* target);
 
 public:
-	entity_type typeFaction;
 	infantry_type infantryType;
 	bool onCamera = false;
 
