@@ -13,8 +13,6 @@
 struct _Mix_Music;
 struct Mix_Chunk;
 
-
-
 enum class type_sounds
 {
 	SPAWN,
@@ -26,6 +24,36 @@ enum class type_sounds
 	MAX
 
 };
+
+enum class song_type {
+
+	NONE = -1,
+	MAIN_MENU,
+	IN_GAME,
+	WIN,
+	LOSE
+};
+
+struct Music_Track {
+
+	std::string trackName = "NULL";
+	char* path = nullptr;
+	int num_loops = 0;
+
+	char* nextTrack_id = "NULL";
+	Music_Track* nextTrack = nullptr;
+};
+
+struct Music_Song {
+
+	std::string songName = "NULL";
+	song_type songType = song_type::NONE;
+	std::list<Music_Track*> songtracks_list;
+
+	char* nextSong_id = "NULL";
+	Music_Song* nextSong = nullptr;
+};
+
 
 class Audio : public Module
 {
