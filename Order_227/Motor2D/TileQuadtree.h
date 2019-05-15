@@ -26,11 +26,11 @@ public:
 
 	void DrawMap();
 
+	bool CheckTouch(const SDL_Rect& rect);
+
 	//DEBUG
 
 	void DrawQuadtree();
-
-
 
 protected:
 

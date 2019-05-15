@@ -19,7 +19,7 @@ public:
 
 	bool CheckVisibility();
 
-	bool CheckTouch(const SDL_Rect& rect);	//Check if a rectangle fits inside the quadtree
+	virtual bool CheckTouch(const SDL_Rect& rect) { return true; }	//Check if a rectangle fits inside the quadtree
 
 protected:
 

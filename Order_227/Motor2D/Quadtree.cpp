@@ -20,19 +20,7 @@ void Quadtree::DrawQuadtree() const
 	myApp->render->DrawLine(section.x + section.w, section.y, section.x + section.w, section.y + section.h, 0, 0, 255);
 }
 
-bool Quadtree::CheckTouch(const SDL_Rect& rect)
-{
-	//Middle point of the tile
-	iPoint pos(rect.x + rect.w / 2, rect.y + rect.h / 2);
 
-	if (pos.x < section.x ||
-		pos.x > section.x + section.w ||
-		pos.y < section.y ||
-		pos.y > section.y + section.h)
-		return false;
-
-	return true;
-}
 
 bool Quadtree::CheckVisibility()
 {

@@ -48,17 +48,17 @@ void EntityQuadtree::DrawQuadtree()
 			myApp->render->DrawLine(section.x + section.w, section.y, section.x + section.w, section.y + section.h, 255, 0, 0);
 		}
 
+		if (!entitiesVector.empty())
+			myApp->render->DrawQuad(section, 255, 0, 0, 50);
+
 		if (divided == true)
 		{
 			myApp->render->DrawLine(section.x + section.w / 2, section.y, section.x + section.w / 2, section.y + section.h, 255, 0, 0);
 			myApp->render->DrawLine(section.x, section.y + section.h / 2, section.x + section.w, section.y + section.h / 2, 255, 0, 0);
 
-			if (level < maxLevels - 1)
+			for (int i = 0; i < 4; ++i)
 			{
-				for (int i = 0; i < 4; ++i)
-				{
-					nodes[i]->DrawQuadtree();
-				}
+				nodes[i]->DrawQuadtree();
 			}
 		}
 	}
@@ -100,4 +100,15 @@ void EntityQuadtree::AddEntity(Entity* entity)
 
 		}
 	}
+}
+
+bool EntityQuadtree::CheckTouch(const SDL_Rect& rect)
+{
+	if (rect.x > section.x + section.w ||
+		rect.x + rect.w < section.x ||
+		rect.y > section.y + section.h ||
+		rect.y + rect.h < section.y)
+		return false;
+
+	return true;
 }

@@ -18,6 +18,8 @@ public:
 
 	void Split(int times=1);
 
+	bool CheckTouch(const SDL_Rect& rect);
+
 	//DEBUG
 
 	void DrawQuadtree();
