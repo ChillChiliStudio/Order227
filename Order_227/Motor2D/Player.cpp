@@ -17,7 +17,7 @@
 #include "Brofiler/Brofiler.h"
 #include "MiniMap.h"
 
-bool Player::Awake()
+bool Player::Awake(pugi::xml_node& node)
 {
 	LOG("AWAKING PLAYER MODULE");
 

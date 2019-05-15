@@ -24,7 +24,7 @@ class Player : public Module {
 
 public:
 
-	bool Awake();
+	bool Awake(pugi::xml_node&) override;
 	bool Start() override;
 	bool PreUpdate() override;
 	bool Update(float dt) override;
