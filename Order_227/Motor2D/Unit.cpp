@@ -49,7 +49,6 @@ bool Unit::Start()
 
 bool Unit::Update(float dt)
 {
-	BROFILER_CATEGORY("Unit.cpp Update()-DarkGreen", Profiler::Color::DarkGreen);
 	onCamera = InsideCamera();
 
 	entityRect.x = position.x;
@@ -157,7 +156,6 @@ void Unit::DrawPath()
 // Main workflow
 void Unit::UnitWorkflow(float dt)
 {
-	BROFILER_CATEGORY("Unit.cpp UnitWorkflow()-Green", Profiler::Color::Green);
 	unit_state prevState = unitState;
 
 	switch (unitOrders) {
@@ -646,6 +644,9 @@ bool Unit::SetupPath(iPoint origin, iPoint destination)
 
 	iPoint mapOrigin = myApp->map->WorldToMap(origin.x, origin.y);
 	iPoint mapDestination = myApp->map->WorldToMap(destination.x, destination.y);
+
+	mapOrigin.x++;		//WARNING: If Pathfinding is acting wierd this might be the cause
+	mapDestination.x++;
 
 	if (mapOrigin != mapDestination) {
 		myApp->pathfinding->CreatePath(mapOrigin, mapDestination);	//Create path

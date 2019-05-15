@@ -293,6 +293,8 @@ void Player::ApplyAggroLevel(unit_aggro aggro)
 
 void Player::ApplyOrders()
 {
+	BROFILER_CATEGORY("Player Apply Unit Orders", Profiler::Color::Cyan);
+
 	if (myApp->groups->playerGroup.groupUnits.size() > 0) {
 		switch (prepOrder) {
 		case unit_orders::MOVE:

@@ -67,7 +67,9 @@ static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number
 	return true;
 }
 
-bool Entity_Manager::PreUpdate() {
+bool Entity_Manager::PreUpdate()
+{
+	BROFILER_CATEGORY("Entity_Manager Pre-Update", Profiler::Color::LightYellow);
 
 	do_logic = false;
 	return true;
@@ -76,7 +78,8 @@ bool Entity_Manager::PreUpdate() {
 
 bool Entity_Manager::Update(float dt)
 {
-	BROFILER_CATEGORY("Entity_Manager Update()-Brown", Profiler::Color::Brown);
+	BROFILER_CATEGORY("Entity_Manager Update", Profiler::Color::Yellow);
+
 	accumulated_time += dt;
 
 	if (myApp->gui->MainMenuTemp_Image->active != true) {	//TODO: This is very hardcoded, we should have a scene workflow
@@ -137,6 +140,8 @@ bool Entity_Manager::Update(float dt)
 
 bool BlitSort(Entity* i, Entity* j)
 {
+	BROFILER_CATEGORY("Entity_Manager Post-Update", Profiler::Color::LightGoldenRodYellow);
+
 	bool ret = false;
 
 	if (i != nullptr && j != nullptr) {

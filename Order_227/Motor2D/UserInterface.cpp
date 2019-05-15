@@ -266,7 +266,7 @@ bool User_Interface::Draw()
 // Called each loop iteration
 bool User_Interface::PostUpdate()
 {
-	BROFILER_CATEGORY("Module User_Interface PostUpdate-LightPink", Profiler::Color::LightPink);
+	BROFILER_CATEGORY("Module User_Interface Post-Update", Profiler::Color::LightPink);
 
 	bool ret = true;
 

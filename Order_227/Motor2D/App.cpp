@@ -193,6 +193,8 @@ void App::PrepareUpdate()
 // ---------------------------------------------
 void App::FinishUpdate()
 {
+	BROFILER_CATEGORY("App Delay", Profiler::Color::Gray);
+
 	//Framerate Calcs
 	if (last_sec_frame_time.Read() > 1000) {
 
@@ -217,6 +219,8 @@ void App::FinishUpdate()
 // Call modules before each loop iteration
 bool App::PreUpdate()
 {
+	BROFILER_CATEGORY("App Pre-Update", Profiler::Color::DarkRed);
+
 	bool ret = true;
 	Module* pModule = NULL;
 	std::list<Module*>::iterator item = modules.begin();
@@ -236,6 +240,8 @@ bool App::PreUpdate()
 // Call modules on each loop iteration
 bool App::DoUpdate()
 {
+	BROFILER_CATEGORY("App Update", Profiler::Color::Red);
+
 	bool ret = true;
 	Module* pModule = NULL;
 
@@ -255,6 +261,8 @@ bool App::DoUpdate()
 // Call modules after each loop iteration
 bool App::PostUpdate()
 {
+	BROFILER_CATEGORY("App Post-Update", Profiler::Color::MediumVioletRed);
+
 	bool ret = true;
 	Module* pModule = NULL;
 	std::list<Module*>::iterator item = modules.begin();
