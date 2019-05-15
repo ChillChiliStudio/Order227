@@ -58,7 +58,7 @@ static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number
 	AllocateEntityPool();
 
 	//Activate Buildings & Objects
-	
+
 
 	LoadEntityData();
 
@@ -77,7 +77,9 @@ static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number
 	return true;
 }
 
-bool Entity_Manager::PreUpdate() {
+bool Entity_Manager::PreUpdate()
+{
+	BROFILER_CATEGORY("Entity_Manager Pre-Update", Profiler::Color::LightYellow);
 
 	do_logic = false;
 	return true;
@@ -88,7 +90,7 @@ bool Entity_Manager::Update(float dt)
 {
 	entitiesQuadtree->FillTree();
 
-	BROFILER_CATEGORY("Entity_Manager Update()-Brown", Profiler::Color::Brown);
+	BROFILER_CATEGORY("Entity_Manager Update", Profiler::Color::Yellow);
 	accumulated_time += dt;
 
 	if (myApp->gui->MainMenuTemp_Image->active != true) {	//TODO: This is very hardcoded, we should have a scene workflow
@@ -129,6 +131,8 @@ bool Entity_Manager::Update(float dt)
 
 bool BlitSort(Entity* i, Entity* j)
 {
+	BROFILER_CATEGORY("Entity_Manager Post-Update", Profiler::Color::LightGoldenRodYellow);
+
 	bool ret = false;
 
 	if (i != nullptr && j != nullptr) {
@@ -246,7 +250,7 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 	_Unit->infantryType = infantry_type::INFANTRY_NONE;
 	_Unit->position = fPoint(0.0f, 0.0f);
 	_Unit->texture = nullptr;
-	
+
 	_Unit->currTarget = nullptr;
 	_Unit->aggroTriggered = false;
 
@@ -257,7 +261,7 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 	_Unit->active = false;
 	_Unit->selected = false;
 
-	
+
 
 	//_Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];	//TODO: This caused bugs (Carles: Not sure)
 

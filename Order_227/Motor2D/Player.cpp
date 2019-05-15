@@ -293,6 +293,8 @@ void Player::ApplyAggroLevel(unit_aggro aggro)
 
 void Player::ApplyOrders()
 {
+	BROFILER_CATEGORY("Player Apply Unit Orders", Profiler::Color::Cyan);
+
 	if (myApp->groups->playerGroup.groupUnits.size() > 0) {
 		switch (prepOrder) {
 		case unit_orders::MOVE:
@@ -326,15 +328,8 @@ void Player::OrderHold()
 
 void Player::OrderMove()
 {
-	//myApp->groups->playerGroup.SpreadDestinations(mousePos);
-	//myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE);
-
-	for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
-	{
-		if ((*it)->IsDead() == false) {
-			(*it)->StartMove(mousePos);
-		}
-	}
+	myApp->groups->playerGroup.SpreadDestinations(mousePos);
+	myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::MOVING][0]);
