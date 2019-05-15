@@ -47,9 +47,9 @@ bool Building::Update(float dt)
 
 
 
-	if (this == myApp->entities->mainBase) {
-		if(health<=0)
-			myApp->gui->LoseIcon->Activate();
+	if (this == myApp->entities->mainBase && health <= 0) {
+		
+		myApp->gui->LoseIcon->Activate();
 		//myApp->hordes->hordeActive = false;
 		//myApp->gui->pauseMenuPanel->Deactivate();
 		//myApp->gui->MainMenuTemp_Image->Activate();

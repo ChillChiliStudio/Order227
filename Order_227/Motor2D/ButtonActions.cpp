@@ -73,20 +73,15 @@ void StartGame() {
 	//myApp->entities->ActivateObjects();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	myApp->gui->WinIcon->Deactivate();
 	
-	//myApp->entities->mainBase->Start();
-	//myApp->entities->ActivateBuildings();
 	myApp->entities->ActivateBuildings();
 	myApp->entities->ActivateObjects();
-
-
-	//myApp->entities->AllocateUnitPool();	//TODO: Check if necessary, commented because it was asumed that wasn't
-	//myApp->entities->ResetAll();
-	myApp->hordes->hordeRoundto(1);
+	myApp->hordes->hordeRoundto(0);
 	myApp->player->playerMoney = 300;
 	myApp->gui->hordeNumber_Label->ChangeString(std::to_string(0));
 	myApp->hordes->hordeActive = true;
 	myApp->hordes->roundTimerStart();
 	myApp->gui->MainMenuTemp_Image->Deactivate();
+
 }
 
 void QuitGame() {
@@ -106,7 +101,6 @@ void QuitGame() {
 			myApp->entities->DeActivateUnit(&myApp->entities->unitPool[i]);
 		}
 	}
-
 	//myApp->entities->ReleasePools();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	//myApp->entities->ResetAll();
 	//myApp->scene->CleanUp();
