@@ -3,21 +3,22 @@
 #include "Entity_Manager.h"
 #include "Unit.h"
 #include "Projectile.h"
+#include "Log.h"
 
-//
-//Projectile::Projectile() {
-//
-//}
-//
-//Projectile::~Projectile() {
-//
-//}
-//
-//void Projectile::Fly() {
-//	/*vector direction --- move*/
-//}
-//
-//void Projectile::Update(float dt) {
-//	/*if destination != position
-//		fly()*/
-//}
+Projectile::Projectile() {
+
+}
+
+Projectile::~Projectile() {
+
+}
+
+void Projectile::Fly() {
+	LOG("I BELIEVE I CAN FLAY");
+	/*vector direction --- move*/
+}
+
+bool Projectile::Update(float dt) {
+	LOG("working xd");
+	return true;
+}

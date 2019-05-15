@@ -13,26 +13,24 @@
 #include "Brofiler/Brofiler.h"
 #include "Launcher.h"
 #include "Projectile.h"
-
+#include "Log.h"
 Launcher::Launcher(){
 	//ProjectilePool.resize(10);
 }
 
 Launcher::~Launcher(){}
-//
-//bool Launcher::Start() {
-//	return true;
-//}
+
 
 
 bool Launcher::Update(float dt) {
 
-	/*for (int i = 0; i < ProjectilePool.size(); i++) {
+	for (int i = 0; i < ProjectilePool.size(); i++) {
 		if (ProjectilePool[i].active == true) {
 			ProjectilePool[i].Fly();
 		}
-	}*/
+	}
 
+	LOG("UPDATE WORKING XD");
 	onCamera = InsideCamera();
 
 	entityRect.x = position.x;

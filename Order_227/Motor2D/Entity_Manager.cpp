@@ -304,6 +304,7 @@ Launcher* Entity_Manager::ActivateLauncher(fPoint position, infantry_type infant
 	return ret;
 }
 
+
 bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shouldn't be necessary as non-active elements are not iterated at any point, and if they become active again these values are or should be overwritten
 
 	_Unit->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];

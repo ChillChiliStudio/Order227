@@ -18,7 +18,7 @@ public:
 	void AttackCurrTarget(float dt);
 	void LaunchProjectile(fPoint destination);
 	
-	//std::vector<Projectile>			ProjectilePool;
+	std::vector<Projectile>			ProjectilePool;
 	
 };
 
