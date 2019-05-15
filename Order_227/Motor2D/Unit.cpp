@@ -667,47 +667,6 @@ bool Unit::SetupPath(iPoint origin, iPoint destination)
 	}
 
 	return ret;
-
-
-	//NEW
-	//bool ret = true;
-
-	//unitPath.clear();
-
-	//iPoint mapOrigin = myApp->map->WorldToMap(origin.x, origin.y);
-	//iPoint mapDestination = myApp->map->WorldToMap(destination.x, destination.y);
-
-	//mapOrigin.x++;		//TODO: WorldToMap & MapToWorld are bugged and translate the x position off (always -1 x tile than it should), this corrects it
-	//mapDestination.x++;
-
-	//if (mapOrigin != mapDestination) {
-	//	myApp->pathfinding->CreatePath(mapOrigin, mapDestination);	//Create path
-	//	unitPath = *myApp->pathfinding->GetLastPath();
-
-	//	*unitPath.begin() = myApp->map->MapToWorld(unitPath.begin()->x, unitPath.begin()->y);	//Translate and correct begin and end tiles to world pos
-	//	(*unitPath.begin()).y += 15;
-	//	*unitPath.end() = myApp->map->MapToWorld(unitPath.end()->x, unitPath.end()->y);
-	//	(*unitPath.begin()).y += 15;
-
-	//	if (unitPath.size() > 2) {
-	//		for (std::vector<iPoint>::iterator it = next(unitPath.begin()); it != prev(unitPath.end()); it = next(it)) {	//Translate and correct all in-between nodes
-	//			*it = myApp->map->MapToWorld(it->x, it->y);
-
-	//			//Pathfinding bug correction (Tile size: 60 width x 30 height)
-	//			(*it).x += 60;	//Tile width++
-	//			(*it).y += 15;	//Tile height / 2	//TODO: WorldToMap & MapToWorld are bugged and translate the x position off (always -1 x tile than it should)
-	//		}
-	//	}
-
-	//	//currNode = next(unitPath.begin());
-	//	currNode = next(unitPath.begin());
-	//	SetupVecSpeed();
-	//}
-	//else {	//If origin == destination, do nothing
-	//	ret = false;
-	//}
-
-	//return ret;
 }
 
 fVec2 Unit::SetupVecSpeed()
