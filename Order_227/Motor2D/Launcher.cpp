@@ -19,10 +19,10 @@ Launcher::Launcher(){
 }
 
 Launcher::~Launcher(){}
-
-bool Launcher::Start() {
-	return true;
-}
+//
+//bool Launcher::Start() {
+//	return true;
+//}
 
 
 bool Launcher::Update(float dt) {
