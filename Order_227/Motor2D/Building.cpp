@@ -5,6 +5,7 @@
 #include "Entity_Manager.h"
 #include "UserInterface.h"
 #include "Text.h"
+#include "Scene.h"
 
 Building::Building()
 {}
@@ -47,15 +48,17 @@ bool Building::Update(float dt)
 
 
 
-	if (this == myApp->entities->mainBase && health <= 0) {
-		
-		myApp->gui->LoseIcon->Activate();
-		//myApp->hordes->hordeActive = false;
-		//myApp->gui->pauseMenuPanel->Deactivate();
-		//myApp->gui->MainMenuTemp_Image->Activate();
-		//myApp->entities->ResetAll();
+	//if (this == myApp->entities->mainBase && health <= 0) {
+	//	
+	//	myApp->gui->LoseIcon->Activate();
+	//	myApp->scene->SwitchMusic(Screen_Type::SCREEN_LOSE);
 
-	}
+	//	//myApp->hordes->hordeActive = false;
+	//	//myApp->gui->pauseMenuPanel->Deactivate();
+	//	//myApp->gui->MainMenuTemp_Image->Activate();
+	//	//myApp->entities->ResetAll();
+
+	//}
 
 
 	CurrentAnim.AdvanceAnimation(dt);

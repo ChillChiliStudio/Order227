@@ -3,7 +3,6 @@
 
 #include "Module.h"
 
-#define DEFAULT_MUSIC_FADE_TIME 2.0f
 #define FACTION_NUM 2
 #define VARIATION_PER_SOUND 3
 #define SOV 0
@@ -73,7 +72,7 @@ public:
 	bool CleanUp() override;
 
 	// Play a music file
-	bool PlayMusic(const char* path, int loops = -1, float fade_time = DEFAULT_MUSIC_FADE_TIME);
+	bool PlayMusic(const char* path, int loops = -1, float fade_time = 0.0f);
 
 	//Check if something is being played
 	bool MusicPlaying();

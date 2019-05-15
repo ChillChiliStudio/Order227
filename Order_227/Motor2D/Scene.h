@@ -7,6 +7,7 @@
 #include <ctime>
 #include "Audio.h"
 #include "PerfTimer.h"
+#include "ButtonActions.h"
 
 #include "SDL/include/SDL.h"
 
@@ -42,7 +43,10 @@ public:
 
 public:
 
+	//Switch Music
+	bool SwitchMusic(Screen_Type ScreenToSwitch);
 
+	bool ActivateGameOverMusic = true;
 
 private:
 

@@ -13,12 +13,12 @@
   </song>
   <song name="ingame_song3" type="1" next_song="ingame_song4">
     <track trackname="ingame_song3_intro" loops="0" next_track="ingame_song3_loop" path="audio/music/game/ingame_song3_intro.ogg"/>
-    <track trackname="ingame_song3_loop" loops="2" next_track="ingame_song3_outro" path="audio/music/game/ingame_song3_loop.ogg"/>
+    <track trackname="ingame_song3_loop" loops="0" next_track="ingame_song3_outro" path="audio/music/game/ingame_song3_loop.ogg"/>
     <track trackname="ingame_song3_outro" loops="0" next_track="NULL" path="audio/music/game/ingame_song3_outro.ogg"/>
   </song>
   <song name="ingame_song4" type="1" next_song="ingame_song3">
     <track trackname="ingame_song4_intro" loops="0" next_track="ingame_song4_loop" path="audio/music/game/ingame_song4_intro.ogg"/>
-    <track trackname="ingame_song4_loop" loops="2" next_track="NULL" path="audio/music/game/ingame_song4_loop.ogg"/>
+    <track trackname="ingame_song4_loop" loops="0" next_track="NULL" path="audio/music/game/ingame_song4_loop.ogg"/>
   </song>
 </Music_Document>
 

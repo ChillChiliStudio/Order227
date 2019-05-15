@@ -51,13 +51,8 @@ bool Scene::Start()
 
 	//MUSIC
 	LoadGameMusic();
-	current_song = (*gameSongslist.begin());
-	current_track = (*current_song->songtracks_list.begin());
-	ManageMusic();
-	//current_song = (*gameSongslist.begin());
-	//current_track = (*current_song->songtracks_list.begin());
-	//myApp->audio->PlayMusic(current_track->path)
-	//myApp->audio->PlayMusic("audio/music/main_menu/menu_song_loop.ogg", -1);
+	SwitchMusic(Screen_Type::SCREEN_MAINMENU);
+
 	//myApp->audio->ControlMUSVolume(0);
 
 	return true;
@@ -77,11 +72,23 @@ bool Scene::Update(float dt)
 	if (myApp->audio->MusicPlaying() == false)
 		ManageMusic();
 
-	if (myApp->hordes->roundNumber >= 6) {
-		myApp->gui->WinIcon->Activate();
-	}
-	myApp->map->Draw();
+	if (myApp->hordes->roundNumber >= 6 && ActivateGameOverMusic == true) {
 
+		myApp->gui->WinIcon->Activate();
+		myApp->scene->SwitchMusic(Screen_Type::SCREEN_WIN);
+		ActivateGameOverMusic = false;
+
+	}
+
+	if(myApp->entities->mainBase != nullptr && myApp->entities->mainBase->health <= 0 && ActivateGameOverMusic == true) {
+
+		myApp->gui->LoseIcon->Activate();
+		myApp->scene->SwitchMusic(Screen_Type::SCREEN_LOSE);
+		ActivateGameOverMusic = false;
+
+	}
+
+	myApp->map->Draw();
 	myApp->gui->Draw();
 	return true;
 }
@@ -126,14 +133,65 @@ bool Scene::CleanUp()
 
 void Scene::ManageMusic() {
 
+	myApp->audio->PlayMusic(current_track->path, current_track->num_loops, 0.0f);
+
 	if (current_track->nextTrack == nullptr) {
 
 		current_song = current_song->nextSong;
 		current_track = (*current_song->songtracks_list.begin());
 	}
 
-	myApp->audio->PlayMusic(current_track->path, current_track->num_loops, 0.0f);
+	
 	current_track = current_track->nextTrack;
+}
+
+
+bool Scene::SwitchMusic(Screen_Type ScreenToSwitch) {
+
+	bool ret = false;
+	//Screen_Type ScreenToSwitch = getCurrentScreen();
+	song_type SongType_Switch;
+
+	switch (ScreenToSwitch) {
+
+	case Screen_Type::SCREEN_INGAME:
+		SongType_Switch = song_type::IN_GAME;
+		ret = true;
+		break;
+	case Screen_Type::SCREEN_MAINMENU:
+		SongType_Switch = song_type::MAIN_MENU;
+		ret = true;
+		break;
+	case Screen_Type::SCREEN_LOSE:
+		SongType_Switch = song_type::LOSE;
+		ret = true;
+		break;
+	case Screen_Type::SCREEN_WIN:
+		SongType_Switch = song_type::WIN;
+		ret = true;
+		break;
+	default:
+		SongType_Switch = song_type::NONE;
+		break;
+	}
+
+	if (ret == true) {
+
+		std::list<Music_Song*>::iterator item = gameSongslist.begin();
+		for (; item != gameSongslist.end(); item = next(item)) {
+
+			if ((*item)->songType == SongType_Switch) {
+
+				current_song = (*item);
+				current_track = (*current_song->songtracks_list.begin());
+				break;
+			}
+		}
+
+		ManageMusic();
+	}
+
+	return ret;
 }
 
 
