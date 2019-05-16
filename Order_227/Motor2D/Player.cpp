@@ -247,8 +247,6 @@ void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: 
 
 void Player::CheckForOrders()
 {
-	unit_aggro aggro;
-
 	if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {	// Hold is done instantly, the others need a click
 		if (myApp->groups->playerGroup.groupUnits.size() > 0) {
 			ApplyAggroLevel(GetAggroLevel());
