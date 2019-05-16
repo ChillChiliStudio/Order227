@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="10" tilewidth="174" tileheight="142" nextobjectid="80">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="10" tilewidth="174" tileheight="142" nextobjectid="87">
  <imagelayer name="Capa de Imagen 1">
-  <image source="GoldMine.png" width="1392" height="1420"/>
+  <image source="GoldMine.png" width="1394" height="1420"/>
  </imagelayer>
  <objectgroup name="Rects">
   <object id="1" name="Spawn" x="0" y="0" width="174" height="142"/>
@@ -42,6 +42,30 @@
   <object id="63" name="Idle" x="174" y="1278" width="174" height="142"/>
   <object id="64" name="Idle" x="348" y="1278" width="174" height="142"/>
   <object id="65" name="Idle" x="522" y="1278" width="174" height="142"/>
-  <object id="65" name="Explosion" x="870" y="1278" width="174" height="142"/>
+  <object id="82" name="Destruction" x="696" y="0" width="174" height="142"/>
+  <object id="83" name="Destruction" x="870" y="0" width="174" height="142"/>
+  <object id="84" name="Destruction" x="1044" y="0" width="174" height="142"/>
+  <object id="85" name="Destruction" x="1218" y="0" width="174" height="142"/>
+  <object id="82" name="Destruction" x="696" y="142" width="174" height="142"/>
+  <object id="83" name="Destruction" x="870" y="142" width="174" height="142"/>
+  <object id="84" name="Destruction" x="1044" y="142" width="174" height="142"/>
+  <object id="85" name="Destruction" x="1218" y="142" width="174" height="142"/>
+  <object id="82" name="Destruction" x="696" y="284" width="174" height="142"/>
+  <object id="83" name="Destruction" x="870" y="284" width="174" height="142"/>
+  <object id="84" name="Destruction" x="1044" y="284" width="174" height="142"/>
+  <object id="85" name="Destruction" x="1218" y="284" width="174" height="142"/>
+  <object id="82" name="Destruction" x="696" y="426" width="174" height="142"/>
+  <object id="83" name="Destruction" x="870" y="426" width="174" height="142"/>
+  <object id="84" name="Destruction" x="1044" y="426" width="174" height="142"/>
+  <object id="85" name="Destruction" x="1218" y="426" width="174" height="142"/>
+  <object id="82" name="Destruction" x="696" y="568" width="174" height="142"/>
+  <object id="83" name="Destruction" x="870" y="568" width="174" height="142"/>
+  <object id="84" name="Destruction" x="1044" y="568" width="174" height="142"/>
+  <object id="85" name="Destruction" x="1218" y="568" width="174" height="142"/>
+  <object id="82" name="Destruction" x="696" y="710" width="174" height="142"/>
+  <object id="83" name="Destruction" x="870" y="710" width="174" height="142"/>
+  <object id="84" name="Destruction" x="1044" y="710" width="174" height="142"/>
+  <object id="85" name="Destruction" x="1218" y="710" width="174" height="142"/>
+  <object id="82" name="Destruction" x="696" y="852" width="174" height="142"/>
  </objectgroup>
 </map>

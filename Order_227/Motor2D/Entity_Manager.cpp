@@ -542,7 +542,7 @@ bool Entity_Manager::LoadBuildingsData() {
 
 					BuildingAnimationArray[id][(int)Building_State::DESTROYED].PushBack(temp);
 					BuildingAnimationArray[id][(int)Building_State::DESTROYED].loop = false;
-					BuildingAnimationArray[id][(int)Building_State::DESTROYED].speed = 6.0f;
+					BuildingAnimationArray[id][(int)Building_State::DESTROYED].speed = 14.0f;
 
 				}
 			}

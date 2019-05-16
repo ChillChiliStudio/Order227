@@ -18,7 +18,7 @@ Building::Building(fPoint position, building_type building_type, entity_faction 
 bool Building::Start() {
 
 	myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, myApp->entities->lifeBar_tex, &health);
-	CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::DESTROYED)]);
+	CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::SPAWN)]);
 	maxHealth = health;
 	
 	return true;
@@ -57,9 +57,10 @@ bool Building::Update(float dt)
 
 		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::IDLE)]);
 	}
-	else if(health<=0)
+	else if (health <= 0 && destroyed == false) {
 		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::DESTROYED)]);
-	
+		destroyed = true;
+	}
 
 	if (this == myApp->entities->mainBase && health <= 0) {
 

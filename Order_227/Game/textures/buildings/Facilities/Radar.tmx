@@ -21,6 +21,7 @@
   <object id="1" name="Spawn" x="372" y="306" width="186" height="102"/>
   <object id="1" name="Spawn" x="558" y="306" width="186" height="102"/>
   <object id="1" name="Spawn" x="744" y="306" width="186" height="102"/>
+   <object id="5" name="Idle" x="744" y="306" width="186" height="102"/>
   <object id="1" x="0" y="408" width="186" height="102"/>
   <object id="1" x="186" y="408" width="186" height="102"/>
   <object id="1" x="372" y="408" width="186" height="102"/>
@@ -41,8 +42,7 @@
   <object id="1" x="372" y="714" width="186" height="102"/>
   <object id="1" x="558" y="714" width="186" height="102"/>
   <object id="1" x="744" y="714" width="186" height="102"/>
-  <object id="1" name="Explosion" x="0" y="816" width="186" height="102"/>
-  <object id="1" name="Explosion" x="0" y="816" width="186" height="102"/>
+
   <object id="1" name="Explosion" x="0" y="918" width="186" height="102"/>
   <object id="1" name="Explosion" x="186" y="918" width="186" height="102"/>
   <object id="1" name="Explosion" x="372" y="918" width="186" height="102"/>
@@ -63,7 +63,8 @@
   <object id="1" name="Explosion" x="372" y="1224" width="186" height="102"/>
   <object id="1" name="Explosion" x="558" y="1224" width="186" height="102"/>
   <object id="1" name="Explosion" x="744" y="1224" width="186" height="102"/>
-  <object id="5" name="Idle" x="744" y="306" width="186" height="102"/>
+   <object id="1" name="Explosion" x="0" y="816" width="186" height="102"/>
+   
  </objectgroup>
  <imagelayer name="Image Layer 1">
   <image source="Radar.png" width="930" height="1428"/>
