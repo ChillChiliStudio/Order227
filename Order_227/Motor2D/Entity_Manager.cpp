@@ -57,7 +57,6 @@ static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number
 	AllocateEntityPool();
 
 	//Activate Buildings & Objects
-	
 
 	LoadEntityData();
 
@@ -87,43 +86,9 @@ bool Entity_Manager::Update(float dt)
 		if (accumulated_time >= update_ms_cycle)
 			do_logic = true;
 
-		for (int i = 0; i < unitsPoolSize; ++i) {
-
-			if (unitPool[i].active) {
-
-				unitPool[i].Update(dt);
-
-				if (do_logic)
-					unitPool[i].FixUpdate(dt);
-			}
-		}
-
-		for(int i = 0; i < buildingsArray.size(); i++)
-			buildingsArray[i].Update(dt);
-
-		for (int i = 0; i < objectsArray.size(); i++)
-			objectsArray[i].Update(dt);
-
-		/*for (std::vector<Unit>::iterator item = unitPool.begin(); item != unitPool.end(); item = next(item)) {
-
-			if (item->active == true)
-				item->Update(dt);
-
-			if (do_logic)
-				item->FixUpdate(dt);
-		}
-
-		for (std::vector<Building>::iterator item = buildingsArray.begin(); item != buildingsArray.end(); item = next(item)) {
-
-			if (item->active == true)
-				item->Update(dt);
-		}
-
-		for (std::vector<Static_Object>::iterator item = objectsArray.begin(); item != objectsArray.end(); item = next(item)) {
-
-			if (item->active == true)
-				item->Update(dt);
-		}*/
+		UpdateEntities(dt);
+		UpdateBuildings(dt);
+		UpdateObjects(dt);
 
 		//OLD:
 		//myApp->render->OrderBlit(myApp->render->OrderToRender);
@@ -138,10 +103,43 @@ bool Entity_Manager::Update(float dt)
 	return true;
 }
 
+void Entity_Manager::UpdateEntities(float dt)
+{
+	BROFILER_CATEGORY("UnitPool Update", Profiler::Color::Magenta);
+
+	for (int i = 0; i < unitsPoolSize; ++i) {
+
+		if (unitPool[i].active) {
+
+			unitPool[i].Update(dt);
+
+			if (do_logic) {
+				unitPool[i].FixUpdate(dt);
+			}
+		}
+	}
+}
+
+void Entity_Manager::UpdateBuildings(float dt)
+{
+	BROFILER_CATEGORY("BuildingPool Update", Profiler::Color::Purple);
+
+	for (int i = 0; i < buildingsArray.size(); i++) {
+		buildingsArray[i].Update(dt);
+	}
+}
+
+void Entity_Manager::UpdateObjects(float dt)
+{
+	BROFILER_CATEGORY("ObjectPool Update", Profiler::Color::MediumPurple);
+
+	for (int i = 0; i < objectsArray.size(); i++) {
+		objectsArray[i].Update(dt);
+	}
+}
+
 bool BlitSort(Entity* i, Entity* j)
 {
-	BROFILER_CATEGORY("Entity_Manager Post-Update", Profiler::Color::LightGoldenRodYellow);
-
 	bool ret = false;
 
 	if (i != nullptr && j != nullptr) {
@@ -153,6 +151,8 @@ bool BlitSort(Entity* i, Entity* j)
 
 void Entity_Manager::UpdateBlitOrdering()
 {
+	BROFILER_CATEGORY("BlitOrdering", Profiler::Color::Lavender);
+
 	std::sort(entitiesVector.begin(), entitiesVector.end(), BlitSort);
 }
 

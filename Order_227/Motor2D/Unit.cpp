@@ -49,6 +49,8 @@ bool Unit::Start()
 
 bool Unit::Update(float dt)
 {
+	BROFILER_CATEGORY("Unit Update", Profiler::Color::Orange);
+
 	onCamera = InsideCamera();
 
 	entityRect.x = position.x;
@@ -156,6 +158,8 @@ void Unit::DrawPath()
 // Main workflow
 void Unit::UnitWorkflow(float dt)
 {
+	BROFILER_CATEGORY("Unit Workflow", Profiler::Color::ForestGreen);
+
 	unit_state prevState = unitState;
 
 	switch (unitOrders) {
@@ -411,6 +415,8 @@ bool Unit::Move(float dt)
 
 bool Unit::FindEnemies(float dt)
 {
+	BROFILER_CATEGORY("Unit FindEnemies", Profiler::Color::Aqua);
+
 	bool ret = false;
 
 	if (unitAggro > unit_aggro::PASSIVE) {
