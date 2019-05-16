@@ -41,7 +41,6 @@ protected:
 	uint	size;				//Amount of tiles this node can store
 	uint	tilesContained;	//Amount of tiles this node currently stores
 
-
 };
 
 #endif // !_TILEQUADTREE_H__

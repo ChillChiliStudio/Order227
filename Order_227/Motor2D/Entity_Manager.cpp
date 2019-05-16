@@ -123,6 +123,7 @@ bool Entity_Manager::Update(float dt)
 	}
 
 	entitiesQuadtree->DrawQuadtree();
+
 	//TESTING QUADTREE
 	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) != KEY_IDLE)
 	{
@@ -133,8 +134,13 @@ bool Entity_Manager::Update(float dt)
 		SDL_Rect rekt;
 		entitiesQuadtree->NodeAt(esketit.x, esketit.y)->GetSection(rekt);
 		myApp->render->DrawQuad(rekt, 0, 255, 0);
+
+		std::vector<Entity*> paco= entitiesQuadtree->GetEntitiesNear(esketit.x, esketit.y, 20);
+		for (int i = 0; i < paco.size(); ++i)
+			paco[i]->active = false;
 	}
 	//TESTING QUADTREE
+	
 	entitiesQuadtree->ClearTree();
 
 

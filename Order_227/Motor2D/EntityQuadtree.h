@@ -4,6 +4,7 @@
 #include "Quadtree.h"
 #include <Vector>
 
+#define PI  3.14159265
 
 
 class Entity;
@@ -26,9 +27,13 @@ public:
 
 public:
 
-	EntityQuadtree* NodeAt(int x, int y);
 	void FillTree();
 	void ClearTree();
+
+public:
+
+	EntityQuadtree* NodeAt(int x, int y);
+	std::vector<Entity*> GetEntitiesNear(int x, int y, int range = 0);
 
 private:
 	
@@ -41,6 +46,8 @@ public:
 private:
 
 	EntityQuadtree* nodes[4];
+
+	bool empty;
 
 };
 

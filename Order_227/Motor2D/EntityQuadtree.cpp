@@ -14,6 +14,8 @@ EntityQuadtree::EntityQuadtree(uint maxLevels, SDL_Rect section, uint level): Qu
 	for (int i = 0; i < 4; ++i)
 		nodes[i] = nullptr;
 
+	empty = true;
+
 }
 
 void EntityQuadtree::CleanUp()
@@ -60,7 +62,7 @@ void EntityQuadtree::DrawQuadtree()
 			myApp->render->DrawLine(section.x + section.w, section.y, section.x + section.w, section.y + section.h, 255, 0, 0);
 		}
 
-		if (!entitiesVector.empty())
+		if (!empty)
 			myApp->render->DrawQuad(section, 255, 0, 0, 50);
 
 		if (divided == true)
@@ -90,7 +92,11 @@ void EntityQuadtree::FillTree()
 
 void EntityQuadtree::ClearTree()
 {
-	entitiesVector.clear();
+
+	if (!empty) {
+		entitiesVector.clear();
+		empty = true;
+	}
 
 	if (divided){
 		
@@ -102,8 +108,10 @@ void EntityQuadtree::ClearTree()
 
 void EntityQuadtree::AddEntity(Entity* entity)
 {
-	if (level == maxLevels)
+	if (level == maxLevels) {
 		entitiesVector.push_back(entity);
+		empty = false;
+	}
 	
 	else {
 		for (int i = 0; i < 4; ++i) {
@@ -138,8 +146,46 @@ EntityQuadtree* EntityQuadtree::NodeAt(int x, int y)
 					return nodes[i]->NodeAt(x, y);
 			}
 		}
+		return this;
 	}
 
 	else
 		return this;
+}
+
+std::vector<Entity*> EntityQuadtree::GetEntitiesNear(int x, int y, int range)
+{
+	std::vector<Entity*> entitiesInRange;
+	
+	EntityQuadtree* centerNode = NodeAt(x, y);
+
+	entitiesInRange = centerNode->entitiesVector;
+	
+	if (range > 0)
+	{
+		EntityQuadtree* neighbors[8];
+		neighbors[0] = NodeAt(x+range,y);
+		neighbors[1] = NodeAt(x-range, y);
+		neighbors[2] = NodeAt(x, y+range);
+		neighbors[3] = NodeAt(x, y-range);
+		neighbors[4] = NodeAt(x + range * cos(PI / 4), y + range * sin(PI / 4));
+		neighbors[5] = NodeAt(x + range * cos(PI / 4), y - range * sin(PI / 4));
+		neighbors[6] = NodeAt(x - range * cos(PI / 4), y + range * sin(PI / 4));
+		neighbors[7] = NodeAt(x - range * cos(PI / 4), y - range * sin(PI / 4));
+
+		for (int i = 0; i < 8; ++i)
+		{
+			SDL_Rect rekt;
+			neighbors[i]->GetSection(rekt);
+			myApp->render->DrawQuad(rekt,0,0,255 );
+
+			if (neighbors[i] != centerNode && !neighbors[i]->empty)
+			{
+				for (int b = 0; b < neighbors[i]->entitiesVector.size(); ++b)
+					entitiesInRange.push_back(neighbors[i]->entitiesVector[b]);
+			}
+		}
+	}
+
+	return entitiesInRange;
 }

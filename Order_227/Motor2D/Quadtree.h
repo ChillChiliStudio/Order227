@@ -26,7 +26,7 @@ public:
 protected:
 
 	bool divided;			//True if this node has subnodes
-	uint maxLevels;		//Max number of levels a quadtree will have
+	uint maxLevels;			//Max number of levels a quadtree will have
 	uint level;				//Position in the tree
 	SDL_Rect section;		//Position and size
 

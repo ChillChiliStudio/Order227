@@ -10,6 +10,13 @@
 Quadtree::Quadtree(uint maxLevels, SDL_Rect section, uint level) :maxLevels(maxLevels), level(level), section(section)
 {
 	divided = false;
+	
+	if (this->section.w % 2 != 0) {
+		this->section.w++;
+	}
+	if (this->section.h % 2 != 0) {
+		this->section.h++;
+	}
 }
 
 void Quadtree::DrawQuadtree() const
