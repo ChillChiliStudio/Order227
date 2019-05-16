@@ -24,10 +24,10 @@ bool Projectile::Update(float dt) {
 
 	position.x += (EntityVecSpeed.x * dt);
 	position.y += (EntityVecSpeed.y * dt);
-	centerPos.x += (EntityVecSpeed.x * dt);
+	/*centerPos.x += (EntityVecSpeed.x * dt);
 	centerPos.y += (EntityVecSpeed.y * dt);
 	groundPos.x += (EntityVecSpeed.x * dt);
-	groundPos.y += (EntityVecSpeed.y * dt);
+	groundPos.y += (EntityVecSpeed.y * dt);*/
 
 	myApp->render->DrawQuad({ (int)this->position.x,(int)this->position.y,10,10 }, 255, 0, 255, 255, true);
 	return true;
@@ -70,14 +70,14 @@ fVec2 Projectile::SetupVecSpeed()
 {
 	fPoint nodePos = { (Destination.x), (Destination.y) };
 
-	EntityVecSpeed = GetVector2(centerPos, nodePos);
+	EntityVecSpeed = GetVector2(position, nodePos);
 	EntityVecSpeed = EntityVecSpeed.GetUnitVector();
-	EntityVecSpeed *= 20;
+	EntityVecSpeed *= 120;
 	return EntityVecSpeed;
 }
 
 void Projectile::CheckExplosion() {
-	if (this->position.x - Destination.x < 20 && this->position.x - Destination.x > -20 && this->position.y - Destination.y < 20 && this->position.y - Destination.y > -20) {
+	if (this->position.x - Destination.x < 10 && this->position.x - Destination.x > -10 && this->position.y - Destination.y < 10 && this->position.y - Destination.y > -10) {
 		Explode();
 	}
 }
