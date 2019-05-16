@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="60" tileheight="30" nextobjectid="796">
+<map version="1.0" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="60" tileheight="30" nextobjectid="801">
  <properties>
   <property name="Nodraw" value="0"/>
  </properties>
@@ -40210,11 +40210,46 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="790" name="EPC" x="887.28" y="1366.08" width="114.375" height="113.729">
+  <object id="790" name="EPC" x="1041.83" y="1175.17" width="114.375" height="113.729">
    <properties>
     <property name="health" type="int" value="500"/>
     <property name="income" type="int" value="30"/>
     <property name="type" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="796" name="EPC" x="1194.33" y="1491.62" width="114.375" height="113.729">
+   <properties>
+    <property name="health" type="int" value="500"/>
+    <property name="income" type="int" value="30"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="797" name="EPC" x="1489.78" y="1541.62" width="114.375" height="113.729">
+   <properties>
+    <property name="health" type="int" value="500"/>
+    <property name="income" type="int" value="30"/>
+    <property name="type" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="798" name="EPC" x="844.328" y="956.772" width="114.375" height="113.729">
+   <properties>
+    <property name="health" type="int" value="500"/>
+    <property name="income" type="int" value="30"/>
+    <property name="type" type="int" value="4"/>
+   </properties>
+  </object>
+  <object id="799" name="EPC" x="1059.48" y="832.529" width="114.375" height="113.729">
+   <properties>
+    <property name="health" type="int" value="500"/>
+    <property name="income" type="int" value="30"/>
+    <property name="type" type="int" value="5"/>
+   </properties>
+  </object>
+  <object id="800" name="EPC" x="1354.93" y="1027.98" width="114.375" height="113.729">
+   <properties>
+    <property name="health" type="int" value="500"/>
+    <property name="income" type="int" value="30"/>
+    <property name="type" type="int" value="6"/>
    </properties>
   </object>
  </objectgroup>
