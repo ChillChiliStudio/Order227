@@ -453,6 +453,34 @@ bool Unit::FindEnemies(float dt)
 	return ret;
 }
 
+//Optimization Alternative (DO NOT DELETE)
+//bool Unit::FindEnemies(float dt)
+//{
+//	BROFILER_CATEGORY("Unit FindEnemies", Profiler::Color::Aqua);
+//
+//	bool ret = false;
+//
+//	if (unitAggro > unit_aggro::PASSIVE) {
+//		currTarget = UnitInRadius(stats.attackRadius);
+//		if (currTarget != nullptr) {
+//			AttackCurrTarget(dt);
+//			ret = true;
+//		}
+//		else if (aggroTriggered == false && unitAggro == unit_aggro::AGGRESSIVE) {
+//
+//			Entity* tmp = nullptr;
+//
+//			tmp = UnitInRadius(stats.visionRadius);
+//			if (tmp != nullptr) {
+//				StartAggroHunt(tmp);
+//				ret = true;
+//			}
+//		}
+//	}
+//
+//	return ret;
+//}
+
 void Unit::AttackCurrTarget(float dt)
 {
 	fVec2 targetDirection = GetVector2(centerPos, currTarget->centerPos);
@@ -623,6 +651,61 @@ Entity* Unit::EnemyInRadius(uint radius)
 
 	return ret;
 }
+
+//Optimization Alternative (DO NOT DELETE)
+//Entity* Unit::UnitInRadius(uint radius)	//If enemy in radius, return it. If ally, hunt target if any and return nullptr
+//{
+//	Entity* ret = nullptr;
+//
+//	int numActives = myApp->entities->activeUnits;
+//
+//	//Units
+//	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); numActives > 0; item = next(item)) {
+//		if ((*item).active) {
+//			numActives--;
+//
+//			if ((*item).IsDead() == false) {
+//
+//				if (InsideSquareRadius(centerPos, (float)radius, (*item).centerPos)	// Unit inside radius
+//					&& InsideRadius(centerPos, (float)radius, (*item).centerPos))
+//				{
+//					if ((*item).faction != faction) {	// If enemy, it becomes currTarget
+//						ret = (Entity*)&(*item);
+//						break;
+//
+//					}
+//					else if (aggroTriggered == false && (*item).currTarget != nullptr) {	// If ally attacking enemy unit, start hunt against enemy unit
+//						StartAggroHunt((*item).currTarget);
+//						return ret;
+//					}
+//				}
+//			}
+//		}
+//	}
+//
+//	//Buildings
+//	if (ret == nullptr && faction == entity_faction::CAPITALIST) {
+//		numActives = myApp->entities->activeBuildings;
+//
+//		for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0; item = next(item)) {
+//			if ((*item).active) {
+//				numActives--;
+//
+//				if ((*item).IsDead() == false) {
+//
+//					if (InsideSquareRadius(centerPos, (float)radius, (*item).centerPos)
+//						&& InsideRadius(centerPos, (float)radius, (*item).centerPos))
+//					{
+//						ret = (Entity*)&(*item);
+//						break;
+//					}
+//				}
+//			}
+//		}
+//	}
+//
+//	return ret;
+//}
 
 Unit* Unit::AttackingAllyInRadius(uint radius)
 {
