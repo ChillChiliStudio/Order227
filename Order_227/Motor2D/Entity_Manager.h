@@ -45,7 +45,7 @@ public:
 	void UpdateBlitOrdering();
 	void BlitEntities();
 
-	void UpdateEntities(float dt);
+	void UpdateUnits(float dt);
 	void UpdateBuildings(float dt);
 	void UpdateObjects(float dt);
 
@@ -67,12 +67,16 @@ public:
 
 	//Pools
 	std::vector<Unit>			unitPool;
+	int activeUnits = 0;
 	//std::vector<Hitscan>		hitscanPool;
 	//std::vector<Ranged>		rangedPool;
 	//std::vector<Tank>			tankPool;
 
 	std::vector<Static_Object>	objectsArray;
+
 	std::vector<Building>		buildingsArray;
+	int activeBuildings = 0;
+
 	std::vector<Entity*>		entitiesVector;
 
 	//Last Unit activated Pointer

@@ -86,7 +86,7 @@ bool Entity_Manager::Update(float dt)
 		if (accumulated_time >= update_ms_cycle)
 			do_logic = true;
 
-		UpdateEntities(dt);
+		UpdateUnits(dt);
 		UpdateBuildings(dt);
 		UpdateObjects(dt);
 
@@ -103,13 +103,16 @@ bool Entity_Manager::Update(float dt)
 	return true;
 }
 
-void Entity_Manager::UpdateEntities(float dt)
+void Entity_Manager::UpdateUnits(float dt)
 {
 	BROFILER_CATEGORY("UnitPool Update", Profiler::Color::Magenta);
 
-	for (int i = 0; i < unitsPoolSize; ++i) {
+	int numActives = activeUnits;
+
+	for (int i = 0; numActives > 0; ++i) {
 
 		if (unitPool[i].active) {
+			numActives--;
 
 			unitPool[i].Update(dt);
 
@@ -118,6 +121,8 @@ void Entity_Manager::UpdateEntities(float dt)
 			}
 		}
 	}
+
+	int a = 0;
 }
 
 void Entity_Manager::UpdateBuildings(float dt)
@@ -249,6 +254,9 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 		AllocateUnitPool();
 		ActivateUnit(position, infantryType, entityFaction);
 	}
+	else {
+		activeUnits++;
+	}
 
 	return ret;
 }
@@ -270,8 +278,6 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 	_Unit->active = false;
 	_Unit->selected = false;
 
-	
-
 	//_Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];	//TODO: This caused bugs (Carles: Not sure)
 
 	std::vector<Entity*>::iterator it = entitiesVector.begin();
@@ -282,6 +288,8 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 			break;
 		}
 	}
+
+	activeUnits--;
 
 	return true;
 }
@@ -315,6 +323,8 @@ void Entity_Manager::ActivateBuildings()
 			}
 
 			(*item).Start();
+
+			activeBuildings++;
 		}
 	}
 
