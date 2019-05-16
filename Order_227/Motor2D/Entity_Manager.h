@@ -15,7 +15,7 @@
 #define RESIZE_VALUE 50
 
 //Entities quadtree max divisions
-#define QUADTREE_DIVISIONS 6
+#define QUADTREE_DIVISIONS 5
 
 class EntityQuadtree;
 

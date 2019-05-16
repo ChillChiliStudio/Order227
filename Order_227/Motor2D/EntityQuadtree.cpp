@@ -175,10 +175,6 @@ std::vector<Entity*> EntityQuadtree::GetEntitiesNear(int x, int y, int range)
 
 		for (int i = 0; i < 8; ++i)
 		{
-			SDL_Rect rekt;
-			neighbors[i]->GetSection(rekt);
-			myApp->render->DrawQuad(rekt,0,0,255 );
-
 			if (neighbors[i] != centerNode && !neighbors[i]->empty)
 			{
 				for (int b = 0; b < neighbors[i]->entitiesVector.size(); ++b)
