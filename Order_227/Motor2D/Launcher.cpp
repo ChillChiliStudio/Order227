@@ -35,7 +35,6 @@ bool Launcher::Update(float dt) {
 		}
 	}
 
-	LOG("UPDATE WORKING XD");
 	onCamera = InsideCamera();
 
 	entityRect.x = position.x;

@@ -57,8 +57,10 @@ bool Unit::Update(float dt)
 	UnitWorkflow(dt);
 
 	if (mustDespawn) {
-		mustDespawn = false;
-		myApp->entities->DeActivateUnit(this);
+		/*if (currentAnimation.Finished() == true) {*/
+			mustDespawn = false;
+			myApp->entities->DeActivateUnit(this);
+		/*}*/
 	}
 	else {
 		if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
@@ -474,6 +476,8 @@ void Unit::Die()
 	despawnTimer.Start();
 	unitOrders = unit_orders::NONE;
 	unitState = unit_state::DEAD;
+
+	
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0][(int)faction]);
 
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::HURT][rand() % 2]);

@@ -21,12 +21,20 @@ void Projectile::Fly() {
 }
 
 bool Projectile::Update(float dt) {
+	
 
 	position.x += (ProjectileVecSpeed.x * dt);
 	position.y += (ProjectileVecSpeed.y * dt);
-	
 
-	myApp->render->DrawQuad({ (int)this->position.x,(int)this->position.y,10,10 }, 255, 0, 255, 255, true);
+	entityRect.x = position.x;
+	entityRect.y = position.y;
+	entityRect.w = 10;
+	entityRect.h = 10;
+
+	centerPos.x = position.x + (entityRect.w / 2);
+	centerPos.y = position.y + (entityRect.h / 2);
+
+	myApp->render->DrawQuad({ (int)this->position.x,(int)this->position.y,entityRect.w,entityRect.h }, 255, 0, 255, 255, true);
 	return true;
 }
 
@@ -69,7 +77,7 @@ fVec2 Projectile::SetupVecSpeed()
 
 	ProjectileVecSpeed = GetVector2(position, nodePos);
 	ProjectileVecSpeed = ProjectileVecSpeed.GetUnitVector();
-	ProjectileVecSpeed *= 120;
+	ProjectileVecSpeed *= 200;
 	return ProjectileVecSpeed;
 }
 
@@ -82,6 +90,18 @@ void Projectile::CheckExplosion() {
 void Projectile::Explode() {
 	LOG("EXPLOSION");
 	
+	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
+		if ((*item).active == true && (*item).IsDead() == false && (*item).faction != faction) {
+
+			if (InsideSquareRadius((this->centerPos), 60.0f, (*item).position) && InsideRadius((this->centerPos), 60.0f, (*item).position))
+			{
+				(*item).Die();
+			}
+
+		}
+	}
+
+
 	this->active = false;
 	
 }

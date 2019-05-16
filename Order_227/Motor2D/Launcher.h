@@ -9,7 +9,7 @@ public:
 	Launcher();
 	~Launcher();
 
-	//bool Start() ;
+
 	bool Update(float dt);
 	
 
