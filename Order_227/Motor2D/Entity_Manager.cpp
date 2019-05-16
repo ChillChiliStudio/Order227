@@ -111,6 +111,8 @@ bool Entity_Manager::Update(float dt)
 		accumulated_time -= update_ms_cycle;
 	}
 
+	entitiesQuadtree->ClearTree();
+
 	return true;
 }
 
@@ -153,9 +155,6 @@ void Entity_Manager::UpdateObjects(float dt)
 		objectsArray[i].Update(dt);
 	}
 
-	entitiesQuadtree->ClearTree();
-
-	return true;
 }
 
 bool BlitSort(Entity* i, Entity* j)
