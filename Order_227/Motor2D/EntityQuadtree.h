@@ -14,7 +14,7 @@ public:
 
 	EntityQuadtree(uint maxLevels, SDL_Rect section, uint level = 1);
 
-	void CleanUp(){}
+	void CleanUp();
 
 	void Split(int times=1);
 
@@ -26,6 +26,7 @@ public:
 
 public:
 
+	EntityQuadtree* NodeAt(int x, int y);
 	void FillTree();
 	void ClearTree();
 

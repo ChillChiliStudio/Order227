@@ -21,6 +21,8 @@ public:
 
 	virtual bool CheckTouch(const SDL_Rect& rect) { return true; }	//Check if a rectangle fits inside the quadtree
 
+	void GetSection(SDL_Rect &rect) { rect = section;}
+
 protected:
 
 	bool divided;			//True if this node has subnodes

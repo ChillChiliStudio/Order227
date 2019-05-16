@@ -16,6 +16,18 @@ EntityQuadtree::EntityQuadtree(uint maxLevels, SDL_Rect section, uint level): Qu
 
 }
 
+void EntityQuadtree::CleanUp()
+{
+	entitiesVector.clear();
+
+	if (divided) {
+		for (int i = 0; i < 4; ++i) {
+			nodes[i]->CleanUp();
+			nodes[i] = nullptr;
+		}
+	}
+}
+
 void EntityQuadtree::Split(int times)
 {
 	if (level < maxLevels && divided == false)
@@ -111,4 +123,23 @@ bool EntityQuadtree::CheckTouch(const SDL_Rect& rect)
 		return false;
 
 	return true;
+}
+
+EntityQuadtree* EntityQuadtree::NodeAt(int x, int y)
+{
+	if (divided) {
+		for (int i = 0; i < 4; ++i) {
+			if (nodes[i]->CheckTouch({ x,y,0,0 }))
+			{
+				if (nodes[i]->level == maxLevels)
+					return nodes[i];
+
+				else
+					return nodes[i]->NodeAt(x, y);
+			}
+		}
+	}
+
+	else
+		return this;
 }

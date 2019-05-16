@@ -123,6 +123,18 @@ bool Entity_Manager::Update(float dt)
 	}
 
 	entitiesQuadtree->DrawQuadtree();
+	//TESTING QUADTREE
+	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) != KEY_IDLE)
+	{
+		iPoint esketit;
+		myApp->input->GetMousePosition(esketit.x, esketit.y);
+		esketit= myApp->render->ScreenToWorld(esketit.x, esketit.y);
+
+		SDL_Rect rekt;
+		entitiesQuadtree->NodeAt(esketit.x, esketit.y)->GetSection(rekt);
+		myApp->render->DrawQuad(rekt, 0, 255, 0);
+	}
+	//TESTING QUADTREE
 	entitiesQuadtree->ClearTree();
 
 
