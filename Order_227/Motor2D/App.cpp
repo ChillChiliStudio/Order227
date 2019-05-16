@@ -261,7 +261,7 @@ bool App::DoUpdate()
 // Call modules after each loop iteration
 bool App::PostUpdate()
 {
-	BROFILER_CATEGORY("App Post-Update", Profiler::Color::MediumVioletRed);
+	BROFILER_CATEGORY("App Post-Update", Profiler::Color::OrangeRed);
 
 	bool ret = true;
 	Module* pModule = NULL;
