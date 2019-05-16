@@ -16,10 +16,11 @@
     
   <Building id="5" name="People_Heart" TextPath="textures/buildings/Facilities/HeartsPeople.png"  TiledFile="textures/buildings/Facilities/HeartsPeople.tmx"/>
     
-  <Building id="6" name="EPC" TextPath="" TiledFile=""/>
-   
+  <Building id="6" name="EPC" TextPath="textures/buildings/Facilities/EPC.png" TiledFile="textures/buildings/Facilities/EPC.tmx"/>
+
+  <!--REMEMBER TO UPLOAD THE MAX UNIT ENUM
   <Building id="7" name="Flags" TextPath="textures/buildings/Facilities/Flags.png" TiledFile="textures/buildings/Facilities/Flags.tmx"/>
   
- 
+ -->
 
 </Buildings_Document>

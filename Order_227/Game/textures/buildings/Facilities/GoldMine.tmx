@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="10" tilewidth="174" tileheight="142" nextobjectid="80">
  <imagelayer name="Capa de Imagen 1">
-  <image source="GoldMine_tiled.png"/>
+  <image source="GoldMine.png" width="1392" height="1420"/>
  </imagelayer>
  <objectgroup name="Rects">
   <object id="1" name="Spawn" x="0" y="0" width="174" height="142"/>
@@ -42,7 +42,6 @@
   <object id="63" name="Idle" x="174" y="1278" width="174" height="142"/>
   <object id="64" name="Idle" x="348" y="1278" width="174" height="142"/>
   <object id="65" name="Idle" x="522" y="1278" width="174" height="142"/>
-   <object id="65" name="DestStateOne" x="696" y="1278" width="174" height="142"/>
-   <object id="65" name="DestStateTwo" x="870" y="1278" width="174" height="142"/>
+  <object id="65" name="Explosion" x="870" y="1278" width="174" height="142"/>
  </objectgroup>
 </map>

@@ -57,10 +57,6 @@ bool Building::Update(float dt)
 
 		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::IDLE)]);
 	}
-	else if (health < maxHealth / 4)
-		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::CRITICAL)]);
-	else if(health>= maxHealth/4 && health< maxHealth/2)
-		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::DAMAGED)]);
 	else if(health<=0)
 		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::DESTROYED)]);
 	

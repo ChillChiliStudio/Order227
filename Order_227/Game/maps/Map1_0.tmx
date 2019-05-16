@@ -40210,42 +40210,7 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="790" name="radar" x="887.28" y="1366.08" width="114.375" height="113.729">
-   <properties>
-    <property name="health" type="int" value="500"/>
-    <property name="income" type="int" value="30"/>
-    <property name="type" type="int" value="2"/>
-   </properties>
-  </object>
-  <object id="791" name="Training" x="723.227" y="451.557" width="115.375" height="116.229">
-   <properties>
-    <property name="health" type="int" value="500"/>
-    <property name="income" type="int" value="30"/>
-    <property name="type" type="int" value="6"/>
-   </properties>
-  </object>
-  <object id="792" name="PC" x="661.744" y="2043.05" width="114.375" height="113.729">
-   <properties>
-    <property name="health" type="int" value="500"/>
-    <property name="income" type="int" value="30"/>
-    <property name="type" type="int" value="5"/>
-   </properties>
-  </object>
-  <object id="793" name="TankFactory" x="2284.94" y="1354.75" width="108.125" height="108.979">
-   <properties>
-    <property name="health" type="int" value="500"/>
-    <property name="income" type="int" value="30"/>
-    <property name="type" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="794" name="HTPC" x="1712.22" y="451.889" width="113.875" height="115.729">
-   <properties>
-    <property name="health" type="int" value="500"/>
-    <property name="income" type="int" value="30"/>
-    <property name="type" type="int" value="4"/>
-   </properties>
-  </object>
-  <object id="795" name="Radar" x="1923.35" y="2222.47" width="114.375" height="113.729">
+  <object id="790" name="EPC" x="887.28" y="1366.08" width="114.375" height="113.729">
    <properties>
     <property name="health" type="int" value="500"/>
     <property name="income" type="int" value="30"/>

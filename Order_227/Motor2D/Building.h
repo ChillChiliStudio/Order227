@@ -27,8 +27,6 @@ enum class Building_State {
 
 	SPAWN,
 	IDLE,
-	DAMAGED,
-	CRITICAL,
 	DESTROYED,
 	MAX
 

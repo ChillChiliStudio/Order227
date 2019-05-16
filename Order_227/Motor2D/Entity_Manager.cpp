@@ -538,21 +538,7 @@ bool Entity_Manager::LoadBuildingsData() {
 					BuildingAnimationArray[id][(int)Building_State::IDLE].speed = 6.0f;
 
 				}
-				else if (tempString == "DestStateOne") {
-
-					BuildingAnimationArray[id][(int)Building_State::DAMAGED].PushBack(temp);
-					BuildingAnimationArray[id][(int)Building_State::DAMAGED].loop = false;
-					BuildingAnimationArray[id][(int)Building_State::DAMAGED].speed = 5.0f;
-
-				}
-				else if (tempString == "DestStateTwo") {
-
-					BuildingAnimationArray[id][(int)Building_State::CRITICAL].PushBack(temp);
-					BuildingAnimationArray[id][(int)Building_State::CRITICAL].loop = false;
-					BuildingAnimationArray[id][(int)Building_State::CRITICAL].speed = 5.0f;
-
-				}
-				else if (tempString == "Destruction") {
+				else if (tempString == "Explosion") {
 
 					BuildingAnimationArray[id][(int)Building_State::DESTROYED].PushBack(temp);
 					BuildingAnimationArray[id][(int)Building_State::DESTROYED].loop = false;
