@@ -10,7 +10,11 @@
 
 Text::Text(const char* content, SDL_Color color, _TTF_Font* font, fPoint center, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children,float size)
 	: Image(ui_type::TEXT, center, GetTexSize(content, color, font), CreateTexture(content, color, font), dynamic, parent, children,size), content(content), color(color), font(font)
-{}
+{
+	//if (font == nullptr) {
+	//	font = myApp->fonts->defaultFont;
+	//}
+}
 
 void Text::operator+ (const char* addition)
 {

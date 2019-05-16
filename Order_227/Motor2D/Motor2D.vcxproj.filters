@@ -151,6 +151,9 @@
     <ClCompile Include="Mouse.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images</Filter>
     </ClCompile>
+    <ClCompile Include="Unit_Panel.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -304,6 +307,9 @@
       <Filter>Tools</Filter>
     </ClInclude>
     <ClInclude Include="Mouse.h">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Panel.h">
       <Filter>Game Files\User Interface\UI Elements\Images</Filter>
     </ClInclude>
   </ItemGroup>

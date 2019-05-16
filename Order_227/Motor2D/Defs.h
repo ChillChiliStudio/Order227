@@ -10,6 +10,7 @@
 #endif
 #define NULL  0
 
+
 // Deletes a buffer
 #define RELEASE( x ) \
     {                        \

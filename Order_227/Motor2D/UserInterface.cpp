@@ -30,6 +30,7 @@
 #include "LifeBarBox.h"
 #include "ButtonActions.h"
 #include "Mouse.h"
+#include "Unit_Panel.h"
 
 
 User_Interface::User_Interface() : Module()
@@ -92,6 +93,7 @@ bool User_Interface::Start()
 	unitStats_text = myApp->tex->Load("ui/Unit_Stats.png");
 	endingImages_Tex = myApp->tex->Load("ui/Ending_Game_Mesage_Icon.png"); 
 	mouse_tex = myApp->tex->Load("ui/Mouse_Actions.png");
+	Unit_Panels_tex = myApp->tex->Load("ui/Unit_Costs_Panel.png");
 
 	//Fps debug text
 	fpsText = CreateText({ 10, 10 }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
@@ -152,7 +154,9 @@ bool User_Interface::Start()
 	selectorTank = CreateSpawnBox(false, fPoint(width / 11 + 38, height - 140), selectorTank_Rect, selectorinGame_Tex);
 
 	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,10,myApp->entities->infantryStats[(int)infantry_type::CONSCRIPT].cost,nullptr);
+	ConscriptCreator->Start();
 	BazookaCreator = CreateUnitBox(CreateBazooka, fPoint(136, height - 95), Bazooka_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::BAZOOKA].cost,&myApp->entities->heavyUnitsUnlocked);
+	BazookaCreator->Start();
 
 	UnitStats = CreateImage(fPoint(width / 1.45, height - 75), SDL_Rect({ 0,0,55,90 }), unitStats_text);
 	UnitFrame = CreateImage(fPoint(width / 1.58, height - 75), SDL_Rect({ 125,5,50,43 }), unitsSelection_Tex);
@@ -181,6 +185,8 @@ bool User_Interface::Start()
 	//incomingHordein = CreateText(fPoint(width / 2.9, height / 2.5), "Incoming Horde in", font_id::MOLOT, White, false, NULL, 1.5);
 	//timerHorde = CreateText(fPoint(width / 1.7, height / 2.5), timerHorde_temp.c_str(), font_id::MOLOT, White, false, NULL, 1.5);
 
+	ConscriptPanel_Info = CreateUnitPanel(SDL_Rect({ 0,0,137,165 }), ConscriptCreator, Unit_Panels_tex);
+
 	MainMenuTemp_Image = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,1280,720 }), Main_Menu_Temp_Tex);
 	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/1.8),TempButtonRect,StartGame_text,MainMenuTemp_Image);
 	StartGame_Label = CreateText(fPoint(width / 2, height / 1.8), "START GAME", font_id::MOLOT,White,false,StartGame_Button);
@@ -196,6 +202,7 @@ bool User_Interface::Start()
 	Main_Menu_Elements.push_back(MainMenuTemp_Image);
 	Main_Menu_Elements.push_back(StartGame_Button);
 	Main_Menu_Elements.push_back(StartGame_Label);
+
 
 	return ret;
 }
@@ -395,6 +402,21 @@ Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_
 
 	return ret;
 }
+
+Unit_Panel* User_Interface::CreateUnitPanel(SDL_Rect sprite, Image* button , SDL_Texture* tex ) {
+
+	Unit_Panel* ret = nullptr;
+
+	if (tex == NULL) {
+		tex = GetAtlas();
+	}
+
+	ret = new Unit_Panel(sprite,button,tex);
+	AddElement(ret);
+
+	return ret;
+}
+
 Mouse* User_Interface::CreateMouse(SDL_Texture*tex ) {
 	Mouse* ret = nullptr;
 	ret = new Mouse(tex);

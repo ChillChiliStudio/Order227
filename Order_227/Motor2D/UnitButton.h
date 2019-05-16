@@ -5,6 +5,7 @@
 #include "Animation.h"
 #include "Timer.h"
 
+class Text;
 struct SDL_Texture;
 
 class Unit_Box : public Action_Box
@@ -14,15 +15,20 @@ public:
 
 	//Constructor
 	Unit_Box(event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0, int unitCost=0,bool* _abletoCraft=nullptr, ui_type type = ui_type::ACTION_BOX);
+	bool Start() override;
 
 protected:
 	//State Entry
-	void OnPress() override;
 
+	void OnPress() override;
 	bool Draw() override;
+	void DoAction();
+	void updateText();
 
 protected:
 	
+	Text* Queue_Info = nullptr;
+	int Queue;
 	bool startCreationUnit;
 	int UnitCost;
 	event_function action;

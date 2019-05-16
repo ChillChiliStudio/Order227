@@ -107,6 +107,7 @@
     <ClCompile Include="Tank.cpp" />
     <ClCompile Include="TileQuadtree.cpp" />
     <ClCompile Include="UnitButton.cpp" />
+    <ClCompile Include="Unit_Panel.cpp" />
     <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="App.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Static_Object.h" />
     <ClInclude Include="TileQuadtree.h" />
     <ClInclude Include="UnitButton.h" />
+    <ClInclude Include="Unit_Panel.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Vehicle.h" />
     <ClInclude Include="VoidBox.h" />

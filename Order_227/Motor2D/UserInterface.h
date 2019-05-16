@@ -20,6 +20,7 @@ class Button;
 class LifeBar;
 class Unit;
 class Mouse;
+class Unit_Panel;
 //class Window;
 struct _TTF_Font;
 struct SDL_Rect;
@@ -75,6 +76,7 @@ public:
 	Unit_Box* CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0,int unitCost=0,bool* _enabletoCraft=nullptr);
 	LifeBar* CreateLifeBar(fPoint center, Unit* parent = nullptr, SDL_Texture* tex = NULL, float* auxHealth=NULL);
 	Mouse* CreateMouse( SDL_Texture*tex);
+	Unit_Panel* CreateUnitPanel(SDL_Rect sprite, Image* button = nullptr, SDL_Texture* tex = NULL);
 
 	template <class T_param>
 	UI_Element* CreateParamBox(void(*action)(T_param), T_param parameter, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL)
@@ -120,6 +122,7 @@ public:
 	Text* hordeNumber_Label = nullptr;
 	Text* incomingHordein = nullptr;
 	Text* timerHorde = nullptr;
+
 	Image* WinIcon = nullptr;
 	Image* LoseIcon = nullptr;
 	std::list<Spawn_Box*> SpawnSelectors;
@@ -132,6 +135,8 @@ public:
 	Text* ReturnMainMenu_Label3 = nullptr;
 
 	Mouse* Mouse_UI = nullptr;
+
+	Unit_Panel* ConscriptPanel_Info = nullptr;
 
 private:
 
@@ -175,6 +180,7 @@ private:
 	SDL_Texture* mainBar = nullptr;
 	SDL_Texture* atlas = nullptr;
 	SDL_Texture* mouse_tex = nullptr;
+	SDL_Texture* Unit_Panels_tex = nullptr;
 	std::string atlasFileName;
 
 };

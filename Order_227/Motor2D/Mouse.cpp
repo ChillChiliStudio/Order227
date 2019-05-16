@@ -129,7 +129,7 @@ bool Mouse::onTopEnemy() {
 			}
 		}
 	return false;
-	}
+}
 
 bool Mouse::DebugDraw() const
 {
