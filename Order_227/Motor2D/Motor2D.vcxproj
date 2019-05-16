@@ -97,6 +97,7 @@
     <ClCompile Include="LifeBarBox.cpp" />
     <ClCompile Include="MiniMap.cpp" />
     <ClCompile Include="LightTank.cpp" />
+    <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Player.h" />
     <ClCompile Include="Quadtree.cpp" />
@@ -106,6 +107,7 @@
     <ClCompile Include="Tank.cpp" />
     <ClCompile Include="TileQuadtree.cpp" />
     <ClCompile Include="UnitButton.cpp" />
+    <ClCompile Include="Unit_Panel.cpp" />
     <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="App.cpp" />
@@ -145,12 +147,14 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="LifeBarBox.h" />
     <ClInclude Include="MiniMap.h" />
+    <ClInclude Include="Mouse.h" />
     <ClInclude Include="Pool.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Spawn_Box.h" />
     <ClInclude Include="Static_Object.h" />
     <ClInclude Include="TileQuadtree.h" />
     <ClInclude Include="UnitButton.h" />
+    <ClInclude Include="Unit_Panel.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Vehicle.h" />
     <ClInclude Include="VoidBox.h" />

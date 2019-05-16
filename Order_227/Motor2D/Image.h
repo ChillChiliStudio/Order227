@@ -3,9 +3,12 @@
 
 #include "UIElement.h"
 
+class Unit_Panel;
+
 class Image	: public UI_Element
 {
 public:
+	friend Unit_Panel;
 	//Constructor
 	Image(ui_type type, fPoint center, SDL_Rect texRect, SDL_Texture* tex, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL,float size=1.0f);
 

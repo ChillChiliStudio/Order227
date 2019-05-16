@@ -267,7 +267,7 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 	_Unit->infantryType = infantry_type::INFANTRY_NONE;
 	_Unit->position = fPoint(0.0f, 0.0f);
 	_Unit->texture = nullptr;
-	
+
 	_Unit->currTarget = nullptr;
 	_Unit->aggroTriggered = false;
 
@@ -304,15 +304,15 @@ void Entity_Manager::ActivateBuildings()
 
 
 			if((*item).buildingType == building_type::COMMAND_CENTER)
-				mainBase = &(*item);
-
+				
+        mainBase = &(*item);
 
 			  (*item).faction == entity_faction::COMMUNIST;
-
 				(*item).active = true;
 				(*item).selected = false;
 				(*item).texture = buildingsTextures[int((*item).buildingType)];
-
+				(*item).health = (*item).maxHealth;
+				(*item).Start();
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 
@@ -321,14 +321,10 @@ void Entity_Manager::ActivateBuildings()
 					break;
 				}
 			}
-
-			(*item).Start();
-
+      
 			activeBuildings++;
 		}
 	}
-
-
 }
 
 void Entity_Manager::ActivateObjects()
@@ -363,28 +359,23 @@ void Entity_Manager::ActivateObjects()
 	}
 }
 
-bool Entity_Manager::loadTextures() {
-
+bool Entity_Manager::loadTextures()
+{
 	pugi::xml_parse_result result = unitsDocument.load_file("textures/troops/unitsDoc.xml");
 	pugi::xml_parse_result result2 = BuildingsDocument.load_file("textures/buildings/BuildingsDoc.xml");
-
 
 	if(result!=NULL)
 	loadTroopsTextures();
 	if (result2 != NULL)
 	loadBuildingsTextures();
 
-
-
-
 	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
 
 	return true;
-
 }
 
-bool Entity_Manager::loadTroopsTextures() {
-
+bool Entity_Manager::loadTroopsTextures()
+{
 	for (pugi::xml_node Data = unitsDocument.child("Entity_Document").child("Troops").child("Soviet").child("Unit"); Data != NULL; Data = Data.next_sibling("Unit")) {
 
 		switch (Data.attribute("id").as_int())
@@ -440,8 +431,8 @@ bool Entity_Manager::loadTroopsTextures() {
 	}
 
 	return true;
-
 }
+
 bool Entity_Manager::loadBuildingsTextures() {
 
 	for (pugi::xml_node Data = BuildingsDocument.child("Buildings_Document").child("Building"); Data != NULL; Data = Data.next_sibling("Building")) {

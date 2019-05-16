@@ -8,7 +8,7 @@ Action_Box::Action_Box(ui_type type, fPoint center, SDL_Rect spriteList[4], SDL_
 	stateSprites = new SDL_Rect[(int)button_state::MAX_TYPES];
 
 	for (int i = 0; i < (int)button_state::MAX_TYPES; i++) {
-		stateSprites[i] = spriteList[i];
+		stateSprites[i] = spriteList[i];	
 	}
 };
 

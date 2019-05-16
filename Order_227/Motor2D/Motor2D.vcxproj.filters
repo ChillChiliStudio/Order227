@@ -112,20 +112,15 @@
     <ClCompile Include="UnitButton.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
     </ClCompile>
-    <ClCompile Include="LifeBarBox.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClCompile>
     <ClCompile Include="Player.h">
       <Filter>Game Files\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Game Files\Modules</Filter>
     </ClCompile>
-
     <ClCompile Include="MiniMap.cpp">
       <Filter>Game Files\Modules</Filter>
-      </ClCompile>
-
+    </ClCompile>
     <ClCompile Include="Unit.cpp">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClCompile>
@@ -149,6 +144,15 @@
     </ClCompile>
     <ClCompile Include="HeavyTank.cpp">
       <Filter>Game Files\Entity Management\Entities\New Units\Units\Launchers\Tank</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeBarBox.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Panel.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -292,7 +296,7 @@
     </ClInclude>
     <ClInclude Include="MiniMap.h">
       <Filter>Game Files\Modules</Filter>
-        </ClInclude>
+    </ClInclude>
     <ClInclude Include="Unit.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
     </ClInclude>
@@ -301,6 +305,12 @@
     </ClInclude>
     <ClInclude Include="Pool.h">
       <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Panel.h">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

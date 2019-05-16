@@ -14,7 +14,7 @@ class LifeBar : public UI_Element	//TODO: Make it so text can be managed inside 
 public:
 	//Constructor
 	LifeBar(fPoint center, Unit* parent=NULL,SDL_Texture* tex=NULL,ui_type type=ui_type::NONE,float* auxHealth=NULL);
-	
+
 	virtual bool Update(float dt) override;
 	virtual bool Draw() override;
 	virtual bool DebugDraw() const override;
