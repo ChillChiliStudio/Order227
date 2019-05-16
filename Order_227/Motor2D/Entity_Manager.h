@@ -45,6 +45,10 @@ public:
 	void UpdateBlitOrdering();
 	void BlitEntities();
 
+	void UpdateEntities(float dt);
+	void UpdateBuildings(float dt);
+	void UpdateObjects(float dt);
+
 	Unit* ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
 	bool DeActivateUnit(Unit* Unit);
 

@@ -16,6 +16,7 @@
 #include "Scene.h"
 #include "GroupManager.h"
 
+#include "Brofiler/Brofiler.h"
 
 Scene::Scene() : Module()
 {
@@ -61,6 +62,7 @@ bool Scene::Start()
 // Called each loop iteration
 bool Scene::PreUpdate()
 {
+	BROFILER_CATEGORY("Scene Post-Update", Profiler::Color::DarkGreen);
 
 	return true;
 }
@@ -68,6 +70,7 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
+	BROFILER_CATEGORY("Scene Post-Update", Profiler::Color::Green);
 
 	if (myApp->audio->MusicPlaying() == false)
 		ManageMusic();
@@ -97,6 +100,8 @@ bool Scene::Update(float dt)
 // Called each loop iteration
 bool Scene::PostUpdate()
 {
+	BROFILER_CATEGORY("Scene Post-Update", Profiler::Color::DarkSeaGreen);
+
 	bool ret = true;
 
 	//if(myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
