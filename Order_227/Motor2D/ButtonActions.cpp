@@ -71,8 +71,8 @@ void StartGame() {
 	//myApp->scene->Start();
 	//myApp->entities->ActivateBuildings();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	//myApp->entities->ActivateObjects();	//TODO: Check if necessary, commented because it was asumed that wasn't
-	myApp->gui->WinIcon->Deactivate();
 	
+
 	myApp->entities->ActivateBuildings();
 	myApp->entities->ActivateObjects();
 	myApp->hordes->hordeRoundto(0);
@@ -84,6 +84,9 @@ void StartGame() {
 
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_INGAME);
 	myApp->scene->ActivateGameOverMusic = true;
+
+	myApp->gui->WinIcon->Deactivate();
+	myApp->gui->LoseIcon->Deactivate();
 
 }
 

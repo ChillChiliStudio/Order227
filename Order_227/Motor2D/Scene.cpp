@@ -123,7 +123,9 @@ bool Scene::CleanUp()
 		}
 
 		(*item)->songtracks_list.clear();
-		RELEASE(*item);
+
+		if((*item) != nullptr)
+			RELEASE(*item);
 	}
 
 	gameSongslist.clear();
