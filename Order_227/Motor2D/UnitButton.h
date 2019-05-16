@@ -14,19 +14,22 @@ public:
 	typedef void(*event_function)(void);
 
 	//Constructor
-	Unit_Box(event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0, int unitCost=0,bool* _abletoCraft=nullptr, ui_type type = ui_type::ACTION_BOX);
+	Unit_Box(event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0, int unitCost=0,bool* _abletoCraft=nullptr,SDL_Scancode Hotkey=SDL_SCANCODE_0, ui_type type = ui_type::ACTION_BOX);
 	bool Start() override;
 
 protected:
 	//State Entry
 
 	void OnPress() override;
+	void OnPressRight() override;
+	void OnHotkey();
 	bool Draw() override;
 	void DoAction();
-	void updateText();
+
 
 protected:
 	
+	SDL_Scancode ButtonHotkey;
 	Text* Queue_Info = nullptr;
 	int Queue;
 	bool startCreationUnit;

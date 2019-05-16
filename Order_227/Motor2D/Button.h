@@ -9,6 +9,7 @@ enum class button_state
 	IDLE,
 	HOVERING,
 	PRESSING,
+	PRESSING_RIGHT,
 
 	MAX_TYPES
 };
@@ -38,6 +39,7 @@ protected:
 	virtual void OnIdle();
 	virtual void OnHover();
 	virtual void OnPress();
+	virtual void OnPressRight();
 
 	//State Effects
 	virtual void WhileIdle() {};
