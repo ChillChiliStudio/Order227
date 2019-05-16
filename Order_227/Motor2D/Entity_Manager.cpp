@@ -249,7 +249,6 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 	}
 
 	if (ret == nullptr) {
-
 		unitsPoolSize += RESIZE_VALUE;
 		AllocateUnitPool();
 		ActivateUnit(position, infantryType, entityFaction);
