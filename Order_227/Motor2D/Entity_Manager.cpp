@@ -122,8 +122,6 @@ bool Entity_Manager::Update(float dt)
 		accumulated_time -= update_ms_cycle;
 	}
 
-	entitiesQuadtree->DrawQuadtree();
-	
 	entitiesQuadtree->ClearTree();
 
 	return true;
