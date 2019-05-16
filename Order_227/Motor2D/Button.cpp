@@ -56,12 +56,20 @@ button_state Button::CheckCurrentState()
 		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
 			OnPress();
 		}
+		else if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN) {
+			OnPressRight();
+		}
 		else if (MouseOnImage() == false) {
 			OnIdle();
 		}
 		break;
 	case button_state::PRESSING:
 		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP || MouseOnImage() == false) {
+			OnIdle();
+		}
+		break;
+	case button_state::PRESSING_RIGHT:
+		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_UP || MouseOnImage() == false) {
 			OnIdle();
 		}
 		break;
@@ -100,4 +108,8 @@ void Button::OnHover()
 void Button::OnPress()
 {
 	buttonStatus = button_state::PRESSING;
+}
+void Button::OnPressRight()
+{
+	buttonStatus = button_state::PRESSING_RIGHT;
 }

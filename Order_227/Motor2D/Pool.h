@@ -29,36 +29,26 @@ public:
 		}
 	}
 
-	TYPE operator[](unsigned int pos)	//Get element at pos
-	{
-		return poolVec[pos].content;
-	}
-
 	unsigned int GetActiveSize()
 	{
 		return activeMembers;
 	}
 
-	void resize(int newSize)	//Resize Pool
+	//Vector function mimics
+	TYPE& operator[](unsigned int pos)	//Get element at pos
 	{
-		if (newSize < poolVec.size()) {
-			for (int i = newSize; i < poolVec.size(); i++) {
-				if (poolVec[i].active == true) {
-					activeMembers--;
-				}
-			}
+		return poolVec[pos].content;
+	}
 
-			poolVec.resize(newSize);
-		}
-		else if (newSize > poolVec.size()) {
-			int prevSize = poolVec.size();
+	unsigned int size()	//Return pool size
+	{
+		return poolVec.size();
+	}
 
-			poolVec.resize(newSize);
-
-			for (int i = prevSize; i < poolVec.size(); i++) {
-				poolVec[i].active = false;
-			}
-		}
+	void clear()	//Clear pool
+	{
+		poolVec.clear();
+		activeMembers = 0;
 	}
 
 	int find(TYPE& elemPtr)	//Find element pos
@@ -85,7 +75,30 @@ public:
 
 		return ret;
 	}
+
+	void resize(int newSize)	//Resize Pool
+	{
+		if (newSize < poolVec.size()) {
+			for (int i = newSize; i < poolVec.size(); i++) {
+				if (poolVec[i].active == true) {
+					activeMembers--;
+				}
+			}
+
+			poolVec.resize(newSize);
+		}
+		else if (newSize > poolVec.size()) {
+			int prevSize = poolVec.size();
+
+			poolVec.resize(newSize);
+
+			for (int i = prevSize; i < poolVec.size(); i++) {
+				poolVec[i].active = false;
+			}
+		}
+	}
 	
+	//Pool Functions
 	void fill(TYPE elem)	//Fill Pool with copies of a reference element
 	{
 		for (int i = 0; i < poolVec.size(); i++) {
@@ -160,7 +173,7 @@ public:
 		return ret;
 	}
 
-	int FindAvailableSpot()	//Return position of inactive element
+	int FirstAvailableSpot()	//Return position of inactive element
 	{
 		int ret = -1;
 
@@ -174,7 +187,7 @@ public:
 		return ret;
 	}
 
-	TYPE* FindAvailableElem()	//Return address of inactive element
+	TYPE* FirstAvailableMember()	//Return address of inactive element
 	{
 		TYPE* ret = nullptr;
 

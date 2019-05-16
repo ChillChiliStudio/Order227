@@ -59,7 +59,6 @@ static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number
 
 	//Activate Buildings & Objects
 
-
 	LoadEntityData();
 
 	//Set up stats of units
@@ -98,28 +97,60 @@ bool Entity_Manager::Update(float dt)
 		if (accumulated_time >= update_ms_cycle)
 			do_logic = true;
 
-		for (int i = 0; i < unitsPoolSize; ++i) {
+		UpdateUnits(dt);
+		UpdateBuildings(dt);
+		UpdateObjects(dt);
 
-			if (unitPool[i].active) {
-
-				unitPool[i].Update(dt);
-
-				if (do_logic)
-					unitPool[i].FixUpdate(dt);
-			}
-		}
-
-		for(int i = 0; i < buildingsArray.size(); i++)
-			buildingsArray[i].Update(dt);
-
-		for (int i = 0; i < objectsArray.size(); i++)
-			objectsArray[i].Update(dt);
+		//OLD:
+		//myApp->render->OrderBlit(myApp->render->OrderToRender);
 
 		//Blit Ordering that actually works
 		UpdateBlitOrdering();
 		BlitEntities();
 
 		accumulated_time -= update_ms_cycle;
+	}
+
+	return true;
+}
+
+void Entity_Manager::UpdateUnits(float dt)
+{
+	BROFILER_CATEGORY("UnitPool Update", Profiler::Color::Magenta);
+
+	int numActives = activeUnits;
+
+	for (int i = 0; numActives > 0; ++i) {
+
+		if (unitPool[i].active) {
+			numActives--;
+
+			unitPool[i].Update(dt);
+
+			if (do_logic) {
+				unitPool[i].FixUpdate(dt);
+			}
+		}
+	}
+
+	int a = 0;
+}
+
+void Entity_Manager::UpdateBuildings(float dt)
+{
+	BROFILER_CATEGORY("BuildingPool Update", Profiler::Color::Purple);
+
+	for (int i = 0; i < buildingsArray.size(); i++) {
+		buildingsArray[i].Update(dt);
+	}
+}
+
+void Entity_Manager::UpdateObjects(float dt)
+{
+	BROFILER_CATEGORY("ObjectPool Update", Profiler::Color::MediumPurple);
+
+	for (int i = 0; i < objectsArray.size(); i++) {
+		objectsArray[i].Update(dt);
 	}
 
 	entitiesQuadtree->ClearTree();
@@ -129,8 +160,6 @@ bool Entity_Manager::Update(float dt)
 
 bool BlitSort(Entity* i, Entity* j)
 {
-	BROFILER_CATEGORY("Entity_Manager Post-Update", Profiler::Color::LightGoldenRodYellow);
-
 	bool ret = false;
 
 	if (i != nullptr && j != nullptr) {
@@ -142,6 +171,8 @@ bool BlitSort(Entity* i, Entity* j)
 
 void Entity_Manager::UpdateBlitOrdering()
 {
+	BROFILER_CATEGORY("BlitOrdering", Profiler::Color::Lavender);
+
 	std::sort(entitiesVector.begin(), entitiesVector.end(), BlitSort);
 }
 
@@ -233,10 +264,12 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 	}
 
 	if (ret == nullptr) {
-
 		unitsPoolSize += RESIZE_VALUE;
 		AllocateUnitPool();
 		ActivateUnit(position, infantryType, entityFaction);
+	}
+	else {
+		activeUnits++;
 	}
 
 	return ret;
@@ -259,8 +292,6 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 	_Unit->active = false;
 	_Unit->selected = false;
 
-
-
 	//_Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];	//TODO: This caused bugs (Carles: Not sure)
 
 	std::vector<Entity*>::iterator it = entitiesVector.begin();
@@ -271,6 +302,8 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 			break;
 		}
 	}
+
+	activeUnits--;
 
 	return true;
 }
@@ -285,15 +318,15 @@ void Entity_Manager::ActivateBuildings()
 
 
 			if((*item).buildingType == building_type::COMMAND_CENTER)
-				mainBase = &(*item);
 
+        mainBase = &(*item);
 
 			  (*item).faction == entity_faction::COMMUNIST;
-
 				(*item).active = true;
 				(*item).selected = false;
 				(*item).texture = buildingsTextures[int((*item).buildingType)];
-
+				(*item).health = (*item).maxHealth;
+				(*item).Start();
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 
@@ -303,11 +336,9 @@ void Entity_Manager::ActivateBuildings()
 				}
 			}
 
-			(*item).Start();
+			activeBuildings++;
 		}
 	}
-
-
 }
 
 void Entity_Manager::ActivateObjects()
@@ -342,28 +373,23 @@ void Entity_Manager::ActivateObjects()
 	}
 }
 
-bool Entity_Manager::loadTextures() {
-
+bool Entity_Manager::loadTextures()
+{
 	pugi::xml_parse_result result = unitsDocument.load_file("textures/troops/unitsDoc.xml");
 	pugi::xml_parse_result result2 = BuildingsDocument.load_file("textures/buildings/BuildingsDoc.xml");
-
 
 	if(result!=NULL)
 	loadTroopsTextures();
 	if (result2 != NULL)
 	loadBuildingsTextures();
 
-
-
-
 	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
 
 	return true;
-
 }
 
-bool Entity_Manager::loadTroopsTextures() {
-
+bool Entity_Manager::loadTroopsTextures()
+{
 	for (pugi::xml_node Data = unitsDocument.child("Entity_Document").child("Troops").child("Soviet").child("Unit"); Data != NULL; Data = Data.next_sibling("Unit")) {
 
 		switch (Data.attribute("id").as_int())
@@ -419,8 +445,8 @@ bool Entity_Manager::loadTroopsTextures() {
 	}
 
 	return true;
-
 }
+
 bool Entity_Manager::loadBuildingsTextures() {
 
 	for (pugi::xml_node Data = BuildingsDocument.child("Buildings_Document").child("Building"); Data != NULL; Data = Data.next_sibling("Building")) {
@@ -532,13 +558,8 @@ bool Entity_Manager::LoadBuildingsData() {
 					BuildingAnimationArray[id][1].speed = 5.0f;
 
 				}
-
 			}
-
 		}
-
-
-
 	}
 
 	return ret;
@@ -731,12 +752,6 @@ bool Entity_Manager::AssignStats(std::string faction) {
 
 	return ret;
 }
-
-
-
-
-
-
 
 SDL_Rect Entity_Manager::SetupTreeType() {
 

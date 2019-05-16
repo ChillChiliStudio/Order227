@@ -5,6 +5,7 @@
 #include "Entity_Manager.h"
 #include "UserInterface.h"
 #include "Text.h"
+#include "Scene.h"
 
 Building::Building()
 {}
@@ -17,10 +18,9 @@ Building::Building(fPoint position, building_type building_type, entity_faction 
 
 bool Building::Start() {
 
-	myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, myApp->entities->lifeBar_tex, &health);
-	
+	myApp->entities->buildingsArray;
+	myApp->gui->CreateLifeBar(position, NULL, myApp->entities->lifeBar_tex, &health);
 	CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][0]);
-
 	
 	return true;
 }
@@ -47,15 +47,17 @@ bool Building::Update(float dt)
 
 
 
-	if (this == myApp->entities->mainBase && health <= 0) {
-		
-		myApp->gui->LoseIcon->Activate();
-		//myApp->hordes->hordeActive = false;
-		//myApp->gui->pauseMenuPanel->Deactivate();
-		//myApp->gui->MainMenuTemp_Image->Activate();
-		//myApp->entities->ResetAll();
+	//if (this == myApp->entities->mainBase && health <= 0) {
+	//	
+	//	myApp->gui->LoseIcon->Activate();
+	//	myApp->scene->SwitchMusic(Screen_Type::SCREEN_LOSE);
 
-	}
+	//	//myApp->hordes->hordeActive = false;
+	//	//myApp->gui->pauseMenuPanel->Deactivate();
+	//	//myApp->gui->MainMenuTemp_Image->Activate();
+	//	//myApp->entities->ResetAll();
+
+	//}
 
 
 	CurrentAnim.AdvanceAnimation(dt);

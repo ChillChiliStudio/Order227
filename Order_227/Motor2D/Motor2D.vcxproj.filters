@@ -106,9 +106,6 @@
     <ClCompile Include="UnitButton.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
     </ClCompile>
-    <ClCompile Include="LifeBarBox.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClCompile>
     <ClCompile Include="Player.h">
       <Filter>Game Files\Modules</Filter>
     </ClCompile>
@@ -150,6 +147,15 @@
     </ClCompile>
     <ClCompile Include="EntityQuadtree.cpp">
       <Filter>Tools\Quadtrees</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeBarBox.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Panel.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -305,6 +311,12 @@
     </ClInclude>
     <ClInclude Include="EntityQuadtree.h">
       <Filter>Tools\Quadtrees</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Panel.h">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

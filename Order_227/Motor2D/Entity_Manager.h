@@ -48,6 +48,10 @@ public:
 	void UpdateBlitOrdering();
 	void BlitEntities();
 
+	void UpdateUnits(float dt);
+	void UpdateBuildings(float dt);
+	void UpdateObjects(float dt);
+
 	Unit* ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
 	bool DeActivateUnit(Unit* Unit);
 
@@ -66,12 +70,16 @@ public:
 
 	//Pools
 	std::vector<Unit>			unitPool;
+	int activeUnits = 0;
 	//std::vector<Hitscan>		hitscanPool;
 	//std::vector<Ranged>		rangedPool;
 	//std::vector<Tank>			tankPool;
 
 	std::vector<Static_Object>	objectsArray;
+
 	std::vector<Building>		buildingsArray;
+	int activeBuildings = 0;
+
 	std::vector<Entity*>		entitiesVector;
 
 	//Last Unit activated Pointer
