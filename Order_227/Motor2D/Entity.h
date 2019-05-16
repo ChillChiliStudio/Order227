@@ -32,22 +32,6 @@ enum class entity_faction {
 
 };
 
-enum class entity_directions {
-
-	NONE = -1,
-
-	NORTH,
-	NORTH_WEST,
-	WEST,
-	SOUTH_WEST,
-	SOUTH,
-	SOUTH_EAST,
-	EAST,
-	NORTH_EAST,
-
-	MAX_DIRECTIONS
-
-};
 
 struct EntityData {
 
@@ -115,11 +99,7 @@ public:
 	entity_faction	faction;
 	entity_type		type;
 
-	// Speed
-	fVec2 EntityVecSpeed;	// Vectorial speed
-	float EntityVecAngle;	// Vector angle in reference with North-directed reference vector
-
-	entity_directions EntityDirection = entity_directions::SOUTH_EAST;
+	
 
 	SDL_Rect		entityRect;			// Entity SDL_Rect for world pos
 	SDL_Rect		spriteRect;			// Entity SDL_Rect for texture area cutting
