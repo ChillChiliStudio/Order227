@@ -13,6 +13,8 @@
 #include "Player.h"
 #include "Horde_Manager.h"
 #include "GroupManager.h"
+#include "Entity_Manager.h"
+
 
 #include "UserInterface.h"
 #include "UIElement.h"
@@ -27,6 +29,8 @@
 #include "UnitButton.h"
 #include "LifeBarBox.h"
 #include "ButtonActions.h"
+#include "Mouse.h"
+#include "Unit_Panel.h"
 
 
 User_Interface::User_Interface() : Module()
@@ -49,13 +53,14 @@ bool User_Interface::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-void User_Interface::loadAnim() {
-
+Animation User_Interface::loadAnim() {
+	
+	Animation ret;
 	int x = 0, y = 0;
 
 	for (int i = 0; i < 57; ++i) {
 		if (x < 60 * 17) {
-			Timer_anim.PushBack(SDL_Rect({ x,y,60,48 }));
+			ret.PushBack(SDL_Rect({ x,y,60,48 }));
 			x += 60;
 		}
 		else {
@@ -63,12 +68,15 @@ void User_Interface::loadAnim() {
 			x = 0;
 		}
 	}
+	return ret;
 }
 
 // Called before the first frame
 bool User_Interface::Start()
 {
 	bool ret = true;
+
+	SDL_ShowCursor(SDL_DISABLE);
 
 	loadAnim();
 
@@ -84,7 +92,8 @@ bool User_Interface::Start()
 	PauseButton_text = myApp->tex->Load("ui/Pause_Buton_Icon.png");
 	unitStats_text = myApp->tex->Load("ui/Unit_Stats.png");
 	endingImages_Tex = myApp->tex->Load("ui/Ending_Game_Mesage_Icon.png"); 
-	miniMap_tex = myApp->tex->Load("ui/miniMap_Temp.png");
+	mouse_tex = myApp->tex->Load("ui/Mouse_Actions.png");
+	Unit_Panels_tex = myApp->tex->Load("ui/Unit_Costs_Panel.png");
 
 	//Fps debug text
 	fpsText = CreateText({ 10, 10 }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
@@ -107,6 +116,12 @@ bool User_Interface::Start()
 	Conscript_Selection_Rect[1] = { 120,0,60,48 };
 	Conscript_Selection_Rect[2] = { 120,0,60,48 };
 	Conscript_Selection_Rect[3] = { 120,0,60,48 };
+
+
+	Bazooka_Selection_Rect[0] = { 120,48,60,48 };
+	Bazooka_Selection_Rect[1] = { 120,48,60,48 };
+	Bazooka_Selection_Rect[2] = { 120,48,60,48 };
+	Bazooka_Selection_Rect[3] = { 120,144,60,48 };
 
 
 	selectorInfantry_Rect[0] = { 131,38,44,31 };
@@ -137,7 +152,11 @@ bool User_Interface::Start()
 	selectorInfantry = CreateSpawnBox(true, fPoint(width / 11-38, height - 140), selectorInfantry_Rect, selectorinGame_Tex);
 	selectorDefenses = CreateSpawnBox(false, fPoint(width / 11 , height - 140), selectorDefenses_Rect, selectorinGame_Tex);
 	selectorTank = CreateSpawnBox(false, fPoint(width / 11 + 38, height - 140), selectorTank_Rect, selectorinGame_Tex);
-	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,60);
+
+	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,10,myApp->entities->infantryStats[(int)infantry_type::CONSCRIPT].cost,nullptr,SDL_SCANCODE_1);
+	ConscriptCreator->Start();
+	BazookaCreator = CreateUnitBox(CreateBazooka, fPoint(136, height - 95), Bazooka_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::BAZOOKA].cost,&myApp->entities->heavyUnitsUnlocked, SDL_SCANCODE_2);
+	BazookaCreator->Start();
 
 	UnitStats = CreateImage(fPoint(width / 1.45, height - 75), SDL_Rect({ 0,0,55,90 }), unitStats_text);
 	UnitFrame = CreateImage(fPoint(width / 1.58, height - 75), SDL_Rect({ 125,5,50,43 }), unitsSelection_Tex);
@@ -149,8 +168,6 @@ bool User_Interface::Start()
 	ReturnMainMenu_Label = CreateText(fPoint(width / 2, height / 2), "EXIT", font_id::MOLOT,White,false,pauseMenuPanel);
 	pauseMenuPanel->Deactivate();
 	frameSelector = CreateImage(fPoint(width / 11, height - 140), SDL_Rect({ 0,0,134,38 }), selectorinGame_Tex);
-
-	miniMap_Temp = CreateImage(fPoint(594, height -74.5), SDL_Rect({ 0,0,190,143 }), miniMap_tex);
 
 	Horde_label = CreateText(fPoint(width / 2.5, 30), "HORDE  ", font_id::MOLOT, White, false,NULL,1.5);
 	hordeNumber_Label = CreateText(fPoint(width / 2, 30),horde.c_str(), font_id::MOLOT, White, false, NULL, 1.5);
@@ -164,8 +181,11 @@ bool User_Interface::Start()
 	ReturnMainMenu3 = CreateVoidBox(QuitGame, fPoint(width / 2, height / 1.75), Pause_Button, PauseButton_text, LoseIcon);
 	ReturnMainMenu_Label3 = CreateText(fPoint(width / 2, height / 1.75), "EXIT", font_id::MOLOT, White, false, LoseIcon);
 	LoseIcon->Deactivate();
+
 	//incomingHordein = CreateText(fPoint(width / 2.9, height / 2.5), "Incoming Horde in", font_id::MOLOT, White, false, NULL, 1.5);
 	//timerHorde = CreateText(fPoint(width / 1.7, height / 2.5), timerHorde_temp.c_str(), font_id::MOLOT, White, false, NULL, 1.5);
+
+	ConscriptPanel_Info = CreateUnitPanel(SDL_Rect({ 0,0,137,165 }), ConscriptCreator, Unit_Panels_tex);
 
 	MainMenuTemp_Image = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,1280,720 }), Main_Menu_Temp_Tex);
 	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/1.8),TempButtonRect,StartGame_text,MainMenuTemp_Image);
@@ -174,7 +194,7 @@ bool User_Interface::Start()
 	ExitGame_Button = CreateVoidBox(CloseGame, fPoint(width / 2, height / 1.2), TempButtonRect, StartGame_text, MainMenuTemp_Image);
 	ExitGame_Label = CreateText(fPoint(width / 2, height / 1.2), "QUIT GAME", font_id::MOLOT, White, false, ExitGame_Button);
 	
-
+	Mouse_UI = CreateMouse(mouse_tex);
 
 	SpawnSelectors.push_back(selectorInfantry);
 	SpawnSelectors.push_back(selectorDefenses);
@@ -183,13 +203,14 @@ bool User_Interface::Start()
 	Main_Menu_Elements.push_back(StartGame_Button);
 	Main_Menu_Elements.push_back(StartGame_Label);
 
+
 	return ret;
 }
 
 // Called each loop iteration
 bool User_Interface::PreUpdate()
 {
-	BROFILER_CATEGORY("Module User_Interface PreUpdate-Pink", Profiler::Color::Pink);
+	BROFILER_CATEGORY("Module User_Interface Pre-Update", Profiler::Color::Pink);
 
 	bool ret = true;
 
@@ -205,7 +226,7 @@ bool User_Interface::PreUpdate()
 // Called each frame (logic)
 bool User_Interface::Update(float dt)
 {
-	BROFILER_CATEGORY("Module User_Interface UpdateTick-DeepPink", Profiler::Color::DeepPink);
+	BROFILER_CATEGORY("Module User_Interface Update", Profiler::Color::DeepPink);
 
 	bool ret = true;
 
@@ -218,9 +239,9 @@ bool User_Interface::Update(float dt)
 		UnitFrame->Deactivate();
 	}
 
-	if (unitCreationCD.ReadSec() >= 0.7) {
-		myApp->player->startCreationUnit = false;
-	}
+	//if (unitCreationCD.ReadSec() >= 0.7) {
+	//	myApp->player->startCreationUnit = false;
+	//}
 
 	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); iter = next(iter)) {
 		if ((*iter)->active == true) {
@@ -234,13 +255,16 @@ bool User_Interface::Update(float dt)
 // Called each frame (graphic)
 bool User_Interface::Draw()
 {
-	BROFILER_CATEGORY("Module User_Interface Draw-HotPink", Profiler::Color::HotPink);
+	BROFILER_CATEGORY("Module UserInterface Draw", Profiler::Color::HotPink);
 
 	bool ret = true;
 
 	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); iter = next(iter)) {
 		if ((*iter)->active == true && (*iter)->GetParent() == NULL) {	// All elements are listed, but the parent handles the drawing for its children
-			ret = (*iter)->Draw();
+			if ((*iter)->GetType() != ui_type::LIFEBAR)
+				ret = (*iter)->Draw();
+			else
+			bool a = true;
 		}
 	}
 
@@ -258,7 +282,7 @@ bool User_Interface::Draw()
 // Called each loop iteration
 bool User_Interface::PostUpdate()
 {
-	BROFILER_CATEGORY("Module User_Interface PostUpdate-LightPink", Profiler::Color::LightPink);
+	BROFILER_CATEGORY("Module User_Interface Post-Update", Profiler::Color::LightPink);
 
 	bool ret = true;
 
@@ -310,9 +334,11 @@ std::list<UI_Element*>::iterator User_Interface::DestroyElement(std::list<UI_Ele
 
 void User_Interface::DestroyElement(UI_Element* element)	// Deletion by list content comparison
 {
-	element->CleanUp();
-	screenElements.remove(element);	//WARNING: Check if the order is correct, this could lead to problems otherwise
-	RELEASE(element);
+	if (element != nullptr) {
+		element->CleanUp();
+		screenElements.remove(element);	//WARNING: Check if the order is correct, this could lead to problems otherwise
+		RELEASE(element);
+	}
 }
 
 //Factories
@@ -342,7 +368,7 @@ LifeBar* User_Interface::CreateLifeBar(fPoint center, Unit* parent, SDL_Texture*
 		tex = GetAtlas();
 	}
 
-	ret = new LifeBar(center, parent, tex, ui_type::IMAGE,auxHealth);
+	ret = new LifeBar(center, parent, tex, ui_type::LIFEBAR,auxHealth);
 	AddElement((UI_Element*)ret);
 
 	return ret;
@@ -366,7 +392,7 @@ Text* User_Interface::CreateText(fPoint center, const char* content, font_id id,
 	return ret;
 }
 
-Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator) {
+Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator,int unitCost,bool* _enabletoCraft, SDL_Scancode Hotkey) {
 	
 	Unit_Box* ret = nullptr;
 
@@ -374,9 +400,30 @@ Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_
 		tex = GetAtlas();
 	}
 
-	ret = new Unit_Box(action, center, spriteList, tex, parent,TimerTexture,timeCreator);
+	ret = new Unit_Box(action, center, spriteList, tex, parent,TimerTexture,timeCreator,unitCost,_enabletoCraft,Hotkey);
 	AddElement(ret);
 
+	return ret;
+}
+
+Unit_Panel* User_Interface::CreateUnitPanel(SDL_Rect sprite, Image* button , SDL_Texture* tex ) {
+
+	Unit_Panel* ret = nullptr;
+
+	if (tex == NULL) {
+		tex = GetAtlas();
+	}
+
+	ret = new Unit_Panel(sprite,button,tex);
+	AddElement(ret);
+
+	return ret;
+}
+
+Mouse* User_Interface::CreateMouse(SDL_Texture*tex ) {
+	Mouse* ret = nullptr;
+	ret = new Mouse(tex);
+	AddElement(ret);
 	return ret;
 }
 

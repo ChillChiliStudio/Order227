@@ -1,9 +1,10 @@
 #include "Defs.h"
 #include "Log.h"
-#include "App.h"
 #include "Window.h"
 #include "Render.h"
 #include "Entity_Manager.h"
+
+#include "Brofiler/Brofiler.h"
 
 #define VSYNC true
 
@@ -65,18 +66,23 @@ bool Render::Start()
 // Called each loop iteration
 bool Render::PreUpdate()
 {
+	BROFILER_CATEGORY("Render Pre-Update", Profiler::Color::AliceBlue);
+
 	SDL_RenderClear(renderer);
 	return true;
 }
 
 bool Render::Update(float dt)
 {
+	BROFILER_CATEGORY("Render Update", Profiler::Color::Blue);
 
 	return true;
 }
 
 bool Render::PostUpdate()
 {
+	BROFILER_CATEGORY("Render Post-Update", Profiler::Color::BlueViolet);
+
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
 	SDL_RenderPresent(renderer);
 	return true;
@@ -125,15 +131,22 @@ iPoint Render::ScreenToWorld(int x, int y) const
 }
 
 // Blit to screen
-bool Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivot_x, int pivot_y, float scale_) const
+bool Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, SDL_RendererFlip flip, bool use_camera, float scale_, SDL_Renderer* renderer_, float speed, double angle, int pivot_x, int pivot_y) const
 {
 	bool ret = true;
-	if(scale_!=1.0f)
-		uint scale = myApp->win->GetScale();
+	//if(scale_!=1.0f)
+	//	uint scale = myApp->win->GetScale();
 
 	SDL_Rect rect;
-	rect.x = (int)(camera.x * speed) + x;
-	rect.y = (int)(camera.y * speed) + y;
+
+	if (use_camera){
+		rect.x = (int)(camera.x * speed) + x;
+		rect.y = (int)(camera.y * speed) + y;
+	}
+	else{
+		rect.x = x;
+		rect.y = y;
+	}
 
 	if(section != NULL)
 	{
@@ -158,7 +171,7 @@ bool Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, f
 		p = &pivot;
 	}
 
-	if(SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, SDL_FLIP_NONE) != 0)
+	if(SDL_RenderCopyEx(renderer_, texture, section, &rect, angle, p, flip) != 0)
 	{
 		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
 		ret = false;

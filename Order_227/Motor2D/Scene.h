@@ -5,7 +5,9 @@
 #include "Spawning_Point.h"
 #include <vector>
 #include <ctime>
+#include "Audio.h"
 #include "PerfTimer.h"
+#include "ButtonActions.h"
 
 #include "SDL/include/SDL.h"
 
@@ -39,8 +41,25 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+public:
 
+	//Switch Music
+	bool SwitchMusic(Screen_Type ScreenToSwitch);
 
+	bool ActivateGameOverMusic = true;
+
+private:
+
+	//Music Management
+	void ManageMusic();
+	//char* ChooseNextSong(char* currSong);
+	bool LoadGameMusic();
+
+	pugi::xml_document Music_Doc;
+	std::list<Music_Song*> gameSongslist;
+
+	Music_Song *current_song = nullptr;
+	Music_Track *current_track = nullptr;
 	
 };
 

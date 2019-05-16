@@ -18,7 +18,7 @@ Unit::Unit(fPoint pos, infantry_type infType, entity_faction faction) : Entity(p
 {
 //	LoadEntityData();
 	infantryType = infType;
-	
+
 }
 
 Unit::~Unit()
@@ -35,6 +35,8 @@ bool Unit::Start()
 	unitOrders = unit_orders::HOLD;
 	unitDirection = unit_directions::SOUTH_EAST;
 
+	currNode = unitPath.end();
+
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)][(int)faction]);
 	stats.attackSfxId = myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::SHOT][2];	//TODO: Hardcoded audio value, this should be get by an XML
 
@@ -48,7 +50,8 @@ bool Unit::Start()
 
 bool Unit::Update(float dt)
 {
-	BROFILER_CATEGORY("Unit.cpp Update()-DarkGreen", Profiler::Color::DarkGreen);
+	BROFILER_CATEGORY("Unit Update", Profiler::Color::Orange);
+
 	onCamera = InsideCamera();
 
 	entityRect.x = position.x;
@@ -146,7 +149,7 @@ void Unit::DrawPath()
 		break;
 	}
 
-	myApp->render->DrawLine((int)centerPos.x, (int)centerPos.y, (*currNode).x, (*currNode).y, rgb[0], rgb[1], rgb[2], 255, true);
+	myApp->render->DrawLine((int)groundPos.x, (int)groundPos.y, (*currNode).x, (*currNode).y, rgb[0], rgb[1], rgb[2], 255, true);
 
 	if (unitPath.size() > 1) {
 		for (std::vector<iPoint>::iterator it = currNode; next(it) != unitPath.end(); it = next(it)) {
@@ -158,7 +161,8 @@ void Unit::DrawPath()
 // Main workflow
 void Unit::UnitWorkflow(float dt)
 {
-	BROFILER_CATEGORY("Unit.cpp UnitWorkflow()-Green", Profiler::Color::Green);
+	BROFILER_CATEGORY("Unit Workflow", Profiler::Color::ForestGreen);
+
 	unit_state prevState = unitState;
 
 	switch (unitOrders) {
@@ -278,7 +282,7 @@ void Unit::DoMove(float dt)
 void Unit::DoHunt(float dt)
 {
 	if (huntTarget != nullptr && huntTarget->IsDead() == false) {
-		if (huntTarget->IsVisible() == false) {	// If target gets in Fog of War and comes out, restart Attack Order to target
+		if (targetLost == false && huntTarget->IsVisible() == false) {	// If target gets in Fog of War and comes out, restart Attack Order to target
 			targetLost = true;
 		}
 		else if (targetLost == true && huntTarget->IsVisible() == true) {
@@ -289,8 +293,7 @@ void Unit::DoHunt(float dt)
 				targetLost = false;
 			}
 		}
-
-		if (TargetInRange(huntTarget) == false) {
+		else if (TargetInRange(huntTarget) == false) {
 
 			if (unitState == unit_state::ATTACKING) {
 				if (TargetInRange(currTarget) && currTarget->IsDead() == false) {
@@ -323,6 +326,7 @@ void Unit::DoHunt(float dt)
 		}
 	}
 	else {
+		currTarget = nullptr;
 		huntTarget = nullptr;
 		StartHold();
 	}
@@ -330,43 +334,38 @@ void Unit::DoHunt(float dt)
 
 void Unit::DoAggroHunt(float dt)
 {
-	if (aggroTarget != nullptr && aggroTarget->IsDead() == false) {
-		if (aggroTarget->IsVisible() == false) {	// If target gets in Fog of War and comes out, restart Attack Order to target
-			ResumeLastOrder();
-		}
-		else if (TargetInRange(aggroTarget) == false) {
-
-			if (unitState == unit_state::ATTACKING) {
-				if (TargetInRange(currTarget) && currTarget->IsDead() == false) {
-					AttackCurrTarget(dt);
-				}
-				else {
-					currTarget = nullptr;
-					unitState = unit_state::IDLE;
-				}
-			}
-			else if (FindEnemies(dt) == false) {
-				if (NodeReached() == false) {
-					Move(dt);
-				}
-				else {
-					currNode = next(currNode);
-
-					if (DestinationReached() == false) {
-						SetupVecSpeed();
-					}
-					else {
-						StartAggroHunt(aggroTarget);
-					}
-				}
-			}
-		}
-		else {
+	if (aggroTarget != nullptr && aggroTarget->IsDead() == false && aggroTarget->IsVisible() == true) {
+		if (TargetInRange(aggroTarget) == true) {
 			currTarget = aggroTarget;
 			AttackCurrTarget(dt);
 		}
+		else if (unitState == unit_state::ATTACKING) {
+			if (TargetInRange(currTarget) && currTarget->IsDead() == false) {
+				AttackCurrTarget(dt);
+			}
+			else {
+				currTarget = nullptr;
+				unitState = unit_state::IDLE;
+			}
+		}
+		else if (FindEnemies(dt) == false) {
+			if (NodeReached() == false) {
+				Move(dt);
+			}
+			else {
+				currNode = next(currNode);
+
+				if (DestinationReached() == false) {
+					SetupVecSpeed();
+				}
+				else {
+					StartAggroHunt(aggroTarget);
+				}
+			}
+		}
 	}
 	else {
+		currTarget = nullptr;
 		aggroTarget = nullptr;
 		ResumeLastOrder();
 	}
@@ -403,19 +402,24 @@ void Unit::DoPatrol(float dt)
  //Actions
 bool Unit::Move(float dt)
 {
-	position.x += (vecSpeed.x * dt);
-	position.y += (vecSpeed.y * dt);
-	centerPos.x += (vecSpeed.x * dt);
-	centerPos.y += (vecSpeed.y * dt);
-	groundPos.x += (vecSpeed.x * dt);
-	groundPos.y += (vecSpeed.y * dt);
+	fVec2 distanceMoved = { vecSpeed.x * dt, vecSpeed.y * dt };
+
+	position.x += distanceMoved.x;
+	position.y += distanceMoved.y;
+	centerPos.x += distanceMoved.x;
+	centerPos.y += distanceMoved.y;
+	groundPos.x += distanceMoved.x;
+	groundPos.y += distanceMoved.y;
 
 	unitState = unit_state::MOVING;
+
 	return true;
 }
 
 bool Unit::FindEnemies(float dt)
 {
+	BROFILER_CATEGORY("Unit FindEnemies", Profiler::Color::Aqua);
+
 	bool ret = false;
 
 	if (unitAggro > unit_aggro::PASSIVE) {
@@ -424,11 +428,27 @@ bool Unit::FindEnemies(float dt)
 			AttackCurrTarget(dt);
 			ret = true;
 		}
-		else if (unitAggro == unit_aggro::AGRESSIVE && aggroTriggered == false) {
-			aggroTarget = EnemyInRadius(stats.visionRadius);
-			if (aggroTarget != nullptr) {
-				StartAggroHunt(aggroTarget);
+		else if (aggroTriggered == false) {
+			Unit* tmpPtr;
+
+			tmpPtr = AttackingAllyInRadius(stats.attackRadius);
+			if (tmpPtr != nullptr) {
+				StartAggroHunt(tmpPtr->currTarget);
 				ret = true;
+			}
+			else if (unitAggro == unit_aggro::AGGRESSIVE) {
+				aggroTarget = EnemyInRadius(stats.visionRadius);
+				if (aggroTarget != nullptr) {
+					StartAggroHunt(aggroTarget);
+					ret = true;
+				}
+				else {
+					tmpPtr = AttackingAllyInRadius(stats.visionRadius);
+					if (tmpPtr != nullptr) {
+						StartAggroHunt(tmpPtr->currTarget);
+						ret = true;
+					}
+				}
 			}
 		}
 	}
@@ -476,8 +496,6 @@ void Unit::Die()
 	despawnTimer.Start();
 	unitOrders = unit_orders::NONE;
 	unitState = unit_state::DEAD;
-
-	
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0][(int)faction]);
 
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::HURT][rand() % 2]);
@@ -516,23 +534,23 @@ bool Unit::NodeReached()
 	bool ret = false;
 
 	if (vecSpeed.x > 0.0f) {
-		if (centerPos.x >= (float)currNode->x) {
+		if (groundPos.x >= (float)currNode->x) {
 			ret = true;
 		}
 	}
 	else if (vecSpeed.x < 0.0f) {
-		if (centerPos.x <= (float)currNode->x) {
+		if (groundPos.x <= (float)currNode->x) {
 			ret = true;
 		}
 	}
 
 	if (vecSpeed.y > 0.0f) {
-		if (centerPos.y >= (float)currNode->y) {
+		if (groundPos.y >= (float)currNode->y) {
 			ret = true;
 		}
 	}
 	else if (vecSpeed.y < 0.0f) {
-		if (centerPos.y <= (float)currNode->y) {
+		if (groundPos.y <= (float)currNode->y) {
 			ret = true;
 		}
 	}
@@ -554,7 +572,7 @@ bool Unit::TargetDisplaced(Entity* target)
 {
 	bool ret = false;
 
-	if (target->centerPos.x != destination.x || target->centerPos.y != destination.y) {
+	if (target->groundPos.x != destination.x || target->groundPos.y != destination.y) {
 		ret = true;
 	}
 
@@ -566,11 +584,12 @@ Entity* Unit::EnemyInRadius(uint radius)
 {
 	Entity* ret = nullptr;
 
+	//Units
 	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
 		if ((*item).active == true && (*item).IsDead() == false && (*item).faction != faction) {
 
-			if (InsideSquareRadius(centerPos, (float)stats.attackRadius, (*item).centerPos)
-				&& InsideRadius(centerPos, (float)stats.attackRadius, (*item).centerPos))
+			if (InsideSquareRadius(centerPos, (float)radius, (*item).centerPos)
+				&& InsideRadius(centerPos, (float)radius, (*item).centerPos))
 			{
 				ret = (Entity*)&(*item);
 				break;
@@ -592,12 +611,31 @@ Entity* Unit::EnemyInRadius(uint radius)
 		for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); item != myApp->entities->buildingsArray.end(); item = next(item)) {
 			if ((*item).active == true && (*item).IsDead() == false) {
 
-				if (InsideSquareRadius(centerPos, (float)stats.attackRadius, (*item).centerPos)
-					&& InsideRadius(centerPos, (float)stats.attackRadius, (*item).centerPos))
+				if (InsideSquareRadius(centerPos, (float)radius, (*item).centerPos)
+					&& InsideRadius(centerPos, (float)radius, (*item).centerPos))
 				{
 					ret = (Entity*)&(*item);
 					break;
 				}
+			}
+		}
+	}
+
+	return ret;
+}
+
+Unit* Unit::AttackingAllyInRadius(uint radius)
+{
+	Unit* ret = nullptr;
+
+	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
+		if ((*item).active == true && (*item).IsDead() == false && (*item).faction == faction && (*item).currTarget != nullptr) {
+
+			if (InsideSquareRadius(centerPos, (float)radius, (*item).centerPos)
+				&& InsideRadius(centerPos, (float)radius, (*item).centerPos))
+			{
+				ret = &(*item);
+				break;
 			}
 		}
 	}
@@ -616,65 +654,94 @@ bool Unit::TargetInRange(Entity* target)
 	return ret;
 }
 
-void Unit::SetupPath(iPoint origin, iPoint destination)
+bool Unit::SetupPath(iPoint origin, iPoint destination)
 {
+	bool ret = true;
+
 	unitPath.clear();
 
 	iPoint mapOrigin = myApp->map->WorldToMap(origin.x, origin.y);
 	iPoint mapDestination = myApp->map->WorldToMap(destination.x, destination.y);
 
-	myApp->pathfinding->CreatePath(mapOrigin, mapDestination);
-	unitPath = *myApp->pathfinding->GetLastPath();
+	mapOrigin.x++;		//WARNING: If Pathfinding is acting wierd this might be the cause
+	mapDestination.x++;
 
-	for (std::vector<iPoint>::iterator it = unitPath.begin(); it != unitPath.end(); it = next(it)) {
-		*it = myApp->map->MapToWorld(it->x, it->y);
+	if (mapOrigin != mapDestination) {
+		myApp->pathfinding->CreatePath(mapOrigin, mapDestination);	//Create path
+		unitPath = *myApp->pathfinding->GetLastPath();
+
+		for (int i = 0; i < unitPath.size(); i++) {					//Translate and correct all in-between nodes
+			unitPath[i] = myApp->map->MapToWorld(unitPath[i].x, unitPath[i].y);
+
+			//Pathfinding correction (Tile size: 60 width x 30 height)	//TODO: Something's wrong with MapToWorld/WorldToMap (specially suspicious -1 in the formula)
+			unitPath[i].x += 30;	//Tile width / 2
+			unitPath[i].y += 30;	//Tile height
+		}
+
+		currNode = next(unitPath.begin());	// Unit should move directly to 2nd node, as 1st is curr position
+		SetupVecSpeed();
+	}
+	else {	//If origin == destination, do nothing
+		ret = false;
 	}
 
-	currNode = unitPath.begin();
-	SetupVecSpeed();
+	return ret;
 }
 
 fVec2 Unit::SetupVecSpeed()
 {
 	fPoint nodePos = { (float)(currNode->x), (float)(currNode->y) };
 
-	vecSpeed = GetVector2(centerPos, nodePos);
+	vecSpeed = GetVector2(groundPos, nodePos);
 	vecSpeed = vecSpeed.GetUnitVector();
 	vecSpeed *= stats.linSpeed;
 	return vecSpeed;
 }
 
- //Order calling
-void Unit::StartHold()
+// Order calling
+bool Unit::StartHold()
 {
-	origin = destination = { (int)centerPos.x, (int)centerPos.y };
+	if (unitAggro == unit_aggro::PASSIVE) {
+		unitAggro = unit_aggro::DEFENSIVE;
+	}
+
+	origin = destination = { (int)groundPos.x, (int)groundPos.y };
 
 	unitOrders = unit_orders::HOLD;
 	unitState = unit_state::IDLE;
 
 	UpdateAnimation();
+
+	return true;
 }
 
-void Unit::StartMove(iPoint destination)
+bool Unit::StartMove(iPoint destination)
 {
-	origin = { (int)centerPos.x, (int)centerPos.y };
-	this->destination = destination;
+	bool ret = false;
 
-	SetupPath(origin, destination);
+	if (SetupPath({ (int)groundPos.x, (int)groundPos.y }, destination)) {
 
-	unitOrders = unit_orders::MOVE;
-	unitState = unit_state::IDLE;
+		origin = { (int)groundPos.x, (int)groundPos.y };
+		this->destination = destination;
 
-	UpdateAnimation();
+		unitOrders = unit_orders::MOVE;
+		unitState = unit_state::IDLE;
+
+		UpdateAnimation();
+
+		ret = true;
+	}
+
+	return ret;
 }
 
-void Unit::StartHunt(Entity* target)
+bool Unit::StartHunt(Entity* target)
 {
 	this->huntTarget = target;
 	targetLost = false;
 
-	origin = { (int)centerPos.x, (int)centerPos.y };
-	this->destination = { (int)target->centerPos.x, (int)target->centerPos.y };
+	origin = { (int)groundPos.x, (int)groundPos.y };
+	this->destination = { (int)target->groundPos.x, (int)target->groundPos.y };
 
 	SetupPath(origin, destination);
 
@@ -682,16 +749,18 @@ void Unit::StartHunt(Entity* target)
 	unitState = unit_state::IDLE;
 
 	UpdateAnimation();
+
+	return true;
 }
 
-void Unit::StartAggroHunt(Entity* target)	//NOTE: We don't touch origin or destination, as it's info related to the previous order we'll use to resume it later
+bool Unit::StartAggroHunt(Entity* target)	//NOTE: We don't touch origin or destination, as it's info related to the previous order we'll use to resume it later
 {
 	this->aggroTarget = target;
 	targetLost = false;
 
-	aggroDestination = { (int)target->centerPos.x, (int)target->centerPos.y };
+	aggroDestination = { (int)target->groundPos.x, (int)target->groundPos.y };
 
-	SetupPath({ (int)centerPos.x, (int)centerPos.y }, aggroDestination);
+	SetupPath({ (int)groundPos.x, (int)groundPos.y }, aggroDestination);
 
 	if (aggroTriggered == false) {	// If it's the fist time aggro-hunting, save previous order
 		aggroTriggered = true;
@@ -702,32 +771,34 @@ void Unit::StartAggroHunt(Entity* target)	//NOTE: We don't touch origin or desti
 	unitState = unit_state::IDLE;
 
 	UpdateAnimation();
+
+	return true;
 }
 
-void Unit::StartPatrol(iPoint destination)
+bool Unit::StartPatrol(iPoint destination)
 {
-	origin = { (int)centerPos.x, (int)centerPos.y };
-	this->destination = destination;
+	bool ret = StartMove(destination);
 
-	SetupPath(origin, destination);
+	if (ret) {
+		unitOrders = unit_orders::PATROL;
+	}
+
+	return ret;
+}
+
+bool Unit::ResumePatrol()
+{
+	SetupPath({ (int)groundPos.x, (int)groundPos.y }, destination);
 
 	unitOrders = unit_orders::PATROL;
 	unitState = unit_state::IDLE;
 
 	UpdateAnimation();
+
+	return true;
 }
 
-void Unit::ResumePatrol()
-{
-	SetupPath({ (int)centerPos.x, (int)centerPos.y }, destination);
-
-	unitOrders = unit_orders::PATROL;
-	unitState = unit_state::IDLE;
-
-	UpdateAnimation();
-}
-
-void Unit::ResumeLastOrder()
+bool Unit::ResumeLastOrder()
 {
 	aggroTriggered = false;
 	unitOrders = prevOrder;
@@ -747,13 +818,9 @@ void Unit::ResumeLastOrder()
 		break;
 	}
 
-	prevOrder = unitOrders;
-	unitOrders = unit_orders::HUNT;
-	unitState = unit_state::IDLE;
-
-	SetupPath({ (int)centerPos.x, (int)centerPos.y }, aggroDestination);
-
 	UpdateAnimation();
 
 	prevOrder = unit_orders::NONE;
+
+	return true;
 }

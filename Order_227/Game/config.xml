@@ -42,4 +42,6 @@
     <end/>
   </fonts>
 
+  <minimap width="300" height="150"/>
+
 </config>

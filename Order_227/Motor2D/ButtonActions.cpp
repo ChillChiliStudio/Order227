@@ -36,8 +36,33 @@ void CreateConscript() {
 	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SPAWN][0]);
 }
-void StartGame() {
 
+void CreateBazooka() {
+	//srand(time(NULL));
+
+	//TODO NEED TO DESHARCODE
+	fPoint randomPos = { 0,0 };
+	int temp = rand() % 2;
+
+	switch (temp)
+	{
+	case 0:
+		randomPos.x = 48;
+		randomPos.y = rand() % 5 + 40;
+		break;
+	case 1:
+		randomPos.x = rand() % 5 + 43;
+		randomPos.y = 45;
+		break;
+	}
+
+	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
+	fPoint test = myApp->entities->mainBase->position;
+	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SPAWN][0]);
+}
+
+void StartGame() {
 
 	//MUSIC
 	//myApp->audio->PlayMusic("audio/music/game/ingame_song3_loop.ogg",-1);
@@ -46,17 +71,23 @@ void StartGame() {
 	//myApp->scene->Start();
 	//myApp->entities->ActivateBuildings();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	//myApp->entities->ActivateObjects();	//TODO: Check if necessary, commented because it was asumed that wasn't
-	myApp->gui->WinIcon->Deactivate();
-	myApp->entities->mainBase->health = 1000.0f;
-	myApp->entities->mainBase->Start();
-	//myApp->entities->AllocateUnitPool();	//TODO: Check if necessary, commented because it was asumed that wasn't
-	//myApp->entities->ResetAll();
+	
+
+	myApp->entities->ActivateBuildings();
+	myApp->entities->ActivateObjects();
 	myApp->hordes->hordeRoundto(0);
 	myApp->player->playerMoney = 300;
 	myApp->gui->hordeNumber_Label->ChangeString(std::to_string(0));
 	myApp->hordes->hordeActive = true;
 	myApp->hordes->roundTimerStart();
 	myApp->gui->MainMenuTemp_Image->Deactivate();
+
+	myApp->scene->SwitchMusic(Screen_Type::SCREEN_INGAME);
+	myApp->scene->ActivateGameOverMusic = true;
+
+	myApp->gui->WinIcon->Deactivate();
+	myApp->gui->LoseIcon->Deactivate();
+
 }
 
 void QuitGame() {
@@ -77,6 +108,7 @@ void QuitGame() {
 		}
 	}
 
+	myApp->scene->SwitchMusic(Screen_Type::SCREEN_MAINMENU);
 	//myApp->entities->ReleasePools();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	//myApp->entities->ResetAll();
 	//myApp->scene->CleanUp();
@@ -85,4 +117,19 @@ void QuitGame() {
 void CloseGame()
 {
 	myApp->mustShutDown = true;
+}
+
+Screen_Type getCurrentScreen() {
+
+	if(myApp->gui->MainMenuTemp_Image->active == true)
+		return Screen_Type::SCREEN_MAINMENU;
+	else if (myApp->gui->LoseIcon->active == true)
+		return Screen_Type::SCREEN_LOSE;
+	else if (myApp->gui->WinIcon->active == true)
+		return Screen_Type::SCREEN_WIN;
+	else
+		return Screen_Type::SCREEN_INGAME;
+
+
+	return Screen_Type::SCREEN_NONE;
 }

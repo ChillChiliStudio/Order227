@@ -19,6 +19,7 @@
 #include "GroupManager.h"
 #include "Player.h"
 #include "Horde_Manager.h"
+#include "MiniMap.h"
 
 #include "Text.h"
 
@@ -41,6 +42,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	groups = new GroupManager();
 	player = new Player();
 	hordes = new Horde_Manager();
+	minimap = new MiniMap();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -57,6 +59,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(groups);
 	AddModule(player);
 	AddModule(hordes);
+	AddModule(minimap);
 	// render last to swap buffer
 	AddModule(render);
 }
@@ -190,6 +193,8 @@ void App::PrepareUpdate()
 // ---------------------------------------------
 void App::FinishUpdate()
 {
+	BROFILER_CATEGORY("App Delay", Profiler::Color::Gray);
+
 	//Framerate Calcs
 	if (last_sec_frame_time.Read() > 1000) {
 
@@ -214,6 +219,8 @@ void App::FinishUpdate()
 // Call modules before each loop iteration
 bool App::PreUpdate()
 {
+	BROFILER_CATEGORY("App Pre-Update", Profiler::Color::DarkRed);
+
 	bool ret = true;
 	Module* pModule = NULL;
 	std::list<Module*>::iterator item = modules.begin();
@@ -233,6 +240,8 @@ bool App::PreUpdate()
 // Call modules on each loop iteration
 bool App::DoUpdate()
 {
+	BROFILER_CATEGORY("App Update", Profiler::Color::Red);
+
 	bool ret = true;
 	Module* pModule = NULL;
 
@@ -252,6 +261,8 @@ bool App::DoUpdate()
 // Call modules after each loop iteration
 bool App::PostUpdate()
 {
+	BROFILER_CATEGORY("App Post-Update", Profiler::Color::OrangeRed);
+
 	bool ret = true;
 	Module* pModule = NULL;
 	std::list<Module*>::iterator item = modules.begin();

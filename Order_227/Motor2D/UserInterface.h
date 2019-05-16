@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Animation.h"
 #include "Timer.h"
+#include "SDL/include/SDL_scancode.h"
 
 #define CURSOR_WIDTH 2
 
@@ -19,10 +20,13 @@ class Unit_Box;
 class Button;
 class LifeBar;
 class Unit;
+class Mouse;
+class Unit_Panel;
 //class Window;
 struct _TTF_Font;
 struct SDL_Rect;
 struct SDL_Texture;
+
 
 
 class User_Interface : public Module
@@ -60,7 +64,7 @@ public:
 	
 	void AddElement(UI_Element* element);
 	void DestroyElement(UI_Element* element);
-	void loadAnim();
+	Animation loadAnim();
 
 	std::list<UI_Element*>::iterator DestroyElement(std::list<UI_Element*>::iterator iter);
 
@@ -71,8 +75,10 @@ public:
 	Void_Box* CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL);
 	Check_Box* CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
 	Spawn_Box* CreateSpawnBox(bool value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL);
-	Unit_Box* CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0);
+	Unit_Box* CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0,int unitCost=0,bool* _enabletoCraft=nullptr,SDL_Scancode Hotkey = SDL_SCANCODE_0);
 	LifeBar* CreateLifeBar(fPoint center, Unit* parent = nullptr, SDL_Texture* tex = NULL, float* auxHealth=NULL);
+	Mouse* CreateMouse( SDL_Texture*tex);
+	Unit_Panel* CreateUnitPanel(SDL_Rect sprite, Image* button = nullptr, SDL_Texture* tex = NULL);
 
 	template <class T_param>
 	UI_Element* CreateParamBox(void(*action)(T_param), T_param parameter, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL)
@@ -100,8 +106,7 @@ public:
 	std::string horde;
 	std::string timerHorde_temp;
 	//uint defaultScale;	//IMPROVE: Future use
-	Animation Timer_anim;
-	Timer unitCreationCD;
+	//Animation Timer_anim;
 	Image* pauseMenuPanel = nullptr;
 	Text* Moneytext = nullptr;
 	Image* MainMenuTemp_Image = nullptr;
@@ -119,6 +124,7 @@ public:
 	Text* hordeNumber_Label = nullptr;
 	Text* incomingHordein = nullptr;
 	Text* timerHorde = nullptr;
+
 	Image* WinIcon = nullptr;
 	Image* LoseIcon = nullptr;
 	std::list<Spawn_Box*> SpawnSelectors;
@@ -129,6 +135,10 @@ public:
 
 	Void_Box* ReturnMainMenu3 = nullptr;
 	Text* ReturnMainMenu_Label3 = nullptr;
+
+	Mouse* Mouse_UI = nullptr;
+
+	Unit_Panel* ConscriptPanel_Info = nullptr;
 
 private:
 
@@ -141,12 +151,13 @@ private:
 	Void_Box* ReturnMainMenu = nullptr;
 	Text* ReturnMainMenu_Label = nullptr;
 
-
+	Unit_Box* ConscriptCreator = nullptr;
+	Unit_Box* BazookaCreator = nullptr;
 	
 	Spawn_Box* selectorInfantry=nullptr;
 	Spawn_Box* selectorDefenses = nullptr;
 	Spawn_Box* selectorTank = nullptr;
-	Unit_Box* ConscriptCreator = nullptr;
+	
 	Image* frameSelector = nullptr;
 	Image* UnitStats = nullptr;
 	Image* UnitFrame = nullptr;
@@ -157,6 +168,7 @@ private:
 	SDL_Rect selectorTank_Rect[4];
 
 	SDL_Rect Conscript_Selection_Rect[4];
+	SDL_Rect Bazooka_Selection_Rect[4];
 
 	SDL_Texture* miniMap_tex = nullptr;
 	SDL_Texture* unitsSelection_Tex= nullptr;
@@ -169,6 +181,8 @@ private:
 	SDL_Texture* pauseMenuPanel_Tex = nullptr;
 	SDL_Texture* mainBar = nullptr;
 	SDL_Texture* atlas = nullptr;
+	SDL_Texture* mouse_tex = nullptr;
+	SDL_Texture* Unit_Panels_tex = nullptr;
 	std::string atlasFileName;
 
 };

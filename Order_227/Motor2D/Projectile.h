@@ -45,6 +45,8 @@ public:
 	fPoint InitialPos;
 	fPoint Destination;
 
+	float damage = 0.0f; 
+
 };
 
 #endif

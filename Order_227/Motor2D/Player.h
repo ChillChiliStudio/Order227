@@ -10,10 +10,13 @@
 //#include "Point.h"
 //#include "SDL/include/SDL.h
 
+#define CAMERA_SPEED 700
+#define SCREEN_MOVEMENT_MARGIN 20
 
 enum class infantry_type;
 enum class entity_faction;
 enum class unit_orders;
+enum class unit_aggro;
 
 class Text;
 
@@ -21,7 +24,7 @@ class Player : public Module {
 
 public:
 
-	bool Awake();
+	bool Awake(pugi::xml_node&) override;
 	bool Start() override;
 	bool PreUpdate() override;
 	bool Update(float dt) override;
@@ -34,6 +37,8 @@ public:
 	void DebugSpawnUnit(infantry_type type, entity_faction faction);
 	void DebugSpawnLauncher(infantry_type type, entity_faction faction);
 	void CheckForOrders();
+	unit_aggro GetAggroLevel();
+	void ApplyAggroLevel(unit_aggro aggro);
 	void ApplyOrders();
 	void OrderHold();
 	void OrderMove();
@@ -72,6 +77,7 @@ public:
 	int playerIncome = 0;
 	int playerMoney = 400;
 	Timer incomeTimer;
+	
 
 	bool startCreationUnit = false;
 

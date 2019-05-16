@@ -95,7 +95,7 @@ void Projectile::Explode() {
 
 			if (InsideSquareRadius((this->centerPos), 60.0f, (*item).position) && InsideRadius((this->centerPos), 60.0f, (*item).position))
 			{
-				(*item).Die();
+				(*item).Hurt(this->damage);
 			}
 
 		}

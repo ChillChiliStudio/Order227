@@ -14,12 +14,13 @@
 #include "Launcher.h"
 #include "Projectile.h"
 #include "Log.h"
+
+
 Launcher::Launcher(){
 	//ProjectilePool.resize(10);
 }
 
 Launcher::~Launcher(){}
-
 
 
 bool Launcher::Update(float dt) {
@@ -109,10 +110,14 @@ void Launcher::AttackCurrTarget(float dt) {
 void Launcher::LaunchProjectile(fPoint destination) {
 	
 	for (int i = 0; i < ProjectilePool.size(); i++) {
+
 		if (ProjectilePool[i].active == false) {
+
 			ProjectilePool[i].active = true;
 			ProjectilePool[i].position = this->position;
 			ProjectilePool[i].Destination = destination;
+			ProjectilePool[i].damage = (float)this->stats.damage;
+			
 			break;
 		}
 	}

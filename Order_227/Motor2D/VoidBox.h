@@ -3,7 +3,7 @@
 
 #include "ActionBox.h"
 
-class Void_Box : public Action_Box
+class Void_Box : public Action_Box	///https://en.cppreference.com/w/cpp/language/lambda
 {
 public:
 	typedef void(*event_function)(void);

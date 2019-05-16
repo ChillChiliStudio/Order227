@@ -29,7 +29,7 @@
         <stats speed="30" cadency="1" damage="2" health="6" visionRange="200" attackRange="150" cost="500" prodTime="8" threat="5"/>
       </Unit>
     </Soviet>
-   
+
     <Capitalist>
     <Unit id="0" name="IG" TextPath="textures/troops/allied/IG.png" TiledFile="textures/troops/allied/IG.tmx">
         <RectOffset x="26" y="20" w="25" h="35"/>
@@ -40,7 +40,7 @@
         <stats speed="30" cadency="0.5" damage="2" health="6" visionRange="200" attackRange="150" cost="500" prodTime="8" threat="5"/>
       </Unit>
     </Capitalist>
-    
+
     </Troops>
-    
+
 </Entity_Document>

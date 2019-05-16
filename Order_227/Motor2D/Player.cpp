@@ -9,15 +9,15 @@
 #include "UserInterface.h"
 #include "Text.h"
 #include "ParamBox.h"
+#include "Horde_Manager.h"
 #include "GroupManager.h"
 #include "Unit.h"
 #include "Player.h"
+#include "Window.h"
 #include "Brofiler/Brofiler.h"
+#include "MiniMap.h"
 
-
-
-
-bool Player::Awake()
+bool Player::Awake(pugi::xml_node& node)
 {
 	LOG("AWAKING PLAYER MODULE");
 
@@ -26,11 +26,11 @@ bool Player::Awake()
 
 bool Player::Start()
 {
-	LOG("STARTING PLAYER MODULE");
+	//LOG("STARTING PLAYER MODULE");
 
-	incomeTimer.Start();
-	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
-	mouseDebugMark->Deactivate();
+	//incomeTimer.Start();
+	//mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
+	//mouseDebugMark->Deactivate();
 
 
 	return true;
@@ -60,7 +60,7 @@ bool Player::Update(float dt)
 			ApplyOrders();
 		}
 
-		if (myApp->gui->interfaceDebugDraw) {
+		if (myApp->map->mapDebugDraw) {
 			DebugMouse();	// Mouse UI Debug data update
 		}
 
@@ -79,7 +79,7 @@ bool Player::Update(float dt)
 		myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
 		incomeTimer.Start();
 	}
-	
+
 	return true;
 }
 
@@ -100,18 +100,37 @@ void Player::UpdateMousePos()
 
 void Player::CameraInputs(float dt)
 {
-	//Move Camera
+	iPoint mousePos;
+	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
+
+	//Move camera upwards
 	if (myApp->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-		myApp->render->camera.y += (int)ceil(500 * dt);
+		myApp->render->camera.y += (int)ceil(CAMERA_SPEED  * dt);
 
+	else if (mousePos.y >= 0 && mousePos.y < SCREEN_MOVEMENT_MARGIN)
+		myApp->render->camera.y += (int)ceil(CAMERA_SPEED  * dt);
+
+	//Move camera downwards
 	if (myApp->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-		myApp->render->camera.y -= (int)ceil(500 * dt);
+		myApp->render->camera.y -= (int)ceil(CAMERA_SPEED * dt);
 
+	else if (mousePos.y > myApp->win->height - SCREEN_MOVEMENT_MARGIN && mousePos.y < myApp->win->height)
+		myApp->render->camera.y -= (int)ceil(CAMERA_SPEED  * dt);
+
+	//Move camera to the left
 	if (myApp->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		myApp->render->camera.x += (int)ceil(500 * dt);
+		myApp->render->camera.x += (int)ceil(CAMERA_SPEED  * dt);
 
+	else if (mousePos.x >= 0 && mousePos.x < SCREEN_MOVEMENT_MARGIN)
+		myApp->render->camera.x += (int)ceil(CAMERA_SPEED  * dt);
+
+	//Move camera to the right
 	if (myApp->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		myApp->render->camera.x -= (int)ceil(500 * dt);
+		myApp->render->camera.x -= (int)ceil(CAMERA_SPEED  * dt);
+
+	else if (mousePos.x > myApp->win->width- SCREEN_MOVEMENT_MARGIN && mousePos.x < myApp->win->width)
+		myApp->render->camera.x -= (int)ceil(CAMERA_SPEED  * dt);
+
 }
 
 void Player::DebugMouse()
@@ -157,9 +176,11 @@ void Player::DebugInputs()
 
 			if (myApp->map->mapDebugDraw) {
 				LOG("Debug Map: ON");
+				mouseDebugMark->Activate();
 			}
 			else {
 				LOG("Debug Map: OFF");
+				mouseDebugMark->Deactivate();
 			}
 		}
 
@@ -168,11 +189,9 @@ void Player::DebugInputs()
 
 			if (myApp->gui->interfaceDebugDraw) {
 				LOG("Debug UI: ON");
-				mouseDebugMark->Activate();
 			}
 			else {
 				LOG("Debug UI: OFF");
-				mouseDebugMark->Deactivate();
 			}
 		}
 
@@ -189,26 +208,24 @@ void Player::DebugInputs()
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {	// Insta-Win
 
-
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {	// Insta-Lose
-
+			myApp->hordes->ClearEnemies();
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {	// Instantaneous Next Round + Kill all active enemies
-
-		}
-
-		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {	// Spawn Capitalist Unit on Mouse
+		if (myApp->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
 			DebugSpawnUnit(infantry_type::BASIC, entity_faction::CAPITALIST);
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
+		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
 			DebugSpawnUnit(infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
 		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Instantly start next round
+			myApp->hordes->ChooseSpawningPoints();
+		}
 		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
-			//DebugSpawnUnit(infantry_type::BAZOOKA, entity_faction::COMMUNIST);
 			DebugSpawnLauncher(infantry_type::BAZOOKA, entity_faction::COMMUNIST);
 		}
 		if (myApp->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
@@ -217,7 +234,7 @@ void Player::DebugInputs()
 		if (myApp->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
 			DebugSpawnUnit(infantry_type::DESOLATOR, entity_faction::COMMUNIST);
 		}
-		
+
 	}
 }
 
@@ -235,18 +252,25 @@ void Player::DebugSpawnLauncher(infantry_type unit, entity_faction faction)	//TO
 
 void Player::CheckForOrders()
 {
-	if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {	   // Hold is done instantly, the others need a click
+
+	unit_aggro aggro;
+
+	if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {	// Hold is done instantly, the others need a click
 		if (myApp->groups->playerGroup.groupUnits.size() > 0) {
+
+			ApplyAggroLevel(GetAggroLevel());
 			OrderHold();
 		}
 	}
-	if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
+
+
+	if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
 		prepOrder = unit_orders::MOVE;
 	}
-	if (myApp->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
+	if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
 		prepOrder = unit_orders::HUNT;
 	}
-	if (myApp->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
+	if (myApp->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
 		prepOrder = unit_orders::PATROL;
 	}
 	/*if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_IDLE) {
@@ -254,21 +278,51 @@ void Player::CheckForOrders()
 	}*/
 }
 
+unit_aggro Player::GetAggroLevel()
+{
+	unit_aggro ret = unit_aggro::DEFENSIVE;	// Default Defensive
+
+	if (myApp->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT) {	// Hold LEFT CONTROL for Aggresive
+		ret = unit_aggro::AGGRESSIVE;
+	}
+	else if (myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {	// Hold LEFT SHIFT for Passive
+		ret = unit_aggro::PASSIVE;
+	}
+
+	return ret;
+}
+
+void Player::ApplyAggroLevel(unit_aggro aggro)
+{
+	for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
+	{
+		if ((*it)->IsDead() == false) {
+			(*it)->unitAggro = aggro;
+		}
+	}
+}
+
 void Player::ApplyOrders()
 {
+	BROFILER_CATEGORY("Player Apply Unit Orders", Profiler::Color::Cyan);
+
 	if (myApp->groups->playerGroup.groupUnits.size() > 0) {
 		switch (prepOrder) {
 		case unit_orders::MOVE:
+			ApplyAggroLevel(GetAggroLevel());
 			OrderMove();
 			break;
 		case unit_orders::HUNT:
+			ApplyAggroLevel(GetAggroLevel());
 			OrderHunt();
 			break;
 		case unit_orders::PATROL:
+			ApplyAggroLevel(GetAggroLevel());
 			OrderPatrol();
 			break;
 		default:
-			OrderMove();
+			ApplyAggroLevel(GetAggroLevel());
+			OrderHunt();
 		}
 	}
 
@@ -305,12 +359,11 @@ void Player::OrderHunt()
 			break;
 		}
 	}
-  
+
 	if (selectedTarget != nullptr) {
 		for (std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin(); it != myApp->groups->playerGroup.groupUnits.end(); it = next(it))
 		{
-			if ((*it)->IsDead() == false)
-			{
+			if ((*it)->IsDead() == false) {
 				(*it)->StartHunt(selectedTarget);
 			}
 		}
@@ -335,6 +388,15 @@ void Player::OrderPatrol()
 void Player::PlayerSelect()
 {
 	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
+		iPoint mousePosition;
+		myApp->input->GetMousePosition(mousePosition.x, mousePosition.y);
+
+		if (mousePosition.x > myApp->minimap->minimapPosition.x + myApp->minimap->minimap_width &&
+			mousePosition.x < myApp->minimap->minimapPosition.x &&
+			mousePosition.y > myApp->minimap->minimapPosition.y + myApp->minimap->minimap_height &&
+			mousePosition.y < myApp->minimap->minimapPosition.y)
+			return;
+
 		StartSelect();
 	}
 	else if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {	// Process Selection Area	//TODO: Check if the first 2 conditions are necessary
@@ -365,7 +427,8 @@ void Player::ExpandSelect()
 
 	// --- Draw Rectangle ---
 	SDL_Rect SRect = { rectangle_origin.x, rectangle_origin.y, width, height };
-	myApp->render->DrawQuad(SRect, 0, 200, 100, 255, false);
+	myApp->render->DrawQuad(SRect, 0, 255, 100, 255, false);
+	myApp->render->DrawQuad(SRect, 0, 200, 100, 40, true);
 
 	// --- Once we get to the negative side of SRect numbers must be adjusted ---
 	if (width < 0) {
