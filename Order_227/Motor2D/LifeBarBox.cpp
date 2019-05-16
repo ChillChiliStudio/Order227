@@ -33,8 +33,7 @@ LifeBar::LifeBar(fPoint center, Unit* parent,SDL_Texture* tex,ui_type type,float
 
 
 bool LifeBar::Update(float dt) {
-
-
+	Draw();
 	if (Currentparent != nullptr) {
 		position = { Currentparent->position.x - (LowHealth.w / 2) + 10, Currentparent->position.y - (LowHealth.h / 2) - 6 };
 		if((*life) <= 0 || Currentparent->active == false)

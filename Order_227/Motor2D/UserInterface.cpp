@@ -261,7 +261,10 @@ bool User_Interface::Draw()
 
 	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); iter = next(iter)) {
 		if ((*iter)->active == true && (*iter)->GetParent() == NULL) {	// All elements are listed, but the parent handles the drawing for its children
-			ret = (*iter)->Draw();
+			if ((*iter)->GetType() != ui_type::LIFEBAR)
+				ret = (*iter)->Draw();
+			else
+			bool a = true;
 		}
 	}
 
@@ -365,7 +368,7 @@ LifeBar* User_Interface::CreateLifeBar(fPoint center, Unit* parent, SDL_Texture*
 		tex = GetAtlas();
 	}
 
-	ret = new LifeBar(center, parent, tex, ui_type::IMAGE,auxHealth);
+	ret = new LifeBar(center, parent, tex, ui_type::LIFEBAR,auxHealth);
 	AddElement((UI_Element*)ret);
 
 	return ret;

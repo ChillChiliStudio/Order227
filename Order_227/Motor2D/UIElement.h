@@ -21,6 +21,7 @@ enum class ui_type
 	CHECK_BOX,
 	SPAWN_BOX,
 	UNIT_BOX,
+	LIFEBAR,
 
 	MAX_TYPES
 };
