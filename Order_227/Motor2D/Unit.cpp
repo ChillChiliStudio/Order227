@@ -573,7 +573,17 @@ Entity* Unit::EnemyInRadius(uint radius)
 			}
 		}
 	}
+	for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); item != myApp->entities->launcherPool.end(); item = next(item)) {
+		if ((*item).active == true && (*item).IsDead() == false && (*item).faction != faction) {
 
+			if (InsideSquareRadius(centerPos, (float)stats.attackRadius, (*item).centerPos)
+				&& InsideRadius(centerPos, (float)stats.attackRadius, (*item).centerPos))
+			{
+				ret = (Entity*)&(*item);
+				break;
+			}
+		}
+	}
 	if (ret == nullptr && faction == entity_faction::CAPITALIST) {
 		for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); item != myApp->entities->buildingsArray.end(); item = next(item)) {
 			if ((*item).active == true && (*item).IsDead() == false) {
