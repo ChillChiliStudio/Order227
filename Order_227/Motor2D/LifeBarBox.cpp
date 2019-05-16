@@ -7,6 +7,8 @@
 LifeBar::LifeBar(fPoint center, Unit* parent,SDL_Texture* tex,ui_type type,float* auxHealth)
 	:UI_Element(type, center), graphics(tex)
 {
+	LowHealth = { 0,0,62,6 };
+	HighHealth = { 62,0,62,6 };
 	if (auxHealth != NULL) {
 		life = auxHealth;
 		totalLife = (*auxHealth);
@@ -21,13 +23,13 @@ LifeBar::LifeBar(fPoint center, Unit* parent,SDL_Texture* tex,ui_type type,float
 
 	}
 
-	LowHealth = { 0,0,62,6 };
+	
 	if (parent!=nullptr&&parent->faction == entity_faction::CAPITALIST) {
 		HighHealth = { 62,6,62,6 };
 
 	}
 	else
-	HighHealth = { 62,0,62,6 };
+
 	myApp->gui->Main_Menu_Elements.push_back(this);
 }
 

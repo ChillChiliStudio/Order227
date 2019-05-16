@@ -3,7 +3,6 @@
 
 #include "Module.h"
 
-#define DEFAULT_MUSIC_FADE_TIME 2.0f
 #define FACTION_NUM 2
 #define VARIATION_PER_SOUND 3
 #define SOV 0
@@ -12,8 +11,6 @@
 
 struct _Mix_Music;
 struct Mix_Chunk;
-
-
 
 enum class type_sounds
 {
@@ -26,6 +23,36 @@ enum class type_sounds
 	MAX
 
 };
+
+enum class song_type {
+
+	NONE = -1,
+	MAIN_MENU,
+	IN_GAME,
+	WIN,
+	LOSE
+};
+
+struct Music_Track {
+
+	std::string trackName = "NULL";
+	char* path = nullptr;
+	int num_loops = 0;
+
+	char* nextTrack_id = "NULL";
+	Music_Track* nextTrack = nullptr;
+};
+
+struct Music_Song {
+
+	std::string songName = "NULL";
+	song_type songType = song_type::NONE;
+	std::list<Music_Track*> songtracks_list;
+
+	char* nextSong_id = "NULL";
+	Music_Song* nextSong = nullptr;
+};
+
 
 class Audio : public Module
 {
@@ -45,7 +72,7 @@ public:
 	bool CleanUp() override;
 
 	// Play a music file
-	bool PlayMusic(const char* path, int loops = -1, float fade_time = DEFAULT_MUSIC_FADE_TIME);
+	bool PlayMusic(const char* path, int loops = -1, float fade_time = 0.0f);
 
 	//Check if something is being played
 	bool MusicPlaying();

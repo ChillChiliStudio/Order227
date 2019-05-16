@@ -210,7 +210,7 @@ bool User_Interface::Start()
 // Called each loop iteration
 bool User_Interface::PreUpdate()
 {
-	BROFILER_CATEGORY("Module User_Interface PreUpdate-Pink", Profiler::Color::Pink);
+	BROFILER_CATEGORY("Module User_Interface Pre-Update", Profiler::Color::Pink);
 
 	bool ret = true;
 
@@ -226,7 +226,7 @@ bool User_Interface::PreUpdate()
 // Called each frame (logic)
 bool User_Interface::Update(float dt)
 {
-	BROFILER_CATEGORY("Module User_Interface UpdateTick-DeepPink", Profiler::Color::DeepPink);
+	BROFILER_CATEGORY("Module User_Interface Update", Profiler::Color::DeepPink);
 
 	bool ret = true;
 
@@ -255,7 +255,7 @@ bool User_Interface::Update(float dt)
 // Called each frame (graphic)
 bool User_Interface::Draw()
 {
-	BROFILER_CATEGORY("Module User_Interface Draw-HotPink", Profiler::Color::HotPink);
+	BROFILER_CATEGORY("Module UserInterface Draw", Profiler::Color::HotPink);
 
 	bool ret = true;
 
@@ -282,7 +282,7 @@ bool User_Interface::Draw()
 // Called each loop iteration
 bool User_Interface::PostUpdate()
 {
-	BROFILER_CATEGORY("Module User_Interface PostUpdate-LightPink", Profiler::Color::LightPink);
+	BROFILER_CATEGORY("Module User_Interface Post-Update", Profiler::Color::LightPink);
 
 	bool ret = true;
 

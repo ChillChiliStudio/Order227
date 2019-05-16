@@ -123,13 +123,13 @@ public:
 	unit_directions CheckDirection(fVec2 direction);
 
 	//Order calling
-	void StartHold();
-	void StartMove(iPoint destination);
-	void StartHunt(Entity* target);
-	void StartAggroHunt(Entity* target);
-	void StartPatrol(iPoint destination);
-	void ResumePatrol();
-	void ResumeLastOrder();	//Used when aggro has previously interrupted an order
+	bool StartHold();
+	bool StartMove(iPoint destination);
+	bool StartHunt(Entity* target);
+	bool StartAggroHunt(Entity* target);
+	bool StartPatrol(iPoint destination);
+	bool ResumePatrol();
+	bool ResumeLastOrder();	//Used when aggro has previously interrupted an order
 
 	// Order processing
 	void DoHold(float dt);
@@ -157,14 +157,13 @@ public:
 	//bool IsSelected();
 
 	//Unit calculations
-	void SetupPath(iPoint origin, iPoint destination);
+	bool SetupPath(iPoint origin, iPoint destination);
 	fVec2 SetupVecSpeed();
 	Entity* EnemyInRadius(uint radius);
 	Unit* AttackingAllyInRadius(uint radius);
 	bool TargetInRange(Entity* target);
 
 public:
-	entity_type typeFaction;
 	infantry_type infantryType;
 	bool onCamera = false;
 

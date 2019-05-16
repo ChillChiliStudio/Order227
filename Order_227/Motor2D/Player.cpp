@@ -29,8 +29,8 @@ bool Player::Start()
 	//LOG("STARTING PLAYER MODULE");
 
 	//incomeTimer.Start();
-	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
-	mouseDebugMark->Deactivate();
+	//mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
+	//mouseDebugMark->Deactivate();
 
 
 	return true;
@@ -60,7 +60,7 @@ bool Player::Update(float dt)
 			ApplyOrders();
 		}
 
-		if (myApp->gui->interfaceDebugDraw) {
+		if (myApp->map->mapDebugDraw) {
 			DebugMouse();	// Mouse UI Debug data update
 		}
 
@@ -176,9 +176,11 @@ void Player::DebugInputs()
 
 			if (myApp->map->mapDebugDraw) {
 				LOG("Debug Map: ON");
+				mouseDebugMark->Activate();
 			}
 			else {
 				LOG("Debug Map: OFF");
+				mouseDebugMark->Deactivate();
 			}
 		}
 
@@ -187,11 +189,9 @@ void Player::DebugInputs()
 
 			if (myApp->gui->interfaceDebugDraw) {
 				LOG("Debug UI: ON");
-				mouseDebugMark->Activate();
 			}
 			else {
 				LOG("Debug UI: OFF");
-				mouseDebugMark->Deactivate();
 			}
 		}
 
@@ -293,6 +293,8 @@ void Player::ApplyAggroLevel(unit_aggro aggro)
 
 void Player::ApplyOrders()
 {
+	BROFILER_CATEGORY("Player Apply Unit Orders", Profiler::Color::Cyan);
+
 	if (myApp->groups->playerGroup.groupUnits.size() > 0) {
 		switch (prepOrder) {
 		case unit_orders::MOVE:

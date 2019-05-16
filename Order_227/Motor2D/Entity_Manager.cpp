@@ -57,7 +57,6 @@ static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number
 	AllocateEntityPool();
 
 	//Activate Buildings & Objects
-	
 
 	LoadEntityData();
 
@@ -67,7 +66,9 @@ static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number
 	return true;
 }
 
-bool Entity_Manager::PreUpdate() {
+bool Entity_Manager::PreUpdate()
+{
+	BROFILER_CATEGORY("Entity_Manager Pre-Update", Profiler::Color::LightYellow);
 
 	do_logic = false;
 	return true;
@@ -76,7 +77,8 @@ bool Entity_Manager::PreUpdate() {
 
 bool Entity_Manager::Update(float dt)
 {
-	BROFILER_CATEGORY("Entity_Manager Update()-Brown", Profiler::Color::Brown);
+	BROFILER_CATEGORY("Entity_Manager Update", Profiler::Color::Yellow);
+
 	accumulated_time += dt;
 
 	if (myApp->gui->MainMenuTemp_Image->active != true) {	//TODO: This is very hardcoded, we should have a scene workflow
@@ -84,43 +86,9 @@ bool Entity_Manager::Update(float dt)
 		if (accumulated_time >= update_ms_cycle)
 			do_logic = true;
 
-		for (int i = 0; i < unitsPoolSize; ++i) {
-
-			if (unitPool[i].active) {
-
-				unitPool[i].Update(dt);
-
-				if (do_logic)
-					unitPool[i].FixUpdate(dt);
-			}
-		}
-
-		for(int i = 0; i < buildingsArray.size(); i++)
-			buildingsArray[i].Update(dt);
-
-		for (int i = 0; i < objectsArray.size(); i++)
-			objectsArray[i].Update(dt);
-
-		/*for (std::vector<Unit>::iterator item = unitPool.begin(); item != unitPool.end(); item = next(item)) {
-
-			if (item->active == true)
-				item->Update(dt);
-
-			if (do_logic)
-				item->FixUpdate(dt);
-		}
-
-		for (std::vector<Building>::iterator item = buildingsArray.begin(); item != buildingsArray.end(); item = next(item)) {
-
-			if (item->active == true)
-				item->Update(dt);
-		}
-
-		for (std::vector<Static_Object>::iterator item = objectsArray.begin(); item != objectsArray.end(); item = next(item)) {
-
-			if (item->active == true)
-				item->Update(dt);
-		}*/
+		UpdateEntities(dt);
+		UpdateBuildings(dt);
+		UpdateObjects(dt);
 
 		//OLD:
 		//myApp->render->OrderBlit(myApp->render->OrderToRender);
@@ -133,6 +101,41 @@ bool Entity_Manager::Update(float dt)
 	}
 
 	return true;
+}
+
+void Entity_Manager::UpdateEntities(float dt)
+{
+	BROFILER_CATEGORY("UnitPool Update", Profiler::Color::Magenta);
+
+	for (int i = 0; i < unitsPoolSize; ++i) {
+
+		if (unitPool[i].active) {
+
+			unitPool[i].Update(dt);
+
+			if (do_logic) {
+				unitPool[i].FixUpdate(dt);
+			}
+		}
+	}
+}
+
+void Entity_Manager::UpdateBuildings(float dt)
+{
+	BROFILER_CATEGORY("BuildingPool Update", Profiler::Color::Purple);
+
+	for (int i = 0; i < buildingsArray.size(); i++) {
+		buildingsArray[i].Update(dt);
+	}
+}
+
+void Entity_Manager::UpdateObjects(float dt)
+{
+	BROFILER_CATEGORY("ObjectPool Update", Profiler::Color::MediumPurple);
+
+	for (int i = 0; i < objectsArray.size(); i++) {
+		objectsArray[i].Update(dt);
+	}
 }
 
 bool BlitSort(Entity* i, Entity* j)
@@ -148,6 +151,8 @@ bool BlitSort(Entity* i, Entity* j)
 
 void Entity_Manager::UpdateBlitOrdering()
 {
+	BROFILER_CATEGORY("BlitOrdering", Profiler::Color::Lavender);
+
 	std::sort(entitiesVector.begin(), entitiesVector.end(), BlitSort);
 }
 
@@ -254,7 +259,7 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 	_Unit->infantryType = infantry_type::INFANTRY_NONE;
 	_Unit->position = fPoint(0.0f, 0.0f);
 	_Unit->texture = nullptr;
-	
+
 	_Unit->currTarget = nullptr;
 	_Unit->aggroTriggered = false;
 
@@ -265,7 +270,7 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 	_Unit->active = false;
 	_Unit->selected = false;
 
-	
+
 
 	//_Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];	//TODO: This caused bugs (Carles: Not sure)
 
@@ -299,6 +304,7 @@ void Entity_Manager::ActivateBuildings()
 				(*item).active = true;
 				(*item).selected = false;
 				(*item).texture = buildingsTextures[int((*item).buildingType)];
+				(*item).health = (*item).maxHealth;
 				(*item).Start();
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
@@ -308,12 +314,8 @@ void Entity_Manager::ActivateBuildings()
 					break;
 				}
 			}
-
-			(*item).Start();
 		}
 	}
-
-
 }
 
 void Entity_Manager::ActivateObjects()

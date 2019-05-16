@@ -46,7 +46,7 @@ bool Map::Start()
 
 void Map::Draw()
 {
-	BROFILER_CATEGORY("Map.cpp Draw-Black", Profiler::Color::Black);
+	BROFILER_CATEGORY("Map Draw", Profiler::Color::Pink);
 	if(map_loaded == false)
 		return;
 

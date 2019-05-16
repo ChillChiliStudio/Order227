@@ -71,8 +71,8 @@ void StartGame() {
 	//myApp->scene->Start();
 	//myApp->entities->ActivateBuildings();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	//myApp->entities->ActivateObjects();	//TODO: Check if necessary, commented because it was asumed that wasn't
-	myApp->gui->WinIcon->Deactivate();
 	
+
 	myApp->entities->ActivateBuildings();
 	myApp->entities->ActivateObjects();
 	myApp->hordes->hordeRoundto(0);
@@ -81,6 +81,12 @@ void StartGame() {
 	myApp->hordes->hordeActive = true;
 	myApp->hordes->roundTimerStart();
 	myApp->gui->MainMenuTemp_Image->Deactivate();
+
+	myApp->scene->SwitchMusic(Screen_Type::SCREEN_INGAME);
+	myApp->scene->ActivateGameOverMusic = true;
+
+	myApp->gui->WinIcon->Deactivate();
+	myApp->gui->LoseIcon->Deactivate();
 
 }
 
@@ -101,6 +107,8 @@ void QuitGame() {
 			myApp->entities->DeActivateUnit(&myApp->entities->unitPool[i]);
 		}
 	}
+
+	myApp->scene->SwitchMusic(Screen_Type::SCREEN_MAINMENU);
 	//myApp->entities->ReleasePools();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	//myApp->entities->ResetAll();
 	//myApp->scene->CleanUp();
@@ -109,4 +117,19 @@ void QuitGame() {
 void CloseGame()
 {
 	myApp->mustShutDown = true;
+}
+
+Screen_Type getCurrentScreen() {
+
+	if(myApp->gui->MainMenuTemp_Image->active == true)
+		return Screen_Type::SCREEN_MAINMENU;
+	else if (myApp->gui->LoseIcon->active == true)
+		return Screen_Type::SCREEN_LOSE;
+	else if (myApp->gui->WinIcon->active == true)
+		return Screen_Type::SCREEN_WIN;
+	else
+		return Screen_Type::SCREEN_INGAME;
+
+
+	return Screen_Type::SCREEN_NONE;
 }
