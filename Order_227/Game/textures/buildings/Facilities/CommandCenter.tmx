@@ -20,8 +20,8 @@
   <object id="14" name="Spawn" x="212" y="1278" width="212" height="213"/>
   <object id="15" name="Spawn" x="0" y="1491" width="212" height="213"/>
   <object id="16" name="Spawn" x="212" y="1491" width="212" height="213"/>
-  <object id="17" name="Spawn" x="0" y="1705" width="212" height="213"/>
-  <object id="18" name="Spawn" x="212" y="1705" width="212" height="213"/>
+  <object id="17" name="Spawn" x="0" y="1704" width="212" height="213"/>
+  <object id="18" name="Spawn" x="212" y="1704" width="212" height="213"/>
   <object id="52" name="Spawn" x="0" y="1917" width="212" height="213"/>
   <object id="20" name="Spawn" x="212" y="1917" width="212" height="213"/>
   <object id="22" name="Spawn" x="0" y="2130" width="212" height="213"/>
@@ -46,14 +46,14 @@
   <object id="53" name="Explosion" x="636" y="1278" width="212" height="213"/>
   <object id="53" name="Explosion" x="424" y="1491" width="212" height="213"/>
   <object id="53" name="Explosion" x="636" y="1491" width="212" height="213"/>
-  <object id="53" name="Explosion" x="424" y="1705" width="212" height="213"/>
-  <object id="53" name="Explosion" x="636" y="1705" width="212" height="213"/>
+  <object id="53" name="Explosion" x="424" y="1704" width="212" height="213"/>
+  <object id="53" name="Explosion" x="636" y="1704" width="212" height="213"/>
   <object id="53" name="Explosion" x="424" y="1917" width="212" height="213"/>
   <object id="53" name="Explosion" x="636" y="1917" width="212" height="213"/>
   <object id="53" name="Explosion" x="424" y="2130" width="212" height="213"/>
   <object id="53" name="Explosion" x="636" y="2130" width="212" height="213"/>
   <object id="53" name="Explosion" x="424" y="2343" width="212" height="213"/>
-  <object id="55" name="Explosion" x="636" y="2342.83" width="212" height="213"/>
+  <object id="55" name="Explosion" x="636" y="2343" width="212" height="213"/>
   <object id="56" name="Explosion" x="424" y="2556" width="212" height="213"/>
   <object id="58" name="Explosion" x="636" y="2556" width="212" height="213"/>
   <object id="59" name="Explosion" x="212" y="2556" width="212" height="213"/>

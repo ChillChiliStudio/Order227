@@ -55,7 +55,7 @@ bool Building::Update(float dt)
 	
 	if (CurrentAnim.Finished()==true && health> maxHealth/2) {
 
-		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::DESTROYED)]);
+		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::IDLE)]);
 	}
 	else if (health <= 0 && destroyed == false) {
 		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::DESTROYED)]);
