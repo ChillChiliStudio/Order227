@@ -32,7 +32,6 @@ bool Player::Start()
 	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
 	mouseDebugMark->Deactivate();
 
-
 	return true;
 }
 
@@ -252,8 +251,6 @@ void Player::DebugSpawnLauncher(infantry_type unit, entity_faction faction)	//TO
 
 void Player::CheckForOrders()
 {
-
-	unit_aggro aggro;
 
 	if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {	// Hold is done instantly, the others need a click
 		if (myApp->groups->playerGroup.groupUnits.size() > 0) {

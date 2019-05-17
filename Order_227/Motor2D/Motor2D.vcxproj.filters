@@ -76,12 +76,6 @@
     <ClCompile Include="CheckBox.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
     </ClCompile>
-    <ClCompile Include="Quadtree.cpp">
-      <Filter>Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="TileQuadtree.cpp">
-      <Filter>Tools</Filter>
-    </ClCompile>
     <ClCompile Include="Geometry.cpp">
       <Filter>Tools\Geometry</Filter>
     </ClCompile>
@@ -126,6 +120,15 @@
     </ClCompile>
     <ClCompile Include="Projectile.cpp">
       <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Quadtree.cpp">
+      <Filter>Tools\Quadtrees</Filter>
+    </ClCompile>
+    <ClCompile Include="TileQuadtree.cpp">
+      <Filter>Tools\Quadtrees</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityQuadtree.cpp">
+      <Filter>Tools\Quadtrees</Filter>
     </ClCompile>
     <ClCompile Include="LifeBarBox.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images</Filter>
@@ -231,12 +234,6 @@
     <ClInclude Include="CheckBox.h">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
     </ClInclude>
-    <ClInclude Include="Quadtree.h">
-      <Filter>Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="TileQuadtree.h">
-      <Filter>Tools</Filter>
-    </ClInclude>
     <ClInclude Include="Point.h">
       <Filter>Tools\Geometry</Filter>
     </ClInclude>
@@ -290,6 +287,15 @@
     </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>Game Files\Entity Management\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Tools\Quadtrees</Filter>
+    </ClInclude>
+    <ClInclude Include="TileQuadtree.h">
+      <Filter>Tools\Quadtrees</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityQuadtree.h">
+      <Filter>Tools\Quadtrees</Filter>
     </ClInclude>
     <ClInclude Include="Mouse.h">
       <Filter>Game Files\User Interface\UI Elements\Images</Filter>
@@ -364,6 +370,9 @@
     </Filter>
     <Filter Include="Game Files\Entity Management\Entities\Units\Launchers">
       <UniqueIdentifier>{0e4b77e7-c7e5-4193-ad67-5fc70790e4c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\Quadtrees">
+      <UniqueIdentifier>{3937422f-217c-4275-97aa-7e0dfcb6a780}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

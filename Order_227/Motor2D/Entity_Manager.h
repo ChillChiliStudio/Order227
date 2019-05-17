@@ -14,7 +14,10 @@
 #define TROOP_TYPES 7
 #define RESIZE_VALUE 50
 
+//Entities quadtree max divisions
+#define QUADTREE_DIVISIONS 5
 
+class EntityQuadtree;
 
 class Entity_Manager : public Module
 {
@@ -46,7 +49,7 @@ public:
 	void UpdateBlitOrdering();
 	void BlitEntities();
 
-	void UpdateEntities(float dt);
+	void UpdateUnits(float dt);
 	void UpdateBuildings(float dt);
 	void UpdateObjects(float dt);
 
@@ -69,15 +72,21 @@ public:
 	int unitsPoolSize = 0;
 	int launcherPoolSize = 0;
 	//Pools
+
 	std::vector<Unit>			unitPool; //Unist will always be Hitscan type
 	std::vector<Launcher>	    launcherPool;//Launcher will always be Launcher type such as tanks or bazookas that use missiles
 	//std::vector<Unit>			unitPool;
+	int activeUnits = 0;
+
 	//std::vector<Hitscan>		hitscanPool;
 	//std::vector<Ranged>		rangedPool;
 	//std::vector<Tank>			tankPool;
 
 	std::vector<Static_Object>	objectsArray;
+
 	std::vector<Building>		buildingsArray;
+	int activeBuildings = 0;
+
 	std::vector<Entity*>		entitiesVector;
 
 	//Last Unit activated Pointer
@@ -97,6 +106,10 @@ public:
 	unit_stats		infantryStats[int(infantry_type::INFANTRY_MAX)];
 
 	bool heavyUnitsUnlocked = true;
+
+	//Quadtree with all the active entities
+	EntityQuadtree* entitiesQuadtree;
+
 private:
 
 	bool LoadEntityData();

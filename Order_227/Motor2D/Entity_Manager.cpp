@@ -13,6 +13,8 @@
 #include "Image.h"
 #include "Brofiler/Brofiler.h"
 #include "Launcher.h"
+#include "EntityQuadtree.h"
+
 #include <algorithm>
 
 Entity_Manager::Entity_Manager()
@@ -65,6 +67,15 @@ static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number
 	//Set up stats of units
 	SetupUnitStats();
 
+	//Set up the quadtree
+	SDL_Rect quadtreeRect;
+	quadtreeRect.x = -(myApp->map->data.width*myApp->map->data.tile_width) / 2;
+	quadtreeRect.y = 0;
+	quadtreeRect.w = myApp->map->data.width*myApp->map->data.tile_width;
+	quadtreeRect.h = myApp->map->data.height*myApp->map->data.tile_height;
+
+	entitiesQuadtree = new EntityQuadtree(QUADTREE_DIVISIONS, quadtreeRect);
+	entitiesQuadtree->Split(QUADTREE_DIVISIONS);
 	return true;
 }
 
@@ -79,8 +90,9 @@ bool Entity_Manager::PreUpdate()
 
 bool Entity_Manager::Update(float dt)
 {
-	BROFILER_CATEGORY("Entity_Manager Update", Profiler::Color::Yellow);
+	entitiesQuadtree->FillTree();
 
+	BROFILER_CATEGORY("Entity_Manager Update", Profiler::Color::Yellow);
 	accumulated_time += dt;
 
 	if (myApp->gui->MainMenuTemp_Image->active != true) {	//TODO: This is very hardcoded, we should have a scene workflow
@@ -89,7 +101,7 @@ bool Entity_Manager::Update(float dt)
 			do_logic = true;
 
 
-		UpdateEntities(dt);
+		UpdateUnits(dt);
 		UpdateBuildings(dt);
 		UpdateObjects(dt);
 
@@ -100,16 +112,21 @@ bool Entity_Manager::Update(float dt)
 		accumulated_time -= update_ms_cycle;
 	}
 
+	entitiesQuadtree->ClearTree();
+
 	return true;
 }
 
-void Entity_Manager::UpdateEntities(float dt)
+void Entity_Manager::UpdateUnits(float dt)
 {
 	BROFILER_CATEGORY("UnitPool Update", Profiler::Color::Magenta);
 
-	for (int i = 0; i < unitsPoolSize; ++i) {
+	int numActives = activeUnits;
+
+	for (int i = 0; numActives > 0 && i < unitPool.size(); ++i) {
 
 		if (unitPool[i].active) {
+			numActives--;
 
 			unitPool[i].Update(dt);
 
@@ -120,7 +137,7 @@ void Entity_Manager::UpdateEntities(float dt)
 	}
 
 	//LAUNCHER UNITS
-	for (int i = 0; i < launcherPoolSize; ++i) {
+	for (int i = 0; i < launcherPool.size(); ++i) {
 
 		if (launcherPool[i].active) {
 
@@ -147,6 +164,7 @@ void Entity_Manager::UpdateObjects(float dt)
 	for (int i = 0; i < objectsArray.size(); i++) {
 		objectsArray[i].Update(dt);
 	}
+
 }
 
 bool BlitSort(Entity* i, Entity* j)
@@ -299,10 +317,12 @@ Launcher* Entity_Manager::ActivateLauncher(fPoint position, infantry_type infant
 	}
 
 	if (ret == nullptr) {
-
 		unitsPoolSize += RESIZE_VALUE;
 		AllocateUnitPool();
 		ActivateUnit(position, infantryType, entityFaction);
+	}
+	else {
+		activeUnits++;
 	}
 
 	return ret;
@@ -326,8 +346,6 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 	_Unit->active = false;
 	_Unit->selected = false;
 
-
-
 	//_Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];	//TODO: This caused bugs (Carles: Not sure)
 
 	std::vector<Entity*>::iterator it = entitiesVector.begin();
@@ -338,6 +356,8 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 			break;
 		}
 	}
+
+	activeUnits--;
 
 	return true;
 }
@@ -352,11 +372,10 @@ void Entity_Manager::ActivateBuildings()
 
 
 			if((*item).buildingType == building_type::COMMAND_CENTER)
-				mainBase = &(*item);
 
+        mainBase = &(*item);
 
 			  (*item).faction == entity_faction::COMMUNIST;
-
 				(*item).active = true;
 				(*item).selected = false;
 				(*item).texture = buildingsTextures[int((*item).buildingType)];
@@ -370,6 +389,8 @@ void Entity_Manager::ActivateBuildings()
 					break;
 				}
 			}
+
+			activeBuildings++;
 		}
 	}
 }
@@ -406,28 +427,23 @@ void Entity_Manager::ActivateObjects()
 	}
 }
 
-bool Entity_Manager::loadTextures() {
-
+bool Entity_Manager::loadTextures()
+{
 	pugi::xml_parse_result result = unitsDocument.load_file("textures/troops/unitsDoc.xml");
 	pugi::xml_parse_result result2 = BuildingsDocument.load_file("textures/buildings/BuildingsDoc.xml");
-
 
 	if(result!=NULL)
 	loadTroopsTextures();
 	if (result2 != NULL)
 	loadBuildingsTextures();
 
-
-
-
 	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
 
 	return true;
-
 }
 
-bool Entity_Manager::loadTroopsTextures() {
-
+bool Entity_Manager::loadTroopsTextures()
+{
 	for (pugi::xml_node Data = unitsDocument.child("Entity_Document").child("Troops").child("Soviet").child("Unit"); Data != NULL; Data = Data.next_sibling("Unit")) {
 
 		switch (Data.attribute("id").as_int())
@@ -483,8 +499,8 @@ bool Entity_Manager::loadTroopsTextures() {
 	}
 
 	return true;
-
 }
+
 bool Entity_Manager::loadBuildingsTextures() {
 
 	for (pugi::xml_node Data = BuildingsDocument.child("Buildings_Document").child("Building"); Data != NULL; Data = Data.next_sibling("Building")) {
@@ -596,13 +612,8 @@ bool Entity_Manager::LoadBuildingsData() {
 					BuildingAnimationArray[id][1].speed = 5.0f;
 
 				}
-
 			}
-
 		}
-
-
-
 	}
 
 	return ret;
@@ -795,12 +806,6 @@ bool Entity_Manager::AssignStats(std::string faction) {
 
 	return ret;
 }
-
-
-
-
-
-
 
 SDL_Rect Entity_Manager::SetupTreeType() {
 

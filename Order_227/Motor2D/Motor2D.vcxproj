@@ -84,6 +84,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonActions.cpp" />
     <ClCompile Include="CheckBox.cpp" />
+    <ClCompile Include="EntityQuadtree.cpp" />
     <ClCompile Include="Entity_Manager.cpp" />
     <ClCompile Include="Fonts.cpp" />
     <ClCompile Include="Geometry.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="ButtonActions.h" />
     <ClInclude Include="CheckBox.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityQuadtree.h" />
     <ClInclude Include="Entity_Manager.h" />
     <ClInclude Include="Fonts.h" />
     <ClInclude Include="Group.h" />

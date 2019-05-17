@@ -91,15 +91,6 @@ void Building::GiveReward() {
 
 		healthRecovery *= 1.5;
 		myApp->entities->mainBase->health += MainBaseLifeBuff;
-		int i = 0;
-
-		//while (i < myApp->entities->buildingsArray.size()) {
-		//	if (myApp->entities->buildingsArray[i].buildingType != building_type::MAIN_BASE)
-		//		myApp->entities->buildingsArray[i].maxHealth += StrategicPointsLifeBuff;
-
-		//	myApp->entities->buildingsArray[i].health = maxHealth;
-		//	i++;
-		//}
 
 		for(int i = 0; i < myApp->entities->buildingsArray.size(); i++) {
 
