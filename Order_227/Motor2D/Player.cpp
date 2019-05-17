@@ -199,33 +199,36 @@ void Player::DebugInputs()
 			}
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {	// Insta-Win
-
+		if (myApp->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {	// Activate Next Round
+			myApp->hordes->ChooseSpawningPoints();
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {	// Insta-Lose
+		if (myApp->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {	// Kill/Deactivate all enemies
 			myApp->hordes->ClearEnemies();
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
+			
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {	// Spawn Basic Capitalist on Mouse
 			DebugSpawnUnit(infantry_type::BASIC, entity_faction::CAPITALIST);
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
-			DebugSpawnUnit(infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
-		}
-
-		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Instantly start next round
-			myApp->hordes->ChooseSpawningPoints();
-		}
-		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
-			DebugSpawnLauncher(infantry_type::BAZOOKA, entity_faction::COMMUNIST);
-		}
-		if (myApp->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
+		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Spawn Chronon Mouse
 			DebugSpawnUnit(infantry_type::CHRONO, entity_faction::COMMUNIST);
 		}
-		if (myApp->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Spawn Desolator on Mouse
 			DebugSpawnUnit(infantry_type::DESOLATOR, entity_faction::COMMUNIST);
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {	// Spawn Bazooka on Mouse
+			DebugSpawnLauncher(infantry_type::BAZOOKA, entity_faction::COMMUNIST);
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {	// Spawn Conscript on Mouse
+			DebugSpawnUnit(infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
 		}
 
 	}
