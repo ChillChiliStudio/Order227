@@ -83,9 +83,13 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0, int i = -1);
 
-	//Volume Control
+	//Control General Volume (SFX & Music)
 	void ControlVolume(int vol);
+
+	//Control Music Volume
 	void ControlMUSVolume(int vol);
+
+	//Control SFX Volume
 	void ControlSFXVolume(int vol);
 
 	void FillArrayFX();

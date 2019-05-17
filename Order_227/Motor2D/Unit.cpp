@@ -743,12 +743,11 @@ bool Unit::SetupPath(iPoint origin, iPoint destination)
 
 	unitPath.clear();
 
-	if 
-
 	iPoint mapOrigin = myApp->map->WorldToMap(origin.x, origin.y);
 	iPoint mapDestination = myApp->map->WorldToMap(destination.x, destination.y);
 
 	if (mapOrigin != mapDestination) {
+
 		myApp->pathfinding->CreatePath(mapOrigin, mapDestination);	//Create path
 		unitPath = *myApp->pathfinding->GetLastPath();
 
