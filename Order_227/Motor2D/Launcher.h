@@ -1,8 +1,10 @@
 #ifndef LAUNCHER_H_
 #define LAUNCHER_H_
+
+#include "Unit.h"
 #include "Projectile.h"
 
-class Launcher :public Unit {
+class Launcher : public Unit {
 
 public:
 	Launcher();

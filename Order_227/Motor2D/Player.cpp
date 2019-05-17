@@ -1,15 +1,14 @@
 #include "Log.h"
 #include "App.h"
 #include "Input.h"
-#include "Fonts.h"
 #include "Render.h"
 #include "Audio.h"
-#include "Map.h"
 #include "Entity_Manager.h"
 #include "UserInterface.h"
+#include "Image.h"
 #include "Text.h"
-#include "ParamBox.h"
 #include "Horde_Manager.h"
+#include "Launcher.h"
 #include "GroupManager.h"
 #include "Unit.h"
 #include "Player.h"
@@ -29,8 +28,6 @@ bool Player::Start()
 	//LOG("STARTING PLAYER MODULE");
 
 	//incomeTimer.Start();
-	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
-	mouseDebugMark->Deactivate();
 
 	return true;
 }
@@ -84,9 +81,6 @@ bool Player::Update(float dt)
 
 bool Player::CleanUp()
 {
-	myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
-	mouseDebugMark = nullptr;
-
 	return true;
 }
 
@@ -148,8 +142,8 @@ void Player::DebugMouse()
 	mouseStr += " x ";
 	mouseStr += std::to_string(mouseMap.y);
 
-	mouseDebugMark->ChangeCenter({ (float)mouseScreenPos.x, (float)(mouseScreenPos.y - 25) });
-	mouseDebugMark->ChangeString(mouseStr);
+	myApp->gui->mouseDebugMark->ChangeCenter({ (float)mouseScreenPos.x, (float)(mouseScreenPos.y - 25) });
+	myApp->gui->mouseDebugMark->ChangeString(mouseStr);
 }
 
 void Player::DebugInputs()
@@ -175,11 +169,11 @@ void Player::DebugInputs()
 
 			if (myApp->map->mapDebugDraw) {
 				LOG("Debug Map: ON");
-				mouseDebugMark->Activate();
+				myApp->gui->mouseDebugMark->Activate();
 			}
 			else {
 				LOG("Debug Map: OFF");
-				mouseDebugMark->Deactivate();
+				myApp->gui->mouseDebugMark->Deactivate();
 			}
 		}
 

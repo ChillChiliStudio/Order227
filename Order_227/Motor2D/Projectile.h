@@ -1,6 +1,8 @@
 #ifndef PROJECTILE_H_
 #define PROJECTILE_H_
 
+#include "Entity.h"
+
 enum class projectile_directions {
 	NONE = -1,
 
@@ -16,7 +18,7 @@ enum class projectile_directions {
 	MAX_DIRECTIONS
 };
 
-class Projectile :public Entity {
+class Projectile : public Entity {
 public:
 	Projectile();
 	~Projectile();

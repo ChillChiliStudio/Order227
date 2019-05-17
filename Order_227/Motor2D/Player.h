@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Timer.h"
 #include "Point.h"
+#include "Unit.h"
 
 //#include <vector>
 //#include <ctime>
@@ -17,8 +18,6 @@ enum class infantry_type;
 enum class entity_faction;
 enum class unit_orders;
 enum class unit_aggro;
-
-class Text;
 
 class Player : public Module {
 
@@ -66,7 +65,6 @@ public:
 	iPoint mouseScreenPos;
 	iPoint mouseMap;
 
-	Text* mouseDebugMark = nullptr;
 	iPoint origin;
 	iPoint rectangle_origin;
 	
@@ -78,7 +76,6 @@ public:
 	int playerMoney = 400;
 	Timer incomeTimer;
 	
-
 	bool startCreationUnit = false;
 
 };
