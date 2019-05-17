@@ -123,7 +123,7 @@ void Entity_Manager::UpdateUnits(float dt)
 
 	int numActives = activeUnits;
 
-	for (int i = 0; numActives > 0 && i < unitPool.size(); ++i) {
+	for (int i = 0; /*numActives > 0*/ i < unitPool.size(); ++i) {
 
 		if (unitPool[i].active) {
 			numActives--;
@@ -260,7 +260,7 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 			(*item).infantryType = infantryType;
 			(*item).texture = infantryTextures[int(infantryType)];
 			(*item).stats = infantryStats[int(infantryType)];
-			(*item).Start();
+			(*item).Start(); //active = true goes here in this start
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 
@@ -273,6 +273,7 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 
 
 			ret = &(*item);
+			(*item).active;
 			break;
 		}
 	}
