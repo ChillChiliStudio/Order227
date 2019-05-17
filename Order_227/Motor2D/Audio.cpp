@@ -198,7 +198,7 @@ bool Audio::PlayFx(unsigned int id, int repeat, fPoint pos, bool spatial, int i)
 	if (!active)
 		return false;
 
-	uint channel;
+	int channel;
 
 	if (id > 0 && id <= fx.size())
 	{
@@ -214,17 +214,21 @@ bool Audio::PlayFx(unsigned int id, int repeat, fPoint pos, bool spatial, int i)
 				std::list<Mix_Chunk*>::iterator it = fx.begin();
 				it = next(fx.begin(), id - 1);
 				channel = Mix_PlayChannel(i, *it, repeat);
-				
-				float vol = 100.0f - (100.0f * distance / sfxAudioRadius);
 
-				ChangeChannelVolume(vol, channel);
+				if (channel > -1) {
+					float vol = 100.0f - (100.0f * distance / sfxAudioRadius);
+					ChangeChannelVolume(vol, channel);
+				}
 			}
 		}
 		else {
 			std::list<Mix_Chunk*>::iterator it = fx.begin();
 			it = next(fx.begin(), id - 1);
 			channel = Mix_PlayChannel(i, *it, repeat);
-			SetChannelVolume(channel);
+
+			if (channel > -1) {
+				SetChannelVolume(channel);
+			}
 		}
 	}
 
@@ -265,11 +269,17 @@ uint Audio::SetChannelVolume(int channel)
 
 uint Audio::ChangeChannelVolume(uint vol, int channel)
 {
+	uint ret;
+
 	if (channel < 0) {
 		sfxVolume = vol;
+		ret = SetChannelVolume(channel);
+	}
+	else {
+		ret = Mix_Volume(channel, masterVolume * (vol * MIX_MAX_VOLUME / 100) / 100);
 	}
 
-	return SetChannelVolume(channel);
+	return ret;
 }
 
 //Sfx Chunks
