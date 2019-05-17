@@ -3,7 +3,9 @@
 #include "App.h"
 #include "Audio.h"
 #include "Unit.h"
-
+#include "Window.h"
+#include "Render.h"
+#include "Geometry.h"
 
 #include "SDL/include/SDL.h"
 #include "SDL_mixer\include\SDL_mixer.h"
@@ -51,6 +53,14 @@ bool Audio::Awake(pugi::xml_node& config)
 		active = false;
 		ret = true;
 	}
+
+	// Load volumes
+	masterVolume = config.attribute("volume").as_uint();
+	musicVolume = config.child("music").attribute("volume").as_uint();
+	sfxVolume = config.child("sfx").attribute("volume").as_uint();
+
+	// Set channel volume
+	SetMasterVolume();
 
 	return ret;
 }
@@ -181,45 +191,123 @@ unsigned int Audio::LoadFx(const char* path)
 }
 
 // Play WAV
-bool Audio::PlayFx(unsigned int id, int repeat, int i)
+bool Audio::PlayFx(unsigned int id, int repeat, fPoint pos, bool spatial, int i)
 {
 	bool ret = false;
 
 	if (!active)
 		return false;
 
+	uint channel;
+
 	if (id > 0 && id <= fx.size())
 	{
+		if (spatial) {
+			iPoint screenMid;
+			myApp->win->GetWindowCenter((uint&)screenMid.x, (uint&)screenMid.y);
+			screenMid = myApp->render->ScreenToWorld(screenMid.x, screenMid.y);
 
-		std::list<Mix_Chunk*>::iterator it = fx.begin();
-		it = next(fx.begin(), id - 1);
-		Mix_PlayChannel(i, *it, repeat);
+			fVec2 vec = GetVector2({ (float)screenMid.x, (float)screenMid.y }, pos);
+			float distance = vec.GetMagnitude();
+
+			if (distance < sfxAudioRadius) {	//TODO: 100 is a hardcoded value, shouldn't be
+				std::list<Mix_Chunk*>::iterator it = fx.begin();
+				it = next(fx.begin(), id - 1);
+				channel = Mix_PlayChannel(i, *it, repeat);
+				
+				float vol = 100.0f - (100.0f * distance / sfxAudioRadius);
+
+				ChangeChannelVolume(vol, channel);
+			}
+		}
+		else {
+			std::list<Mix_Chunk*>::iterator it = fx.begin();
+			it = next(fx.begin(), id - 1);
+			channel = Mix_PlayChannel(i, *it, repeat);
+			SetChannelVolume(channel);
+		}
 	}
 
 	return ret;
 }
 
-void Audio::ControlVolume(int vol) { //Range: 0-128
-
-	Mix_Volume(-1, vol);
-
+//Volume Control
+//Master
+void Audio::SetMasterVolume() const
+{
+	Mix_VolumeMusic(masterVolume * (musicVolume * MIX_MAX_VOLUME / 100) / 100);
+	Mix_Volume(-1, masterVolume * (sfxVolume * MIX_MAX_VOLUME / 100) / 100);
 }
 
-void Audio::ControlMUSVolume(int vol) { //Range: 0-128
-
-	Mix_VolumeMusic(vol);
-
+void Audio::ChangeMasterVolume(uint vol)
+{
+	masterVolume = vol;
+	SetMasterVolume();
 }
 
-void Audio::ControlSFXVolume(int vol) { //Range: 0-128
-
-	std::list<Mix_Chunk*>::iterator it = fx.begin();
-
-	for(; *it != NULL; it = next(it))
-		Mix_VolumeChunk(*it, vol);
-
+//Music
+uint Audio::SetMusicVolume() const
+{
+	return Mix_VolumeMusic(masterVolume * (musicVolume * MIX_MAX_VOLUME / 100) / 100);
 }
 
+uint Audio::ChangeMusicVolume(uint vol)
+{
+	musicVolume = vol;
+	return SetMusicVolume();
+}
+
+//Channels
+uint Audio::SetChannelVolume(int channel)
+{
+	return Mix_Volume(channel, masterVolume * (sfxVolume * MIX_MAX_VOLUME / 100) / 100);
+}
+
+uint Audio::ChangeChannelVolume(uint vol, int channel)
+{
+	if (channel < 0) {
+		sfxVolume = vol;
+	}
+
+	return SetChannelVolume(channel);
+}
+
+//Sfx Chunks
+uint Audio::SetSfxChunkVolume(uint vol, int id)
+{
+	if (id > 0 && id <= fx.size())
+	{
+		std::list<Mix_Chunk*>::iterator it = fx.begin();
+		it = next(fx.begin(), id - 1);
+
+		return Mix_VolumeChunk(*it, vol * MIX_MAX_VOLUME / 100);
+	}
+	else {
+		return 0;
+	}
+}
+
+//Legacy Lucho Methods
+//void Audio::ControlVolume(int vol) { //Range: 0-128
+//
+//	Mix_Volume(-1, vol);
+//
+//}
+//
+//void Audio::ControlMUSVolume(int vol) { //Range: 0-128
+//
+//	Mix_VolumeMusic(vol);
+//
+//}
+//
+//void Audio::ControlSFXVolume(int vol) { //Range: 0-128
+//
+//	std::list<Mix_Chunk*>::iterator it = fx.begin();
+//
+//	for(; *it != NULL; it = next(it))
+//		Mix_VolumeChunk(*it, vol);
+//
+//}
 
 void Audio::FillArrayFX() {
 	

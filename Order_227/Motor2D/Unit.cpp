@@ -498,7 +498,7 @@ void Unit::AttackCurrTarget(float dt)
 		unitState = unit_state::ATTACKING;
 	}
 	else if (attackTimer.Read() > stats.cadency) {
-		myApp->audio->PlayFx(stats.attackSfxId);
+		myApp->audio->PlayFx(stats.attackSfxId, 0, centerPos, true);
 		attackTimer.Start();
 	}
 }
@@ -523,7 +523,7 @@ void Unit::Die()
 	unitState = unit_state::DEAD;
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0][(int)faction]);
 
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::HURT][rand() % 2]);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::HURT][rand() % 2], 0, centerPos, true);
 }
 
 // Unit Data

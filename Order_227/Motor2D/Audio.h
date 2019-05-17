@@ -2,6 +2,8 @@
 #define AUDIO_H
 
 #include "Module.h"
+#include "Point.h"
+#include "SDL_mixer\include\SDL_mixer.h"
 
 #define FACTION_NUM 2
 #define VARIATION_PER_SOUND 3
@@ -81,16 +83,45 @@ public:
 	unsigned int LoadFx(const char* path);
 
 	// Play a previously loaded WAV
-	bool PlayFx(unsigned int fx, int repeat = 0, int i = -1);
+	bool PlayFx(unsigned int fx, int repeat = 0, fPoint pos = { 0.0f, 0.0f }, bool spatial = false, int i = -1);
 
-	//Volume Control
-	void ControlVolume(int vol);
+	//Volume Control (Input uses percentage 0 - 100 values, mixer uses 0 - 128 values)
+	void SetMasterVolume() const;	//Master
+	void ChangeMasterVolume(uint vol);
+
+	uint SetMusicVolume() const;	//Music
+	uint ChangeMusicVolume(uint vol);
+
+	uint SetChannelVolume(int channel = -1);	//Sfx Channels
+	uint ChangeChannelVolume(uint vol, int channel = -1);
+
+	uint SetSfxChunkVolume(uint vol, int id = -1);	//Chunks
+
+	uint* GetMasterVolume() {
+		return &masterVolume;
+	}
+	uint* GetSfxVolume() {
+		return &sfxVolume;
+	}
+	uint* GetMusicVolume() {
+		return &musicVolume;
+	}
+
+	//Legacy Lucho Methods
+	/*void ControlVolume(int vol);
 	void ControlMUSVolume(int vol);
-	void ControlSFXVolume(int vol);
+	void ControlSFXVolume(int vol);*/
 
 	void FillArrayFX();
 	void LoadIntoArray();
 
+public:
+	// 0% - 100% Range
+	uint masterVolume;	//General Volume
+	uint musicVolume;	//Music Volume
+	uint sfxVolume;		//Sfx Volume
+
+	float sfxAudioRadius = 1000.0f;	//Player spatial audio radius	//TODO: Unharcode
 
 	//TODO: The hardoced 4 should be entity/unit type::Max
 	uint SoundFX_Array[MAX_INFANTRY_NUMBER][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];

@@ -26,6 +26,7 @@ public:
 
 	// Retrive window size
 	void GetWindowSize(uint& width, uint& height) const;
+	void GetWindowCenter(uint& mid_x, uint& mid_y) const;
 
 	// Retrieve window scale
 	uint GetScale() const;
@@ -40,6 +41,9 @@ public:
 
 	uint		width;
 	uint		height;
+	
+	uint		middle_x;
+	uint		middle_y;
 
 private:
 	std::string	title;
