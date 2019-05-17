@@ -768,19 +768,15 @@ bool Unit::SetupPath(iPoint origin, iPoint destination)
 	iPoint mapOrigin = myApp->map->WorldToMap(origin.x, origin.y);
 	iPoint mapDestination = myApp->map->WorldToMap(destination.x, destination.y);
 
-	mapOrigin.x++;		//WARNING: If Pathfinding is acting wierd this might be the cause
-	mapDestination.x++;
-
 	if (mapOrigin != mapDestination) {
+
 		myApp->pathfinding->CreatePath(mapOrigin, mapDestination);	//Create path
 		unitPath = *myApp->pathfinding->GetLastPath();
 
 		for (int i = 0; i < unitPath.size(); i++) {					//Translate and correct all in-between nodes
 			unitPath[i] = myApp->map->MapToWorld(unitPath[i].x, unitPath[i].y);
 
-			//Pathfinding correction (Tile size: 60 width x 30 height)	//TODO: Something's wrong with MapToWorld/WorldToMap (specially suspicious -1 in the formula)
-			unitPath[i].x += 30;	//Tile width / 2
-			unitPath[i].y += 30;	//Tile height
+			unitPath[i].y += 15;	//Move nodes to the center of the tile (15 = tile_height / 2)
 		}
 
 		currNode = next(unitPath.begin());	// Unit should move directly to 2nd node, as 1st is curr position
