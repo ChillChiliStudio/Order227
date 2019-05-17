@@ -601,7 +601,10 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 				{
 
 					case (int(infantry_type::BASIC)) :
-						temp.x = temp.x;
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
 
 						break;
 

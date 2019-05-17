@@ -32,7 +32,7 @@
    
     <Capitalist>
     <Unit id="0" name="IG" TextPath="textures/troops/allied/IG.png" TiledFile="textures/troops/allied/IG.tmx">
-        <RectOffset x="26" y="20" w="25" h="35"/>
+        <RectOffset x="26" y="10" w="25" h="35"/>
         <stats speed="30" cadency="0.5" damage="2" health="6" visionRange="200" attackRange="150" cost="500" prodTime="8" threat="5"/>
       </Unit>
       <Unit id="6" name="Dog" TextPath="textures/troops/allied/Dog.png"  TiledFile="textures/troops/allied/Dog.tmx">
