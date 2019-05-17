@@ -242,13 +242,13 @@ void Entity_Manager::AllocateTankPool()
 	//tankPool.resize(/*tankPoolSize*/unitsPoolSize);
 }
 
-void Entity_Manager::AllocateLauncherPool() {
+void Entity_Manager::AllocateLauncherPool()
+{
 	launcherPool.resize(launcherPoolSize);
 }
 
 Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction)
 {
-
 	Unit* ret = nullptr;
 
 	for (std::vector<Unit>::iterator item = unitPool.begin(); item != unitPool.end(); item = next(item)) {
@@ -284,6 +284,9 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 		AllocateUnitPool();
 		ActivateUnit(position, infantryType, entityFaction);
 	}
+	else {
+		activeUnits++;
+	}
 
 	return ret;
 }
@@ -318,19 +321,27 @@ Launcher* Entity_Manager::ActivateLauncher(fPoint position, infantry_type infant
 	}
 
 	if (ret == nullptr) {
-		unitsPoolSize += RESIZE_VALUE;
-		AllocateUnitPool();
-		ActivateUnit(position, infantryType, entityFaction);
+		launcherPoolSize += RESIZE_VALUE;
+		AllocateLauncherPool();
+		ActivateLauncher(position, infantryType, entityFaction);
 	}
 	else {
-		activeUnits++;
+		activeLaunchers++;
 	}
 
 	return ret;
 }
 
-
 bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shouldn't be necessary as non-active elements are not iterated at any point, and if they become active again these values are or should be overwritten
+
+	switch (_Unit->infantryType) {
+	case infantry_type::BAZOOKA:
+		activeLaunchers--;
+		break;
+	default:
+		activeUnits--;
+		break;
+	}
 
 	_Unit->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 	_Unit->infantryType = infantry_type::INFANTRY_NONE;
@@ -357,8 +368,6 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 			break;
 		}
 	}
-
-	activeUnits--;
 
 	return true;
 }

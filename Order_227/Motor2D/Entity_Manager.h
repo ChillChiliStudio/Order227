@@ -74,9 +74,9 @@ public:
 	//Pools
 
 	std::vector<Unit>			unitPool; //Unist will always be Hitscan type
-	std::vector<Launcher>	    launcherPool;//Launcher will always be Launcher type such as tanks or bazookas that use missiles
-	//std::vector<Unit>			unitPool;
 	int activeUnits = 0;
+	std::vector<Launcher>	    launcherPool;//Launcher will always be Launcher type such as tanks or bazookas that use missiles
+	int activeLaunchers = 0;
 
 	//std::vector<Hitscan>		hitscanPool;
 	//std::vector<Ranged>		rangedPool;

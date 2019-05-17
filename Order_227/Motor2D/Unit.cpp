@@ -612,9 +612,10 @@ Entity* Unit::EnemyInRadius(uint radius)
 {
 	Entity* ret = nullptr;
 
-	int numActives = myApp->entities->activeUnits;
+	int numActives;
 
 	//Units
+	numActives = myApp->entities->activeUnits;
 	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); numActives > 0; item = next(item)) {
 		if ((*item).active) {
 			numActives--;
@@ -630,31 +631,40 @@ Entity* Unit::EnemyInRadius(uint radius)
 			}
 		}
 	}
-	for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); item != myApp->entities->launcherPool.end(); item = next(item)) {
-		if ((*item).active == true && (*item).IsDead() == false && (*item).faction != faction) {
 
-			if (InsideSquareRadius(centerPos, (float)stats.attackRadius, (*item).centerPos)
-				&& InsideRadius(centerPos, (float)stats.attackRadius, (*item).centerPos))
-			{
-				ret = (Entity*)&(*item);
-				break;
-			}
-		}
-	}
-	if (ret == nullptr && faction == entity_faction::CAPITALIST) {
-		numActives = myApp->entities->activeBuildings;
-
-		for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0; item = next(item)) {
+	if (ret == nullptr) {
+		numActives = myApp->entities->activeLaunchers;
+		for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); numActives > 0; item = next(item)) {
 			if ((*item).active) {
 				numActives--;
 
-				if ((*item).IsDead() == false) {
+				if ((*item).IsDead() == false && (*item).faction != faction) {
 
 					if (InsideSquareRadius(centerPos, (float)radius, (*item).centerPos)
 						&& InsideRadius(centerPos, (float)radius, (*item).centerPos))
 					{
 						ret = (Entity*)&(*item);
 						break;
+					}
+				}
+			}
+		}
+
+		if (ret == nullptr && faction == entity_faction::CAPITALIST) {
+			numActives = myApp->entities->activeBuildings;
+
+			for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0; item = next(item)) {
+				if ((*item).active) {
+					numActives--;
+
+					if ((*item).IsDead() == false) {
+
+						if (InsideSquareRadius(centerPos, (float)radius, (*item).centerPos)
+							&& InsideRadius(centerPos, (float)radius, (*item).centerPos))
+						{
+							ret = (Entity*)&(*item);
+							break;
+						}
 					}
 				}
 			}
