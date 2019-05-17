@@ -9,8 +9,14 @@
 
 Horde_Manager::Horde_Manager()
 {
-	name.assign("Horde_Manager");
+	name.assign("horde_manager");
 }
+
+//bool Horde_Manager::Awake(pugi::xml_node&config) {
+//
+//	maxHordes = config.child("max_hordes").attribute("value").as_int(0);
+//	return true;
+//}
 
 bool Horde_Manager::Start()
 {

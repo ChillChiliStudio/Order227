@@ -1,7 +1,7 @@
 <!-- Config file for the game -->
 <config>
   <app framerate_cap="60">
-    <title>Order 227</title>
+    <title>Order227</title>
     <organization>UPC</organization>
     <debug active="true" />
   </app>
@@ -30,6 +30,9 @@
 	<units_initial_size value="200"/>
   </entities>
 
+<horde_manager>
+	<max_hordes value="6" />
+</horde_manager>
 
   <user_interface>
     <atlas file="ui/atlas.png" />

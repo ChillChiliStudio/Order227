@@ -19,6 +19,7 @@ public:
 	Horde_Manager();
 
 	bool Start();
+	//bool Awake(pugi::xml_node&config);
 	bool Update(float dt);
 	bool CleanUp();
 
@@ -69,6 +70,7 @@ public:
 
 	int roundNumber = 0;
 	bool hordeActive = false;
+	int maxHordes = 0;
 
 	Timer roundTimer;
 

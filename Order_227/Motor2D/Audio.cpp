@@ -215,11 +215,13 @@ void Audio::ControlMUSVolume(int vol) { //Range: 0-128
 
 void Audio::ControlSFXVolume(int vol) { //Range: 0-128
 
-	std::list<Mix_Chunk*>::iterator it = fx.begin();
+	if (fx.size() > 0) {
 
-	for(; *it != NULL; it = next(it))
-		Mix_VolumeChunk(*it, vol);
+		std::list<Mix_Chunk*>::iterator it = fx.begin();
 
+		for (; *it != NULL; it = next(it))
+			Mix_VolumeChunk(*it, vol);
+	}
 }
 
 
