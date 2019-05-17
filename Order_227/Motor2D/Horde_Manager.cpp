@@ -8,7 +8,9 @@
 #include "Render.h"
 
 Horde_Manager::Horde_Manager()
-{}
+{
+	name.assign("Horde_Manager");
+}
 
 bool Horde_Manager::Start()
 {
@@ -28,20 +30,23 @@ bool Horde_Manager::CleanUp()
 
 bool Horde_Manager::Update(float dt)
 {
+
 	//Spawn Point Draw
 	if (myApp->map->mapDebugDraw)
 		for (int i = 0; i < SpawningPoints_Array.size(); i++) 
 			myApp->render->Blit(myApp->map->debug_tex, SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
 
-	if (hordeActive != false) {
+	if (CleanHordesTimer.ReadSec() > TIME_TO_CHECK_HORDES && hordeActive == true) {
 
-		if (HordesDead() && roundTimer.Read() > TIME_BETWEEN_ROUNDS) {
+		CleanHordes();
+
+		if (HordesDead() == true && roundTimer.Read() > TIME_BETWEEN_ROUNDS) {
 
 			ChooseSpawningPoints();
 			roundTimer.Start();
 		}
 
-		else if (!HordesDead())
+		else if (HordesDead() == false)
 			roundTimer.Start();
 	}
 
@@ -145,15 +150,37 @@ void Horde_Manager::ClearEnemies()
 
 bool Horde_Manager::HordesDead()
 {
+
 	for (int i = 0; i < hordes.size(); ++i) 
 	{
-		std::list<Unit*>::iterator iter = hordes[i]->groupUnits.begin();
+		if (hordes[i]->groupUnits.size() > 0)
+			return false;
+		/*std::list<Unit*>::iterator iter = hordes[i]->groupUnits.begin();
 		for ( int b=0; b< hordes[i]->groupUnits.size();++b)
 		{
 			if ((*iter)->active)
 				return false;
 			++iter;
-		}
+		}*/
 	}
 	return true;
+}
+
+
+void Horde_Manager::CleanHordes() {
+
+	for (int i = 0; i < hordes.size(); i++) {
+
+		std::list<Unit*>::iterator iter = hordes[i]->groupUnits.begin();
+		for (int j = 0; j < hordes[i]->groupUnits.size(); j++) {
+
+
+			if ((*iter)->faction == entity_faction::COMMUNIST || (*iter)->infantryType == infantry_type::INFANTRY_NONE)
+				hordes[i]->groupUnits.erase(iter);
+
+			++iter;
+		}
+	}
+
+	CleanHordesTimer.Start();
 }
