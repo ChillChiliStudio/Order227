@@ -35,7 +35,7 @@ public:
 	void DebugMouse();
 	void DebugInputs();
 	void DebugSpawnUnit(infantry_type type, entity_faction faction);
-
+	void DebugSpawnLauncher(infantry_type type, entity_faction faction);
 	void CheckForOrders();
 	unit_aggro GetAggroLevel();
 	void ApplyAggroLevel(unit_aggro aggro);

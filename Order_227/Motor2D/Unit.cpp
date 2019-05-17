@@ -18,6 +18,7 @@ Unit::Unit(fPoint pos, infantry_type infType, entity_faction faction) : Entity(p
 {
 //	LoadEntityData();
 	infantryType = infType;
+
 }
 
 Unit::~Unit()
@@ -33,7 +34,7 @@ bool Unit::Start()
 	unitState = unit_state::IDLE;
 	unitOrders = unit_orders::HOLD;
 	unitDirection = unit_directions::SOUTH_EAST;
-	
+
 	currNode = unitPath.end();
 
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)][(int)faction]);
@@ -59,8 +60,10 @@ bool Unit::Update(float dt)
 	UnitWorkflow(dt);
 
 	if (mustDespawn) {
-		mustDespawn = false;
-		myApp->entities->DeActivateUnit(this);
+		/*if (currentAnimation.Finished() == true) {*/
+			mustDespawn = false;
+			myApp->entities->DeActivateUnit(this);
+		/*}*/
 	}
 	else {
 		if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
@@ -108,10 +111,10 @@ bool Unit::DebugDraw()
 
 	switch (faction) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
 	case entity_faction::COMMUNIST:
-		rgb[0] = 255;	//Red
+		rgb[2] = 255;	//Blue
 		break;
 	case entity_faction::CAPITALIST:
-		rgb[2] = 255;	//Blue
+		rgb[0] = 255;	//Red
 		break;
 	case entity_faction::NEUTRAL:
 		rgb[0] = 255;
@@ -396,7 +399,7 @@ void Unit::DoPatrol(float dt)
 	}
 }
 
-// Actions
+ //Actions
 bool Unit::Move(float dt)
 {
 	fVec2 distanceMoved = { vecSpeed.x * dt, vecSpeed.y * dt };
@@ -526,7 +529,7 @@ void Unit::Die()
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::HURT][rand() % 2]);
 }
 
-// Unit Data
+ //Unit Data
 bool Unit::IsDead()
 {
 	bool ret = false;
@@ -604,14 +607,15 @@ bool Unit::TargetDisplaced(Entity* target)
 	return ret;
 }
 
-// Unit Calculations
+ //Unit Calculations
 Entity* Unit::EnemyInRadius(uint radius)
 {
 	Entity* ret = nullptr;
 
-	int numActives = myApp->entities->activeUnits;
+	int numActives;
 
 	//Units
+	numActives = myApp->entities->activeUnits;
 	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); numActives > 0; item = next(item)) {
 		if ((*item).active) {
 			numActives--;
@@ -628,21 +632,39 @@ Entity* Unit::EnemyInRadius(uint radius)
 		}
 	}
 
-	//Buildings
-	if (ret == nullptr && faction == entity_faction::CAPITALIST) {
-		numActives = myApp->entities->activeBuildings;
-
-		for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0; item = next(item)) {
+	if (ret == nullptr) {
+		numActives = myApp->entities->activeLaunchers;
+		for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); numActives > 0; item = next(item)) {
 			if ((*item).active) {
 				numActives--;
 
-				if ((*item).IsDead() == false) {
+				if ((*item).IsDead() == false && (*item).faction != faction) {
 
 					if (InsideSquareRadius(centerPos, (float)radius, (*item).centerPos)
 						&& InsideRadius(centerPos, (float)radius, (*item).centerPos))
 					{
 						ret = (Entity*)&(*item);
 						break;
+					}
+				}
+			}
+		}
+
+		if (ret == nullptr && faction == entity_faction::CAPITALIST) {
+			numActives = myApp->entities->activeBuildings;
+
+			for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0; item = next(item)) {
+				if ((*item).active) {
+					numActives--;
+
+					if ((*item).IsDead() == false) {
+
+						if (InsideSquareRadius(centerPos, (float)radius, (*item).centerPos)
+							&& InsideRadius(centerPos, (float)radius, (*item).centerPos))
+						{
+							ret = (Entity*)&(*item);
+							break;
+						}
 					}
 				}
 			}

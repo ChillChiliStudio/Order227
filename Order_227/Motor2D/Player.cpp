@@ -78,7 +78,7 @@ bool Player::Update(float dt)
 		myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
 		incomeTimer.Start();
 	}
-	
+
 	return true;
 }
 
@@ -206,36 +206,34 @@ void Player::DebugInputs()
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {	// Insta-Win
-			
+
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {	// Insta-Lose
-
+			myApp->hordes->ClearEnemies();
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
-
+			DebugSpawnUnit(infantry_type::BASIC, entity_faction::CAPITALIST);
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
-			
+			DebugSpawnUnit(infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Instantly start next round
 			myApp->hordes->ChooseSpawningPoints();
 		}
-
-		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Destroy all enemies
-			myApp->hordes->ClearEnemies();
+		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
+			DebugSpawnLauncher(infantry_type::BAZOOKA, entity_faction::COMMUNIST);
 		}
-
-		if (myApp->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {	// Spawn Capitalist Unit on Mouse
-			DebugSpawnUnit(infantry_type::BASIC, entity_faction::CAPITALIST);
+		if (myApp->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
+			DebugSpawnUnit(infantry_type::CHRONO, entity_faction::COMMUNIST);
 		}
-
 		if (myApp->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
-			DebugSpawnUnit(infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
+			DebugSpawnUnit(infantry_type::DESOLATOR, entity_faction::COMMUNIST);
 		}
+
 	}
 }
 
@@ -245,14 +243,24 @@ void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: 
 	tmp->StartHold();
 }
 
+void Player::DebugSpawnLauncher(infantry_type unit, entity_faction faction)	//TODO: This should work with unit_type alone, enum ramifications like infantry or vehicles unnecesary
+{
+	Launcher* tmp = myApp->entities->ActivateLauncher(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
+	tmp->StartHold();
+}
+
 void Player::CheckForOrders()
 {
+
 	if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {	// Hold is done instantly, the others need a click
 		if (myApp->groups->playerGroup.groupUnits.size() > 0) {
+
 			ApplyAggroLevel(GetAggroLevel());
 			OrderHold();
 		}
 	}
+
+
 	if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
 		prepOrder = unit_orders::MOVE;
 	}
@@ -262,6 +270,9 @@ void Player::CheckForOrders()
 	if (myApp->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
 		prepOrder = unit_orders::PATROL;
 	}
+	/*if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_IDLE) {
+		myApp->entities.ChangeAgro(unit_aggro::DEFENSIVE);
+	}*/
 }
 
 unit_aggro Player::GetAggroLevel()
@@ -274,7 +285,7 @@ unit_aggro Player::GetAggroLevel()
 	else if (myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {	// Hold LEFT SHIFT for Passive
 		ret = unit_aggro::PASSIVE;
 	}
-	
+
 	return ret;
 }
 
