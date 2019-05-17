@@ -121,7 +121,7 @@ public:
 	uint musicVolume;	//Music Volume
 	uint sfxVolume;		//Sfx Volume
 
-	float sfxAudioRadius = 1500.0f;	//Player spatial audio radius	//TODO: Unharcode
+	float sfxAudioRadius = 1000.0f;	//Player spatial audio radius	//TODO: Unharcode
 
 	//TODO: The hardoced 4 should be entity/unit type::Max
 	uint SoundFX_Array[MAX_INFANTRY_NUMBER][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
