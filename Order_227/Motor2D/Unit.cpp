@@ -111,10 +111,10 @@ bool Unit::DebugDraw()
 
 	switch (faction) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
 	case entity_faction::COMMUNIST:
-		rgb[2] = 255;	//Blue
+		rgb[0] = 255;	//Red
 		break;
 	case entity_faction::CAPITALIST:
-		rgb[0] = 255;	//Red
+		rgb[2] = 255;	//Blue
 		break;
 	case entity_faction::NEUTRAL:
 		rgb[0] = 255;

@@ -86,22 +86,22 @@ public:
 	bool PlayFx(unsigned int fx, int repeat = 0, fPoint pos = { 0.0f, 0.0f }, bool spatial = false, int i = -1);
 
 	//Volume Control (Paremeter input and variables use percentage 0 - 100 values, Mixer uses 0 - 128 values)
-  //Master Volume
-	void SetMasterVolume() const;	//Master
+	//Master Volume
+	void SetMasterVolume() const;
 	void ChangeMasterVolume(uint vol);
   
-  //Music Volume
-	uint SetMusicVolume() const;	//Music
+	//Music Volume
+	uint SetMusicVolume() const;
 	uint ChangeMusicVolume(uint vol);
   
-  //Sfx Volume
-	uint SetChannelVolume(int channel = -1);	//Sfx Channels
+	//Sfx Volume
+	uint SetChannelVolume(int channel = -1);
 	uint ChangeChannelVolume(uint vol, int channel = -1);
   
-  //Chunck Volume
-	uint SetSfxChunkVolume(uint vol, int id = -1);	//Chunks
+	//Chunck Volume
+	uint SetSfxChunkVolume(uint vol, int id = -1);
   
-  //Get functions
+	//Get functions
 	uint* GetMasterVolume() {
 		return &masterVolume;
 	}
