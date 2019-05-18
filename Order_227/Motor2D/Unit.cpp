@@ -117,10 +117,10 @@ bool Unit::DebugDraw()
 
 	switch (faction) {	//TODO-Carles: Checking it's faction inside the worflow to do stuff is bad
 	case entity_faction::COMMUNIST:
-		rgb[2] = 255;	//Blue
+		rgb[0] = 255;	//Red
 		break;
 	case entity_faction::CAPITALIST:
-		rgb[0] = 255;	//Red
+		rgb[2] = 255;	//Blue
 		break;
 	case entity_faction::NEUTRAL:
 		rgb[0] = 255;
@@ -507,10 +507,9 @@ void Unit::AttackCurrTarget(float dt)
 		unitState = unit_state::ATTACKING;
 	}
 	else if (attackTimer.Read() > stats.cadency) {
-	
 		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SHOT];
-		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::SHOT][rand() % Aux]);
-
+		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::SHOT][rand() % Aux], 0, centerPos, true);
+    
 		attackTimer.Start();
 	}
 }
@@ -534,9 +533,9 @@ void Unit::Die()
 	unitOrders = unit_orders::NONE;
 	unitState = unit_state::DEAD;
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0][(int)faction]);
-	
+
 	int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::HURT];
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::HURT][rand() % Aux]);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::HURT][rand() % Aux], 0, centerPos, true);
 }
 
  //Unit Data

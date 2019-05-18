@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="3" height="19" tilewidth="282" tileheight="200" nextobjectid="2">
+ <objectgroup name="Rects">
+  <object id="1" name="Spawn" x="0" y="0" width="282" height="200"/>
+  <object id="1" name="Spawn" x="282" y="0" width="282" height="200"/>
+  <object id="1" name="Spawn" x="564" y="0" width="282" height="200"/>
+  <object id="1" name="Spawn" x="0" y="200" width="282" height="200"/>
+  <object id="1" name="Spawn" x="282" y="200" width="282" height="200"/>
+  <object id="1" name="Spawn" x="564" y="200" width="282" height="200"/>
+  <object id="1" name="Spawn" x="0" y="400" width="282" height="200"/>
+  <object id="1" name="Spawn" x="282" y="400" width="282" height="200"/>
+  <object id="1" name="Spawn" x="564" y="400" width="282" height="200"/>
+  <object id="1" name="Spawn" x="0" y="600" width="282" height="200"/>
+  <object id="1" name="Spawn" x="282" y="600" width="282" height="200"/>
+  <object id="1" name="Spawn" x="564" y="600" width="282" height="200"/>
+  <object id="1" name="Spawn" x="0" y="800" width="282" height="200"/>
+  <object id="1" name="Spawn" x="282" y="800" width="282" height="200"/>
+  <object id="1" name="Spawn" x="564" y="800" width="282" height="200"/>
+  <object id="1" name="Spawn" x="0" y="1000" width="282" height="200"/>
+  <object id="1" name="Spawn" x="282" y="1000" width="282" height="200"/>
+  <object id="1" name="Spawn" x="564" y="1000" width="282" height="200"/>
+  <object id="1" name="Spawn" x="0" y="1200" width="282" height="200"/>
+  <object id="1" name="Spawn" x="282" y="1200" width="282" height="200"/>
+  <object id="1" name="Spawn" x="564" y="1200" width="282" height="200"/>
+  <object id="1" name="Spawn" x="0" y="1400" width="282" height="200"/>
+  <object id="1" name="Spawn" x="282" y="1400" width="282" height="200"/>
+  <object id="1" name="Spawn" x="564" y="1400" width="282" height="200"/>
+  <object id="1" name="Spawn" x="0" y="1600" width="282" height="200"/>
+  <object id="1" name="Idle" x="0" y="1800" width="282" height="200"/>
+  <object id="1" name="Explosion" x="0" y="2000" width="282" height="200"/>
+  <object id="1" name="Explosion" x="282" y="2000" width="282" height="200"/>
+  <object id="1" name="Explosion" x="564" y="2000" width="282" height="200"/>
+  <object id="1" name="Explosion" x="0" y="2200" width="282" height="200"/>
+  <object id="1" name="Explosion" x="282" y="2200" width="282" height="200"/>
+  <object id="1" name="Explosion" x="564" y="2200" width="282" height="200"/>
+  <object id="1" name="Explosion" x="0" y="2400" width="282" height="200"/>
+  <object id="1" name="Explosion" x="282" y="2400" width="282" height="200"/>
+  <object id="1" name="Explosion" x="564" y="2400" width="282" height="200"/>
+  <object id="1" name="Explosion" x="0" y="2600" width="282" height="200"/>
+  <object id="1" name="Explosion" x="282" y="2600" width="282" height="200"/>
+  <object id="1" name="Explosion" x="564" y="2600" width="282" height="200"/>
+  <object id="1" name="Explosion" x="0" y="2800" width="282" height="200"/>
+  <object id="1" name="Explosion" x="282" y="2800" width="282" height="200"/>
+  <object id="1" name="Explosion" x="564" y="2800" width="282" height="200"/>
+  <object id="1" name="Explosion" x="0" y="3000" width="282" height="200"/>
+  <object id="1" name="Explosion" x="282" y="3000" width="282" height="200"/>
+  <object id="1" name="Explosion" x="564" y="3000" width="282" height="200"/>
+  <object id="1" name="Explosion" x="0" y="3200" width="282" height="200"/>
+  <object id="1" name="Explosion" x="282" y="3200" width="282" height="200"/>
+  <object id="1" name="Explosion" x="564" y="3200" width="282" height="200"/>
+  <object id="1" name="Explosion" x="0" y="3400" width="282" height="200"/>
+  <object id="1" name="Explosion" x="282" y="3400" width="282" height="200"/>
+  <object id="1" name="Explosion" x="564" y="3400" width="282" height="200"/>
+  <object id="1" name="Explosion" x="0" y="3600" width="282" height="200"/>
+  <object id="1" name="Explosion" x="282" y="3600" width="282" height="200"/>
+  <object id="1" name="Explosion" x="564" y="3600" width="282" height="200"/>
+  <object id="1" name="Explosion" x="0" y="3800" width="282" height="200"/>
+  <object id="1" name="Explosion" x="282" y="3800" width="282" height="200"/>
+  <object id="1" name="Explosion" x="564" y="3800" width="282" height="200"/>
+  <object id="1" name="Explosion" x="282" y="1800" width="282" height="200"/>
+ </objectgroup>
+ <imagelayer name="Image Layer 1">
+  <image source="EPC.png" width="851" height="3997"/>
+ </imagelayer>
+</map>

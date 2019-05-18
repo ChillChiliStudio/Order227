@@ -18,10 +18,16 @@ Building::Building(fPoint position, building_type building_type, entity_faction 
 
 bool Building::Start() {
 
+
+	//myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, myApp->entities->lifeBar_tex, &health);
+	CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::SPAWN)]);
+	maxHealth = health;
+
 	myApp->entities->buildingsArray;
 	myApp->gui->CreateLifeBar(position, NULL, myApp->entities->lifeBar_tex, &health);
-	CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][0]);
-	
+	//CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][0]);
+
+
 	return true;
 }
 
@@ -46,18 +52,25 @@ bool Building::Update(float dt)
 			faction = entity_faction::COMMUNIST;
 
 
+	if (repairable) {
+		int unitsArraound = 0;
+		for (int i = 0; i < myApp->entities->unitPool.size(); i++) {
+			if (myApp->entities->unitPool[i].active && this->position.x - myApp->entities->unitPool[i].position.x < 30 && this->position.x - myApp->entities->unitPool[i].position.x > -30
+				&& this->position.y - myApp->entities->unitPool[i].position.y < 30 && this->position.y - myApp->entities->unitPool[i].position.y > -30) {
+				unitsArraound++;
+			}
+		}
+		for (int i = 0; i < myApp->entities->launcherPool.size(); i++) {
+			if (myApp->entities->unitPool[i].active && this->position.x - myApp->entities->unitPool[i].position.x < 30 && this->position.x - myApp->entities->unitPool[i].position.x > -30
+				&& this->position.y - myApp->entities->unitPool[i].position.y < 30 && this->position.y - myApp->entities->unitPool[i].position.y > -30) {
+				unitsArraound++;
+			}
+		}
+		for (int i = 0; i < unitsArraound; i++) {
+			Repair();
+		}
 
-	//if (this == myApp->entities->mainBase && health <= 0) {
-	//	
-	//	myApp->gui->LoseIcon->Activate();
-	//	myApp->scene->SwitchMusic(Screen_Type::SCREEN_LOSE);
-
-	//	//myApp->hordes->hordeActive = false;
-	//	//myApp->gui->pauseMenuPanel->Deactivate();
-	//	//myApp->gui->MainMenuTemp_Image->Activate();
-	//	//myApp->entities->ResetAll();
-
-	//}
+	}
 
 
 	CurrentAnim.AdvanceAnimation(dt);
@@ -66,11 +79,26 @@ bool Building::Update(float dt)
 
 	if (myApp->map->mapDebugDraw)
 		DebugDraw();
-	
-	if (buildingType != building_type::COMMAND_CENTER && CurrentAnim.Finished()==true) {
 
-		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][1]);
+	if (CurrentAnim.Finished()==true && health> maxHealth/2) {
+
+		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::IDLE)]);
 	}
+	else if (health <= 0 && destroyed == false) {
+		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::DESTROYED)]);
+		destroyed = true;
+	}
+
+	if (this == myApp->entities->mainBase && health <= 0) {
+
+		myApp->gui->LoseIcon->Activate();
+		//myApp->hordes->hordeActive = false;
+		//myApp->gui->pauseMenuPanel->Deactivate();
+		//myApp->gui->MainMenuTemp_Image->Activate();
+		//myApp->entities->ResetAll();
+
+	}
+
 
 	return true;
 }
@@ -138,7 +166,7 @@ bool Building::CleanUp()
 bool Building::Draw()
 {
 
-	
+
 	spriteRect = CurrentAnim.GetTheActualCurrentFrame();
 	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &spriteRect);
 	return true;

@@ -610,16 +610,23 @@ bool Entity_Manager::LoadBuildingsData() {
 
 				if (tempString == "Spawn") {
 
-					BuildingAnimationArray[id][0].PushBack(temp);
-					BuildingAnimationArray[id][0].loop = false;
-					BuildingAnimationArray[id][0].speed = 10.0f;
+					BuildingAnimationArray[id][(int)Building_State::SPAWN].PushBack(temp);
+					BuildingAnimationArray[id][(int)Building_State::SPAWN].loop = false;
+					BuildingAnimationArray[id][(int)Building_State::SPAWN].speed = 10.0f;
 
 				}
 				else if (tempString == "Idle") {
 
-					BuildingAnimationArray[id][1].PushBack(temp);
-					BuildingAnimationArray[id][1].loop = true;
-					BuildingAnimationArray[id][1].speed = 5.0f;
+					BuildingAnimationArray[id][(int)Building_State::IDLE].PushBack(temp);
+					BuildingAnimationArray[id][(int)Building_State::IDLE].loop = true;
+					BuildingAnimationArray[id][(int)Building_State::IDLE].speed = 6.0f;
+
+				}
+				else if (tempString == "Explosion") {
+
+					BuildingAnimationArray[id][(int)Building_State::DESTROYED].PushBack(temp);
+					BuildingAnimationArray[id][(int)Building_State::DESTROYED].loop = false;
+					BuildingAnimationArray[id][(int)Building_State::DESTROYED].speed = 15.0f;
 
 				}
 			}

@@ -10,11 +10,16 @@
     <vsync value="true"/>
   </renderer>
 
+  <audio volume="100">
+    <music volume="100"/>
+    <sfx volume="100"/>
+  </audio>
+  
   <window>
     <resolution width="1280" height="720" scale="1"/>
     <fullscreen value="false"/>
     <borderless value="false"/>
-    <resizable value="false"/>
+    <resizable value="true"/>
     <fullscreen_window value="false"/>
   </window>
 

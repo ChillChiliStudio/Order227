@@ -20,6 +20,7 @@ enum class entity_type {
 	BUILDING,
 	INFANTRY,
 	ENT_MAX
+
 };
 
 enum class entity_faction {
