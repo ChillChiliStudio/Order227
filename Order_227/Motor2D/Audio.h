@@ -6,10 +6,10 @@
 #include "SDL_mixer\include\SDL_mixer.h"
 
 #define FACTION_NUM 2
-#define VARIATION_PER_SOUND 3
+#define VARIATION_PER_SOUND 4
 #define SOV 0
 #define CAP 1
-#define MAX_INFANTRY_NUMBER 7
+#define MAX_INFANTRY_NUMBER 8
 
 struct _Mix_Music;
 struct Mix_Chunk;
@@ -132,7 +132,8 @@ public:
 	uPoint rightEar;
 	int earOffset;
 
-	uint SoundFX_Array[MAX_INFANTRY_NUMBER][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
+	uint SoundFX_Array[MAX_INFANTRY_NUMBER][(int)type_sounds::MAX][VARIATION_PER_SOUND];
+	int VarsXsound[MAX_INFANTRY_NUMBER][(int)type_sounds::MAX];
 
 	pugi::xml_document SFX_XML;
 

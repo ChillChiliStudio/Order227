@@ -11,7 +11,7 @@
 #include "Animation.h"
 #include "Launcher.h"
 #define TIMES_PER_SEC 5
-#define TROOP_TYPES 7
+#define TROOP_TYPES 8
 #define RESIZE_VALUE 50
 
 //Entities quadtree max divisions
