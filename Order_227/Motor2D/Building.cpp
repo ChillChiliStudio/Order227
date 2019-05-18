@@ -72,7 +72,12 @@ bool Building::Update(float dt)
 
 	}
 
+	//draw center
+	centerPos.x = position.x + (entityRect.w / 2);
+	centerPos.y = position.y + (entityRect.h / 2);
+	myApp->render->DrawCircle(centerPos.x, centerPos.y, 20, 255, 0, 0, 255);
 
+	myApp->render->DrawCircle(position.x, position.y, 40, 255, 0, 0, 255);
 	CurrentAnim.AdvanceAnimation(dt);
 
 	Draw();
