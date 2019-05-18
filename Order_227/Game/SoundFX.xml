@@ -98,9 +98,11 @@
         <Var Variation="2" path="audio/Dialogues/Troops/flak/Spawn/Spawn_three.wav"/>
       </Sound >
 
-      <Sound id="1" NumVariation="1">
+      <Sound id="1" NumVariation="3">
         <!--Moving -->
-        <Var Variation="0" path="audio/Dialogues/Troops/conscript/Moving/Moving.wav"/>
+        <Var Variation="0" path="audio/Dialogues/Troops/flak/Moving/Moving.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/flak/Moving/Moving_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/flak/Moving/Moving_three.wav"/>
 
       </Sound>
 
