@@ -328,7 +328,7 @@ void Player::OrderHold()
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::HOLD);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::COMFIRMATION][rand() % 2]);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::COMFIRMATION][rand() % 2]);
 }
 
 void Player::OrderMove()
@@ -337,7 +337,7 @@ void Player::OrderMove()
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::MOVING][0]);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::MOVING][0]);
 }
 
 void Player::OrderHunt()
@@ -363,7 +363,7 @@ void Player::OrderHunt()
 		}
 
 		std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::ATTACK][0]);
+		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::ATTACK][0]);
 	}
 	else {
 		OrderMove();
@@ -376,7 +376,7 @@ void Player::OrderPatrol()
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::PATROL);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::COMFIRMATION][rand() % 2]);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::COMFIRMATION][rand() % 2]);
 }
 
 void Player::PlayerSelect()

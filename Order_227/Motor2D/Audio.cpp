@@ -226,13 +226,13 @@ void Audio::ControlSFXVolume(int vol) { //Range: 0-128
 void Audio::FillArrayFX() {
 	
 	for (int i = 0; i < (int)infantry_type::INFANTRY_MAX; ++i) {
-		for (int j = 0; j < FACTION_NUM; ++j) {
+		
 			for (int k = 0; k < (int)type_sounds::MAX; ++k) {
 				for (int l = 0; l < VARIATION_PER_SOUND; ++l)
-					SoundFX_Array[i][j][k][l]= -1;
+					SoundFX_Array[i][k][l]= -1;
 
 			}
-		}
+		
 	}
 
 }
@@ -242,45 +242,31 @@ void Audio::LoadIntoArray() {
 
 	pugi::xml_parse_result result = SFX_XML.load_file("SoundFX.xml");
 
-	//SOV units Sound
+	//SOV units Sound	
 
-	pugi::xml_node Data = SFX_XML.child("FX").child("Troops").child("SOV").child("Conscript");
+		for (pugi::xml_node DataUnit = SFX_XML.child("FX").child("Troops").child("Unit"); DataUnit != NULL; DataUnit = DataUnit.next_sibling("Unit")) {
 
-	//CONSCRIPT---------------------------------------------------------------------------------------------------------------------
-	//Shot 1 & 2
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SHOT][0] = LoadFx(Data.child("Shot").child("Var_one").attribute("path").as_string());
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SHOT][1] = LoadFx(Data.child("Shot").child("Var_two").attribute("path").as_string());
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SHOT][2] = LoadFx(Data.child("Shot").child("Var_three").attribute("path").as_string());
+			int id = DataUnit.attribute("id").as_int();
+		
+			for (pugi::xml_node SoundType = DataUnit.child("Sound"); SoundType != NULL; SoundType = SoundType.next_sibling("Sound")) {
 
-	//Attack
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::ATTACK][0] = LoadFx(Data.child("Attack").child("Var_one").attribute("path").as_string());
+				int TypeSound = SoundType.attribute("id").as_int();
 
-	//Spawn
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SPAWN][0] = LoadFx(Data.child("Spawn").child("Var_one").attribute("path").as_string());
+				for (pugi::xml_node DataSound = SoundType.child("Var"); DataSound != NULL; DataSound = DataSound.next_sibling("Var")) {
 
-	//Moving
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::MOVING][0] = LoadFx(Data.child("Moving").child("Var_one").attribute("path").as_string());
+					int Variation = DataSound.attribute("Variation").as_int();
+
+					if (Variation < VARIATION_PER_SOUND)
+						SoundFX_Array[id][TypeSound][Variation] = LoadFx(DataSound.attribute("path").as_string());
+
+
+				}
+			}
+		}
 	
-	//Hurt
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::HURT][0] = LoadFx(Data.child("Hurt").child("Var_one").attribute("path").as_string());
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::HURT][1] = LoadFx(Data.child("Hurt").child("Var_two").attribute("path").as_string());
+	
 
-	//Comfirmation order
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::COMFIRMATION][0] = LoadFx(Data.child("Comfirmation").child("Var_one").attribute("path").as_string());
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::COMFIRMATION][1] = LoadFx(Data.child("Comfirmation").child("Var_two").attribute("path").as_string());
-
-
-	//BASIC
-	//Shot 1 & 2
-	SoundFX_Array[(int)infantry_type::BASIC][CAP][(int)type_sounds::SHOT][0] = LoadFx(Data.child("Shot").child("Var_one").attribute("path").as_string());
-	SoundFX_Array[(int)infantry_type::BASIC][CAP][(int)type_sounds::SHOT][1] = LoadFx(Data.child("Shot").child("Var_two").attribute("path").as_string());
-	SoundFX_Array[(int)infantry_type::BASIC][CAP][(int)type_sounds::SHOT][2] = LoadFx(Data.child("Shot").child("Var_three").attribute("path").as_string());
-
-	//Hurt
-	SoundFX_Array[(int)infantry_type::BASIC][CAP][(int)type_sounds::HURT][0] = LoadFx(Data.child("Hurt").child("Var_one").attribute("path").as_string());
-	SoundFX_Array[(int)infantry_type::BASIC][CAP][(int)type_sounds::HURT][1] = LoadFx(Data.child("Hurt").child("Var_two").attribute("path").as_string());
-
-//----------------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------
 
 
 }

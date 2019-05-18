@@ -4,10 +4,10 @@
 #include "Module.h"
 
 #define FACTION_NUM 2
-#define VARIATION_PER_SOUND 3
+#define VARIATION_PER_SOUND 4
 #define SOV 0
 #define CAP 1
-#define MAX_INFANTRY_NUMBER 7
+#define MAX_INFANTRY_NUMBER 8
 
 struct _Mix_Music;
 struct Mix_Chunk;
@@ -97,7 +97,7 @@ public:
 
 
 	//TODO: The hardoced 4 should be entity/unit type::Max
-	uint SoundFX_Array[MAX_INFANTRY_NUMBER][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
+	uint SoundFX_Array[MAX_INFANTRY_NUMBER][(int)type_sounds::MAX][VARIATION_PER_SOUND];
 
 	pugi::xml_document SFX_XML;
 
