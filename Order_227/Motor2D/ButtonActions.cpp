@@ -34,7 +34,6 @@ void CreateConscript() {
 	iPoint tempPoint =myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
 	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::CONSCRIPT][(int)type_sounds::SPAWN][0]);
 }
 
 void CreateBazooka() {
@@ -59,7 +58,7 @@ void CreateBazooka() {
 	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
 	myApp->entities->ActivateLauncher(fPoint(tempPoint.x, tempPoint.y), infantry_type::BAZOOKA, entity_faction::COMMUNIST);
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::CONSCRIPT][(int)type_sounds::SPAWN][0]);
+
 }
 
 void StartGame() {

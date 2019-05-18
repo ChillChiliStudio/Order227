@@ -247,10 +247,12 @@ void Audio::LoadIntoArray() {
 		for (pugi::xml_node DataUnit = SFX_XML.child("FX").child("Troops").child("Unit"); DataUnit != NULL; DataUnit = DataUnit.next_sibling("Unit")) {
 
 			int id = DataUnit.attribute("id").as_int();
+			
 		
 			for (pugi::xml_node SoundType = DataUnit.child("Sound"); SoundType != NULL; SoundType = SoundType.next_sibling("Sound")) {
 
 				int TypeSound = SoundType.attribute("id").as_int();
+				VarsXsound[id][TypeSound]=SoundType.attribute("NumVariation").as_int();
 
 				for (pugi::xml_node DataSound = SoundType.child("Var"); DataSound != NULL; DataSound = DataSound.next_sibling("Var")) {
 
@@ -264,9 +266,4 @@ void Audio::LoadIntoArray() {
 			}
 		}
 	
-	
-
-//-----------------------------------------------------------------------------------------------------------------------------
-
-
 }
