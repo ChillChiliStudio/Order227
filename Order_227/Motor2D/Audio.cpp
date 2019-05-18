@@ -202,6 +202,8 @@ bool Audio::PlayFx(unsigned int id, int repeat, int i)
 void Audio::ControlVolume(int vol) { //Range: 0-128
 
 	Mix_Volume(-1, vol);
+	ControlMUSVolume(vol);
+	ControlSFXVolume(vol);
 
 }
 

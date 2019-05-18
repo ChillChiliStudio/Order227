@@ -1,12 +1,14 @@
 #ifndef __QUADTREE__H_
 #define __QUADTREE__H_
 
+#define SCREEN_MARGIN 52	//NOTE: Was 20 originally
+
 class Quadtree {
 
 public:
 
 	//Constructor
-	Quadtree(uint max_levels, SDL_Rect section, uint level = 1);
+	Quadtree(uint maxLevels, SDL_Rect section, uint level = 1);
 
 	//Split the node into 4 subnodes
 	virtual void Split() {};
@@ -15,12 +17,16 @@ public:
 
 	virtual void CleanUp() {};
 
-	bool CheckTouch(const SDL_Rect& rect);	//Check if a rectangle fits inside the quadtree
+	bool CheckVisibility();
+
+	virtual bool CheckTouch(const SDL_Rect& rect) { return true; }	//Check if a rectangle fits inside the quadtree
+
+	void GetSection(SDL_Rect &rect) { rect = section;}
 
 protected:
 
 	bool divided;			//True if this node has subnodes
-	uint max_levels;		//Max number of levels a quadtree will have
+	uint maxLevels;			//Max number of levels a quadtree will have
 	uint level;				//Position in the tree
 	SDL_Rect section;		//Position and size
 

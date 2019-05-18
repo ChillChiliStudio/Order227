@@ -33,6 +33,7 @@ enum class entity_faction {
 
 };
 
+
 struct EntityData {
 
 	std::string Action;

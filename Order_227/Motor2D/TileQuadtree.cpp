@@ -14,7 +14,7 @@
 
 
 
-TileQuadtree::TileQuadtree(uint max_levels, SDL_Rect section, uint size, uint level) : Quadtree(max_levels, section, level), size(size)
+TileQuadtree::TileQuadtree(uint maxLevels, SDL_Rect section, uint size, uint level) : Quadtree(maxLevels, section, level), size(size)
 {
 	//Set the subnodes as nullptr
 	for (int i = 0; i < 4; i++)
@@ -22,7 +22,7 @@ TileQuadtree::TileQuadtree(uint max_levels, SDL_Rect section, uint size, uint le
 
 	/*We will only store the tiles in the bottom nodes,
 	so, if this node will have subnodes, it won't need room for tiles*/
-	if (level != max_levels)
+	if (level != maxLevels)
 		tiles = NULL;
 
 	else
@@ -34,7 +34,7 @@ TileQuadtree::TileQuadtree(uint max_levels, SDL_Rect section, uint size, uint le
 
 	}
 
-	tiles_contained = 0;
+	tilesContained = 0;
 
 }
 
@@ -54,12 +54,12 @@ void TileQuadtree::CleanUp()
 
 void TileQuadtree::Split()
 {
-	if (level < max_levels && divided == false)
+	if (level < maxLevels && divided == false)
 	{
-		nodes[0] = new TileQuadtree(max_levels, { section.x,section.y, section.w / 2, section.h / 2 }, size / 4, level + 1);
-		nodes[1] = new TileQuadtree(max_levels, { section.x + section.w / 2,section.y, section.w / 2,section.h / 2 }, size / 4, level + 1);
-		nodes[2] = new TileQuadtree(max_levels, { section.x,section.y + section.h / 2 , section.w / 2, section.h / 2 }, size / 4, level + 1);
-		nodes[3] = new TileQuadtree(max_levels, { section.x + section.w / 2,section.y + section.h / 2, section.w / 2,section.h / 2 }, size / 4, level + 1);
+		nodes[0] = new TileQuadtree(maxLevels, { section.x,section.y, section.w / 2, section.h / 2 }, size / 4, level + 1);
+		nodes[1] = new TileQuadtree(maxLevels, { section.x + section.w / 2,section.y, section.w / 2,section.h / 2 }, size / 4, level + 1);
+		nodes[2] = new TileQuadtree(maxLevels, { section.x,section.y + section.h / 2 , section.w / 2, section.h / 2 }, size / 4, level + 1);
+		nodes[3] = new TileQuadtree(maxLevels, { section.x + section.w / 2,section.y + section.h / 2, section.w / 2,section.h / 2 }, size / 4, level + 1);
 		divided = true;
 	}
 
@@ -74,13 +74,13 @@ void TileQuadtree::InsertTile(TileData tile)
 	tile_rect.h = myApp->map->data.tile_height;
 
 	//If the node is in the lowest level, store the tile here
-	if (level == max_levels)
+	if (level == maxLevels)
 	{
-		tiles[tiles_contained++] = tile;
+		tiles[tilesContained++] = tile;
 	}
 
 	//In case there are lower subnodes, it will be stored there
-	else if (level < max_levels)
+	else if (level < maxLevels)
 	{
 		if (this->CheckTouch({ tile_rect }))
 		{
@@ -92,7 +92,7 @@ void TileQuadtree::InsertTile(TileData tile)
 			{
 				if (nodes[i]->CheckTouch({ tile_rect }))
 				{
-					if (nodes[i]->tiles_contained < nodes[i]->size)
+					if (nodes[i]->tilesContained < nodes[i]->size)
 					{
 						nodes[i]->InsertTile(tile);
 						break;
@@ -103,28 +103,13 @@ void TileQuadtree::InsertTile(TileData tile)
 	}
 }
 
-bool TileQuadtree::CheckVisibility()
-{
-	uint screen_w;
-	uint screen_h;
-	myApp->win->GetWindowSize(screen_w, screen_h);
-
-	if (-myApp->render->camera.x-SCREEN_MARGIN > (section.x + section.w) ||
-		(-myApp->render->camera.x + int(screen_w) + SCREEN_MARGIN) < section.x ||
-		-myApp->render->camera.y - SCREEN_MARGIN > (section.y + section.h) ||
-		(-myApp->render->camera.y + int(screen_h) + SCREEN_MARGIN) < section.y)
-		return false;
-
-	return true;
-}
-
 void TileQuadtree::DrawMap()
 {
 	if (CheckVisibility())
 	{
-		if (level == max_levels)
+		if (level == maxLevels)
 		{
-			for (uint i = 0; i < tiles_contained; ++i)
+			for (uint i = 0; i < tilesContained; ++i)
 			{
 				TileData tile = tiles[i];
 				TileSet* tileset = myApp->map->GetTilesetFromTileId(tile.id);
@@ -161,7 +146,7 @@ void TileQuadtree::DrawQuadtree()
 			myApp->render->DrawLine(section.x + section.w / 2, section.y, section.x + section.w / 2, section.y + section.h, 0, 0, 255);
 			myApp->render->DrawLine(section.x, section.y + section.h / 2, section.x + section.w, section.y + section.h / 2, 0, 0, 255);
 
-			if (level < max_levels - 1)
+			if (level < maxLevels - 1)
 			{
 				for (int i = 0; i < 4; ++i)
 				{
@@ -170,4 +155,18 @@ void TileQuadtree::DrawQuadtree()
 			}
 		}
 	}
+}
+
+bool TileQuadtree::CheckTouch(const SDL_Rect& rect)
+{
+	//Middle point of the tile
+	iPoint pos(rect.x + rect.w / 2, rect.y + rect.h / 2);
+
+	if (pos.x < section.x ||
+		pos.x > section.x + section.w ||
+		pos.y < section.y ||
+		pos.y > section.y + section.h)
+		return false;
+
+	return true;
 }

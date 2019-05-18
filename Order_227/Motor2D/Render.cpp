@@ -4,6 +4,8 @@
 #include "Render.h"
 #include "Entity_Manager.h"
 
+#include "Brofiler/Brofiler.h"
+
 #define VSYNC true
 
 Render::Render() : Module()
@@ -64,18 +66,23 @@ bool Render::Start()
 // Called each loop iteration
 bool Render::PreUpdate()
 {
+	BROFILER_CATEGORY("Render Pre-Update", Profiler::Color::AliceBlue);
+
 	SDL_RenderClear(renderer);
 	return true;
 }
 
 bool Render::Update(float dt)
 {
+	BROFILER_CATEGORY("Render Update", Profiler::Color::Blue);
 
 	return true;
 }
 
 bool Render::PostUpdate()
 {
+	BROFILER_CATEGORY("Render Post-Update", Profiler::Color::BlueViolet);
+
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
 	SDL_RenderPresent(renderer);
 	return true;

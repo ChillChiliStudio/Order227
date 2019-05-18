@@ -15,9 +15,9 @@ enum class infantry_type	// TODO: This should be a single enum with ALL units sa
 
 	BASIC,
 	CONSCRIPT,
-	BAZOOKA,
+	BAZOOKA,  //Unit of type Launcher
 	DESOLATOR,
-	MACHINE_GUN,
+	CHRONO,
 	SNIPER,
 	DOG,
 
@@ -39,12 +39,12 @@ enum class unit_state
 enum class unit_orders
 {
 	NONE = -1,
-						
+
 	HOLD,	// Defend your position/area
 	MOVE,	// Move to marked position
 	HUNT,	// Search and destroy a specific target
 	PATROL,	// Move back and forward scouting a path
-	
+
 	MAX_ORDERS
 };
 
@@ -123,13 +123,13 @@ public:
 	unit_directions CheckDirection(fVec2 direction);
 
 	//Order calling
-	void StartHold();
-	void StartMove(iPoint destination);
-	void StartHunt(Entity* target);
-	void StartAggroHunt(Entity* target);
-	void StartPatrol(iPoint destination);
-	void ResumePatrol();
-	void ResumeLastOrder();	//Used when aggro has previously interrupted an order
+	bool StartHold();
+	bool StartMove(iPoint destination);
+	bool StartHunt(Entity* target);
+	bool StartAggroHunt(Entity* target);
+	bool StartPatrol(iPoint destination);
+	bool ResumePatrol();
+	bool ResumeLastOrder();	//Used when aggro has previously interrupted an order
 
 	// Order processing
 	void DoHold(float dt);
@@ -141,7 +141,7 @@ public:
 	// Actions
 	bool Move(float dt);				// Move unit
 	bool FindEnemies(float dt);			// Find nearby enemies depending on aggro
-	void AttackCurrTarget(float dt);	
+	virtual void AttackCurrTarget(float dt);
 	float Hurt(float damage);
 	void Die();
 	//void Kill();
@@ -154,16 +154,16 @@ public:
 	bool NodeReached();
 	bool DestinationReached();
 	bool TargetDisplaced(Entity* target);
+	//bool IsSelected();
 
 	//Unit calculations
-	void SetupPath(iPoint origin, iPoint destination);
+	bool SetupPath(iPoint origin, iPoint destination);
 	fVec2 SetupVecSpeed();
 	Entity* EnemyInRadius(uint radius);
 	Unit* AttackingAllyInRadius(uint radius);
 	bool TargetInRange(Entity* target);
 
 public:
-	entity_type typeFaction;
 	infantry_type infantryType;
 	bool onCamera = false;
 

@@ -5,6 +5,7 @@
 #include "Entity_Manager.h"
 #include "UserInterface.h"
 #include "Text.h"
+#include "Scene.h"
 
 Building::Building()
 {}
@@ -17,10 +18,16 @@ Building::Building(fPoint position, building_type building_type, entity_faction 
 
 bool Building::Start() {
 
-	myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, myApp->entities->lifeBar_tex, &health);
+
+	//myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, myApp->entities->lifeBar_tex, &health);
 	CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::SPAWN)]);
 	maxHealth = health;
-	
+
+	myApp->entities->buildingsArray;
+	myApp->gui->CreateLifeBar(position, NULL, myApp->entities->lifeBar_tex, &health);
+	//CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][0]);
+
+
 	return true;
 }
 
@@ -56,7 +63,7 @@ bool Building::Update(float dt)
 		for (int i = 0; i < unitsArraound; i++) {
 			Repair();
 		}
-		
+
 	}
 
 
@@ -66,7 +73,7 @@ bool Building::Update(float dt)
 
 	if (myApp->map->mapDebugDraw)
 		DebugDraw();
-	
+
 	if (CurrentAnim.Finished()==true && health> maxHealth/2) {
 
 		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::IDLE)]);
@@ -153,7 +160,7 @@ bool Building::CleanUp()
 bool Building::Draw()
 {
 
-	
+
 	spriteRect = CurrentAnim.GetTheActualCurrentFrame();
 	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &spriteRect);
 	return true;

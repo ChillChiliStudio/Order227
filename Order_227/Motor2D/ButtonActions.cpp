@@ -58,7 +58,7 @@ void CreateBazooka() {
 
 	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
-	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
+	myApp->entities->ActivateLauncher(fPoint(tempPoint.x, tempPoint.y), infantry_type::BAZOOKA, entity_faction::COMMUNIST);
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SPAWN][0]);
 }
 
@@ -69,7 +69,8 @@ void StartGame() {
 
 	//TODO make the game start Correctly
 	myApp->gui->WinIcon->Deactivate();
-	
+
+
 	myApp->entities->ActivateBuildings();
 	myApp->entities->ActivateObjects();
 
@@ -81,6 +82,11 @@ void StartGame() {
 	myApp->hordes->roundTimerStart();
 	myApp->gui->MainMenuTemp_Image->Deactivate();
 
+	myApp->scene->SwitchMusic(Screen_Type::SCREEN_INGAME);
+	myApp->scene->ActivateGameOverMusic = true;
+
+	myApp->gui->WinIcon->Deactivate();
+	myApp->gui->LoseIcon->Deactivate();
 
 }
 
@@ -89,22 +95,42 @@ void QuitGame() {
 	//myApp->audio->PlayMusic();
 	myApp->gui->LoseIcon->Deactivate();
 	myApp->gui->WinIcon->Deactivate();
-	
+
 	//MUSIC
 	//myApp->audio->PlayMusic("audio/music/main_menu/menu_song_loop.ogg",-1);
 
 	myApp->hordes->hordeActive = false;
 	myApp->gui->pauseMenuPanel->Deactivate();
 	myApp->gui->MainMenuTemp_Image->Activate();
-	
+
 	for (int i = 0; i < myApp->entities->unitPool.size(); i++) {	//TODO: This "seems" to work, check if it really does or needs extra steps
 		if (myApp->entities->unitPool[i].active == true) {
 			myApp->entities->DeActivateUnit(&myApp->entities->unitPool[i]);
 		}
 	}
+
+	myApp->scene->SwitchMusic(Screen_Type::SCREEN_MAINMENU);
+	//myApp->entities->ReleasePools();	//TODO: Check if necessary, commented because it was asumed that wasn't
+	//myApp->entities->ResetAll();
+	//myApp->scene->CleanUp();
 }
 
 void CloseGame()
 {
 	myApp->mustShutDown = true;
+}
+
+Screen_Type getCurrentScreen() {
+
+	if(myApp->gui->MainMenuTemp_Image->active == true)
+		return Screen_Type::SCREEN_MAINMENU;
+	else if (myApp->gui->LoseIcon->active == true)
+		return Screen_Type::SCREEN_LOSE;
+	else if (myApp->gui->WinIcon->active == true)
+		return Screen_Type::SCREEN_WIN;
+	else
+		return Screen_Type::SCREEN_INGAME;
+
+
+	return Screen_Type::SCREEN_NONE;
 }

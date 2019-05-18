@@ -12,6 +12,8 @@
 #include "UserInterface.h"
 #include "Image.h"
 #include "Brofiler/Brofiler.h"
+#include "Launcher.h"
+#include "EntityQuadtree.h"
 
 #include <algorithm>
 
@@ -29,12 +31,14 @@ bool Entity_Manager::Awake(pugi::xml_node& config)
 
 	LOG("AWAKING ENTITY MANAGER");
 	unitsPoolSize = config.child("units_initial_size").attribute("value").as_int(0);
+	launcherPoolSize = 100; //TODO DESJARCODE
 
 	times_per_sec = TIMES_PER_SEC;
 	update_ms_cycle = 1.0f / (float)times_per_sec;
 
 	//Pool Allocation
 	AllocateUnitPool();
+	AllocateLauncherPool();
 	AllocateHitscanPool();
 	AllocateRangedPool();
 	AllocateTankPool();
@@ -57,17 +61,27 @@ static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number
 	AllocateEntityPool();
 
 	//Activate Buildings & Objects
-	
 
 	LoadEntityData();
 
 	//Set up stats of units
 	SetupUnitStats();
 
+	//Set up the quadtree
+	SDL_Rect quadtreeRect;
+	quadtreeRect.x = -(myApp->map->data.width*myApp->map->data.tile_width) / 2;
+	quadtreeRect.y = 0;
+	quadtreeRect.w = myApp->map->data.width*myApp->map->data.tile_width;
+	quadtreeRect.h = myApp->map->data.height*myApp->map->data.tile_height;
+
+	entitiesQuadtree = new EntityQuadtree(QUADTREE_DIVISIONS, quadtreeRect);
+	entitiesQuadtree->Split(QUADTREE_DIVISIONS);
 	return true;
 }
 
-bool Entity_Manager::PreUpdate() {
+bool Entity_Manager::PreUpdate()
+{
+	BROFILER_CATEGORY("Entity_Manager Pre-Update", Profiler::Color::LightYellow);
 
 	do_logic = false;
 	return true;
@@ -76,7 +90,9 @@ bool Entity_Manager::PreUpdate() {
 
 bool Entity_Manager::Update(float dt)
 {
-	BROFILER_CATEGORY("Entity_Manager Update()-Brown", Profiler::Color::Brown);
+	entitiesQuadtree->FillTree();
+
+	BROFILER_CATEGORY("Entity_Manager Update", Profiler::Color::Yellow);
 	accumulated_time += dt;
 
 	if (myApp->gui->MainMenuTemp_Image->active != true) {	//TODO: This is very hardcoded, we should have a scene workflow
@@ -84,46 +100,10 @@ bool Entity_Manager::Update(float dt)
 		if (accumulated_time >= update_ms_cycle)
 			do_logic = true;
 
-		for (int i = 0; i < unitsPoolSize; ++i) {
 
-			if (unitPool[i].active) {
-
-				unitPool[i].Update(dt);
-
-				if (do_logic)
-					unitPool[i].FixUpdate(dt);
-			}
-		}
-
-		for(int i = 0; i < buildingsArray.size(); i++)
-			buildingsArray[i].Update(dt);
-
-		for (int i = 0; i < objectsArray.size(); i++)
-			objectsArray[i].Update(dt);
-
-		/*for (std::vector<Unit>::iterator item = unitPool.begin(); item != unitPool.end(); item = next(item)) {
-
-			if (item->active == true)
-				item->Update(dt);
-
-			if (do_logic)
-				item->FixUpdate(dt);
-		}
-
-		for (std::vector<Building>::iterator item = buildingsArray.begin(); item != buildingsArray.end(); item = next(item)) {
-
-			if (item->active == true)
-				item->Update(dt);
-		}
-
-		for (std::vector<Static_Object>::iterator item = objectsArray.begin(); item != objectsArray.end(); item = next(item)) {
-
-			if (item->active == true)
-				item->Update(dt);
-		}*/
-
-		//OLD:
-		//myApp->render->OrderBlit(myApp->render->OrderToRender);
+		UpdateUnits(dt);
+		UpdateBuildings(dt);
+		UpdateObjects(dt);
 
 		//Blit Ordering that actually works
 		UpdateBlitOrdering();
@@ -132,7 +112,59 @@ bool Entity_Manager::Update(float dt)
 		accumulated_time -= update_ms_cycle;
 	}
 
+	entitiesQuadtree->ClearTree();
+
 	return true;
+}
+
+void Entity_Manager::UpdateUnits(float dt)
+{
+	BROFILER_CATEGORY("UnitPool Update", Profiler::Color::Magenta);
+
+	int numActives = activeUnits;
+
+	for (int i = 0; /*numActives > 0*/ i < unitPool.size(); ++i) {
+
+		if (unitPool[i].active) {
+			numActives--;
+
+			unitPool[i].Update(dt);
+
+			if (do_logic) {
+				unitPool[i].FixUpdate(dt);
+			}
+		}
+	}
+
+	//LAUNCHER UNITS
+	for (int i = 0; i < launcherPool.size(); ++i) {
+
+		if (launcherPool[i].active) {
+
+			launcherPool[i].Update(dt);
+			if (do_logic)
+				launcherPool[i].FixUpdate(dt);
+		}
+	}
+}
+
+void Entity_Manager::UpdateBuildings(float dt)
+{
+	BROFILER_CATEGORY("BuildingPool Update", Profiler::Color::Purple);
+
+	for (int i = 0; i < buildingsArray.size(); i++) {
+		buildingsArray[i].Update(dt);
+	}
+}
+
+void Entity_Manager::UpdateObjects(float dt)
+{
+	BROFILER_CATEGORY("ObjectPool Update", Profiler::Color::MediumPurple);
+
+	for (int i = 0; i < objectsArray.size(); i++) {
+		objectsArray[i].Update(dt);
+	}
+
 }
 
 bool BlitSort(Entity* i, Entity* j)
@@ -148,6 +180,8 @@ bool BlitSort(Entity* i, Entity* j)
 
 void Entity_Manager::UpdateBlitOrdering()
 {
+	BROFILER_CATEGORY("BlitOrdering", Profiler::Color::Lavender);
+
 	std::sort(entitiesVector.begin(), entitiesVector.end(), BlitSort);
 }
 
@@ -208,6 +242,10 @@ void Entity_Manager::AllocateTankPool()
 	//tankPool.resize(/*tankPoolSize*/unitsPoolSize);
 }
 
+void Entity_Manager::AllocateLauncherPool()
+{
+	launcherPool.resize(launcherPoolSize);
+}
 
 Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction)
 {
@@ -222,7 +260,7 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 			(*item).infantryType = infantryType;
 			(*item).texture = infantryTextures[int(infantryType)];
 			(*item).stats = infantryStats[int(infantryType)];
-			(*item).Start();
+			(*item).Start(); //active = true goes here in this start
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 
@@ -233,7 +271,9 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 				}
 			}
 
+
 			ret = &(*item);
+			(*item).active;
 			break;
 		}
 	}
@@ -244,17 +284,70 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 		AllocateUnitPool();
 		ActivateUnit(position, infantryType, entityFaction);
 	}
+	else {
+		activeUnits++;
+	}
+
+	return ret;
+}
+
+Launcher* Entity_Manager::ActivateLauncher(fPoint position, infantry_type infantryType, entity_faction entityFaction)
+{
+	Launcher* ret = nullptr;
+
+	for (std::vector<Launcher>::iterator item = launcherPool.begin(); item != launcherPool.end(); item = next(item)) {
+
+		if ((*item).active == false) {
+
+			(*item).faction = entityFaction;
+			(*item).position = position;
+			(*item).infantryType = infantryType;
+			(*item).texture = infantryTextures[int(infantryType)];
+			(*item).stats = infantryStats[int(infantryType)];
+			(*item).Start();
+
+			for (int i = 0; i < entitiesVector.size(); i++) {
+
+				if (entitiesVector[i] == nullptr) {
+					entitiesVector[i] = (Entity*)(&(*item));
+					break;
+				}
+			}
+
+
+			ret = &(*item);
+			break;
+		}
+	}
+
+	if (ret == nullptr) {
+		launcherPoolSize += RESIZE_VALUE;
+		AllocateLauncherPool();
+		ActivateLauncher(position, infantryType, entityFaction);
+	}
+	else {
+		activeLaunchers++;
+	}
 
 	return ret;
 }
 
 bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shouldn't be necessary as non-active elements are not iterated at any point, and if they become active again these values are or should be overwritten
 
+	switch (_Unit->infantryType) {
+	case infantry_type::BAZOOKA:
+		activeLaunchers--;
+		break;
+	default:
+		activeUnits--;
+		break;
+	}
+
 	_Unit->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 	_Unit->infantryType = infantry_type::INFANTRY_NONE;
 	_Unit->position = fPoint(0.0f, 0.0f);
 	_Unit->texture = nullptr;
-	
+
 	_Unit->currTarget = nullptr;
 	_Unit->aggroTriggered = false;
 
@@ -264,8 +357,6 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 	_Unit->faction = entity_faction::NEUTRAL;
 	_Unit->active = false;
 	_Unit->selected = false;
-
-	
 
 	//_Unit->currentAnimation = &myApp->entities->animationArray[int(infantry_type::INFANTRY_NONE)][int(unit_state::NONE)][int(unit_directions::NONE)];	//TODO: This caused bugs (Carles: Not sure)
 
@@ -291,15 +382,15 @@ void Entity_Manager::ActivateBuildings()
 
 
 			if((*item).buildingType == building_type::COMMAND_CENTER)
-				mainBase = &(*item);
 
+        mainBase = &(*item);
 
 			  (*item).faction == entity_faction::COMMUNIST;
-
 				(*item).active = true;
 				(*item).selected = false;
 				(*item).texture = buildingsTextures[int((*item).buildingType)];
-
+				(*item).health = (*item).maxHealth;
+				(*item).Start();
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 
@@ -309,11 +400,9 @@ void Entity_Manager::ActivateBuildings()
 				}
 			}
 
-			(*item).Start();
+			activeBuildings++;
 		}
 	}
-
-
 }
 
 void Entity_Manager::ActivateObjects()
@@ -348,28 +437,23 @@ void Entity_Manager::ActivateObjects()
 	}
 }
 
-bool Entity_Manager::loadTextures() {
-
+bool Entity_Manager::loadTextures()
+{
 	pugi::xml_parse_result result = unitsDocument.load_file("textures/troops/unitsDoc.xml");
 	pugi::xml_parse_result result2 = BuildingsDocument.load_file("textures/buildings/BuildingsDoc.xml");
-
 
 	if(result!=NULL)
 	loadTroopsTextures();
 	if (result2 != NULL)
 	loadBuildingsTextures();
 
-
-
-
 	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
 
 	return true;
-
 }
 
-bool Entity_Manager::loadTroopsTextures() {
-
+bool Entity_Manager::loadTroopsTextures()
+{
 	for (pugi::xml_node Data = unitsDocument.child("Entity_Document").child("Troops").child("Soviet").child("Unit"); Data != NULL; Data = Data.next_sibling("Unit")) {
 
 		switch (Data.attribute("id").as_int())
@@ -390,9 +474,9 @@ bool Entity_Manager::loadTroopsTextures() {
 			infantryTextures[int(infantry_type::DESOLATOR)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
 			break;
 
-		case(int(infantry_type::MACHINE_GUN)):
+		case(int(infantry_type::CHRONO)):
 
-			infantryTextures[int(infantry_type::MACHINE_GUN)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			infantryTextures[int(infantry_type::CHRONO)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
 
 
 			break;
@@ -425,8 +509,8 @@ bool Entity_Manager::loadTroopsTextures() {
 	}
 
 	return true;
-
 }
+
 bool Entity_Manager::loadBuildingsTextures() {
 
 	for (pugi::xml_node Data = BuildingsDocument.child("Buildings_Document").child("Building"); Data != NULL; Data = Data.next_sibling("Building")) {
@@ -546,11 +630,7 @@ bool Entity_Manager::LoadBuildingsData() {
 
 				}
 			}
-
 		}
-
-
-
 	}
 
 	return ret;
@@ -617,7 +697,7 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 
 						break;
 
-					case (int(infantry_type::MACHINE_GUN)):
+					case (int(infantry_type::CHRONO)):
 
 						//Introduce offset
 						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
@@ -743,12 +823,6 @@ bool Entity_Manager::AssignStats(std::string faction) {
 
 	return ret;
 }
-
-
-
-
-
-
 
 SDL_Rect Entity_Manager::SetupTreeType() {
 
