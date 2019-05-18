@@ -45,6 +45,20 @@ bool Building::Update(float dt)
 			faction = entity_faction::COMMUNIST;
 
 
+	if (repairable) {
+		int unitsArraound = 0;
+		for (int i = 0; i < myApp->entities->unitPool.size(); i++) {
+			if (myApp->entities->unitPool[i].active && this->position.x - myApp->entities->unitPool[i].position.x < 30 && this->position.x - myApp->entities->unitPool[i].position.x > -30
+				&& this->position.y - myApp->entities->unitPool[i].position.y < 30 && this->position.y - myApp->entities->unitPool[i].position.y > -30) {
+				unitsArraound++;
+			}
+		}
+		for (int i = 0; i < unitsArraound; i++) {
+			Repair();
+		}
+		
+	}
+
 
 	CurrentAnim.AdvanceAnimation(dt);
 

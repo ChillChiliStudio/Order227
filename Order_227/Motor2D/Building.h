@@ -75,9 +75,9 @@ public:
 	int MainBaseLifeBuff = 0;
 	int StrategicPointsLifeBuff = 0;
 
-	float health = 0;
-	int maxHealth = 0;
-	int healthRecovery = 0;
+	float health = 0.0f;
+	float maxHealth = 0.0f;
+	float healthRecovery = 0.1f;
 	int income = 0;
 
 private:

@@ -20,6 +20,7 @@ enum class entity_type {
 	BUILDING,
 	INFANTRY,
 	ENT_MAX
+
 };
 
 enum class entity_faction {
@@ -41,6 +42,7 @@ struct EntityData {
 	int AnimFrames;
 
 };
+
 
 class Entity {
 
@@ -96,6 +98,8 @@ public:
 
 	entity_faction	faction;
 	entity_type		type;
+
+	
 
 	SDL_Rect		entityRect;			// Entity SDL_Rect for world pos
 	SDL_Rect		spriteRect;			// Entity SDL_Rect for texture area cutting
