@@ -4,7 +4,7 @@
   <property name="Nodraw" value="0"/>
  </properties>
  <tileset firstgid="1" name="Tileset_Terrain" tilewidth="60" tileheight="60" tilecount="187" columns="17">
-  <tileoffset x="-30" y="-15"/> <!-- Original: None -->
+  <tileoffset x="-30" y="-15"/>
   <image source="Tileset_Terrain_test.png" width="1020" height="660"/>
   <terraintypes>
    <terrain name="grass" tile="38"/>
@@ -99,19 +99,19 @@
   <tile id="175" terrain="3,3,3,3"/>
  </tileset>
  <tileset firstgid="188" name="treeeeees" tilewidth="60" tileheight="90" tilecount="40" columns="8">
-  <tileoffset x="-30" y="-60"/> <!-- Original: <tileoffset x="0" y="-45"/> -->
+  <tileoffset x="-30" y="-60"/>
   <image source="Tree_Tileset.png" trans="00ffff" width="500" height="500"/>
  </tileset>
  <tileset firstgid="228" name="mountain" tilewidth="120" tileheight="120" tilecount="9" columns="3">
-  <tileoffset x="-30" y="-80"/>  <!-- Original: <tileoffset x="0" y="-65"/> -->
+  <tileoffset x="-30" y="-80"/>
   <image source="mountain1.png" width="360" height="360"/>
  </tileset>
  <tileset firstgid="237" name="mountain2" tilewidth="90" tileheight="135" tilecount="10" columns="5">
-  <tileoffset x="-30" y="-80"/> <!-- Original: <tileoffset x="0" y="-65"/> -->
+  <tileoffset x="-30" y="-80"/>
   <image source="mountain2.png" width="450" height="270"/>
  </tileset>
  <tileset firstgid="247" name="sea" tilewidth="60" tileheight="60" tilecount="32" columns="8">
-  <tileoffset x="-30" y="-15"/> <!-- Original: None -->
+  <tileoffset x="-30" y="-15"/>
   <image source="sea1.png" width="480" height="240"/>
   <terraintypes>
    <terrain name="sea" tile="22"/>
@@ -148,11 +148,10 @@
   <tile id="29" terrain=",,0,"/>
  </tileset>
  <tileset firstgid="279" name="meta" tilewidth="60" tileheight="60" tilecount="2" columns="2">
-  <tileoffset x="-30" y="-16"/> <!-- Original: <tileoffset x="0" y="-1"/> -->
+  <tileoffset x="-30" y="-16"/>
   <image source="meta2.png" width="120" height="60"/>
  </tileset>
  <layer name="Terrain" width="100" height="100">
-   <tileoffset x="-30" y="-15"/> <!-- Original: None -->
   <properties>
    <property name="Nodraw" value="0"/>
   </properties>
@@ -33616,11 +33615,10 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
    <tile gid="0"/>
-   <tile gid="280"/>
    <tile gid="0"/>
-   <tile gid="280"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -33631,6 +33629,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="280"/>
    <tile gid="280"/>
    <tile gid="0"/>
@@ -33715,12 +33714,12 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -33821,7 +33820,7 @@
    <tile gid="0"/>
    <tile gid="280"/>
    <tile gid="280"/>
-   <tile gid="280"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -33915,12 +33914,12 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
-   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="280"/>
+   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -34322,16 +34321,15 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
-   <tile gid="280"/>
-   <tile gid="280"/>
-   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -34353,6 +34351,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -34412,7 +34411,6 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -34422,16 +34420,14 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
-   <tile gid="280"/>
-   <tile gid="280"/>
-   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -34473,6 +34469,9 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="280"/>
    <tile gid="280"/>
    <tile gid="280"/>
@@ -34522,10 +34521,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
-   <tile gid="280"/>
    <tile gid="0"/>
-   <tile gid="280"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -34543,6 +34540,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -34611,19 +34610,17 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
-   <tile gid="280"/>
-   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="280"/>
+   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
-   <tile gid="280"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -34636,6 +34633,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="280"/>
@@ -34711,13 +34710,13 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
    <tile gid="0"/>
-   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="280"/>
+   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -34813,11 +34812,11 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
-   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="280"/>
+   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -34899,9 +34898,6 @@
    <tile gid="280"/>
    <tile gid="280"/>
    <tile gid="280"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -34931,6 +34927,9 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="280"/>
+   <tile gid="280"/>
+   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -35014,11 +35013,8 @@
    <tile gid="280"/>
    <tile gid="280"/>
    <tile gid="280"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -35031,6 +35027,9 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="280"/>
+   <tile gid="280"/>
+   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -35115,11 +35114,8 @@
    <tile gid="280"/>
    <tile gid="280"/>
    <tile gid="280"/>
-   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="280"/>
-   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -35131,6 +35127,9 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="280"/>
+   <tile gid="280"/>
+   <tile gid="280"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
