@@ -801,7 +801,7 @@ void Entity_Manager::SolveOverlapping()
 
 	for (int i = 0; i< unitPool.size() ; ++i) 
 	{
-		if (unitPool[i].active) 
+		if (unitPool[i].active && unitPool[i].unitState!=unit_state::DEAD) 
 		{
 
 			std::vector<Entity*> nearEntities = entitiesQuadtree->GetEntitiesNear(unitPool[i].position.x, unitPool[i].position.y);
