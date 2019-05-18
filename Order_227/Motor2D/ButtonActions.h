@@ -17,7 +17,10 @@ enum class Screen_Type {
 };
 
 void CreateConscript();
-void CreateBazooka();
+void CreateFlak();
+void CreateChrono();
+void CreateDesolator();
+void CreateSniper();
 void StartGame();
 void QuitGame();
 void CloseGame();

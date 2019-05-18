@@ -2,7 +2,8 @@
 #include "Render.h"
 #include "UserInterface.h"
 #include "Input.h"
-
+#include "Text.h"
+#include "Fonts.h"
 
 
 Unit_Panel::Unit_Panel( SDL_Rect rect, Image* button,SDL_Texture* tex,ui_type type)
@@ -12,6 +13,15 @@ Unit_Panel::Unit_Panel( SDL_Rect rect, Image* button,SDL_Texture* tex,ui_type ty
 	Currentbutton = button;
 }
 
+bool Unit_Panel::Start() {
+
+	Stats = new Text("HOLA", SDL_Color{ 255,0,0 }, myApp->fonts->fontsList[(int)font_id::MOLOT]->fontPtr);
+	Stats->position.x = position.x + 18;
+	Stats->position.y = position.y + 15;
+	Stats->active = active;
+
+	return true;
+}
 
 bool Unit_Panel::Update(float dt) {
 
@@ -19,11 +29,18 @@ bool Unit_Panel::Update(float dt) {
 	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
 	position.x = mousePos.x;
 	position.y = mousePos.y;
+	if (Stats != nullptr) {
+		Stats->position.x = mousePos.x;
+		Stats->position.y = mousePos.y-400;
+
+	}
 
 	ActiveElement();
 
 	return true;
 }
+
+
 
 bool Unit_Panel::DebugDraw() const
 {

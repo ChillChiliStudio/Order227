@@ -139,6 +139,12 @@ public:
 	Mouse* Mouse_UI = nullptr;
 
 	Unit_Panel* ConscriptPanel_Info = nullptr;
+	Unit_Panel* SniperPanel_Info = nullptr;
+	Unit_Panel* ChronoPanel_Info = nullptr;
+	Unit_Panel* DesolatorPanel_Info = nullptr;
+	Unit_Panel* FlakPanel_Info = nullptr;
+
+
 
 private:
 
@@ -152,8 +158,12 @@ private:
 	Text* ReturnMainMenu_Label = nullptr;
 
 	Unit_Box* ConscriptCreator = nullptr;
-	Unit_Box* BazookaCreator = nullptr;
-	
+	Unit_Box* FlakCreator = nullptr;
+	Unit_Box* SniperCreator = nullptr;
+	Unit_Box* ChronoCreator = nullptr;
+	Unit_Box* DesolatorCreator = nullptr;
+
+
 	Spawn_Box* selectorInfantry=nullptr;
 	Spawn_Box* selectorDefenses = nullptr;
 	Spawn_Box* selectorTank = nullptr;
@@ -168,7 +178,10 @@ private:
 	SDL_Rect selectorTank_Rect[4];
 
 	SDL_Rect Conscript_Selection_Rect[4];
-	SDL_Rect Bazooka_Selection_Rect[4];
+	SDL_Rect Flak_Selection_Rect[4];
+	SDL_Rect Sniper_Selection_Rect[4];
+	SDL_Rect Chrono_Selection_Rect[4];
+	SDL_Rect Desolator_Selection_Rect[4];
 
 	SDL_Texture* miniMap_tex = nullptr;
 	SDL_Texture* unitsSelection_Tex= nullptr;

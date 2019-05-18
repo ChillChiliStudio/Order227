@@ -8,6 +8,7 @@
 
 struct _TTF_Font;
 class Unit;
+class Text;
 
 class Unit_Panel : public UI_Element	//TODO: Make it so text can be managed inside a block, with several lines
 {
@@ -15,6 +16,7 @@ public:
 	//Constructor
 	Unit_Panel( SDL_Rect rect, Image* button = NULL, SDL_Texture* tex = NULL ,ui_type type = ui_type::NONE);
 
+	bool Start();
 	virtual bool Update(float dt) override;
 	virtual bool Draw() override;
 	virtual bool DebugDraw() const override;
@@ -27,6 +29,7 @@ public:
 
 protected:
 
+	Text* Stats = nullptr;
 	bool enableButton=false;
 	Image* Currentbutton = nullptr;
 	SDL_Rect Panel_Rect;

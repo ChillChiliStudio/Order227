@@ -37,9 +37,8 @@ void CreateConscript() {
 	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SPAWN][0]);
 }
 
-void CreateBazooka() {
+void CreateFlak() {
 	//srand(time(NULL));
-
 	//TODO NEED TO DESHARCODE
 	fPoint randomPos = { 0,0 };
 	int temp = rand() % 2;
@@ -58,9 +57,82 @@ void CreateBazooka() {
 
 	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
-	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SPAWN][0]);
+	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::BAZOOKA, entity_faction::COMMUNIST);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::BAZOOKA][SOV][(int)type_sounds::SPAWN][0]);
 }
+void CreateChrono() {
+	//srand(time(NULL));
+	//TODO NEED TO DESHARCODE
+	fPoint randomPos = { 0,0 };
+	int temp = rand() % 2;
+
+	switch (temp)
+	{
+	case 0:
+		randomPos.x = 48;
+		randomPos.y = rand() % 5 + 40;
+		break;
+	case 1:
+		randomPos.x = rand() % 5 + 43;
+		randomPos.y = 45;
+		break;
+	}
+
+	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
+	fPoint test = myApp->entities->mainBase->position;
+	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::MACHINE_GUN, entity_faction::COMMUNIST);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::MACHINE_GUN][SOV][(int)type_sounds::SPAWN][0]);
+}
+
+void CreateDesolator() {
+	//srand(time(NULL));
+	//TODO NEED TO DESHARCODE
+	fPoint randomPos = { 0,0 };
+	int temp = rand() % 2;
+
+	switch (temp)
+	{
+	case 0:
+		randomPos.x = 48;
+		randomPos.y = rand() % 5 + 40;
+		break;
+	case 1:
+		randomPos.x = rand() % 5 + 43;
+		randomPos.y = 45;
+		break;
+	}
+
+	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
+	fPoint test = myApp->entities->mainBase->position;
+	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::DESOLATOR, entity_faction::COMMUNIST);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::DESOLATOR][SOV][(int)type_sounds::SPAWN][0]);
+}
+
+void CreateSniper() {
+	//srand(time(NULL));
+	//TODO NEED TO DESHARCODE
+	fPoint randomPos = { 0,0 };
+	int temp = rand() % 2;
+
+	switch (temp)
+	{
+	case 0:
+		randomPos.x = 48;
+		randomPos.y = rand() % 5 + 40;
+		break;
+	case 1:
+		randomPos.x = rand() % 5 + 43;
+		randomPos.y = 45;
+		break;
+	}
+
+	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
+	fPoint test = myApp->entities->mainBase->position;
+	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::SNIPER, entity_faction::COMMUNIST);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::SNIPER][SOV][(int)type_sounds::SPAWN][0]);
+}
+
+
 
 void StartGame() {
 
