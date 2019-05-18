@@ -42,6 +42,16 @@ struct EntityData {
 
 };
 
+enum class OVERLAP_DIR : int
+{
+	NONE = -1,
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
+	MAX
+};
+
 class Entity {
 
 public:

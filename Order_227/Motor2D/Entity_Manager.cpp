@@ -111,6 +111,10 @@ bool Entity_Manager::Update(float dt)
 		accumulated_time -= update_ms_cycle;
 	}
 
+	entitiesQuadtree->DrawQuadtree();
+
+	SolveOverlapping();
+
 	entitiesQuadtree->ClearTree();
 
 	return true;
@@ -789,4 +793,103 @@ void Entity_Manager::ReleasePools()
 	//rangedPool.clear();
 	//tankPool.clear();
 
+}
+
+void Entity_Manager::SolveOverlapping()
+{
+	BROFILER_CATEGORY("Unit overlapping", Profiler::Color::Magenta);
+
+	for (int i = 0; i< unitPool.size() ; ++i) 
+	{
+		if (unitPool[i].active) 
+		{
+
+			std::vector<Entity*> nearEntities = entitiesQuadtree->GetEntitiesNear(unitPool[i].position.x, unitPool[i].position.y);
+
+			for (int b = 0; b < nearEntities.size(); ++b)
+			{
+				bool dynamicNeighbor = nearEntities[b]->type == entity_type::INFANTRY;
+
+				if (RectsOverlap(unitPool[i].entityRect, nearEntities[b]->entityRect) && 
+					unitPool[i].entityRect.x != nearEntities[b]->entityRect.x &&
+					unitPool[i].entityRect.y != nearEntities[b]->entityRect.y)
+				{
+					
+					float distances[(int)OVERLAP_DIR::MAX];
+					distances[(int)OVERLAP_DIR::RIGHT] = unitPool[i].entityRect.x + unitPool[i].entityRect.w - nearEntities[b]->entityRect.x;
+					distances[(int)OVERLAP_DIR::LEFT] = nearEntities[b]->entityRect.x + nearEntities[b]->entityRect.w - unitPool[i].entityRect.x;
+					distances[(int)OVERLAP_DIR::UP] = unitPool[i].entityRect.y + unitPool[i].entityRect.h - nearEntities[b]->entityRect.y;
+					distances[(int)OVERLAP_DIR::DOWN] = nearEntities[b]->entityRect.y + nearEntities[b]->entityRect.h - unitPool[i].entityRect.y;
+
+					int overlap_dir = -1;
+
+					for (uint i = 0; i < (int)OVERLAP_DIR::MAX; ++i)
+					{
+						if (overlap_dir == -1)
+							overlap_dir = i;
+						else if (distances[i] < distances[(int)overlap_dir])
+							overlap_dir = i;
+					}
+
+					switch ((OVERLAP_DIR)overlap_dir)
+					{
+					case OVERLAP_DIR::RIGHT:
+						unitPool[i].position.x -= distances[(int)OVERLAP_DIR::RIGHT] * 0.5f;
+						unitPool[i].centerPos.x -= distances[(int)OVERLAP_DIR::RIGHT] * 0.5f;
+						unitPool[i].groundPos.x -= distances[(int)OVERLAP_DIR::RIGHT] * 0.5f;
+
+						if (dynamicNeighbor) {
+							nearEntities[b]->position.x += distances[(int)OVERLAP_DIR::RIGHT] * 0.5f;
+							nearEntities[b]->centerPos.x += distances[(int)OVERLAP_DIR::RIGHT] * 0.5f;
+							nearEntities[b]->groundPos.x += distances[(int)OVERLAP_DIR::RIGHT] * 0.5f;
+						}
+						break;
+					case OVERLAP_DIR::LEFT:
+						unitPool[i].position.x += distances[(int)OVERLAP_DIR::LEFT] * 0.5f;
+						unitPool[i].centerPos.x += distances[(int)OVERLAP_DIR::LEFT] * 0.5f;
+						unitPool[i].groundPos.x += distances[(int)OVERLAP_DIR::LEFT] * 0.5f;
+
+						if (dynamicNeighbor) {
+							nearEntities[b]->position.x -= distances[(int)OVERLAP_DIR::LEFT] * 0.5f;
+							nearEntities[b]->centerPos.x -= distances[(int)OVERLAP_DIR::LEFT] * 0.5f;
+							nearEntities[b]->groundPos.x -= distances[(int)OVERLAP_DIR::LEFT] * 0.5f;
+						}
+						break;
+					case OVERLAP_DIR::UP:
+						unitPool[i].position.y -= distances[(int)OVERLAP_DIR::UP] * 0.5f;
+						unitPool[i].centerPos.y -= distances[(int)OVERLAP_DIR::UP] * 0.5f;
+						unitPool[i].groundPos.y-= distances[(int)OVERLAP_DIR::UP] * 0.5f;
+
+						if (dynamicNeighbor) {
+							nearEntities[b]->position.y += distances[(int)OVERLAP_DIR::UP] * 0.5f;
+							nearEntities[b]->centerPos.y += distances[(int)OVERLAP_DIR::UP] * 0.5f;
+							nearEntities[b]->groundPos.y += distances[(int)OVERLAP_DIR::UP] * 0.5f;
+						}
+						break;
+					case OVERLAP_DIR::DOWN:
+						unitPool[i].position.y += distances[(int)OVERLAP_DIR::DOWN] * 0.5f;
+						unitPool[i].centerPos.y += distances[(int)OVERLAP_DIR::DOWN] * 0.5f;
+						unitPool[i].groundPos.y += distances[(int)OVERLAP_DIR::DOWN] * 0.5f;
+
+						if (dynamicNeighbor) {
+							nearEntities[b]->position.y -= distances[(int)OVERLAP_DIR::DOWN] * 0.5f;
+							nearEntities[b]->centerPos.y -= distances[(int)OVERLAP_DIR::DOWN] * 0.5f;
+							nearEntities[b]->groundPos.y -= distances[(int)OVERLAP_DIR::DOWN] * 0.5f;
+						}
+						break;
+					}
+
+				}
+			}
+		}
+	}
+}
+
+bool Entity_Manager::RectsOverlap(SDL_Rect &rect1, SDL_Rect &rect2) const
+{
+	return !(	rect1.x > rect2.x + rect2.w ||
+				rect1.x + rect1.w < rect2.x ||
+				rect1.y > rect2.y + rect2.h ||
+				rect1.y + rect1.h < rect2.y
+			);
 }
