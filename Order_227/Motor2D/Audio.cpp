@@ -71,6 +71,18 @@ bool Audio::Start() {
 
 	FillArrayFX();
 	LoadIntoArray();
+
+	//Setup radius audio
+	uPoint center, size;
+	myApp->win->GetWindowSize(size.x, size.y);
+	myApp->win->GetWindowCenter(center.x, center.y);
+
+	sfxAudioRadius = size.x;	//Effective radius of each ear
+	earOffset = 0; /*size.x / 8;*/	//Used to move slighlty the ear positions towars (+) or against (-) the center
+
+	leftEar = { (uint)(center.x - size.x / 4 + earOffset), center.y };	//Left Ear screen pos
+	rightEar = { (uint)(center.x + size.x / 4 - earOffset), center.y };	//Right Ear screen pos
+
 	return true;
 }
 
@@ -202,22 +214,37 @@ bool Audio::PlayFx(unsigned int id, int repeat, fPoint pos, bool spatial, int i)
 
 	if (id > 0 && id <= fx.size())
 	{
-		if (spatial) {
-			iPoint screenMid;
-			myApp->win->GetWindowCenter((uint&)screenMid.x, (uint&)screenMid.y);
-			screenMid = myApp->render->ScreenToWorld(screenMid.x, screenMid.y);
+		if (spatial) {	//Spatial audio checks the distance between a sound and the players "ears" positions in World and changes the volume accordingly
+			iPoint worldLeft;
+			iPoint worldRight;
 
-			fVec2 vec = GetVector2({ (float)screenMid.x, (float)screenMid.y }, pos);
-			float distance = vec.GetMagnitude();
+			worldLeft = myApp->render->ScreenToWorld(leftEar.x, leftEar.y);
+			worldRight = myApp->render->ScreenToWorld(rightEar.x, rightEar.y);
 
-			if (distance < sfxAudioRadius) {	//TODO: 100 is a hardcoded value, shouldn't be
+			float leftEarDistance = GetDistance({ (float)worldLeft.x, (float)worldLeft.y }, pos);
+			float rightEarDistance = GetDistance({ (float)worldRight.x, (float)worldRight.y }, pos);
+
+			if (leftEarDistance < sfxAudioRadius || leftEarDistance < sfxAudioRadius) {
+
 				std::list<Mix_Chunk*>::iterator it = fx.begin();
 				it = next(fx.begin(), id - 1);
 				channel = Mix_PlayChannel(i, *it, repeat);
 
 				if (channel > -1) {
-					float vol = 100.0f - (100.0f * distance / sfxAudioRadius);
-					ChangeChannelVolume(vol, channel);
+					float leftVol = 0.0f;
+					float rightVol = 0.0f;
+
+					//Formula: Ear % Volume + Global % Sfx Volume + 0 to 255 ratio
+					if (leftEarDistance < sfxAudioRadius) {
+						leftVol = (1.0f - leftEarDistance / sfxAudioRadius) * sfxVolume / 100.0f * 255.0f;
+					}
+					if (rightEarDistance < sfxAudioRadius) {
+						rightVol = (1.0f - rightEarDistance / sfxAudioRadius) * sfxVolume / 100.0f * 255.0f;
+					}
+
+					if (!Mix_SetPanning(channel, leftVol, rightVol)) {
+						LOG("Mix_SetPanning: %s\n", Mix_GetError());
+					}
 				}
 			}
 		}
