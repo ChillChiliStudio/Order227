@@ -20,6 +20,7 @@ enum class entity_type {
 	BUILDING,
 	INFANTRY,
 	ENT_MAX
+
 };
 
 enum class entity_faction {
@@ -31,6 +32,7 @@ enum class entity_faction {
 	FACTION_MAX
 
 };
+
 
 struct EntityData {
 
@@ -84,7 +86,7 @@ public:
 	virtual bool LoadEntityData()       { return true; }
 
 	virtual bool DebugDraw() { return true; }
-	
+
 	//TODO-Carles: Tried to make a new class "between" entity and Unit/Building and the bugs that popped out from that mess made me change my mind, fuck that so hard, so I put shit here
 	virtual float Hurt(float damage) = 0;
 	virtual bool IsDead() = 0;
@@ -106,6 +108,8 @@ public:
 
 	entity_faction	faction;
 	entity_type		type;
+
+
 
 	SDL_Rect		entityRect;			// Entity SDL_Rect for world pos
 	SDL_Rect		spriteRect;			// Entity SDL_Rect for texture area cutting

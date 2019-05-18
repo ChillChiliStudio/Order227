@@ -3,7 +3,7 @@
 
 #include <list>
 #include "Point.h"
-
+#include "Entity.h"
 #include "Map.h"	//TODO-Carles: I tried to fix it by all f*cking means, but if Map is included in the .cpp instead of the .h, the code explodes. This should not be included here, avoid includes on headers.
 
 enum class unit_orders;

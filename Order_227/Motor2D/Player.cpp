@@ -1,15 +1,14 @@
 #include "Log.h"
 #include "App.h"
 #include "Input.h"
-#include "Fonts.h"
 #include "Render.h"
 #include "Audio.h"
-#include "Map.h"
 #include "Entity_Manager.h"
 #include "UserInterface.h"
+#include "Image.h"
 #include "Text.h"
-#include "ParamBox.h"
 #include "Horde_Manager.h"
+#include "Launcher.h"
 #include "GroupManager.h"
 #include "Unit.h"
 #include "Player.h"
@@ -29,8 +28,6 @@ bool Player::Start()
 	//LOG("STARTING PLAYER MODULE");
 
 	//incomeTimer.Start();
-	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
-	mouseDebugMark->Deactivate();
 
 	return true;
 }
@@ -78,15 +75,12 @@ bool Player::Update(float dt)
 		myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
 		incomeTimer.Start();
 	}
-	
+
 	return true;
 }
 
 bool Player::CleanUp()
 {
-	myApp->gui->DestroyElement((UI_Element*)mouseDebugMark);
-	mouseDebugMark = nullptr;
-
 	return true;
 }
 
@@ -127,7 +121,7 @@ void Player::CameraInputs(float dt)
 	if (myApp->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		myApp->render->camera.x -= (int)ceil(CAMERA_SPEED  * dt);
 
-	else if (mousePos.x > myApp->win->width- SCREEN_MOVEMENT_MARGIN && mousePos.x < myApp->win->width)
+	else if (mousePos.x > myApp->win->width - SCREEN_MOVEMENT_MARGIN && mousePos.x < myApp->win->width)
 		myApp->render->camera.x -= (int)ceil(CAMERA_SPEED  * dt);
 
 }
@@ -148,8 +142,8 @@ void Player::DebugMouse()
 	mouseStr += " x ";
 	mouseStr += std::to_string(mouseMap.y);
 
-	mouseDebugMark->ChangeCenter({ (float)mouseScreenPos.x, (float)(mouseScreenPos.y - 25) });
-	mouseDebugMark->ChangeString(mouseStr);
+	myApp->gui->mouseDebugMark->ChangeCenter({ (float)mouseScreenPos.x, (float)(mouseScreenPos.y - 25) });
+	myApp->gui->mouseDebugMark->ChangeString(mouseStr);
 }
 
 void Player::DebugInputs()
@@ -175,11 +169,11 @@ void Player::DebugInputs()
 
 			if (myApp->map->mapDebugDraw) {
 				LOG("Debug Map: ON");
-				mouseDebugMark->Activate();
+				myApp->gui->mouseDebugMark->Activate();
 			}
 			else {
 				LOG("Debug Map: OFF");
-				mouseDebugMark->Deactivate();
+				myApp->gui->mouseDebugMark->Deactivate();
 			}
 		}
 
@@ -205,37 +199,38 @@ void Player::DebugInputs()
 			}
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {	// Insta-Win
-			
+		if (myApp->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {	// Activate Next Round
+			myApp->hordes->ChooseSpawningPoints();
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {	// Insta-Lose
-
+		if (myApp->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {	// Kill/Deactivate all enemies
+			myApp->hordes->ClearEnemies();
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
 
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
-			
-		}
-
-		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Instantly start next round
-			myApp->hordes->ChooseSpawningPoints();
-		}
-
-		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Destroy all enemies
-			myApp->hordes->ClearEnemies();
-		}
-
-		if (myApp->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {	// Spawn Capitalist Unit on Mouse
+		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {	// Spawn Basic Capitalist on Mouse
 			DebugSpawnUnit(infantry_type::BASIC, entity_faction::CAPITALIST);
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {	// Spawn Communist Unit on Mouse
+		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Spawn Chronon Mouse
+			DebugSpawnUnit(infantry_type::CHRONO, entity_faction::COMMUNIST);
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Spawn Desolator on Mouse
+			DebugSpawnUnit(infantry_type::DESOLATOR, entity_faction::COMMUNIST);
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {	// Spawn Bazooka on Mouse
+			DebugSpawnLauncher(infantry_type::BAZOOKA, entity_faction::COMMUNIST);
+		}
+
+		if (myApp->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {	// Spawn Conscript on Mouse
 			DebugSpawnUnit(infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
 		}
+
 	}
 }
 
@@ -245,14 +240,24 @@ void Player::DebugSpawnUnit(infantry_type unit, entity_faction faction)	//TODO: 
 	tmp->StartHold();
 }
 
+void Player::DebugSpawnLauncher(infantry_type unit, entity_faction faction)	//TODO: This should work with unit_type alone, enum ramifications like infantry or vehicles unnecesary
+{
+	Launcher* tmp = myApp->entities->ActivateLauncher(fPoint((float)mousePos.x, (float)mousePos.y), unit, faction);
+	tmp->StartHold();
+}
+
 void Player::CheckForOrders()
 {
+
 	if (myApp->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {	// Hold is done instantly, the others need a click
 		if (myApp->groups->playerGroup.groupUnits.size() > 0) {
+
 			ApplyAggroLevel(GetAggroLevel());
 			OrderHold();
 		}
 	}
+
+
 	if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
 		prepOrder = unit_orders::MOVE;
 	}
@@ -262,6 +267,9 @@ void Player::CheckForOrders()
 	if (myApp->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
 		prepOrder = unit_orders::PATROL;
 	}
+	/*if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_IDLE) {
+		myApp->entities.ChangeAgro(unit_aggro::DEFENSIVE);
+	}*/
 }
 
 unit_aggro Player::GetAggroLevel()
@@ -274,7 +282,7 @@ unit_aggro Player::GetAggroLevel()
 	else if (myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {	// Hold LEFT SHIFT for Passive
 		ret = unit_aggro::PASSIVE;
 	}
-	
+
 	return ret;
 }
 
@@ -320,7 +328,8 @@ void Player::OrderHold()
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::HOLD);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::COMFIRMATION][rand() % 2]);
+	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::COMFIRMATION];
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::COMFIRMATION][rand() % Aux]);
 }
 
 void Player::OrderMove()
@@ -329,7 +338,8 @@ void Player::OrderMove()
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::MOVING][0]);
+	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::MOVING];
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::MOVING][rand() % Aux]);
 }
 
 void Player::OrderHunt()
@@ -355,7 +365,8 @@ void Player::OrderHunt()
 		}
 
 		std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::ATTACK][0]);
+		int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::ATTACK];
+		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::ATTACK][rand() % Aux]);
 	}
 	else {
 		OrderMove();
@@ -368,7 +379,8 @@ void Player::OrderPatrol()
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::PATROL);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)(*it)->faction][(int)type_sounds::COMFIRMATION][rand() % 2]);
+	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::COMFIRMATION];
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::COMFIRMATION][rand() % Aux]);
 }
 
 void Player::PlayerSelect()

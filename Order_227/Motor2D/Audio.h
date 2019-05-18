@@ -2,12 +2,14 @@
 #define AUDIO_H
 
 #include "Module.h"
+#include "Point.h"
+#include "SDL_mixer\include\SDL_mixer.h"
 
 #define FACTION_NUM 2
-#define VARIATION_PER_SOUND 3
+#define VARIATION_PER_SOUND 4
 #define SOV 0
 #define CAP 1
-#define MAX_INFANTRY_NUMBER 7
+#define MAX_INFANTRY_NUMBER 8
 
 struct _Mix_Music;
 struct Mix_Chunk;
@@ -81,23 +83,57 @@ public:
 	unsigned int LoadFx(const char* path);
 
 	// Play a previously loaded WAV
-	bool PlayFx(unsigned int fx, int repeat = 0, int i = -1);
+	bool PlayFx(unsigned int fx, int repeat = 0, fPoint pos = { 0.0f, 0.0f }, bool spatial = false, int i = -1);
 
-	//Control General Volume (SFX & Music)
-	void ControlVolume(int vol);
+	//Volume Control (Paremeter input and variables use percentage 0 - 100 values, Mixer uses 0 - 128 values)
+	//Master Volume
+	void SetMasterVolume() const;
+	void ChangeMasterVolume(uint vol);
+  
+	//Music Volume
+	uint SetMusicVolume() const;
+	uint ChangeMusicVolume(uint vol);
+  
+	//Sfx Volume
+	uint SetChannelVolume(int channel = -1);
+	uint ChangeChannelVolume(uint vol, int channel = -1);
+  
+	//Chunck Volume
+	uint SetSfxChunkVolume(uint vol, int id = -1);
+  
+	//Get functions
+	uint* GetMasterVolume() {
+		return &masterVolume;
+	}
+	uint* GetSfxVolume() {
+		return &sfxVolume;
+	}
+	uint* GetMusicVolume() {
+		return &musicVolume;
+	}
 
-	//Control Music Volume
+	//Legacy Lucho Methods
+	/*void ControlVolume(int vol);
 	void ControlMUSVolume(int vol);
-
-	//Control SFX Volume
-	void ControlSFXVolume(int vol);
+	void ControlSFXVolume(int vol);*/
 
 	void FillArrayFX();
 	void LoadIntoArray();
 
+public:
+	// 0% - 100% Range
+	uint masterVolume;	//General Volume
+	uint musicVolume;	  //Music Volume
+	uint sfxVolume;		  //Sfx Volume
 
-	//TODO: The hardoced 4 should be entity/unit type::Max
-	uint SoundFX_Array[MAX_INFANTRY_NUMBER][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
+	//Spatial Audio
+	float sfxAudioRadius;
+	uPoint leftEar;
+	uPoint rightEar;
+	int earOffset;
+
+	uint SoundFX_Array[MAX_INFANTRY_NUMBER][(int)type_sounds::MAX][VARIATION_PER_SOUND];
+	int VarsXsound[MAX_INFANTRY_NUMBER][(int)type_sounds::MAX];
 
 	pugi::xml_document SFX_XML;
 

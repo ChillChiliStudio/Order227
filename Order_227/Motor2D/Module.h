@@ -18,7 +18,7 @@ public:
 
 	Module() : active(false)
 	{}
-
+	
 	virtual ~Module()
 	{}
 

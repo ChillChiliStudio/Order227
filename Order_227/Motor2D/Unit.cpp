@@ -18,6 +18,7 @@ Unit::Unit(fPoint pos, infantry_type infType, entity_faction faction) : Entity(p
 {
 //	LoadEntityData();
 	infantryType = infType;
+
 }
 
 Unit::~Unit()
@@ -33,11 +34,17 @@ bool Unit::Start()
 	unitState = unit_state::IDLE;
 	unitOrders = unit_orders::HOLD;
 	unitDirection = unit_directions::SOUTH_EAST;
-	
+
 	currNode = unitPath.end();
 
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)][(int)faction]);
-	stats.attackSfxId = myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::SHOT][2];	//TODO: Hardcoded audio value, this should be get by an XML
+
+	if (faction == entity_faction::COMMUNIST) {
+
+		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SPAWN];
+		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::SPAWN][rand() % Aux]);
+	}
+
 
 	myApp->gui->CreateLifeBar(fPoint(centerPos.x, position.y), this, myApp->entities->lifeBar_tex);
 
@@ -59,8 +66,10 @@ bool Unit::Update(float dt)
 	UnitWorkflow(dt);
 
 	if (mustDespawn) {
-		mustDespawn = false;
-		myApp->entities->DeActivateUnit(this);
+		/*if (currentAnimation.Finished() == true) {*/
+			mustDespawn = false;
+			myApp->entities->DeActivateUnit(this);
+		/*}*/
 	}
 	else {
 		if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
@@ -396,7 +405,7 @@ void Unit::DoPatrol(float dt)
 	}
 }
 
-// Actions
+ //Actions
 bool Unit::Move(float dt)
 {
 	fVec2 distanceMoved = { vecSpeed.x * dt, vecSpeed.y * dt };
@@ -498,7 +507,9 @@ void Unit::AttackCurrTarget(float dt)
 		unitState = unit_state::ATTACKING;
 	}
 	else if (attackTimer.Read() > stats.cadency) {
-		myApp->audio->PlayFx(stats.attackSfxId);
+		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SHOT];
+		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::SHOT][rand() % Aux], 0, centerPos, true);
+
 		attackTimer.Start();
 	}
 }
@@ -523,10 +534,11 @@ void Unit::Die()
 	unitState = unit_state::DEAD;
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0][(int)faction]);
 
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)faction][(int)type_sounds::HURT][rand() % 2]);
+	int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::HURT];
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::HURT][rand() % Aux], 0, centerPos, true);
 }
 
-// Unit Data
+ //Unit Data
 bool Unit::IsDead()
 {
 	bool ret = false;
@@ -604,14 +616,15 @@ bool Unit::TargetDisplaced(Entity* target)
 	return ret;
 }
 
-// Unit Calculations
+ //Unit Calculations
 Entity* Unit::EnemyInRadius(uint radius)
 {
 	Entity* ret = nullptr;
 
-	int numActives = myApp->entities->activeUnits;
+	int numActives;
 
 	//Units
+	numActives = myApp->entities->activeUnits;
 	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); numActives > 0; item = next(item)) {
 		if ((*item).active) {
 			numActives--;
@@ -628,21 +641,39 @@ Entity* Unit::EnemyInRadius(uint radius)
 		}
 	}
 
-	//Buildings
-	if (ret == nullptr && faction == entity_faction::CAPITALIST) {
-		numActives = myApp->entities->activeBuildings;
-
-		for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0; item = next(item)) {
+	if (ret == nullptr) {
+		numActives = myApp->entities->activeLaunchers;
+		for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); numActives > 0; item = next(item)) {
 			if ((*item).active) {
 				numActives--;
 
-			if ((*item).IsDead() == false) {
+				if ((*item).IsDead() == false && (*item).faction != faction) {
 
 					if (InsideSquareRadius(centerPos, (float)radius, (*item).centerPos)
 						&& InsideRadius(centerPos, (float)radius, (*item).centerPos))
 					{
 						ret = (Entity*)&(*item);
 						break;
+					}
+				}
+			}
+		}
+
+		if (ret == nullptr && faction == entity_faction::CAPITALIST) {
+			numActives = myApp->entities->activeBuildings;
+
+			for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0; item = next(item)) {
+				if ((*item).active) {
+					numActives--;
+
+					if ((*item).IsDead() == false) {
+
+						if (InsideSquareRadius(centerPos, (float)radius, (*item).centerPos)
+							&& InsideRadius(centerPos, (float)radius, (*item).centerPos))
+						{
+							ret = (Entity*)&(*item);
+							break;
+						}
 					}
 				}
 			}
