@@ -1,7 +1,7 @@
 #ifndef __QUADTREE__H_
 #define __QUADTREE__H_
 
-#define SCREEN_MARGIN 20
+#define SCREEN_MARGIN 52	//NOTE: Was 20 originally
 
 class Quadtree {
 

@@ -51,8 +51,7 @@ bool InsideSquareRadius(fPoint center, float radius, fPoint point)	//Uses square
 {
 	bool ret = true;
 
-	if (point.x > center.x + radius || point.x < center.x - radius
-		|| point.y > center.y + radius || point.y < center.y - radius) {
+	if (point.x > center.x + radius || point.x < center.x - radius || point.y > center.y + radius || point.y < center.y - radius) {
 		ret = false;
 	}
 

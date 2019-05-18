@@ -328,6 +328,8 @@ uint Audio::SetSfxChunkVolume(uint vol, int id)
 //void Audio::ControlVolume(int vol) { //Range: 0-128
 //
 //	Mix_Volume(-1, vol);
+//  ControlMUSVolume(vol);
+//	ControlSFXVolume(vol);
 //
 //}
 //

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="4" height="7" tilewidth="254" tileheight="230" nextobjectid="3">
+ <objectgroup name="Rects">
+  <object id="1" name="Spawn" x="0" y="0" width="254" height="230"/>
+  <object id="1" name="Spawn" x="254" y="0" width="254" height="230"/>
+  <object id="1" name="Spawn" x="508" y="0" width="254" height="230"/>
+  <object id="1" name="Spawn" x="762" y="0" width="254" height="230"/>
+  <object id="1" name="Spawn" x="0" y="230" width="254" height="230"/>
+  <object id="1" name="Spawn" x="254" y="230" width="254" height="230"/>
+  <object id="1" name="Spawn" x="508" y="230" width="254" height="230"/>
+  <object id="1" name="Spawn" x="762" y="230" width="254" height="230"/>
+  <object id="1" name="Spawn" x="0" y="460" width="254" height="230"/>
+  <object id="1" name="Spawn" x="254" y="460" width="254" height="230"/>
+  <object id="1" name="Spawn" x="508" y="460" width="254" height="230"/>
+  <object id="1" name="Spawn" x="762" y="460" width="254" height="230"/>
+  <object id="1" name="Spawn" x="0" y="690" width="254" height="230"/>
+  <object id="1" name="Spawn" x="254" y="690" width="254" height="230"/>
+  <object id="1" name="Spawn" x="508" y="690" width="254" height="230"/>
+  <object id="1" name="Spawn" x="762" y="690" width="254" height="230"/>
+  <object id="1" name="Spawn" x="0" y="920" width="254" height="230"/>
+  <object id="1" name="Spawn" x="254" y="920" width="254" height="230"/>
+  <object id="1" name="Spawn" x="508" y="920" width="254" height="230"/>
+  <object id="1" name="Spawn" x="762" y="920" width="254" height="230"/>
+  <object id="1" name="Spawn" x="0" y="1150" width="254" height="230"/>
+  <object id="1" name="Spawn" x="254" y="1150" width="254" height="230"/>
+  <object id="1" name="Spawn" x="508" y="1150" width="254" height="230"/>
+  <object id="1" name="Spawn" x="762" y="1150" width="254" height="230"/>
+  <object id="1" name="Spawn" x="0" y="1380" width="254" height="230"/>
+  <object id="1" name="Explosion" x="762" y="1380" width="254" height="230"/>
+  <object id="2" name="Idle" x="254" y="1380" width="254" height="230"/>
+ </objectgroup>
+ <imagelayer name="Image Layer 1">
+  <image source="HeartsPeople.png" width="1016" height="1610"/>
+ </imagelayer>
+</map>

@@ -85,18 +85,23 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0, fPoint pos = { 0.0f, 0.0f }, bool spatial = false, int i = -1);
 
-	//Volume Control (Input uses percentage 0 - 100 values, mixer uses 0 - 128 values)
+	//Volume Control (Paremeter input and variables use percentage 0 - 100 values, Mixer uses 0 - 128 values)
+  //Master Volume
 	void SetMasterVolume() const;	//Master
 	void ChangeMasterVolume(uint vol);
-
+  
+  //Music Volume
 	uint SetMusicVolume() const;	//Music
 	uint ChangeMusicVolume(uint vol);
-
+  
+  //Sfx Volume
 	uint SetChannelVolume(int channel = -1);	//Sfx Channels
 	uint ChangeChannelVolume(uint vol, int channel = -1);
-
+  
+  //Chunck Volume
 	uint SetSfxChunkVolume(uint vol, int id = -1);	//Chunks
-
+  
+  //Get functions
 	uint* GetMasterVolume() {
 		return &masterVolume;
 	}
@@ -118,8 +123,8 @@ public:
 public:
 	// 0% - 100% Range
 	uint masterVolume;	//General Volume
-	uint musicVolume;	//Music Volume
-	uint sfxVolume;		//Sfx Volume
+	uint musicVolume;	  //Music Volume
+	uint sfxVolume;		  //Sfx Volume
 
 	//Spatial Audio
 	float sfxAudioRadius;
@@ -127,7 +132,6 @@ public:
 	uPoint rightEar;
 	int earOffset;
 
-	//TODO: The hardoced 4 should be entity/unit type::Max
 	uint SoundFX_Array[MAX_INFANTRY_NUMBER][FACTION_NUM][(int)type_sounds::MAX][VARIATION_PER_SOUND];
 
 	pugi::xml_document SFX_XML;
