@@ -136,7 +136,7 @@
     <ClCompile Include="Launcher.cpp">
       <Filter>Game Files\Entity Management\Entities\Units\Launchers</Filter>
     </ClCompile>
-    <ClCompile Include="Pla_yer_Backup.cpp">
+    <ClCompile Include="Player.cpp">
       <Filter>Game Files\Modules</Filter>
     </ClCompile>
   </ItemGroup>
@@ -303,7 +303,7 @@
     <ClInclude Include="Launcher.h">
       <Filter>Game Files\Entity Management\Entities\Units\Launchers</Filter>
     </ClInclude>
-    <ClInclude Include="Pla_yer_Backup.h">
+    <ClInclude Include="Player.h">
       <Filter>Game Files\Modules</Filter>
     </ClInclude>
   </ItemGroup>
