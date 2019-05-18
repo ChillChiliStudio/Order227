@@ -11,7 +11,7 @@
 #include "Launcher.h"
 #include "GroupManager.h"
 #include "Unit.h"
-#include "Player.h"
+#include "Pla_yer_Backup.h"
 #include "Window.h"
 #include "Brofiler/Brofiler.h"
 #include "MiniMap.h"
@@ -121,7 +121,7 @@ void Player::CameraInputs(float dt)
 	if (myApp->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		myApp->render->camera.x -= (int)ceil(CAMERA_SPEED  * dt);
 
-	else if (mousePos.x > myApp->win->width- SCREEN_MOVEMENT_MARGIN && mousePos.x < myApp->win->width)
+	else if (mousePos.x > myApp->win->width - SCREEN_MOVEMENT_MARGIN && mousePos.x < myApp->win->width)
 		myApp->render->camera.x -= (int)ceil(CAMERA_SPEED  * dt);
 
 }
@@ -208,7 +208,7 @@ void Player::DebugInputs()
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
-			
+
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {	// Spawn Basic Capitalist on Mouse
@@ -365,10 +365,8 @@ void Player::OrderHunt()
 		}
 
 		std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-		
 		int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::ATTACK];
 		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::ATTACK][rand() % Aux]);
-		
 	}
 	else {
 		OrderMove();

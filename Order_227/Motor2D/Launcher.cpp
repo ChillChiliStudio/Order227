@@ -91,8 +91,10 @@ void Launcher::AttackCurrTarget(float dt) {
 	//currTarget->Hurt((float)stats.damage * dt); //CHANGE FOR LAUNCH PROJECTILE
 	
 	if (attackTimer.Read() > stats.cadency) {
-		myApp->audio->PlayFx(stats.attackSfxId);  //SOUND
 		LaunchProjectile(currTarget->centerPos);  //ATTACK
+		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SHOT];
+		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::SHOT][rand() % Aux], 0, centerPos, true);
+
 
 		if (unitState != unit_state::ATTACKING) { //ANIM
 			attackTimer.Start();                  //TIMER RE-START

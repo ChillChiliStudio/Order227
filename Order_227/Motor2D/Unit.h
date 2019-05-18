@@ -90,8 +90,8 @@ struct unit_stats {	// Data imported through xml and depends on Unit type	//IMPR
 	// Speed
 	float linSpeed;	// Absolute speed
 
-	//Sound
-	uint attackSfxId;	// Attack sfx ID
+	////Sound
+	//uint attackSfxId;	//TODO: Without the code explodes, however it shouldn't exist nor it's used anywhere else in the code, if something breaks
 
 	// Spawn
 	int cost;

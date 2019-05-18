@@ -23,7 +23,7 @@ class Player : public Module {
 
 public:
 
-	bool Awake(pugi::xml_node&) override;
+	bool Awake(pugi::xml_node& node) override;
 	bool Start() override;
 	bool PreUpdate() override;
 	bool Update(float dt) override;
@@ -31,14 +31,17 @@ public:
 
 	void UpdateMousePos();
 	void CameraInputs(float dt);
+
 	void DebugMouse();
 	void DebugInputs();
 	void DebugSpawnUnit(infantry_type type, entity_faction faction);
 	void DebugSpawnLauncher(infantry_type type, entity_faction faction);
+
 	void CheckForOrders();
 	unit_aggro GetAggroLevel();
 	void ApplyAggroLevel(unit_aggro aggro);
 	void ApplyOrders();
+
 	void OrderHold();
 	void OrderMove();
 	void OrderHunt();
@@ -67,7 +70,7 @@ public:
 
 	iPoint origin;
 	iPoint rectangle_origin;
-	
+
 	unit_orders prepOrder = (unit_orders)-1;
 
 	//Group playerGroup = nullptr;	//TODO: On group manager, should probably be here
@@ -75,7 +78,7 @@ public:
 	int playerIncome = 0;
 	int playerMoney = 400;
 	Timer incomeTimer;
-	
+
 	bool startCreationUnit = false;
 
 };

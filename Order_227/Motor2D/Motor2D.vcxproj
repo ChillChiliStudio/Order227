@@ -14,7 +14,7 @@
     <ProjectGuid>{2AF9969B-F202-497B-AF30-7BEF9CE8005E}</ProjectGuid>
     <RootNamespace>programacio_2</RootNamespace>
     <ProjectName>Order227</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -43,7 +43,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IntDir>..\Game</IntDir>
+    <IntDir>..\Release</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -97,8 +97,7 @@
     <ClCompile Include="LifeBarBox.cpp" />
     <ClCompile Include="MiniMap.cpp" />
     <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Player.h" />
+    <ClCompile Include="Pla_yer_Backup.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Slider.cpp" />
@@ -148,6 +147,7 @@
     <ClInclude Include="LifeBarBox.h" />
     <ClInclude Include="MiniMap.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Pla_yer_Backup.h" />
     <ClInclude Include="Pool.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Quadtree.h" />

@@ -103,12 +103,6 @@
     <ClCompile Include="UnitButton.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
     </ClCompile>
-    <ClCompile Include="Player.h">
-      <Filter>Game Files\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Game Files\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="MiniMap.cpp">
       <Filter>Game Files\Modules</Filter>
     </ClCompile>
@@ -141,6 +135,9 @@
     </ClCompile>
     <ClCompile Include="Launcher.cpp">
       <Filter>Game Files\Entity Management\Entities\Units\Launchers</Filter>
+    </ClCompile>
+    <ClCompile Include="Pla_yer_Backup.cpp">
+      <Filter>Game Files\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -305,6 +302,9 @@
     </ClInclude>
     <ClInclude Include="Launcher.h">
       <Filter>Game Files\Entity Management\Entities\Units\Launchers</Filter>
+    </ClInclude>
+    <ClInclude Include="Pla_yer_Backup.h">
+      <Filter>Game Files\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

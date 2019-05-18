@@ -123,10 +123,14 @@ void Entity_Manager::UpdateUnits(float dt)
 
 	int numActives = activeUnits;
 
-	for (int i = 0; /*numActives > 0*/ i < unitPool.size(); ++i) {
+	for (int i = 0; numActives > 0; ++i) {
 
-		if (unitPool[i].active) {
+		if (unitPool[i].active == true) {
 			numActives--;
+
+			if (i == 33) {
+				int patata = 0;
+			}
 
 			unitPool[i].Update(dt);
 
@@ -136,10 +140,13 @@ void Entity_Manager::UpdateUnits(float dt)
 		}
 	}
 
-	//LAUNCHER UNITS
-	for (int i = 0; i < launcherPool.size(); ++i) {
+	numActives = activeLaunchers;
 
-		if (launcherPool[i].active) {
+	//LAUNCHER UNITS
+	for (int i = 0; numActives > 0; ++i) {
+
+		if (launcherPool[i].active == true) {
+			numActives--;
 
 			launcherPool[i].Update(dt);
 			if (do_logic)
