@@ -51,6 +51,8 @@ bool Unit::Start()
 	active = true;
 	selected = false;
 
+	type = entity_type::INFANTRY;
+
 	return true;
 }
 
