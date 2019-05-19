@@ -80,10 +80,11 @@ public:
 	float healthRecovery = 0.1f;
 	int income = 0;
 
+	bool repairable = false;
+
 private:
 
 	bool rewardGiven = false;
-	bool repairable = false;
 
 };
 #endif 

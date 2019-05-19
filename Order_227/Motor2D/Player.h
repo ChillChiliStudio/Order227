@@ -23,6 +23,9 @@ class Player : public Module {
 
 public:
 
+	Player();
+	~Player();
+
 	bool Awake(pugi::xml_node& node) override;
 	bool Start() override;
 	bool PreUpdate() override;
@@ -76,7 +79,8 @@ public:
 	//Group playerGroup = nullptr;	//TODO: On group manager, should probably be here
 
 	int playerIncome = 0;
-	int playerMoney = 400;
+	int playerMoney = 0;
+	int initialMoney = 0;
 	Timer incomeTimer;
 
 	bool startCreationUnit = false;

@@ -67,14 +67,12 @@ void StartGame() {
 	//myApp->audio->PlayMusic("audio/music/game/ingame_song3_loop.ogg",-1);
 
 	//TODO make the game start Correctly
-	myApp->gui->WinIcon->Deactivate();
-
 
 	myApp->entities->ActivateBuildings();
 	myApp->entities->ActivateObjects();
 
 	myApp->hordes->hordeRoundto(0);
-	myApp->player->playerMoney = 300; //TODO Deharcode
+	myApp->player->playerMoney = myApp->player->initialMoney; //TODO Deharcode
 
 	myApp->gui->hordeNumber_Label->ChangeString(std::to_string(0));
 	myApp->hordes->hordeActive = true;
