@@ -12,11 +12,11 @@ Horde_Manager::Horde_Manager()
 	name.assign("horde_manager");
 }
 
-//bool Horde_Manager::Awake(pugi::xml_node&config) {
-//
-//	maxHordes = config.child("max_hordes").attribute("value").as_int(0);
-//	return true;
-//}
+bool Horde_Manager::Awake(pugi::xml_node&config) {
+
+	maxHordes = config.child("max_hordes").attribute("value").as_int(0);
+	return true;
+}
 
 bool Horde_Manager::Start()
 {
@@ -94,7 +94,7 @@ void Horde_Manager::ChooseSpawningPoints()
 {
 
 		//Restarting round if reached 20 - for MVP this should be 5
-		if (roundNumber == 20) {
+		if (roundNumber == maxHordes) {
 
 			roundNumber = 0;
 			roundThreat = 0;

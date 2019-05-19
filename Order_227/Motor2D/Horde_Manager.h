@@ -19,7 +19,7 @@ public:
 	Horde_Manager();
 
 	bool Start();
-	//bool Awake(pugi::xml_node&config);
+	bool Awake(pugi::xml_node&config);
 	bool Update(float dt);
 	bool CleanUp();
 
