@@ -14,6 +14,7 @@
 #include "Brofiler/Brofiler.h"
 #include "Launcher.h"
 #include "EntityQuadtree.h"
+#include "Horde_Manager.h"
 
 #include <algorithm>
 
@@ -357,6 +358,10 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 		activeUnits--;
 		break;
 	}
+
+	if (_Unit->faction == entity_faction::CAPITALIST)
+		myApp->hordes->remainingEnemies--;
+		
 
 	_Unit->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 	_Unit->infantryType = infantry_type::INFANTRY_NONE;

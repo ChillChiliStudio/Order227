@@ -266,9 +266,9 @@ bool User_Interface::Update(float dt)
 	bool ret = true;
 
 	//TODO LUCHO VARIABLE
-	//if (myApp->hordes->hordeActive) {
-	//	Eniemies_left_Label->ChangeString(std::to_string("PonerAquiLaVARIABLe"));
-	//}
+	if (myApp->hordes->HordesDead() == false) {
+		Eniemies_left_Label->ChangeString(std::to_string(myApp->hordes->remainingEnemies));
+	}
 
 	//if (myApp->groups->playerGroup.groupUnits.size() > 0) {
 

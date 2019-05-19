@@ -61,6 +61,7 @@ public:
 	int roundNumber = 0;
 	bool hordeActive = false;
 	int maxHordes = 0;
+	int remainingEnemies = 0;
 
 	Timer roundTimer;
 
