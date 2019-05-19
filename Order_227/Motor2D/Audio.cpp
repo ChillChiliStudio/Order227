@@ -203,14 +203,12 @@ unsigned int Audio::LoadFx(const char* path)
 }
 
 // Play WAV
-bool Audio::PlayFx(unsigned int id, int repeat, fPoint pos, bool spatial, int i)
+bool Audio::PlayFx(unsigned int id, int repeat, int channel, fPoint pos, bool spatial)
 {
 	bool ret = false;
 
 	if (!active)
 		return false;
-
-	int channel;
 
 	if (id > 0 && id <= fx.size())
 	{
@@ -228,7 +226,7 @@ bool Audio::PlayFx(unsigned int id, int repeat, fPoint pos, bool spatial, int i)
 
 				std::list<Mix_Chunk*>::iterator it = fx.begin();
 				it = next(fx.begin(), id - 1);
-				channel = Mix_PlayChannel(i, *it, repeat);
+				channel = Mix_PlayChannel(channel, *it, repeat);
 
 				if (channel > -1) {
 					float leftVol = 0.0f;
@@ -251,7 +249,7 @@ bool Audio::PlayFx(unsigned int id, int repeat, fPoint pos, bool spatial, int i)
 		else {
 			std::list<Mix_Chunk*>::iterator it = fx.begin();
 			it = next(fx.begin(), id - 1);
-			channel = Mix_PlayChannel(i, *it, repeat);
+			channel = Mix_PlayChannel(channel, *it, repeat);
 
 			if (channel > -1) {
 				SetChannelVolume(channel);
