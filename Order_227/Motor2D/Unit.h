@@ -202,7 +202,7 @@ public:
 	Timer attackTimer;	// Attack timer
 
 	// Death
-	uint32 timeToDespawn = 5000;	//TODO: Hardcoded value, should be read through xml
+	uint32 timeToDespawn = 3000;	//TODO: Hardcoded value, should be read through xml
 	Timer despawnTimer;
 	bool mustDespawn = false;
 };

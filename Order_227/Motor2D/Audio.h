@@ -14,16 +14,26 @@
 struct _Mix_Music;
 struct Mix_Chunk;
 
+// Mixer Channels go from 0 to 7
 enum class type_sounds
 {
-	SPAWN,
-	MOVING,
-	COMFIRMATION,
-	HURT,
-	SHOT,
-	ATTACK,
+	SPAWN,			//Channel 0
+	MOVING,			//Channel 1
+	CONFIRMATION,	//Channel 1
+	HURT,			//Channel 2
+	SHOT,			//Channel 3,4,5,6,7
+	ATTACK,			//Channel 1
 	MAX
+};
 
+enum sound_channels	// 0 for Spawns, 1 for Orders, 2 for Hurt, 3 for Explosions, ANY for attacks/shooting
+{
+	CHANNEL_SPAWN = 0,
+	CHANNEL_MOVING = 1,
+	CHANNEL_CONFIRMATION = 1,
+	CHANNEL_HURT = 2,
+	CHANNEL_SHOT = -1,
+	CHANNEL_ATTACK = 1
 };
 
 enum class song_type {
@@ -83,7 +93,7 @@ public:
 	unsigned int LoadFx(const char* path);
 
 	// Play a previously loaded WAV
-	bool PlayFx(unsigned int fx, int repeat = 0, fPoint pos = { 0.0f, 0.0f }, bool spatial = false, int i = -1);
+	bool PlayFx(unsigned int fx, int repeat = 0, int channel = -1, fPoint pos = { 0.0f, 0.0f }, bool spatial = false);
 
 	//Volume Control (Paremeter input and variables use percentage 0 - 100 values, Mixer uses 0 - 128 values)
 	//Master Volume
