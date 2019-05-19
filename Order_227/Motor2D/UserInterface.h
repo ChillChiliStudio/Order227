@@ -173,6 +173,14 @@ public:
 	Unit_Panel* DesolatorPanel_Info = nullptr;
 	Unit_Panel* FlakPanel_Info = nullptr;
 
+	Unit_Panel* UnitBuff_Info = nullptr;
+	Unit_Panel* BuildingBuff_Info = nullptr;
+	Unit_Panel* HeavyArmorBuff_Info = nullptr;
+	Unit_Panel* Money1Buff_Info = nullptr;
+	Unit_Panel* Money2Buff_Info = nullptr;
+	Unit_Panel* Money3Buff_Info = nullptr;
+
+
 
 
 private:

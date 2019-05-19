@@ -7,7 +7,7 @@
 
 
 Buff_Box::Buff_Box(fPoint position, SDL_Rect rect, SDL_Texture* tex,bool* able, ui_type type)
-	:UI_Element(type, position), graphics(tex)
+	:Image(type, position,rect,tex), graphics(tex)
 {
 	enableButton = able;
 	Rect = rect;
@@ -49,8 +49,15 @@ bool Buff_Box::DebugDraw() const
 
 bool Buff_Box::Draw() {
 
-	if ((*enableButton)==true)
+	if ((*enableButton) == true) {
 		myApp->render->Blit(graphics, position.x, position.y, &Rect, SDL_FLIP_NONE, false);
+		Unlocked = true;
+	}
+	else
+	{
+		Unlocked = false;
+	}
+	
 
 	return true;
 }

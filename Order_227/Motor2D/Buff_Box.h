@@ -10,7 +10,7 @@ struct _TTF_Font;
 class Unit;
 class Text;
 
-class Buff_Box : public UI_Element	//TODO: Make it so text can be managed inside a block, with several lines
+class Buff_Box : public Image	//TODO: Make it so text can be managed inside a block, with several lines
 {
 public:
 	//Constructor
@@ -19,9 +19,6 @@ public:
 	virtual bool Update(float dt) override;
 	virtual bool Draw() override;
 	virtual bool DebugDraw() const override;
-
-	bool ActiveElement();
-	bool onTop();
 
 public:
 

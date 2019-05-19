@@ -222,12 +222,21 @@ bool User_Interface::Start()
 	ChronoPanel_Info = CreateUnitPanel(SDL_Rect({ 274,0,137,165 }), ChronoCreator, Unit_Panels_tex);
 
 	
-	Units_Life = CreateBuffBox(fPoint(0, 0), SDL_Rect({ 0,0,47,47 }), Buff_tex,nullptr);
-	Buildings_Life = CreateBuffBox(fPoint(0, 0), SDL_Rect({ 47,0,47,47 }), Buff_tex, nullptr);
-	HeavyUnits_able = CreateBuffBox(fPoint(0, 0), SDL_Rect({ 94,0,47,47 }), Buff_tex, &myApp->entities->heavyUnitsUnlocked);
-	Money_Buff = CreateBuffBox(fPoint(0, 0), SDL_Rect({ 141,0,47,47 }), Buff_tex, nullptr);
-	Money2_Buff = CreateBuffBox(fPoint(0, 0), SDL_Rect({ 141,0,47,47 }), Buff_tex, nullptr);
-	Mone3_Buff = CreateBuffBox(fPoint(0, 0), SDL_Rect({ 141,0,47,47 }), Buff_tex, nullptr);
+	Units_Life = CreateBuffBox(fPoint(370, height - 200), SDL_Rect({ 3,3,41,41 }), Buff_tex, &myApp->entities->unitBuff);
+	Buildings_Life = CreateBuffBox(fPoint(430, height - 200), SDL_Rect({ 44,0,41,41 }), Buff_tex, &myApp->entities->buildingsBuff);
+	HeavyUnits_able = CreateBuffBox(fPoint(480, height - 200), SDL_Rect({ 85,0,41,41 }), Buff_tex, &myApp->entities->heavyUnitsUnlocked);
+	Money_Buff = CreateBuffBox(fPoint(530, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff1);
+	Money2_Buff = CreateBuffBox(fPoint(580, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff2);
+	Mone3_Buff = CreateBuffBox(fPoint(630, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff45);
+
+	 UnitBuff_Info = CreateUnitPanel(SDL_Rect({ 147,335,151,94 }), Units_Life, Unit_Panels_tex);
+	 BuildingBuff_Info = CreateUnitPanel(SDL_Rect({ 0,434,151,94 }), Buildings_Life, Unit_Panels_tex);
+	 HeavyArmorBuff_Info = CreateUnitPanel(SDL_Rect({ 0,335,151,94 }), HeavyUnits_able, Unit_Panels_tex);
+	 Money1Buff_Info = CreateUnitPanel(SDL_Rect({ 175,434,151,94 }), Money_Buff, Unit_Panels_tex);
+	 Money2Buff_Info = CreateUnitPanel(SDL_Rect({ 175,434,151,94 }), Money2_Buff, Unit_Panels_tex);
+	 Money3Buff_Info = CreateUnitPanel(SDL_Rect({ 0,535,151,94 }), Mone3_Buff, Unit_Panels_tex);
+
+
 
 	MainMenuTemp_Image = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,1280,720 }), Main_Menu_Temp_Tex);
 	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/1.8),TempButtonRect,StartGame_text,MainMenuTemp_Image);
