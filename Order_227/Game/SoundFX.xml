@@ -581,9 +581,11 @@
   <Match>
    
     
-    <Sound id="0" NumVariation="1">
+    <Sound id="0" NumVariation="2">
       <!--Round Start-->
       <Var Variation="0" path="audio/AFX/Others/RoundStarting.wav"/>
+      <Var Variation="1" path="audio/AFX/Others/Anouncer/EnemiesComing.wav"/>
+
 
     </Sound>
 
@@ -599,10 +601,7 @@
 
     </Sound>
     
-    
-  
-    
-    
+   
     
   </Match>
 

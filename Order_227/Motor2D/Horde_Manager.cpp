@@ -40,14 +40,16 @@ bool Horde_Manager::Update(float dt)
 
 			ChooseSpawningPoints();
 
-           int Aux = myApp->audio->VarsXsound_Match[(int)MatchType_Sounds::STARTING_ROUND];
-			myApp->audio->PlayFx(myApp->audio->SoundMatch_Array[(int)MatchType_Sounds::STARTING_ROUND][rand() % Aux]);
+			myApp->audio->PlayFx(myApp->audio->SoundMatch_Array[(int)MatchType_Sounds::STARTING_ROUND][0]);
+			myApp->audio->PlayFx(myApp->audio->SoundMatch_Array[(int)MatchType_Sounds::STARTING_ROUND][1]);
+   
 
 			roundTimer.Start();
 		}
 
-		else if (!HordesDead())
+		else if (!HordesDead()) {
 			roundTimer.Start();
+		}
 	}
 
 	for (int i = 0; i < SpawningPoints_Array.size(); i++) 
@@ -150,6 +152,7 @@ void Horde_Manager::ClearEnemies()
 
 bool Horde_Manager::HordesDead()
 {
+
 	for (int i = 0; i < hordes.size(); ++i) 
 	{
 		std::list<Unit*>::iterator iter = hordes[i]->groupUnits.begin();
