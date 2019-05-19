@@ -2,6 +2,7 @@
 #include "Spawning_Point.h"
 #include "Log.h"
 #include "App.h"
+#include "Audio.h"
 #include "Input.h"
 #include "UserInterface.h"
 #include "Text.h"
@@ -38,6 +39,10 @@ bool Horde_Manager::Update(float dt)
 		if (HordesDead() && roundTimer.Read() > TIME_BETWEEN_ROUNDS) {
 
 			ChooseSpawningPoints();
+
+           int Aux = myApp->audio->VarsXsound_Match[(int)MatchType_Sounds::STARTING_ROUND];
+			myApp->audio->PlayFx(myApp->audio->SoundMatch_Array[(int)MatchType_Sounds::STARTING_ROUND][rand() % Aux]);
+
 			roundTimer.Start();
 		}
 

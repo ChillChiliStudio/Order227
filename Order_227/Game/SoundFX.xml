@@ -578,4 +578,35 @@
     
   </Building>
   
+  <Match>
+   
+    
+    <Sound id="0" NumVariation="1">
+      <!--Round Start-->
+      <Var Variation="0" path="audio/AFX/Others/RoundStarting.wav"/>
+
+    </Sound>
+
+    
+    <Sound id="1" NumVariation="1">
+      <!--Taunt-->
+      <Var Variation="0" path="audio\Dialogues\AlliedDialogues/Taunt.wav"/>
+      <Var Variation="1" path="audio\Dialogues\AlliedDialogues/Taunt_two.wav"/>
+      <Var Variation="2" path="audio\Dialogues\AlliedDialogues/Taunt_three.wav"/>
+      <Var Variation="3" path="audio\Dialogues\AlliedDialogues/Taunt_four.wav"/>
+      <Var Variation="4" path="audio\Dialogues\AlliedDialogues/Taunt_five.wav"/>
+      
+
+    </Sound>
+    
+    
+  
+    
+    
+    
+  </Match>
+
+  
+  
+  
 </FX>

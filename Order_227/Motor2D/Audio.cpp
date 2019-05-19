@@ -365,11 +365,19 @@ void Audio::FillArrayFX() {
 
 		for (int k = 0; k < (int)BuildingsType_Sounds::MAX; ++k) {
 			for (int l = 0; l < VARIATION_PER_SOUND; ++l)
-				SoundTroops_Array[i][k][l] = -1;
+				SoundBuilding_Array[i][k][l] = -1;
 
 		}
-
 	}
+
+	for (int i = 0; i < (int)MatchType_Sounds::MAX; ++i) {
+
+			for (int l = 0; l < 5; ++l)//Desharcode
+				SoundMatch_Array[i][l]= -1;
+		
+	}
+
+
 
 }
 
@@ -421,6 +429,28 @@ void Audio::LoadIntoArray() {
 					 SoundBuilding_Array[id][TypeSound][Variation]=LoadFx(DataSound.attribute("path").as_string());;
 				
 				
+				}
+
+			}
+		}
+
+
+		for (pugi::xml_node DataBuild = SFX_XML.child("FX").child("Match"); DataBuild != NULL; DataBuild = DataBuild.next_sibling("Match")) {
+
+			
+			for (pugi::xml_node SoundType = DataBuild.child("Sound"); SoundType != NULL; SoundType = SoundType.next_sibling("Sound")) {
+
+				int id = SoundType.attribute("id").as_int();
+				
+				VarsXsound_Match[id]= SoundType.attribute("NumVariation").as_int();
+
+				for (pugi::xml_node DataSound = SoundType.child("Var"); DataSound != NULL; DataSound = DataSound.next_sibling("Var")) {
+
+					int Variation = DataSound.attribute("Variation").as_int();
+					
+					if (Variation < 5)//desharcode
+						SoundMatch_Array[id][Variation] = LoadFx(DataSound.attribute("path").as_string());;
+
 				}
 
 			}

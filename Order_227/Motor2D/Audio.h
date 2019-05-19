@@ -37,6 +37,13 @@ enum class BuildingsType_Sounds {
 
 };
 
+enum class MatchType_Sounds {
+
+	STARTING_ROUND,
+	ENEMY_TAUNTS,
+	MAX
+};
+
 enum class song_type {
 
 	NONE = -1,
@@ -145,9 +152,14 @@ public:
 
 	uint SoundTroops_Array[MAX_INFANTRY_NUMBER][(int)TroopType_Sounds::MAX][VARIATION_PER_SOUND];
 	uint SoundBuilding_Array[MAX_BUILDING_NUMBER][(int)BuildingsType_Sounds::MAX][VARIATION_PER_SOUND];
+	uint SoundMatch_Array[(int)MatchType_Sounds::MAX][5];
+
+	uint VarsXsound[MAX_INFANTRY_NUMBER][(int)TroopType_Sounds::MAX];
+	uint VarsXsound_Buildings[MAX_BUILDING_NUMBER][(int)BuildingsType_Sounds::MAX];
+	uint VarsXsound_Match[(int)MatchType_Sounds::MAX];
+
 	
-	int VarsXsound[MAX_INFANTRY_NUMBER][(int)TroopType_Sounds::MAX];
-	int VarsXsound_Buildings[MAX_BUILDING_NUMBER][(int)BuildingsType_Sounds::MAX];
+
 
 	pugi::xml_document SFX_XML;
 
