@@ -338,7 +338,7 @@ void Player::OrderHold()
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
 	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::CONFIRMATION];
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::CONFIRMATION][rand() % Aux], 0, CHANNEL_CONFIRMATION);
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)(*it)->infantryType][(int)type_sounds::CONFIRMATION][rand() % Aux], 0, CHANNEL_CONFIRMATION);
 }
 
 void Player::OrderMove()
@@ -348,7 +348,7 @@ void Player::OrderMove()
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
 	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::MOVING];
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::MOVING][rand() % Aux], 0, CHANNEL_MOVING);
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)(*it)->infantryType][(int)type_sounds::MOVING][rand() % Aux], 0, CHANNEL_MOVING);
 }
 
 void Player::OrderHunt()
@@ -375,7 +375,7 @@ void Player::OrderHunt()
 
 		std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
 		int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::ATTACK];
-		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::ATTACK][rand() % Aux], 0, CHANNEL_ATTACK);
+		myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)(*it)->infantryType][(int)type_sounds::ATTACK][rand() % Aux], 0, CHANNEL_ATTACK);
 	}
 	else {
 		OrderMove();
@@ -389,7 +389,7 @@ void Player::OrderPatrol()
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
 	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::CONFIRMATION];
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::CONFIRMATION][rand() % Aux], 0, CHANNEL_CONFIRMATION);
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)(*it)->infantryType][(int)type_sounds::CONFIRMATION][rand() % Aux], 0, CHANNEL_CONFIRMATION);
 }
 
 void Player::PlayerSelect()

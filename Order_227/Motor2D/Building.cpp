@@ -112,7 +112,7 @@ bool Building::Update(float dt)
 		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::DESTROYED)]);
 
 		int Aux = myApp->audio->VarsXsound_Buildings[int(buildingType)][(int)BuildingsType_Sounds::DESTROYED];
-		myApp->audio->PlayFx(myApp->audio->SoundBuilding_Array[int(buildingType)][(int)BuildingsType_Sounds::DESTROYED][rand() % Aux], 0, centerPos, true);
+		myApp->audio->PlayFx(myApp->audio->SoundBuilding_Array[int(buildingType)][(int)BuildingsType_Sounds::DESTROYED][rand() % Aux], 0, CHANNEL_BUILDINGS, centerPos, true);
 
 
 		destroyed = true;

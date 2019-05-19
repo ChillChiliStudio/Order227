@@ -16,6 +16,18 @@ struct _Mix_Music;
 struct Mix_Chunk;
 
 
+enum class type_sounds {
+
+SPAWN,
+MOVING,
+CONFIRMATION,
+HURT,
+SHOT,
+ATTACK,
+MAX
+
+};
+
 enum class TroopType_Sounds
 {
 	SPAWN,			//Channel 0
@@ -34,7 +46,9 @@ enum sound_channels	// 0 for Spawns, 1 for Orders, 2 for Hurt, 3 for Explosions,
 	CHANNEL_CONFIRMATION = 1,
 	CHANNEL_HURT = 2,
 	CHANNEL_SHOT = -1,
-	CHANNEL_ATTACK = 1
+	CHANNEL_ATTACK = 1,
+	CHANNEL_BUILDINGS =3,
+	CHANNEL_PLAYER=4
 };
 
 enum class BuildingsType_Sounds {
