@@ -66,6 +66,10 @@ public:
 	bool AssignAnimData(std::string faction);
 	SDL_Rect SetupTreeType();
 
+	//Solve overlapping of the units
+	void SolveOverlapping();
+	bool RectsOverlap(SDL_Rect &rect1, SDL_Rect &rect2)const;
+
 public:
 
 	//Pool sizes
