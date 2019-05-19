@@ -3,21 +3,21 @@
   <app framerate_cap="60">
     <title>Order227</title>
     <organization>UPC</organization>
-    <debug active="true" />
+    <debug active="false" />
   </app>
 
   <renderer>
     <vsync value="true"/>
   </renderer>
 
-  <audio volume="100">
-    <music volume="0"/>
-    <sfx volume="50"/>
+  <audio volume="50">
+    <music volume="80"/>
+    <sfx volume="80"/>
   </audio>
 
   <window>
     <resolution width="1280" height="720" scale="1"/>
-    <fullscreen value="false"/>
+    <fullscreen value="true"/>
     <borderless value="false"/>
     <resizable value="true"/>
     <fullscreen_window value="false"/>
@@ -36,7 +36,7 @@
   </entities>
 
 <horde_manager>
-	<max_hordes value="1" />
+	<max_hordes value="10" />
 	<initial_horde_threat value="10"/>
 	<initial_threat_incremental value="15"/>
 </horde_manager>
