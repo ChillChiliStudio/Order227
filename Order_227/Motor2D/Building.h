@@ -80,7 +80,7 @@ public:
 	float healthRecovery = 0.2f;	//TODO: Unharcode
 	int income = 0;
 
-	float repairRadius = 100.0f;
+	float repairRadius = 170.0f;
 	bool repairable = false;
 
 private:
