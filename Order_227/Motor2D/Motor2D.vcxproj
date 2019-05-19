@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClCompile Include="ActionBox.cpp" />
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="Buff_Box.cpp" />
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonActions.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="ActionBox.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="Buff_Box.h" />
     <ClInclude Include="Building.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonActions.h" />
