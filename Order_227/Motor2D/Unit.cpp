@@ -641,9 +641,11 @@ Entity* Unit::EnemyInRadius(uint radius)
 		}
 	}
 
-	if (ret == nullptr) {
-		numActives = myApp->entities->activeLaunchers;
-		for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); numActives > 0; item = next(item)) {
+	//Buildings
+	if (ret == nullptr && faction == entity_faction::CAPITALIST) {
+		numActives = myApp->entities->activeBuildings;
+
+		for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0 && item != myApp->entities->buildingsArray.end(); item = next(item)) {
 			if ((*item).active) {
 				numActives--;
 

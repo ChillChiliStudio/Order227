@@ -3,19 +3,35 @@
 
 <Buildings_Document>
   <!--REMEMBER TO UPLOAD THE MAX UNIT ENUM-->
+  <!--DONT READ THIS RECT OFFSET IS NOT WORKING-->
+  <Building id="0" name="Command_Center" TextPath="textures/buildings/Facilities/CommandCenter.png"  TiledFile="textures/buildings/Facilities/CommandCenter.tmx">
+    <RectOffset x="0" y="0" w="200" h="200"/>
+  </Building>
+  
+  <Building id="1" name="Tank_Factory"  TextPath="textures/buildings/Facilities/Tank_Factory.png"  TiledFile="textures/buildings/Facilities/Tank_Factory.tmx">
+  <RectOffset x="26" y="20" w="25" h="35"/>
+  </Building>
 
-  <Building id="0" name="Command_Center" TextPath="textures/buildings/Facilities/CommandCenter.png"  TiledFile="textures/buildings/Facilities/CommandCenter.tmx"/>
+  <Building id="2" name="Radar" TextPath="textures/buildings/Facilities/Radar.png"  TiledFile="textures/buildings/Facilities/Radar.tmx">
 
-  <Building id="1" name="Tank_Factory"  TextPath="textures/buildings/Facilities/Tank_Factory.png"  TiledFile="textures/buildings/Facilities/Tank_Factory.tmx"/>
+    <RectOffset x="26" y="20" w="25" h="35"/>
+  </Building>
 
-  <Building id="2" name="Radar" TextPath="textures/buildings/Facilities/Radar.png"  TiledFile="textures/buildings/Facilities/Radar.tmx"/>
+  <Building id="3" name="Gold_Yard" TextPath="textures/buildings/Facilities/GoldMine.png" TiledFile="textures/buildings/Facilities/GoldMine.tmx">
 
-  <Building id="3" name="Gold_Yard" TextPath="textures/buildings/Facilities/GoldMine.png" TiledFile="textures/buildings/Facilities/GoldMine.tmx"/>
+    <RectOffset x="26" y="20" w="25" h="35"/>
+  </Building>
 
-  <Building id="4" name="HTPC" TextPath="textures/buildings/Facilities/EnhancedFacility.png" TiledFile="textures/buildings/Facilities/EnhancedFacility.tmx"/>
+  <Building id="4" name="HTPC" TextPath="textures/buildings/Facilities/EnhancedFacility.png" TiledFile="textures/buildings/Facilities/EnhancedFacility.tmx">
 
-  <Building id="5" name="People_Heart" TextPath="textures/buildings/Facilities/HeartsPeople.png"  TiledFile="textures/buildings/Facilities/HeartsPeople.tmx"/>
+    <RectOffset x="26" y="20" w="25" h="35"/>
+  </Building>
 
+  <Building id="5" name="People_Heart" TextPath="textures/buildings/Facilities/HeartsPeople.png"  TiledFile="textures/buildings/Facilities/HeartsPeople.tmx">
+
+    <RectOffset x="26" y="20" w="25" h="35"/>
+  </Building>
+  
   <Building id="6" name="EPC" TextPath="textures/buildings/Facilities/EnhancedFacility.png" TiledFile="textures/buildings/Facilities/EnhancedFacility.tmx"/>
 
   <!--REMEMBER TO UPLOAD THE MAX UNIT ENUM

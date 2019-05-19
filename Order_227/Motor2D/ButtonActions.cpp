@@ -70,13 +70,11 @@ void StartGame() {
 
 	myApp->entities->ActivateBuildings();
 	myApp->entities->ActivateObjects();
-
-	myApp->hordes->hordeRoundto(0);
+	myApp->hordes->restartRounds();
 	myApp->player->playerMoney = myApp->player->initialMoney; //TODO Deharcode
-
 	myApp->gui->hordeNumber_Label->ChangeString(std::to_string(0));
 	myApp->hordes->hordeActive = true;
-	myApp->hordes->roundTimerStart();
+	myApp->hordes->roundTimer.Start();
 	myApp->gui->MainMenuTemp_Image->Deactivate();
 
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_INGAME);
