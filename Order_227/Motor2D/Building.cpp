@@ -59,8 +59,8 @@ bool Building::Update(float dt)
 
 			if (myApp->entities->unitPool[i].active && myApp->entities->unitPool[i].faction == entity_faction::COMMUNIST) {
 
-				if (this->position.x - myApp->entities->unitPool[i].position.x < 30 && this->position.x - myApp->entities->unitPool[i].position.x > -30
-					&& this->position.y - myApp->entities->unitPool[i].position.y < 30 && this->position.y - myApp->entities->unitPool[i].position.y > -30) {
+				if (this->position.x - myApp->entities->unitPool[i].position.x < 100 && this->position.x - myApp->entities->unitPool[i].position.x > -100
+					&& this->position.y - myApp->entities->unitPool[i].position.y < 100 && this->position.y - myApp->entities->unitPool[i].position.y > -100) {
 					unitsArraound++;
 				}
 
@@ -70,8 +70,8 @@ bool Building::Update(float dt)
 
 			if (myApp->entities->launcherPool[i].active == true && myApp->entities->launcherPool[i].faction == entity_faction::COMMUNIST) {
 
-				if (myApp->entities->launcherPool[i].active && this->position.x - myApp->entities->launcherPool[i].position.x < 30 && this->position.x - myApp->entities->launcherPool[i].position.x > -30
-					&& this->position.y - myApp->entities->launcherPool[i].position.y < 30 && this->position.y - myApp->entities->launcherPool[i].position.y > -30) {
+				if (myApp->entities->launcherPool[i].active && this->position.x - myApp->entities->launcherPool[i].position.x < 100 && this->position.x - myApp->entities->launcherPool[i].position.x > -100
+					&& this->position.y - myApp->entities->launcherPool[i].position.y < 100 && this->position.y - myApp->entities->launcherPool[i].position.y > -100) {
 					unitsArraound++;
 				}
 
@@ -89,7 +89,7 @@ bool Building::Update(float dt)
 	Draw();
 
 
-	myApp->render->DrawCircle(centerPos.x, centerPos.y, 50, 255, 0, 0, 255);
+	myApp->render->DrawCircle(centerPos.x, centerPos.y, 100, 255, 0, 0, 255);
 
 	if (myApp->map->mapDebugDraw)
 		DebugDraw();
