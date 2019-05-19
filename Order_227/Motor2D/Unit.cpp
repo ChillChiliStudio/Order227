@@ -665,6 +665,7 @@ Entity* Unit::EnemyInRadius(uint radius)
 		}
 
 		if (ret == nullptr && faction == entity_faction::CAPITALIST) {
+
 			numActives = myApp->entities->activeBuildings;
 
 			for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0; item = next(item)) {

@@ -222,7 +222,7 @@ void Player::DebugInputs()
 			DebugSpawnUnit(infantry_type::SNIPER, entity_faction::CAPITALIST);
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Spawn Chronon Mouse
+		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Spawn Chrono Mouse
 			DebugSpawnUnit(infantry_type::CHRONO, entity_faction::COMMUNIST);
 		}
 

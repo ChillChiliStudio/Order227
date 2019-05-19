@@ -70,7 +70,12 @@ bool Horde_Manager::Update(float dt)
 				SpawningPoints_Array[i]->SpawnTime.Start();
 
 				int infType = (SpawningPoints_Array[i]->Enemies_to_Spawn.back());
-				hordes[i]->AddUnit(myApp->entities->ActivateUnit(SP_Pos, (infantry_type)infType, entity_faction::CAPITALIST));
+
+				if (infType == (int)infantry_type::BAZOOKA)
+					hordes[i]->AddUnit(myApp->entities->ActivateLauncher(SP_Pos, (infantry_type)infType, entity_faction::CAPITALIST));
+				else
+					hordes[i]->AddUnit(myApp->entities->ActivateUnit(SP_Pos, (infantry_type)infType, entity_faction::CAPITALIST));
+				
 				SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
 
 			}

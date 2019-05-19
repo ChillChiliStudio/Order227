@@ -96,6 +96,8 @@ bool Building::Update(float dt)
 
 	if (health > 0 && destroyed == true)
 		destroyed = false;
+	else if (health <= 0 && destroyed == false)
+		destroyed = true;
 
 	if (CurrentAnim.Finished()==true && health> maxHealth/2) {
 
