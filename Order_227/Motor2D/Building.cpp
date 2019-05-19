@@ -80,6 +80,7 @@ void Building::GiveReward() {
 
 	rewardGiven = true;
 	myApp->player->playerIncome += income;
+	myApp->player->UpdateText();
 
 	if (buildingType == building_type::TANK_FACTORY)
 		myApp->entities->heavyUnitsUnlocked = true; //TODO: Tocar UI con esto

@@ -157,6 +157,9 @@
     <ClCompile Include="Unit_Panel.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images</Filter>
     </ClCompile>
+    <ClCompile Include="MiniMap_UI_Element.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -316,6 +319,9 @@
       <Filter>Game Files\User Interface\UI Elements\Images</Filter>
     </ClInclude>
     <ClInclude Include="Unit_Panel.h">
+      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniMap_UI_Element.h">
       <Filter>Game Files\User Interface\UI Elements\Images</Filter>
     </ClInclude>
   </ItemGroup>

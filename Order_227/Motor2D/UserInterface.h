@@ -22,12 +22,22 @@ class LifeBar;
 class Unit;
 class Mouse;
 class Unit_Panel;
+class MiniMap_UI;
 //class Window;
 struct _TTF_Font;
 struct SDL_Rect;
 struct SDL_Texture;
 
 
+enum class Screen_Type {
+
+	SCREEN_NONE = -1,
+	SCREEN_MAINMENU,
+	SCREEN_INGAME,
+	SCREEN_WIN,
+	SCREEN_LOSE,
+	SCREEN_MAX
+};
 
 class User_Interface : public Module
 {
@@ -99,6 +109,8 @@ public:
 	
 public:
 
+	Screen_Type Current_Screen = Screen_Type::SCREEN_MAINMENU;
+
 	bool interfaceDebugDraw = false;
 
 	Text* fpsText = nullptr;
@@ -124,6 +136,7 @@ public:
 	Text* hordeNumber_Label = nullptr;
 	Text* incomingHordein = nullptr;
 	Text* timerHorde = nullptr;
+	MiniMap_UI* Minimap_Display = nullptr;
 
 	Image* WinIcon = nullptr;
 	Image* LoseIcon = nullptr;

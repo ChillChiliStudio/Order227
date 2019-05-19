@@ -7,7 +7,7 @@
 #include <ctime>
 #include "Audio.h"
 #include "PerfTimer.h"
-#include "ButtonActions.h"
+#include "UserInterface.h"
 
 #include "SDL/include/SDL.h"
 

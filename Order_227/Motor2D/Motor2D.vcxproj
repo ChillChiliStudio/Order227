@@ -98,6 +98,7 @@
     <ClCompile Include="LifeBarBox.cpp" />
     <ClCompile Include="MiniMap.cpp" />
     <ClCompile Include="LightTank.cpp" />
+    <ClCompile Include="MiniMap_UI_Element.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Player.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="LifeBarBox.h" />
     <ClInclude Include="MiniMap.h" />
+    <ClInclude Include="MiniMap_UI_Element.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Pool.h" />
     <ClInclude Include="Quadtree.h" />

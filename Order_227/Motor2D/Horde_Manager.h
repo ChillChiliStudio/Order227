@@ -34,27 +34,15 @@ public:
 		roundThreat = round;
 		roundNumber = round;
 	}
-	int getRoundTimer() {
 
-		int i = roundTimer.ReadSec();
-		switch (i)
-		{
-		case 0:
-			i = 3;
-			break;
-		case 1:
-			i = 2;
-			break;
-		case 2:
-			i = 1;
-			break;
-		case 3:
-			i = 0;
-			break;
-		default:
-			break;
-		}
-		return i ;
+	int getRoundTimer() {
+		int ret = 0;
+
+		ret = roundTimer.ReadSec() - 4;
+
+		ret *=(-1);
+
+		return ret;
 	}
 
 	std::vector<Spawning_Point*> SpawningPoints_Array;
@@ -66,7 +54,7 @@ public:
 private:
 
 	//Spawning & SP
-
+	int currentHorde;
 	int roundThreat = 0;
 	int threatIncremental = 0;
 

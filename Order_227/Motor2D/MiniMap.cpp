@@ -70,7 +70,7 @@ bool MiniMap::Update(float dt)
 
 bool MiniMap::PostUpdate()
 {
-	myApp->render->Blit(minimap_tex, minimapPosition.x, minimapPosition.y, NULL, SDL_FLIP_NONE, false);
+
 	//MinimapBorders();
 	DrawEntities();
 	DrawCamera();

@@ -14,7 +14,7 @@
 #include "Horde_Manager.h"
 #include "GroupManager.h"
 #include "Entity_Manager.h"
-
+#include "MiniMap_UI_Element.h"
 
 #include "UserInterface.h"
 #include "UIElement.h"
@@ -205,8 +205,8 @@ bool User_Interface::Start()
 	ReturnMainMenu_Label3 = CreateText(fPoint(width / 2, height / 1.75), "EXIT", font_id::MOLOT, White, false, LoseIcon);
 	LoseIcon->Deactivate();
 
-	//incomingHordein = CreateText(fPoint(width / 2.9, height / 2.5), "Incoming Horde in", font_id::MOLOT, White, false, NULL, 1.5);
-	//timerHorde = CreateText(fPoint(width / 1.7, height / 2.5), timerHorde_temp.c_str(), font_id::MOLOT, White, false, NULL, 1.5);
+	incomingHordein = CreateText(fPoint(width / 2.9, height / 2.5), "Incoming Horde in", font_id::MOLOT, White, false, NULL, 1.5);
+	timerHorde = CreateText(fPoint(width / 1.7, height / 2.9), timerHorde_temp.c_str(), font_id::MOLOT, White, false, NULL,3.0f);
 
 	ConscriptPanel_Info = CreateUnitPanel(SDL_Rect({ 0,0,137,165 }), ConscriptCreator, Unit_Panels_tex);
 	ConscriptPanel_Info->Start();
@@ -221,7 +221,9 @@ bool User_Interface::Start()
 
 	ExitGame_Button = CreateVoidBox(CloseGame, fPoint(width / 2, height / 1.2), TempButtonRect, StartGame_text, MainMenuTemp_Image);
 	ExitGame_Label = CreateText(fPoint(width / 2, height / 1.2), "QUIT GAME", font_id::MOLOT, White, false, ExitGame_Button);
-	
+
+	Minimap_Display = new  MiniMap_UI(ui_type::NONE);
+	AddElement(Minimap_Display);
 
 
 	Mouse_UI = CreateMouse(mouse_tex);
@@ -268,7 +270,15 @@ bool User_Interface::Update(float dt)
 		UnitStats->Deactivate();
 		UnitFrame->Deactivate();
 	}
-
+	if (myApp->hordes->HordesDead()) {
+		incomingHordein->Activate();
+		timerHorde->Activate();
+		timerHorde->ChangeString(std::to_string(myApp->hordes->getRoundTimer()));
+	}
+	else {
+		timerHorde->Deactivate();
+		incomingHordein->Deactivate();
+	}
 	//if (unitCreationCD.ReadSec() >= 0.7) {
 	//	myApp->player->startCreationUnit = false;
 	//}
@@ -293,8 +303,6 @@ bool User_Interface::Draw()
 		if ((*iter)->active == true && (*iter)->GetParent() == NULL) {	// All elements are listed, but the parent handles the drawing for its children
 			if ((*iter)->GetType() != ui_type::LIFEBAR)
 				ret = (*iter)->Draw();
-			else
-			bool a = true;
 		}
 	}
 

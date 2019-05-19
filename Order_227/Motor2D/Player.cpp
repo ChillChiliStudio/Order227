@@ -17,6 +17,7 @@
 #include "Brofiler/Brofiler.h"
 #include "MiniMap.h"
 
+
 bool Player::Awake(pugi::xml_node& node)
 {
 	LOG("AWAKING PLAYER MODULE");
@@ -29,17 +30,38 @@ bool Player::Start()
 	//LOG("STARTING PLAYER MODULE");
 
 	//incomeTimer.Start();
-	//mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
-	//mouseDebugMark->Deactivate();
+	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
+	mouseDebugMark->Deactivate();
+	IncomeShow = myApp->gui->CreateText({170.0f,1350.0f}, "Default Text", font_id::MOLOT, { 255,255, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
+	UpdateText();
+	IncomeShow->Deactivate();
+	IncomeShow->FollowCam = true;
 
 	return true;
+}
+
+void Player::UpdateText() {
+
+	IncomeShow->ChangeString(std::to_string(playerIncome));
+
+}
+
+void Player::MoveText() {
+	IncomeShow->position.y -= 1.2f;
+	if (incomeTimer.ReadSec() >= 1) {
+		IncomeGiven = false;
+		IncomeShow->position.y = 1350.0f;
+		IncomeShow->Deactivate();
+	}
 }
 
 bool Player::PreUpdate()
 {
 	return true;
 }
-
+bool Player::PostUpdate() {
+	return true;
+}
 bool Player::Update(float dt)
 {
 	BROFILER_CATEGORY("Player.cpp Update()-Blue", Profiler::Color::Blue);
@@ -72,11 +94,15 @@ bool Player::Update(float dt)
 		}
 	}
 
-	if (incomeTimer.ReadSec() >= 2) {
-
+	if (incomeTimer.ReadSec() >= 2 && myApp->gui->Current_Screen==Screen_Type::SCREEN_INGAME) {
 		playerMoney += playerIncome;
 		myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
 		incomeTimer.Start();
+		IncomeGiven = true;
+		IncomeShow->Activate();
+	}
+	if (IncomeGiven) {
+		MoveText();
 	}
 	
 	return true;

@@ -28,6 +28,7 @@ public:
 	bool Start() override;
 	bool PreUpdate() override;
 	bool Update(float dt) override;
+	bool PostUpdate() override;
 	bool CleanUp() override;
 
 	void UpdateMousePos();
@@ -49,6 +50,8 @@ public:
 	void StartSelect();
 	void ExpandSelect();
 	void FinishSelect();
+	void UpdateText();
+	void MoveText();
 
 public:
 
@@ -66,6 +69,7 @@ public:
 	iPoint mouseScreenPos;
 	iPoint mouseMap;
 
+	Text* IncomeShow = nullptr;
 	Text* mouseDebugMark = nullptr;
 	iPoint origin;
 	iPoint rectangle_origin;
@@ -78,7 +82,7 @@ public:
 	int playerMoney = 400;
 	Timer incomeTimer;
 	
-
+	bool IncomeGiven = false;
 	bool startCreationUnit = false;
 
 };
