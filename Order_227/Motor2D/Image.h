@@ -57,7 +57,7 @@ public:
 	std::string folder;
 	bool FollowCam = false;
 	bool lookingRight = true;	// IMPROVE: Change to an enum "orientation" for more blitting parameters
-	
+	bool Unlocked = true;
 	//int rightLimit = 0;	//TODO: Bad slider implementation, improve
 	//int leftLimit = 0;s
 	//int* sliderValue = nullptr;

@@ -31,7 +31,7 @@
 #include "ButtonActions.h"
 #include "Mouse.h"
 #include "Unit_Panel.h"
-
+#include "Buff_Box.h"
 
 User_Interface::User_Interface() : Module()
 {
@@ -95,6 +95,7 @@ bool User_Interface::Start()
 	mouse_tex = myApp->tex->Load("ui/Mouse_Actions.png");
 	Unit_Panels_tex = myApp->tex->Load("ui/Unit_Costs_Panel.png");
 	InGame_Label_tex= myApp->tex->Load("ui/In_Game_Labels.png");
+	Buff_tex = myApp->tex->Load("ui/Buff_Texture.png");
 
 	//Debug Elements
 	fpsText = CreateText({ 10, 10 }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
@@ -219,6 +220,23 @@ bool User_Interface::Start()
 	DesolatorPanel_Info = CreateUnitPanel(SDL_Rect({ 0,165,137,165 }), DesolatorCreator, Unit_Panels_tex);
 	FlakPanel_Info = CreateUnitPanel(SDL_Rect({ 137,0,137,165 }), FlakCreator, Unit_Panels_tex);
 	ChronoPanel_Info = CreateUnitPanel(SDL_Rect({ 274,0,137,165 }), ChronoCreator, Unit_Panels_tex);
+
+	
+	Units_Life = CreateBuffBox(fPoint(370, height - 200), SDL_Rect({ 3,3,41,41 }), Buff_tex, &myApp->entities->unitBuff);
+	Buildings_Life = CreateBuffBox(fPoint(430, height - 200), SDL_Rect({ 44,0,41,41 }), Buff_tex, &myApp->entities->buildingsBuff);
+	HeavyUnits_able = CreateBuffBox(fPoint(480, height - 200), SDL_Rect({ 85,0,41,41 }), Buff_tex, &myApp->entities->heavyUnitsUnlocked);
+	Money_Buff = CreateBuffBox(fPoint(530, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff1);
+	Money2_Buff = CreateBuffBox(fPoint(580, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff2);
+	Mone3_Buff = CreateBuffBox(fPoint(630, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff45);
+
+	 UnitBuff_Info = CreateUnitPanel(SDL_Rect({ 147,335,151,94 }), Units_Life, Unit_Panels_tex);
+	 BuildingBuff_Info = CreateUnitPanel(SDL_Rect({ 0,434,151,94 }), Buildings_Life, Unit_Panels_tex);
+	 HeavyArmorBuff_Info = CreateUnitPanel(SDL_Rect({ 0,335,151,94 }), HeavyUnits_able, Unit_Panels_tex);
+	 Money1Buff_Info = CreateUnitPanel(SDL_Rect({ 175,434,151,94 }), Money_Buff, Unit_Panels_tex);
+	 Money2Buff_Info = CreateUnitPanel(SDL_Rect({ 175,434,151,94 }), Money2_Buff, Unit_Panels_tex);
+	 Money3Buff_Info = CreateUnitPanel(SDL_Rect({ 0,535,151,94 }), Mone3_Buff, Unit_Panels_tex);
+
+
 
 	MainMenuTemp_Image = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,1280,720 }), Main_Menu_Temp_Tex);
 	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/1.8),TempButtonRect,StartGame_text,MainMenuTemp_Image);
@@ -466,6 +484,20 @@ Unit_Panel* User_Interface::CreateUnitPanel(SDL_Rect sprite, Image* button , SDL
 	}
 
 	ret = new Unit_Panel(sprite,button,tex);
+	AddElement(ret);
+
+	return ret;
+}
+
+Buff_Box* User_Interface::CreateBuffBox(fPoint position, SDL_Rect rect, SDL_Texture* tex, bool* able ) {
+
+	Buff_Box* ret = nullptr;
+
+	if (tex == NULL) {
+		tex = GetAtlas();
+	}
+
+	ret = new Buff_Box(position,rect,tex,able);
 	AddElement(ret);
 
 	return ret;
