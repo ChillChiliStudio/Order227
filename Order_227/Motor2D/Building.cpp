@@ -36,6 +36,8 @@ bool Building::Start() {
 	else
 		health = 0;
 
+	rewardGiven = false;
+
 	return true;
 }
 
@@ -56,7 +58,7 @@ bool Building::Update(float dt)
 		else if (health >= 0 && health < maxHealth && repairable == false)
 			repairable = true;
 	}
-	else if (faction == entity_faction::NEUTRAL && health > 0/*(maxHealth/3)*/)
+	else if (faction == entity_faction::NEUTRAL && health > (maxHealth/2))
 			faction = entity_faction::COMMUNIST;
 
 
