@@ -81,7 +81,7 @@ bool Scene::Update(float dt)
 		ActivateGameOverMusic = false;
 		myApp->player->playerIncome = 0;
 		myApp->gui->OnPause = true;
-
+		myApp->player->UpdateText();
 	}
 
 	if(myApp->entities->mainBase != nullptr && myApp->entities->mainBase->health <= 0 && ActivateGameOverMusic == true) {
@@ -91,6 +91,7 @@ bool Scene::Update(float dt)
 		ActivateGameOverMusic = false;
 		myApp->player->playerIncome = 0;
 		myApp->gui->OnPause = true;
+		myApp->player->UpdateText();
 
 	}
 
