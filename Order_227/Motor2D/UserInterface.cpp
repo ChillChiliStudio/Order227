@@ -264,6 +264,12 @@ bool User_Interface::Update(float dt)
 	BROFILER_CATEGORY("Module User_Interface Update", Profiler::Color::DeepPink);
 
 	bool ret = true;
+
+	//TODO LUCHO VARIABLE
+	//if (myApp->hordes->hordeActive) {
+	//	Eniemies_left_Label->ChangeString(std::to_string("PonerAquiLaVARIABLe"));
+	//}
+
 	//if (myApp->groups->playerGroup.groupUnits.size() > 0) {
 
 	//	UnitStats->Activate();
