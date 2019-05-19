@@ -95,8 +95,10 @@ bool User_Interface::Start()
 	mouse_tex = myApp->tex->Load("ui/Mouse_Actions.png");
 	Unit_Panels_tex = myApp->tex->Load("ui/Unit_Costs_Panel.png");
 
-	//Fps debug text
+	//Debug Elements
 	fpsText = CreateText({ 10, 10 }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
+	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
+	mouseDebugMark->Deactivate();
 
 	SDL_Rect LoseRect = { 437,112,437,112 };
 	SDL_Rect TempButtonRect[4];
@@ -263,19 +265,23 @@ bool User_Interface::Update(float dt)
 	bool ret = true;
 
 	if (myApp->groups->playerGroup.groupUnits.size() > 0) {
+
 		UnitStats->Activate();
 		UnitFrame->Activate();
 	}
 	else {
+
 		UnitStats->Deactivate();
 		UnitFrame->Deactivate();
 	}
 	if (myApp->hordes->HordesDead()) {
+
 		incomingHordein->Activate();
 		timerHorde->Activate();
 		timerHorde->ChangeString(std::to_string(myApp->hordes->getRoundTimer()));
 	}
 	else {
+
 		timerHorde->Deactivate();
 		incomingHordein->Deactivate();
 	}

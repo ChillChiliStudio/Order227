@@ -12,6 +12,7 @@
 #include "UserInterface.h"
 #include "Image.h"
 #include "Brofiler/Brofiler.h"
+#include "Launcher.h"
 #include "EntityQuadtree.h"
 
 #include <algorithm>
@@ -30,12 +31,14 @@ bool Entity_Manager::Awake(pugi::xml_node& config)
 
 	LOG("AWAKING ENTITY MANAGER");
 	unitsPoolSize = config.child("units_initial_size").attribute("value").as_int(0);
+	launcherPoolSize = 100; //TODO DESJARCODE
 
 	times_per_sec = TIMES_PER_SEC;
 	update_ms_cycle = 1.0f / (float)times_per_sec;
 
 	//Pool Allocation
 	AllocateUnitPool();
+	AllocateLauncherPool();
 	AllocateHitscanPool();
 	AllocateRangedPool();
 	AllocateTankPool();
@@ -97,12 +100,10 @@ bool Entity_Manager::Update(float dt)
 		if (accumulated_time >= update_ms_cycle)
 			do_logic = true;
 
+
 		UpdateUnits(dt);
 		UpdateBuildings(dt);
 		UpdateObjects(dt);
-
-		//OLD:
-		//myApp->render->OrderBlit(myApp->render->OrderToRender);
 
 		//Blit Ordering that actually works
 		UpdateBlitOrdering();
@@ -124,8 +125,12 @@ void Entity_Manager::UpdateUnits(float dt)
 
 	for (int i = 0; numActives > 0; ++i) {
 
-		if (unitPool[i].active) {
+		if (unitPool[i].active == true) {
 			numActives--;
+
+			if (i == 33) {
+				int patata = 0;
+			}
 
 			unitPool[i].Update(dt);
 
@@ -135,25 +140,37 @@ void Entity_Manager::UpdateUnits(float dt)
 		}
 	}
 
-	int a = 0;
+	numActives = activeLaunchers;
+
+	//LAUNCHER UNITS
+	for (int i = 0; numActives > 0; ++i) {
+
+		if (launcherPool[i].active == true) {
+			numActives--;
+
+			launcherPool[i].Update(dt);
+			if (do_logic)
+				launcherPool[i].FixUpdate(dt);
+		}
+	}
 }
 
 void Entity_Manager::UpdateBuildings(float dt)
 {
 	BROFILER_CATEGORY("BuildingPool Update", Profiler::Color::Purple);
 
-	for (int i = 0; i < buildingsArray.size(); i++) {
+	for (int i = 0; i < buildingsArray.size(); i++)
 		buildingsArray[i].Update(dt);
-	}
+	
+	int a = 0;
 }
 
 void Entity_Manager::UpdateObjects(float dt)
 {
 	BROFILER_CATEGORY("ObjectPool Update", Profiler::Color::MediumPurple);
 
-	for (int i = 0; i < objectsArray.size(); i++) {
+	for (int i = 0; i < objectsArray.size(); i++) 
 		objectsArray[i].Update(dt);
-	}
 
 }
 
@@ -232,6 +249,10 @@ void Entity_Manager::AllocateTankPool()
 	//tankPool.resize(/*tankPoolSize*/unitsPoolSize);
 }
 
+void Entity_Manager::AllocateLauncherPool()
+{
+	launcherPool.resize(launcherPoolSize);
+}
 
 Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction)
 {
@@ -246,7 +267,7 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 			(*item).infantryType = infantryType;
 			(*item).texture = infantryTextures[int(infantryType)];
 			(*item).stats = infantryStats[int(infantryType)];
-			(*item).Start();
+			(*item).Start(); //active = true goes here in this start
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 
@@ -257,12 +278,15 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 				}
 			}
 
+
 			ret = &(*item);
+			(*item).active;
 			break;
 		}
 	}
 
 	if (ret == nullptr) {
+
 		unitsPoolSize += RESIZE_VALUE;
 		AllocateUnitPool();
 		ActivateUnit(position, infantryType, entityFaction);
@@ -274,7 +298,58 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 	return ret;
 }
 
+Launcher* Entity_Manager::ActivateLauncher(fPoint position, infantry_type infantryType, entity_faction entityFaction)
+{
+	Launcher* ret = nullptr;
+
+	for (std::vector<Launcher>::iterator item = launcherPool.begin(); item != launcherPool.end(); item = next(item)) {
+
+		if ((*item).active == false) {
+
+			(*item).faction = entityFaction;
+			(*item).position = position;
+			(*item).infantryType = infantryType;
+			(*item).texture = infantryTextures[int(infantryType)];
+			(*item).stats = infantryStats[int(infantryType)];
+			(*item).Start();
+
+			for (int i = 0; i < entitiesVector.size(); i++) {
+
+				if (entitiesVector[i] == nullptr) {
+					entitiesVector[i] = (Entity*)(&(*item));
+					break;
+				}
+			}
+
+
+			ret = &(*item);
+			break;
+		}
+	}
+
+	if (ret == nullptr) {
+
+		launcherPoolSize += RESIZE_VALUE;
+		AllocateLauncherPool();
+		ActivateLauncher(position, infantryType, entityFaction);
+	}
+	else {
+		activeLaunchers++;
+	}
+
+	return ret;
+}
+
 bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shouldn't be necessary as non-active elements are not iterated at any point, and if they become active again these values are or should be overwritten
+
+	switch (_Unit->infantryType) {
+	case infantry_type::BAZOOKA:
+		activeLaunchers--;
+		break;
+	default:
+		activeUnits--;
+		break;
+	}
 
 	_Unit->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 	_Unit->infantryType = infantry_type::INFANTRY_NONE;
@@ -302,8 +377,6 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 		}
 	}
 
-	activeUnits--;
-
 	return true;
 }
 
@@ -315,17 +388,55 @@ void Entity_Manager::ActivateBuildings()
 
 		if ((*item).buildingType != building_type::BUILDING_MAX && (*item).buildingType != building_type::BUILDING_NONE) {
 
+			(*item).faction = entity_faction::NEUTRAL;
+			(*item).health = 0;
+			(*item).repairable = true;
 
-			if((*item).buildingType == building_type::COMMAND_CENTER)
+			if ((*item).buildingType == building_type::COMMAND_CENTER) {
 
-        mainBase = &(*item);
-
-			  (*item).faction == entity_faction::COMMUNIST;
-				(*item).active = true;
-				(*item).selected = false;
-				(*item).texture = buildingsTextures[int((*item).buildingType)];
+				(*item).faction = entity_faction::COMMUNIST;
 				(*item).health = (*item).maxHealth;
-				(*item).Start();
+				mainBase = &(*item);
+
+			}
+
+
+			if ((*item).buildingType == building_type::COMMAND_CENTER) {
+				(*item).centerPos.x = (*item).position.x + 60;
+				(*item).centerPos.y = (*item).position.y + 120;
+			}
+			if ((*item).buildingType == building_type::EPC) {
+				(*item).centerPos.x = (*item).position.x + 50;
+				(*item).centerPos.y = (*item).position.y + 60;
+			}
+			if ((*item).buildingType == building_type::GOLDYARD) {
+				(*item).centerPos.x = (*item).position.x + 70;
+				(*item).centerPos.y = (*item).position.y + 60;
+			}
+			if ((*item).buildingType == building_type::HTPC) {
+				(*item).centerPos.x = (*item).position.x + 50;
+				(*item).centerPos.y = (*item).position.y + 70;
+			}
+			if ((*item).buildingType == building_type::PEOPLE_HEART) {
+				(*item).centerPos.x = (*item).position.x + 120;
+				(*item).centerPos.y = (*item).position.y + 80;
+			}
+			if ((*item).buildingType == building_type::RADAR) {
+				(*item).centerPos.x = (*item).position.x + 80;
+				(*item).centerPos.y = (*item).position.y + 30;
+			}
+			if ((*item).buildingType == building_type::TANK_FACTORY) {
+				(*item).centerPos.x = (*item).position.x + 140;
+				(*item).centerPos.y = (*item).position.y + 140;
+			}
+
+
+		
+
+			(*item).active = true;
+			(*item).selected = false;
+			(*item).texture = buildingsTextures[int((*item).buildingType)];
+			(*item).Start();
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 
@@ -409,9 +520,9 @@ bool Entity_Manager::loadTroopsTextures()
 			infantryTextures[int(infantry_type::DESOLATOR)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
 			break;
 
-		case(int(infantry_type::MACHINE_GUN)):
+		case(int(infantry_type::CHRONO)):
 
-			infantryTextures[int(infantry_type::MACHINE_GUN)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			infantryTextures[int(infantry_type::CHRONO)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
 
 
 			break;
@@ -538,23 +649,31 @@ bool Entity_Manager::LoadBuildingsData() {
 				temp.w = DataTMX.attribute("width").as_int();
 				temp.h = DataTMX.attribute("height").as_int();
 
+				
 
 				std::string tempString = DataTMX.attribute("name").as_string();
 				int id = DataXML.attribute("id").as_int();
 
-
+				
 				if (tempString == "Spawn") {
 
-					BuildingAnimationArray[id][0].PushBack(temp);
-					BuildingAnimationArray[id][0].loop = false;
-					BuildingAnimationArray[id][0].speed = 10.0f;
+					BuildingAnimationArray[id][(int)Building_State::SPAWN].PushBack(temp);
+					BuildingAnimationArray[id][(int)Building_State::SPAWN].loop = false;
+					BuildingAnimationArray[id][(int)Building_State::SPAWN].speed = 10.0f;
 
 				}
 				else if (tempString == "Idle") {
 
-					BuildingAnimationArray[id][1].PushBack(temp);
-					BuildingAnimationArray[id][1].loop = true;
-					BuildingAnimationArray[id][1].speed = 5.0f;
+					BuildingAnimationArray[id][(int)Building_State::IDLE].PushBack(temp);
+					BuildingAnimationArray[id][(int)Building_State::IDLE].loop = true;
+					BuildingAnimationArray[id][(int)Building_State::IDLE].speed = 6.0f;
+
+				}
+				else if (tempString == "Explosion") {
+
+					BuildingAnimationArray[id][(int)Building_State::DESTROYED].PushBack(temp);
+					BuildingAnimationArray[id][(int)Building_State::DESTROYED].loop = false;
+					BuildingAnimationArray[id][(int)Building_State::DESTROYED].speed = 15.0f;
 
 				}
 			}
@@ -628,7 +747,7 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 
 						break;
 
-					case (int(infantry_type::MACHINE_GUN)):
+					case (int(infantry_type::CHRONO)):
 
 						//Introduce offset
 						temp.x += DataXML.child("RectOffset").attribute("x").as_int();

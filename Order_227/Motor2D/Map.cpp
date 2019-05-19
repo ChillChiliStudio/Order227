@@ -69,7 +69,7 @@ void Map::Draw()
 			mousePos = myApp->map->WorldToMap(mousePos.x, mousePos.y);
 			mousePos = myApp->map->MapToWorld(mousePos.x, mousePos.y);
 
-			myApp->render->Blit(debug_tex, mousePos.x, mousePos.y);
+			myApp->render->Blit(debug_tex, mousePos.x - 30, mousePos.y - 15);	//Offset applies because the mousPos is the tilePos, while Blit starts from the upper-left corner of the texture
 		}
 	}
 }
@@ -164,7 +164,7 @@ iPoint Map::WorldToMap(int x, int y) const
 		
 		float half_width = data.tile_width * 0.5f;
 		float half_height = data.tile_height * 0.5f;
-		ret.x = int((x / half_width + y / half_height) / 2) - 1;
+		ret.x = int((x / half_width + y / half_height) / 2);
 		ret.y = int((y / half_height - (x / half_width)) / 2);
 	}
 	else
@@ -190,7 +190,7 @@ iPoint Map::WorldToMap(iPoint position) const
 
 		float half_width = data.tile_width * 0.5f;
 		float half_height = data.tile_height * 0.5f;
-		ret.x = int((position.x / half_width + position.y / half_height) / 2) - 1;
+		ret.x = int((position.x / half_width + position.y / half_height) / 2);
 		ret.y = int((position.y / half_height - (position.x / half_width)) / 2);
 	}
 	else
@@ -501,8 +501,8 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		break;
 	case MAPTYPE_ISOMETRIC:
 		layer_size.x = (int)((layer->width + layer->height)*(myApp->map->data.tile_width *0.5f));
-		layer_size.y = (int)((layer->width + layer->height + 1) * (data.tile_height *0.5f));
-		quadT_position.x = -layer_size.x + ((layer->width + 1)*myApp->map->data.tile_width / 2);
+		layer_size.y = (int)((layer->width + layer->height) * (data.tile_height *0.5f));
+		quadT_position.x = -layer_size.x + ((layer->width)*myApp->map->data.tile_width / 2);
 		break;
 	}
 	layer->tile_tree = new TileQuadtree(6, { quadT_position.x, 0, layer_size.x,layer_size.y }, layer->width*layer->height * 3);

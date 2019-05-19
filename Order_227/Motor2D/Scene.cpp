@@ -15,6 +15,7 @@
 #include "ParamBox.h"
 #include "Scene.h"
 #include "GroupManager.h"
+#include "Player.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -53,9 +54,7 @@ bool Scene::Start()
 	//MUSIC
 	LoadGameMusic();
 	SwitchMusic(Screen_Type::SCREEN_MAINMENU);
-
-	//myApp->audio->ControlMUSVolume(0);
-
+	
 	return true;
 }
 
@@ -80,6 +79,7 @@ bool Scene::Update(float dt)
 		myApp->gui->WinIcon->Activate();
 		myApp->scene->SwitchMusic(Screen_Type::SCREEN_WIN);
 		ActivateGameOverMusic = false;
+		myApp->player->playerIncome = 0;
 
 	}
 
@@ -88,6 +88,7 @@ bool Scene::Update(float dt)
 		myApp->gui->LoseIcon->Activate();
 		myApp->scene->SwitchMusic(Screen_Type::SCREEN_LOSE);
 		ActivateGameOverMusic = false;
+		myApp->player->playerIncome = 0;
 
 	}
 

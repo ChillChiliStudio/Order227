@@ -15,7 +15,7 @@ fVec2 GetVector2(fPoint A, fPoint B)
 float GetDistance(iPoint A, iPoint B)
 {
 	iVec2 vec = GetVector2(A, B);
-	return (float)vec.GetMagnitude();
+	return vec.GetMagnitude();
 }
 
 float GetDistance(fPoint A, fPoint B)
@@ -51,8 +51,7 @@ bool InsideSquareRadius(fPoint center, float radius, fPoint point)	//Uses square
 {
 	bool ret = true;
 
-	if (point.x > center.x + radius || point.x < center.x - radius
-		|| point.y > center.y + radius || point.y < center.y - radius) {
+	if (point.x > center.x + radius || point.x < center.x - radius || point.y > center.y + radius || point.y < center.y - radius) {
 		ret = false;
 	}
 

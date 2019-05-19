@@ -7,6 +7,7 @@
 #include "Timer.h"
 
 #define TIME_BETWEEN_ROUNDS 4*1000
+#define TIME_TO_CHECK_HORDES 2
 
 class Group;
 class Spawning_Point;
@@ -18,21 +19,19 @@ public:
 	Horde_Manager();
 
 	bool Start();
+	bool Awake(pugi::xml_node&config);
 	bool Update(float dt);
 	bool CleanUp();
 
 public:
 
-	void ChooseSpawningPoints();
 	void ClearEnemies();
+	void ChooseSpawningPoints();
 	bool HordesDead();
-	void roundTimerStart() {
-		roundTimer.Start();
-	}
 
-	void hordeRoundto(int round) {
-		roundThreat = round;
-		roundNumber = round;
+	void restartRounds() {
+		roundNumber = 0;
+		roundThreat = 0;
 	}
 
 	int getRoundTimer() {
@@ -45,23 +44,31 @@ public:
 		return ret;
 	}
 
+private:
+
+	void CleanHordes();
+	void roundTimerStart() { roundTimer.Start(); }
+
+public:
+
 	std::vector<Spawning_Point*> SpawningPoints_Array;
 	std::vector<Group*> hordes;
 
-	bool hordeActive = false;
 	int roundNumber = 0;
+	bool hordeActive = false;
+	int maxHordes = 0;
+
+	Timer roundTimer;
 
 private:
 
 	//Spawning & SP
-	int currentHorde;
 	int roundThreat = 0;
 	int threatIncremental = 0;
 
 
-	Timer roundTimer;
+	Timer CleanHordesTimer;
 
 };
 
 #endif // ! HORDE_MANAGER_H
-

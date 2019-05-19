@@ -174,15 +174,15 @@ public:
 	}
 
 	// Vector Operations
-	TYPE GetMagnitude()
+	float GetMagnitude()
 	{
-		return (TYPE)sqrt(pow(x, 2) + pow(y, 2));
+		return sqrtf(powf((float)x, 2.0f) + powf((float)y, 2.0f));
 	}
 
-	Vector2 GetUnitVector()
+	Vector2<float> GetUnitVector()
 	{
-		TYPE magnitude = GetMagnitude();
-		return { x / magnitude, y / magnitude };
+		float magnitude = GetMagnitude();
+		return { (float)x / magnitude, (float)y / magnitude };
 	}
 
 	float GetAngle(Vector2<TYPE> vec)	// All calculations are done in RADIANS and angle calculation goes COUNTER-CLOCKWISE
@@ -384,15 +384,15 @@ public:
 	}
 
 	//Vector Operations
-	TYPE GetMagnitude()
+	float GetMagnitude()
 	{
-		return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+		return sqrtf(powf((float)x, 2.0f) + powf((float)y, 2.0f) + powf((float)z, 2.0f));
 	}
 
-	Vector3 GetUnitVector()
+	Vector3<float> GetUnitVector()
 	{
-		TYPE magnitude = GetMagnitude();
-		return { x / magnitude, y / magnitude, z / magnitude };
+		float magnitude = GetMagnitude();
+		return { (float)x / magnitude, (float)y / magnitude, (float)z / magnitude };
 	}
 };
 

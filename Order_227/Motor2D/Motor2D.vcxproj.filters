@@ -1,405 +1,110 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="PugiXml\src\pugixml.cpp">
-      <Filter>Tools\PuguiXML</Filter>
-    </ClCompile>
-    <ClCompile Include="Log.cpp">
-      <Filter>Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Tools\Timers</Filter>
-    </ClCompile>
-    <ClCompile Include="PerfTimer.cpp">
-      <Filter>Tools\Timers</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Game Files\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Pathfinding.cpp">
-      <Filter>Game Files\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Game Files\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClCompile>
-    <ClCompile Include="Render.cpp">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClCompile>
-    <ClCompile Include="Fonts.cpp">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClCompile>
-    <ClCompile Include="Audio.cpp">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="App.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Textures.cpp">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClCompile>
-    <ClCompile Include="UIElement.cpp">
-      <Filter>Game Files\User Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="InputText.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="UserInterface.cpp">
-      <Filter>Game Files\User Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClCompile>
-    <ClCompile Include="Image.cpp">
-      <Filter>Game Files\User Interface\UI Elements</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClCompile>
-    <ClCompile Include="Slider.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClCompile>
-    <ClCompile Include="VoidBox.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
-    </ClCompile>
-    <ClCompile Include="ActionBox.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="CheckBox.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
-    </ClCompile>
-    <ClCompile Include="Geometry.cpp">
-      <Filter>Tools\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity_Manager.cpp">
-      <Filter>Game Files\Entity Management</Filter>
-    </ClCompile>
-    <ClCompile Include="Static_Object.cpp">
-      <Filter>Game Files\Entity Management\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Vehicle.cpp">
-      <Filter>Game Files\Entity Management\Entities\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="Group.cpp">
-      <Filter>Game Files\Entity Management\Group Management</Filter>
-    </ClCompile>
-    <ClCompile Include="GroupManager.cpp">
-      <Filter>Game Files\Entity Management\Group Management</Filter>
-    </ClCompile>
-    <ClCompile Include="Horde_Manager.cpp">
-      <Filter>Game Files\Entity Management\Enemies Management</Filter>
-    </ClCompile>
-    <ClCompile Include="Spawn_Box.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
-    </ClCompile>
-    <ClCompile Include="ButtonActions.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitButton.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.h">
-      <Filter>Game Files\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Game Files\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="MiniMap.cpp">
-      <Filter>Game Files\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Unit.cpp">
-      <Filter>Game Files\Entity Management\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Building.cpp">
-      <Filter>Game Files\Entity Management\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Hitscan.cpp">
-      <Filter>Game Files\Entity Management\Entities\New Units\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="Launcher.cpp">
-      <Filter>Game Files\Entity Management\Entities\New Units\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="Bazooka.cpp">
-      <Filter>Game Files\Entity Management\Entities\New Units\Units\Launchers</Filter>
-    </ClCompile>
-    <ClCompile Include="Tank.cpp">
-      <Filter>Game Files\Entity Management\Entities\New Units\Units\Launchers</Filter>
-    </ClCompile>
-    <ClCompile Include="LightTank.cpp">
-      <Filter>Game Files\Entity Management\Entities\New Units\Units\Launchers\Tank</Filter>
-    </ClCompile>
-    <ClCompile Include="HeavyTank.cpp">
-      <Filter>Game Files\Entity Management\Entities\New Units\Units\Launchers\Tank</Filter>
-    </ClCompile>
-    <ClCompile Include="Quadtree.cpp">
-      <Filter>Tools\Quadtrees</Filter>
-    </ClCompile>
-    <ClCompile Include="TileQuadtree.cpp">
-      <Filter>Tools\Quadtrees</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityQuadtree.cpp">
-      <Filter>Tools\Quadtrees</Filter>
-    </ClCompile>
-    <ClCompile Include="LifeBarBox.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClCompile>
-    <ClCompile Include="Unit_Panel.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClCompile>
-    <ClCompile Include="MiniMap_UI_Element.cpp">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClCompile>
+    <ClCompile Include="ActionBox.cpp" />
+    <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="Building.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ButtonActions.cpp" />
+    <ClCompile Include="CheckBox.cpp" />
+    <ClCompile Include="EntityQuadtree.cpp" />
+    <ClCompile Include="Entity_Manager.cpp" />
+    <ClCompile Include="Fonts.cpp" />
+    <ClCompile Include="Geometry.cpp" />
+    <ClCompile Include="Group.cpp" />
+    <ClCompile Include="GroupManager.cpp" />
+    <ClCompile Include="Horde_Manager.cpp" />
+    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="InputText.cpp" />
+    <ClCompile Include="Launcher.cpp" />
+    <ClCompile Include="LifeBarBox.cpp" />
+    <ClCompile Include="MiniMap.cpp" />
+    <ClCompile Include="MiniMap_UI_Element.cpp" />
+    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="Quadtree.cpp" />
+    <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="Spawn_Box.cpp" />
+    <ClCompile Include="Static_Object.cpp" />
+    <ClCompile Include="TileQuadtree.cpp" />
+    <ClCompile Include="UnitButton.cpp" />
+    <ClCompile Include="Unit_Panel.cpp" />
+    <ClCompile Include="UserInterface.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="App.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Pathfinding.cpp" />
+    <ClCompile Include="PerfTimer.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="Render.cpp" />
+    <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="UIElement.cpp" />
+    <ClCompile Include="VoidBox.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="PugiXml\src\pugixml.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PugiXml\src\pugiconfig.hpp">
-      <Filter>Tools\PuguiXML</Filter>
-    </ClInclude>
-    <ClInclude Include="PugiXml\src\pugixml.hpp">
-      <Filter>Tools\PuguiXML</Filter>
-    </ClInclude>
-    <ClInclude Include="Log.h">
-      <Filter>Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Defs.h">
-      <Filter>Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Tools\Timers</Filter>
-    </ClInclude>
-    <ClInclude Include="PerfTimer.h">
-      <Filter>Tools\Timers</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Game Files\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Pathfinding.h">
-      <Filter>Game Files\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Game Files\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClInclude>
-    <ClInclude Include="Render.h">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClInclude>
-    <ClInclude Include="Fonts.h">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClInclude>
-    <ClInclude Include="Audio.h">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Game Files\Entity Management</Filter>
-    </ClInclude>
-    <ClInclude Include="Module.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="App.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Textures.h">
-      <Filter>Game Files\Modules\Main Functionalities</Filter>
-    </ClInclude>
-    <ClInclude Include="UIElement.h">
-      <Filter>Game Files\User Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="ActionBox.h">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
-    </ClInclude>
-    <ClInclude Include="InputText.h">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
-    </ClInclude>
-    <ClInclude Include="UserInterface.h">
-      <Filter>Game Files\User Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClInclude>
-    <ClInclude Include="Image.h">
-      <Filter>Game Files\User Interface\UI Elements</Filter>
-    </ClInclude>
-    <ClInclude Include="Slider.h">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClInclude>
-    <ClInclude Include="VoidBox.h">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
-    </ClInclude>
-    <ClInclude Include="ParamBox.h">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonActions.h">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckBox.h">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
-    </ClInclude>
-    <ClInclude Include="Point.h">
-      <Filter>Tools\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Tools\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Geometry.h">
-      <Filter>Tools\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity_Manager.h">
-      <Filter>Game Files\Entity Management</Filter>
-    </ClInclude>
-    <ClInclude Include="Static_Object.h">
-      <Filter>Game Files\Entity Management\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Vehicle.h">
-      <Filter>Game Files\Entity Management\Entities\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="GroupManager.h">
-      <Filter>Game Files\Entity Management\Group Management</Filter>
-    </ClInclude>
-    <ClInclude Include="Group.h">
-      <Filter>Game Files\Entity Management\Group Management</Filter>
-    </ClInclude>
-    <ClInclude Include="Horde_Manager.h">
-      <Filter>Game Files\Entity Management\Enemies Management</Filter>
-    </ClInclude>
-    <ClInclude Include="Spawning_Point.h">
-      <Filter>Game Files\Entity Management\Enemies Management</Filter>
-    </ClInclude>
-    <ClInclude Include="Spawn_Box.h">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
-    </ClInclude>
-    <ClInclude Include="UnitButton.h">
-      <Filter>Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="LifeBarBox.h">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClInclude>
-    <ClInclude Include="MiniMap.h">
-      <Filter>Game Files\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Unit.h">
-      <Filter>Game Files\Entity Management\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Building.h">
-      <Filter>Game Files\Entity Management\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Pool.h">
-      <Filter>Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Quadtree.h">
-      <Filter>Tools\Quadtrees</Filter>
-    </ClInclude>
-    <ClInclude Include="TileQuadtree.h">
-      <Filter>Tools\Quadtrees</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityQuadtree.h">
-      <Filter>Tools\Quadtrees</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClInclude>
-    <ClInclude Include="Unit_Panel.h">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClInclude>
-    <ClInclude Include="MiniMap_UI_Element.h">
-      <Filter>Game Files\User Interface\UI Elements\Images</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Core">
-      <UniqueIdentifier>{cb944693-b9d0-484c-bad2-02d5a7cdbec6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files">
-      <UniqueIdentifier>{244722d1-90ce-423d-8e7a-556211865a32}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Scenes">
-      <UniqueIdentifier>{e07660eb-d36f-4cc9-af59-324d31c2f2f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Modules">
-      <UniqueIdentifier>{ccbdc630-da99-4b4e-b411-8c4add0a7181}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Modules\Main Functionalities">
-      <UniqueIdentifier>{ce55ec0d-15fc-4a27-92d8-77b4e4fa7827}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\User Interface">
-      <UniqueIdentifier>{fa0de59c-31bf-45b7-9f0a-07ba2bc56d77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\XML Files">
-      <UniqueIdentifier>{b8b1c1f3-3bf4-4c02-9be3-ea57266fc526}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tools">
-      <UniqueIdentifier>{42c748be-4a37-49de-970f-5be811d06b38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tools\PuguiXML">
-      <UniqueIdentifier>{7cb78d67-17cc-45eb-af97-e2106becce7b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tools\Timers">
-      <UniqueIdentifier>{44f68f56-2713-477a-b7af-8463a30c0c99}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Entity Management">
-      <UniqueIdentifier>{1b51186c-8a88-4121-97f4-b69abbe59bc4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Entity Management\Entities">
-      <UniqueIdentifier>{ea1e376e-289a-4463-9656-9b7343d35827}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\User Interface\UI Elements">
-      <UniqueIdentifier>{6db2bd2d-f49a-4a72-88b1-f590b0ae3e2d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\User Interface\UI Elements\Images">
-      <UniqueIdentifier>{1af89c7f-5072-4c40-8f0e-71aaf35267b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\User Interface\UI Elements\Images\Buttons">
-      <UniqueIdentifier>{3ebb8683-127e-4b20-a631-ac331c07e498}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\User Interface\UI Elements\Images\Buttons\ActionBoxes">
-      <UniqueIdentifier>{7e5e65b6-97c8-4a2b-a4ed-a05dc8f38564}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tools\Geometry">
-      <UniqueIdentifier>{f7de7723-9e75-48f2-ba3a-20fbdafef3e6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Entity Management\Entities\Units">
-      <UniqueIdentifier>{b2f69d09-02a3-4467-8bd9-bcc094c5f488}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Entity Management\Entities\New Units">
-      <UniqueIdentifier>{6d9abc30-28dd-4e2b-a74e-75ae1bbcf3f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Entity Management\Group Management">
-      <UniqueIdentifier>{f903269a-71b3-4f83-8d72-b0ddb8e3cc63}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Entity Management\Enemies Management">
-      <UniqueIdentifier>{26153dbf-e930-4f6b-81d7-2ad899eab395}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Entity Management\Entities\New Units\Units">
-      <UniqueIdentifier>{5aa7585a-aee7-4136-b3f0-dc914281d86e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Entity Management\Entities\New Units\Units\Launchers">
-      <UniqueIdentifier>{0e4b77e7-c7e5-4193-ad67-5fc70790e4c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Entity Management\Entities\New Units\Units\Launchers\Tank">
-      <UniqueIdentifier>{0c354504-3846-4365-a11f-cfe200424061}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tools\Quadtrees">
-      <UniqueIdentifier>{3937422f-217c-4275-97aa-7e0dfcb6a780}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="ActionBox.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Audio.h" />
+    <ClInclude Include="Building.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonActions.h" />
+    <ClInclude Include="CheckBox.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityQuadtree.h" />
+    <ClInclude Include="Entity_Manager.h" />
+    <ClInclude Include="Fonts.h" />
+    <ClInclude Include="Group.h" />
+    <ClInclude Include="GroupManager.h" />
+    <ClInclude Include="Horde_Manager.h" />
+    <ClInclude Include="Image.h" />
+    <ClInclude Include="InputText.h" />
+    <ClInclude Include="Geometry.h" />
+    <ClInclude Include="Launcher.h" />
+    <ClInclude Include="LifeBarBox.h" />
+    <ClInclude Include="MiniMap.h" />
+    <ClInclude Include="MiniMap_UI_Element.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Pool.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="Quadtree.h" />
+    <ClInclude Include="Spawn_Box.h" />
+    <ClInclude Include="Static_Object.h" />
+    <ClInclude Include="TileQuadtree.h" />
+    <ClInclude Include="UnitButton.h" />
+    <ClInclude Include="Unit_Panel.h" />
+    <ClInclude Include="Vector.h" />
+    <ClInclude Include="VoidBox.h" />
+    <ClInclude Include="ParamBox.h" />
+    <ClInclude Include="Slider.h" />
+    <ClInclude Include="UserInterface.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Pathfinding.h" />
+    <ClInclude Include="PerfTimer.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="Spawning_Point.h" />
+    <ClInclude Include="Text.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="App.h" />
+    <ClInclude Include="Defs.h" />
+    <ClInclude Include="Module.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="Render.h" />
+    <ClInclude Include="Textures.h" />
+    <ClInclude Include="Unit.h" />
+    <ClInclude Include="UIElement.h" />
+    <ClInclude Include="Window.h" />
+    <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
+    <ClInclude Include="PugiXml\src\pugixml.hpp" />
   </ItemGroup>
 </Project>

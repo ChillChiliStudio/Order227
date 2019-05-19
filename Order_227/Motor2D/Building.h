@@ -23,6 +23,15 @@ enum class building_type {
 	BUILDING_MAX
 };
 
+enum class Building_State {
+
+	SPAWN,
+	IDLE,
+	DESTROYED,
+	MAX
+
+};
+
 
 class Building :public Entity
 {
@@ -59,21 +68,23 @@ public:
 
 	//Buffs
 	bool unitBuff = false;
+	bool destroyed = false;
 
 	int UnitsSpeedBuff = 0;
 	int UnitsLifeBuff = 0;
 	int MainBaseLifeBuff = 0;
 	int StrategicPointsLifeBuff = 0;
 
-	float health = 0;
-	int maxHealth = 0;
-	int healthRecovery = 0;
+	float health = 0.0f;
+	float maxHealth = 0.0f;
+	float healthRecovery = 0.1f;
 	int income = 0;
+
+	bool repairable = false;
 
 private:
 
 	bool rewardGiven = false;
-	bool repairable = false;
 
 };
 #endif 

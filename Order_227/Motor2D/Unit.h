@@ -15,12 +15,12 @@ enum class infantry_type	// TODO: This should be a single enum with ALL units sa
 
 	BASIC,
 	CONSCRIPT,
-	BAZOOKA,
+	BAZOOKA,  //Unit of type Launcher
 	DESOLATOR,
-	MACHINE_GUN,
+	CHRONO,
 	SNIPER,
 	DOG,
-
+	COW,
 	INFANTRY_MAX
 };
 
@@ -39,12 +39,12 @@ enum class unit_state
 enum class unit_orders
 {
 	NONE = -1,
-						
+
 	HOLD,	// Defend your position/area
 	MOVE,	// Move to marked position
 	HUNT,	// Search and destroy a specific target
 	PATROL,	// Move back and forward scouting a path
-	
+
 	MAX_ORDERS
 };
 
@@ -89,9 +89,6 @@ struct unit_stats {	// Data imported through xml and depends on Unit type	//IMPR
 
 	// Speed
 	float linSpeed;	// Absolute speed
-
-	//Sound
-	uint attackSfxId;	// Attack sfx ID
 
 	// Spawn
 	int cost;
@@ -141,7 +138,7 @@ public:
 	// Actions
 	bool Move(float dt);				// Move unit
 	bool FindEnemies(float dt);			// Find nearby enemies depending on aggro
-	void AttackCurrTarget(float dt);	
+	virtual void AttackCurrTarget(float dt);
 	float Hurt(float damage);
 	void Die();
 	//void Kill();

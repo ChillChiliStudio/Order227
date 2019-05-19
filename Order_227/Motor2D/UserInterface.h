@@ -114,6 +114,7 @@ public:
 	bool interfaceDebugDraw = false;
 
 	Text* fpsText = nullptr;
+	Text* mouseDebugMark = nullptr;
 
 	std::string horde;
 	std::string timerHorde_temp;

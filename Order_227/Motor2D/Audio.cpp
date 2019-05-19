@@ -3,7 +3,9 @@
 #include "App.h"
 #include "Audio.h"
 #include "Unit.h"
-
+#include "Window.h"
+#include "Render.h"
+#include "Geometry.h"
 
 #include "SDL/include/SDL.h"
 #include "SDL_mixer\include\SDL_mixer.h"
@@ -52,6 +54,14 @@ bool Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
+	// Load volumes
+	masterVolume = config.attribute("volume").as_uint();
+	musicVolume = config.child("music").attribute("volume").as_uint();
+	sfxVolume = config.child("sfx").attribute("volume").as_uint();
+
+	// Set channel volume
+	SetMasterVolume();
+
 	return ret;
 }
 
@@ -61,6 +71,18 @@ bool Audio::Start() {
 
 	FillArrayFX();
 	LoadIntoArray();
+
+	//Setup radius audio
+	uPoint center, size;
+	myApp->win->GetWindowSize(size.x, size.y);
+	myApp->win->GetWindowCenter(center.x, center.y);
+
+	sfxAudioRadius = size.x;	//Effective radius of each ear
+	earOffset = 0; /*size.x / 8;*/	//Used to move slighlty the ear positions towars (+) or against (-) the center
+
+	leftEar = { (uint)(center.x - size.x / 4 + earOffset), center.y };	//Left Ear screen pos
+	rightEar = { (uint)(center.x + size.x / 4 - earOffset), center.y };	//Right Ear screen pos
+
 	return true;
 }
 
@@ -181,58 +203,138 @@ unsigned int Audio::LoadFx(const char* path)
 }
 
 // Play WAV
-bool Audio::PlayFx(unsigned int id, int repeat, int i)
+bool Audio::PlayFx(unsigned int id, int repeat, fPoint pos, bool spatial, int i)
 {
 	bool ret = false;
 
 	if (!active)
 		return false;
 
+	int channel;
+
 	if (id > 0 && id <= fx.size())
 	{
+		if (spatial) {	//Spatial audio checks the distance between a sound and the players "ears" positions in World and changes the volume accordingly
+			iPoint worldLeft;
+			iPoint worldRight;
 
-		std::list<Mix_Chunk*>::iterator it = fx.begin();
-		it = next(fx.begin(), id - 1);
-		Mix_PlayChannel(i, *it, repeat);
+			worldLeft = myApp->render->ScreenToWorld(leftEar.x, leftEar.y);
+			worldRight = myApp->render->ScreenToWorld(rightEar.x, rightEar.y);
+
+			float leftEarDistance = GetDistance({ (float)worldLeft.x, (float)worldLeft.y }, pos);
+			float rightEarDistance = GetDistance({ (float)worldRight.x, (float)worldRight.y }, pos);
+
+			if (leftEarDistance < sfxAudioRadius || leftEarDistance < sfxAudioRadius) {
+
+				std::list<Mix_Chunk*>::iterator it = fx.begin();
+				it = next(fx.begin(), id - 1);
+				channel = Mix_PlayChannel(i, *it, repeat);
+
+				if (channel > -1) {
+					float leftVol = 0.0f;
+					float rightVol = 0.0f;
+
+					//Formula: Ear % Volume + Global % Sfx Volume + 0 to 255 ratio
+					if (leftEarDistance < sfxAudioRadius) {
+						leftVol = (1.0f - leftEarDistance / sfxAudioRadius) * sfxVolume / 100.0f * 255.0f;
+					}
+					if (rightEarDistance < sfxAudioRadius) {
+						rightVol = (1.0f - rightEarDistance / sfxAudioRadius) * sfxVolume / 100.0f * 255.0f;
+					}
+
+					if (!Mix_SetPanning(channel, leftVol, rightVol)) {
+						LOG("Mix_SetPanning: %s\n", Mix_GetError());
+					}
+				}
+			}
+		}
+		else {
+			std::list<Mix_Chunk*>::iterator it = fx.begin();
+			it = next(fx.begin(), id - 1);
+			channel = Mix_PlayChannel(i, *it, repeat);
+
+			if (channel > -1) {
+				SetChannelVolume(channel);
+			}
+		}
 	}
 
 	return ret;
 }
 
-void Audio::ControlVolume(int vol) { //Range: 0-128
-
-	Mix_Volume(-1, vol);
-
+//Volume Control
+//Master
+void Audio::SetMasterVolume() const
+{
+	Mix_VolumeMusic(masterVolume * (musicVolume * MIX_MAX_VOLUME / 100) / 100);
+	Mix_Volume(-1, masterVolume * (sfxVolume * MIX_MAX_VOLUME / 100) / 100);
 }
 
-void Audio::ControlMUSVolume(int vol) { //Range: 0-128
-
-	Mix_VolumeMusic(vol);
-
+void Audio::ChangeMasterVolume(uint vol)
+{
+	masterVolume = vol;
+	SetMasterVolume();
 }
 
-void Audio::ControlSFXVolume(int vol) { //Range: 0-128
+//Music
+uint Audio::SetMusicVolume() const
+{
+	return Mix_VolumeMusic(masterVolume * (musicVolume * MIX_MAX_VOLUME / 100) / 100);
+}
 
-	std::list<Mix_Chunk*>::iterator it = fx.begin();
+uint Audio::ChangeMusicVolume(uint vol)
+{
+	musicVolume = vol;
+	return SetMusicVolume();
+}
 
-	for(; *it != NULL; it = next(it))
-		Mix_VolumeChunk(*it, vol);
+//Channels
+uint Audio::SetChannelVolume(int channel)
+{
+	return Mix_Volume(channel, masterVolume * (sfxVolume * MIX_MAX_VOLUME / 100) / 100);
+}
 
+uint Audio::ChangeChannelVolume(uint vol, int channel)
+{
+	uint ret;
+
+	if (channel < 0) {
+		sfxVolume = vol;
+		ret = SetChannelVolume(channel);
+	}
+	else {
+		ret = Mix_Volume(channel, masterVolume * (vol * MIX_MAX_VOLUME / 100) / 100);
+	}
+
+	return ret;
+}
+
+//Sfx Chunks
+uint Audio::SetSfxChunkVolume(uint vol, int id)
+{
+	if (id > 0 && id <= fx.size())
+	{
+		std::list<Mix_Chunk*>::iterator it = fx.begin();
+		it = next(fx.begin(), id - 1);
+
+		return Mix_VolumeChunk(*it, vol * MIX_MAX_VOLUME / 100);
+	}
+	else {
+		return 0;
+	}
 }
 
 
 void Audio::FillArrayFX() {
-	
+
 	for (int i = 0; i < (int)infantry_type::INFANTRY_MAX; ++i) {
-		for (int j = 0; j < FACTION_NUM; ++j) {
+
 			for (int k = 0; k < (int)type_sounds::MAX; ++k) {
 				for (int l = 0; l < VARIATION_PER_SOUND; ++l)
-					SoundFX_Array[i][j][k][l]= -1;
+					SoundFX_Array[i][k][l]= -1;
 
 			}
-		}
 	}
-
 }
 
 void Audio::LoadIntoArray() {
@@ -242,43 +344,26 @@ void Audio::LoadIntoArray() {
 
 	//SOV units Sound
 
-	pugi::xml_node Data = SFX_XML.child("FX").child("Troops").child("SOV").child("Conscript");
+		for (pugi::xml_node DataUnit = SFX_XML.child("FX").child("Troops").child("Unit"); DataUnit != NULL; DataUnit = DataUnit.next_sibling("Unit")) {
 
-	//CONSCRIPT---------------------------------------------------------------------------------------------------------------------
-	//Shot 1 & 2
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SHOT][0] = LoadFx(Data.child("Shot").child("Var_one").attribute("path").as_string());
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SHOT][1] = LoadFx(Data.child("Shot").child("Var_two").attribute("path").as_string());
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SHOT][2] = LoadFx(Data.child("Shot").child("Var_three").attribute("path").as_string());
-
-	//Attack
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::ATTACK][0] = LoadFx(Data.child("Attack").child("Var_one").attribute("path").as_string());
-
-	//Spawn
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SPAWN][0] = LoadFx(Data.child("Spawn").child("Var_one").attribute("path").as_string());
-
-	//Moving
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::MOVING][0] = LoadFx(Data.child("Moving").child("Var_one").attribute("path").as_string());
-	
-	//Hurt
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::HURT][0] = LoadFx(Data.child("Hurt").child("Var_one").attribute("path").as_string());
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::HURT][1] = LoadFx(Data.child("Hurt").child("Var_two").attribute("path").as_string());
-
-	//Comfirmation order
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::COMFIRMATION][0] = LoadFx(Data.child("Comfirmation").child("Var_one").attribute("path").as_string());
-	SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::COMFIRMATION][1] = LoadFx(Data.child("Comfirmation").child("Var_two").attribute("path").as_string());
+			int id = DataUnit.attribute("id").as_int();
 
 
-	//BASIC
-	//Shot 1 & 2
-	SoundFX_Array[(int)infantry_type::BASIC][CAP][(int)type_sounds::SHOT][0] = LoadFx(Data.child("Shot").child("Var_one").attribute("path").as_string());
-	SoundFX_Array[(int)infantry_type::BASIC][CAP][(int)type_sounds::SHOT][1] = LoadFx(Data.child("Shot").child("Var_two").attribute("path").as_string());
-	SoundFX_Array[(int)infantry_type::BASIC][CAP][(int)type_sounds::SHOT][2] = LoadFx(Data.child("Shot").child("Var_three").attribute("path").as_string());
+			for (pugi::xml_node SoundType = DataUnit.child("Sound"); SoundType != NULL; SoundType = SoundType.next_sibling("Sound")) {
 
-	//Hurt
-	SoundFX_Array[(int)infantry_type::BASIC][CAP][(int)type_sounds::HURT][0] = LoadFx(Data.child("Hurt").child("Var_one").attribute("path").as_string());
-	SoundFX_Array[(int)infantry_type::BASIC][CAP][(int)type_sounds::HURT][1] = LoadFx(Data.child("Hurt").child("Var_two").attribute("path").as_string());
+				int TypeSound = SoundType.attribute("id").as_int();
+				VarsXsound[id][TypeSound]=SoundType.attribute("NumVariation").as_int();
 
-//----------------------------------------------------------------------------------------------------------------------------------
+				for (pugi::xml_node DataSound = SoundType.child("Var"); DataSound != NULL; DataSound = DataSound.next_sibling("Var")) {
 
+					int Variation = DataSound.attribute("Variation").as_int();
+
+					if (Variation < VARIATION_PER_SOUND)
+						SoundFX_Array[id][TypeSound][Variation] = LoadFx(DataSound.attribute("path").as_string());
+
+
+				}
+			}
+		}
 
 }

@@ -34,10 +34,10 @@ void CreateConscript() {
 	iPoint tempPoint =myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
 	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::CONSCRIPT][SOV][(int)type_sounds::SPAWN][0]);
 }
 
 void CreateFlak() {
+
 	//srand(time(NULL));
 	//TODO NEED TO DESHARCODE
 	fPoint randomPos = { 0,0 };
@@ -57,8 +57,8 @@ void CreateFlak() {
 
 	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
-	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::BAZOOKA, entity_faction::COMMUNIST);
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::BAZOOKA][SOV][(int)type_sounds::SPAWN][0]);
+	myApp->entities->ActivateLauncher(fPoint(tempPoint.x, tempPoint.y), infantry_type::BAZOOKA, entity_faction::COMMUNIST);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::BAZOOKA][(int)type_sounds::SPAWN][0]);
 }
 void CreateChrono() {
 	//srand(time(NULL));
@@ -80,8 +80,10 @@ void CreateChrono() {
 
 	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
-	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::MACHINE_GUN, entity_faction::COMMUNIST);
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::MACHINE_GUN][SOV][(int)type_sounds::SPAWN][0]);
+
+	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::CHRONO, entity_faction::COMMUNIST);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::CHRONO][(int)type_sounds::SPAWN][0]);
+
 }
 
 void CreateDesolator() {
@@ -105,7 +107,7 @@ void CreateDesolator() {
 	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
 	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::DESOLATOR, entity_faction::COMMUNIST);
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::DESOLATOR][SOV][(int)type_sounds::SPAWN][0]);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::DESOLATOR][(int)type_sounds::SPAWN][0]);
 }
 
 void CreateSniper() {
@@ -129,7 +131,8 @@ void CreateSniper() {
 	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
 	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::SNIPER, entity_faction::COMMUNIST);
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::SNIPER][SOV][(int)type_sounds::SPAWN][0]);
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::SNIPER][(int)type_sounds::SPAWN][0]);
+
 }
 
 
@@ -140,17 +143,13 @@ void StartGame() {
 	//myApp->audio->PlayMusic("audio/music/game/ingame_song3_loop.ogg",-1);
 
 	//TODO make the game start Correctly
-	//myApp->scene->Start();
-	//myApp->entities->ActivateBuildings();	//TODO: Check if necessary, commented because it was asumed that wasn't
-	//myApp->entities->ActivateObjects();	//TODO: Check if necessary, commented because it was asumed that wasn't
-
 	myApp->entities->ActivateBuildings();
 	myApp->entities->ActivateObjects();
-	myApp->hordes->hordeRoundto(0);
-	myApp->player->playerMoney = 300;
+	myApp->hordes->restartRounds();
+	myApp->player->playerMoney = myApp->player->initialMoney; //TODO Deharcode
 	myApp->gui->hordeNumber_Label->ChangeString(std::to_string(0));
 	myApp->hordes->hordeActive = true;
-	myApp->hordes->roundTimerStart();
+	myApp->hordes->roundTimer.Start();
 	myApp->gui->MainMenuTemp_Image->Deactivate();
 	myApp->gui->Current_Screen = Screen_Type::SCREEN_INGAME;
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_INGAME);
@@ -166,13 +165,14 @@ void QuitGame() {
 	//myApp->audio->PlayMusic();
 	myApp->gui->LoseIcon->Deactivate();
 	myApp->gui->WinIcon->Deactivate();
+
 	//MUSIC
-	myApp->audio->PlayMusic("audio/music/main_menu/menu_song_loop.ogg",-1);
+	//myApp->audio->PlayMusic("audio/music/main_menu/menu_song_loop.ogg",-1);
 
 	myApp->hordes->hordeActive = false;
 	myApp->gui->pauseMenuPanel->Deactivate();
 	myApp->gui->MainMenuTemp_Image->Activate();
-	
+
 	for (int i = 0; i < myApp->entities->unitPool.size(); i++) {	//TODO: This "seems" to work, check if it really does or needs extra steps
 		if (myApp->entities->unitPool[i].active == true) {
 			myApp->entities->DeActivateUnit(&myApp->entities->unitPool[i]);

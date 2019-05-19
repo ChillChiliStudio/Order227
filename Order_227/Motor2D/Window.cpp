@@ -2,15 +2,15 @@
 #include "Log.h"
 #include "App.h"
 #include "Window.h"
+#include "Point.h"
 
 #include "SDL/include/SDL.h"
 
-
 Window::Window() : Module()
 {
-	window = NULL;
-	screen_surface = NULL;
 	name.assign("window");
+	window = nullptr;
+	screen_surface = nullptr;
 }
 
 // Destructor
@@ -38,9 +38,12 @@ bool Window::Awake(pugi::xml_node& config)
 		bool resizable = config.child("resizable").attribute("value").as_bool(false);
 		bool fullscreen_window = config.child("fullscreen_window").attribute("value").as_bool(false);
 
-		width = config.child("resolution").attribute("width").as_int(640);
-		height = config.child("resolution").attribute("height").as_int(480);
+		width = middle_x = config.child("resolution").attribute("width").as_int(640);
+		height = middle_y = config.child("resolution").attribute("height").as_int(480);
 		scale = config.child("resolution").attribute("scale").as_int(1);
+
+		middle_x = (uint)(middle_x * 0.5f);
+		middle_y = (uint)(middle_y * 0.5f);
 
 		if(fullscreen == true)
 		{
@@ -62,9 +65,10 @@ bool Window::Awake(pugi::xml_node& config)
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
 
-		window = SDL_CreateWindow(myApp->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+		const char*tit = myApp->GetTitle();
+		window = SDL_CreateWindow(tit, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
-		if(window == NULL)
+		if(window == nullptr)
 		{
 			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			ret = false;
@@ -85,7 +89,7 @@ bool Window::CleanUp()
 	LOG("Destroying SDL window and quitting all SDL systems");
 
 	//Destroy window
-	if(window != NULL)
+	if(window != nullptr)
 	{
 		SDL_DestroyWindow(window);
 	}
@@ -106,6 +110,12 @@ void Window::GetWindowSize(uint& width, uint& height) const
 {
 	width = this->width;
 	height = this->height;
+}
+
+void Window::GetWindowCenter(uint& mid_x, uint& mid_y) const
+{
+	mid_x = this->middle_x;
+	mid_y = this->middle_y;
 }
 
 uint Window::GetScale() const
