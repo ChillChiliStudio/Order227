@@ -10,7 +10,7 @@
       <Unit id="1" name="Conscript" TextPath="textures/troops/soviet/InfanteriaSov.png"  TiledFile="textures/troops/soviet/InfantSov.tmx">
         <RectOffset x="26" y="20" w="25" h="35"/>
         <AnimDet DeathOneSpeed="10.0"/>
-        <stats speed="90" cadency="1" damage="2" health="6" visionRange="200" attackRange="150" cost="50" prodTime="8" threat="10"/>
+        <stats speed="90" cadency="1" damage="2" health="6" visionRange="300" attackRange="150" cost="50" prodTime="8" threat="10"/>
       </Unit>
       <Unit id="2" name="Flak" TextPath="textures/troops/soviet/Flak.png" TextPathTwo="textures/troops/allied/Flak.png" TiledFile="textures/troops/soviet/Flak.tmx">
         <RectOffset x="37" y="20" w="50" h="45"/>
