@@ -36,7 +36,7 @@
 
     <Capitalist>
       <Unit id="0" name="IG" TextPath="textures/troops/allied/IG.png" TiledFile="textures/troops/allied/IG.tmx">
-        <RectOffset x="26" y="5" w="25" h="35"/>
+        <RectOffset x="30" y="5" w="40" h="35"/>
         <AnimDet DeathOneSpeed="10.0"/>
         <stats speed="90" cadency="0.5" damage="2" health="6" visionRange="200" attackRange="150" cost="500" prodTime="8" threat="5"/>
        </Unit>
