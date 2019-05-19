@@ -110,6 +110,7 @@ bool Unit::Update(float dt)
 bool Unit::Draw()
 {
 	spriteRect = currentAnimation.GetTheActualCurrentFrame();	//TODO: CARLESTODO Mark of blit update
+	
 	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &spriteRect);
 
 	return true;

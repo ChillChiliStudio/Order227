@@ -353,7 +353,6 @@ void Render::Push(uint order, SDL_Texture* tex, int x, int y, const SDL_Rect* se
 	else {
 		SDL_QueryTexture(tex, NULL, NULL, &r.w, &r.h);
 	}
-
 	
 	if (InsideCamera(r)) {
 			ImageRender* auxObject = new ImageRender(order, tex, x, y, section, scale, speed, angle, pivot_x, pivot_y, r);
