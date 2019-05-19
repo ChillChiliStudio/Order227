@@ -676,7 +676,7 @@ Entity* Unit::EnemyInRadius(uint radius)
 				if ((*item).active) {
 					numActives--;
 
-					if ((*item).IsDead() == false) {
+					if ((*item).destroyed == false) {
 
 						if (InsideSquareRadius(centerPos, (float)radius, (*item).centerPos)
 							&& InsideRadius(centerPos, (float)radius, (*item).centerPos))

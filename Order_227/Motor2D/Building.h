@@ -57,6 +57,7 @@ private:
 
 	void GiveReward();
 	void TakeReward();
+	void AddUnitsBuff();
 
 public:
 
@@ -67,7 +68,6 @@ public:
 	Animation CurrentAnim;
 
 	//Buffs
-	bool unitBuff = false;
 	bool destroyed = true;
 
 	int UnitsSpeedBuff = 0;

@@ -277,6 +277,12 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 			(*item).stats = infantryStats[int(infantryType)];
 			(*item).Start(); //active = true goes here in this start
 
+			if (unitBuff == true && (*item).faction == entity_faction::COMMUNIST) {
+
+				(*item).stats.linSpeed *= 1.5;
+				(*item).stats.health += 2;
+			}
+
 			for (int i = 0; i < entitiesVector.size(); i++) {
 
 				if (entitiesVector[i] == nullptr) {
@@ -285,7 +291,6 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 					break;
 				}
 			}
-
 
 			ret = &(*item);
 			(*item).active;

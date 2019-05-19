@@ -116,6 +116,9 @@ public:
 	//Quadtree with all the active entities
 	EntityQuadtree* entitiesQuadtree;
 
+	//Buff for units
+	bool unitBuff = false;
+
 private:
 
 	bool LoadEntityData();
