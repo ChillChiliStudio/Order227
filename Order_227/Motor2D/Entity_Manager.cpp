@@ -396,13 +396,12 @@ void Entity_Manager::ActivateBuildings()
 		if ((*item).buildingType != building_type::BUILDING_MAX && (*item).buildingType != building_type::BUILDING_NONE) {
 
 			(*item).faction = entity_faction::NEUTRAL;
-			(*item).health = 0;
+			(*item).health = (*item).maxHealth;
 			(*item).repairable = true;
 
 			if ((*item).buildingType == building_type::COMMAND_CENTER) {
 
 				(*item).faction = entity_faction::COMMUNIST;
-				(*item).health = (*item).maxHealth;
 				mainBase = &(*item);
 
 			}

@@ -58,7 +58,7 @@ void CreateFlak() {
 	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
 	myApp->entities->ActivateLauncher(fPoint(tempPoint.x, tempPoint.y), infantry_type::BAZOOKA, entity_faction::COMMUNIST);
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::BAZOOKA][(int)type_sounds::SPAWN][0]);
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantry_type::BAZOOKA][(int)type_sounds::SPAWN][0]);
 }
 void CreateChrono() {
 	//srand(time(NULL));
@@ -82,7 +82,7 @@ void CreateChrono() {
 	fPoint test = myApp->entities->mainBase->position;
 
 	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::CHRONO, entity_faction::COMMUNIST);
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::CHRONO][(int)type_sounds::SPAWN][0]);
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantry_type::CHRONO][(int)type_sounds::SPAWN][0]);
 
 }
 
@@ -107,7 +107,7 @@ void CreateDesolator() {
 	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
 	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::DESOLATOR, entity_faction::COMMUNIST);
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::DESOLATOR][(int)type_sounds::SPAWN][0]);
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantry_type::DESOLATOR][(int)type_sounds::SPAWN][0]);
 }
 
 void CreateSniper() {
@@ -131,7 +131,7 @@ void CreateSniper() {
 	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
 	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::SNIPER, entity_faction::COMMUNIST);
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantry_type::SNIPER][(int)type_sounds::SPAWN][0]);
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantry_type::SNIPER][(int)type_sounds::SPAWN][0]);
 
 }
 

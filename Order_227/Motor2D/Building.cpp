@@ -32,6 +32,8 @@ bool Building::Start() {
 		myApp->audio->PlayFx(myApp->audio->SoundBuilding_Array[int(buildingType)][(int)BuildingsType_Sounds::SPAWN][rand() % Aux]);
 
 	}
+	else
+		health = 0;
 
 	return true;
 }
