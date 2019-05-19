@@ -55,10 +55,11 @@ bool Horde_Manager::Update(float dt)
 			{
 
 				SpawningPoints_Array[i]->SpawnTime.Start();
-				hordes[i]->AddUnit(myApp->entities->ActivateUnit(SP_Pos, infantry_type::BASIC, entity_faction::CAPITALIST));
+
+				int infType = (SpawningPoints_Array[i]->Enemies_to_Spawn.back());
+				hordes[i]->AddUnit(myApp->entities->ActivateUnit(SP_Pos, infantry_type(infType), entity_faction::CAPITALIST));
 				SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
 
-				LOG("%d", SpawningPoints_Array[i]->Enemies_to_Spawn.size());
 			}
 
 			hordes[i]->SpreadDestinations(SpawningPoints_Array[i]->position);
