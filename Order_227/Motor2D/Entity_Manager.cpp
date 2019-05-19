@@ -400,6 +400,39 @@ void Entity_Manager::ActivateBuildings()
 
 			}
 
+
+			if ((*item).buildingType == building_type::COMMAND_CENTER) {
+				(*item).centerPos.x = (*item).position.x + 60;
+				(*item).centerPos.y = (*item).position.y + 120;
+			}
+			if ((*item).buildingType == building_type::EPC) {
+				(*item).centerPos.x = (*item).position.x + 50;
+				(*item).centerPos.y = (*item).position.y + 60;
+			}
+			if ((*item).buildingType == building_type::GOLDYARD) {
+				(*item).centerPos.x = (*item).position.x + 70;
+				(*item).centerPos.y = (*item).position.y + 60;
+			}
+			if ((*item).buildingType == building_type::HTPC) {
+				(*item).centerPos.x = (*item).position.x + 50;
+				(*item).centerPos.y = (*item).position.y + 70;
+			}
+			if ((*item).buildingType == building_type::PEOPLE_HEART) {
+				(*item).centerPos.x = (*item).position.x + 120;
+				(*item).centerPos.y = (*item).position.y + 80;
+			}
+			if ((*item).buildingType == building_type::RADAR) {
+				(*item).centerPos.x = (*item).position.x + 80;
+				(*item).centerPos.y = (*item).position.y + 30;
+			}
+			if ((*item).buildingType == building_type::TANK_FACTORY) {
+				(*item).centerPos.x = (*item).position.x + 140;
+				(*item).centerPos.y = (*item).position.y + 140;
+			}
+
+
+		
+
 			(*item).active = true;
 			(*item).selected = false;
 			(*item).texture = buildingsTextures[int((*item).buildingType)];
@@ -616,11 +649,12 @@ bool Entity_Manager::LoadBuildingsData() {
 				temp.w = DataTMX.attribute("width").as_int();
 				temp.h = DataTMX.attribute("height").as_int();
 
+				
 
 				std::string tempString = DataTMX.attribute("name").as_string();
 				int id = DataXML.attribute("id").as_int();
 
-
+				
 				if (tempString == "Spawn") {
 
 					BuildingAnimationArray[id][(int)Building_State::SPAWN].PushBack(temp);
