@@ -77,7 +77,7 @@ public:
 
 	float health = 0.0f;
 	float maxHealth = 0.0f;
-	float healthRecovery = 0.4f;	//TODO: Unharcode
+	float healthRecovery = 0.2f;	//TODO: Unharcode
 	int income = 0;
 
 	float repairRadius = 100.0f;
