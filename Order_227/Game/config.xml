@@ -5,7 +5,7 @@
   <app framerate_cap="60">
     <title>Order227</title>
     <organization>UPC</organization>
-    <debug active="false" />
+    <debug active="true" />
   </app>
 
   <renderer>

@@ -40207,7 +40207,7 @@
  <objectgroup name="Buildings">
   <object id="786" name="COMMAND_CENTER" x="1322.77" y="1326.29" width="110.875" height="107.729">
    <properties>
-    <property name="health" type="int" value="1000"/>
+    <property name="health" type="int" value="500"/>
     <property name="income" type="int" value="30"/>
     <property name="type" type="int" value="0"/>
    </properties>
