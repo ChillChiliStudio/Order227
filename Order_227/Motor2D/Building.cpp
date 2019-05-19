@@ -135,15 +135,18 @@ void Building::GiveReward() {
 
 	else if (buildingType == building_type::EPC) {
 
-		for(int i = 0; i < myApp->entities->buildingsArray.size(); i++) {
+		for (int i = 0; i < myApp->entities->buildingsArray.size(); i++) {
 
 			if (myApp->entities->buildingsArray[i].buildingType != building_type::COMMAND_CENTER)
 				myApp->entities->buildingsArray[i].maxHealth += StrategicPointsLifeBuff;
 			else
-				myApp->entities->mainBase->health += MainBaseLifeBuff;
+				myApp->entities->buildingsArray[i].maxHealth += MainBaseLifeBuff;
 
-			myApp->entities->buildingsArray[i].health = maxHealth;
 			myApp->entities->buildingsArray[i].healthRecovery *= 1.5;
+
+			if (myApp->entities->buildingsArray[i].faction == entity_faction::COMMUNIST)
+				myApp->entities->buildingsArray[i].health = myApp->entities->buildingsArray[i].maxHealth;
+
 		}
 	}
 }
@@ -170,6 +173,9 @@ void Building::TakeReward() {
 				myApp->entities->mainBase->health -= MainBaseLifeBuff;
 			
 			myApp->entities->buildingsArray[i].healthRecovery /= 1.5;
+
+			if (myApp->entities->buildingsArray[i].faction == entity_faction::COMMUNIST && myApp->entities->buildingsArray[i].health > myApp->entities->buildingsArray[i].maxHealth)
+				myApp->entities->buildingsArray[i].health = myApp->entities->buildingsArray[i].maxHealth;
 		}
 	}
 }
