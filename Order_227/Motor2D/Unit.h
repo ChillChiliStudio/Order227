@@ -175,7 +175,7 @@ public:
 	unit_state unitState = unit_state::IDLE;
 	unit_orders unitOrders = unit_orders::HOLD;		// Primary player-given orders
 	unit_orders unitAuxOrders = unit_orders::NONE;	// Auxiliar self-given orders
-	unit_aggro unitAggro = unit_aggro::DEFENSIVE;
+	unit_aggro unitAggro = unit_aggro::AGGRESSIVE;
 	unit_directions unitDirection = unit_directions::SOUTH_EAST;
 
 	// Animation
