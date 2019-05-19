@@ -337,8 +337,8 @@ void Player::OrderHold()
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::HOLD);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::COMFIRMATION];
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::COMFIRMATION][rand() % Aux]);
+	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)TroopType_Sounds::COMFIRMATION];
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)(*it)->infantryType][(int)TroopType_Sounds::COMFIRMATION][rand() % Aux]);
 }
 
 void Player::OrderMove()
@@ -347,8 +347,8 @@ void Player::OrderMove()
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::MOVING];
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::MOVING][rand() % Aux]);
+	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)TroopType_Sounds::MOVING];
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)(*it)->infantryType][(int)TroopType_Sounds::MOVING][rand() % Aux]);
 }
 
 void Player::OrderHunt()
@@ -374,8 +374,8 @@ void Player::OrderHunt()
 		}
 
 		std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-		int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::ATTACK];
-		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::ATTACK][rand() % Aux]);
+		int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)TroopType_Sounds::ATTACK];
+		myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)(*it)->infantryType][(int)TroopType_Sounds::ATTACK][rand() % Aux]);
 	}
 	else {
 		OrderMove();
@@ -388,8 +388,8 @@ void Player::OrderPatrol()
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::PATROL);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::COMFIRMATION];
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::COMFIRMATION][rand() % Aux]);
+	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)TroopType_Sounds::COMFIRMATION];
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)(*it)->infantryType][(int)TroopType_Sounds::COMFIRMATION][rand() % Aux]);
 }
 
 void Player::PlayerSelect()

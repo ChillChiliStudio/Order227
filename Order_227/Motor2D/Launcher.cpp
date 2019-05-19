@@ -92,8 +92,8 @@ void Launcher::AttackCurrTarget(float dt) {
 	
 	if (attackTimer.Read() > stats.cadency) {
 		LaunchProjectile(currTarget->centerPos);  //ATTACK
-		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SHOT];
-		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::SHOT][rand() % Aux], 0, centerPos, true);
+		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)TroopType_Sounds::SHOT];
+		myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)TroopType_Sounds::SHOT][rand() % Aux], 0, centerPos, true);
 
 
 		if (unitState != unit_state::ATTACKING) { //ANIM

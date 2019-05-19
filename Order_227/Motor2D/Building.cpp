@@ -26,7 +26,13 @@ bool Building::Start() {
 	myApp->entities->buildingsArray;
 	myApp->gui->CreateLifeBar(position, NULL, myApp->entities->lifeBar_tex, &health);
 	//CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][0]);
+	
+	if (buildingType == building_type::COMMAND_CENTER) {
 
+		int Aux = myApp->audio->VarsXsound_Buildings[int(buildingType)][(int)BuildingsType_Sounds::SPAWN];
+		myApp->audio->PlayFx(myApp->audio->SoundBuilding_Array[int(buildingType)][(int)BuildingsType_Sounds::SPAWN][rand() % Aux]);
+
+	}
 
 	return true;
 }
@@ -102,7 +108,13 @@ bool Building::Update(float dt)
 		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::IDLE)]);
 	}
 	else if (health <= 0 && destroyed == false) {
+		
 		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::DESTROYED)]);
+		
+		int Aux = myApp->audio->VarsXsound_Buildings[int(buildingType)][(int)BuildingsType_Sounds::DESTROYED];
+		myApp->audio->PlayFx(myApp->audio->SoundBuilding_Array[int(buildingType)][(int)BuildingsType_Sounds::DESTROYED][rand() % Aux], 0, centerPos, true);
+
+
 		destroyed = true;
 	}
 

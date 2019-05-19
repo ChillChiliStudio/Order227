@@ -41,8 +41,8 @@ bool Unit::Start()
 
 	if (faction == entity_faction::COMMUNIST) {
 		
-		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SPAWN];
-		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::SPAWN][rand() % Aux]);
+		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)TroopType_Sounds::SPAWN];
+		myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)TroopType_Sounds::SPAWN][rand() % Aux]);
 	}
 
 	
@@ -507,8 +507,8 @@ void Unit::AttackCurrTarget(float dt)
 		unitState = unit_state::ATTACKING;
 	}
 	else if (attackTimer.Read() > stats.cadency) {
-		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SHOT];
-		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::SHOT][rand() % Aux], 0, centerPos, true);
+		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)TroopType_Sounds::SHOT];
+		myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)TroopType_Sounds::SHOT][rand() % Aux], 0, centerPos, true);
     
 		attackTimer.Start();
 	}
@@ -534,8 +534,8 @@ void Unit::Die()
 	unitState = unit_state::DEAD;
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0][(int)faction]);
 
-	int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::HURT];
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::HURT][rand() % Aux], 0, centerPos, true);
+	int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)TroopType_Sounds::HURT];
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)TroopType_Sounds::HURT][rand() % Aux], 0, centerPos, true);
 }
 
  //Unit Data

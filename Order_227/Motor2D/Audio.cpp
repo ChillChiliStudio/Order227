@@ -3,6 +3,7 @@
 #include "App.h"
 #include "Audio.h"
 #include "Unit.h"
+#include "Building.h"
 #include "Window.h"
 #include "Render.h"
 #include "Geometry.h"
@@ -352,12 +353,22 @@ void Audio::FillArrayFX() {
 	
 	for (int i = 0; i < (int)infantry_type::INFANTRY_MAX; ++i) {
 		
-			for (int k = 0; k < (int)type_sounds::MAX; ++k) {
+			for (int k = 0; k < (int)TroopType_Sounds::MAX; ++k) {
 				for (int l = 0; l < VARIATION_PER_SOUND; ++l)
-					SoundFX_Array[i][k][l]= -1;
+					SoundTroops_Array[i][k][l]= -1;
 
 			}
 		
+	}
+
+	for (int i = 0; i < (int)building_type::BUILDING_MAX; ++i) {
+
+		for (int k = 0; k < (int)BuildingsType_Sounds::MAX; ++k) {
+			for (int l = 0; l < VARIATION_PER_SOUND; ++l)
+				SoundTroops_Array[i][k][l] = -1;
+
+		}
+
 	}
 
 }
@@ -384,11 +395,37 @@ void Audio::LoadIntoArray() {
 					int Variation = DataSound.attribute("Variation").as_int();
 
 					if (Variation < VARIATION_PER_SOUND)
-						SoundFX_Array[id][TypeSound][Variation] = LoadFx(DataSound.attribute("path").as_string());
+						SoundTroops_Array[id][TypeSound][Variation] = LoadFx(DataSound.attribute("path").as_string());
 
 
 				}
 			}
 		}
 	
+
+
+		for (pugi::xml_node DataBuild = SFX_XML.child("FX").child("Building").child("Estructure"); DataBuild != NULL; DataBuild = DataBuild.next_sibling("Estructure")) {
+		
+			int id = DataBuild.attribute("id").as_int();
+
+			for (pugi::xml_node SoundType = DataBuild.child("Sound"); SoundType != NULL; SoundType = SoundType.next_sibling("Sound")) {
+				
+				int TypeSound = SoundType.attribute("id").as_int();
+				 VarsXsound_Buildings[id][TypeSound] = SoundType.attribute("NumVariation").as_int();
+
+				for (pugi::xml_node DataSound = SoundType.child("Var"); DataSound != NULL; DataSound = DataSound.next_sibling("Var")) {
+
+					int Variation = DataSound.attribute("Variation").as_int();
+
+					if (Variation < VARIATION_PER_SOUND)
+					 SoundBuilding_Array[id][TypeSound][Variation]=LoadFx(DataSound.attribute("path").as_string());;
+				
+				
+				}
+
+			}
+		}
+
+
+
 }

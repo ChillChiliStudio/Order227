@@ -10,11 +10,12 @@
 #define SOV 0
 #define CAP 1
 #define MAX_INFANTRY_NUMBER 8
-
+#define MAX_BUILDING_NUMBER 7
 struct _Mix_Music;
 struct Mix_Chunk;
 
-enum class type_sounds
+
+enum class TroopType_Sounds
 {
 	SPAWN,
 	MOVING,
@@ -23,6 +24,16 @@ enum class type_sounds
 	SHOT,
 	ATTACK,
 	MAX
+
+};
+
+enum class BuildingsType_Sounds {
+
+	SPAWN,
+	CRITICAL,
+    DESTROYED,
+	MAX
+
 
 };
 
@@ -132,8 +143,11 @@ public:
 	uPoint rightEar;
 	int earOffset;
 
-	uint SoundFX_Array[MAX_INFANTRY_NUMBER][(int)type_sounds::MAX][VARIATION_PER_SOUND];
-	int VarsXsound[MAX_INFANTRY_NUMBER][(int)type_sounds::MAX];
+	uint SoundTroops_Array[MAX_INFANTRY_NUMBER][(int)TroopType_Sounds::MAX][VARIATION_PER_SOUND];
+	uint SoundBuilding_Array[MAX_BUILDING_NUMBER][(int)BuildingsType_Sounds::MAX][VARIATION_PER_SOUND];
+	
+	int VarsXsound[MAX_INFANTRY_NUMBER][(int)TroopType_Sounds::MAX];
+	int VarsXsound_Buildings[MAX_BUILDING_NUMBER][(int)BuildingsType_Sounds::MAX];
 
 	pugi::xml_document SFX_XML;
 
