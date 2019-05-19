@@ -138,36 +138,36 @@
   <object id="1" x="560" y="1148" width="112" height="82"/>
   <object id="1" x="672" y="1148" width="112" height="82"/>
   <object id="1" x="784" y="1148" width="112" height="82"/>
-  <object id="1" name="Death" type="0" x="896" y="1148" width="112" height="82"/>
-  <object id="1" name="Death" type="0" x="0" y="1230" width="112" height="82"/>
-  <object id="1" name="Death" type="0" x="112" y="1230" width="112" height="82"/>
-  <object id="1" name="Death" type="0" x="224" y="1230" width="112" height="82"/>
-  <object id="1" name="Death" type="0" x="336" y="1230" width="112" height="82"/>
-  <object id="1" name="Death" type="0" x="448" y="1230" width="112" height="82"/>
-  <object id="1" name="Death" type="0" x="560" y="1230" width="112" height="82"/>
-  <object id="1" name="Death" type="0" x="672" y="1230" width="112" height="82"/>
-  <object id="1" name="Death" type="0" x="784" y="1230" width="112" height="82"/>
-  <object id="1" name="Death" type="0" x="896" y="1230" width="112" height="82"/>
-  <object id="1" name="Death" type="0" x="0" y="1312" width="112" height="82"/>
-  <object id="1" name="Death" type="0" x="112" y="1312" width="112" height="82"/>
-  <object id="1" name="Death" type="0" x="224" y="1312" width="112" height="82"/>
-  <object id="1" name="Death" type="0" x="336" y="1312" width="112" height="82"/>
-  <object id="1" name="Death" type="0" x="448" y="1312" width="112" height="82"/>
-  <object id="1" name="Death" type="180" x="560" y="1312" width="112" height="82"/>
-  <object id="1" name="Death" type="180" x="672" y="1312" width="112" height="82"/>
-  <object id="1" name="Death" type="180" x="784" y="1312" width="112" height="82"/>
-  <object id="1" name="Death" type="180" x="896" y="1312" width="112" height="82"/>
-  <object id="1" name="Death" type="180" x="0" y="1394" width="112" height="82"/>
-  <object id="1" name="Death" type="180" x="112" y="1394" width="112" height="82"/>
-  <object id="1" name="Death" type="180" x="224" y="1394" width="112" height="82"/>
-  <object id="1" name="Death" type="180" x="336" y="1394" width="112" height="82"/>
-  <object id="1" name="Death" type="180" x="448" y="1394" width="112" height="82"/>
-  <object id="1" name="Death" type="180" x="560" y="1394" width="112" height="82"/>
-  <object id="1" name="Death" type="180" x="672" y="1394" width="112" height="82"/>
-  <object id="1" name="Death" type="180" x="784" y="1394" width="112" height="82"/>
-  <object id="1" name="Death" type="180" x="896" y="1394" width="112" height="82"/>
-  <object id="1" name="Death" type="180" x="0" y="1476" width="112" height="82"/>
-  <object id="1" name="Death" type="180" x="112" y="1476" width="112" height="82"/>
+  <object id="1" name="DeathOne" type="0" x="896" y="1148" width="112" height="82"/>
+  <object id="1" name="DeathOne" type="0" x="0" y="1230" width="112" height="82"/>
+  <object id="1" name="DeathOne" type="0" x="112" y="1230" width="112" height="82"/>
+  <object id="1" name="DeathOne" type="0" x="224" y="1230" width="112" height="82"/>
+  <object id="1" name="DeathOne" type="0" x="336" y="1230" width="112" height="82"/>
+  <object id="1" name="DeathOne" type="0" x="448" y="1230" width="112" height="82"/>
+  <object id="1" name="DeathOne" type="0" x="560" y="1230" width="112" height="82"/>
+  <object id="1" name="DeathOne" type="0" x="672" y="1230" width="112" height="82"/>
+  <object id="1" name="DeathOne" type="0" x="784" y="1230" width="112" height="82"/>
+  <object id="1" name="DeathOne" type="0" x="896" y="1230" width="112" height="82"/>
+  <object id="1" name="DeathOne" type="0" x="0" y="1312" width="112" height="82"/>
+  <object id="1" name="DeathOne" type="0" x="112" y="1312" width="112" height="82"/>
+  <object id="1" name="DeathOne" type="0" x="224" y="1312" width="112" height="82"/>
+  <object id="1" name="DeathOne" type="0" x="336" y="1312" width="112" height="82"/>
+  <object id="1" name="DeathOne" type="0" x="448" y="1312" width="112" height="82"/>
+  <object id="1" name="DeathTwo" type="180" x="560" y="1312" width="112" height="82"/>
+  <object id="1" name="DeathTwo" type="180" x="672" y="1312" width="112" height="82"/>
+  <object id="1" name="DeathTwo" type="180" x="784" y="1312" width="112" height="82"/>
+  <object id="1" name="DeathTwo" type="180" x="896" y="1312" width="112" height="82"/>
+  <object id="1" name="DeathTwo" type="180" x="0" y="1394" width="112" height="82"/>
+  <object id="1" name="DeathTwo" type="180" x="112" y="1394" width="112" height="82"/>
+  <object id="1" name="DeathTwo" type="180" x="224" y="1394" width="112" height="82"/>
+  <object id="1" name="DeathTwo" type="180" x="336" y="1394" width="112" height="82"/>
+  <object id="1" name="DeathTwo" type="180" x="448" y="1394" width="112" height="82"/>
+  <object id="1" name="DeathTwo" type="180" x="560" y="1394" width="112" height="82"/>
+  <object id="1" name="DeathTwo" type="180" x="672" y="1394" width="112" height="82"/>
+  <object id="1" name="DeathTwo" type="180" x="784" y="1394" width="112" height="82"/>
+  <object id="1" name="DeathTwo" type="180" x="896" y="1394" width="112" height="82"/>
+  <object id="1" name="DeathTwo" type="180" x="0" y="1476" width="112" height="82"/>
+  <object id="1" name="DeathTwo" type="180" x="112" y="1476" width="112" height="82"/>
   <object id="1" name="Shot" type="0" x="224" y="1476" width="112" height="82"/>
   <object id="1" name="Shot" type="0" x="336" y="1476" width="112" height="82"/>
   <object id="1" name="Shot" type="0" x="448" y="1476" width="112" height="82"/>

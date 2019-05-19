@@ -218,13 +218,8 @@ void Player::DebugInputs()
 			DebugSpawnUnit(infantry_type::CHRONO, entity_faction::CAPITALIST);
 
 		}
-
-		if (myApp->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
-			DebugSpawnLauncher(infantry_type::BAZOOKA_ALLIED, entity_faction::CAPITALIST);
-		}
-
 		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {	// Spawn Basic Capitalist on Mouse
-			DebugSpawnUnit(infantry_type::BASIC, entity_faction::CAPITALIST);
+			DebugSpawnUnit(infantry_type::SNIPER, entity_faction::CAPITALIST);
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Spawn Chronon Mouse
