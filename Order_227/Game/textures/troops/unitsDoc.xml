@@ -30,7 +30,7 @@
       <Unit id="5" name="Sniper" TextPath="textures/troops/soviet/Sniper.png" TextPathTwo="textures/troops/allied/Sniper.png" TiledFile="textures/troops/soviet/Sniper.tmx">
         <RectOffset x="40" y="15" w="100" h="80"/>
         <AnimDet DeathOneSpeed="10.0"/>
-        <stats speed="90" cadency="2000" damage="15" health="4" visionRange="600" attackRange="450" cost="500" prodTime="8" threat="30"/>
+        <stats speed="90" cadency="2000" damage="300" health="4" visionRange="600" attackRange="450" cost="500" prodTime="8" threat="30"/>
       </Unit>
     </Soviet>
 
