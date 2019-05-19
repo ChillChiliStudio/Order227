@@ -102,10 +102,11 @@ bool Entity_Manager::Update(float dt)
 		if (accumulated_time >= update_ms_cycle)
 			do_logic = true;
 
-
-		UpdateUnits(dt);
-		UpdateBuildings(dt);
-		UpdateObjects(dt);
+		if (!myApp->gui->OnPause) {
+			UpdateUnits(dt);
+			UpdateBuildings(dt);
+			UpdateObjects(dt);
+		}
 
 		//Blit Ordering that actually works
 		UpdateBlitOrdering();
