@@ -40215,14 +40215,14 @@
   <object id="790" name="RADAR" x="675.663" y="1452.67" width="114.375" height="113.729">
    <properties>
     <property name="health" type="int" value="500"/>
-    <property name="income" type="int" value="30"/>
+    <property name="income" type="int" value="15"/>
     <property name="type" type="int" value="2"/>
    </properties>
   </object>
   <object id="796" name="TANK" x="1029.16" y="2110.12" width="114.375" height="113.729">
    <properties>
     <property name="health" type="int" value="500"/>
-    <property name="income" type="int" value="30"/>
+    <property name="income" type="int" value="0"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
@@ -40236,14 +40236,14 @@
   <object id="798" name="HTPC" x="512.661" y="523.77" width="114.375" height="113.729">
    <properties>
     <property name="health" type="int" value="500"/>
-    <property name="income" type="int" value="30"/>
+    <property name="income" type="int" value="10"/>
     <property name="type" type="int" value="4"/>
    </properties>
   </object>
   <object id="799" name="PH" x="1360.31" y="571.029" width="114.375" height="113.729">
    <properties>
     <property name="health" type="int" value="500"/>
-    <property name="income" type="int" value="30"/>
+    <property name="income" type="int" value="15"/>
     <property name="type" type="int" value="5"/>
    </properties>
   </object>

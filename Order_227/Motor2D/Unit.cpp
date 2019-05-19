@@ -849,6 +849,7 @@ bool Unit::TryLinearPath(iPoint origin, iPoint destination)
 
 fVec2 Unit::SetupVecSpeed()
 {
+	
 	fPoint nodePos = { (float)(currNode->x), (float)(currNode->y) };
 
 	vecSpeed = GetVector2(groundPos, nodePos);
