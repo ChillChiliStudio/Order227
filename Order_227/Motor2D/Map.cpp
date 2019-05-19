@@ -577,15 +577,9 @@ bool Map::LoadGameObjects(pugi::xml_node& node, GameObjectGroup*ObjGroup) {
 		
 		LoadProperties(obj, objectAux->PropObj);
 	
-
-
 		ObjGroup->Objectlist.push_back(objectAux);
 
 	}
-
-
-	
-	
 
 	return ret;
 }
@@ -593,7 +587,6 @@ bool Map::LoadGameObjects(pugi::xml_node& node, GameObjectGroup*ObjGroup) {
 //Basically here we fullfill a map array with 0s and 1s (same than we did with the map[X][Y] but better
 bool Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 {
-
 	bool ret = false;
 	std::list<MapLayer*>::const_iterator item = data.layers.begin();
 
@@ -677,6 +670,8 @@ void Map::PlaceGameObjects() {
 				}
 
 				myApp->entities->buildingsArray.push_back(newBuilding);
+
+				myApp->entities->activeBuildings++;
 			}
 		}
 			//TODO:Draw threes depending on the terrain tile

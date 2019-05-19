@@ -180,6 +180,12 @@ void QuitGame() {
 	}
 	myApp->gui->Current_Screen = Screen_Type::SCREEN_MAINMENU;
 
+	for (int i = 0; i < myApp->entities->launcherPool.size(); i++) {	
+		if (myApp->entities->launcherPool[i].active == true) {
+			myApp->entities->DeActivateUnit(&myApp->entities->launcherPool[i]);
+		}
+	}
+
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_MAINMENU);
 	//myApp->entities->ReleasePools();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	//myApp->entities->ResetAll();
