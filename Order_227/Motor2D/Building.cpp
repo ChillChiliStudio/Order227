@@ -144,6 +144,15 @@ void Building::GiveReward() {
 	myApp->player->playerIncome += income;
 	myApp->player->UpdateText();
 
+	if (buildingType == building_type::GOLDYARD)
+		myApp->entities->incomeBuff45 = true;
+
+	if (buildingType == building_type::PEOPLE_HEART)
+		myApp->entities->incomeBuff1 = true;
+
+	if (buildingType == building_type::RADAR)
+		myApp->entities->incomeBuff2 = true;
+
 	if (buildingType == building_type::TANK_FACTORY)
 		myApp->entities->heavyUnitsUnlocked = true; //TODO: Tocar UI con esto
 
@@ -175,6 +184,15 @@ void Building::TakeReward() {
 
 	rewardGiven = false;
 	myApp->player->playerIncome -= income;
+
+	if (buildingType == building_type::GOLDYARD)
+		myApp->entities->incomeBuff45 = false;
+
+	if (buildingType == building_type::PEOPLE_HEART)
+		myApp->entities->incomeBuff1 = false;
+
+	if (buildingType == building_type::RADAR)
+		myApp->entities->incomeBuff2 = false;
 
 	if (buildingType == building_type::TANK_FACTORY)
 		myApp->entities->heavyUnitsUnlocked = false; //TODO: Tocar UI con esto

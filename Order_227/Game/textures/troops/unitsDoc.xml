@@ -25,7 +25,7 @@
       <Unit id="3" name="Desolator" TextPath="textures/troops/soviet/Desolator.png" TextPathTwo="textures/troops/allied/Desolator.png" TiledFile="textures/troops/soviet/Desolator.tmx">
         <RectOffset x="50" y="20" w="45" h="50"/>
         <AnimDet DeathOneSpeed="10.0"/>
-        <stats speed="90" cadency="1" damage="3" health="15" visionRange="300" attackRange="150" cost="500" prodTime="8" threat="25"/>
+        <stats speed="90" cadency="1" damage="3" health="15" visionRange="300" attackRange="150" cost="130" prodTime="8" threat="25"/>
       </Unit>
       <Unit id="5" name="Sniper" TextPath="textures/troops/soviet/Sniper.png" TextPathTwo="textures/troops/allied/Sniper.png" TiledFile="textures/troops/soviet/Sniper.tmx">
         <RectOffset x="40" y="15" w="100" h="80"/>
@@ -36,7 +36,7 @@
 
     <Capitalist>
       <Unit id="0" name="IG" TextPath="textures/troops/allied/IG.png" TiledFile="textures/troops/allied/IG.tmx">
-        <RectOffset x="26" y="5" w="25" h="35"/>
+        <RectOffset x="30" y="5" w="40" h="35"/>
         <AnimDet DeathOneSpeed="10.0"/>
         <stats speed="90" cadency="0.5" damage="2" health="6" visionRange="200" attackRange="150" cost="500" prodTime="8" threat="5"/>
        </Unit>
