@@ -13,7 +13,7 @@ Building::Building()
 Building::Building(fPoint position, building_type building_type, entity_faction _faction) : Entity(position, entity_type::BUILDING, faction)
 {
 	buildingType = building_type;
-	faction = entity_faction::COMMUNIST;
+	faction = _faction;
 }
 
 bool Building::Start() {
@@ -21,7 +21,6 @@ bool Building::Start() {
 
 	//myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, myApp->entities->lifeBar_tex, &health);
 	CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::SPAWN)]);
-	maxHealth = health;
 
 	myApp->entities->buildingsArray;
 	myApp->gui->CreateLifeBar(position, NULL, myApp->entities->lifeBar_tex, &health);
@@ -45,14 +44,14 @@ bool Building::Update(float dt)
 			health = 0;
 			TakeReward();
 		}
-		else if (health > 0 && health < maxHealth)
+		else if (health >= 0 && health < maxHealth && repairable == false)
 			repairable = true;
 	}
-	else if (faction == entity_faction::NEUTRAL && health > 0)
+	else if (faction == entity_faction::NEUTRAL && health > 0/*(maxHealth/3)*/)
 			faction = entity_faction::COMMUNIST;
 
 
-	if (repairable) {
+	if (repairable == true) {
 
 		int unitsArraound = 0;
 
@@ -80,7 +79,6 @@ bool Building::Update(float dt)
 		}
 		for (int i = 0; i < unitsArraound; i++)
 			Repair();
-		
 
 	}
 
@@ -97,11 +95,15 @@ bool Building::Update(float dt)
 	if (myApp->map->mapDebugDraw)
 		DebugDraw();
 
+	if (health > 0 && destroyed == true)
+		destroyed = false;
+
 	if (CurrentAnim.Finished()==true && health> maxHealth/2) {
 
 		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::IDLE)]);
 	}
 	else if (health <= 0 && destroyed == false) {
+
 		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::DESTROYED)]);
 		destroyed = true;
 	}
@@ -207,8 +209,11 @@ float Building::Repair()
 {
 	health += healthRecovery;
 
-	if (health >= maxHealth)
+	if (health >= maxHealth) {
+
+		repairable = false;
 		health = maxHealth;
+	}
 
 	return health;
 }

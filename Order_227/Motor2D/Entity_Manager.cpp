@@ -159,18 +159,18 @@ void Entity_Manager::UpdateBuildings(float dt)
 {
 	BROFILER_CATEGORY("BuildingPool Update", Profiler::Color::Purple);
 
-	for (int i = 0; i < buildingsArray.size(); i++) {
+	for (int i = 0; i < buildingsArray.size(); i++)
 		buildingsArray[i].Update(dt);
-	}
+	
+	int a = 0;
 }
 
 void Entity_Manager::UpdateObjects(float dt)
 {
 	BROFILER_CATEGORY("ObjectPool Update", Profiler::Color::MediumPurple);
 
-	for (int i = 0; i < objectsArray.size(); i++) {
+	for (int i = 0; i < objectsArray.size(); i++) 
 		objectsArray[i].Update(dt);
-	}
 
 }
 
@@ -328,6 +328,7 @@ Launcher* Entity_Manager::ActivateLauncher(fPoint position, infantry_type infant
 	}
 
 	if (ret == nullptr) {
+
 		launcherPoolSize += RESIZE_VALUE;
 		AllocateLauncherPool();
 		ActivateLauncher(position, infantryType, entityFaction);
@@ -387,17 +388,22 @@ void Entity_Manager::ActivateBuildings()
 
 		if ((*item).buildingType != building_type::BUILDING_MAX && (*item).buildingType != building_type::BUILDING_NONE) {
 
+			(*item).faction = entity_faction::NEUTRAL;
+			(*item).health = 0;
+			(*item).repairable = true;
 
-			if((*item).buildingType == building_type::COMMAND_CENTER)
+			if ((*item).buildingType == building_type::COMMAND_CENTER) {
 
-        mainBase = &(*item);
-
-			  (*item).faction == entity_faction::COMMUNIST;
-				(*item).active = true;
-				(*item).selected = false;
-				(*item).texture = buildingsTextures[int((*item).buildingType)];
+				(*item).faction = entity_faction::COMMUNIST;
 				(*item).health = (*item).maxHealth;
-				(*item).Start();
+				mainBase = &(*item);
+
+			}
+
+			(*item).active = true;
+			(*item).selected = false;
+			(*item).texture = buildingsTextures[int((*item).buildingType)];
+			(*item).Start();
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 

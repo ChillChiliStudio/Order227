@@ -54,9 +54,6 @@ bool Scene::Start()
 	//MUSIC
 	LoadGameMusic();
 	SwitchMusic(Screen_Type::SCREEN_MAINMENU);
-
-	//Delete this line to hear audio!
-	//myApp->audio->ControlVolume(0);
 	
 	return true;
 }
