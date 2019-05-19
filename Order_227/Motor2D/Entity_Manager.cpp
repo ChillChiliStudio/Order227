@@ -413,8 +413,8 @@ void Entity_Manager::ActivateBuildings()
 				(*item).centerPos.y = (*item).position.y + 120;
 			}
 			if ((*item).buildingType == building_type::EPC) {
-				(*item).centerPos.x = (*item).position.x + 50;
-				(*item).centerPos.y = (*item).position.y + 60;
+				(*item).centerPos.x = (*item).position.x + 160;
+				(*item).centerPos.y = (*item).position.y + 110;
 			}
 			if ((*item).buildingType == building_type::GOLDYARD) {
 				(*item).centerPos.x = (*item).position.x + 70;
