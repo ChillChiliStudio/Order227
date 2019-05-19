@@ -48,6 +48,7 @@
     <ClCompile Include="VoidBox.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
+    <ClCompile Include="Buff_Box.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActionBox.h" />
@@ -106,5 +107,6 @@
     <ClInclude Include="Window.h" />
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
+    <ClInclude Include="Buff_Box.h" />
   </ItemGroup>
 </Project>

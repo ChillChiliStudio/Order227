@@ -25,6 +25,7 @@ bool Unit_Panel::Start() {
 
 bool Unit_Panel::Update(float dt) {
 
+	
 	SDL_Point mousePos;
 	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
 	position.x = mousePos.x;
@@ -70,7 +71,7 @@ bool Unit_Panel::DebugDraw() const
 
 bool Unit_Panel::Draw() {
 	
-	if (enableButton)
+	if (enableButton&&Currentbutton->Unlocked==true)
 		myApp->render->Blit(graphics, position.x, position.y-Panel_Rect.h, &Panel_Rect, SDL_FLIP_NONE, false);
 
 	return true;

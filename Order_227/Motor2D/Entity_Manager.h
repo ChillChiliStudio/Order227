@@ -118,6 +118,9 @@ public:
 	//Buff for units
 	bool unitBuff = false;
 	bool buildingsBuff = false;
+	bool incomeBuff1 = false;
+	bool incomeBuff2 = false;
+	bool incomeBuff45 = false;
 
 private:
 

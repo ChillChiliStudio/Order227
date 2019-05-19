@@ -23,6 +23,7 @@ class Unit;
 class Mouse;
 class Unit_Panel;
 class MiniMap_UI;
+class Buff_Box;
 //class Window;
 struct _TTF_Font;
 struct SDL_Rect;
@@ -89,6 +90,7 @@ public:
 	LifeBar* CreateLifeBar(fPoint center, Unit* parent = nullptr, SDL_Texture* tex = NULL, float* auxHealth=NULL);
 	Mouse* CreateMouse( SDL_Texture*tex);
 	Unit_Panel* CreateUnitPanel(SDL_Rect sprite, Image* button = nullptr, SDL_Texture* tex = NULL);
+	Buff_Box* CreateBuffBox(fPoint position, SDL_Rect rect, SDL_Texture* tex = NULL, bool* able = nullptr);
 
 	template <class T_param>
 	UI_Element* CreateParamBox(void(*action)(T_param), T_param parameter, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL)
@@ -121,6 +123,16 @@ public:
 	std::string timerHorde_temp;
 	//uint defaultScale;	//IMPROVE: Future use
 	//Animation Timer_anim;
+
+	Buff_Box* Units_Life = nullptr;
+	Buff_Box* Buildings_Life = nullptr;
+	Buff_Box* HeavyUnits_able = nullptr;
+	Buff_Box* Money_Buff = nullptr;
+	Buff_Box* Money2_Buff = nullptr;
+	Buff_Box* Mone3_Buff = nullptr;
+
+
+
 	Image* pauseMenuPanel = nullptr;
 	Text* Moneytext = nullptr;
 	Image* MainMenuTemp_Image = nullptr;
@@ -160,6 +172,14 @@ public:
 	Unit_Panel* ChronoPanel_Info = nullptr;
 	Unit_Panel* DesolatorPanel_Info = nullptr;
 	Unit_Panel* FlakPanel_Info = nullptr;
+
+	Unit_Panel* UnitBuff_Info = nullptr;
+	Unit_Panel* BuildingBuff_Info = nullptr;
+	Unit_Panel* HeavyArmorBuff_Info = nullptr;
+	Unit_Panel* Money1Buff_Info = nullptr;
+	Unit_Panel* Money2Buff_Info = nullptr;
+	Unit_Panel* Money3Buff_Info = nullptr;
+
 
 
 
@@ -214,6 +234,7 @@ private:
 	SDL_Texture* mouse_tex = nullptr;
 	SDL_Texture* Unit_Panels_tex = nullptr;
 	SDL_Texture* InGame_Label_tex = nullptr;
+	SDL_Texture* Buff_tex = nullptr;
 	std::string atlasFileName;
 
 };

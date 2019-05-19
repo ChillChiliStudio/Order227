@@ -49,7 +49,7 @@ bool Horde_Manager::Update(float dt)
 
 		CleanHordes();
 
-		if (HordesDead() == true && roundTimer.Read() > TIME_BETWEEN_ROUNDS) {
+		if (HordesDead() == true && roundTimer.Read() > TIME_BETWEEN_ROUNDS && myApp->gui->OnPause == false) {
 
 			ChooseSpawningPoints();
 
