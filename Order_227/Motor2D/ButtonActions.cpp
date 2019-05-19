@@ -143,8 +143,9 @@ void StartGame() {
 	//myApp->audio->PlayMusic("audio/music/game/ingame_song3_loop.ogg",-1);
 
 	////TODO make the game start Correctly
+
+	myApp->entities->ActivateBuildings();
 	if (myApp->scene->firstGame) {
-		myApp->entities->ActivateBuildings();
 		myApp->entities->ActivateObjects();
 		myApp->scene->firstGame = false;
 	}
