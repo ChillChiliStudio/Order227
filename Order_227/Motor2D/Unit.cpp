@@ -939,6 +939,10 @@ bool Unit::StartPatrol(iPoint destination)
 {
 	bool ret = StartMove(destination);
 
+	if (unitAggro == unit_aggro::PASSIVE) {
+		unitAggro = unit_aggro::DEFENSIVE;
+	}
+
 	if (ret) {
 		unitOrders = unit_orders::PATROL;
 	}
