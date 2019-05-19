@@ -209,15 +209,18 @@ void Player::DebugInputs()
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {	// Activate Next Round
-			myApp->hordes->ChooseSpawningPoints();
+			/*myApp->hordes->ChooseSpawningPoints();*/
+			DebugSpawnUnit(infantry_type::DOG, entity_faction::CAPITALIST);
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {	// Kill/Deactivate all enemies
-			myApp->hordes->ClearEnemies();
+			/*myApp->hordes->ClearEnemies();*/
+			DebugSpawnUnit(infantry_type::CHRONO, entity_faction::CAPITALIST);
+
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
-
+			DebugSpawnLauncher(infantry_type::BAZOOKA_ALLIED, entity_faction::CAPITALIST);
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {	// Spawn Basic Capitalist on Mouse
