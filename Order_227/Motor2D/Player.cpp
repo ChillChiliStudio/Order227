@@ -303,13 +303,13 @@ void Player::CheckForOrders()
 	}
 
 
-	if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
+	if (myApp->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) {
 		prepOrder = unit_orders::MOVE;
 	}
-	if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
+	if (myApp->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
 		prepOrder = unit_orders::HUNT;
 	}
-	if (myApp->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
+	if (myApp->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
 		prepOrder = unit_orders::PATROL;
 	}
 	/*if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_IDLE) {
