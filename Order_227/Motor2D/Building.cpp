@@ -203,8 +203,8 @@ void Building::AddUnitsBuff() {
 
 		if ((*item).active && (*item).faction == entity_faction::COMMUNIST && (*item).IsDead() == false) {
 
-			(*item).stats.linSpeed *= 1.5;
-			(*item).stats.health += 2;
+			(*item).stats.linSpeed *= UnitsSpeedBuff;
+			(*item).stats.health += UnitsLifeBuff;
 		}
 	}
 
@@ -213,8 +213,8 @@ void Building::AddUnitsBuff() {
 
 		if ((*item).active && (*item).faction == entity_faction::COMMUNIST && (*item).IsDead() == false) {
 
-			(*item).stats.linSpeed *= 1.5;
-			(*item).stats.health += 2;
+			(*item).stats.linSpeed *= UnitsSpeedBuff;
+			(*item).stats.health += UnitsLifeBuff;
 		}
 	}
 }

@@ -70,10 +70,10 @@ public:
 	//Buffs
 	bool destroyed = true;
 
-	int UnitsSpeedBuff = 0;
-	int UnitsLifeBuff = 0;
-	int MainBaseLifeBuff = 0;
-	int StrategicPointsLifeBuff = 0;
+	float UnitsSpeedBuff = 1.5f;
+	int UnitsLifeBuff = 2;
+	int MainBaseLifeBuff = 400;
+	int StrategicPointsLifeBuff = 200;
 
 	float health = 0.0f;
 	float maxHealth = 0.0f;
