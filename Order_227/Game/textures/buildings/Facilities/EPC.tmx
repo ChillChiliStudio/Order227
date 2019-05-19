@@ -54,9 +54,9 @@
   <object id="1" name="Explosion" x="0" y="3600" width="282" height="200"/>
   <object id="1" name="Explosion" x="282" y="3600" width="282" height="200"/>
   <object id="1" name="Explosion" x="564" y="3600" width="282" height="200"/>
-  <object id="1" name="Explosion" x="0" y="3800" width="282" height="200"/>
-  <object id="1" name="Explosion" x="282" y="3800" width="282" height="200"/>
-  <object id="1" name="Explosion" x="564" y="3800" width="282" height="200"/>
+  <object id="1" name="Explosion" x="0" y="3799" width="282" height="200"/>
+  <object id="1" name="Explosion" x="282" y="3799" width="282" height="200"/>
+  <object id="1" name="Explosion" x="564" y="3799" width="282" height="200"/>
   <object id="1" name="Explosion" x="282" y="1800" width="282" height="200"/>
  </objectgroup>
  <imagelayer name="Image Layer 1">
