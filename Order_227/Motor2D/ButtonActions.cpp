@@ -142,9 +142,13 @@ void StartGame() {
 	//MUSIC
 	//myApp->audio->PlayMusic("audio/music/game/ingame_song3_loop.ogg",-1);
 
-	//TODO make the game start Correctly
-	myApp->entities->ActivateBuildings();
-	myApp->entities->ActivateObjects();
+	////TODO make the game start Correctly
+	if (myApp->scene->firstGame) {
+		myApp->entities->ActivateBuildings();
+		myApp->entities->ActivateObjects();
+		myApp->scene->firstGame = false;
+	}
+
 	myApp->hordes->restartRounds();
 	myApp->player->playerMoney = myApp->player->initialMoney; //TODO Deharcode
 	myApp->gui->hordeNumber_Label->ChangeString(std::to_string(0));
@@ -157,7 +161,6 @@ void StartGame() {
 	myApp->gui->OnPause = false;
 	myApp->gui->WinIcon->Deactivate();
 	myApp->gui->LoseIcon->Deactivate();
-
 }
 
 void QuitGame() {

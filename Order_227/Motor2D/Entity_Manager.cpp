@@ -466,7 +466,6 @@ void Entity_Manager::ActivateBuildings()
 				}
 			}
 
-			//activeBuildings++;
 		}
 	}
 }
