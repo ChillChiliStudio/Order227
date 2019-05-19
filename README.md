@@ -7,6 +7,12 @@ Create and control troops, build defense constructions by using money, control s
 
 ![Main_Menu](https://raw.githubusercontent.com/ChillChiliStudio/Order227/gh-pages/Graphic%20Resources/UI%20Document/Main_Menu_Gif.gif)
 
+If you wantto download the game, click the image below 
+<a href="https://github.com/ChillChiliStudio/Order227/releases/download/v0.1/Order_227v0.5.zip" download>
+  <img src="https://raw.githubusercontent.com/ChillChiliStudio/Order227/gh-pages/Graphic%20Resources/UI%20Document/Main_Menu_Gif.gif" width="104" height="142">
+</a>
+  
+  
 # Chill Chili Studio - The Team
 ![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/Logo.png)
                         *Slightly Spicy...*
