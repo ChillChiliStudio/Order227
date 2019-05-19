@@ -204,14 +204,12 @@ unsigned int Audio::LoadFx(const char* path)
 }
 
 // Play WAV
-bool Audio::PlayFx(unsigned int id, int repeat, fPoint pos, bool spatial, int i)
+bool Audio::PlayFx(unsigned int id, int repeat, int channel, fPoint pos, bool spatial)
 {
 	bool ret = false;
 
 	if (!active)
 		return false;
-
-	int channel;
 
 	if (id > 0 && id <= fx.size())
 	{
@@ -229,7 +227,7 @@ bool Audio::PlayFx(unsigned int id, int repeat, fPoint pos, bool spatial, int i)
 
 				std::list<Mix_Chunk*>::iterator it = fx.begin();
 				it = next(fx.begin(), id - 1);
-				channel = Mix_PlayChannel(i, *it, repeat);
+				channel = Mix_PlayChannel(channel, *it, repeat);
 
 				if (channel > -1) {
 					float leftVol = 0.0f;
@@ -252,7 +250,7 @@ bool Audio::PlayFx(unsigned int id, int repeat, fPoint pos, bool spatial, int i)
 		else {
 			std::list<Mix_Chunk*>::iterator it = fx.begin();
 			it = next(fx.begin(), id - 1);
-			channel = Mix_PlayChannel(i, *it, repeat);
+			channel = Mix_PlayChannel(channel, *it, repeat);
 
 			if (channel > -1) {
 				SetChannelVolume(channel);
@@ -325,40 +323,15 @@ uint Audio::SetSfxChunkVolume(uint vol, int id)
 	}
 }
 
-//Legacy Lucho Methods
-//void Audio::ControlVolume(int vol) { //Range: 0-128
-//
-//	Mix_Volume(-1, vol);
-//  ControlMUSVolume(vol);
-//	ControlSFXVolume(vol);
-//
-//}
-//
-//void Audio::ControlMUSVolume(int vol) { //Range: 0-128
-//
-//	Mix_VolumeMusic(vol);
-//
-//}
-//
-//void Audio::ControlSFXVolume(int vol) { //Range: 0-128
-//
-//	std::list<Mix_Chunk*>::iterator it = fx.begin();
-//
-//	for(; *it != NULL; it = next(it))
-//		Mix_VolumeChunk(*it, vol);
-//
-//}
 
 void Audio::FillArrayFX() {
-	
+
 	for (int i = 0; i < (int)infantry_type::INFANTRY_MAX; ++i) {
-		
 			for (int k = 0; k < (int)TroopType_Sounds::MAX; ++k) {
 				for (int l = 0; l < VARIATION_PER_SOUND; ++l)
 					SoundTroops_Array[i][k][l]= -1;
 
 			}
-		
 	}
 
 	for (int i = 0; i < (int)building_type::BUILDING_MAX; ++i) {
@@ -374,7 +347,7 @@ void Audio::FillArrayFX() {
 
 			for (int l = 0; l < 5; ++l)//Desharcode
 				SoundMatch_Array[i][l]= -1;
-		
+
 	}
 
 
@@ -386,13 +359,13 @@ void Audio::LoadIntoArray() {
 
 	pugi::xml_parse_result result = SFX_XML.load_file("SoundFX.xml");
 
-	//SOV units Sound	
+	//SOV units Sound
 
 		for (pugi::xml_node DataUnit = SFX_XML.child("FX").child("Troops").child("Unit"); DataUnit != NULL; DataUnit = DataUnit.next_sibling("Unit")) {
 
 			int id = DataUnit.attribute("id").as_int();
-			
-		
+
+
 			for (pugi::xml_node SoundType = DataUnit.child("Sound"); SoundType != NULL; SoundType = SoundType.next_sibling("Sound")) {
 
 				int TypeSound = SoundType.attribute("id").as_int();
@@ -409,15 +382,13 @@ void Audio::LoadIntoArray() {
 				}
 			}
 		}
-	
-
 
 		for (pugi::xml_node DataBuild = SFX_XML.child("FX").child("Building").child("Estructure"); DataBuild != NULL; DataBuild = DataBuild.next_sibling("Estructure")) {
-		
+
 			int id = DataBuild.attribute("id").as_int();
 
 			for (pugi::xml_node SoundType = DataBuild.child("Sound"); SoundType != NULL; SoundType = SoundType.next_sibling("Sound")) {
-				
+
 				int TypeSound = SoundType.attribute("id").as_int();
 				 VarsXsound_Buildings[id][TypeSound] = SoundType.attribute("NumVariation").as_int();
 
@@ -427,35 +398,27 @@ void Audio::LoadIntoArray() {
 
 					if (Variation < VARIATION_PER_SOUND)
 					 SoundBuilding_Array[id][TypeSound][Variation]=LoadFx(DataSound.attribute("path").as_string());;
-				
-				
-				}
 
+				}
 			}
 		}
 
-
 		for (pugi::xml_node DataBuild = SFX_XML.child("FX").child("Match"); DataBuild != NULL; DataBuild = DataBuild.next_sibling("Match")) {
 
-			
+
 			for (pugi::xml_node SoundType = DataBuild.child("Sound"); SoundType != NULL; SoundType = SoundType.next_sibling("Sound")) {
 
 				int id = SoundType.attribute("id").as_int();
-				
+
 				VarsXsound_Match[id]= SoundType.attribute("NumVariation").as_int();
 
 				for (pugi::xml_node DataSound = SoundType.child("Var"); DataSound != NULL; DataSound = DataSound.next_sibling("Var")) {
 
 					int Variation = DataSound.attribute("Variation").as_int();
-					
+
 					if (Variation < 5)//desharcode
 						SoundMatch_Array[id][Variation] = LoadFx(DataSound.attribute("path").as_string());;
-
 				}
-
 			}
 		}
-
-
-
 }

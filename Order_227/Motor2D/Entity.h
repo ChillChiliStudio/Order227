@@ -44,6 +44,15 @@ struct EntityData {
 
 };
 
+enum class OVERLAP_DIR : int
+{
+	NONE = -1,
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
+	MAX
+};
 
 class Entity {
 
@@ -77,7 +86,7 @@ public:
 	virtual bool LoadEntityData()       { return true; }
 
 	virtual bool DebugDraw() { return true; }
-	
+
 	//TODO-Carles: Tried to make a new class "between" entity and Unit/Building and the bugs that popped out from that mess made me change my mind, fuck that so hard, so I put shit here
 	virtual float Hurt(float damage) = 0;
 	virtual bool IsDead() = 0;
@@ -100,7 +109,7 @@ public:
 	entity_faction	faction;
 	entity_type		type;
 
-	
+
 
 	SDL_Rect		entityRect;			// Entity SDL_Rect for world pos
 	SDL_Rect		spriteRect;			// Entity SDL_Rect for texture area cutting

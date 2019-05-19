@@ -63,7 +63,7 @@ void EntityQuadtree::DrawQuadtree()
 		}
 
 		if (!empty)
-			myApp->render->DrawQuad(section, 255, 0, 0, 50);
+			myApp->render->DrawQuad(section, 255, 0, 0, 30);
 
 		if (divided == true)
 		{

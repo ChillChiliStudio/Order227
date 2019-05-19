@@ -90,6 +90,7 @@ bool Entity_Manager::PreUpdate()
 
 bool Entity_Manager::Update(float dt)
 {
+	//Fill the quadtree  with entities
 	entitiesQuadtree->FillTree();
 
 	BROFILER_CATEGORY("Entity_Manager Update", Profiler::Color::Yellow);
@@ -112,6 +113,12 @@ bool Entity_Manager::Update(float dt)
 		accumulated_time -= update_ms_cycle;
 	}
 
+	if (entitiesDebugDraw)
+		entitiesQuadtree->DrawQuadtree();
+
+	SolveOverlapping();
+
+	//Clear the quadtree of entities
 	entitiesQuadtree->ClearTree();
 
 	return true;
@@ -159,18 +166,18 @@ void Entity_Manager::UpdateBuildings(float dt)
 {
 	BROFILER_CATEGORY("BuildingPool Update", Profiler::Color::Purple);
 
-	for (int i = 0; i < buildingsArray.size(); i++) {
+	for (int i = 0; i < buildingsArray.size(); i++)
 		buildingsArray[i].Update(dt);
-	}
+	
+	int a = 0;
 }
 
 void Entity_Manager::UpdateObjects(float dt)
 {
 	BROFILER_CATEGORY("ObjectPool Update", Profiler::Color::MediumPurple);
 
-	for (int i = 0; i < objectsArray.size(); i++) {
+	for (int i = 0; i < objectsArray.size(); i++) 
 		objectsArray[i].Update(dt);
-	}
 
 }
 
@@ -328,6 +335,7 @@ Launcher* Entity_Manager::ActivateLauncher(fPoint position, infantry_type infant
 	}
 
 	if (ret == nullptr) {
+
 		launcherPoolSize += RESIZE_VALUE;
 		AllocateLauncherPool();
 		ActivateLauncher(position, infantryType, entityFaction);
@@ -387,17 +395,55 @@ void Entity_Manager::ActivateBuildings()
 
 		if ((*item).buildingType != building_type::BUILDING_MAX && (*item).buildingType != building_type::BUILDING_NONE) {
 
+			(*item).faction = entity_faction::NEUTRAL;
+			(*item).health = 0;
+			(*item).repairable = true;
 
-			if((*item).buildingType == building_type::COMMAND_CENTER)
+			if ((*item).buildingType == building_type::COMMAND_CENTER) {
 
-        mainBase = &(*item);
-
-			  (*item).faction == entity_faction::COMMUNIST;
-				(*item).active = true;
-				(*item).selected = false;
-				(*item).texture = buildingsTextures[int((*item).buildingType)];
+				(*item).faction = entity_faction::COMMUNIST;
 				(*item).health = (*item).maxHealth;
-				(*item).Start();
+				mainBase = &(*item);
+
+			}
+
+
+			if ((*item).buildingType == building_type::COMMAND_CENTER) {
+				(*item).centerPos.x = (*item).position.x + 60;
+				(*item).centerPos.y = (*item).position.y + 120;
+			}
+			if ((*item).buildingType == building_type::EPC) {
+				(*item).centerPos.x = (*item).position.x + 50;
+				(*item).centerPos.y = (*item).position.y + 60;
+			}
+			if ((*item).buildingType == building_type::GOLDYARD) {
+				(*item).centerPos.x = (*item).position.x + 70;
+				(*item).centerPos.y = (*item).position.y + 60;
+			}
+			if ((*item).buildingType == building_type::HTPC) {
+				(*item).centerPos.x = (*item).position.x + 50;
+				(*item).centerPos.y = (*item).position.y + 70;
+			}
+			if ((*item).buildingType == building_type::PEOPLE_HEART) {
+				(*item).centerPos.x = (*item).position.x + 120;
+				(*item).centerPos.y = (*item).position.y + 80;
+			}
+			if ((*item).buildingType == building_type::RADAR) {
+				(*item).centerPos.x = (*item).position.x + 80;
+				(*item).centerPos.y = (*item).position.y + 30;
+			}
+			if ((*item).buildingType == building_type::TANK_FACTORY) {
+				(*item).centerPos.x = (*item).position.x + 140;
+				(*item).centerPos.y = (*item).position.y + 140;
+			}
+
+
+		
+
+			(*item).active = true;
+			(*item).selected = false;
+			(*item).texture = buildingsTextures[int((*item).buildingType)];
+			(*item).Start();
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 
@@ -610,11 +656,12 @@ bool Entity_Manager::LoadBuildingsData() {
 				temp.w = DataTMX.attribute("width").as_int();
 				temp.h = DataTMX.attribute("height").as_int();
 
+				
 
 				std::string tempString = DataTMX.attribute("name").as_string();
 				int id = DataXML.attribute("id").as_int();
 
-
+				
 				if (tempString == "Spawn") {
 
 					BuildingAnimationArray[id][(int)Building_State::SPAWN].PushBack(temp);
@@ -868,4 +915,205 @@ void Entity_Manager::ReleasePools()
 	//rangedPool.clear();
 	//tankPool.clear();
 
+}
+
+void Entity_Manager::SolveOverlapping()
+{
+	BROFILER_CATEGORY("Unit overlapping", Profiler::Color::Magenta);
+
+	for (int i = 0; i< unitPool.size() ; ++i) 
+	{
+		if (unitPool[i].active && unitPool[i].unitState!=unit_state::DEAD) 
+		{
+
+			std::vector<Entity*> nearEntities = entitiesQuadtree->GetEntitiesNear(unitPool[i].position.x, unitPool[i].position.y);
+
+			SDL_Rect rect1 = unitPool[i].entityRect;
+			rect1.y = unitPool[i].groundPos.y - 10;
+			rect1.h = 10;
+
+			for (int b = 0; b < nearEntities.size(); ++b)
+			{
+				bool dynamicNeighbor = nearEntities[b]->type == entity_type::INFANTRY;
+
+				SDL_Rect rect2 = nearEntities[b]->entityRect;
+				rect2.y = nearEntities[b]->groundPos.y - 10;
+				rect2.h = 10;
+
+				if (RectsOverlap(/*unitPool[i].entityRect*/ rect1,rect2 /*nearEntities[b]->entityRect*/) && 
+					unitPool[i].entityRect.x != nearEntities[b]->entityRect.x &&
+					unitPool[i].entityRect.y != nearEntities[b]->entityRect.y)
+				{
+					
+					float distances[(int)OVERLAP_DIR::MAX];
+					distances[(int)OVERLAP_DIR::RIGHT] = unitPool[i].entityRect.x + unitPool[i].entityRect.w - nearEntities[b]->entityRect.x;
+					distances[(int)OVERLAP_DIR::LEFT] = nearEntities[b]->entityRect.x + nearEntities[b]->entityRect.w - unitPool[i].entityRect.x;
+					distances[(int)OVERLAP_DIR::UP] = unitPool[i].entityRect.y + unitPool[i].entityRect.h - nearEntities[b]->entityRect.y;
+					distances[(int)OVERLAP_DIR::DOWN] = nearEntities[b]->entityRect.y + nearEntities[b]->entityRect.h - unitPool[i].entityRect.y;
+
+					int overlap_dir = -1;
+
+					for (uint i = 0; i < (int)OVERLAP_DIR::MAX; ++i)
+					{
+						if (overlap_dir == -1)
+							overlap_dir = i;
+						else if (distances[i] < distances[(int)overlap_dir])
+							overlap_dir = i;
+					}
+
+					switch ((OVERLAP_DIR)overlap_dir)
+					{
+					case OVERLAP_DIR::RIGHT:
+						unitPool[i].position.x -= distances[(int)OVERLAP_DIR::RIGHT] * 0.1f;
+						unitPool[i].centerPos.x -= distances[(int)OVERLAP_DIR::RIGHT] * 0.1f;
+						unitPool[i].groundPos.x -= distances[(int)OVERLAP_DIR::RIGHT] * 0.1f;
+
+						if (dynamicNeighbor) {
+							nearEntities[b]->position.x += distances[(int)OVERLAP_DIR::RIGHT] * 0.1f;
+							nearEntities[b]->centerPos.x += distances[(int)OVERLAP_DIR::RIGHT] * 0.1f;
+							nearEntities[b]->groundPos.x += distances[(int)OVERLAP_DIR::RIGHT] * 0.1f;
+						}
+						break;
+					case OVERLAP_DIR::LEFT:
+						unitPool[i].position.x += distances[(int)OVERLAP_DIR::LEFT] * 0.1f;
+						unitPool[i].centerPos.x += distances[(int)OVERLAP_DIR::LEFT] * 0.1f;
+						unitPool[i].groundPos.x += distances[(int)OVERLAP_DIR::LEFT] * 0.1f;
+
+						if (dynamicNeighbor) {
+							nearEntities[b]->position.x -= distances[(int)OVERLAP_DIR::LEFT] * 0.1f;
+							nearEntities[b]->centerPos.x -= distances[(int)OVERLAP_DIR::LEFT] * 0.1f;
+							nearEntities[b]->groundPos.x -= distances[(int)OVERLAP_DIR::LEFT] * 0.1f;
+						}
+						break;
+					case OVERLAP_DIR::UP:
+						unitPool[i].position.y -= distances[(int)OVERLAP_DIR::UP] * 0.1f;
+						unitPool[i].centerPos.y -= distances[(int)OVERLAP_DIR::UP] * 0.1f;
+						unitPool[i].groundPos.y-= distances[(int)OVERLAP_DIR::UP] * 0.1f;
+
+						if (dynamicNeighbor) {
+							nearEntities[b]->position.y += distances[(int)OVERLAP_DIR::UP] * 0.1f;
+							nearEntities[b]->centerPos.y += distances[(int)OVERLAP_DIR::UP] * 0.1f;
+							nearEntities[b]->groundPos.y += distances[(int)OVERLAP_DIR::UP] * 0.1f;
+						}
+						break;
+					case OVERLAP_DIR::DOWN:
+						unitPool[i].position.y += distances[(int)OVERLAP_DIR::DOWN] * 0.1f;
+						unitPool[i].centerPos.y += distances[(int)OVERLAP_DIR::DOWN] * 0.1f;
+						unitPool[i].groundPos.y += distances[(int)OVERLAP_DIR::DOWN] * 0.1f;
+
+						if (dynamicNeighbor) {
+							nearEntities[b]->position.y -= distances[(int)OVERLAP_DIR::DOWN] * 0.1f;
+							nearEntities[b]->centerPos.y -= distances[(int)OVERLAP_DIR::DOWN] * 0.1f;
+							nearEntities[b]->groundPos.y -= distances[(int)OVERLAP_DIR::DOWN] * 0.1f;
+						}
+						break;
+					}
+
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < launcherPool.size(); ++i)
+	{
+		if (launcherPool[i].active && launcherPool[i].unitState != unit_state::DEAD)
+		{
+
+			std::vector<Entity*> nearEntities = entitiesQuadtree->GetEntitiesNear(launcherPool[i].position.x, launcherPool[i].position.y);
+
+			SDL_Rect rect1 = launcherPool[i].entityRect;
+			rect1.y = launcherPool[i].groundPos.y - 10;
+			rect1.h = 10;
+
+			for (int b = 0; b < nearEntities.size(); ++b)
+			{
+				bool dynamicNeighbor = nearEntities[b]->type == entity_type::INFANTRY;
+
+				SDL_Rect rect2 = nearEntities[b]->entityRect;
+				rect2.y = nearEntities[b]->groundPos.y - 10;
+				rect2.h = 10;
+
+				if (RectsOverlap(/*launcherPool[i].entityRect*/ rect1, rect2 /*nearEntities[b]->entityRect*/) &&
+					launcherPool[i].entityRect.x != nearEntities[b]->entityRect.x &&
+					launcherPool[i].entityRect.y != nearEntities[b]->entityRect.y)
+				{
+
+					float distances[(int)OVERLAP_DIR::MAX];
+					distances[(int)OVERLAP_DIR::RIGHT] = launcherPool[i].entityRect.x + launcherPool[i].entityRect.w - nearEntities[b]->entityRect.x;
+					distances[(int)OVERLAP_DIR::LEFT] = nearEntities[b]->entityRect.x + nearEntities[b]->entityRect.w - launcherPool[i].entityRect.x;
+					distances[(int)OVERLAP_DIR::UP] = launcherPool[i].entityRect.y + launcherPool[i].entityRect.h - nearEntities[b]->entityRect.y;
+					distances[(int)OVERLAP_DIR::DOWN] = nearEntities[b]->entityRect.y + nearEntities[b]->entityRect.h - launcherPool[i].entityRect.y;
+
+					int overlap_dir = -1;
+
+					for (uint i = 0; i < (int)OVERLAP_DIR::MAX; ++i)
+					{
+						if (overlap_dir == -1)
+							overlap_dir = i;
+						else if (distances[i] < distances[(int)overlap_dir])
+							overlap_dir = i;
+					}
+
+					switch ((OVERLAP_DIR)overlap_dir)
+					{
+					case OVERLAP_DIR::RIGHT:
+						launcherPool[i].position.x -= distances[(int)OVERLAP_DIR::RIGHT] * 0.1f;
+						launcherPool[i].centerPos.x -= distances[(int)OVERLAP_DIR::RIGHT] * 0.1f;
+						launcherPool[i].groundPos.x -= distances[(int)OVERLAP_DIR::RIGHT] * 0.1f;
+
+						if (dynamicNeighbor) {
+							nearEntities[b]->position.x += distances[(int)OVERLAP_DIR::RIGHT] * 0.1f;
+							nearEntities[b]->centerPos.x += distances[(int)OVERLAP_DIR::RIGHT] * 0.1f;
+							nearEntities[b]->groundPos.x += distances[(int)OVERLAP_DIR::RIGHT] * 0.1f;
+						}
+						break;
+					case OVERLAP_DIR::LEFT:
+						launcherPool[i].position.x += distances[(int)OVERLAP_DIR::LEFT] * 0.1f;
+						launcherPool[i].centerPos.x += distances[(int)OVERLAP_DIR::LEFT] * 0.1f;
+						launcherPool[i].groundPos.x += distances[(int)OVERLAP_DIR::LEFT] * 0.1f;
+
+						if (dynamicNeighbor) {
+							nearEntities[b]->position.x -= distances[(int)OVERLAP_DIR::LEFT] * 0.1f;
+							nearEntities[b]->centerPos.x -= distances[(int)OVERLAP_DIR::LEFT] * 0.1f;
+							nearEntities[b]->groundPos.x -= distances[(int)OVERLAP_DIR::LEFT] * 0.1f;
+						}
+						break;
+					case OVERLAP_DIR::UP:
+						launcherPool[i].position.y -= distances[(int)OVERLAP_DIR::UP] * 0.1f;
+						launcherPool[i].centerPos.y -= distances[(int)OVERLAP_DIR::UP] * 0.1f;
+						launcherPool[i].groundPos.y -= distances[(int)OVERLAP_DIR::UP] * 0.1f;
+
+						if (dynamicNeighbor) {
+							nearEntities[b]->position.y += distances[(int)OVERLAP_DIR::UP] * 0.1f;
+							nearEntities[b]->centerPos.y += distances[(int)OVERLAP_DIR::UP] * 0.1f;
+							nearEntities[b]->groundPos.y += distances[(int)OVERLAP_DIR::UP] * 0.1f;
+						}
+						break;
+					case OVERLAP_DIR::DOWN:
+						launcherPool[i].position.y += distances[(int)OVERLAP_DIR::DOWN] * 0.1f;
+						launcherPool[i].centerPos.y += distances[(int)OVERLAP_DIR::DOWN] * 0.1f;
+						launcherPool[i].groundPos.y += distances[(int)OVERLAP_DIR::DOWN] * 0.1f;
+
+						if (dynamicNeighbor) {
+							nearEntities[b]->position.y -= distances[(int)OVERLAP_DIR::DOWN] * 0.1f;
+							nearEntities[b]->centerPos.y -= distances[(int)OVERLAP_DIR::DOWN] * 0.1f;
+							nearEntities[b]->groundPos.y -= distances[(int)OVERLAP_DIR::DOWN] * 0.1f;
+						}
+						break;
+					}
+
+				}
+			}
+		}
+	}
+
+}
+
+bool Entity_Manager::RectsOverlap(SDL_Rect &rect1, SDL_Rect &rect2) const
+{
+	return !(	rect1.x > rect2.x + rect2.w ||
+				rect1.x + rect1.w < rect2.x ||
+				rect1.y > rect2.y + rect2.h ||
+				rect1.y + rect1.h < rect2.y
+			);
 }

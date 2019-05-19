@@ -24,7 +24,7 @@ enum MainState
 	EXIT
 };
 
-App* myApp = NULL;
+App* myApp = nullptr;
 
 int main(int argc, char* args[])
 {

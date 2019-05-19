@@ -13,7 +13,7 @@ Building::Building()
 Building::Building(fPoint position, building_type building_type, entity_faction _faction) : Entity(position, entity_type::BUILDING, faction)
 {
 	buildingType = building_type;
-	faction = entity_faction::COMMUNIST;
+	faction = _faction;
 }
 
 bool Building::Start() {
@@ -21,12 +21,11 @@ bool Building::Start() {
 
 	//myApp->gui->CreateLifeBar(fPoint(position.x, position.y), NULL, myApp->entities->lifeBar_tex, &health);
 	CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::SPAWN)]);
-	maxHealth = health;
 
 	myApp->entities->buildingsArray;
 	myApp->gui->CreateLifeBar(position, NULL, myApp->entities->lifeBar_tex, &health);
 	//CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][0]);
-	
+
 	if (buildingType == building_type::COMMAND_CENTER) {
 
 		int Aux = myApp->audio->VarsXsound_Buildings[int(buildingType)][(int)BuildingsType_Sounds::SPAWN];
@@ -51,14 +50,14 @@ bool Building::Update(float dt)
 			health = 0;
 			TakeReward();
 		}
-		else if (health > 0 && health < maxHealth)
+		else if (health >= 0 && health < maxHealth && repairable == false)
 			repairable = true;
 	}
-	else if (faction == entity_faction::NEUTRAL && health > 0)
+	else if (faction == entity_faction::NEUTRAL && health > 0/*(maxHealth/3)*/)
 			faction = entity_faction::COMMUNIST;
 
 
-	if (repairable) {
+	if (repairable == true) {
 
 		int unitsArraound = 0;
 
@@ -66,8 +65,8 @@ bool Building::Update(float dt)
 
 			if (myApp->entities->unitPool[i].active && myApp->entities->unitPool[i].faction == entity_faction::COMMUNIST) {
 
-				if (this->position.x - myApp->entities->unitPool[i].position.x < 30 && this->position.x - myApp->entities->unitPool[i].position.x > -30
-					&& this->position.y - myApp->entities->unitPool[i].position.y < 30 && this->position.y - myApp->entities->unitPool[i].position.y > -30) {
+				if (this->position.x - myApp->entities->unitPool[i].position.x < 100 && this->position.x - myApp->entities->unitPool[i].position.x > -100
+					&& this->position.y - myApp->entities->unitPool[i].position.y < 100 && this->position.y - myApp->entities->unitPool[i].position.y > -100) {
 					unitsArraound++;
 				}
 
@@ -77,8 +76,8 @@ bool Building::Update(float dt)
 
 			if (myApp->entities->launcherPool[i].active == true && myApp->entities->launcherPool[i].faction == entity_faction::COMMUNIST) {
 
-				if (myApp->entities->launcherPool[i].active && this->position.x - myApp->entities->launcherPool[i].position.x < 30 && this->position.x - myApp->entities->launcherPool[i].position.x > -30
-					&& this->position.y - myApp->entities->launcherPool[i].position.y < 30 && this->position.y - myApp->entities->launcherPool[i].position.y > -30) {
+				if (myApp->entities->launcherPool[i].active && this->position.x - myApp->entities->launcherPool[i].position.x < 100 && this->position.x - myApp->entities->launcherPool[i].position.x > -100
+					&& this->position.y - myApp->entities->launcherPool[i].position.y < 100 && this->position.y - myApp->entities->launcherPool[i].position.y > -100) {
 					unitsArraound++;
 				}
 
@@ -86,31 +85,32 @@ bool Building::Update(float dt)
 		}
 		for (int i = 0; i < unitsArraound; i++)
 			Repair();
-		
 
 	}
 
 	//draw center
-	centerPos.x = position.x + (entityRect.w / 2);
-	centerPos.y = position.y + (entityRect.h / 2);
-	myApp->render->DrawCircle(centerPos.x, centerPos.y, 20, 255, 0, 0, 255);
-
-	myApp->render->DrawCircle(position.x, position.y, 40, 255, 0, 0, 255);
 	CurrentAnim.AdvanceAnimation(dt);
+
 
 	Draw();
 
+
+	myApp->render->DrawCircle(centerPos.x, centerPos.y, 100, 255, 0, 0, 255);
+
 	if (myApp->map->mapDebugDraw)
 		DebugDraw();
+
+	if (health > 0 && destroyed == true)
+		destroyed = false;
 
 	if (CurrentAnim.Finished()==true && health> maxHealth/2) {
 
 		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::IDLE)]);
 	}
 	else if (health <= 0 && destroyed == false) {
-		
+
 		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::DESTROYED)]);
-		
+
 		int Aux = myApp->audio->VarsXsound_Buildings[int(buildingType)][(int)BuildingsType_Sounds::DESTROYED];
 		myApp->audio->PlayFx(myApp->audio->SoundBuilding_Array[int(buildingType)][(int)BuildingsType_Sounds::DESTROYED][rand() % Aux], 0, centerPos, true);
 
@@ -179,7 +179,7 @@ void Building::TakeReward() {
 				myApp->entities->buildingsArray[i].maxHealth -= StrategicPointsLifeBuff;
 			else
 				myApp->entities->mainBase->health -= MainBaseLifeBuff;
-			
+
 			myApp->entities->buildingsArray[i].healthRecovery /= 1.5;
 		}
 	}
@@ -219,8 +219,11 @@ float Building::Repair()
 {
 	health += healthRecovery;
 
-	if (health >= maxHealth)
+	if (health >= maxHealth) {
+
+		repairable = false;
 		health = maxHealth;
+	}
 
 	return health;
 }

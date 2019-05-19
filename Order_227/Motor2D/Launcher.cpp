@@ -29,7 +29,7 @@ bool Launcher::Update(float dt) {
 		ProjectilePool.resize(10);
 	}
 
-	for (int i = 0; i < ProjectilePool.size(); i++) {
+	for (int i = 0; i < ProjectilePool.size(); i++) {	//TODO: The Bazooka fucking controls the rockets he shots wtf??? A projectile fired should be completely independent from the Bazooka!
 		if (ProjectilePool[i].active == true) {
 			ProjectilePool[i].Fly();
 			ProjectilePool[i].Update(dt);
@@ -48,8 +48,10 @@ bool Launcher::Update(float dt) {
 		myApp->entities->DeActivateUnit(this);
 	}
 	else {
-		if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
-			DrawPath();
+		if (currNode != unitPath.end()) {
+			if (myApp->entities->entitiesDebugDraw || faction == entity_faction::COMMUNIST) {
+				DrawPath();
+			}
 		}
 
 		currentAnimation.AdvanceAnimation(dt);	// Animation must continue even if outside camera
@@ -89,11 +91,11 @@ void Launcher::AttackCurrTarget(float dt) {
 	}
 
 	//currTarget->Hurt((float)stats.damage * dt); //CHANGE FOR LAUNCH PROJECTILE
-	
+
 	if (attackTimer.Read() > stats.cadency) {
 		LaunchProjectile(currTarget->centerPos);  //ATTACK
-		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)TroopType_Sounds::SHOT];
-		myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)TroopType_Sounds::SHOT][rand() % Aux], 0, centerPos, true);
+		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SHOT];
+		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::SHOT][rand() % Aux], 0, CHANNEL_SHOT, centerPos, true);
 
 
 		if (unitState != unit_state::ATTACKING) { //ANIM
@@ -110,7 +112,7 @@ void Launcher::AttackCurrTarget(float dt) {
 }
 
 void Launcher::LaunchProjectile(fPoint destination) {
-	
+
 	for (int i = 0; i < ProjectilePool.size(); i++) {
 
 		if (ProjectilePool[i].active == false) {
@@ -119,7 +121,7 @@ void Launcher::LaunchProjectile(fPoint destination) {
 			ProjectilePool[i].position = this->position;
 			ProjectilePool[i].Destination = destination;
 			ProjectilePool[i].damage = (float)this->stats.damage;
-			
+
 			break;
 		}
 	}

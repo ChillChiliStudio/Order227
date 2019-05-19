@@ -152,4 +152,46 @@ void MiniMap::DrawEntities()
 		}
 	}
 
+	for (int i = 0; i < myApp->entities->launcherPool.size(); ++i) {
+
+		if (myApp->entities->launcherPool[i].active) {
+
+			entityRect.x = myApp->entities->launcherPool[i].position.x*minimapScale + minimapPosition.x + x_offset + minimap_width / 2;
+			entityRect.y = myApp->entities->launcherPool[i].position.y*minimapScale + minimapPosition.y + y_offset;
+
+			switch (myApp->entities->launcherPool[i].faction)
+			{
+			case entity_faction::CAPITALIST:
+				myApp->render->DrawQuad(entityRect, 255, 0, 0, 255, true, false);
+				break;
+
+			case entity_faction::COMMUNIST:
+				myApp->render->DrawQuad(entityRect, 0, 255, 0, 255, true, false);
+				break;
+			}
+
+		}
+	}
+
+	entityRect.w = 8;
+	entityRect.h = 8;
+
+	for (int i = 0; i < myApp->entities->buildingsArray.size(); ++i)
+	{
+		entityRect.x = myApp->entities->buildingsArray[i].position.x*minimapScale + minimapPosition.x + x_offset + minimap_width / 2;
+		entityRect.y = myApp->entities->buildingsArray[i].position.y*minimapScale + minimapPosition.y + y_offset;
+
+		switch (myApp->entities->buildingsArray[i].faction)
+		{
+		case entity_faction::COMMUNIST:
+			myApp->render->DrawQuad(entityRect,0, 255, 0, 255, true, false);
+			myApp->render->DrawQuad(entityRect, 255, 255, 255, 255, false, false);
+			break;
+		case entity_faction::NEUTRAL:
+			myApp->render->DrawQuad(entityRect, 140, 140, 140, 255, true, false);
+			myApp->render->DrawQuad(entityRect, 255, 255, 255, 255, false, false);
+
+			break;
+		}
+	}
 }

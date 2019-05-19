@@ -40,12 +40,12 @@ bool Unit::Start()
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)][(int)faction]);
 
 	if (faction == entity_faction::COMMUNIST) {
-		
-		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)TroopType_Sounds::SPAWN];
-		myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)TroopType_Sounds::SPAWN][rand() % Aux]);
+
+		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SPAWN];
+		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::SPAWN][rand() % Aux], 0, CHANNEL_SPAWN);
 	}
 
-	
+
 	myApp->gui->CreateLifeBar(fPoint(centerPos.x, position.y), this, myApp->entities->lifeBar_tex);
 
 	active = true;
@@ -72,8 +72,10 @@ bool Unit::Update(float dt)
 		/*}*/
 	}
 	else {
-		if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
-			DrawPath();
+		if (currNode != unitPath.end()) {
+			if (myApp->entities->entitiesDebugDraw || faction == entity_faction::COMMUNIST) {
+				DrawPath();
+			}
 		}
 
 		currentAnimation.AdvanceAnimation(dt);	// Animation must continue even if outside camera
@@ -500,16 +502,17 @@ void Unit::AttackCurrTarget(float dt)
 		UpdateAnimation();
 	}
 
-	currTarget->Hurt((float)stats.damage * dt);
-
 	if (unitState != unit_state::ATTACKING) {
 		attackTimer.Start();
 		unitState = unit_state::ATTACKING;
 	}
 	else if (attackTimer.Read() > stats.cadency) {
-		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)TroopType_Sounds::SHOT];
-		myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)TroopType_Sounds::SHOT][rand() % Aux], 0, centerPos, true);
-    
+
+		currTarget->Hurt((float)stats.damage * dt);
+
+		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SHOT];
+		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::SHOT][rand() % Aux], 0, CHANNEL_SHOT, centerPos, true);
+
 		attackTimer.Start();
 	}
 }
@@ -534,8 +537,8 @@ void Unit::Die()
 	unitState = unit_state::DEAD;
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0][(int)faction]);
 
-	int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)TroopType_Sounds::HURT];
-	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)TroopType_Sounds::HURT][rand() % Aux], 0, centerPos, true);
+	int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::HURT];
+	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::HURT][rand() % Aux], 0, CHANNEL_HURT, centerPos, true);
 }
 
  //Unit Data
@@ -641,8 +644,10 @@ Entity* Unit::EnemyInRadius(uint radius)
 		}
 	}
 
+	//Launchers
 	if (ret == nullptr) {
 		numActives = myApp->entities->activeLaunchers;
+
 		for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); numActives > 0; item = next(item)) {
 			if ((*item).active) {
 				numActives--;
@@ -659,6 +664,7 @@ Entity* Unit::EnemyInRadius(uint radius)
 			}
 		}
 
+		//Buildings
 		if (ret == nullptr && faction == entity_faction::CAPITALIST) {
 			numActives = myApp->entities->activeBuildings;
 
@@ -779,19 +785,55 @@ bool Unit::SetupPath(iPoint origin, iPoint destination)
 
 	if (mapOrigin != mapDestination) {
 
-		myApp->pathfinding->CreatePath(mapOrigin, mapDestination);	//Create path
-		unitPath = *myApp->pathfinding->GetLastPath();
+		destination = myApp->map->MapToWorld(mapDestination);	//Change destination to mapDestination tile center's world pos
+		destination.y += 15;
 
-		for (int i = 0; i < unitPath.size(); i++) {					//Translate and correct all in-between nodes
-			unitPath[i] = myApp->map->MapToWorld(unitPath[i].x, unitPath[i].y);
+		if (TryLinearPath(origin, destination)) {
+			unitPath.push_back(origin);
+			unitPath.push_back(destination);
+		}
+		else {
+			myApp->pathfinding->CreatePath(mapOrigin, mapDestination);	//Create path
+			unitPath = *myApp->pathfinding->GetLastPath();
 
-			unitPath[i].y += 15;	//Move nodes to the center of the tile (15 = tile_height / 2)
+			for (int i = 0; i < unitPath.size(); i++) {					//Translate and correct all in-between nodes
+				unitPath[i] = myApp->map->MapToWorld(unitPath[i].x, unitPath[i].y);
+				unitPath[i].y += 15;	//Move nodes to the center of the tile (15 = tile_height / 2)
+			}
 		}
 
 		currNode = next(unitPath.begin());	// Unit should move directly to 2nd node, as 1st is curr position
 		SetupVecSpeed();
 	}
 	else {	//If origin == destination, do nothing
+		ret = false;
+	}
+
+	return ret;
+}
+
+bool Unit::TryLinearPath(iPoint origin, iPoint destination)
+{
+	bool ret = true;
+
+	iVec2 vec(GetVector2(origin, destination));
+
+	if (vec.GetMagnitude() < myApp->pathfinding->GetLinPathRadius()) {
+
+		fVec2 unitVec = vec.GetUnitVector();
+		fPoint pathChecker = { (float)origin.x, (float)origin.y };
+
+		for (int i = 0; i < myApp->pathfinding->GetLinPathRadius(); i += 30) {	//30 is the height of a tile, going in 30 intervals secures that no tile is skipped
+			pathChecker.x += 30.0f * unitVec.x;
+			pathChecker.y += 30.0f * unitVec.y;
+
+			if (!myApp->pathfinding->IsWalkable(myApp->map->WorldToMap((int)pathChecker.x, (int)pathChecker.y))) {
+				ret = false;
+				break;
+			}
+		}
+	}
+	else {
 		ret = false;
 	}
 
