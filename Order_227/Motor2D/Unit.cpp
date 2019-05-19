@@ -75,7 +75,7 @@ bool Unit::Update(float dt)
 	}
 	else {
 		if (currNode != unitPath.end()) {
-			if (myApp->entities->entitiesDebugDraw || faction == entity_faction::COMMUNIST) {
+			if (myApp->entities->entitiesDebugDraw || faction == entity_faction::COMMUNIST && selected) {
 				DrawPath();
 			}
 		}
