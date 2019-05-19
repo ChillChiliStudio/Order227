@@ -48,6 +48,9 @@ public:
 
 	bool ActivateGameOverMusic = true;
 
+	//Boolean to know if we have started playing. Once we press the Start button it's set to false, even if we restart
+	bool firstGame = true;
+
 private:
 
 	//Music Management

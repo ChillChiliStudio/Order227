@@ -100,6 +100,16 @@ void Projectile::Explode() {
 
 		}
 	}
+	for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); item != myApp->entities->launcherPool.end(); item = next(item)) {
+		if ((*item).active == true && (*item).IsDead() == false && (*item).faction != faction) {
+
+			if (InsideSquareRadius((this->centerPos), 60.0f, (*item).position) && InsideRadius((this->centerPos), 60.0f, (*item).position))
+			{
+				(*item).Hurt(this->damage);
+			}
+
+		}
+	}
 
 
 	this->active = false;

@@ -117,6 +117,7 @@ public:
 
 	//Buff for units
 	bool unitBuff = false;
+	bool buildingsBuff = false;
 
 private:
 

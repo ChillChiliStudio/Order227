@@ -10,7 +10,7 @@
       <Unit id="1" name="Conscript" TextPath="textures/troops/soviet/InfanteriaSov.png"  TiledFile="textures/troops/soviet/InfantSov.tmx">
         <RectOffset x="26" y="20" w="25" h="35"/>
         <AnimDet DeathOneSpeed="10.0"/>
-        <stats speed="90" cadency="1" damage="2" health="6" visionRange="200" attackRange="150" cost="50" prodTime="8" threat="10"/>
+        <stats speed="90" cadency="1" damage="2" health="6" visionRange="300" attackRange="150" cost="30" prodTime="8" threat="10"/>
       </Unit>
       <Unit id="2" name="Flak" TextPath="textures/troops/soviet/Flak.png" TextPathTwo="textures/troops/allied/Flak.png" TiledFile="textures/troops/soviet/Flak.tmx">
         <RectOffset x="37" y="20" w="50" h="45"/>
@@ -20,17 +20,17 @@
       <Unit id="4" name="Chrono" TextPath="textures/troops/soviet/Chrono.png" TextPathTwo="textures/troops/allied/Chrono.png" TiledFile="textures/troops/soviet/Chrono.tmx">
         <RectOffset x="20" y="10" w="45" h="50"/>
         <AnimDet DeathOneSpeed="10.0"/>
-        <stats speed="60" cadency="1" damage="3" health="40" visionRange="250" attackRange="200" cost="250" prodTime="8" threat="15"/>
+        <stats speed="60" cadency="1" damage="4" health="40" visionRange="300" attackRange="200" cost="250" prodTime="8" threat="15"/>
       </Unit>
       <Unit id="3" name="Desolator" TextPath="textures/troops/soviet/Desolator.png" TextPathTwo="textures/troops/allied/Desolator.png" TiledFile="textures/troops/soviet/Desolator.tmx">
-        <RectOffset x="50" y="15" w="25" h="35"/>
+        <RectOffset x="50" y="20" w="45" h="50"/>
         <AnimDet DeathOneSpeed="10.0"/>
-        <stats speed="90" cadency="1" damage="2" health="6" visionRange="200" attackRange="150" cost="500" prodTime="8" threat="25"/>
+        <stats speed="90" cadency="1" damage="3" health="15" visionRange="300" attackRange="150" cost="500" prodTime="8" threat="25"/>
       </Unit>
       <Unit id="5" name="Sniper" TextPath="textures/troops/soviet/Sniper.png" TextPathTwo="textures/troops/allied/Sniper.png" TiledFile="textures/troops/soviet/Sniper.tmx">
         <RectOffset x="40" y="15" w="100" h="80"/>
         <AnimDet DeathOneSpeed="10.0"/>
-        <stats speed="90" cadency="1" damage="2" health="6" visionRange="200" attackRange="150" cost="500" prodTime="8" threat="30"/>
+        <stats speed="90" cadency="600" damage="120" health="4" visionRange="600" attackRange="450" cost="500" prodTime="8" threat="30"/>
       </Unit>
     </Soviet>
 
@@ -44,7 +44,7 @@
        <Unit id="6" name="Dog" TextPath="textures/troops/allied/Dog.png"  TiledFile="textures/troops/allied/Dog.tmx">
          <RectOffset x="26" y="20" w="25" h="35"/>
          <AnimDet DeathOneSpeed="10.0"/>
-         <stats speed="140" cadency="0.5" damage="5" health="3" visionRange="200" attackRange="10" cost="500" prodTime="8" threat="5"/>
+         <stats speed="140" cadency="0.5" damage="5" health="3" visionRange="300" attackRange="10" cost="500" prodTime="8" threat="5"/>
        </Unit>
 
     </Capitalist>

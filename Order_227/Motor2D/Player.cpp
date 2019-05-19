@@ -303,13 +303,13 @@ void Player::CheckForOrders()
 	}
 
 
-	if (myApp->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
+	if (myApp->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) {
 		prepOrder = unit_orders::MOVE;
 	}
-	if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
+	if (myApp->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
 		prepOrder = unit_orders::HUNT;
 	}
-	if (myApp->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
+	if (myApp->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
 		prepOrder = unit_orders::PATROL;
 	}
 	/*if (myApp->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN && myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_IDLE) {
@@ -319,13 +319,13 @@ void Player::CheckForOrders()
 
 unit_aggro Player::GetAggroLevel()
 {
-	unit_aggro ret = unit_aggro::DEFENSIVE;	// Default Defensive
+	unit_aggro ret = unit_aggro::PASSIVE;	// Default Defensive
 
 	if (myApp->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT) {	// Hold LEFT CONTROL for Aggresive
 		ret = unit_aggro::AGGRESSIVE;
 	}
-	else if (myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {	// Hold LEFT SHIFT for Passive
-		ret = unit_aggro::PASSIVE;
+	else if (myApp->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {	// Hold LEFT SHIFT for Defensive
+		ret = unit_aggro::DEFENSIVE;
 	}
 
 	return ret;

@@ -72,14 +72,15 @@ bool LifeBar::DebugDraw() const
 
 bool LifeBar::Draw() {
 	if (Currentparent != nullptr) {
-		if (Currentparent->selected == true && Currentparent->faction == entity_faction::COMMUNIST) {
-			myApp->render->Blit(graphics, (int)position.x, (int)position.y, &HighHealth);
-			//myApp->render->Blit(graphics, (int)position.x, (int)position.y, &HighHealth);
-		}
-		else if (Currentparent->faction == entity_faction::CAPITALIST) {
-			myApp->render->Blit(graphics, (int)position.x, (int)position.y, &HighHealth);
-			//myApp->render->Blit(graphics, (int)position.x, (int)position.y, &HighHealth
-		}
+		myApp->render->Blit(graphics, (int)position.x, (int)position.y, &HighHealth);
+		//if (Currentparent->selected == true && Currentparent->faction == entity_faction::COMMUNIST) {
+		//	myApp->render->Blit(graphics, (int)position.x, (int)position.y, &HighHealth);
+		//	//myApp->render->Blit(graphics, (int)position.x, (int)position.y, &HighHealth);
+		//}
+		//else if (Currentparent->faction == entity_faction::CAPITALIST) {
+		//	myApp->render->Blit(graphics, (int)position.x, (int)position.y, &HighHealth);
+		//	//myApp->render->Blit(graphics, (int)position.x, (int)position.y, &HighHealth
+		//}
 		
 	}
 	else {

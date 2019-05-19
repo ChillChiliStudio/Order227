@@ -49,7 +49,7 @@ public:
 	bool DebugDraw();
 
 	virtual float Hurt(float damage);
-	virtual float Repair();
+	virtual float Repair(uint aroundUnits);
 	virtual bool IsDead();
 	virtual bool IsVisible();
 
@@ -70,16 +70,17 @@ public:
 	//Buffs
 	bool destroyed = true;
 
-	int UnitsSpeedBuff = 0;
-	int UnitsLifeBuff = 0;
-	int MainBaseLifeBuff = 0;
-	int StrategicPointsLifeBuff = 0;
+	float UnitsSpeedBuff = 1.5f;
+	int UnitsLifeBuff = 2;
+	int MainBaseLifeBuff = 400;
+	int StrategicPointsLifeBuff = 200;
 
 	float health = 0.0f;
 	float maxHealth = 0.0f;
-	float healthRecovery = 0.1f;
+	float healthRecovery = 0.2f;	//TODO: Unharcode
 	int income = 0;
 
+	float repairRadius = 170.0f;
 	bool repairable = false;
 
 private:
@@ -87,4 +88,4 @@ private:
 	bool rewardGiven = false;
 
 };
-#endif 
+#endif
