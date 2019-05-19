@@ -43,6 +43,8 @@ public:
 	//Decides next Jump Point based on a direction and tile's walkability
 	PathNode* Jump(iPoint current_position, iPoint direction, const iPoint& destination, PathNode* parent);
 
+	float GetLinPathRadius() { return linearPathRadius; }
+
 private:
 
 	// size of the map
@@ -52,6 +54,8 @@ private:
 	uchar* map;
 	// we store the created path here
 	std::vector<iPoint> last_path;
+
+	float linearPathRadius = 450.0f;	//TODO: Unharcode
 };
 
 // forward declaration
