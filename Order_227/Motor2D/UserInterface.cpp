@@ -207,8 +207,8 @@ bool User_Interface::Start()
 	ReturnMainMenu_Label3 = CreateText(fPoint(width / 2, height / 1.75), "EXIT", font_id::MOLOT, White, false, LoseIcon);
 	LoseIcon->Deactivate();
 
-	incomingHordein = CreateImage(fPoint(width / 2.9, height / 2.5), SDL_Rect({ 0,100,556,120 }), InGame_Label_tex);
-	timerHorde = CreateText(fPoint(width / 1.7, height / 3.1), timerHorde_temp.c_str(), font_id::MOLOT, White, false, NULL,3.0f);
+	incomingHordein = CreateImage(fPoint(width / 7, height / 2.5), SDL_Rect({ 0,66,320,78 }), InGame_Label_tex);
+	timerHorde = CreateText(fPoint(width / 3.8f, height / 2.9f), timerHorde_temp.c_str(), font_id::MOLOT, White, false, NULL,2.0f);
 	Enemies_left = CreateImage(fPoint(120, 50), SDL_Rect({ 0,0,245,46 }), InGame_Label_tex);
 	Eniemies_left_Label = CreateText(fPoint(265, 50), "0", font_id::MOLOT, White, false, NULL, 1.0f);
 

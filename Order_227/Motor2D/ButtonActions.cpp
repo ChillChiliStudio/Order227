@@ -154,7 +154,7 @@ void StartGame() {
 	myApp->gui->Current_Screen = Screen_Type::SCREEN_INGAME;
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_INGAME);
 	myApp->scene->ActivateGameOverMusic = true;
-
+	myApp->gui->OnPause = false;
 	myApp->gui->WinIcon->Deactivate();
 	myApp->gui->LoseIcon->Deactivate();
 
