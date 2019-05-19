@@ -404,7 +404,6 @@ void Entity_Manager::ActivateBuildings()
 				(*item).faction = entity_faction::COMMUNIST;
 				(*item).health = (*item).maxHealth;
 				mainBase = &(*item);
-
 			}
 
 

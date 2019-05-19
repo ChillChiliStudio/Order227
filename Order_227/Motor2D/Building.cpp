@@ -229,9 +229,11 @@ bool Building::IsDead()
 {
 	bool ret = false;
 
-	if (health <= 0.0f) {
+	if (destroyed == true)
 		ret = true;
-	}
+	/*if (health <= 0.0f) {
+		ret = true;
+	}*/
 
 	return ret;
 }
