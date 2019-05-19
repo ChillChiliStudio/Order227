@@ -5,7 +5,7 @@
   <app framerate_cap="60">
     <title>Order227</title>
     <organization>UPC</organization>
-    <debug active="true" />
+    <debug active="false" />
   </app>
 
   <renderer>
@@ -19,7 +19,7 @@
 
   <window>
     <resolution width="1280" height="720" scale="1"/>
-    <fullscreen value="false"/>
+    <fullscreen value="true"/>
     <borderless value="false"/>
     <resizable value="true"/>
     <fullscreen_window value="false"/>
