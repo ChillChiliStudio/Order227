@@ -57,7 +57,6 @@ public:
 	Launcher* ActivateLauncher(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
 
 	bool DeActivateUnit(Unit* Unit);
-
 	void ActivateBuildings();
 	void ActivateObjects();
 
