@@ -27,6 +27,7 @@ public:
 
 	void ClearEnemies();
 	void ChooseSpawningPoints();
+	bool HordesDead();
 
 	void restartRounds() {
 		roundNumber = 0;
@@ -59,7 +60,6 @@ public:
 private:
 
 	void CleanHordes();
-	bool HordesDead();
 
 	void roundTimerStart() { roundTimer.Start(); }
 
@@ -79,7 +79,8 @@ private:
 	//Spawning & SP
 	int roundThreat = 0;
 	int threatIncremental = 0;
-
+	int initialThreatIncremental = 0;
+	int initialRoundThreat = 0;
 
 	Timer CleanHordesTimer;
 

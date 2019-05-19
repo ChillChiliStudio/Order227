@@ -36,7 +36,9 @@
   </entities>
 
 <horde_manager>
-	<max_hordes value="6" />
+	<max_hordes value="2" />
+	<initial_horde_threat value="10"/>
+	<initial_threat_incremental value="15"/>
 </horde_manager>
 
 	<player>
