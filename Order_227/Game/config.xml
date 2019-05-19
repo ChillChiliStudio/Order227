@@ -34,7 +34,10 @@
   <entities>
 	<units_initial_size value="200"/>
   </entities>
-
+	
+	<player>
+		<money value="300" />
+	</player>
 
   <user_interface>
     <atlas file="ui/atlas.png" />

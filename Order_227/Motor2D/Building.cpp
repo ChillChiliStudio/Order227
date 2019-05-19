@@ -53,22 +53,34 @@ bool Building::Update(float dt)
 
 
 	if (repairable) {
+
 		int unitsArraound = 0;
+
 		for (int i = 0; i < myApp->entities->unitPool.size(); i++) {
-			if (myApp->entities->unitPool[i].active && this->position.x - myApp->entities->unitPool[i].position.x < 30 && this->position.x - myApp->entities->unitPool[i].position.x > -30
-				&& this->position.y - myApp->entities->unitPool[i].position.y < 30 && this->position.y - myApp->entities->unitPool[i].position.y > -30) {
-				unitsArraound++;
+
+			if (myApp->entities->unitPool[i].active && myApp->entities->unitPool[i].faction == entity_faction::COMMUNIST) {
+
+				if (this->position.x - myApp->entities->unitPool[i].position.x < 30 && this->position.x - myApp->entities->unitPool[i].position.x > -30
+					&& this->position.y - myApp->entities->unitPool[i].position.y < 30 && this->position.y - myApp->entities->unitPool[i].position.y > -30) {
+					unitsArraound++;
+				}
+
 			}
 		}
 		for (int i = 0; i < myApp->entities->launcherPool.size(); i++) {
-			if (myApp->entities->unitPool[i].active && this->position.x - myApp->entities->unitPool[i].position.x < 30 && this->position.x - myApp->entities->unitPool[i].position.x > -30
-				&& this->position.y - myApp->entities->unitPool[i].position.y < 30 && this->position.y - myApp->entities->unitPool[i].position.y > -30) {
-				unitsArraound++;
+
+			if (myApp->entities->launcherPool[i].active == true && myApp->entities->launcherPool[i].faction == entity_faction::COMMUNIST) {
+
+				if (myApp->entities->launcherPool[i].active && this->position.x - myApp->entities->launcherPool[i].position.x < 30 && this->position.x - myApp->entities->launcherPool[i].position.x > -30
+					&& this->position.y - myApp->entities->launcherPool[i].position.y < 30 && this->position.y - myApp->entities->launcherPool[i].position.y > -30) {
+					unitsArraound++;
+				}
+
 			}
 		}
-		for (int i = 0; i < unitsArraound; i++) {
+		for (int i = 0; i < unitsArraound; i++)
 			Repair();
-		}
+		
 
 	}
 
@@ -122,18 +134,17 @@ void Building::GiveReward() {
 
 	else if (buildingType == building_type::EPC) {
 
-		healthRecovery *= 1.5;
-		myApp->entities->mainBase->health += MainBaseLifeBuff;
-
 		for(int i = 0; i < myApp->entities->buildingsArray.size(); i++) {
 
 			if (myApp->entities->buildingsArray[i].buildingType != building_type::COMMAND_CENTER)
 				myApp->entities->buildingsArray[i].maxHealth += StrategicPointsLifeBuff;
+			else
+				myApp->entities->mainBase->health += MainBaseLifeBuff;
 
 			myApp->entities->buildingsArray[i].health = maxHealth;
+			myApp->entities->buildingsArray[i].healthRecovery *= 1.5;
 		}
 	}
-
 }
 
 
@@ -150,14 +161,14 @@ void Building::TakeReward() {
 
 	else if (buildingType == building_type::EPC) {
 
-		healthRecovery /= 1.5;
-		myApp->entities->mainBase->health -= MainBaseLifeBuff;
-
 		for (int i = 0; i < myApp->entities->buildingsArray.size(); i++) {
 
 			if (myApp->entities->buildingsArray[i].buildingType != building_type::COMMAND_CENTER)
 				myApp->entities->buildingsArray[i].maxHealth -= StrategicPointsLifeBuff;
-
+			else
+				myApp->entities->mainBase->health -= MainBaseLifeBuff;
+			
+			myApp->entities->buildingsArray[i].healthRecovery /= 1.5;
 		}
 	}
 }
@@ -170,7 +181,6 @@ bool Building::CleanUp()
 
 bool Building::Draw()
 {
-
 
 	spriteRect = CurrentAnim.GetTheActualCurrentFrame();
 	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &spriteRect);

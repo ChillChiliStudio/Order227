@@ -16,10 +16,19 @@
 #include "Brofiler/Brofiler.h"
 #include "MiniMap.h"
 
+Player::Player() {
+
+	name.assign("player");
+}
+
+Player::~Player()
+{
+}
+
 bool Player::Awake(pugi::xml_node& node)
 {
 	LOG("AWAKING PLAYER MODULE");
-
+	initialMoney = playerMoney = node.child("money").attribute("value").as_int(0);
 	return true;
 }
 
