@@ -8,8 +8,8 @@
 #include "Fonts.h"
 #include "Text.h"
 
-Text::Text(const char* content, SDL_Color color, _TTF_Font* font, fPoint center, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children,float size)
-	: Image(ui_type::TEXT, center, GetTexSize(content, color, font), CreateTexture(content, color, font), dynamic, parent, children,size), content(content), color(color), font(font)
+Text::Text(const char* content, SDL_Color color, _TTF_Font* font, fPoint center, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children, float size)
+	: Image(ui_type::TEXT, center, GetTexSize(content, color, font), CreateTexture(content, color, font), dynamic, parent, children, size), content(content), color(color), font(font)
 {
 	//if (font == nullptr) {
 	//	font = myApp->fonts->defaultFont;
@@ -48,19 +48,14 @@ _TTF_Font* Text::GetFont() const
 	return font;
 }
 
-void Text::ChangeSize(float size) {
+void Text::ChangeSize(float size)
+{
 	scale = size;
 }
 
 SDL_Rect Text::GetTexSize(const char* string, SDL_Color color, _TTF_Font* font)
 {
-	SDL_Texture* tmpTexture = myApp->fonts->Print(string, color, font);
-
-	/*if (tmpTexture != nullptr) {	//TODO: With this commented it works, check why
-		myApp->tex->UnLoad(tmpTexture);
-	}*/
-
-	return myApp->tex->GetSize(tmpTexture);
+	return myApp->tex->GetSize(CreateTexture(string, color, font));
 }
 
 SDL_Texture* Text::CreateTexture(const char* string, SDL_Color color, _TTF_Font* font)

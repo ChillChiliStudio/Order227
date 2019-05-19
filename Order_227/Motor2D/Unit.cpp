@@ -785,19 +785,55 @@ bool Unit::SetupPath(iPoint origin, iPoint destination)
 
 	if (mapOrigin != mapDestination) {
 
-		myApp->pathfinding->CreatePath(mapOrigin, mapDestination);	//Create path
-		unitPath = *myApp->pathfinding->GetLastPath();
+		destination = myApp->map->MapToWorld(mapDestination);	//Change destination to mapDestination tile center's world pos
+		destination.y += 15;
+		
+		if (TryLinearPath(origin, destination)) {
+			unitPath.push_back(origin);
+			unitPath.push_back(destination);
+		}
+		else {
+			myApp->pathfinding->CreatePath(mapOrigin, mapDestination);	//Create path
+			unitPath = *myApp->pathfinding->GetLastPath();
 
-		for (int i = 0; i < unitPath.size(); i++) {					//Translate and correct all in-between nodes
-			unitPath[i] = myApp->map->MapToWorld(unitPath[i].x, unitPath[i].y);
-
-			unitPath[i].y += 15;	//Move nodes to the center of the tile (15 = tile_height / 2)
+			for (int i = 0; i < unitPath.size(); i++) {					//Translate and correct all in-between nodes
+				unitPath[i] = myApp->map->MapToWorld(unitPath[i].x, unitPath[i].y);
+				unitPath[i].y += 15;	//Move nodes to the center of the tile (15 = tile_height / 2)
+			}
 		}
 
 		currNode = next(unitPath.begin());	// Unit should move directly to 2nd node, as 1st is curr position
 		SetupVecSpeed();
 	}
 	else {	//If origin == destination, do nothing
+		ret = false;
+	}
+
+	return ret;
+}
+
+bool Unit::TryLinearPath(iPoint origin, iPoint destination)
+{
+	bool ret = true;
+
+	iVec2 vec(GetVector2(origin, destination));
+
+	if (vec.GetMagnitude() < myApp->pathfinding->GetLinPathRadius()) {
+
+		fVec2 unitVec = vec.GetUnitVector();
+		fPoint pathChecker = { (float)origin.x, (float)origin.y };
+
+		for (int i = 0; i < myApp->pathfinding->GetLinPathRadius(); i += 30) {	//30 is the height of a tile, going in 30 intervals secures that no tile is skipped
+			pathChecker.x += 30.0f * unitVec.x;
+			pathChecker.y += 30.0f * unitVec.y;
+
+			if (!myApp->pathfinding->IsWalkable(myApp->map->WorldToMap((int)pathChecker.x, (int)pathChecker.y))) {
+				ret = false;
+				break;
+			}
+		}
+	}
+	else {
 		ret = false;
 	}
 

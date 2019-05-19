@@ -155,6 +155,7 @@ public:
 
 	//Unit calculations
 	bool SetupPath(iPoint origin, iPoint destination);
+	bool TryLinearPath(iPoint origin, iPoint destination);
 	fVec2 SetupVecSpeed();
 	Entity* EnemyInRadius(uint radius);
 	Unit* AttackingAllyInRadius(uint radius);
