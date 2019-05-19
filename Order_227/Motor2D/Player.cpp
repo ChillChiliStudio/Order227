@@ -79,7 +79,9 @@ bool Player::Update(float dt)
 	if (myApp->gui->MainMenuTemp_Image->active == false) {
 
 		UpdateMousePos();	// Mouse Position Update
-		CameraInputs(dt);	// Camera Inputs
+		if (!myApp->gui->OnPause) {
+			CameraInputs(dt);	// Camera Inputs
+		}
 		DebugInputs();		// Debug Inputs
 
 		PlayerSelect();		// Player Area Selection Management
@@ -96,13 +98,16 @@ bool Player::Update(float dt)
 		if (myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
 			if (myApp->gui->pauseMenuPanel->active == false) {
 				myApp->gui->pauseMenuPanel->Activate();
+				myApp->gui->OnPause = true;
 			}
-			else
+			else {
 				myApp->gui->pauseMenuPanel->Deactivate();
+				myApp->gui->OnPause = false;
+			}
 		}
 	}
 
-	if (incomeTimer.ReadSec() >= 2 && myApp->gui->Current_Screen==Screen_Type::SCREEN_INGAME) {
+	if (incomeTimer.ReadSec() >= 2 && myApp->gui->Current_Screen==Screen_Type::SCREEN_INGAME&& !myApp->gui->OnPause) {
 		playerMoney += playerIncome;
 		myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
 		incomeTimer.Start();

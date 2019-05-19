@@ -112,6 +112,7 @@ public:
 	Screen_Type Current_Screen = Screen_Type::SCREEN_MAINMENU;
 
 	bool interfaceDebugDraw = false;
+	bool OnPause = false;
 
 	Text* fpsText = nullptr;
 	Text* mouseDebugMark = nullptr;
@@ -135,8 +136,10 @@ public:
 
 	Text* Horde_label = nullptr;
 	Text* hordeNumber_Label = nullptr;
-	Text* incomingHordein = nullptr;
+	Image* incomingHordein = nullptr;
+	Image* Enemies_left = nullptr;
 	Text* timerHorde = nullptr;
+	Text* Eniemies_left_Label;
 	MiniMap_UI* Minimap_Display = nullptr;
 
 	Image* WinIcon = nullptr;
@@ -210,6 +213,7 @@ private:
 	SDL_Texture* atlas = nullptr;
 	SDL_Texture* mouse_tex = nullptr;
 	SDL_Texture* Unit_Panels_tex = nullptr;
+	SDL_Texture* InGame_Label_tex = nullptr;
 	std::string atlasFileName;
 
 };

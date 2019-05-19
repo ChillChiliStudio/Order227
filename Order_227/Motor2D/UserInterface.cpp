@@ -94,6 +94,7 @@ bool User_Interface::Start()
 	endingImages_Tex = myApp->tex->Load("ui/Ending_Game_Mesage_Icon.png"); 
 	mouse_tex = myApp->tex->Load("ui/Mouse_Actions.png");
 	Unit_Panels_tex = myApp->tex->Load("ui/Unit_Costs_Panel.png");
+	InGame_Label_tex= myApp->tex->Load("ui/In_Game_Labels.png");
 
 	//Debug Elements
 	fpsText = CreateText({ 10, 10 }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
@@ -112,7 +113,6 @@ bool User_Interface::Start()
 	Pause_Button[1] = { 0,0,168,42 };
 	Pause_Button[2] = { 0,42,168,42 };
 	Pause_Button[3] = { 0,42,168,42 };
-
 
 	Conscript_Selection_Rect[0] = { 120,0,60,48 };
 	Conscript_Selection_Rect[1] = { 120,0,60,48 };
@@ -175,15 +175,15 @@ bool User_Interface::Start()
 	ConscriptCreator->Start();
 	FlakCreator = CreateUnitBox(CreateFlak, fPoint(130, height - 95), Flak_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::BAZOOKA].cost,&myApp->entities->heavyUnitsUnlocked, SDL_SCANCODE_2);
 	FlakCreator->Start();
-	SniperCreator = CreateUnitBox(CreateSniper, fPoint(130, height - 45), Sniper_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::BAZOOKA].cost, &myApp->entities->heavyUnitsUnlocked, SDL_SCANCODE_5);
+	SniperCreator = CreateUnitBox(CreateSniper, fPoint(130, height - 45), Sniper_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::SNIPER].cost, nullptr, SDL_SCANCODE_5);
 	SniperCreator->Start();
-	ChronoCreator = CreateUnitBox(CreateChrono, fPoint(70, height - 45), Chrono_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::BAZOOKA].cost, &myApp->entities->heavyUnitsUnlocked, SDL_SCANCODE_4);
+	ChronoCreator = CreateUnitBox(CreateChrono, fPoint(70, height - 45), Chrono_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::CHRONO].cost, nullptr, SDL_SCANCODE_4);
 	ChronoCreator->Start();
-	DesolatorCreator = CreateUnitBox(CreateDesolator, fPoint(192, height - 95), Desolator_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::BAZOOKA].cost, &myApp->entities->heavyUnitsUnlocked, SDL_SCANCODE_3);
+	DesolatorCreator = CreateUnitBox(CreateDesolator, fPoint(192, height - 95), Desolator_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::DESOLATOR].cost, &myApp->entities->heavyUnitsUnlocked, SDL_SCANCODE_3);
 	DesolatorCreator->Start();
 
-	UnitStats = CreateImage(fPoint(width / 1.45, height - 75), SDL_Rect({ 0,0,55,90 }), unitStats_text);
-	UnitFrame = CreateImage(fPoint(width / 1.58, height - 75), SDL_Rect({ 125,5,50,43 }), unitsSelection_Tex);
+	//UnitStats = CreateImage(fPoint(width / 1.45, height - 75), SDL_Rect({ 0,0,55,90 }), unitStats_text);
+	//UnitFrame = CreateImage(fPoint(width / 1.58, height - 75), SDL_Rect({ 125,5,50,43 }), unitsSelection_Tex);
 
 	Moneytext = CreateText(fPoint(width / 1.55, height - 140),money.c_str(),font_id::MOLOT);
 	
@@ -207,8 +207,10 @@ bool User_Interface::Start()
 	ReturnMainMenu_Label3 = CreateText(fPoint(width / 2, height / 1.75), "EXIT", font_id::MOLOT, White, false, LoseIcon);
 	LoseIcon->Deactivate();
 
-	incomingHordein = CreateText(fPoint(width / 2.9, height / 2.5), "Incoming Horde in", font_id::MOLOT, White, false, NULL, 1.5);
-	timerHorde = CreateText(fPoint(width / 1.7, height / 2.9), timerHorde_temp.c_str(), font_id::MOLOT, White, false, NULL,3.0f);
+	incomingHordein = CreateImage(fPoint(width / 2.9, height / 2.5), SDL_Rect({ 0,100,556,120 }), InGame_Label_tex);
+	timerHorde = CreateText(fPoint(width / 1.7, height / 3.1), timerHorde_temp.c_str(), font_id::MOLOT, White, false, NULL,3.0f);
+	Enemies_left = CreateImage(fPoint(120, 50), SDL_Rect({ 0,0,245,46 }), InGame_Label_tex);
+	Eniemies_left_Label = CreateText(fPoint(265, 50), "0", font_id::MOLOT, White, false, NULL, 1.0f);
 
 	ConscriptPanel_Info = CreateUnitPanel(SDL_Rect({ 0,0,137,165 }), ConscriptCreator, Unit_Panels_tex);
 	ConscriptPanel_Info->Start();
@@ -226,7 +228,6 @@ bool User_Interface::Start()
 
 	Minimap_Display = new  MiniMap_UI(ui_type::NONE);
 	AddElement(Minimap_Display);
-
 
 	Mouse_UI = CreateMouse(mouse_tex);
 
@@ -263,17 +264,16 @@ bool User_Interface::Update(float dt)
 	BROFILER_CATEGORY("Module User_Interface Update", Profiler::Color::DeepPink);
 
 	bool ret = true;
+	//if (myApp->groups->playerGroup.groupUnits.size() > 0) {
 
-	if (myApp->groups->playerGroup.groupUnits.size() > 0) {
+	//	UnitStats->Activate();
+	//	UnitFrame->Activate();
+	//}
+	//else {
 
-		UnitStats->Activate();
-		UnitFrame->Activate();
-	}
-	else {
-
-		UnitStats->Deactivate();
-		UnitFrame->Deactivate();
-	}
+	//	UnitStats->Deactivate();
+	//	UnitFrame->Deactivate();
+	//}
 	if (myApp->hordes->HordesDead()) {
 
 		incomingHordein->Activate();

@@ -6,7 +6,7 @@
 #include "vector"
 #include "Timer.h"
 
-#define TIME_BETWEEN_ROUNDS 4*1000
+#define TIME_BETWEEN_ROUNDS 7*1000
 #define TIME_TO_CHECK_HORDES 2
 
 class Group;
@@ -37,9 +37,13 @@ public:
 	int getRoundTimer() {
 		int ret = 0;
 
-		ret = roundTimer.ReadSec() - 4;
+		ret = roundTimer.ReadSec() - 7;
 
 		ret *=(-1);
+
+		if (ret < 0) {
+			ret = 0;
+		}
 
 		return ret;
 	}

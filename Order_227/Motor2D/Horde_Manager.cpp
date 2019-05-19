@@ -92,7 +92,6 @@ bool Horde_Manager::Update(float dt)
 
 void Horde_Manager::ChooseSpawningPoints()
 {
-
 		//Restarting round if reached 20 - for MVP this should be 5
 		if (roundNumber == maxHordes) {
 

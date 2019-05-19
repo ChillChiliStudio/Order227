@@ -18,7 +18,6 @@ LifeBar::LifeBar(fPoint center, Unit* parent,SDL_Texture* tex,ui_type type,float
 	}
 	else
 	{
-
 		life = &parent->stats.health;
 
 		totalLife = parent->stats.health;
@@ -41,7 +40,7 @@ bool LifeBar::Update(float dt) {
 	}
 
 	HighHealth.w = (*life)*LowHealth.w / totalLife;
-
+	
 	return true;
 }
 

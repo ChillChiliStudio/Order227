@@ -72,8 +72,7 @@ bool MiniMap::PostUpdate()
 {
 
 	//MinimapBorders();
-	DrawEntities();
-	DrawCamera();
+
 
 	return true;
 }
@@ -89,7 +88,10 @@ bool MiniMap::CleanUp()
 }
 
 bool MiniMap::Draw() {
+
 	myApp->render->Blit(minimap_tex, minimapPosition.x, minimapPosition.y, NULL, SDL_FLIP_NONE, false);
+	DrawEntities();
+	DrawCamera();
 	return true;
 }
 
