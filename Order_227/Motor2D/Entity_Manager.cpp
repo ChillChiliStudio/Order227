@@ -440,9 +440,6 @@ void Entity_Manager::ActivateBuildings()
 				(*item).centerPos.y = (*item).position.y + 140;
 			}
 
-
-		
-
 			(*item).active = true;
 			(*item).selected = false;
 			(*item).texture = buildingsTextures[int((*item).buildingType)];
