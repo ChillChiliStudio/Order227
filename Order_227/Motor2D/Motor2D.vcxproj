@@ -42,7 +42,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>..\Release</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -78,7 +80,6 @@
   <ItemGroup>
     <ClCompile Include="ActionBox.cpp" />
     <ClCompile Include="Audio.cpp" />
-    <ClCompile Include="Bazooka.cpp" />
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonActions.cpp" />
@@ -89,23 +90,19 @@
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="Group.cpp" />
     <ClCompile Include="GroupManager.cpp" />
-    <ClCompile Include="HeavyTank.cpp" />
-    <ClCompile Include="Hitscan.cpp" />
     <ClCompile Include="Horde_Manager.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputText.cpp" />
     <ClCompile Include="Launcher.cpp" />
     <ClCompile Include="LifeBarBox.cpp" />
     <ClCompile Include="MiniMap.cpp" />
-    <ClCompile Include="LightTank.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Player.h" />
+    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Spawn_Box.cpp" />
     <ClCompile Include="Static_Object.cpp" />
-    <ClCompile Include="Tank.cpp" />
     <ClCompile Include="TileQuadtree.cpp" />
     <ClCompile Include="UnitButton.cpp" />
     <ClCompile Include="Unit_Panel.cpp" />
@@ -124,7 +121,6 @@
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UIElement.cpp" />
-    <ClCompile Include="Vehicle.cpp" />
     <ClCompile Include="VoidBox.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
@@ -147,10 +143,13 @@
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputText.h" />
     <ClInclude Include="Geometry.h" />
+    <ClInclude Include="Launcher.h" />
     <ClInclude Include="LifeBarBox.h" />
     <ClInclude Include="MiniMap.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Pool.h" />
+    <ClInclude Include="Projectile.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Spawn_Box.h" />
     <ClInclude Include="Static_Object.h" />
@@ -158,7 +157,6 @@
     <ClInclude Include="UnitButton.h" />
     <ClInclude Include="Unit_Panel.h" />
     <ClInclude Include="Vector.h" />
-    <ClInclude Include="Vehicle.h" />
     <ClInclude Include="VoidBox.h" />
     <ClInclude Include="ParamBox.h" />
     <ClInclude Include="Slider.h" />

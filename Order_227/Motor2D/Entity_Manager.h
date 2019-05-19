@@ -9,9 +9,9 @@
 #include "Building.h"
 #include "Group.h"
 #include "Animation.h"
-
+#include "Launcher.h"
 #define TIMES_PER_SEC 5
-#define TROOP_TYPES 7
+#define TROOP_TYPES 8
 #define RESIZE_VALUE 50
 
 //Entities quadtree max divisions
@@ -39,6 +39,7 @@ public:
 
 	//Pools	//TODO: With .reserve() we can reserve memory for a vector so if a resize is needed in runtime the memory is already allocated, making the process faster
 	void AllocateEntityPool();
+	void AllocateLauncherPool();
 	void AllocateUnitPool();
 	void AllocateHitscanPool();
 	void AllocateRangedPool();
@@ -53,6 +54,8 @@ public:
 	void UpdateObjects(float dt);
 
 	Unit* ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+	Launcher* ActivateLauncher(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+
 	bool DeActivateUnit(Unit* Unit);
 
 	void ActivateBuildings();
@@ -67,10 +70,14 @@ public:
 
 	//Pool sizes
 	int unitsPoolSize = 0;
-
+	int launcherPoolSize = 0;
 	//Pools
-	std::vector<Unit>			unitPool;
+
+	std::vector<Unit>			unitPool; //Unist will always be Hitscan type
 	int activeUnits = 0;
+	std::vector<Launcher>	    launcherPool;//Launcher will always be Launcher type such as tanks or bazookas that use missiles
+	int activeLaunchers = 0;
+
 	//std::vector<Hitscan>		hitscanPool;
 	//std::vector<Ranged>		rangedPool;
 	//std::vector<Tank>			tankPool;
@@ -90,7 +97,7 @@ public:
 	
 	//Animations Array
 	Animation animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)][2]; //TODO_ WTF? Troop types?
-	Animation BuildingAnimationArray[int(building_type::BUILDING_MAX)][2];
+	Animation BuildingAnimationArray[int(building_type::BUILDING_MAX)][int(Building_State::MAX)];
 
 	bool entitiesDebugDraw = false;
 	SDL_Texture* lifeBar_tex = nullptr; //TODO: Why is this here?4

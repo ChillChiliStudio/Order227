@@ -2,41 +2,371 @@
 
 <FX>
   <Troops>
-    <SOV>
-      <Conscript>
-      <Spawn>
-          <Var_one path="audio/Dialogues/Troops/conscript/Spawn.wav"/>
-      </Spawn>
 
-      <Moving>
-        <Var_one path="audio/Dialogues/Troops/conscript/Moving.wav"/>
-      </Moving>
 
-      <Comfirmation>
-        <Var_one path="audio/Dialogues/Troops/conscript/Comfirmation.wav"/>
-        <Var_two path="audio/Dialogues/Troops/conscript/Comfirmation_two.wav"/>
-      </Comfirmation>
 
-      <Hurt>
-        <Var_one path="audio/Dialogues/Troops/conscript/Hurt/Hurt.wav"/>
-        <Var_two path="audio/Dialogues/Troops/conscript/Hurt/Hurt_two.wav"/>
-      </Hurt>
 
-      <Shot>
-        <Var_one path="audio/AFX/conscript/Shot_one.wav"/>
-        <Var_two path="audio/AFX/conscript/Shot_two.wav"/>
-        <Var_three path="audio/AFX/conscript/Shot_three.wav"/>
-      </Shot>
-      
-      <Attack>
-        <Var_one path="audio/Dialogues/Troops/conscript/Attack/Attack.wav"/>
-      </Attack>
-        </Conscript>
-    </SOV>
+    <!--IG-->
+ <Unit id="0">
    
+      <Sound id="3" NumVariation="5">
+        <!--Hurt -->
+        <Var Variation="0" path="audio/Dialogues/Troops/IG/Hurt/Hurt.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/IG/Hurt/Hurt_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/IG/Hurt/Hurt_three.wav"/>
+        <Var Variation="3" path="audio/Dialogues/Troops/IG/Hurt/Hurt_four.wav"/>
+        <Var Variation="4" path="audio/Dialogues/Troops/IG/Hurt/Hurt_five.wav"/>
+      </Sound>
+
+      <Sound id="4" NumVariation="4">
+        <!--Shot-->
+        <Var Variation="0" path="audio/AFX/Troops/IG/Shot_one.wav"/>
+        <Var Variation="1" path="audio/AFX/Troops/IG/Shot_two.wav"/>
+        <Var Variation="2" path="audio/AFX/Troops/IG/Shot_three.wav"/>
+        <Var Variation="3" path="audio/AFX/Troops/IG/Shot_four.wav"/>
+      </Sound>
+
+   <!-- <Sound id="0">  </Sound >-->
+   <!--  <Sound id="1"></Sound>-->
+   <!-- <Sound id="2"></Sound>-->
+   <!-- <Sound id="5"> </Sound> -->
+
+ </Unit>
+
+
+
+    <!--CONSCRIPT -->
+     <Unit id="1">
+      
+      <Sound id="0" NumVariation="3">
+        <!--Spawn -->
+        <Var Variation="0" path="audio/Dialogues/Troops/conscript/Spawn/Spawn.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/conscript/Spawn/Spawn_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/conscript/Spawn/Spawn_three.wav"/>
+      </Sound >
+
+       <Sound id="1" NumVariation="1">
+         <!--Moving -->
+        <Var Variation="0" path="audio/Dialogues/Troops/conscript/Moving/Moving.wav"/>
+         
+      </Sound>
+
+       <Sound id="2" NumVariation="3">
+         <!--Comfirmation -->
+        <Var Variation="0" path="audio/Dialogues/Troops/conscript/Comfirmation/Comfirmation.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/conscript/Comfirmation/Comfirmation_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/conscriptComfirmation//Comfirmation_three.wav"/>
+      
+       </Sound>
+
+       <Sound id="3" NumVariation="4" >
+         <!--Hurt -->
+        <Var Variation="0" path="audio/Dialogues/Troops/conscript/Hurt/Hurt.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/conscript/Hurt/Hurt_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/conscript/Hurt/Hurt_three.wav"/>
+        <Var Variation="3" path="audio/Dialogues/Troops/conscript/Hurt/Hurt_four.wav"/>
     
-    <CAP>
-    </CAP>    
-       
+       </Sound>
+
+       <Sound id="4" NumVariation="4">
+         <!--Shot-->
+        <Var Variation="0" path="audio/AFX/Troops/conscript/Shot.wav"/>
+        <Var Variation="1" path="audio/AFX/Troops/conscript/Shot_two.wav"/>
+        <Var Variation="2" path="audio/AFX/Troops/conscript/Shot_three.wav"/>
+        <Var Variation="3" path="audio/AFX/Troops/conscript/Shot_four.wav"/>
+         
+      </Sound>
+
+       <Sound id="5" NumVariation="3">
+         <!--Attack -->
+         <Var Variation="0"  path="audio/Dialogues/Troops/conscript/Attack/Attack.wav"/>
+         <Var Variation="1"  path="audio/Dialogues/Troops/conscript/Attack/Attack_two.wav"/>
+         <Var Variation="2"  path="audio/Dialogues/Troops/conscript/Attack/Attack_three.wav"/>
+         
+      </Sound>
+        
+   </Unit>
+
+
+    <!--FLAK-->
+    <Unit id="2">
+
+      <Sound id="0" NumVariation="3">
+        <!--Spawn -->
+        <Var Variation="0" path="audio/Dialogues/Troops/flak/Spawn/Spawn.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/flak/Spawn/Spawn_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/flak/Spawn/Spawn_three.wav"/>
+      </Sound >
+
+      <Sound id="1" NumVariation="3">
+        <!--Moving -->
+        <Var Variation="0" path="audio/Dialogues/Troops/flak/Moving/Moving.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/flak/Moving/Moving_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/flak/Moving/Moving_three.wav"/>
+
+      </Sound>
+
+      <Sound id="2" NumVariation="2">
+        <!--Comfirmation -->
+        <Var Variation="0" path="audio/Dialogues/Troops/flak/Comfirmation/Comfirmation.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/flak/Comfirmation/Comfirmation_two.wav"/>
+    
+      </Sound>
+
+      <Sound id="3" NumVariation="3">
+        <!--Hurt -->
+        <Var Variation="0" path="audio/Dialogues/Troops/flak/Hurt/Hurt.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/flak/Hurt/Hurt_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/flak/Hurt/Hurt_three.wav"/>
+     
+
+      </Sound>
+
+      <Sound id="4" NumVariation="4">
+        <!--Shot-->
+        <Var Variation="0" path="audio/AFX/Troops/flak/Shot.wav"/>
+        <Var Variation="1" path="audio/AFX/Troops/flak/Shot_two.wav"/>
+        <Var Variation="2" path="audio/AFX/Troops/flak/Shot_three.wav"/>
+        <Var Variation="3" path="audio/AFX/Troops/flak/Shot_four.wav"/>
+
+      </Sound>
+
+      <Sound id="5" NumVariation="4">
+        <!--Attack -->
+        <Var Variation="0"  path="audio/Dialogues/Troops/flak/Attack/Attack.wav"/>
+        <Var Variation="1"  path="audio/Dialogues/Troops/flak/Attack/Attack_two.wav"/>
+        <Var Variation="2"  path="audio/Dialogues/Troops/flak/Attack/Attack_three.wav"/>
+        <Var Variation="2"  path="audio/Dialogues/Troops/flak/Attack/Attack_four.wav"/>
+
+      </Sound>
+
+    </Unit>
+
+    <!--DESOLATOR -->
+    <Unit id="3">
+
+      <Sound id="0" NumVariation="3">
+        <!--Spawn -->
+        <Var Variation="0" path="audio/Dialogues/Troops/deso/Spawn/Spawn.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/deso/Spawn/Spawn_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/deso/Spawn/Spawn_three.wav"/>
+      </Sound >
+
+      <Sound id="1" NumVariation="3">
+        <!--Moving -->
+        <Var Variation="0" path="audio/Dialogues/Troops/deso/Moving/Moving.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/deso/Moving/Moving_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/deso/Moving/Moving_three.wav"/>
+
+      </Sound>
+
+      <Sound id="2" NumVariation="3">
+        <!--Comfirmation -->
+        <Var Variation="0" path="audio/Dialogues/Troops/deso/Comfirmation/Comfirmation.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/deso/Comfirmation/Comfirmation_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/deso/Comfirmation/Comfirmation_three.wav"/>
+
+      </Sound>
+
+      <Sound id="3" NumVariation="3">
+        <!--Hurt -->
+        <Var Variation="0" path="audio/Dialogues/Troops/deso/Hurt/Hurt.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/deso/Hurt/Hurt_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/deso/Hurt/Hurt_three.wav"/>
+    
+
+      </Sound>
+
+      <Sound id="4" NumVariation="2">
+        <!--Shot-->
+        <Var Variation="0" path="audio/AFX/Troops/deso/Shot.wav"/>
+        <Var Variation="1" path="audio/AFX/Troops/deso/Shot_two.wav"/>
+   
+
+      </Sound>
+
+      <Sound id="5" NumVariation="3">
+        <!--Attack -->
+        <Var Variation="0"  path="audio/Dialogues/Troops/deso/Attack/Attack.wav"/>
+        <Var Variation="1"  path="audio/Dialogues/Troops/deso/Attack/Attack_two.wav"/>
+        <Var Variation="2"  path="audio/Dialogues/Troops/deso/Attack/Attack_three.wav"/>
+
+      </Sound>
+
+    </Unit>
+
+
+
+    <!--CHRONO -->
+    <Unit id="4">
+
+      <Sound id="0" NumVariation="1">
+        <!--Spawn -->
+        <Var Variation="0" path="audio/Dialogues/Troops/chrono/Spawn/Spawn.wav"/>
+
+      </Sound >
+
+      <Sound id="1" NumVariation="4">
+        <!--Moving -->
+        <Var Variation="0" path="audio/Dialogues/Troops/chrono/Moving/Moving.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/chrono/Moving/Moving_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/chrono/Moving/Moving_three.wav"/>
+        <Var Variation="3" path="audio/Dialogues/Troops/chrono/Moving/Moving_four.wav"/>
+
+      </Sound>
+
+      <Sound id="2" NumVariation="1">
+        <!--Comfirmation -->
+        <Var Variation="0" path="audio/Dialogues/Troops/chrono/Comfirmation/Comfirmation.wav"/>
+      
+
+      </Sound>
+
+      <Sound id="3" NumVariation="3">
+        <!--Hurt -->
+        <Var Variation="0" path="audio/Dialogues/Troops/chrono/Hurt/Hurt.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/chrono/Hurt/Hurt_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/chrono/Hurt/Hurt_three.wav"/>
+
+
+      </Sound>
+
+      <Sound id="4" NumVariation="3">
+        <!--Shot-->
+        <Var Variation="0" path="audio/AFX/Troops/chrono/Shot.wav"/>
+        <Var Variation="1" path="audio/AFX/Troops/chrono/Shot_two.wav"/>
+        <Var Variation="2" path="audio/AFX/Troops/chrono/Shot_three.wav"/>
+
+      </Sound>
+
+      <Sound id="5" NumVariation="3">
+        <!--Attack -->
+        <Var Variation="0"  path="audio/Dialogues/Troops/chrono/Attack/Attack.wav"/>
+        <Var Variation="1"  path="audio/Dialogues/Troops/chrono/Attack/Attack_two.wav"/>
+        <Var Variation="2"  path="audio/Dialogues/Troops/chrono/Attack/Attack_three.wav"/>
+
+      </Sound>
+
+    </Unit>
+
+
+
+    <!--SNIPER -->
+    <Unit id="5">
+
+      <Sound id="0" NumVariation="1">
+        <!--Spawn -->
+        <Var Variation="0" path="audio/Dialogues/Troops/sniper/Spawn/Spawn.wav"/>
+  
+      </Sound >
+
+      <Sound id="1" NumVariation="3">
+        <!--Moving -->
+        <Var Variation="0" path="audio/Dialogues/Troops/sniper/Moving/Moving.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/sniper/Moving/Moving_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/sniper/Moving/Moving_three.wav"/>
+
+      </Sound>
+
+      <Sound id="2" NumVariation="2">
+        <!--Comfirmation -->
+        <Var Variation="0" path="audio/Dialogues/Troops/sniper/Comfirmation/Comfirmation.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/sniper/Comfirmation/Comfirmation_two.wav"/>
+      
+
+      </Sound>
+
+      <Sound id="3" NumVariation="3">
+        <!--Hurt -->
+        <Var Variation="0" path="audio/Dialogues/Troops/sniper/Hurt/Hurt.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/sniper/Hurt/Hurt_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/sniper/Hurt/Hurt_three.wav"/>
+
+
+      </Sound>
+
+      <Sound id="4" NumVariation="1">
+        <!--Shot-->
+        <Var Variation="0" path="audio/AFX/Troops/sniper/Shot.wav"/>
+    
+
+
+      </Sound>
+
+      <Sound id="5" NumVariation="3">
+        <!--Attack -->
+        <Var Variation="0"  path="audio/Dialogues/Troops/sniper/Attack/Attack.wav"/>
+        <Var Variation="1"  path="audio/Dialogues/Troops/sniper/Attack/Attack_two.wav"/>
+        <Var Variation="2"  path="audio/Dialogues/Troops/sniper/Attack/Attack_three.wav"/>
+
+      </Sound>
+
+    </Unit>
+
+    <!--DOG -->
+    <Unit id="6">
+
+      <Sound id="0" NumVariation="1">
+        <!--Spawn -->
+        <Var Variation="0" path="audio/Dialogues/Troops/dog/Spawn/Spawn.wav"/>
+
+      </Sound >
+
+      <Sound id="1" NumVariation="1">
+        <!--Moving -->
+        <Var Variation="0" path="audio/Dialogues/Troops/dog/Moving/Moving.wav"/>
+  
+
+      </Sound>
+
+      <Sound id="2" NumVariation="1">
+        <!--Comfirmation -->
+        <Var Variation="0" path="audio/Dialogues/Troops/dog/Comfirmation/Comfirmation.wav"/>
+    
+      </Sound>
+
+      <Sound id="3" NumVariation="4">
+        <!--Hurt -->
+        <Var Variation="0" path="audio/Dialogues/Troops/dog/Hurt/Hurt.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/dog/Hurt/Hurt_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/dog/Hurt/Hurt_three.wav"/>
+        <Var Variation="3" path="audio/Dialogues/Troops/dog/Hurt/Hurt_four.wav"/>
+
+      </Sound>
+
+      <Sound id="4" NumVariation="1">
+        <!--bit-->
+        <Var Variation="0" path="audio/AFX/Troops/dog/bit.wav"/>
+
+      </Sound>
+
+      <Sound id="5" NumVariation="1">
+        <!--Attack -->
+        <Var Variation="0"  path="audio/Dialogues/Troops/dog/Attack/Attack.wav"/>
+
+      </Sound>
+
+    </Unit>
+
+
+    <!--COW -->
+    <Unit id="7">
+  
+      <Sound id="1" NumVariation="2">
+        <!--Moving -->
+        <Var Variation="0" path="audio/Dialogues/Troops/cow/Moving.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/cow/Moving_two.wav"/>
+      </Sound>
+
+      <Sound id="3" NumVariation="1">
+        <!--Hurt -->
+        <Var Variation="0" path="audio/Dialogues/Troops/cow/MUU.wav"/>
+        
+      </Sound>
+
+    </Unit>
+    
+    
+
   </Troops>
 </FX>

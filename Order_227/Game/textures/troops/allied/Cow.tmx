@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="11" height="11" tilewidth="86" tileheight="70" nextobjectid="2">
+ <imagelayer name="Image Layer 1">
+  <image source="Cow.png" width="946" height="770"/>
+ </imagelayer>
+ <objectgroup name="Object Layer 1">
+  <object id="1" name="Pointing" type="0" x="0" y="0" width="86" height="70"/>
+  <object id="1" name="Pointing" type="45" x="86" y="0" width="86" height="70"/>
+  <object id="1" name="Pointing" type="90" x="172" y="0" width="86" height="70"/>
+  <object id="1" name="Pointing" type="135" x="258" y="0" width="86" height="70"/>
+  <object id="1" name="Pointing" type="180" x="344" y="0" width="86" height="70"/>
+  <object id="1" name="Pointing" type="225" x="430" y="0" width="86" height="70"/>
+  <object id="1" name="Pointing" type="270" x="516" y="0" width="86" height="70"/>
+  <object id="1" name="Pointing" type="315" x="602" y="0" width="86" height="70"/>
+  <object id="1" name="Walking" type="0" x="688" y="0" width="86" height="70"/>
+  <object id="1" name="Walking" type="0" x="774" y="0" width="86" height="70"/>
+  <object id="1" name="Walking" type="0" x="860" y="0" width="86" height="70"/>
+  <object id="1" name="Walking" type="0" x="0" y="70" width="86" height="70"/>
+  <object id="1" name="Walking" type="0" x="86" y="70" width="86" height="70"/>
+  <object id="1" name="Walking" type="0" x="172" y="70" width="86" height="70"/>
+  <object id="1" name="Walking" type="45" x="258" y="70" width="86" height="70"/>
+  <object id="1" name="Walking" type="45" x="344" y="70" width="86" height="70"/>
+  <object id="1" name="Walking" type="45" x="430" y="70" width="86" height="70"/>
+  <object id="1" name="Walking" type="45" x="516" y="70" width="86" height="70"/>
+  <object id="1" name="Walking" type="45" x="602" y="70" width="86" height="70"/>
+  <object id="1" name="Walking" type="45" x="688" y="70" width="86" height="70"/>
+  <object id="1" name="Walking" type="90" x="774" y="70" width="86" height="70"/>
+  <object id="1" name="Walking" type="90" x="860" y="70" width="86" height="70"/>
+  <object id="1" name="Walking" type="90" x="0" y="140" width="86" height="70"/>
+  <object id="1" name="Walking" type="90" x="86" y="140" width="86" height="70"/>
+  <object id="1" name="Walking" type="90" x="172" y="140" width="86" height="70"/>
+  <object id="1" name="Walking" type="90" x="258" y="140" width="86" height="70"/>
+  <object id="1" name="Walking" type="135" x="344" y="140" width="86" height="70"/>
+  <object id="1" name="Walking" type="135" x="430" y="140" width="86" height="70"/>
+  <object id="1" name="Walking" type="135" x="516" y="140" width="86" height="70"/>
+  <object id="1" name="Walking" type="135" x="602" y="140" width="86" height="70"/>
+  <object id="1" name="Walking" type="135" x="688" y="140" width="86" height="70"/>
+  <object id="1" name="Walking" type="135" x="774" y="140" width="86" height="70"/>
+  <object id="1" name="Walking" type="180" x="860" y="140" width="86" height="70"/>
+  <object id="1" name="Walking" type="180" x="0" y="210" width="86" height="70"/>
+  <object id="1" name="Walking" type="180" x="86" y="210" width="86" height="70"/>
+  <object id="1" name="Walking" type="180" x="172" y="210" width="86" height="70"/>
+  <object id="1" name="Walking" type="180" x="258" y="210" width="86" height="70"/>
+  <object id="1" name="Walking" type="180" x="344" y="210" width="86" height="70"/>
+  <object id="1" name="Walking" type="225" x="430" y="210" width="86" height="70"/>
+  <object id="1" name="Walking" type="225" x="516" y="210" width="86" height="70"/>
+  <object id="1" name="Walking" type="225" x="602" y="210" width="86" height="70"/>
+  <object id="1" name="Walking" type="225" x="688" y="210" width="86" height="70"/>
+  <object id="1" name="Walking" type="225" x="774" y="210" width="86" height="70"/>
+  <object id="1" name="Walking" type="225" x="860" y="210" width="86" height="70"/>
+  <object id="1" name="Walking" type="270" x="0" y="280" width="86" height="70"/>
+   <object id="1" name="Walking" type="270" x="86" y="280" width="86" height="70"/>
+  <object id="1" name="Walking" type="270" x="172" y="280" width="86" height="70"/>
+  <object id="1" name="Walking" type="270" x="258" y="280" width="86" height="70"/>
+  <object id="1" name="Walking" type="270" x="344" y="280" width="86" height="70"/>
+  <object id="1" name="Walking" type="270" x="430" y="280" width="86" height="70"/>
+  <object id="1" name="Walking" type="315" x="516" y="280" width="86" height="70"/>
+  <object id="1" name="Walking" type="315" x="602" y="280" width="86" height="70"/>
+  <object id="1" name="Walking" type="315" x="688" y="280" width="86" height="70"/>
+  <object id="1" name="Walking" type="315" x="774" y="280" width="86" height="70"/>
+  <object id="1" name="Walking" type="315" x="860" y="280" width="86" height="70"/>
+  <object id="1" name="Walking" type="315" x="0" y="350" width="86" height="70"/>
+  <object id="1" x="86" y="350" width="86" height="70"/>
+  <object id="1" x="172" y="350" width="86" height="70"/>
+  <object id="1" x="258" y="350" width="86" height="70"/>
+  <object id="1" x="344" y="350" width="86" height="70"/>
+  <object id="1" x="430" y="350" width="86" height="70"/>
+  <object id="1" x="516" y="350" width="86" height="70"/>
+  <object id="1" x="602" y="350" width="86" height="70"/>
+  <object id="1" x="688" y="350" width="86" height="70"/>
+  <object id="1" x="774" y="350" width="86" height="70"/>
+  <object id="1" x="860" y="350" width="86" height="70"/>
+  <object id="1" x="0" y="420" width="86" height="70"/>
+  <object id="1" x="86" y="420" width="86" height="70"/>
+  <object id="1" x="172" y="420" width="86" height="70"/>
+  <object id="1" x="258" y="420" width="86" height="70"/>
+  <object id="1" x="344" y="420" width="86" height="70"/>
+  <object id="1" x="430" y="420" width="86" height="70"/>
+  <object id="1" x="516" y="420" width="86" height="70"/>
+  <object id="1" x="602" y="420" width="86" height="70"/>
+  <object id="1" x="688" y="420" width="86" height="70"/>
+  <object id="1" x="774" y="420" width="86" height="70"/>
+  <object id="1" x="860" y="420" width="86" height="70"/>
+  <object id="1" x="0" y="490" width="86" height="70"/>
+  <object id="1" x="86" y="490" width="86" height="70"/>
+  <object id="1" x="172" y="490" width="86" height="70"/>
+  <object id="1" x="258" y="490" width="86" height="70"/>
+  <object id="1" x="344" y="490" width="86" height="70"/>
+  <object id="1" x="430" y="490" width="86" height="70"/>
+  <object id="1" x="516" y="490" width="86" height="70"/>
+  <object id="1" x="602" y="490" width="86" height="70"/>
+  <object id="1" x="688" y="490" width="86" height="70"/>
+  <object id="1" name="DeathOne" type="0" x="774" y="490" width="86" height="70"/>
+  <object id="1" name="DeathOne" type="0" x="860" y="490" width="86" height="70"/>
+  <object id="1" name="DeathOne" type="0" x="0" y="560" width="86" height="70"/>
+  <object id="1" name="DeathOne" type="0" x="86" y="560" width="86" height="70"/>
+  <object id="1" name="DeathOne" type="0" x="172" y="560" width="86" height="70"/>
+  <object id="1" name="DeathOne" type="0" x="258" y="560" width="86" height="70"/>
+  <object id="1" name="DeathOne" type="0" x="344" y="560" width="86" height="70"/>
+  <object id="1" name="DeathOne" type="0" x="430" y="560" width="86" height="70"/>
+  <object id="1" name="DeathOne" type="0" x="516" y="560" width="86" height="70"/>
+  <object id="1" name="DeathOne" type="0" x="602" y="560" width="86" height="70"/>
+  <object id="1" name="DeathOne" type="0" x="688" y="560" width="86" height="70"/>
+  <object id="1" name="DeathOne" type="0" x="774" y="560" width="86" height="70"/>
+  <object id="1" name="DeathOne" type="0" x="860" y="560" width="86" height="70"/>
+  <object id="1" name="DeathOne" type="0" x="0" y="630" width="86" height="70"/>
+  <object id="1" name="DeathOne" type="0" x="86" y="630" width="86" height="70"/>
+  <object id="1" name="DeathTwo" x="172" y="630" width="86" height="70"/>
+  <object id="1" name="DeathTwo" x="258" y="630" width="86" height="70"/>
+  <object id="1" name="DeathTwo" x="344" y="630" width="86" height="70"/>
+  <object id="1" name="DeathTwo" x="430" y="630" width="86" height="70"/>
+  <object id="1" name="DeathTwo" x="516" y="630" width="86" height="70"/>
+  <object id="1" name="DeathTwo" x="602" y="630" width="86" height="70"/>
+  <object id="1" name="DeathTwo" x="688" y="630" width="86" height="70"/>
+  <object id="1" name="DeathTwo" x="774" y="630" width="86" height="70"/>
+  <object id="1" name="DeathTwo" x="860" y="630" width="86" height="70"/>
+  <object id="1" name="DeathTwo" x="0" y="700" width="86" height="70"/>
+  <object id="1" name="DeathTwo" x="86" y="700" width="86" height="70"/>
+  <object id="1" name="DeathTwo" x="172" y="700" width="86" height="70"/>
+  <object id="1" name="DeathTwo" x="258" y="700" width="86" height="70"/>
+  <object id="1" name="DeathTwo" x="344" y="700" width="86" height="70"/>
+  <object id="1" name="DeathTwo" x="430" y="700" width="86" height="70"/>
+ </objectgroup>
+</map>

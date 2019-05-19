@@ -2,9 +2,9 @@
 #include "Log.h"
 #include "App.h"
 #include "Window.h"
+#include "Point.h"
 
 #include "SDL/include/SDL.h"
-
 
 Window::Window() : Module()
 {
@@ -38,9 +38,12 @@ bool Window::Awake(pugi::xml_node& config)
 		bool resizable = config.child("resizable").attribute("value").as_bool(false);
 		bool fullscreen_window = config.child("fullscreen_window").attribute("value").as_bool(false);
 
-		width = config.child("resolution").attribute("width").as_int(640);
-		height = config.child("resolution").attribute("height").as_int(480);
+		width = middle_x = config.child("resolution").attribute("width").as_int(640);
+		height = middle_y = config.child("resolution").attribute("height").as_int(480);
 		scale = config.child("resolution").attribute("scale").as_int(1);
+
+		middle_x = (uint)(middle_x * 0.5f);
+		middle_y = (uint)(middle_y * 0.5f);
 
 		if(fullscreen == true)
 		{
@@ -107,6 +110,12 @@ void Window::GetWindowSize(uint& width, uint& height) const
 {
 	width = this->width;
 	height = this->height;
+}
+
+void Window::GetWindowCenter(uint& mid_x, uint& mid_y) const
+{
+	mid_x = this->middle_x;
+	mid_y = this->middle_y;
 }
 
 uint Window::GetScale() const
