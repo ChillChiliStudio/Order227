@@ -93,14 +93,12 @@ bool Building::Update(float dt)
 	//draw center
 	CurrentAnim.AdvanceAnimation(dt);
 
-
 	Draw();
-
-
 	myApp->render->DrawCircle(centerPos.x, centerPos.y, 100, 255, 0, 0, 255);
 
-	if (myApp->map->mapDebugDraw)
+	if (myApp->map->mapDebugDraw) {
 		DebugDraw();
+	}
 
 	if (health > 0 && destroyed == true)
 		destroyed = false;
@@ -228,7 +226,6 @@ bool Building::CleanUp()
 
 bool Building::Draw()
 {
-
 	spriteRect = CurrentAnim.GetTheActualCurrentFrame();
 	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &spriteRect);
 	return true;

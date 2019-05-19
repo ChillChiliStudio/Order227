@@ -417,32 +417,39 @@ void Entity_Manager::ActivateBuildings()
 
 
 			if ((*item).buildingType == building_type::COMMAND_CENTER) {
-				(*item).centerPos.x = (*item).position.x + 60;
-				(*item).centerPos.y = (*item).position.y + 120;
+				(*item).entityRect = { (int)(*item).position.x, (int)(*item).position.y, 130, 210 };	//Todo: Use XML values for rect width, not hardcoded ones (but take these as reference)
+				(*item).centerPos = { (float)((*item).position.x + (*item).entityRect.w / 2), (float)((*item).position.y + (*item).entityRect.h / 2) };
+				(*item).groundPos = { (float)((*item).position.x + (*item).entityRect.w / 2), (float)((*item).position.y + (*item).entityRect.h) };
 			}
 			if ((*item).buildingType == building_type::EPC) {
-				(*item).centerPos.x = (*item).position.x + 160;
-				(*item).centerPos.y = (*item).position.y + 110;
+				(*item).entityRect = { (int)(*item).position.x, (int)(*item).position.y, 320, 190 };	//Todo: Use XML values for rect width, not hardcoded ones (but take these as reference)
+				(*item).centerPos = { (float)((*item).position.x + (*item).entityRect.w / 2), (float)((*item).position.y + (*item).entityRect.h / 2) };
+				(*item).groundPos = { (float)((*item).position.x + (*item).entityRect.w / 2), (float)((*item).position.y + (*item).entityRect.h) };
 			}
 			if ((*item).buildingType == building_type::GOLDYARD) {
-				(*item).centerPos.x = (*item).position.x + 70;
-				(*item).centerPos.y = (*item).position.y + 60;
+				(*item).entityRect = { (int)(*item).position.x, (int)(*item).position.y, 180, 140 };	//Todo: Use XML values for rect width, not hardcoded ones (but take these as reference)
+				(*item).centerPos = { (float)((*item).position.x + (*item).entityRect.w / 2), (float)((*item).position.y + (*item).entityRect.h / 2) };
+				(*item).groundPos = { (float)((*item).position.x + (*item).entityRect.w / 2), (float)((*item).position.y + (*item).entityRect.h) };
 			}
 			if ((*item).buildingType == building_type::HTPC) {
-				(*item).centerPos.x = (*item).position.x + 50;
-				(*item).centerPos.y = (*item).position.y + 70;
+				(*item).entityRect = { (int)(*item).position.x, (int)(*item).position.y, 110, 130 };	//Todo: Use XML values for rect width, not hardcoded ones (but take these as reference)
+				(*item).centerPos = { (float)((*item).position.x + (*item).entityRect.w / 2), (float)((*item).position.y + (*item).entityRect.h / 2) };
+				(*item).groundPos = { (float)((*item).position.x + (*item).entityRect.w / 2), (float)((*item).position.y + (*item).entityRect.h) };
 			}
 			if ((*item).buildingType == building_type::PEOPLE_HEART) {
-				(*item).centerPos.x = (*item).position.x + 120;
-				(*item).centerPos.y = (*item).position.y + 80;
+				(*item).entityRect = { (int)(*item).position.x, (int)(*item).position.y, 240, 160 };	//Todo: Use XML values for rect width, not hardcoded ones (but take these as reference)
+				(*item).centerPos = { (float)((*item).position.x + (*item).entityRect.w / 2), (float)((*item).position.y + (*item).entityRect.h / 2) };
+				(*item).groundPos = { (float)((*item).position.x + (*item).entityRect.w / 2), (float)((*item).position.y + (*item).entityRect.h) };
 			}
 			if ((*item).buildingType == building_type::RADAR) {
-				(*item).centerPos.x = (*item).position.x + 80;
-				(*item).centerPos.y = (*item).position.y + 30;
+				(*item).entityRect = { (int)(*item).position.x, (int)(*item).position.y, 160, 100 };	//Todo: Use XML values for rect width, not hardcoded ones (but take these as reference)
+				(*item).centerPos = { (float)((*item).position.x + (*item).entityRect.w / 2), (float)((*item).position.y + (*item).entityRect.h / 2) };
+				(*item).groundPos = { (float)((*item).position.x + (*item).entityRect.w / 2), (float)((*item).position.y + (*item).entityRect.h) };
 			}
 			if ((*item).buildingType == building_type::TANK_FACTORY) {
-				(*item).centerPos.x = (*item).position.x + 140;
-				(*item).centerPos.y = (*item).position.y + 140;
+				(*item).entityRect = { (int)(*item).position.x, (int)(*item).position.y, 280, 220 };	//Todo: Use XML values for rect width, not hardcoded ones (but take these as reference)
+				(*item).centerPos = { (float)((*item).position.x + (*item).entityRect.w / 2), (float)((*item).position.y + (*item).entityRect.h / 2) };
+				(*item).groundPos = { (float)((*item).position.x + (*item).entityRect.w / 2), (float)((*item).position.y + (*item).entityRect.h) };
 			}
 
 			(*item).active = true;
