@@ -98,6 +98,7 @@ bool User_Interface::Start()
 
 	//Debug Elements
 	fpsText = CreateText({ 10, 10 }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
+	fpsText->Deactivate();
 	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
 	mouseDebugMark->Deactivate();
 
