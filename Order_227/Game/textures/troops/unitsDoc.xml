@@ -20,12 +20,12 @@
       <Unit id="4" name="Chrono" TextPath="textures/troops/soviet/Chrono.png" TextPathTwo="textures/troops/allied/Chrono.png" TiledFile="textures/troops/soviet/Chrono.tmx">
         <RectOffset x="20" y="10" w="45" h="50"/>
         <AnimDet DeathOneSpeed="10.0"/>
-        <stats speed="60" cadency="1" damage="3" health="40" visionRange="300" attackRange="200" cost="250" prodTime="8" threat="15"/>
+        <stats speed="60" cadency="1" damage="4" health="40" visionRange="300" attackRange="200" cost="250" prodTime="8" threat="15"/>
       </Unit>
       <Unit id="3" name="Desolator" TextPath="textures/troops/soviet/Desolator.png" TextPathTwo="textures/troops/allied/Desolator.png" TiledFile="textures/troops/soviet/Desolator.tmx">
         <RectOffset x="50" y="15" w="25" h="35"/>
         <AnimDet DeathOneSpeed="10.0"/>
-        <stats speed="90" cadency="1" damage="2" health="15" visionRange="300" attackRange="150" cost="500" prodTime="8" threat="25"/>
+        <stats speed="90" cadency="1" damage="3" health="15" visionRange="300" attackRange="150" cost="500" prodTime="8" threat="25"/>
       </Unit>
       <Unit id="5" name="Sniper" TextPath="textures/troops/soviet/Sniper.png" TextPathTwo="textures/troops/allied/Sniper.png" TiledFile="textures/troops/soviet/Sniper.tmx">
         <RectOffset x="40" y="15" w="100" h="80"/>
