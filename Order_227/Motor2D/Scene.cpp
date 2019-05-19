@@ -80,6 +80,7 @@ bool Scene::Update(float dt)
 		myApp->scene->SwitchMusic(Screen_Type::SCREEN_WIN);
 		ActivateGameOverMusic = false;
 		myApp->player->playerIncome = 0;
+		myApp->gui->OnPause = true;
 
 	}
 
@@ -89,6 +90,7 @@ bool Scene::Update(float dt)
 		myApp->scene->SwitchMusic(Screen_Type::SCREEN_LOSE);
 		ActivateGameOverMusic = false;
 		myApp->player->playerIncome = 0;
+		myApp->gui->OnPause = true;
 
 	}
 
