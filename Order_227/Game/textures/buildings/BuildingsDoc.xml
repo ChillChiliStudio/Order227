@@ -32,7 +32,9 @@
     <RectOffset x="26" y="20" w="25" h="35"/>
   </Building>
   
-  <Building id="6" name="EPC" TextPath="textures/buildings/Facilities/EnhancedFacility.png" TiledFile="textures/buildings/Facilities/EnhancedFacility.tmx"/>
+  <Building id="6" name="EPC" TextPath="textures/buildings/Facilities/EPC.png" TiledFile="textures/buildings/Facilities/EPC.tmx">
+     <RectOffset x="26" y="20" w="25" h="35"/>
+  </Building>
 
   <!--REMEMBER TO UPLOAD THE MAX UNIT ENUM
   <Building id="7" name="Flags" TextPath="textures/buildings/Facilities/Flags.png" TiledFile="textures/buildings/Facilities/Flags.tmx"/>

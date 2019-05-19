@@ -17,7 +17,7 @@
 MiniMap::MiniMap()
 {
 	name = "minimap";
-	minimapPosition = {442, 570};
+	minimapPosition = {370, 570};
 
 }
 
@@ -70,10 +70,9 @@ bool MiniMap::Update(float dt)
 
 bool MiniMap::PostUpdate()
 {
-	myApp->render->Blit(minimap_tex, minimapPosition.x, minimapPosition.y, NULL, SDL_FLIP_NONE, false);
-	MinimapBorders();
-	DrawEntities();
-	DrawCamera();
+
+	//MinimapBorders();
+
 
 	return true;
 }
@@ -85,6 +84,14 @@ bool MiniMap::CleanUp()
 
 	SDL_DestroyTexture(minimap_tex);
 
+	return true;
+}
+
+bool MiniMap::Draw() {
+
+	myApp->render->Blit(minimap_tex, minimapPosition.x, minimapPosition.y, NULL, SDL_FLIP_NONE, false);
+	DrawEntities();
+	DrawCamera();
 	return true;
 }
 

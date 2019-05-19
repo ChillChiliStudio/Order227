@@ -14,7 +14,7 @@
     <ProjectGuid>{2AF9969B-F202-497B-AF30-7BEF9CE8005E}</ProjectGuid>
     <RootNamespace>programacio_2</RootNamespace>
     <ProjectName>Order227</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -96,6 +96,7 @@
     <ClCompile Include="Launcher.cpp" />
     <ClCompile Include="LifeBarBox.cpp" />
     <ClCompile Include="MiniMap.cpp" />
+    <ClCompile Include="MiniMap_UI_Element.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Launcher.h" />
     <ClInclude Include="LifeBarBox.h" />
     <ClInclude Include="MiniMap.h" />
+    <ClInclude Include="MiniMap_UI_Element.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Pool.h" />

@@ -32,6 +32,8 @@ bool Building::Start() {
 		myApp->audio->PlayFx(myApp->audio->SoundBuilding_Array[int(buildingType)][(int)BuildingsType_Sounds::SPAWN][rand() % Aux]);
 
 	}
+	else
+		health = 0;
 
 	return true;
 }
@@ -102,6 +104,8 @@ bool Building::Update(float dt)
 
 	if (health > 0 && destroyed == true)
 		destroyed = false;
+	else if (health <= 0 && destroyed == false)
+		destroyed = true;
 
 	if (CurrentAnim.Finished()==true && health> maxHealth/2) {
 
@@ -137,6 +141,7 @@ void Building::GiveReward() {
 
 	rewardGiven = true;
 	myApp->player->playerIncome += income;
+	myApp->player->UpdateText();
 
 	if (buildingType == building_type::TANK_FACTORY)
 		myApp->entities->heavyUnitsUnlocked = true; //TODO: Tocar UI con esto
@@ -146,15 +151,18 @@ void Building::GiveReward() {
 
 	else if (buildingType == building_type::EPC) {
 
-		for(int i = 0; i < myApp->entities->buildingsArray.size(); i++) {
+		for (int i = 0; i < myApp->entities->buildingsArray.size(); i++) {
 
 			if (myApp->entities->buildingsArray[i].buildingType != building_type::COMMAND_CENTER)
 				myApp->entities->buildingsArray[i].maxHealth += StrategicPointsLifeBuff;
 			else
-				myApp->entities->mainBase->health += MainBaseLifeBuff;
+				myApp->entities->buildingsArray[i].maxHealth += MainBaseLifeBuff;
 
-			myApp->entities->buildingsArray[i].health = maxHealth;
 			myApp->entities->buildingsArray[i].healthRecovery *= 1.5;
+
+			if (myApp->entities->buildingsArray[i].faction == entity_faction::COMMUNIST)
+				myApp->entities->buildingsArray[i].health = myApp->entities->buildingsArray[i].maxHealth;
+
 		}
 	}
 }
@@ -181,6 +189,9 @@ void Building::TakeReward() {
 				myApp->entities->mainBase->health -= MainBaseLifeBuff;
 
 			myApp->entities->buildingsArray[i].healthRecovery /= 1.5;
+
+			if (myApp->entities->buildingsArray[i].faction == entity_faction::COMMUNIST && myApp->entities->buildingsArray[i].health > myApp->entities->buildingsArray[i].maxHealth)
+				myApp->entities->buildingsArray[i].health = myApp->entities->buildingsArray[i].maxHealth;
 		}
 	}
 }
@@ -232,9 +243,11 @@ bool Building::IsDead()
 {
 	bool ret = false;
 
-	if (health <= 0.0f) {
+	if (destroyed == true)
 		ret = true;
-	}
+	/*if (health <= 0.0f) {
+		ret = true;
+	}*/
 
 	return ret;
 }

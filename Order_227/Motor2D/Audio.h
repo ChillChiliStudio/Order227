@@ -7,8 +7,6 @@
 
 #define FACTION_NUM 2
 #define VARIATION_PER_SOUND 4
-#define SOV 0
-#define CAP 1
 #define MAX_INFANTRY_NUMBER 8
 #define MAX_BUILDING_NUMBER 7
 

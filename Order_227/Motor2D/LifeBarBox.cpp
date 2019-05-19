@@ -7,9 +7,11 @@
 LifeBar::LifeBar(fPoint center, Unit* parent,SDL_Texture* tex,ui_type type,float* auxHealth)
 	:UI_Element(type, center), graphics(tex)
 {
-	LowHealth = { 0,0,62,6 };
-	HighHealth = { 62,0,62,6 };
+	LowHealth = { 0,0,37,6 };
+	HighHealth = { 36,0,37,6 };
 	if (auxHealth != NULL) {
+		LowHealth = { 0,12,48,6 };
+		HighHealth = { 48,12,48,6 };
 		life = auxHealth;
 		totalLife = (*auxHealth);
 		position = { center.x - (LowHealth.w / 2) + 90, center.y - (LowHealth.h / 2) - 20 };
@@ -17,20 +19,15 @@ LifeBar::LifeBar(fPoint center, Unit* parent,SDL_Texture* tex,ui_type type,float
 	else
 	{
 		life = &parent->stats.health;
+
 		totalLife = parent->stats.health;
 		position = { parent->position.x - (LowHealth.w / 2) + 10, parent->position.y - (LowHealth.h / 2) - 6 };
 		Currentparent = parent;
-
 	}
-
-	
 	if (parent!=nullptr&&parent->faction == entity_faction::CAPITALIST) {
-		HighHealth = { 62,6,62,6 };
-
+		HighHealth = { 36,6,37,6 };
 	}
-	else
 
-	myApp->gui->Main_Menu_Elements.push_back(this);
 }
 
 
@@ -43,7 +40,7 @@ bool LifeBar::Update(float dt) {
 	}
 
 	HighHealth.w = (*life)*LowHealth.w / totalLife;
-
+	
 	return true;
 }
 
@@ -86,8 +83,8 @@ bool LifeBar::Draw() {
 		
 	}
 	else {
-		myApp->render->Blit(graphics, (int)position.x - 100, (int)position.y, &LowHealth, SDL_FLIP_NONE, true, 1.7f);
-		myApp->render->Blit(graphics, (int)position.x - 100, (int)position.y, &HighHealth, SDL_FLIP_NONE, true, 1.7f);
+		myApp->render->Blit(graphics, (int)position.x - 40, (int)position.y, &LowHealth, SDL_FLIP_NONE, true, 1.7f);
+		myApp->render->Blit(graphics, (int)position.x - 40, (int)position.y, &HighHealth, SDL_FLIP_NONE, true, 1.7f);
 
 	}
 

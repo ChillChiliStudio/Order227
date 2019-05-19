@@ -16,6 +16,8 @@ Horde_Manager::Horde_Manager()
 bool Horde_Manager::Awake(pugi::xml_node&config) {
 
 	maxHordes = config.child("max_hordes").attribute("value").as_int(0);
+	initialRoundThreat = roundThreat = config.child("initial_horde_threat").attribute("value").as_int(0);
+	initialThreatIncremental = threatIncremental = config.child("initial_threat_incremental").attribute("value").as_int(0);
 	return true;
 }
 
@@ -73,10 +75,17 @@ bool Horde_Manager::Update(float dt)
 			{
 
 				SpawningPoints_Array[i]->SpawnTime.Start();
-				hordes[i]->AddUnit(myApp->entities->ActivateUnit(SP_Pos, infantry_type::BASIC, entity_faction::CAPITALIST));
-				SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
 
-				LOG("%d", SpawningPoints_Array[i]->Enemies_to_Spawn.size());
+				int infType = (SpawningPoints_Array[i]->Enemies_to_Spawn.back());
+
+				if (infType == (int)infantry_type::BAZOOKA)
+					hordes[i]->AddUnit(myApp->entities->ActivateLauncher(SP_Pos, (infantry_type)infType, entity_faction::CAPITALIST));
+				else
+					hordes[i]->AddUnit(myApp->entities->ActivateUnit(SP_Pos, (infantry_type)infType, entity_faction::CAPITALIST));
+
+				SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
+				remainingEnemies++;
+
 			}
 
 			hordes[i]->SpreadDestinations(SpawningPoints_Array[i]->position);
@@ -99,19 +108,18 @@ bool Horde_Manager::Update(float dt)
 
 void Horde_Manager::ChooseSpawningPoints()
 {
-
 		//Restarting round if reached 20 - for MVP this should be 5
 		if (roundNumber == maxHordes) {
 
 			roundNumber = 0;
-			roundThreat = 0;
+			roundThreat = initialRoundThreat;
 		}
 
 		//This is VERY HARDCODED - I'm not proud of this, but will work for now (fck this shit) - Is just the manager of round threat TODO
 		if (roundNumber == 0 || roundNumber == 1)
-			threatIncremental = 10;
+			threatIncremental = initialThreatIncremental;
 		else if (roundNumber % 3 == 0)
-			threatIncremental += 10;
+			threatIncremental += initialThreatIncremental;
 		else
 			threatIncremental = 0;
 
@@ -119,6 +127,7 @@ void Horde_Manager::ChooseSpawningPoints()
 
 		roundThreat += threatIncremental;
 		roundNumber++;
+
 		std::string a = std::to_string(roundNumber);
 		myApp->gui->hordeNumber_Label->ChangeString(a.c_str());
 
@@ -131,17 +140,22 @@ void Horde_Manager::ChooseSpawningPoints()
 		int r1 = rand() % SpawningPoints_Array.size(); //For ranges not starting at 0: rand()%X + Y --> Range of rands between Y and X
 		int r2 = rand() % SpawningPoints_Array.size(); //Rand num between 0 and array's size (if 4 SP, then 0-4)
 
-		if (SpawningPoints_Array.size() > 1) {
+		while (r2 == r1)
+			r2 = rand() % SpawningPoints_Array.size(); //This can be pretty unpredictable & uncontrolling shit
 
-			while (r2 == r1)
-				r2 = rand() % SpawningPoints_Array.size(); //This can be pretty unpredictable & uncontrolling shit
-		}
+		int r3 = rand() % SpawningPoints_Array.size();
+
+		while (r3 == r2 || r3 == r1)
+			r3 = rand() % SpawningPoints_Array.size();
+
 
 		SpawningPoints_Array[r1]->active = true;
 		SpawningPoints_Array[r2]->active = true;
+		SpawningPoints_Array[r3]->active = true;
 
 		SpawningPoints_Array[r1]->enemiesAttacking = false;
 		SpawningPoints_Array[r2]->enemiesAttacking = false;
+		SpawningPoints_Array[r3]->enemiesAttacking = false;
 
 		for (int i = 0; i < SpawningPoints_Array.size(); i++)
 			if (SpawningPoints_Array[i]->active == true)

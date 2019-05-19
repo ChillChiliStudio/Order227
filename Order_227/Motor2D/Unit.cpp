@@ -37,7 +37,7 @@ bool Unit::Start()
 
 	currNode = unitPath.end();
 
-	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)][(int)faction]);
+	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
 
 	if (faction == entity_faction::COMMUNIST) {
 
@@ -239,7 +239,10 @@ unit_directions Unit::CheckDirection(fVec2 direction)
 // Change animation according to state
 void Unit::UpdateAnimation()
 {
-	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)][(int)faction]);
+	
+	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
+
+
 }
 
 // Order processing
@@ -535,7 +538,7 @@ void Unit::Die()
 	despawnTimer.Start();
 	unitOrders = unit_orders::NONE;
 	unitState = unit_state::DEAD;
-	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0][(int)faction]);
+	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0]);
 
 	int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::HURT];
 	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)type_sounds::HURT][rand() % Aux], 0, CHANNEL_HURT, centerPos, true);
@@ -666,6 +669,7 @@ Entity* Unit::EnemyInRadius(uint radius)
 
 		//Buildings
 		if (ret == nullptr && faction == entity_faction::CAPITALIST) {
+
 			numActives = myApp->entities->activeBuildings;
 
 			for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0; item = next(item)) {

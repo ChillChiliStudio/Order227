@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="10" tilewidth="174" tileheight="142" nextobjectid="87">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="10" tilewidth="174" tileheight="142" nextobjectid="88">
  <imagelayer name="Capa de Imagen 1">
   <image source="GoldMine.png" width="1392" height="1420"/>
  </imagelayer>
@@ -67,5 +67,6 @@
   <object id="84" name="Explosion" x="1044" y="710" width="174" height="142"/>
   <object id="85" name="Explosion" x="1218" y="710" width="174" height="142"/>
   <object id="82" name="Explosion" x="696" y="852" width="174" height="142"/>
+  <object id="87" name="Explosion" x="870" y="852" width="174" height="142"/>
  </objectgroup>
 </map>

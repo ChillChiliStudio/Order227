@@ -10,6 +10,8 @@
 #include "Group.h"
 #include "Animation.h"
 #include "Launcher.h"
+
+
 #define TIMES_PER_SEC 5
 #define TROOP_TYPES 8
 #define RESIZE_VALUE 50
@@ -99,7 +101,7 @@ public:
 	Building* mainBase = nullptr;	//TODO: This is here because of the lack of lists, having an "attackable buildings" list to read for capitalist units would be better
 	
 	//Animations Array
-	Animation animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)][2]; //TODO_ WTF? Troop types?
+	Animation animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)]; //TODO_ WTF? Troop types?
 	Animation BuildingAnimationArray[int(building_type::BUILDING_MAX)][int(Building_State::MAX)];
 
 	bool entitiesDebugDraw = false;
@@ -108,7 +110,7 @@ public:
 	//Unit stats
 	unit_stats		infantryStats[int(infantry_type::INFANTRY_MAX)];
 
-	bool heavyUnitsUnlocked = true;
+	bool heavyUnitsUnlocked = false;
 
 	//Quadtree with all the active entities
 	EntityQuadtree* entitiesQuadtree;
@@ -127,7 +129,7 @@ private:
 
 	//Arrays with all the textures
 	SDL_Texture*	buildingsTextures[int(building_type::BUILDING_MAX)];
-	SDL_Texture*	infantryTextures[int(infantry_type::INFANTRY_MAX)];
+	SDL_Texture*	infantryTextures[int(infantry_type::INFANTRY_MAX)][2];
 	SDL_Texture*	objectTextures[int(object_type::OBJECT_MAX)];
 
 	

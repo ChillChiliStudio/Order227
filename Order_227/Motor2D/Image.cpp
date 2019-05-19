@@ -71,10 +71,10 @@ bool Image::Draw()
 	bool ret = true;
 
 	if (lookingRight) {
-		ret = myApp->render->Blit(graphics, (int)position.x, (int)position.y, sprite, SDL_FLIP_NONE, false);
+		ret = myApp->render->Blit(graphics, (int)position.x, (int)position.y, sprite, SDL_FLIP_NONE, FollowCam,scale);
 	}
 	else {
-		ret = myApp->render->Blit(graphics, (int)position.x, (int)position.y, sprite, SDL_FLIP_HORIZONTAL, false);
+		ret = myApp->render->Blit(graphics, (int)position.x, (int)position.y, sprite, SDL_FLIP_HORIZONTAL, FollowCam,scale);
 	}
 
 	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); iter = next(iter)) {

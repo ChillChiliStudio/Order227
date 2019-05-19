@@ -14,6 +14,7 @@
 #include "Brofiler/Brofiler.h"
 #include "Launcher.h"
 #include "EntityQuadtree.h"
+#include "Horde_Manager.h"
 
 #include <algorithm>
 
@@ -51,7 +52,7 @@ bool Entity_Manager::Start()
 {
 
 
-static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number of Uniots are different from the TROOP_TYPES define, have to be equal");
+static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number of Units are different from the TROOP_TYPES define, have to be equal");
 
 	//Load textures
 	//infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
@@ -272,7 +273,7 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 			(*item).faction = entityFaction;
 			(*item).position = position;
 			(*item).infantryType = infantryType;
-			(*item).texture = infantryTextures[int(infantryType)];
+			(*item).texture = infantryTextures[int(infantryType)][(int)entityFaction];
 			(*item).stats = infantryStats[int(infantryType)];
 			(*item).Start(); //active = true goes here in this start
 
@@ -316,7 +317,7 @@ Launcher* Entity_Manager::ActivateLauncher(fPoint position, infantry_type infant
 			(*item).faction = entityFaction;
 			(*item).position = position;
 			(*item).infantryType = infantryType;
-			(*item).texture = infantryTextures[int(infantryType)];
+			(*item).texture = infantryTextures[int(infantryType)][(int)entityFaction];
 			(*item).stats = infantryStats[int(infantryType)];
 			(*item).Start();
 
@@ -358,6 +359,10 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 		break;
 	}
 
+	if (_Unit->faction == entity_faction::CAPITALIST)
+		myApp->hordes->remainingEnemies--;
+		
+
 	_Unit->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 	_Unit->infantryType = infantry_type::INFANTRY_NONE;
 	_Unit->position = fPoint(0.0f, 0.0f);
@@ -396,15 +401,13 @@ void Entity_Manager::ActivateBuildings()
 		if ((*item).buildingType != building_type::BUILDING_MAX && (*item).buildingType != building_type::BUILDING_NONE) {
 
 			(*item).faction = entity_faction::NEUTRAL;
-			(*item).health = 0;
+			(*item).health = (*item).maxHealth;
 			(*item).repairable = true;
 
 			if ((*item).buildingType == building_type::COMMAND_CENTER) {
 
 				(*item).faction = entity_faction::COMMUNIST;
-				(*item).health = (*item).maxHealth;
 				mainBase = &(*item);
-
 			}
 
 
@@ -413,8 +416,8 @@ void Entity_Manager::ActivateBuildings()
 				(*item).centerPos.y = (*item).position.y + 120;
 			}
 			if ((*item).buildingType == building_type::EPC) {
-				(*item).centerPos.x = (*item).position.x + 50;
-				(*item).centerPos.y = (*item).position.y + 60;
+				(*item).centerPos.x = (*item).position.x + 160;
+				(*item).centerPos.y = (*item).position.y + 110;
 			}
 			if ((*item).buildingType == building_type::GOLDYARD) {
 				(*item).centerPos.x = (*item).position.x + 70;
@@ -436,9 +439,6 @@ void Entity_Manager::ActivateBuildings()
 				(*item).centerPos.x = (*item).position.x + 140;
 				(*item).centerPos.y = (*item).position.y + 140;
 			}
-
-
-		
 
 			(*item).active = true;
 			(*item).selected = false;
@@ -512,31 +512,35 @@ bool Entity_Manager::loadTroopsTextures()
 		switch (Data.attribute("id").as_int())
 		{
 		case(int(infantry_type::CONSCRIPT)):
-			infantryTextures[int(infantry_type::CONSCRIPT)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
-
+			infantryTextures[int(infantry_type::CONSCRIPT)][0]= myApp->tex->Load(Data.attribute("TextPath").as_string());
+			infantryTextures[int(infantry_type::CONSCRIPT)][1] = nullptr;
 			break;
 
 		case(int(infantry_type::BAZOOKA)):
 
-			infantryTextures[int(infantry_type::BAZOOKA)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			infantryTextures[int(infantry_type::BAZOOKA)][0] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			infantryTextures[int(infantry_type::BAZOOKA)][1] = myApp->tex->Load(Data.attribute("TextPathTwo").as_string());
 
 			break;
 
 		case(int(infantry_type::DESOLATOR)):
 
-			infantryTextures[int(infantry_type::DESOLATOR)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			infantryTextures[int(infantry_type::DESOLATOR)][0] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			infantryTextures[int(infantry_type::DESOLATOR)][1] = nullptr;
 			break;
 
 		case(int(infantry_type::CHRONO)):
 
-			infantryTextures[int(infantry_type::CHRONO)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			infantryTextures[int(infantry_type::CHRONO)][0] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			infantryTextures[int(infantry_type::CHRONO)][1] = myApp->tex->Load(Data.attribute("TextPathTwo").as_string());
 
 
 			break;
 
 		case(int(infantry_type::SNIPER)):
 
-			infantryTextures[int(infantry_type::SNIPER)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			infantryTextures[int(infantry_type::SNIPER)][0] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			infantryTextures[int(infantry_type::SNIPER)][1] = myApp->tex->Load(Data.attribute("TextPathTwo").as_string());
 			break;
 
 		}
@@ -548,16 +552,17 @@ bool Entity_Manager::loadTroopsTextures()
 		{
 			case int(int(infantry_type::BASIC)) :
 
-				infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
-
+				infantryTextures[int(infantry_type::BASIC)][0] = NULL;
+				infantryTextures[int(infantry_type::BASIC)][1] = myApp->tex->Load(Data.attribute("TextPath").as_string());
 				break;
 
 				case int(int(infantry_type::DOG)) :
 
-					infantryTextures[int(infantry_type::DOG)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+				infantryTextures[int(infantry_type::DOG)][0] = NULL;
+				infantryTextures[int(infantry_type::DOG)][1] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+				break;
 
-					break;
-
+			
 		}
 	}
 
@@ -697,6 +702,8 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 	SDL_Rect temp;
 	int posArr;
 
+
+
 	for (pugi::xml_node DataXML = unitsDocument.child("Entity_Document").child("Troops").child(faction.c_str()).child("Unit"); DataXML; DataXML = DataXML.next_sibling("Unit")) {
 
 
@@ -727,7 +734,10 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 				{
 
 					case (int(infantry_type::BASIC)) :
-						temp.x = temp.x;
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
 
 						break;
 
@@ -787,36 +797,36 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
 						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
 						break;
-
+					
 				}
 
 				if (tempString == "Pointing") {
 
-					animationArray[id][int(unit_state::IDLE)][degreesToArray][posArr].PushBack(temp);
-					animationArray[id][int(unit_state::IDLE)][degreesToArray][posArr].loop = true;
-					animationArray[id][int(unit_state::IDLE)][degreesToArray][posArr].speed = 10.0f;
+					animationArray[id][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
+					animationArray[id][int(unit_state::IDLE)][degreesToArray].loop = true;
+					animationArray[id][int(unit_state::IDLE)][degreesToArray].speed = 10.0f;
 
 				}
 				else if (tempString == "Walking") {
 
-					animationArray[id][int(unit_state::MOVING)][degreesToArray][posArr].PushBack(temp);
-					animationArray[id][int(unit_state::MOVING)][degreesToArray][posArr].loop = true;
-					animationArray[id][int(unit_state::MOVING)][degreesToArray][posArr].speed = 5.0f;
+					animationArray[id][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
+					animationArray[id][int(unit_state::MOVING)][degreesToArray].loop = true;
+					animationArray[id][int(unit_state::MOVING)][degreesToArray].speed = 5.0f;
 
 				}
 				else if (tempString == "Shot") {
 
-					animationArray[id][int(unit_state::ATTACKING)][degreesToArray][posArr].PushBack(temp);
-					animationArray[id][int(unit_state::ATTACKING)][degreesToArray][posArr].loop = true;
-					animationArray[id][int(unit_state::ATTACKING)][degreesToArray][posArr].speed = 10.0f;
+					animationArray[id][int(unit_state::ATTACKING)][degreesToArray].PushBack(temp);
+					animationArray[id][int(unit_state::ATTACKING)][degreesToArray].loop = true;
+					animationArray[id][int(unit_state::ATTACKING)][degreesToArray].speed = 10.0f;
 
 
 				}
 				else if (tempString == "DeathOne") {
 
-					animationArray[id][int(unit_state::DEAD)][0][posArr].PushBack(temp);
-					animationArray[id][int(unit_state::DEAD)][0][posArr].loop = false;
-					animationArray[id][int(unit_state::DEAD)][0][posArr].speed = DataXML.child("AnimDet").attribute("DeathOneSpeed").as_float();
+					animationArray[id][int(unit_state::DEAD)][0].PushBack(temp);
+					animationArray[id][int(unit_state::DEAD)][0].loop = false;
+					animationArray[id][int(unit_state::DEAD)][0].speed = DataXML.child("AnimDet").attribute("DeathOneSpeed").as_float();
 
 
 				}

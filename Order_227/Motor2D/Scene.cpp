@@ -74,7 +74,7 @@ bool Scene::Update(float dt)
 	if (myApp->audio->MusicPlaying() == false)
 		ManageMusic();
 
-	if (myApp->hordes->roundNumber >= 6 && ActivateGameOverMusic == true) {
+	if (myApp->hordes->roundNumber == myApp->hordes->maxHordes && myApp->hordes->HordesDead() && ActivateGameOverMusic == true) {
 
 		myApp->gui->WinIcon->Activate();
 		myApp->scene->SwitchMusic(Screen_Type::SCREEN_WIN);

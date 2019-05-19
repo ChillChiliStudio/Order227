@@ -22,10 +22,15 @@ public:
 	void FillEnemies(int threat) {
 
 		int aux_threat = threat;
+
+		int enemyType = rand() % 6;
+		if (enemyType == 1 || enemyType == 3)
+			enemyType = 0;
+
 		while (aux_threat > 0) {
 
-			Enemies_to_Spawn.push_back(1);
-			aux_threat--;
+			Enemies_to_Spawn.push_back(enemyType);
+			aux_threat -= myApp->entities->infantryStats[enemyType].unitThreat;
 		}
 
 		SpawnTime.Start();

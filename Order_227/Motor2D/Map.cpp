@@ -665,7 +665,7 @@ void Map::PlaceGameObjects() {
 				newBuilding.active = false;
 
 				std::list <Properties::Property*> ::iterator itemProp = (*item2)->PropObj.list.begin();
-			
+
 				for (; itemProp != (*item2)->PropObj.list.end(); itemProp = next(itemProp)) {
 
 					if ((*itemProp)->name == "income")
@@ -678,24 +678,23 @@ void Map::PlaceGameObjects() {
 
 				myApp->entities->buildingsArray.push_back(newBuilding);
 			}
-
+		}
 			//TODO:Draw threes depending on the terrain tile
-			if ((*item)->nameGroup == "Trees") {
+		if ((*item)->nameGroup == "Trees") {
 
-				std::list<GameObjectGroup::Object*>::iterator item3 = (*item)->Objectlist.begin();
-				for (; item3 != (*item)->Objectlist.end(); item3 = next(item3)) {
+			std::list<GameObjectGroup::Object*>::iterator item3 = (*item)->Objectlist.begin();
+			for (; item3 != (*item)->Objectlist.end(); item3 = next(item3)) {
 
-					iPoint Aux = PointToTile((int)(*item3)->x, (int)(*item3)->y);
-					fPoint fPos = fPoint(Aux.x, Aux.y);
+				iPoint Aux = PointToTile((int)(*item3)->x, (int)(*item3)->y);
+				fPoint fPos = fPoint(Aux.x, Aux.y);
 
-					Static_Object newStaticObject(fPos, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
-					newStaticObject.active = false;
+				Static_Object newStaticObject(fPos, object_type::OBJECT_NONE, entity_faction::NEUTRAL);
+				newStaticObject.active = false;
 
-					if ((*item3)->name == "Tree")
-						newStaticObject.objectType = object_type::TREE;
+				if ((*item3)->name == "Tree")
+					newStaticObject.objectType = object_type::TREE;
 
-					myApp->entities->objectsArray.push_back(newStaticObject);
-				}
+				myApp->entities->objectsArray.push_back(newStaticObject);
 			}
 		}
 	}

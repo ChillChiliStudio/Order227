@@ -68,7 +68,7 @@ public:
 
 	//Buffs
 	bool unitBuff = false;
-	bool destroyed = false;
+	bool destroyed = true;
 
 	int UnitsSpeedBuff = 0;
 	int UnitsLifeBuff = 0;

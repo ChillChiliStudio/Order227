@@ -40212,42 +40212,42 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="790" name="RADAR" x="803.33" y="1413.67" width="114.375" height="113.729">
+  <object id="790" name="RADAR" x="645.33" y="1395.67" width="114.375" height="113.729">
    <properties>
     <property name="health" type="int" value="500"/>
     <property name="income" type="int" value="30"/>
     <property name="type" type="int" value="2"/>
    </properties>
   </object>
-  <object id="796" name="TANK" x="995.83" y="1788.12" width="114.375" height="113.729">
+  <object id="796" name="TANK" x="587.83" y="2116.12" width="114.375" height="113.729">
    <properties>
     <property name="health" type="int" value="500"/>
     <property name="income" type="int" value="30"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="797" name="GOLDYARD" x="1651.28" y="1894.12" width="114.375" height="113.729">
+  <object id="797" name="GOLDYARD" x="2067.28" y="2318.12" width="114.375" height="113.729">
    <properties>
     <property name="health" type="int" value="500"/>
     <property name="income" type="int" value="30"/>
     <property name="type" type="int" value="3"/>
    </properties>
   </object>
-  <object id="798" name="HTPC" x="700.328" y="1016.77" width="114.375" height="113.729">
+  <object id="798" name="HTPC" x="482.328" y="466.77" width="114.375" height="113.729">
    <properties>
     <property name="health" type="int" value="500"/>
     <property name="income" type="int" value="30"/>
     <property name="type" type="int" value="4"/>
    </properties>
   </object>
-  <object id="799" name="PH" x="997.98" y="502.029" width="114.375" height="113.729">
+  <object id="799" name="PH" x="1329.98" y="514.029" width="114.375" height="113.729">
    <properties>
     <property name="health" type="int" value="500"/>
     <property name="income" type="int" value="30"/>
     <property name="type" type="int" value="5"/>
    </properties>
   </object>
-  <object id="800" name="EPC" x="1647.93" y="1110.98" width="114.375" height="113.729">
+  <object id="800" name="EPC" x="2195.93" y="922.98" width="114.375" height="113.729">
    <properties>
     <property name="health" type="int" value="500"/>
     <property name="income" type="int" value="30"/>
