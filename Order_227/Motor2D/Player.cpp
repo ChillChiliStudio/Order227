@@ -211,11 +211,13 @@ void Player::DebugInputs()
 
 			if (myApp->map->mapDebugDraw) {
 				LOG("Debug Map: ON");
-				myApp->gui->mouseDebugMark->Activate();
+				myApp->gui->mouseDebugMark->Activate();	//TODO: There should be a button for FPS alone
+				myApp->gui->fpsText->Activate();
 			}
 			else {
 				LOG("Debug Map: OFF");
 				myApp->gui->mouseDebugMark->Deactivate();
+				myApp->gui->fpsText->Deactivate();
 			}
 		}
 
