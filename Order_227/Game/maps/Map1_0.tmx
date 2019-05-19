@@ -40180,7 +40180,7 @@
    <tile gid="280"/>
   </data>
  </layer>
- <objectgroup id="5" name="spawnPoint" visible="0">
+ <objectgroup id="5" name="spawnPoint">
   <object id="7" x="53" y="681"/>
   <object id="18" x="275.758" y="2627.27"/>
   <object id="21" x="1763.64" y="-218.182"/>
@@ -40255,7 +40255,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="7" name="Trees" visible="0">
+ <objectgroup id="7" name="Trees">
   <object id="381" name="Tree" x="400.417" y="731.917" width="14.5" height="11.5"/>
   <object id="382" name="Tree" x="431.25" y="731.083" width="14.5" height="11.5"/>
   <object id="383" name="Tree" x="462.917" y="734.75" width="14.5" height="11.5"/>

@@ -23,7 +23,7 @@ public:
 
 		int aux_threat = threat;
 
-		int enemyType = rand() % 7;
+		int enemyType = rand() % 6;
 		if (enemyType == 1 || enemyType == 3)
 			enemyType = 0;
 

@@ -51,7 +51,7 @@ bool Entity_Manager::Start()
 {
 
 
-static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number of Uniots are different from the TROOP_TYPES define, have to be equal");
+static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number of Units are different from the TROOP_TYPES define, have to be equal");
 
 	//Load textures
 	//infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load("textures/troops/allied/GI.png");
@@ -549,31 +549,26 @@ bool Entity_Manager::loadTroopsTextures()
 			case int(int(infantry_type::BASIC)) :
 
 				infantryTextures[int(infantry_type::BASIC)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
-
 				break;
 
-				case int(int(infantry_type::DOG)) :
+			case int(int(infantry_type::DOG)) :
 
-					infantryTextures[int(infantry_type::DOG)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+				infantryTextures[int(infantry_type::DOG)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+				break;
+			case(int(infantry_type::BAZOOKA_ALLIED)):
 
-					break;
-				case(int(infantry_type::BAZOOKA_ALLIED)):
+				infantryTextures[int(infantry_type::BAZOOKA_ALLIED)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+				break;
 
-					infantryTextures[int(infantry_type::BAZOOKA_ALLIED)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			case(int(infantry_type::CHRONO_ALLIED)):
 
-					break;
+				infantryTextures[int(infantry_type::CHRONO_ALLIED)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+				break;
 
-				case(int(infantry_type::CHRONO_ALLIED)):
+			case(int(infantry_type::SNIPER_ALLIED)):
 
-					infantryTextures[int(infantry_type::CHRONO_ALLIED)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
-
-
-					break;
-
-				case(int(infantry_type::SNIPER_ALLIED)):
-
-					infantryTextures[int(infantry_type::SNIPER_ALLIED)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
-					break;
+				infantryTextures[int(infantry_type::SNIPER_ALLIED)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+				break;
 		}
 	}
 

@@ -21,9 +21,9 @@ enum class infantry_type	// TODO: This should be a single enum with ALL units sa
 	SNIPER,
 	DOG,
 	COW,
-	BAZOOKA_ALLIED,
-	CHRONO_ALLIED,
-	SNIPER_ALLIED,
+	//BAZOOKA_ALLIED,
+	//CHRONO_ALLIED,
+	//SNIPER_ALLIED,
 	INFANTRY_MAX
 };
 
