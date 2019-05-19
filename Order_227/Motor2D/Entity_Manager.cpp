@@ -90,6 +90,7 @@ bool Entity_Manager::PreUpdate()
 
 bool Entity_Manager::Update(float dt)
 {
+	//Fill the quadtree  with entities
 	entitiesQuadtree->FillTree();
 
 	BROFILER_CATEGORY("Entity_Manager Update", Profiler::Color::Yellow);
@@ -112,10 +113,12 @@ bool Entity_Manager::Update(float dt)
 		accumulated_time -= update_ms_cycle;
 	}
 
-	entitiesQuadtree->DrawQuadtree();
+	if (entitiesDebugDraw)
+		entitiesQuadtree->DrawQuadtree();
 
 	SolveOverlapping();
 
+	//Clear the quadtree of entities
 	entitiesQuadtree->ClearTree();
 
 	return true;
