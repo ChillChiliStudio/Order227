@@ -77,7 +77,7 @@ public:
 
 	float health = 0.0f;
 	float maxHealth = 0.0f;
-	float healthRecovery = 0.1f;
+	float healthRecovery = 0.4f;
 	int income = 0;
 
 	bool repairable = false;
