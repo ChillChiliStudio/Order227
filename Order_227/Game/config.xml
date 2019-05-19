@@ -1,11 +1,11 @@
 <!-- Config file for the game -->
 <config>
   <app framerate_cap="60">
-    <title>Order 227</title>
+    <title>Order227</title>
     <organization>UPC</organization>
     <debug active="true" />
   </app>
-	
+
   <renderer>
     <vsync value="true"/>
   </renderer>
@@ -14,7 +14,7 @@
     <music volume="0"/>
     <sfx volume="0"/>
   </audio>
-  
+
   <window>
     <resolution width="1280" height="720" scale="1"/>
     <fullscreen value="false"/>
@@ -30,11 +30,15 @@
   <map>
     <folder>maps/</folder>
   </map>
-  
+
   <entities>
 	<units_initial_size value="200"/>
   </entities>
-	
+
+<horde_manager>
+	<max_hordes value="6" />
+</horde_manager>
+
 	<player>
 		<money value="300" />
 	</player>

@@ -40,12 +40,12 @@ bool Unit::Start()
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)][(int)faction]);
 
 	if (faction == entity_faction::COMMUNIST) {
-		
+
 		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SPAWN];
 		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::SPAWN][rand() % Aux]);
 	}
 
-	
+
 	myApp->gui->CreateLifeBar(fPoint(centerPos.x, position.y), this, myApp->entities->lifeBar_tex);
 
 	active = true;
@@ -509,7 +509,7 @@ void Unit::AttackCurrTarget(float dt)
 	else if (attackTimer.Read() > stats.cadency) {
 		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SHOT];
 		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)infantryType][(int)type_sounds::SHOT][rand() % Aux], 0, centerPos, true);
-    
+
 		attackTimer.Start();
 	}
 }
@@ -641,9 +641,11 @@ Entity* Unit::EnemyInRadius(uint radius)
 		}
 	}
 
-	if (ret == nullptr) {
-		numActives = myApp->entities->activeLaunchers;
-		for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); numActives > 0; item = next(item)) {
+	//Buildings
+	if (ret == nullptr && faction == entity_faction::CAPITALIST) {
+		numActives = myApp->entities->activeBuildings;
+
+		for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0 && item != myApp->entities->buildingsArray.end(); item = next(item)) {
 			if ((*item).active) {
 				numActives--;
 

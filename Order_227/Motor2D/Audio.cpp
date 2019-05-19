@@ -324,42 +324,17 @@ uint Audio::SetSfxChunkVolume(uint vol, int id)
 	}
 }
 
-//Legacy Lucho Methods
-//void Audio::ControlVolume(int vol) { //Range: 0-128
-//
-//	Mix_Volume(-1, vol);
-//  ControlMUSVolume(vol);
-//	ControlSFXVolume(vol);
-//
-//}
-//
-//void Audio::ControlMUSVolume(int vol) { //Range: 0-128
-//
-//	Mix_VolumeMusic(vol);
-//
-//}
-//
-//void Audio::ControlSFXVolume(int vol) { //Range: 0-128
-//
-//	std::list<Mix_Chunk*>::iterator it = fx.begin();
-//
-//	for(; *it != NULL; it = next(it))
-//		Mix_VolumeChunk(*it, vol);
-//
-//}
 
 void Audio::FillArrayFX() {
-	
+
 	for (int i = 0; i < (int)infantry_type::INFANTRY_MAX; ++i) {
-		
+
 			for (int k = 0; k < (int)type_sounds::MAX; ++k) {
 				for (int l = 0; l < VARIATION_PER_SOUND; ++l)
 					SoundFX_Array[i][k][l]= -1;
 
 			}
-		
 	}
-
 }
 
 void Audio::LoadIntoArray() {
@@ -367,13 +342,13 @@ void Audio::LoadIntoArray() {
 
 	pugi::xml_parse_result result = SFX_XML.load_file("SoundFX.xml");
 
-	//SOV units Sound	
+	//SOV units Sound
 
 		for (pugi::xml_node DataUnit = SFX_XML.child("FX").child("Troops").child("Unit"); DataUnit != NULL; DataUnit = DataUnit.next_sibling("Unit")) {
 
 			int id = DataUnit.attribute("id").as_int();
-			
-		
+
+
 			for (pugi::xml_node SoundType = DataUnit.child("Sound"); SoundType != NULL; SoundType = SoundType.next_sibling("Sound")) {
 
 				int TypeSound = SoundType.attribute("id").as_int();
@@ -390,5 +365,5 @@ void Audio::LoadIntoArray() {
 				}
 			}
 		}
-	
+
 }
