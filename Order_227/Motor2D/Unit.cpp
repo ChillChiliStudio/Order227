@@ -75,7 +75,7 @@ bool Unit::Update(float dt)
 	}
 	else {
 		if (currNode != unitPath.end()) {
-			if (myApp->entities->entitiesDebugDraw || faction == entity_faction::COMMUNIST) {
+			if (myApp->entities->entitiesDebugDraw || faction == entity_faction::COMMUNIST && selected) {
 				DrawPath();
 			}
 		}
@@ -110,6 +110,7 @@ bool Unit::Update(float dt)
 bool Unit::Draw()
 {
 	spriteRect = currentAnimation.GetTheActualCurrentFrame();	//TODO: CARLESTODO Mark of blit update
+	
 	myApp->render->Push(order, texture, (int)position.x, (int)position.y, &spriteRect);
 
 	return true;
@@ -848,6 +849,7 @@ bool Unit::TryLinearPath(iPoint origin, iPoint destination)
 
 fVec2 Unit::SetupVecSpeed()
 {
+	
 	fPoint nodePos = { (float)(currNode->x), (float)(currNode->y) };
 
 	vecSpeed = GetVector2(groundPos, nodePos);

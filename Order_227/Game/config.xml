@@ -1,4 +1,6 @@
 <!-- Config file for the game -->
+
+
 <config>
   <app framerate_cap="60">
     <title>Order227</title>
@@ -10,9 +12,9 @@
     <vsync value="true"/>
   </renderer>
 
-  <audio volume="100">
-    <music volume="0"/>
-    <sfx volume="50"/>
+  <audio volume="50">
+    <music volume="80"/>
+    <sfx volume="80"/>
   </audio>
 
   <window>
@@ -36,7 +38,7 @@
   </entities>
 
 <horde_manager>
-	<max_hordes value="1" />
+	<max_hordes value="10" />
 	<initial_horde_threat value="10"/>
 	<initial_threat_incremental value="15"/>
 </horde_manager>

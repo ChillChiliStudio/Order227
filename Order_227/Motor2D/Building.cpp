@@ -6,6 +6,7 @@
 #include "UserInterface.h"
 #include "Text.h"
 #include "Scene.h"
+#include "Geometry.h"
 
 Building::Building()
 {}
@@ -35,6 +36,8 @@ bool Building::Start() {
 	else
 		health = 0;
 
+	rewardGiven = false;
+
 	return true;
 }
 
@@ -55,46 +58,46 @@ bool Building::Update(float dt)
 		else if (health >= 0 && health < maxHealth && repairable == false)
 			repairable = true;
 	}
-	else if (faction == entity_faction::NEUTRAL && health > 0/*(maxHealth/3)*/)
+	else if (faction == entity_faction::NEUTRAL && health > (maxHealth/2))
 			faction = entity_faction::COMMUNIST;
 
 
 	if (repairable == true) {
 
-		int unitsArraound = 0;
+		uint unitsArround = 0;
 
 		for (int i = 0; i < myApp->entities->unitPool.size(); i++) {
 
 			if (myApp->entities->unitPool[i].active && myApp->entities->unitPool[i].faction == entity_faction::COMMUNIST) {
 
-				if (this->position.x - myApp->entities->unitPool[i].position.x < 100 && this->position.x - myApp->entities->unitPool[i].position.x > -100
-					&& this->position.y - myApp->entities->unitPool[i].position.y < 100 && this->position.y - myApp->entities->unitPool[i].position.y > -100) {
-					unitsArraound++;
+				if (InsideSquareRadius(centerPos, repairRadius, myApp->entities->unitPool[i].centerPos)
+					&& InsideRadius(centerPos, repairRadius, myApp->entities->unitPool[i].centerPos)) {
+					unitsArround++;
 				}
-
 			}
 		}
 		for (int i = 0; i < myApp->entities->launcherPool.size(); i++) {
 
 			if (myApp->entities->launcherPool[i].active == true && myApp->entities->launcherPool[i].faction == entity_faction::COMMUNIST) {
 
-				if (myApp->entities->launcherPool[i].active && this->position.x - myApp->entities->launcherPool[i].position.x < 100 && this->position.x - myApp->entities->launcherPool[i].position.x > -100
-					&& this->position.y - myApp->entities->launcherPool[i].position.y < 100 && this->position.y - myApp->entities->launcherPool[i].position.y > -100) {
-					unitsArraound++;
+				if (InsideSquareRadius(centerPos, repairRadius, myApp->entities->launcherPool[i].centerPos)
+					&& InsideRadius(centerPos, repairRadius, myApp->entities->launcherPool[i].centerPos)) {
+					unitsArround++;
 				}
 
 			}
 		}
-		for (int i = 0; i < unitsArraound; i++)
-			Repair();
 
+		if (unitsArround > 0) {
+			Repair(unitsArround);
+		}
 	}
 
 	//draw center
 	CurrentAnim.AdvanceAnimation(dt);
 
 	Draw();
-	myApp->render->DrawCircle(centerPos.x, centerPos.y, 100, 255, 0, 0, 255);
+	myApp->render->DrawCircle(centerPos.x, centerPos.y, (int)repairRadius, 255, 0, 0, 255);
 
 	if (myApp->map->mapDebugDraw) {
 		DebugDraw();
@@ -269,9 +272,9 @@ float Building::Hurt(float damage)
 	return health;
 }
 
-float Building::Repair()
+float Building::Repair(uint aroundUnits)
 {
-	health += healthRecovery;
+	health += aroundUnits * healthRecovery;
 
 	if (health >= maxHealth) {
 

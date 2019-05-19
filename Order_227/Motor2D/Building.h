@@ -49,7 +49,7 @@ public:
 	bool DebugDraw();
 
 	virtual float Hurt(float damage);
-	virtual float Repair();
+	virtual float Repair(uint aroundUnits);
 	virtual bool IsDead();
 	virtual bool IsVisible();
 
@@ -77,9 +77,10 @@ public:
 
 	float health = 0.0f;
 	float maxHealth = 0.0f;
-	float healthRecovery = 0.4f;
+	float healthRecovery = 0.2f;	//TODO: Unharcode
 	int income = 0;
 
+	float repairRadius = 170.0f;
 	bool repairable = false;
 
 private:
@@ -87,4 +88,4 @@ private:
 	bool rewardGiven = false;
 
 };
-#endif 
+#endif
