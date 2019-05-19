@@ -237,7 +237,10 @@ unit_directions Unit::CheckDirection(fVec2 direction)
 // Change animation according to state
 void Unit::UpdateAnimation()
 {
+	
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)][(int)faction]);
+
+
 }
 
 // Order processing

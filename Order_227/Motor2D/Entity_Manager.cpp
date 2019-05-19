@@ -557,7 +557,23 @@ bool Entity_Manager::loadTroopsTextures()
 					infantryTextures[int(infantry_type::DOG)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
 
 					break;
+				case(int(infantry_type::BAZOOKA_ALLIED)):
 
+					infantryTextures[int(infantry_type::BAZOOKA_ALLIED)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+					break;
+
+				case(int(infantry_type::CHRONO_ALLIED)):
+
+					infantryTextures[int(infantry_type::CHRONO_ALLIED)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+
+
+					break;
+
+				case(int(infantry_type::SNIPER_ALLIED)):
+
+					infantryTextures[int(infantry_type::SNIPER_ALLIED)] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+					break;
 		}
 	}
 
@@ -787,7 +803,34 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
 						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
 						break;
+						//ALIADAS
+					case (int(infantry_type::BAZOOKA_ALLIED)):
 
+						//Introduce offset
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+
+						break;
+
+					case (int(infantry_type::CHRONO_ALLIED)):
+
+						//Introduce offset
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+						break;
+
+					case (int(infantry_type::SNIPER_ALLIED)):
+
+						//Introduce offset
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+						break;
 				}
 
 				if (tempString == "Pointing") {
