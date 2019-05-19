@@ -29,7 +29,7 @@ bool Launcher::Update(float dt) {
 		ProjectilePool.resize(10);
 	}
 
-	for (int i = 0; i < ProjectilePool.size(); i++) {
+	for (int i = 0; i < ProjectilePool.size(); i++) {	//TODO: The Bazooka fucking controls the rockets he shots wtf??? A projectile fired should be completely independent from the Bazooka!
 		if (ProjectilePool[i].active == true) {
 			ProjectilePool[i].Fly();
 			ProjectilePool[i].Update(dt);
@@ -48,8 +48,10 @@ bool Launcher::Update(float dt) {
 		myApp->entities->DeActivateUnit(this);
 	}
 	else {
-		if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
-			DrawPath();
+		if (currNode != unitPath.end()) {
+			if (myApp->entities->entitiesDebugDraw || faction == entity_faction::COMMUNIST) {
+				DrawPath();
+			}
 		}
 
 		currentAnimation.AdvanceAnimation(dt);	// Animation must continue even if outside camera

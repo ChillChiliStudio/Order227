@@ -72,8 +72,10 @@ bool Unit::Update(float dt)
 		/*}*/
 	}
 	else {
-		if (myApp->entities->entitiesDebugDraw && currNode != unitPath.end()) {
-			DrawPath();
+		if (currNode != unitPath.end()) {
+			if (myApp->entities->entitiesDebugDraw || faction == entity_faction::COMMUNIST) {
+				DrawPath();
+			}
 		}
 
 		currentAnimation.AdvanceAnimation(dt);	// Animation must continue even if outside camera
@@ -642,11 +644,11 @@ Entity* Unit::EnemyInRadius(uint radius)
 		}
 	}
 
-	//Buildings
-	if (ret == nullptr && faction == entity_faction::CAPITALIST) {
-		numActives = myApp->entities->activeBuildings;
+	//Launchers
+	if (ret == nullptr) {
+		numActives = myApp->entities->activeLaunchers;
 
-		for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0 && item != myApp->entities->buildingsArray.end(); item = next(item)) {
+		for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); numActives > 0; item = next(item)) {
 			if ((*item).active) {
 				numActives--;
 
@@ -662,6 +664,7 @@ Entity* Unit::EnemyInRadius(uint radius)
 			}
 		}
 
+		//Buildings
 		if (ret == nullptr && faction == entity_faction::CAPITALIST) {
 			numActives = myApp->entities->activeBuildings;
 
