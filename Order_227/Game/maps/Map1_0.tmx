@@ -40229,7 +40229,7 @@
   <object id="797" name="GOLDYARD" x="2067.28" y="2318.12" width="114.375" height="113.729">
    <properties>
     <property name="health" type="int" value="500"/>
-    <property name="income" type="int" value="30"/>
+    <property name="income" type="int" value="45"/>
     <property name="type" type="int" value="3"/>
    </properties>
   </object>

@@ -70,14 +70,14 @@ public:
 	//Buffs
 	bool destroyed = true;
 
-	int UnitsSpeedBuff = 0;
-	int UnitsLifeBuff = 0;
-	int MainBaseLifeBuff = 0;
-	int StrategicPointsLifeBuff = 0;
+	float UnitsSpeedBuff = 1.5f;
+	int UnitsLifeBuff = 2;
+	int MainBaseLifeBuff = 400;
+	int StrategicPointsLifeBuff = 200;
 
 	float health = 0.0f;
 	float maxHealth = 0.0f;
-	float healthRecovery = 0.2f;	//TODO: Unharcode
+	float healthRecovery = 0.4f;	//TODO: Unharcode
 	int income = 0;
 
 	float repairRadius = 100.0f;
@@ -88,4 +88,4 @@ private:
 	bool rewardGiven = false;
 
 };
-#endif 
+#endif

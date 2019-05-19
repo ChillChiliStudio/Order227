@@ -150,6 +150,8 @@ void Building::GiveReward() {
 
 	else if (buildingType == building_type::EPC) {
 
+		myApp->entities->buildingsBuff = true;
+
 		for (int i = 0; i < myApp->entities->buildingsArray.size(); i++) {
 
 			if (myApp->entities->buildingsArray[i].buildingType != building_type::COMMAND_CENTER)
@@ -180,6 +182,8 @@ void Building::TakeReward() {
 
 	else if (buildingType == building_type::EPC) {
 
+		myApp->entities->buildingsBuff = false;
+
 		for (int i = 0; i < myApp->entities->buildingsArray.size(); i++) {
 
 			if (myApp->entities->buildingsArray[i].buildingType != building_type::COMMAND_CENTER)
@@ -204,8 +208,8 @@ void Building::AddUnitsBuff() {
 
 		if ((*item).active && (*item).faction == entity_faction::COMMUNIST && (*item).IsDead() == false) {
 
-			(*item).stats.linSpeed *= 1.5;
-			(*item).stats.health += 2;
+			(*item).stats.linSpeed *= UnitsSpeedBuff;
+			(*item).stats.health += UnitsLifeBuff;
 		}
 	}
 
@@ -214,8 +218,8 @@ void Building::AddUnitsBuff() {
 
 		if ((*item).active && (*item).faction == entity_faction::COMMUNIST && (*item).IsDead() == false) {
 
-			(*item).stats.linSpeed *= 1.5;
-			(*item).stats.health += 2;
+			(*item).stats.linSpeed *= UnitsSpeedBuff;
+			(*item).stats.health += UnitsLifeBuff;
 		}
 	}
 }
