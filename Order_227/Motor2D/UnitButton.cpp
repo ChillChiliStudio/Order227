@@ -26,11 +26,6 @@ Unit_Box::Unit_Box(event_function action, fPoint center, SDL_Rect spriteList[4],
 	}
 
 	ButtonHotkey = Hotkey;
-	//Queue_Info = new Text("0", SDL_Color{255,255,255}, myApp->fonts->defaultFont);
-
-	//Queue_Info->position.x = position.x+15;
-	//Queue_Info->position.y = position.y+15;
-	//Queue_Info->active = false;
 };
 
 //State Entry
@@ -53,7 +48,6 @@ void Unit_Box::OnPress() {
 			}
 			myApp->player->playerMoney -= UnitCost;
 			myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
-		
 		}
 	}
 
@@ -104,6 +98,7 @@ bool Unit_Box::Start() {
 
 void Unit_Box::DoAction() {
 
+
 	ActiveTimer = true;
 	startCreationUnit = true;
 	unitCreationCD.Start();
@@ -112,28 +107,27 @@ void Unit_Box::DoAction() {
 }
 
 
-
 bool Unit_Box::Draw() {
-
+	if (myApp->gui->Current_Screen !=Screen_Type::SCREEN_INGAME) {
+		Queue = 0;
+	}
 	OnHotkey();
 	if (Queue >= 1&&ActiveTimer==false&&startCreationUnit==false) {
+
+		DoAction();
 		Queue--;
-		if (Queue > 1) {
-			DoAction();
-			Queue_Info->ChangeString(std::to_string(Queue));
-		}
-	
+		Queue_Info->ChangeString(std::to_string(Queue));
+
 	}
 	else if (Queue == 0) {
 		Queue_Info->active = false;
-
 	}
 
 	bool ret = true;
 
 	//if (startCreationUnit == true && unitCreationCD.Read() >= Timer)
 	//	startCreationUnit = false;
-	if ((*abletoCraft) == false) {
+	if ((*abletoCraft) == false|| myApp->player->playerMoney < UnitCost) {
 		*sprite = stateSprites[3];
 	}
 	else

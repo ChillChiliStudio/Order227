@@ -96,6 +96,7 @@
     <ClCompile Include="Launcher.cpp" />
     <ClCompile Include="LifeBarBox.cpp" />
     <ClCompile Include="MiniMap.cpp" />
+    <ClCompile Include="MiniMap_UI_Element.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Launcher.h" />
     <ClInclude Include="LifeBarBox.h" />
     <ClInclude Include="MiniMap.h" />
+    <ClInclude Include="MiniMap_UI_Element.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Pool.h" />

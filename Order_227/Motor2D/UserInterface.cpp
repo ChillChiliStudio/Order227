@@ -14,7 +14,7 @@
 #include "Horde_Manager.h"
 #include "GroupManager.h"
 #include "Entity_Manager.h"
-
+#include "MiniMap_UI_Element.h"
 
 #include "UserInterface.h"
 #include "UIElement.h"
@@ -94,6 +94,7 @@ bool User_Interface::Start()
 	endingImages_Tex = myApp->tex->Load("ui/Ending_Game_Mesage_Icon.png"); 
 	mouse_tex = myApp->tex->Load("ui/Mouse_Actions.png");
 	Unit_Panels_tex = myApp->tex->Load("ui/Unit_Costs_Panel.png");
+	InGame_Label_tex= myApp->tex->Load("ui/In_Game_Labels.png");
 
 	//Debug Elements
 	fpsText = CreateText({ 10, 10 }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
@@ -113,18 +114,32 @@ bool User_Interface::Start()
 	Pause_Button[2] = { 0,42,168,42 };
 	Pause_Button[3] = { 0,42,168,42 };
 
-
 	Conscript_Selection_Rect[0] = { 120,0,60,48 };
 	Conscript_Selection_Rect[1] = { 120,0,60,48 };
 	Conscript_Selection_Rect[2] = { 120,0,60,48 };
 	Conscript_Selection_Rect[3] = { 120,0,60,48 };
 
 
-	Bazooka_Selection_Rect[0] = { 120,48,60,48 };
-	Bazooka_Selection_Rect[1] = { 120,48,60,48 };
-	Bazooka_Selection_Rect[2] = { 120,48,60,48 };
-	Bazooka_Selection_Rect[3] = { 120,144,60,48 };
+	Flak_Selection_Rect[0] = { 0,0,60,48 };
+	Flak_Selection_Rect[1] = { 0,0,60,48 };
+	Flak_Selection_Rect[2] = { 0,0,60,48 };
+	Flak_Selection_Rect[3] = { 0,144,60,48 };
 
+
+	Chrono_Selection_Rect[0] = { 60,0,60,48 };
+	Chrono_Selection_Rect[1] = { 60,0,60,48 };
+	Chrono_Selection_Rect[2] = { 60,0,60,48 };
+	Chrono_Selection_Rect[3] = { 60,144,60,48 };
+
+	Sniper_Selection_Rect[0] = { 60,96,60,48 };
+	Sniper_Selection_Rect[1] = { 60,96,60,48 };
+	Sniper_Selection_Rect[2] = { 60,96,60,48 };
+	Sniper_Selection_Rect[3] = { 60,240,60,48 };
+
+	Desolator_Selection_Rect[0] = { 180,0,60,48 };
+	Desolator_Selection_Rect[1] = { 180,0,60,48 };
+	Desolator_Selection_Rect[2] = { 180,0,60,48 };
+	Desolator_Selection_Rect[3] = { 180,144,60,48 };
 
 	selectorInfantry_Rect[0] = { 131,38,44,31 };
 	selectorInfantry_Rect[1] = { 131,38,44,31 };
@@ -155,13 +170,20 @@ bool User_Interface::Start()
 	selectorDefenses = CreateSpawnBox(false, fPoint(width / 11 , height - 140), selectorDefenses_Rect, selectorinGame_Tex);
 	selectorTank = CreateSpawnBox(false, fPoint(width / 11 + 38, height - 140), selectorTank_Rect, selectorinGame_Tex);
 
+	//CREATOR UNITs
 	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,10,myApp->entities->infantryStats[(int)infantry_type::CONSCRIPT].cost,nullptr,SDL_SCANCODE_1);
 	ConscriptCreator->Start();
-	BazookaCreator = CreateUnitBox(CreateBazooka, fPoint(136, height - 95), Bazooka_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::BAZOOKA].cost,&myApp->entities->heavyUnitsUnlocked, SDL_SCANCODE_2);
-	BazookaCreator->Start();
+	FlakCreator = CreateUnitBox(CreateFlak, fPoint(130, height - 95), Flak_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::BAZOOKA].cost,&myApp->entities->heavyUnitsUnlocked, SDL_SCANCODE_2);
+	FlakCreator->Start();
+	SniperCreator = CreateUnitBox(CreateSniper, fPoint(130, height - 45), Sniper_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::SNIPER].cost, nullptr, SDL_SCANCODE_5);
+	SniperCreator->Start();
+	ChronoCreator = CreateUnitBox(CreateChrono, fPoint(70, height - 45), Chrono_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::CHRONO].cost, nullptr, SDL_SCANCODE_4);
+	ChronoCreator->Start();
+	DesolatorCreator = CreateUnitBox(CreateDesolator, fPoint(192, height - 95), Desolator_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::DESOLATOR].cost, &myApp->entities->heavyUnitsUnlocked, SDL_SCANCODE_3);
+	DesolatorCreator->Start();
 
-	UnitStats = CreateImage(fPoint(width / 1.45, height - 75), SDL_Rect({ 0,0,55,90 }), unitStats_text);
-	UnitFrame = CreateImage(fPoint(width / 1.58, height - 75), SDL_Rect({ 125,5,50,43 }), unitsSelection_Tex);
+	//UnitStats = CreateImage(fPoint(width / 1.45, height - 75), SDL_Rect({ 0,0,55,90 }), unitStats_text);
+	//UnitFrame = CreateImage(fPoint(width / 1.58, height - 75), SDL_Rect({ 125,5,50,43 }), unitsSelection_Tex);
 
 	Moneytext = CreateText(fPoint(width / 1.55, height - 140),money.c_str(),font_id::MOLOT);
 	
@@ -170,6 +192,7 @@ bool User_Interface::Start()
 	ReturnMainMenu_Label = CreateText(fPoint(width / 2, height / 2), "EXIT", font_id::MOLOT,White,false,pauseMenuPanel);
 	pauseMenuPanel->Deactivate();
 	frameSelector = CreateImage(fPoint(width / 11, height - 140), SDL_Rect({ 0,0,134,38 }), selectorinGame_Tex);
+
 
 	Horde_label = CreateText(fPoint(width / 2.5, 30), "HORDE  ", font_id::MOLOT, White, false,NULL,1.5);
 	hordeNumber_Label = CreateText(fPoint(width / 2, 30),horde.c_str(), font_id::MOLOT, White, false, NULL, 1.5);
@@ -184,10 +207,17 @@ bool User_Interface::Start()
 	ReturnMainMenu_Label3 = CreateText(fPoint(width / 2, height / 1.75), "EXIT", font_id::MOLOT, White, false, LoseIcon);
 	LoseIcon->Deactivate();
 
-	//incomingHordein = CreateText(fPoint(width / 2.9, height / 2.5), "Incoming Horde in", font_id::MOLOT, White, false, NULL, 1.5);
-	//timerHorde = CreateText(fPoint(width / 1.7, height / 2.5), timerHorde_temp.c_str(), font_id::MOLOT, White, false, NULL, 1.5);
+	incomingHordein = CreateImage(fPoint(width / 7, height / 2.5), SDL_Rect({ 0,66,320,78 }), InGame_Label_tex);
+	timerHorde = CreateText(fPoint(width / 3.8f, height / 2.9f), timerHorde_temp.c_str(), font_id::MOLOT, White, false, NULL,2.0f);
+	Enemies_left = CreateImage(fPoint(120, 50), SDL_Rect({ 0,0,245,46 }), InGame_Label_tex);
+	Eniemies_left_Label = CreateText(fPoint(265, 50), "0", font_id::MOLOT, White, false, NULL, 1.0f);
 
 	ConscriptPanel_Info = CreateUnitPanel(SDL_Rect({ 0,0,137,165 }), ConscriptCreator, Unit_Panels_tex);
+	ConscriptPanel_Info->Start();
+	SniperPanel_Info = CreateUnitPanel(SDL_Rect({ 137,165,137,165 }), SniperCreator, Unit_Panels_tex);
+	DesolatorPanel_Info = CreateUnitPanel(SDL_Rect({ 0,165,137,165 }), DesolatorCreator, Unit_Panels_tex);
+	FlakPanel_Info = CreateUnitPanel(SDL_Rect({ 137,0,137,165 }), FlakCreator, Unit_Panels_tex);
+	ChronoPanel_Info = CreateUnitPanel(SDL_Rect({ 274,0,137,165 }), ChronoCreator, Unit_Panels_tex);
 
 	MainMenuTemp_Image = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,1280,720 }), Main_Menu_Temp_Tex);
 	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/1.8),TempButtonRect,StartGame_text,MainMenuTemp_Image);
@@ -195,7 +225,10 @@ bool User_Interface::Start()
 
 	ExitGame_Button = CreateVoidBox(CloseGame, fPoint(width / 2, height / 1.2), TempButtonRect, StartGame_text, MainMenuTemp_Image);
 	ExitGame_Label = CreateText(fPoint(width / 2, height / 1.2), "QUIT GAME", font_id::MOLOT, White, false, ExitGame_Button);
-	
+
+	Minimap_Display = new  MiniMap_UI(ui_type::NONE);
+	AddElement(Minimap_Display);
+
 	Mouse_UI = CreateMouse(mouse_tex);
 
 	SpawnSelectors.push_back(selectorInfantry);
@@ -232,15 +265,32 @@ bool User_Interface::Update(float dt)
 
 	bool ret = true;
 
-	if (myApp->groups->playerGroup.groupUnits.size() > 0) {
-		UnitStats->Activate();
-		UnitFrame->Activate();
-	}
-	else {
-		UnitStats->Deactivate();
-		UnitFrame->Deactivate();
+	//TODO LUCHO VARIABLE
+	if (myApp->hordes->HordesDead() == false) {
+		Eniemies_left_Label->ChangeString(std::to_string(myApp->hordes->remainingEnemies));
 	}
 
+	//if (myApp->groups->playerGroup.groupUnits.size() > 0) {
+
+	//	UnitStats->Activate();
+	//	UnitFrame->Activate();
+	//}
+	//else {
+
+	//	UnitStats->Deactivate();
+	//	UnitFrame->Deactivate();
+	//}
+	if (myApp->hordes->HordesDead()) {
+
+		incomingHordein->Activate();
+		timerHorde->Activate();
+		timerHorde->ChangeString(std::to_string(myApp->hordes->getRoundTimer()));
+	}
+	else {
+
+		timerHorde->Deactivate();
+		incomingHordein->Deactivate();
+	}
 	//if (unitCreationCD.ReadSec() >= 0.7) {
 	//	myApp->player->startCreationUnit = false;
 	//}
@@ -265,8 +315,6 @@ bool User_Interface::Draw()
 		if ((*iter)->active == true && (*iter)->GetParent() == NULL) {	// All elements are listed, but the parent handles the drawing for its children
 			if ((*iter)->GetType() != ui_type::LIFEBAR)
 				ret = (*iter)->Draw();
-			else
-			bool a = true;
 		}
 	}
 

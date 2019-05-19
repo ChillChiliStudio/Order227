@@ -6,7 +6,7 @@
 #include "vector"
 #include "Timer.h"
 
-#define TIME_BETWEEN_ROUNDS 4*1000
+#define TIME_BETWEEN_ROUNDS 7*1000
 #define TIME_TO_CHECK_HORDES 2
 
 class Group;
@@ -35,32 +35,22 @@ public:
 	}
 
 	int getRoundTimer() {
+		int ret = 0;
 
-		int i = roundTimer.ReadSec();
-		switch (i)
-		{
-		case 0:
-			i = 3;
-			break;
-		case 1:
-			i = 2;
-			break;
-		case 2:
-			i = 1;
-			break;
-		case 3:
-			i = 0;
-			break;
-		default:
-			break;
+		ret = roundTimer.ReadSec() - 7;
+
+		ret *=(-1);
+
+		if (ret < 0) {
+			ret = 0;
 		}
-		return i ;
+
+		return ret;
 	}
 
 private:
 
 	void CleanHordes();
-
 	void roundTimerStart() { roundTimer.Start(); }
 
 public:
@@ -71,6 +61,7 @@ public:
 	int roundNumber = 0;
 	bool hordeActive = false;
 	int maxHordes = 0;
+	int remainingEnemies = 0;
 
 	Timer roundTimer;
 
@@ -87,4 +78,3 @@ private:
 };
 
 #endif // ! HORDE_MANAGER_H
-

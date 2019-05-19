@@ -14,6 +14,7 @@
 #include "Brofiler/Brofiler.h"
 #include "Launcher.h"
 #include "EntityQuadtree.h"
+#include "Horde_Manager.h"
 
 #include <algorithm>
 
@@ -358,6 +359,10 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 		break;
 	}
 
+	if (_Unit->faction == entity_faction::CAPITALIST)
+		myApp->hordes->remainingEnemies--;
+		
+
 	_Unit->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 	_Unit->infantryType = infantry_type::INFANTRY_NONE;
 	_Unit->position = fPoint(0.0f, 0.0f);
@@ -396,13 +401,12 @@ void Entity_Manager::ActivateBuildings()
 		if ((*item).buildingType != building_type::BUILDING_MAX && (*item).buildingType != building_type::BUILDING_NONE) {
 
 			(*item).faction = entity_faction::NEUTRAL;
-			(*item).health = 0;
+			(*item).health = (*item).maxHealth;
 			(*item).repairable = true;
 
 			if ((*item).buildingType == building_type::COMMAND_CENTER) {
 
 				(*item).faction = entity_faction::COMMUNIST;
-				(*item).health = (*item).maxHealth;
 				mainBase = &(*item);
 			}
 
@@ -733,7 +737,10 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 				{
 
 					case (int(infantry_type::BASIC)) :
-						temp.x = temp.x;
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
 
 						break;
 

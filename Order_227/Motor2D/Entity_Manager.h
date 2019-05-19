@@ -111,7 +111,7 @@ public:
 	//Unit stats
 	unit_stats		infantryStats[int(infantry_type::INFANTRY_MAX)];
 
-	bool heavyUnitsUnlocked = true;
+	bool heavyUnitsUnlocked = false;
 
 	//Quadtree with all the active entities
 	EntityQuadtree* entitiesQuadtree;

@@ -26,6 +26,14 @@ bool Building::Start() {
 	myApp->gui->CreateLifeBar(position, NULL, myApp->entities->lifeBar_tex, &health);
 	//CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][0]);
 
+	if (buildingType == building_type::COMMAND_CENTER) {
+
+		int Aux = myApp->audio->VarsXsound_Buildings[int(buildingType)][(int)BuildingsType_Sounds::SPAWN];
+		myApp->audio->PlayFx(myApp->audio->SoundBuilding_Array[int(buildingType)][(int)BuildingsType_Sounds::SPAWN][rand() % Aux]);
+
+	}
+	else
+		health = 0;
 
 	return true;
 }
@@ -106,6 +114,11 @@ bool Building::Update(float dt)
 	else if (health <= 0 && destroyed == false) {
 
 		CurrentAnim = (&myApp->entities->BuildingAnimationArray[int(buildingType)][int(Building_State::DESTROYED)]);
+
+		int Aux = myApp->audio->VarsXsound_Buildings[int(buildingType)][(int)BuildingsType_Sounds::DESTROYED];
+		myApp->audio->PlayFx(myApp->audio->SoundBuilding_Array[int(buildingType)][(int)BuildingsType_Sounds::DESTROYED][rand() % Aux], 0, CHANNEL_BUILDINGS, centerPos, true);
+
+
 		destroyed = true;
 	}
 
@@ -128,6 +141,7 @@ void Building::GiveReward() {
 
 	rewardGiven = true;
 	myApp->player->playerIncome += income;
+	myApp->player->UpdateText();
 
 	if (buildingType == building_type::TANK_FACTORY)
 		myApp->entities->heavyUnitsUnlocked = true; //TODO: Tocar UI con esto
@@ -173,7 +187,7 @@ void Building::TakeReward() {
 				myApp->entities->buildingsArray[i].maxHealth -= StrategicPointsLifeBuff;
 			else
 				myApp->entities->mainBase->health -= MainBaseLifeBuff;
-			
+
 			myApp->entities->buildingsArray[i].healthRecovery /= 1.5;
 
 			if (myApp->entities->buildingsArray[i].faction == entity_faction::COMMUNIST && myApp->entities->buildingsArray[i].health > myApp->entities->buildingsArray[i].maxHealth)

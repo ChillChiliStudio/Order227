@@ -36,9 +36,9 @@ void CreateConscript() {
 	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
 }
 
-void CreateBazooka() {
-	//srand(time(NULL));
+void CreateFlak() {
 
+	//srand(time(NULL));
 	//TODO NEED TO DESHARCODE
 	fPoint randomPos = { 0,0 };
 	int temp = rand() % 2;
@@ -58,8 +58,84 @@ void CreateBazooka() {
 	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
 	fPoint test = myApp->entities->mainBase->position;
 	myApp->entities->ActivateLauncher(fPoint(tempPoint.x, tempPoint.y), infantry_type::BAZOOKA, entity_faction::COMMUNIST);
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantry_type::BAZOOKA][(int)type_sounds::SPAWN][0]);
+}
+void CreateChrono() {
+	//srand(time(NULL));
+	//TODO NEED TO DESHARCODE
+	fPoint randomPos = { 0,0 };
+	int temp = rand() % 2;
+
+	switch (temp)
+	{
+	case 0:
+		randomPos.x = 48;
+		randomPos.y = rand() % 5 + 40;
+		break;
+	case 1:
+		randomPos.x = rand() % 5 + 43;
+		randomPos.y = 45;
+		break;
+	}
+
+	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
+	fPoint test = myApp->entities->mainBase->position;
+
+	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::CHRONO, entity_faction::COMMUNIST);
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantry_type::CHRONO][(int)type_sounds::SPAWN][0]);
 
 }
+
+void CreateDesolator() {
+	//srand(time(NULL));
+	//TODO NEED TO DESHARCODE
+	fPoint randomPos = { 0,0 };
+	int temp = rand() % 2;
+
+	switch (temp)
+	{
+	case 0:
+		randomPos.x = 48;
+		randomPos.y = rand() % 5 + 40;
+		break;
+	case 1:
+		randomPos.x = rand() % 5 + 43;
+		randomPos.y = 45;
+		break;
+	}
+
+	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
+	fPoint test = myApp->entities->mainBase->position;
+	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::DESOLATOR, entity_faction::COMMUNIST);
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantry_type::DESOLATOR][(int)type_sounds::SPAWN][0]);
+}
+
+void CreateSniper() {
+	//srand(time(NULL));
+	//TODO NEED TO DESHARCODE
+	fPoint randomPos = { 0,0 };
+	int temp = rand() % 2;
+
+	switch (temp)
+	{
+	case 0:
+		randomPos.x = 48;
+		randomPos.y = rand() % 5 + 40;
+		break;
+	case 1:
+		randomPos.x = rand() % 5 + 43;
+		randomPos.y = 45;
+		break;
+	}
+
+	iPoint tempPoint = myApp->map->MapToWorld(iPoint(randomPos.x, randomPos.y));
+	fPoint test = myApp->entities->mainBase->position;
+	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::SNIPER, entity_faction::COMMUNIST);
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantry_type::SNIPER][(int)type_sounds::SPAWN][0]);
+
+}
+
+
 
 void StartGame() {
 
@@ -67,7 +143,6 @@ void StartGame() {
 	//myApp->audio->PlayMusic("audio/music/game/ingame_song3_loop.ogg",-1);
 
 	//TODO make the game start Correctly
-
 	myApp->entities->ActivateBuildings();
 	myApp->entities->ActivateObjects();
 	myApp->hordes->restartRounds();
@@ -76,10 +151,10 @@ void StartGame() {
 	myApp->hordes->hordeActive = true;
 	myApp->hordes->roundTimer.Start();
 	myApp->gui->MainMenuTemp_Image->Deactivate();
-
+	myApp->gui->Current_Screen = Screen_Type::SCREEN_INGAME;
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_INGAME);
 	myApp->scene->ActivateGameOverMusic = true;
-
+	myApp->gui->OnPause = false;
 	myApp->gui->WinIcon->Deactivate();
 	myApp->gui->LoseIcon->Deactivate();
 
@@ -103,6 +178,7 @@ void QuitGame() {
 			myApp->entities->DeActivateUnit(&myApp->entities->unitPool[i]);
 		}
 	}
+	myApp->gui->Current_Screen = Screen_Type::SCREEN_MAINMENU;
 
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_MAINMENU);
 	//myApp->entities->ReleasePools();	//TODO: Check if necessary, commented because it was asumed that wasn't
@@ -113,19 +189,4 @@ void QuitGame() {
 void CloseGame()
 {
 	myApp->mustShutDown = true;
-}
-
-Screen_Type getCurrentScreen() {
-
-	if(myApp->gui->MainMenuTemp_Image->active == true)
-		return Screen_Type::SCREEN_MAINMENU;
-	else if (myApp->gui->LoseIcon->active == true)
-		return Screen_Type::SCREEN_LOSE;
-	else if (myApp->gui->WinIcon->active == true)
-		return Screen_Type::SCREEN_WIN;
-	else
-		return Screen_Type::SCREEN_INGAME;
-
-
-	return Screen_Type::SCREEN_NONE;
 }

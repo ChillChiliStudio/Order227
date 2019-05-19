@@ -2,6 +2,7 @@
 #include "Spawning_Point.h"
 #include "Log.h"
 #include "App.h"
+#include "Audio.h"
 #include "Input.h"
 #include "UserInterface.h"
 #include "Text.h"
@@ -41,7 +42,7 @@ bool Horde_Manager::Update(float dt)
 
 	//Spawn Point Draw
 	if (myApp->map->mapDebugDraw)
-		for (int i = 0; i < SpawningPoints_Array.size(); i++) 
+		for (int i = 0; i < SpawningPoints_Array.size(); i++)
 			myApp->render->Blit(myApp->map->debug_tex, SpawningPoints_Array[i]->position.x, SpawningPoints_Array[i]->position.y);
 
 	if (CleanHordesTimer.ReadSec() > TIME_TO_CHECK_HORDES && hordeActive == true) {
@@ -51,14 +52,20 @@ bool Horde_Manager::Update(float dt)
 		if (HordesDead() == true && roundTimer.Read() > TIME_BETWEEN_ROUNDS) {
 
 			ChooseSpawningPoints();
+
+			myApp->audio->PlayFx(myApp->audio->SoundMatch_Array[(int)MatchType_Sounds::STARTING_ROUND][0],0, CHANNEL_BUILDINGS);
+			myApp->audio->PlayFx(myApp->audio->SoundMatch_Array[(int)MatchType_Sounds::STARTING_ROUND][1],0, CHANNEL_PLAYER);
+
+
 			roundTimer.Start();
 		}
 
 		else if (HordesDead() == false)
 			roundTimer.Start();
+
 	}
 
-	for (int i = 0; i < SpawningPoints_Array.size(); i++) 
+	for (int i = 0; i < SpawningPoints_Array.size(); i++)
 	{
 		if (SpawningPoints_Array[i]->Enemies_to_Spawn.size() > 0)
 		{
@@ -75,8 +82,9 @@ bool Horde_Manager::Update(float dt)
 					hordes[i]->AddUnit(myApp->entities->ActivateLauncher(SP_Pos, (infantry_type)infType, entity_faction::CAPITALIST));
 				else
 					hordes[i]->AddUnit(myApp->entities->ActivateUnit(SP_Pos, (infantry_type)infType, entity_faction::CAPITALIST));
-				
+
 				SpawningPoints_Array[i]->Enemies_to_Spawn.pop_back();
+				remainingEnemies++;
 
 			}
 
@@ -100,7 +108,7 @@ bool Horde_Manager::Update(float dt)
 
 void Horde_Manager::ChooseSpawningPoints()
 {
-
+		//Restarting round if reached 20 - for MVP this should be 5
 		if (roundNumber == maxHordes) {
 
 			roundNumber = 0;
@@ -134,7 +142,7 @@ void Horde_Manager::ChooseSpawningPoints()
 
 		while (r2 == r1)
 			r2 = rand() % SpawningPoints_Array.size(); //This can be pretty unpredictable & uncontrolling shit
-		
+
 		int r3 = rand() % SpawningPoints_Array.size();
 
 		while (r3 == r2 || r3 == r1)
@@ -170,7 +178,7 @@ void Horde_Manager::ClearEnemies()
 bool Horde_Manager::HordesDead()
 {
 
-	for (int i = 0; i < hordes.size(); ++i) 
+	for (int i = 0; i < hordes.size(); ++i)
 	{
 		if (hordes[i]->groupUnits.size() > 0)
 			return false;

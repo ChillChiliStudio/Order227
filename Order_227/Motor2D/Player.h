@@ -14,6 +14,7 @@
 #define CAMERA_SPEED 700
 #define SCREEN_MOVEMENT_MARGIN 20
 
+class Text;
 enum class infantry_type;
 enum class entity_faction;
 enum class unit_orders;
@@ -30,6 +31,7 @@ public:
 	bool Start() override;
 	bool PreUpdate() override;
 	bool Update(float dt) override;
+	bool PostUpdate() override;
 	bool CleanUp() override;
 
 	void UpdateMousePos();
@@ -54,6 +56,8 @@ public:
 	void StartSelect();
 	void ExpandSelect();
 	void FinishSelect();
+	void UpdateText();
+	void MoveText();
 
 public:
 
@@ -71,6 +75,7 @@ public:
 	iPoint mouseScreenPos;
 	iPoint mouseMap;
 
+	Text* IncomeShow = nullptr;
 	iPoint origin;
 	iPoint rectangle_origin;
 
@@ -83,6 +88,7 @@ public:
 	int initialMoney = 0;
 	Timer incomeTimer;
 
+	bool IncomeGiven = false;
 	bool startCreationUnit = false;
 
 };

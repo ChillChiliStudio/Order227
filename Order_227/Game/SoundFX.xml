@@ -355,7 +355,7 @@
       <Sound id="1" NumVariation="2">
         <!--Moving -->
         <Var Variation="0" path="audio/Dialogues/Troops/cow/Moving.wav"/>
-        <Var Variation="2" path="audio/Dialogues/Troops/cow/Moving_two.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/cow/Moving_two.wav"/>
       </Sound>
 
       <Sound id="3" NumVariation="1">
@@ -366,7 +366,246 @@
 
     </Unit>
     
-    
-
   </Troops>
+
+  <Building>
+
+    <Estructure id="0" >
+
+      <Sound id="0" NumVariation="1">
+        <!--Spawn-->
+        
+        <Var Variation="0" path="audio/AFX/Buildings/Spawn/Spawn.wav"/>
+        
+      </Sound>
+
+      <Sound id="1" NumVariation="1">
+        <!--Critical-->
+        <Var Variation="0" path="audio/AFX/Buildings/CriticalHealth.wav"/>
+
+      </Sound>
+
+
+      <Sound id="2" NumVariation="4">
+        <!--Destroyed-->
+      
+        <Var Variation="0" path="audio/AFX/Buildings/Destroyed/Destroyed.wav"/>
+        <Var Variation="1" path="audio/AFX/Buildings/Destroyed/Destroyed_two.wav"/>
+        <Var Variation="2" path="audio/AFX/Buildings/Destroyed/Destroyed_three.wav"/>
+        <Var Variation="3" path="audio/AFX/Buildings/Destroyed/Destroyed_four.wav"/>
+     
+
+      </Sound>
+        
+    </Estructure>
+    
+    <Estructure id="1" >
+
+      <Sound id="0" NumVariation="1">
+        <!--Spawn-->
+
+        <Var Variation="0" path="audio/AFX/Buildings/Spawn/Spawn.wav"/>
+
+      </Sound>
+
+      <Sound id="1" NumVariation="1">
+        <!--Critical-->
+        <Var Variation="0" path="audio/AFX/Buildings/CriticalHealth.wav"/>
+
+      </Sound>
+
+
+      <Sound id="2" NumVariation="4">
+        <!--Destroyed-->
+
+        <Var Variation="0" path="audio/AFX/Buildings/Destroyed/Destroyed.wav"/>
+        <Var Variation="1" path="audio/AFX/Buildings/Destroyed/Destroyed_two.wav"/>
+        <Var Variation="2" path="audio/AFX/Buildings/Destroyed/Destroyed_three.wav"/>
+        <Var Variation="3" path="audio/AFX/Buildings/Destroyed/Destroyed_four.wav"/>
+
+
+      </Sound>
+
+    </Estructure>
+
+    <Estructure id="2" >
+
+      <Sound id="0" NumVariation="1">
+        <!--Spawn-->
+
+        <Var Variation="0" path="audio/AFX/Buildings/Spawn/Spawn.wav"/>
+
+      </Sound>
+
+      <Sound id="1" NumVariation="1">
+        <!--Critical-->
+        <Var Variation="0" path="audio/AFX/Buildings/CriticalHealth.wav"/>
+
+      </Sound>
+
+
+      <Sound id="2" NumVariation="4">
+        <!--Destroyed-->
+
+        <Var Variation="0" path="audio/AFX/Buildings/Destroyed/Destroyed.wav"/>
+        <Var Variation="1" path="audio/AFX/Buildings/Destroyed/Destroyed_two.wav"/>
+        <Var Variation="2" path="audio/AFX/Buildings/Destroyed/Destroyed_three.wav"/>
+        <Var Variation="3" path="audio/AFX/Buildings/Destroyed/Destroyed_four.wav"/>
+
+
+      </Sound>
+
+    </Estructure>
+
+    <Estructure id="3" >
+
+      <Sound id="0" NumVariation="1">
+        <!--Spawn-->
+
+        <Var Variation="0" path="audio/AFX/Buildings/Spawn/Spawn.wav"/>
+
+      </Sound>
+
+      <Sound id="1" NumVariation="1">
+        <!--Critical-->
+        <Var Variation="0" path="audio/AFX/Buildings/CriticalHealth.wav"/>
+
+      </Sound>
+
+
+      <Sound id="2" NumVariation="4">
+        <!--Destroyed-->
+
+        <Var Variation="0" path="audio/AFX/Buildings/Destroyed/Destroyed.wav"/>
+        <Var Variation="1" path="audio/AFX/Buildings/Destroyed/Destroyed_two.wav"/>
+        <Var Variation="2" path="audio/AFX/Buildings/Destroyed/Destroyed_three.wav"/>
+        <Var Variation="3" path="audio/AFX/Buildings/Destroyed/Destroyed_four.wav"/>
+
+
+      </Sound>
+
+    </Estructure>
+
+    <Estructure id="4" >
+
+      <Sound id="0" NumVariation="1">
+        <!--Spawn-->
+
+        <Var Variation="0" path="audio/AFX/Buildings/Spawn/Spawn.wav"/>
+
+      </Sound>
+
+      <Sound id="1" NumVariation="1">
+        <!--Critical-->
+        <Var Variation="0" path="audio/AFX/Buildings/CriticalHealth.wav"/>
+
+      </Sound>
+
+
+      <Sound id="2" NumVariation="4">
+        <!--Destroyed-->
+
+        <Var Variation="0" path="audio/AFX/Buildings/Destroyed/Destroyed.wav"/>
+        <Var Variation="1" path="audio/AFX/Buildings/Destroyed/Destroyed_two.wav"/>
+        <Var Variation="2" path="audio/AFX/Buildings/Destroyed/Destroyed_three.wav"/>
+        <Var Variation="3" path="audio/AFX/Buildings/Destroyed/Destroyed_four.wav"/>
+
+
+      </Sound>
+
+    </Estructure>
+
+    <Estructure id="5" >
+
+      <Sound id="0" NumVariation="1">
+        <!--Spawn-->
+
+        <Var Variation="0" path="audio/AFX/Buildings/Spawn/Spawn.wav"/>
+
+      </Sound>
+
+      <Sound id="1" NumVariation="1">
+        <!--Critical-->
+        <Var Variation="0" path="audio/AFX/Buildings/CriticalHealth.wav"/>
+
+      </Sound>
+
+
+      <Sound id="2" NumVariation="4">
+        <!--Destroyed-->
+
+        <Var Variation="0" path="audio/AFX/Buildings/Destroyed/Destroyed.wav"/>
+        <Var Variation="1" path="audio/AFX/Buildings/Destroyed/Destroyed_two.wav"/>
+        <Var Variation="2" path="audio/AFX/Buildings/Destroyed/Destroyed_three.wav"/>
+        <Var Variation="3" path="audio/AFX/Buildings/Destroyed/Destroyed_four.wav"/>
+
+
+      </Sound>
+
+    </Estructure>
+
+  
+    
+     <Estructure id="6" >
+     
+       <Sound id="0" NumVariation="1">
+         <!--Spawn-->
+
+         <Var Variation="0" path="audio/AFX/Buildings/Spawn/Spawn.wav"/>
+
+       </Sound>
+
+       <Sound id="1" NumVariation="1">
+         <!--Critical-->
+         <Var Variation="0" path="audio/AFX/Buildings/CriticalHealth.wav"/>
+
+       </Sound>
+
+
+       <Sound id="2" NumVariation="4">
+         <!--Destroyed-->
+
+         <Var Variation="0" path="audio/AFX/Buildings/Destroyed/Destroyed.wav"/>
+         <Var Variation="1" path="audio/AFX/Buildings/Destroyed/Destroyed_two.wav"/>
+         <Var Variation="2" path="audio/AFX/Buildings/Destroyed/Destroyed_three.wav"/>
+         <Var Variation="3" path="audio/AFX/Buildings/Destroyed/Destroyed_four.wav"/>
+ 
+
+       </Sound>
+      
+    </Estructure>
+    
+    
+  </Building>
+  
+  <Match>
+   
+    
+    <Sound id="0" NumVariation="2">
+      <!--Round Start-->
+      <Var Variation="0" path="audio/AFX/Others/RoundStarting.wav"/>
+      <Var Variation="1" path="audio/AFX/Others/Anouncer/EnemiesComing.wav"/>
+
+
+    </Sound>
+
+    
+    <Sound id="1" NumVariation="1">
+      <!--Taunt-->
+      <Var Variation="0" path="audio\Dialogues\AlliedDialogues/Taunt.wav"/>
+      <Var Variation="1" path="audio\Dialogues\AlliedDialogues/Taunt_two.wav"/>
+      <Var Variation="2" path="audio\Dialogues\AlliedDialogues/Taunt_three.wav"/>
+      <Var Variation="3" path="audio\Dialogues\AlliedDialogues/Taunt_four.wav"/>
+      <Var Variation="4" path="audio\Dialogues\AlliedDialogues/Taunt_five.wav"/>
+      
+
+    </Sound>
+    
+   
+    
+  </Match>
+
+  
+  
+  
 </FX>

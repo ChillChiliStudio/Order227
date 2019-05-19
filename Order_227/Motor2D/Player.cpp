@@ -13,6 +13,9 @@
 #include "Unit.h"
 #include "Player.h"
 #include "Window.h"
+#include "Fonts.h"
+
+
 #include "Brofiler/Brofiler.h"
 #include "MiniMap.h"
 
@@ -37,15 +40,36 @@ bool Player::Start()
 	//LOG("STARTING PLAYER MODULE");
 
 	//incomeTimer.Start();
+	IncomeShow = myApp->gui->CreateText({170.0f,1350.0f}, "Default Text", font_id::MOLOT, { 255,255, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
+	UpdateText();
+	IncomeShow->Deactivate();
+	IncomeShow->FollowCam = true;
 
 	return true;
+}
+
+void Player::UpdateText() {
+
+	IncomeShow->ChangeString(std::to_string(playerIncome));
+
+}
+
+void Player::MoveText() {
+	IncomeShow->position.y -= 1.2f;
+	if (incomeTimer.ReadSec() >= 1) {
+		IncomeGiven = false;
+		IncomeShow->position.y = 1350.0f;
+		IncomeShow->Deactivate();
+	}
 }
 
 bool Player::PreUpdate()
 {
 	return true;
 }
-
+bool Player::PostUpdate() {
+	return true;
+}
 bool Player::Update(float dt)
 {
 	BROFILER_CATEGORY("Player.cpp Update()-Blue", Profiler::Color::Blue);
@@ -55,7 +79,9 @@ bool Player::Update(float dt)
 	if (myApp->gui->MainMenuTemp_Image->active == false) {
 
 		UpdateMousePos();	// Mouse Position Update
-		CameraInputs(dt);	// Camera Inputs
+		if (!myApp->gui->OnPause) {
+			CameraInputs(dt);	// Camera Inputs
+		}
 		DebugInputs();		// Debug Inputs
 
 		PlayerSelect();		// Player Area Selection Management
@@ -72,17 +98,24 @@ bool Player::Update(float dt)
 		if (myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
 			if (myApp->gui->pauseMenuPanel->active == false) {
 				myApp->gui->pauseMenuPanel->Activate();
+				myApp->gui->OnPause = true;
 			}
-			else
+			else {
 				myApp->gui->pauseMenuPanel->Deactivate();
+				myApp->gui->OnPause = false;
+			}
 		}
 	}
 
-	if (incomeTimer.ReadSec() >= 2) {
-
+	if (incomeTimer.ReadSec() >= 2 && myApp->gui->Current_Screen==Screen_Type::SCREEN_INGAME&& !myApp->gui->OnPause) {
 		playerMoney += playerIncome;
 		myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
 		incomeTimer.Start();
+		IncomeGiven = true;
+		IncomeShow->Activate();
+	}
+	if (IncomeGiven) {
+		MoveText();
 	}
 
 	return true;
@@ -335,8 +368,8 @@ void Player::OrderHold()
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::HOLD);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::COMFIRMATION];
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::COMFIRMATION][rand() % Aux]);
+	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::CONFIRMATION];
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)(*it)->infantryType][(int)type_sounds::CONFIRMATION][rand() % Aux], 0, CHANNEL_CONFIRMATION);
 }
 
 void Player::OrderMove()
@@ -346,7 +379,7 @@ void Player::OrderMove()
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
 	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::MOVING];
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::MOVING][rand() % Aux]);
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)(*it)->infantryType][(int)type_sounds::MOVING][rand() % Aux], 0, CHANNEL_MOVING);
 }
 
 void Player::OrderHunt()
@@ -373,7 +406,7 @@ void Player::OrderHunt()
 
 		std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
 		int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::ATTACK];
-		myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::ATTACK][rand() % Aux]);
+		myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)(*it)->infantryType][(int)type_sounds::ATTACK][rand() % Aux], 0, CHANNEL_ATTACK);
 	}
 	else {
 		OrderMove();
@@ -386,8 +419,8 @@ void Player::OrderPatrol()
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::PATROL);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
-	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::COMFIRMATION];
-	myApp->audio->PlayFx(myApp->audio->SoundFX_Array[(int)(*it)->infantryType][(int)type_sounds::COMFIRMATION][rand() % Aux]);
+	int Aux = myApp->audio->VarsXsound[(int)(*it)->infantryType][(int)type_sounds::CONFIRMATION];
+	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)(*it)->infantryType][(int)type_sounds::CONFIRMATION][rand() % Aux], 0, CHANNEL_CONFIRMATION);
 }
 
 void Player::PlayerSelect()
