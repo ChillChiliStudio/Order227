@@ -14,11 +14,12 @@
 #define CAMERA_SPEED 700
 #define SCREEN_MOVEMENT_MARGIN 20
 
-class Text;
 enum class infantry_type;
 enum class entity_faction;
 enum class unit_orders;
 enum class unit_aggro;
+
+class Text;
 
 class Player : public Module {
 
@@ -75,7 +76,11 @@ public:
 	iPoint mouseScreenPos;
 	iPoint mouseMap;
 
+	int mouseWorldLimit;
+
 	Text* IncomeShow = nullptr;
+
+	bool selectionStarted = false;
 	iPoint origin;
 	iPoint rectangle_origin;
 

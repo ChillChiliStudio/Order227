@@ -45,6 +45,9 @@ bool Player::Start()
 	IncomeShow->Deactivate();
 	IncomeShow->FollowCam = true;
 
+	//Screen limit that separates world view from player UI (used on selection and issuing orders)
+	mouseWorldLimit = 540;	//TODO: Unhardcode
+
 	return true;
 }
 
@@ -87,7 +90,7 @@ bool Player::Update(float dt)
 		PlayerSelect();		// Player Area Selection Management
 		CheckForOrders();
 
-		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN) {
+		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN && mouseScreenPos.y < mouseWorldLimit) {
 			ApplyOrders();
 		}
 
@@ -431,15 +434,18 @@ void Player::PlayerSelect()
 		iPoint mousePosition;
 		myApp->input->GetMousePosition(mousePosition.x, mousePosition.y);
 
-		if (mousePosition.x > myApp->minimap->minimapPosition.x + myApp->minimap->minimap_width &&
-			mousePosition.x < myApp->minimap->minimapPosition.x &&
-			mousePosition.y > myApp->minimap->minimapPosition.y + myApp->minimap->minimap_height &&
-			mousePosition.y < myApp->minimap->minimapPosition.y)
-			return;
-
-		StartSelect();
+		if (mouseScreenPos.y < mouseWorldLimit) {
+			if (mousePosition.x > myApp->minimap->minimapPosition.x + myApp->minimap->minimap_width &&
+				mousePosition.x < myApp->minimap->minimapPosition.x &&
+				mousePosition.y > myApp->minimap->minimapPosition.y + myApp->minimap->minimap_height &&
+				mousePosition.y < myApp->minimap->minimapPosition.y)
+				return;
+			
+			StartSelect();
+			selectionStarted = true;
+		}
 	}
-	else if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {	// Process Selection Area	//TODO: Check if the first 2 conditions are necessary
+	else if (selectionStarted == true && myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {	// Process Selection Area	//TODO: Check if the first 2 conditions are necessary
 
 		rectangle_width = mousePos.x - rectangle_origin.x;
 		rectangle_height = mousePos.y - rectangle_origin.y;
@@ -448,8 +454,9 @@ void Player::PlayerSelect()
 			ExpandSelect();
 		}
 	}
-	else if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP) {	// Create Group when Mouse is unpressed
+	else if (selectionStarted == true && myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP) {	// Create Group when Mouse is unpressed
 		FinishSelect();
+		selectionStarted = false;
 	}
 }
 
