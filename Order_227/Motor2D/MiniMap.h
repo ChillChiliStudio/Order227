@@ -35,10 +35,10 @@ public:
 	int minimap_width;
 	int minimap_height;
 
+	float minimapScale;
+
 private:
 	SDL_Texture*		minimap_tex = nullptr;
-
-	float minimapScale;
 
 	int x_offset;
 	int y_offset;

@@ -15,7 +15,6 @@
 #include "Window.h"
 #include "Fonts.h"
 
-
 #include "Brofiler/Brofiler.h"
 #include "MiniMap.h"
 
@@ -90,7 +89,7 @@ bool Player::Update(float dt)
 		PlayerSelect();		// Player Area Selection Management
 		CheckForOrders();
 
-		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN && mouseScreenPos.y < mouseWorldLimit) {
+		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN /*&& mouseScreenPos.y < mouseWorldLimit*/) {
 			ApplyOrders();
 		}
 
@@ -134,6 +133,18 @@ void Player::UpdateMousePos()
 	myApp->input->GetMousePosition(mouseScreenPos.x, mouseScreenPos.y);
 	mousePos = myApp->render->ScreenToWorld(mouseScreenPos.x, mouseScreenPos.y);
 	mouseMap = myApp->map->WorldToMap(mousePos.x, mousePos.y);
+	
+	//If the player clicks on the minimap, we change the destination
+	if (mouseScreenPos.x < myApp->minimap->minimapPosition.x + myApp->minimap->minimap_width &&
+		mouseScreenPos.x >  myApp->minimap->minimapPosition.x &&
+		mouseScreenPos.y < myApp->minimap->minimapPosition.y + myApp->minimap->minimap_height &&
+		mouseScreenPos.y > myApp->minimap->minimapPosition.y) 
+	{
+		orderDestination.x = (mouseScreenPos.x - myApp->minimap->minimapPosition.x-myApp->minimap->minimap_width/2)/myApp->minimap->minimapScale;
+		orderDestination.y = (mouseScreenPos.y - myApp->minimap->minimapPosition.y) / myApp->minimap->minimapScale;
+	}
+	else
+		orderDestination = mousePos;
 }
 
 void Player::CameraInputs(float dt)
@@ -142,32 +153,24 @@ void Player::CameraInputs(float dt)
 	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
 
 	//Move camera upwards
-	if (myApp->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	if (myApp->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || mousePos.y >= 0 && mousePos.y < SCREEN_MOVEMENT_MARGIN)
 		myApp->render->camera.y += (int)ceil(CAMERA_SPEED  * dt);
 
-	else if (mousePos.y >= 0 && mousePos.y < SCREEN_MOVEMENT_MARGIN)
-		myApp->render->camera.y += (int)ceil(CAMERA_SPEED  * dt);
 
 	//Move camera downwards
-	if (myApp->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	if (myApp->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || mousePos.y > myApp->win->height - SCREEN_MOVEMENT_MARGIN && mousePos.y < myApp->win->height)
 		myApp->render->camera.y -= (int)ceil(CAMERA_SPEED * dt);
 
-	else if (mousePos.y > myApp->win->height - SCREEN_MOVEMENT_MARGIN && mousePos.y < myApp->win->height)
-		myApp->render->camera.y -= (int)ceil(CAMERA_SPEED  * dt);
 
 	//Move camera to the left
-	if (myApp->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	if (myApp->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || mousePos.x >= 0 && mousePos.x < SCREEN_MOVEMENT_MARGIN)
 		myApp->render->camera.x += (int)ceil(CAMERA_SPEED  * dt);
 
-	else if (mousePos.x >= 0 && mousePos.x < SCREEN_MOVEMENT_MARGIN)
-		myApp->render->camera.x += (int)ceil(CAMERA_SPEED  * dt);
 
 	//Move camera to the right
-	if (myApp->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	if (myApp->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT|| mousePos.x > myApp->win->width - SCREEN_MOVEMENT_MARGIN && mousePos.x < myApp->win->width)
 		myApp->render->camera.x -= (int)ceil(CAMERA_SPEED  * dt);
 
-	else if (mousePos.x > myApp->win->width - SCREEN_MOVEMENT_MARGIN && mousePos.x < myApp->win->width)
-		myApp->render->camera.x -= (int)ceil(CAMERA_SPEED  * dt);
 
 }
 
@@ -379,7 +382,7 @@ void Player::OrderHold()
 
 void Player::OrderMove()
 {
-	myApp->groups->playerGroup.SpreadDestinations(mousePos);
+	myApp->groups->playerGroup.SpreadDestinations(orderDestination);
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::MOVE);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();
@@ -393,8 +396,8 @@ void Player::OrderHunt()
 
 	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
 		if ((*item).active == true && (*item).faction == entity_faction::CAPITALIST && (*item).IsDead() == false &&
-			!(mousePos.x < (*item).entityRect.x || mousePos.x >(*item).entityRect.x + (*item).entityRect.w
-				|| mousePos.y < (*item).entityRect.y || mousePos.y >(*item).entityRect.y + (*item).entityRect.h))
+			!(orderDestination.x < (*item).entityRect.x || orderDestination.x >(*item).entityRect.x + (*item).entityRect.w
+				|| orderDestination.y < (*item).entityRect.y || orderDestination.y >(*item).entityRect.y + (*item).entityRect.h))
 		{
 			selectedTarget = &(*item);
 			break;
@@ -420,7 +423,7 @@ void Player::OrderHunt()
 
 void Player::OrderPatrol()
 {
-	myApp->groups->playerGroup.SpreadDestinations(mousePos);
+	myApp->groups->playerGroup.SpreadDestinations(orderDestination);
 	myApp->groups->playerGroup.TransmitOrders(unit_orders::PATROL);
 
 	std::list<Unit*>::iterator it = myApp->groups->playerGroup.groupUnits.begin();

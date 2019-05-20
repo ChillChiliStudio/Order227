@@ -139,6 +139,12 @@
     <ClCompile Include="Player.cpp">
       <Filter>Game Files\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="MiniMap_UI_Element.cpp">
+      <Filter>Game Files\User Interface\UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Buff_Box.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -305,6 +311,12 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Game Files\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniMap_UI_Element.h">
+      <Filter>Game Files\User Interface\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Buff_Box.h">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

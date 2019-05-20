@@ -75,6 +75,7 @@ public:
 	iPoint mousePos;
 	iPoint mouseScreenPos;
 	iPoint mouseMap;
+	iPoint orderDestination;	//Position to which the orders will be sent
 
 	int mouseWorldLimit;
 
