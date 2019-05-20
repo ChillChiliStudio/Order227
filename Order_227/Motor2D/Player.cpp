@@ -138,7 +138,7 @@ void Player::UpdateMousePos()
 	if (mouseScreenPos.x < myApp->minimap->minimapPosition.x + myApp->minimap->minimap_width &&
 		mouseScreenPos.x >  myApp->minimap->minimapPosition.x &&
 		mouseScreenPos.y < myApp->minimap->minimapPosition.y + myApp->minimap->minimap_height &&
-		mouseScreenPos.y > myApp->minimap->minimapPosition.y) 
+		mouseScreenPos.y > myApp->minimap->minimapPosition.y)
 	{
 		orderDestination.x = (mouseScreenPos.x - myApp->minimap->minimapPosition.x-myApp->minimap->minimap_width/2)/myApp->minimap->minimapScale;
 		orderDestination.y = (mouseScreenPos.y - myApp->minimap->minimapPosition.y) / myApp->minimap->minimapScale;
@@ -153,22 +153,26 @@ void Player::CameraInputs(float dt)
 	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
 
 	//Move camera upwards
-	if (myApp->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || mousePos.y >= 0 && mousePos.y < SCREEN_MOVEMENT_MARGIN)
+	if ((myApp->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || mousePos.y >= 0 && mousePos.y < SCREEN_MOVEMENT_MARGIN) &&
+		-myApp->render->camera.y > 0)
 		myApp->render->camera.y += (int)ceil(CAMERA_SPEED  * dt);
 
 
 	//Move camera downwards
-	if (myApp->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || mousePos.y > myApp->win->height - SCREEN_MOVEMENT_MARGIN && mousePos.y < myApp->win->height)
+	if ((myApp->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || mousePos.y > myApp->win->height - SCREEN_MOVEMENT_MARGIN && mousePos.y < myApp->win->height)&&
+		-myApp->render->camera.y < (myApp->map->data.height*myApp->map->data.tile_height - int(myApp->win->height)))
 		myApp->render->camera.y -= (int)ceil(CAMERA_SPEED * dt);
 
 
 	//Move camera to the left
-	if (myApp->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || mousePos.x >= 0 && mousePos.x < SCREEN_MOVEMENT_MARGIN)
+	if ((myApp->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || mousePos.x >= 0 && mousePos.x < SCREEN_MOVEMENT_MARGIN) &&
+		-myApp->render->camera.x > -(myApp->map->data.width *myApp->map->data.tile_width)/2)
 		myApp->render->camera.x += (int)ceil(CAMERA_SPEED  * dt);
 
 
 	//Move camera to the right
-	if (myApp->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT|| mousePos.x > myApp->win->width - SCREEN_MOVEMENT_MARGIN && mousePos.x < myApp->win->width)
+	if ((myApp->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT|| mousePos.x > myApp->win->width - SCREEN_MOVEMENT_MARGIN && mousePos.x < myApp->win->width)&& 
+		-myApp->render->camera.x + int(myApp->win->width) < (myApp->map->data.width *myApp->map->data.tile_width) / 2)
 		myApp->render->camera.x -= (int)ceil(CAMERA_SPEED  * dt);
 
 
