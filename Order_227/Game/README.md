@@ -21,23 +21,23 @@ No previous installations is required to play the game, just download and execut
 ### User Controls
 ESC: Toggle Menu
 Camera Movement: W/A/S/D
+
+Numbers: Spawn Units
+
 Mouse Left-Click Drag: Select Units
 Mouse Right-Click: Issue Order Target
-1: Hold Order
-2: Move Order
-3: Search & Destroy Order
-4: Move and Attack Order
-5: Patrol Order
+
+Hold CTRL: Issue Order with AGGRESIVE
+Hold SHIFT: Issue Order with DEFENSIVE
+Default: PASSIVE
+
+Spacebar: Hold Order
+Q: Prepare Move Order
+E: Prepare Attack Order
+R: Prepare Patrol Order
 
 ### Debug Controls
-F11: Toggle Debugmode
-F10: Toggle Map Debugview
-F9: Toggle UI Debugview
-F8: Toggle Entities Debugview
-F4: Spawn Enemy Unit on mouse
-F3: Spawn Friendly Unit on mouse
-Space: Destroy current wave
-F: Spawn new wave
+
 
 ### Console Commands
 - Future Command 1
