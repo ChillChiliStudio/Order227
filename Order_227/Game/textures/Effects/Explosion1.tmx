@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="4" height="8" tilewidth="228" tileheight="216" infinite="0" nextobjectid="3">
+ <objectgroup name="Rects">
+  <object id="1" x="0" y="0" width="228" height="216"/>
+  <object id="1" x="228" y="0" width="228" height="216"/>
+  <object id="1" x="456" y="0" width="228" height="216"/>
+  <object id="1" x="684" y="0" width="228" height="216"/>
+  <object id="1" x="0" y="216" width="228" height="216"/>
+  <object id="1" x="228" y="216" width="228" height="216"/>
+  <object id="1" x="456" y="216" width="228" height="216"/>
+  <object id="1" x="684" y="216" width="228" height="216"/>
+  <object id="1" x="0" y="432" width="228" height="216"/>
+  <object id="1" x="228" y="432" width="228" height="216"/>
+  <object id="1" x="456" y="432" width="228" height="216"/>
+  <object id="1" x="684" y="432" width="228" height="216"/>
+  <object id="1" x="0" y="648" width="228" height="216"/>
+  <object id="1" x="228" y="648" width="228" height="216"/>
+  <object id="1" x="456" y="648" width="228" height="216"/>
+  <object id="1" x="684" y="648" width="228" height="216"/>
+  <object id="1" x="0" y="864" width="228" height="216"/>
+  <object id="1" x="228" y="864" width="228" height="216"/>
+  <object id="1" x="456" y="864" width="228" height="216"/>
+  <object id="1" x="684" y="864" width="228" height="216"/>
+  <object id="1" x="0" y="1080" width="228" height="216"/>
+  <object id="1" x="228" y="1080" width="228" height="216"/>
+  <object id="1" x="456" y="1080" width="228" height="216"/>
+  <object id="1" x="684" y="1080" width="228" height="216"/>
+  <object id="1" x="0" y="1296" width="228" height="216"/>
+  <object id="1" x="228" y="1296" width="228" height="216"/>
+  <object id="1" x="456" y="1296" width="228" height="216"/>
+  <object id="1" x="684" y="1296" width="228" height="216"/>
+  <object id="1" x="0" y="1512" width="228" height="216"/>
+  <object id="1" x="228" y="1512" width="228" height="216"/>
+  <object id="1" x="456" y="1512" width="228" height="216"/>
+ </objectgroup>
+ <imagelayer name="Capa de Imagen 1">
+  <image source="../Documents/GitHub/Order227/Order_227/Game/textures/Explo1.png" width="912" height="1728"/>
+ </imagelayer>
+</map>
