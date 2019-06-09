@@ -73,9 +73,9 @@ bool Controls::PreUpdate()
 
 bool Controls::Update(float dt)
 {
-	if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+	/*if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {	//Debug Example
 		PrepareInputChange(orders.patrol);
-	}
+	}*/
 
 	if (awaitingInput) {
 
