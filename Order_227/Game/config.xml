@@ -45,7 +45,14 @@
 
 	<player>
 		<money value="300" />
-	</player>
+  </player>
+  
+  <controls>
+    <mouse issue_orders="3" select="1"/>
+    <camera up="26" down="22" left="4" right="7" />
+    <orders hold="44" move="DEFAULT" hunt="20" patrol="8" defensive="225" aggressive="224"/>
+    <debug spawn_red_conscript="58" spawn_red_bazooka="59" spawn_red_desolator="60" spawn_red_chrono="61" spawn_blue_sniper="62" spawn_blue_chrono="63" spawn_blue_dog="64" next_round="65" entities="66" gui="67" map="68"/>
+  </controls>
 
   <user_interface>
     <atlas file="ui/atlas.png" />
