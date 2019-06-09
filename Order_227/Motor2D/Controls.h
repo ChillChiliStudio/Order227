@@ -69,7 +69,7 @@ public:
 public:
 	void AllocateLists();
 
-	void PrepareChange(int& selectedInput);
+	void PrepareInputChange(int& selectedInput);
 
 	bool MouseButtonInUse(int button);
 	bool KeyInUse(int key);

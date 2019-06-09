@@ -102,10 +102,14 @@ bool Player::Update(float dt)
 			if (myApp->gui->pauseMenuPanel->active == false) {
 				myApp->gui->pauseMenuPanel->Activate();
 				myApp->gui->OnPause = true;
+				Mix_PauseMusic();
+				Mix_Pause(-1);
 			}
 			else {
 				myApp->gui->pauseMenuPanel->Deactivate();
 				myApp->gui->OnPause = false;
+				Mix_ResumeMusic();
+				Mix_Resume(-1);
 			}
 		}
 	}

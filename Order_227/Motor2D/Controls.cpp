@@ -61,6 +61,8 @@ bool Controls::Start()
 	for (int i = 0; i < 10; i++)
 		spawnHotKeys[i] = SDL_SCANCODE_1 + i;
 
+	AllocateLists();
+
 	return true;
 }
 
@@ -71,6 +73,10 @@ bool Controls::PreUpdate()
 
 bool Controls::Update(float dt)
 {
+	if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+		PrepareInputChange(orders.patrol);
+	}
+
 	if (awaitingInput) {
 
 		const Uint8* keys = SDL_GetKeyboardState(NULL);
@@ -86,6 +92,7 @@ bool Controls::Update(float dt)
 				}
 
 				awaitingInput = false;
+				break;
 			}
 		}
 
@@ -150,7 +157,7 @@ void Controls::AllocateLists()
 	keysInUse.push_back(pause);
 }
 
-void Controls::PrepareChange(int& selectedInput)
+void Controls::PrepareInputChange(int& selectedInput)
 {
 	inputToChange = &selectedInput;
 	awaitingInput = true;
@@ -228,13 +235,17 @@ void Controls::UpdateConfig(int newVal)
 
 	if (config.empty() == false)
 	{
-		for (pugi::xml_node i = config.child("controls").first_child(); i <= config.last_child(); i = i.next_sibling()) {
-			for (pugi::xml_attribute j = config.first_attribute(); j <= config.last_attribute(); j = j.next_attribute()) {
+		config = config.child("controls");
+
+		for (pugi::xml_node i = config.first_child(); i; i = i.next_sibling()) {
+			for (pugi::xml_attribute j = i.first_attribute(); j; j = j.next_attribute()) {
 				if (j.as_int() == *inputToChange) {
-					j = newVal;
+					j.set_value(newVal);
 					break;
 				}
 			}
 		}
+
+		config_file.save_file("config.xml");
 	}
 }
