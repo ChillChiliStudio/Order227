@@ -1,7 +1,7 @@
 # Order 227: Not a Step Back by Chill Chili Studio
 
 This is a university project made by 7 [Centre de la Imatge i la Tecnologia Multimedia](https://www.citm.upc.edu/ing/) students
-of the Talent Tech Center in Barcelona, in which I make our own RTS game, based of Command & Conquer: Red Alert 2, in C++.
+of the Talent Tech Center in Barcelona, in which we make our own RTS game, based of Command & Conquer: Red Alert 2, in C++.
 We also used the [Standard Template Library](https://en.wikipedia.org/wiki/Standard_Template_Library),
 the [Simple DirectMedia Layer](https://www.libsdl.org/), and [pugixml](https://pugixml.org/) libraries,
 and the [Tiled Map Editor](https://www.mapeditor.org/) software.
