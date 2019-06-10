@@ -36,6 +36,15 @@ enum class TroopType_Sounds
 	ATTACK,			//Channel 1
 	MAX
 };
+enum class UI_playerSound {
+
+	PATHFINDING_UNAVAILABLE,
+	MAX
+
+
+
+};
+
 
 enum sound_channels	// 0 for Spawns, 1 for Orders, 2 for Hurt, 3 for Explosions, ANY for attacks/shooting
 {
@@ -175,6 +184,7 @@ public:
 	uint SoundTroops_Array[MAX_INFANTRY_NUMBER][(int)TroopType_Sounds::MAX][VARIATION_PER_SOUND];
 	uint SoundBuilding_Array[MAX_BUILDING_NUMBER][(int)BuildingsType_Sounds::MAX][VARIATION_PER_SOUND];
 	uint SoundMatch_Array[(int)MatchType_Sounds::MAX][5];
+	uint SoundUI_Player[(int)UI_playerSound::MAX];
 
 	uint VarsXsound[MAX_INFANTRY_NUMBER][(int)TroopType_Sounds::MAX];
 	uint VarsXsound_Buildings[MAX_BUILDING_NUMBER][(int)BuildingsType_Sounds::MAX];
