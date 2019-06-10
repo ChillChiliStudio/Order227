@@ -7,6 +7,7 @@
 #include "App.h"
 #include "Input.h"
 #include "Window.h"
+#include "Audio.h"
 #include "SDL/include/SDL.h"
 
 Controls::Controls()
@@ -73,11 +74,11 @@ bool Controls::PreUpdate()
 
 bool Controls::Update(float dt)
 {
-	/*if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {	//Debug Example
-		PrepareInputChange(orders.patrol);
-	}*/
+	//if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {	//Debug Testing
+	//	PrepareInputChange(orders.patrol);
+	//}
 
-	if (awaitingInput) {
+	if (awaitingInput/* && myApp->input->GetKey(SDL_SCANCODE_O) != KEY_DOWN && myApp->input->GetKey(SDL_SCANCODE_O) != KEY_REPEAT*/) {
 
 		const Uint8* keys = SDL_GetKeyboardState(NULL);
 
@@ -85,7 +86,7 @@ bool Controls::Update(float dt)
 
 			if (keys[i] == 1) {
 				if (KeyInUse(i)) {
-					//TODO: Play error sound
+					myApp->audio->PlayFx(myApp->audio->SoundUI_Player[(int)UI_playerSound::UI_ERROR], 0, CHANNEL_UI);
 				}
 				else {
 					UpdateKey(i);

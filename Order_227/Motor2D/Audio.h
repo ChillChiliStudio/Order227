@@ -32,21 +32,19 @@ enum class TroopType_Sounds
 	MOVING,			//Channel 1
 	CONFIRMATION,	//Channel 1
 	HURT,			//Channel 2
-	SHOT,			//Channel 3,4,5,6,7
+	SHOT,			//Any Channel Available
 	ATTACK,			//Channel 1
 	MAX
 };
-enum class UI_playerSound {
 
-	PATHFINDING_UNAVAILABLE,
+enum class UI_playerSound
+{
+	UI_ERROR,	//Channel 4
+
 	MAX
-
-
-
 };
 
-
-enum sound_channels	// 0 for Spawns, 1 for Orders, 2 for Hurt, 3 for Explosions, ANY for attacks/shooting
+enum sound_channels	// 0 for Spawns, 1 for Orders, 2 for Hurt, 3 for Explosions, 4 for Buildings,  ANY for attacks/shooting
 {
 	CHANNEL_SPAWN = 0,
 	CHANNEL_MOVING = 1,
@@ -54,8 +52,13 @@ enum sound_channels	// 0 for Spawns, 1 for Orders, 2 for Hurt, 3 for Explosions,
 	CHANNEL_HURT = 2,
 	CHANNEL_SHOT = -1,
 	CHANNEL_ATTACK = 1,
-	CHANNEL_BUILDINGS =3,
-	CHANNEL_PLAYER=4
+
+	CHANNEL_BUILDINGS = 3,
+	CHANNEL_ANNOUNCER = 4,
+
+	CHANNEL_UI = 4,
+
+	MAX_CHANNELS
 };
 
 enum class BuildingsType_Sounds {

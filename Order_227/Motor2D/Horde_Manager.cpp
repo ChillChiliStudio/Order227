@@ -53,8 +53,8 @@ bool Horde_Manager::Update(float dt)
 
 			ChooseSpawningPoints();
 
-			myApp->audio->PlayFx(myApp->audio->SoundMatch_Array[(int)MatchType_Sounds::STARTING_ROUND][0],0, CHANNEL_BUILDINGS);
-			myApp->audio->PlayFx(myApp->audio->SoundMatch_Array[(int)MatchType_Sounds::STARTING_ROUND][1],0, CHANNEL_PLAYER);
+			myApp->audio->PlayFx(myApp->audio->SoundMatch_Array[(int)MatchType_Sounds::STARTING_ROUND][0], 0, CHANNEL_BUILDINGS);
+			myApp->audio->PlayFx(myApp->audio->SoundMatch_Array[(int)MatchType_Sounds::STARTING_ROUND][1], 0, CHANNEL_ANNOUNCER);
 
 
 			roundTimer.Start();
