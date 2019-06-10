@@ -7,6 +7,8 @@
 #define NUM_MOUSE_BUTTONS 5
 //#define LAST_KEYS_PRESSED_BUFFER 50
 
+#define MAX_KEYS 300
+
 struct SDL_Rect;
 
 enum EventWindow

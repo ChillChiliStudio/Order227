@@ -15,6 +15,7 @@
 #include "GroupManager.h"
 #include "Entity_Manager.h"
 #include "MiniMap_UI_Element.h"
+#include "Controls.h"
 
 #include "UserInterface.h"
 #include "UIElement.h"
@@ -173,15 +174,15 @@ bool User_Interface::Start()
 	selectorTank = CreateSpawnBox(false, fPoint(width / 11 + 38, height - 140), selectorTank_Rect, selectorinGame_Tex);
 
 	//CREATOR UNITs
-	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,10,myApp->entities->infantryStats[(int)infantry_type::CONSCRIPT].cost,nullptr,SDL_SCANCODE_1);
+	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,10,myApp->entities->infantryStats[(int)infantry_type::CONSCRIPT].cost,nullptr, (SDL_Scancode)myApp->controls->spawnHotKeys[0]);
 	ConscriptCreator->Start();
-	FlakCreator = CreateUnitBox(CreateFlak, fPoint(130, height - 95), Flak_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::BAZOOKA].cost,&myApp->entities->heavyUnitsUnlocked, SDL_SCANCODE_2);
+	FlakCreator = CreateUnitBox(CreateFlak, fPoint(130, height - 95), Flak_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::BAZOOKA].cost,&myApp->entities->heavyUnitsUnlocked, (SDL_Scancode)myApp->controls->spawnHotKeys[1]);
 	FlakCreator->Start();
-	SniperCreator = CreateUnitBox(CreateSniper, fPoint(130, height - 45), Sniper_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::SNIPER].cost, nullptr, SDL_SCANCODE_5);
+	SniperCreator = CreateUnitBox(CreateSniper, fPoint(130, height - 45), Sniper_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::SNIPER].cost, nullptr, (SDL_Scancode)myApp->controls->spawnHotKeys[5]);
 	SniperCreator->Start();
-	ChronoCreator = CreateUnitBox(CreateChrono, fPoint(70, height - 45), Chrono_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::CHRONO].cost, nullptr, SDL_SCANCODE_4);
+	ChronoCreator = CreateUnitBox(CreateChrono, fPoint(70, height - 45), Chrono_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::CHRONO].cost, nullptr, (SDL_Scancode)myApp->controls->spawnHotKeys[4]);
 	ChronoCreator->Start();
-	DesolatorCreator = CreateUnitBox(CreateDesolator, fPoint(192, height - 95), Desolator_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::DESOLATOR].cost, &myApp->entities->heavyUnitsUnlocked, SDL_SCANCODE_3);
+	DesolatorCreator = CreateUnitBox(CreateDesolator, fPoint(192, height - 95), Desolator_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::DESOLATOR].cost, &myApp->entities->heavyUnitsUnlocked, (SDL_Scancode)myApp->controls->spawnHotKeys[2]);
 	DesolatorCreator->Start();
 
 	//UnitStats = CreateImage(fPoint(width / 1.45, height - 75), SDL_Rect({ 0,0,55,90 }), unitStats_text);

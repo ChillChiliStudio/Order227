@@ -20,6 +20,7 @@
 #include "Player.h"
 #include "Horde_Manager.h"
 #include "MiniMap.h"
+#include "Controls.h"
 
 #include "Text.h"
 
@@ -43,10 +44,12 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	player = new Player();
 	hordes = new Horde_Manager();
 	minimap = new MiniMap();
+	controls = new Controls();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
+	AddModule(controls);
 	AddModule(win);
 	AddModule(tex);
 	AddModule(map);

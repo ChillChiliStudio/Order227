@@ -25,23 +25,15 @@ Camera Movement: W/A/S/D
 Numbers: Spawn Units
 
 Mouse Left-Click Drag: Select Units
-Mouse Right-Click: Issue Order Target
+Mouse Right-Click: Issue Order (Move Order as default)
 
 Hold CTRL: Issue Order with AGGRESIVE
 Hold SHIFT: Issue Order with DEFENSIVE
 Default: PASSIVE
 
 Spacebar: Hold Order
-Q: Prepare Move Order
-E: Prepare Attack Order
-R: Prepare Patrol Order
-
-### Debug Controls
-
-
-### Console Commands
-- Future Command 1
-- Future Command 2
+Q: Prepare Attack Order
+E: Prepare Patrol Order
 
 ## Contributing
 1. Fork it!

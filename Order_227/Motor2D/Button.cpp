@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "Audio.h"
 #include "Button.h"
+#include "Player.h"
 #include "SDL/include/SDL.h"
 
 //Constructor

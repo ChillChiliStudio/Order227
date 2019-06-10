@@ -35,30 +35,40 @@ public:
 	bool PostUpdate() override;
 	bool CleanUp() override;
 
+	//Inputs
 	void UpdateMousePos();
 	void CameraInputs(float dt);
 
+	//Debug
 	void DebugMouse();
 	void DebugInputs();
 	void DebugSpawnUnit(infantry_type type, entity_faction faction);
 	void DebugSpawnLauncher(infantry_type type, entity_faction faction);
 
+	//Order Workflow
 	void CheckForOrders();
 	unit_aggro GetAggroLevel();
 	void ApplyAggroLevel(unit_aggro aggro);
 	void ApplyOrders();
 
+	//Order Inputs
 	void OrderHold();
 	void OrderMove();
 	void OrderHunt();
 	void OrderPatrol();
 
+	//Player Actions
 	void PlayerSelect();
 	void StartSelect();
 	void ExpandSelect();
 	void FinishSelect();
 	void UpdateText();
 	void MoveText();
+
+	//Key Configuration
+	void ReconfigureKey() {
+
+	}
 
 public:
 
