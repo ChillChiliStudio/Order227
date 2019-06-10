@@ -28,7 +28,8 @@
         <stats speed="90" cadency="1" damage="3" health="15" visionRange="300" attackRange="150" cost="130" prodTime="8" threat="25"/>
       </Unit>
       <Unit id="5" name="Sniper" TextPath="textures/troops/soviet/Sniper.png" TextPathTwo="textures/troops/allied/Sniper.png" TiledFile="textures/troops/soviet/Sniper.tmx">
-        <RectOffset x="40" y="15" w="100" h="80"/>
+        <RectOffset x="40" y="15" w="60" h="80"/>
+        <RectDeath x="40" y="15" w="100" h="80"/>
         <AnimDet DeathOneSpeed="10.0"/>
         <stats speed="90" cadency="600" damage="120" health="4" visionRange="600" attackRange="450" cost="500" prodTime="8" threat="30"/>
       </Unit>

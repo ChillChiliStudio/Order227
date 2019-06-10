@@ -713,7 +713,7 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 	bool ret = true;
 	SDL_Rect temp;
 	int posArr;
-
+	int entityType;
 
 
 	for (pugi::xml_node DataXML = unitsDocument.child("Entity_Document").child("Troops").child(faction.c_str()).child("Unit"); DataXML; DataXML = DataXML.next_sibling("Unit")) {
@@ -746,10 +746,13 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 				{
 
 					case (int(infantry_type::BASIC)) :
+
+											
 						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
 						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
 						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
 						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+
 
 						break;
 
@@ -835,6 +838,14 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 
 				}
 				else if (tempString == "DeathOne") {
+
+					if (id == int(infantry_type::SNIPER)) {
+
+						temp.x -= DataXML.child("RectDeath").attribute("x").as_int();
+						temp.y -= DataXML.child("RectDeath").attribute("y").as_int();
+						temp.w = DataXML.child("RectDeath").attribute("w").as_int();
+						temp.h = DataXML.child("RectDeath").attribute("h").as_int();
+					}
 
 					animationArray[id][int(unit_state::DEAD)][0].PushBack(temp);
 					animationArray[id][int(unit_state::DEAD)][0].loop = false;

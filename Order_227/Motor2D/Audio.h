@@ -186,6 +186,7 @@ public:
 	uint SoundMatch_Array[(int)MatchType_Sounds::MAX][5];
 	uint SoundUI_Player[(int)UI_playerSound::MAX];
 
+
 	uint VarsXsound[MAX_INFANTRY_NUMBER][(int)TroopType_Sounds::MAX];
 	uint VarsXsound_Buildings[MAX_BUILDING_NUMBER][(int)BuildingsType_Sounds::MAX];
 	uint VarsXsound_Match[(int)MatchType_Sounds::MAX];
