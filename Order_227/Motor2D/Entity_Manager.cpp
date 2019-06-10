@@ -233,71 +233,6 @@ bool Entity_Manager::Load(pugi::xml_node& node)
 
 bool Entity_Manager::Save(pugi::xml_node& node)
 {
-	// Stats
-	float health;		// Health
-	uint damage;		// Damage inflicted on each attack
-	float cadency;		// Miliseconds/Attack (Miliseconds between each attack)
-
-	// Radius
-	uint attackRadius;	//Distance to attack
-	uint visionRadius;	//Distance to see
-
-	// Speed
-	float linSpeed;	// Absolute speed
-
-	// Spawn
-	int cost;
-	int productionTime;
-	int unitThreat;
-
-	/////////////////////////////////
-
-	infantry_type infantryType;
-	bool onCamera = false;
-
-	// Stats
-	unit_stats stats;
-
-	// State flags
-	unit_state unitState = unit_state::IDLE;
-	unit_orders unitOrders = unit_orders::HOLD;		// Primary player-given orders
-	unit_orders unitAuxOrders = unit_orders::NONE;	// Auxiliar self-given orders
-	unit_aggro unitAggro = unit_aggro::AGGRESSIVE;
-	unit_directions unitDirection = unit_directions::SOUTH_EAST;
-
-	// Animation
-	Animation currentAnimation;
-
-	// Speed
-	fVec2 vecSpeed;	// Vectorial speed
-	float vecAngle;	// Vector angle in reference with North-directed reference vector
-
-	// Pathfinding
-	iPoint origin;							// Origin of path
-	iPoint destination;						// Destination of path
-	std::vector<iPoint> unitPath;			// Unit path in nodes
-	std::vector<iPoint>::iterator currNode;	// Current node to move to
-
-	//Aggro
-	iPoint aggroDestination;		// Destination of secondary aggro path
-	unit_orders prevOrder;			// Order given before aggro
-	Entity* aggroTarget = nullptr;	// Aggro-created target
-	bool aggroTriggered = false;	// Aggro flag
-
-	// Attack
-	Entity* currTarget = nullptr;	// Currently attacking target
-	Entity* huntTarget = nullptr;	// Fixed hunt target
-	bool targetLost;				// Marks lost vision of hunt target
-
-	Timer attackTimer;	// Attack timer
-
-	// Death
-	uint32 timeToDespawn = 3000;	//TODO: Hardcoded value, should be read through xml
-	Timer despawnTimer;
-	bool mustDespawn = false;
-
-	//////////////////////////////////////7
-
 	pugi::xml_node tmpNode;
 
 	node.append_attribute("heavy_units_unlocked") = heavyUnitsUnlocked;
@@ -315,7 +250,7 @@ bool Entity_Manager::Save(pugi::xml_node& node)
 
 	for (int i = 0; numActives > 0; ++i) {
 		if (unitPool[i].active == true && unitPool[i].IsDead() == false) {
-			SaveUnitData(tmpNode.append_child(std::to_string(numActives).c_str()));
+			SaveUnitData(unitPool[i], tmpNode.append_child(std::to_string(numActives).c_str()));
 			numActives--;
 		}
 	}
@@ -328,9 +263,8 @@ bool Entity_Manager::Save(pugi::xml_node& node)
 	for (int i = 0; numActives > 0; ++i) {
 
 		if (launcherPool[i].active == true && launcherPool[i].IsDead() == false) {
+			SaveUnitData((Unit&)launcherPool[i], tmpNode.append_child(std::to_string(numActives).c_str()));
 			numActives--;
-
-			//SAVE
 		}
 	}
 
@@ -346,20 +280,43 @@ bool Entity_Manager::Save(pugi::xml_node& node)
 	return true;
 }
 
-bool Entity_Manager::SaveUnitData(pugi::xml_node& node)
+bool Entity_Manager::SaveUnitData(Unit& unit, pugi::xml_node& node)
 {
-	node.append_attribute("health") = unitPool[i].stats.health;
-	node.append_attribute("damage") = unitPool[i].stats.damage;
-	node.append_attribute("cadency") = unitPool[i].stats.cadency;
+	pugi::xml_node tmpNode;
 
-	node.append_attribute("attack_radius") = unitPool[i].stats.attackRadius;
-	node.append_attribute("vision_radius") = unitPool[i].stats.visionRadius;
+	//Entity
+	node.append_attribute("position_x") = unit.position.x;
+	node.append_attribute("position_y") = unit.position.y;
 
-	node.append_attribute("lin_speed") = unitPool[i].stats.linSpeed;
+	node.append_attribute("faction") = (int)unit.faction;
+	node.append_attribute("type") = (int)unit.type;
 
-	node.append_attribute("cost") = unitPool[i].stats.cost;
-	node.append_attribute("production_time") = unitPool[i].stats.productionTime;
-	node.append_attribute("threat") = unitPool[i].stats.unitThreat;
+	//Unit Stats
+	tmpNode = node.append_child("stats");
+	tmpNode.append_attribute("health") = unit.stats.health;
+	tmpNode.append_attribute("damage") = unit.stats.damage;
+	tmpNode.append_attribute("cadency") = unit.stats.cadency;
+
+	tmpNode.append_attribute("attack_radius") = unit.stats.attackRadius;
+	tmpNode.append_attribute("vision_radius") = unit.stats.visionRadius;
+
+	tmpNode.append_attribute("lin_speed") = unit.stats.linSpeed;
+
+	tmpNode.append_attribute("cost") = unit.stats.cost;
+	tmpNode.append_attribute("production_time") = unit.stats.productionTime;
+	tmpNode.append_attribute("threat") = unit.stats.unitThreat;
+
+	//Unit Vars
+	tmpNode = node.append_child("unit");
+	tmpNode.append_attribute("infantry_type") = (int)unit.infantryType;
+	tmpNode.append_attribute("orders") = (int)unit.unitOrders;
+	tmpNode.append_attribute("aggro") = (int)unit.unitAggro;
+
+	tmpNode.append_attribute("origin_x") = unit.origin.x;
+	tmpNode.append_attribute("origin_y") = unit.origin.y;
+
+	tmpNode.append_attribute("destination_x") = unit.destination.x;
+	tmpNode.append_attribute("destination_y") = unit.destination.y;
 
 	return true;
 }

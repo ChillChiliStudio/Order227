@@ -31,6 +31,8 @@ bool Unit::Start()
 	centerPos = { position.x + entityRect.w / 2, position.y + entityRect.h / 2 };
 	groundPos = { position.x + entityRect.w / 2, position.y + entityRect.h };
 
+	origin = destination = { (int)groundPos.x, (int)groundPos.y };
+
 	unitState = unit_state::IDLE;
 	unitOrders = unit_orders::HOLD;
 	unitDirection = unit_directions::SOUTH_EAST;

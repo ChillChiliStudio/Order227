@@ -41,7 +41,7 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&);
 
-	bool SaveUnitData(pugi::xml_node&);
+	bool SaveUnitData(Unit&, pugi::xml_node&);
 
 public:
 
