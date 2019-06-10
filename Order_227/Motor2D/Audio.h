@@ -125,6 +125,10 @@ public:
 	// Called before quitting
 	bool CleanUp() override;
 
+	// Save and Load
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&);
+
 	// Play a music file
 	bool PlayMusic(const char* path, int loops = -1, float fade_time = 0.0f);
 

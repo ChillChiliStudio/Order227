@@ -91,13 +91,13 @@ bool Entity_Manager::PreUpdate()
 
 bool Entity_Manager::Update(float dt)
 {
-	//Fill the quadtree  with entities
-	entitiesQuadtree->FillTree();
-
 	BROFILER_CATEGORY("Entity_Manager Update", Profiler::Color::Yellow);
 	accumulated_time += dt;
 
 	if (myApp->gui->MainMenuTemp_Image->active != true) {	//TODO: This is very hardcoded, we should have a scene workflow
+
+		//Fill the quadtree  with entities
+		entitiesQuadtree->FillTree();
 
 		if (accumulated_time >= update_ms_cycle)
 			do_logic = true;
@@ -108,20 +108,20 @@ bool Entity_Manager::Update(float dt)
 			UpdateObjects(dt);
 		}
 
+		if (entitiesDebugDraw)
+			entitiesQuadtree->DrawQuadtree();
+
+		SolveOverlapping();
+
 		//Blit Ordering that actually works
 		UpdateBlitOrdering();
 		BlitEntities();
 
+		//Clear the quadtree of entities
+		entitiesQuadtree->ClearTree();
+
 		accumulated_time -= update_ms_cycle;
 	}
-
-	if (entitiesDebugDraw)
-		entitiesQuadtree->DrawQuadtree();
-
-	SolveOverlapping();
-
-	//Clear the quadtree of entities
-	entitiesQuadtree->ClearTree();
 
 	return true;
 }
@@ -136,10 +136,6 @@ void Entity_Manager::UpdateUnits(float dt)
 
 		if (unitPool[i].active == true) {
 			numActives--;
-
-			if (i == 33) {
-				int patata = 0;
-			}
 
 			unitPool[i].Update(dt);
 
@@ -170,8 +166,6 @@ void Entity_Manager::UpdateBuildings(float dt)
 
 	for (int i = 0; i < buildingsArray.size(); i++)
 		buildingsArray[i].Update(dt);
-	
-	int a = 0;
 }
 
 void Entity_Manager::UpdateObjects(float dt)
@@ -225,6 +219,147 @@ bool Entity_Manager::CleanUp()
 	ReleasePools();
 	objectsArray.clear();
 	buildingsArray.clear();
+
+	return true;
+}
+
+// Save and Load
+bool Entity_Manager::Load(pugi::xml_node& node)
+{
+
+
+	return true;
+}
+
+bool Entity_Manager::Save(pugi::xml_node& node)
+{
+	// Stats
+	float health;		// Health
+	uint damage;		// Damage inflicted on each attack
+	float cadency;		// Miliseconds/Attack (Miliseconds between each attack)
+
+	// Radius
+	uint attackRadius;	//Distance to attack
+	uint visionRadius;	//Distance to see
+
+	// Speed
+	float linSpeed;	// Absolute speed
+
+	// Spawn
+	int cost;
+	int productionTime;
+	int unitThreat;
+
+	/////////////////////////////////
+
+	infantry_type infantryType;
+	bool onCamera = false;
+
+	// Stats
+	unit_stats stats;
+
+	// State flags
+	unit_state unitState = unit_state::IDLE;
+	unit_orders unitOrders = unit_orders::HOLD;		// Primary player-given orders
+	unit_orders unitAuxOrders = unit_orders::NONE;	// Auxiliar self-given orders
+	unit_aggro unitAggro = unit_aggro::AGGRESSIVE;
+	unit_directions unitDirection = unit_directions::SOUTH_EAST;
+
+	// Animation
+	Animation currentAnimation;
+
+	// Speed
+	fVec2 vecSpeed;	// Vectorial speed
+	float vecAngle;	// Vector angle in reference with North-directed reference vector
+
+	// Pathfinding
+	iPoint origin;							// Origin of path
+	iPoint destination;						// Destination of path
+	std::vector<iPoint> unitPath;			// Unit path in nodes
+	std::vector<iPoint>::iterator currNode;	// Current node to move to
+
+	//Aggro
+	iPoint aggroDestination;		// Destination of secondary aggro path
+	unit_orders prevOrder;			// Order given before aggro
+	Entity* aggroTarget = nullptr;	// Aggro-created target
+	bool aggroTriggered = false;	// Aggro flag
+
+	// Attack
+	Entity* currTarget = nullptr;	// Currently attacking target
+	Entity* huntTarget = nullptr;	// Fixed hunt target
+	bool targetLost;				// Marks lost vision of hunt target
+
+	Timer attackTimer;	// Attack timer
+
+	// Death
+	uint32 timeToDespawn = 3000;	//TODO: Hardcoded value, should be read through xml
+	Timer despawnTimer;
+	bool mustDespawn = false;
+
+	//////////////////////////////////////7
+
+	pugi::xml_node tmpNode;
+
+	node.append_attribute("heavy_units_unlocked") = heavyUnitsUnlocked;
+
+	node.append_attribute("unit_buff") = unitBuff;
+	node.append_attribute("buildings_buff") = buildingsBuff;
+	node.append_attribute("income_buff1") = incomeBuff1;
+	node.append_attribute("income_buff2") = incomeBuff2;
+	node.append_attribute("income_buff3") = incomeBuff45;
+
+	//Units
+	tmpNode = node.append_child("units");
+	tmpNode.append_attribute("active") = activeUnits;
+	int numActives = activeUnits;
+
+	for (int i = 0; numActives > 0; ++i) {
+		if (unitPool[i].active == true && unitPool[i].IsDead() == false) {
+			SaveUnitData(tmpNode.append_child(std::to_string(numActives).c_str()));
+			numActives--;
+		}
+	}
+
+	//Launchers
+	tmpNode = node.append_child("launchers");
+	tmpNode.append_attribute("active") = activeLaunchers;
+	numActives = activeLaunchers;
+
+	for (int i = 0; numActives > 0; ++i) {
+
+		if (launcherPool[i].active == true && launcherPool[i].IsDead() == false) {
+			numActives--;
+
+			//SAVE
+		}
+	}
+
+	//Buildings
+	tmpNode = node.append_child("buildings");
+	tmpNode.append_attribute("active") = activeBuildings;
+	numActives = activeBuildings;
+
+	for (int i = 0; i < buildingsArray.size(); i++) {
+		//SAVE
+	}
+
+	return true;
+}
+
+bool Entity_Manager::SaveUnitData(pugi::xml_node& node)
+{
+	node.append_attribute("health") = unitPool[i].stats.health;
+	node.append_attribute("damage") = unitPool[i].stats.damage;
+	node.append_attribute("cadency") = unitPool[i].stats.cadency;
+
+	node.append_attribute("attack_radius") = unitPool[i].stats.attackRadius;
+	node.append_attribute("vision_radius") = unitPool[i].stats.visionRadius;
+
+	node.append_attribute("lin_speed") = unitPool[i].stats.linSpeed;
+
+	node.append_attribute("cost") = unitPool[i].stats.cost;
+	node.append_attribute("production_time") = unitPool[i].stats.productionTime;
+	node.append_attribute("threat") = unitPool[i].stats.unitThreat;
 
 	return true;
 }

@@ -88,11 +88,19 @@ void App::AddModule(Module* module)
 // Called before render is available
 bool App::Awake()
 {
+	bool ret = false;
+
 	pugi::xml_document	config_file;
+	pugi::xml_document	save_file;
 	pugi::xml_node		config;
 	pugi::xml_node		app_config;
 
-	bool ret = false;
+	config = myApp->LoadSaveFile(save_file);
+
+	if (!config.empty()) {	//Mark the existance of a save file
+		saveFileExists = true;
+	}
+
 	config = LoadConfig(config_file);
 
 	if(config.empty() == false)
@@ -105,6 +113,9 @@ bool App::Awake()
 		organization.assign(app_config.child("organization").child_value());
 		debugMode = app_config.child("debug").attribute("active").as_bool(false);
 	
+		save_game.assign(app_config.child("save").child_value());
+		load_game.assign(app_config.child("load").child_value());
+
 		int cap = app_config.attribute("framerate_cap").as_int(-1);
 
 		if (cap > 0)
@@ -183,6 +194,19 @@ pugi::xml_node App::LoadConfig(pugi::xml_document& config_file) const
 	return ret;
 }
 
+pugi::xml_node App::LoadSaveFile(pugi::xml_document& save_file) const
+{
+	pugi::xml_node ret;
+	pugi::xml_parse_result result = save_file.load_file(save_game.c_str());
+
+	if (result == NULL)
+		LOG("Could not load save map xml file. pugi error: %s", result.description());
+	else
+		ret = save_file.child("game_state");
+
+	return ret;
+}
+
 // ---------------------------------------------
 void App::PrepareUpdate()
 {
@@ -197,6 +221,13 @@ void App::PrepareUpdate()
 void App::FinishUpdate()
 {
 	BROFILER_CATEGORY("App Delay", Profiler::Color::Gray);
+
+	//Savegame
+	if (want_to_save == true)
+		SavegameNow();
+
+	if (want_to_load == true)
+		LoadGameNow();
 
 	//Framerate Calcs
 	if (last_sec_frame_time.Read() > 1000) {
@@ -331,4 +362,94 @@ const char* App::GetOrganization() const
 float App::GetDT() const
 {
 	return dt;
+}
+
+// Load / Save
+void App::LoadGame()
+{
+	// we should be checking if that file actually exist
+	// from the "GetSaveGames" list
+	want_to_load = true;
+}
+
+void App::SaveGame() const
+{
+	// we should be checking if that file actually exist
+	// from the "GetSaveGames" list ... should we overwrite ?
+
+	want_to_save = true;
+}
+
+// ---------------------------------------
+bool App::LoadGameNow()
+{
+	bool ret = false;
+
+	pugi::xml_document data;
+	pugi::xml_node root;
+
+	load_game = save_game;	// @Carles
+
+	pugi::xml_parse_result result = data.load_file(load_game.c_str());
+
+	if (result != NULL)
+	{
+		LOG("Loading new Game State from %s...", load_game.c_str());
+
+		root = data.child("game_state");
+
+		std::list<Module*>::iterator item = modules.begin();
+		ret = true;
+
+		for (item; item != modules.end() && ret == true; item = next(item))
+		{
+			ret = (*item)->Load(root.child((*item)->name.c_str()));
+		}
+
+		data.reset();
+		if (ret == true)
+			LOG("...finished loading");
+		else
+			LOG("...loading process interrupted with error on module %s", (*item != NULL) ? (*item)->name.c_str() : "unknown");
+	}
+	else
+		LOG("Could not parse game state xml file %s. pugi error: %s", load_game.c_str(), result.description());
+
+	want_to_load = false;
+	return ret;
+}
+
+bool App::SavegameNow()
+{
+	bool ret = true;
+
+	std::string save_game_file = save_game.c_str();	// @Carles, IMPROVE: Could work with a list of saved files instead of having just one
+
+	LOG("Saving Game State to %s...", save_game_file.c_str());
+
+	// xml object were we will store all data
+	pugi::xml_document data;
+	pugi::xml_node root;
+
+	root = data.append_child("game_state");
+
+	std::list<Module*>::iterator item = modules.begin();
+	ret = true;
+
+	for (item; item != modules.end() && ret == true; item = next(item))
+	{
+		ret = (*item)->Save(root.child((*item)->name.c_str()));
+	}
+
+	if (ret == true)
+	{
+		data.save_file(save_game_file.c_str());
+		LOG("... finished saving", );
+	}
+	else
+		LOG("Save process halted from an error in module %s", (*item != NULL) ? (*item)->name.c_str() : "unknown");
+
+	data.reset();
+	want_to_save = false;
+	return ret;
 }

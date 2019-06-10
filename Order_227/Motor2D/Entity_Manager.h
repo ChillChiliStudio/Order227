@@ -37,6 +37,12 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
+	// Save and Load
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&);
+
+	bool SaveUnitData(pugi::xml_node&);
+
 public:
 
 	//Pools	//TODO: With .reserve() we can reserve memory for a vector so if a resize is needed in runtime the memory is already allocated, making the process faster

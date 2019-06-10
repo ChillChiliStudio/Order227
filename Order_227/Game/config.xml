@@ -4,6 +4,8 @@
 		<title>Order227</title>
 		<organization>UPC</organization>
 		<debug active="false" />
+    <save>save_game.xml</save>
+    <load>save_game.xml</load>
 	</app>
 	<renderer>
 		<vsync value="true" />
