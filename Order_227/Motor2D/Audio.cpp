@@ -424,7 +424,6 @@ void Audio::LoadIntoArray() {
 
 
 		//TODO:des-hardcode
-	
 		SoundUI_Player[(int)UI_playerSound::PATHFINDING_UNAVAILABLE] = LoadFx("audio/AFX/Others/Error.wav");
 
 
