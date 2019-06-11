@@ -277,18 +277,18 @@ bool Entity_Manager::Load(pugi::xml_node& node)
 
 	ActivateBuildings();
 
-	/*for (int i = 0; i < savedActives; i++) {
-
-		loopNode = node.child("units").child(std::to_string(i + 1).c_str());
-
-		
-		LoadUnitData(loopNode);
-	}*/
+	for (int i = 0; i < savedActives; i++) {
+		for (pugi::xml_node j = node.child("buildings").child(std::to_string(i + 1).c_str()); j; j = j.next_sibling()) {
+			if (buildingsArray[i].buildingType == (building_type)j.attribute("type").as_int()) {
+				LoadBuildingData(&buildingsArray[i], j);
+			}
+		}
+	}
 
 	return true;
 }
 
-bool LoadUnitData(Unit* unitPtr, pugi::xml_node& loopNode)
+bool Entity_Manager::LoadUnitData(Unit* unitPtr, pugi::xml_node& loopNode)
 {
 	//Overwrite Unit Data
 	unitPtr->stats.health = loopNode.child("stats").attribute("health").as_float();
@@ -328,7 +328,7 @@ bool LoadUnitData(Unit* unitPtr, pugi::xml_node& loopNode)
 	}
 }
 
-bool LoadBuildingData(Building* build, pugi::xml_node& loopNode)
+bool Entity_Manager::LoadBuildingData(Building* build, pugi::xml_node& loopNode)
 {
 	build->buildingType = (building_type)loopNode.attribute("type").as_int();
 	build->faction = (entity_faction)loopNode.attribute("faction").as_int();

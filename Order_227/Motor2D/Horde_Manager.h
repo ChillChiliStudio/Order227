@@ -23,6 +23,10 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
+	// Save and Load
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&);
+
 public:
 
 	void ClearEnemies();
@@ -65,7 +69,7 @@ public:
 
 	Timer roundTimer;
 
-private:
+public:
 
 	//Spawning & SP
 	int roundThreat = 0;
