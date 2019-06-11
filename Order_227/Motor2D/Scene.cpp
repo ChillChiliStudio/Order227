@@ -95,7 +95,7 @@ bool Scene::Update(float dt)
 
 	}
 
-//	myApp->map->Draw();
+	myApp->map->Draw();
 	return true;
 }
 
