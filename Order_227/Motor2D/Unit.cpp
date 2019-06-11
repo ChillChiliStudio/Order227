@@ -629,7 +629,7 @@ Entity* Unit::EnemyInRadius(uint radius)
 
 	//Units
 	numActives = myApp->entities->activeUnits;
-	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); numActives > 0; item = next(item)) {
+	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); numActives > 0 && item != myApp->entities->unitPool.end(); item = next(item)) {
 		if ((*item).active) {
 			numActives--;
 
@@ -649,7 +649,7 @@ Entity* Unit::EnemyInRadius(uint radius)
 	if (ret == nullptr) {
 		numActives = myApp->entities->activeLaunchers;
 
-		for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); numActives > 0; item = next(item)) {
+		for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); numActives > 0 && item != myApp->entities->launcherPool.end(); item = next(item)) {
 			if ((*item).active) {
 				numActives--;
 
@@ -670,7 +670,7 @@ Entity* Unit::EnemyInRadius(uint radius)
 
 			numActives = myApp->entities->activeBuildings;
 
-			for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0; item = next(item)) {
+			for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0 && item != myApp->entities->buildingsArray.end(); item = next(item)) {
 				if ((*item).active) {
 					numActives--;
 

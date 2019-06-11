@@ -134,7 +134,7 @@ void Entity_Manager::UpdateUnits(float dt)
 
 	int numActives = activeUnits;
 
-	for (int i = 0; numActives > 0; ++i) {
+	for (int i = 0; numActives > 0 && i < unitPool.size(); ++i) {
 
 		if (unitPool[i].active == true) {
 			numActives--;
@@ -150,7 +150,7 @@ void Entity_Manager::UpdateUnits(float dt)
 	numActives = activeLaunchers;
 
 	//LAUNCHER UNITS
-	for (int i = 0; numActives > 0; ++i) {
+	for (int i = 0; numActives > 0 && i < launcherPool.size(); ++i) {
 
 		if (launcherPool[i].active == true) {
 			numActives--;
@@ -176,7 +176,7 @@ void Entity_Manager::UpdateObjects(float dt)
 
 	for (int i = 0; i < objectsArray.size(); i++) 
 		objectsArray[i].Update(dt);
-
+	
 }
 
 bool BlitSort(Entity* i, Entity* j)
@@ -246,7 +246,7 @@ bool Entity_Manager::Load(pugi::xml_node& node)
 
 	for (int i = 0; i < savedActives; i++) {
 
-		loopNode = node.child("units").child(("unit_" + std::to_string(i + 1)).c_str());
+		loopNode = node.child("units").child(("unit_" + std::to_string(i)).c_str());
 
 		unitPtr = ActivateUnit({ loopNode.attribute("position_x").as_float(), loopNode.attribute("position_y").as_float() },
 			(infantry_type)loopNode.child("unit").attribute("infantry_type").as_int(),
@@ -263,7 +263,7 @@ bool Entity_Manager::Load(pugi::xml_node& node)
 
 	for (int i = 0; i < savedActives; i++) {
 
-		loopNode = node.child("launchers").child(("launcher_" + std::to_string(i + 1)).c_str());
+		loopNode = node.child("launchers").child(("launcher_" + std::to_string(i)).c_str());
 
 		unitPtr = ActivateLauncher({ loopNode.attribute("position_x").as_float(), loopNode.attribute("position_y").as_float() },
 			(infantry_type)loopNode.child("unit").attribute("infantry_type").as_int(),
@@ -369,23 +369,25 @@ bool Entity_Manager::Save(pugi::xml_node& node)
 
 	//Units
 	tmpNode = node.append_child("units");
-	tmpNode.append_attribute("active") = activeUnits;
 	int numActives = activeUnits;
+	int savedActives = 0;
 
 	for (int i = 0; numActives > 0; ++i) {
 		if (unitPool[i].active == true) {
 			numActives--;
 
 			if (unitPool[i].IsDead() == false) {
-				SaveUnitData(unitPool[i], tmpNode.append_child(("unit_" + std::to_string(numActives)).c_str()));
+				SaveUnitData(unitPool[i], tmpNode.append_child(("unit_" + std::to_string(savedActives++)).c_str()));
 			}
 		}
 	}
 
+	tmpNode.append_attribute("active") = savedActives;
+
 	//Launchers
 	tmpNode = node.append_child("launchers");
-	tmpNode.append_attribute("active") = activeLaunchers;
 	numActives = activeLaunchers;
+	savedActives = 0;
 
 	for (int i = 0; numActives > 0; ++i) {
 
@@ -393,10 +395,12 @@ bool Entity_Manager::Save(pugi::xml_node& node)
 			numActives--;
 
 			if (unitPool[i].IsDead() == false) {
-				SaveUnitData((Unit&)launcherPool[i], tmpNode.append_child(("launcher_" + std::to_string(numActives)).c_str()));
+				SaveUnitData((Unit&)launcherPool[i], tmpNode.append_child(("launcher_" + std::to_string(savedActives++)).c_str()));
 			}
 		}
 	}
+
+	tmpNode.append_attribute("active") = savedActives;
 
 	//Buildings
 	tmpNode = node.append_child("buildings");
