@@ -20,9 +20,6 @@ public:
 	virtual bool DebugDraw() const override;
 	virtual bool PostUpdate() override;
 
-
-
-
 public:
 
 
