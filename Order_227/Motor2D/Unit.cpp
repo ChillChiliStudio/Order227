@@ -41,13 +41,6 @@ bool Unit::Start()
 
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
 
-	if (faction == entity_faction::COMMUNIST) {
-
-		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SPAWN];
-		myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)type_sounds::SPAWN][rand() % Aux], 0, CHANNEL_SPAWN);
-	}
-
-
 	myApp->gui->CreateLifeBar(fPoint(centerPos.x, position.y), this, myApp->entities->lifeBar_tex);
 
 	active = true;

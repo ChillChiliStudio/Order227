@@ -39,10 +39,12 @@ public:
 
 	// Save and Load
 	bool Load(pugi::xml_node&);
+	bool LoadUnitData(Unit*, pugi::xml_node&);
+	bool LoadBuildingData(Building*, pugi::xml_node&);
+
 	bool Save(pugi::xml_node&);
-
 	bool SaveUnitData(Unit&, pugi::xml_node&);
-
+	bool SaveBuildingData(Building&, pugi::xml_node&);
 public:
 
 	//Pools	//TODO: With .reserve() we can reserve memory for a vector so if a resize is needed in runtime the memory is already allocated, making the process faster
@@ -61,8 +63,8 @@ public:
 	void UpdateBuildings(float dt);
 	void UpdateObjects(float dt);
 
-	Unit* ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
-	Launcher* ActivateLauncher(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+	Unit* ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL, bool saveFile = false);
+	Launcher* ActivateLauncher(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL, bool saveFile = false);
 
 	bool DeActivateUnit(Unit* Unit);
 	void ActivateBuildings();
