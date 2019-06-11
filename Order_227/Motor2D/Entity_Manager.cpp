@@ -717,7 +717,7 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 	bool ret = true;
 	SDL_Rect temp;
 	int posArr;
-
+	int i = 0;
 
 
 	for (pugi::xml_node DataXML = unitsDocument.child("Entity_Document").child("Troops").child(faction.c_str()).child("Unit"); DataXML; DataXML = DataXML.next_sibling("Unit")) {
@@ -854,10 +854,9 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 				else {
 
 				if (tempString == "Pointing") {
-
-					ParticleAnimArray[posArr].PushBack(temp);
-					ParticleAnimArray[posArr].loop = true;
-					ParticleAnimArray[posArr].speed = 10.0f;
+					
+					ParticleAnimArray[i]=temp;
+					i++;
 
 				}
 

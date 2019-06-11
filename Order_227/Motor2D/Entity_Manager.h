@@ -103,7 +103,7 @@ public:
 	//Animations Array
 	Animation animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)]; //TODO_ WTF? Troop types?
 	Animation BuildingAnimationArray[int(building_type::BUILDING_MAX)][int(Building_State::MAX)];
-	Animation ParticleAnimArray[1];
+	SDL_Rect ParticleAnimArray[8];
 
 
 	bool entitiesDebugDraw = false;

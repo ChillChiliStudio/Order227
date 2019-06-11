@@ -6,7 +6,8 @@
 #include "Log.h"
 #include "Render.h"
 Projectile::Projectile() {
-	currentAnimation = (&myApp->entities->ParticleAnimArray[0]);
+	
+	
 }
 
 Projectile::~Projectile() {
@@ -34,14 +35,9 @@ bool Projectile::Update(float dt) {
 	centerPos.x = position.x + (entityRect.w / 2);
 	centerPos.y = position.y + (entityRect.h / 2);
 
-	currentAnimation.AdvanceAnimation(dt);
 
-	currentAnimation = (&myApp->entities->ParticleAnimArray[0]);
+	spriteRect = (myApp->entities->ParticleAnimArray[(int)ProjectileDirection]);
 	
-
-
-
-	spriteRect = currentAnimation.GetTheActualCurrentFrame();	//TODO: CARLESTODO Mark of blit update
 
 	myApp->render->Blit(texture, (int)position.x, (int)position.y, &spriteRect);
 
