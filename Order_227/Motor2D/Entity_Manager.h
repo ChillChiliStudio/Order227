@@ -108,6 +108,7 @@ public:
 
 	bool entitiesDebugDraw = false;
 	SDL_Texture* lifeBar_tex = nullptr; //TODO: Why is this here?4
+	SDL_Texture*	objectTextures[int(object_type::OBJECT_MAX)];
 
 	//Unit stats
 	unit_stats		infantryStats[int(infantry_type::INFANTRY_MAX)];
@@ -139,7 +140,7 @@ private:
 	//Arrays with all the textures
 	SDL_Texture*	buildingsTextures[int(building_type::BUILDING_MAX)];
 	SDL_Texture*	infantryTextures[int(infantry_type::INFANTRY_MAX)][2];
-	SDL_Texture*	objectTextures[int(object_type::OBJECT_MAX)];
+
 
 	
 	pugi::xml_document unitsDocument;

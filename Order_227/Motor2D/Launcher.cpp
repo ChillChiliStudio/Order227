@@ -121,6 +121,7 @@ void Launcher::LaunchProjectile(fPoint destination) {
 			ProjectilePool[i].position = this->position;
 			ProjectilePool[i].Destination = destination;
 			ProjectilePool[i].damage = (float)this->stats.damage;
+			ProjectilePool[i].texture = myApp->entities->objectTextures[int(object_type::MISSILE)];
 
 			break;
 		}
