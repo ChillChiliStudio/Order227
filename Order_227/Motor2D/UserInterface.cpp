@@ -178,7 +178,7 @@ bool User_Interface::Start()
 	selectorTank = CreateSpawnBox(false, fPoint(width / 11 + 38, height - 140), selectorTank_Rect, selectorinGame_Tex);
 
 	//CREATOR UNITs
-	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,27,myApp->entities->infantryStats[(int)infantry_type::CONSCRIPT].cost,nullptr,SDL_SCANCODE_1);
+	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,20,myApp->entities->infantryStats[(int)infantry_type::CONSCRIPT].cost,nullptr,SDL_SCANCODE_1);
 	ConscriptCreator->Start();
 	FlakCreator = CreateUnitBox(CreateFlak, fPoint(130, height - 95), Flak_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::BAZOOKA].cost,&myApp->entities->heavyUnitsUnlocked, SDL_SCANCODE_2);
 	FlakCreator->Start();
