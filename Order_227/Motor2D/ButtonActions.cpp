@@ -12,6 +12,7 @@
 #include "GroupManager.h"
 #include "Video.h"
 #include "Audio.h"
+#include "VoidBox.h"
 
 void CreateConscript() {
 	//srand(time(NULL));
@@ -205,4 +206,50 @@ void QuitGame() {
 void CloseGame()
 {
 	myApp->mustShutDown = true;
+}
+
+void OptionsOpen() {
+	myApp->gui->DeactivateScreen(myApp->gui->Main_Menu_Elements);
+	myApp->gui->OptionsPanel->Activate();
+	myApp->gui->SetHotkeys_Button->Activate();
+}
+void QuitOptions() {
+	if (myApp->gui->VolumeSFX_Slide->active == true&&myApp->gui->pauseMenuPanel->active==false) {
+		myApp->gui->OptionsPanel->Deactivate();
+		myApp->gui->ActivateScreen(myApp->gui->Main_Menu_Elements);
+	}
+	else if (myApp->gui->pauseMenuPanel->active == true&&myApp->gui->Hotkey_Conscript->active==false) {
+		myApp->gui->OptionsPanel->Deactivate();
+	}
+	else {
+		myApp->gui->Hotkey_Conscript->Deactivate();
+		myApp->gui->Hotkey_Flak->Deactivate();
+		myApp->gui->Hotkey_Desolator->Deactivate();
+		myApp->gui->Hotkey_Chrono->Deactivate();
+		myApp->gui->Hotkey_Sniper->Deactivate();
+		myApp->gui->OptionsPanel->Activate();
+		myApp->gui->SetHotkeys_Button->Activate();
+		myApp->gui->Hotkey_Up->Deactivate();
+		myApp->gui->Hotkey_Down->Deactivate();
+		myApp->gui->Hotkey_Left->Deactivate();
+		myApp->gui->Hotkey_Right->Deactivate();
+	}
+
+}
+
+void Hotkeys_Options() {
+
+	myApp->gui->VolumeSFX_Slide->active = false;
+	myApp->gui->VolumeMusic_Slide->Deactivate();
+	myApp->gui->SetHotkeys_Button->Deactivate();
+	myApp->gui->Hotkey_Conscript->Activate();
+	myApp->gui->Hotkey_Flak->Activate();
+	myApp->gui->Hotkey_Desolator->Activate();
+	myApp->gui->Hotkey_Chrono->Activate();
+	myApp->gui->Hotkey_Sniper->Activate();
+	myApp->gui->Hotkey_Up->Activate();
+	myApp->gui->Hotkey_Down->Activate();
+	myApp->gui->Hotkey_Left->Activate();
+	myApp->gui->Hotkey_Right->Activate();
+
 }

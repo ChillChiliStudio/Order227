@@ -98,6 +98,8 @@ bool User_Interface::Start()
 	Unit_Panels_tex = myApp->tex->Load("ui/Unit_Costs_Panel.png");
 	InGame_Label_tex= myApp->tex->Load("ui/In_Game_Labels.png");
 	Buff_tex = myApp->tex->Load("ui/Buff_Texture.png");
+	Options_tex = myApp->tex->Load("ui/Options_Text.png");
+	Volume_Slides = myApp->tex->Load("ui/VolumeBars_Tex.png");
 
 	//Debug Elements
 	fpsText = CreateText({ 10, 10 }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
@@ -111,6 +113,12 @@ bool User_Interface::Start()
 	TempButtonRect[1] = { 626,0,290,84 };
 	TempButtonRect[2] = { 938,0,290,84 };
 	TempButtonRect[3] = {1250,0,290,84 };
+
+	SDL_Rect mini_TempButtonRect[4];
+	mini_TempButtonRect[0] = { 0,85,97,82 };
+	mini_TempButtonRect[1] = { 0,85,97,82 };
+	mini_TempButtonRect[2] = { 97,85,97,82 };
+	mini_TempButtonRect[3] = { 194,85,97,82 };
 
 	SDL_Rect Pause_Button[4];
 	Pause_Button[0] = { 0,0,168,42 };
@@ -194,6 +202,8 @@ bool User_Interface::Start()
 	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2-100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex,true);
 	ReturnMainMenu = CreateVoidBox(QuitGame, fPoint(width / 2, height / 2), Pause_Button, PauseButton_text, pauseMenuPanel);
 	ReturnMainMenu_Label = CreateText(fPoint(width / 2, height / 2), "EXIT", font_id::MOLOT,White,false,pauseMenuPanel);
+	Options_Pause_button = CreateVoidBox(OptionsOpen, fPoint(width / 2, height / 2.3), Pause_Button, PauseButton_text, pauseMenuPanel);
+	Options_Pause_Label = CreateText(fPoint(width / 2, height / 2.3), "Options", font_id::MOLOT, White, false, pauseMenuPanel);
 	pauseMenuPanel->Deactivate();
 	frameSelector = CreateImage(fPoint(width / 11, height - 140), SDL_Rect({ 0,0,134,38 }), selectorinGame_Tex);
 
@@ -247,14 +257,73 @@ bool User_Interface::Start()
 	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/1.8),TempButtonRect,StartGame_text,nullptr,Screen_Type::SCREEN_MAINMENU);
 	StartGame_Label = CreateText(fPoint(width / 2, height / 1.8), "START GAME", font_id::MOLOT,White,false,StartGame_Button,1.0f,nullptr, Screen_Type::SCREEN_MAINMENU);
 
-	ExitGame_Button = CreateVoidBox(CloseGame, fPoint(width / 2, height / 1.2), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
-	ExitGame_Label = CreateText(fPoint(width / 2, height / 1.2), "QUIT GAME", font_id::MOLOT, White, false, ExitGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+	ExitGame_Button = CreateVoidBox(CloseGame, fPoint(width / 2, height / 1.15), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	ExitGame_Label = CreateText(fPoint(width / 2, height / 1.15), "QUIT GAME", font_id::MOLOT, White, false, ExitGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+
+	OptionsGame_Button = CreateVoidBox(OptionsOpen, fPoint(width / 2, height / 1.4), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	OptionsGame_Label = CreateText(fPoint(width / 2, height / 1.4), "OPTIONS", font_id::MOLOT, White, false, OptionsGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
 
 	Minimap_Display = new  MiniMap_UI(ui_type::NONE);
 
-	
+
 	AddElement(Minimap_Display);
 	InGame_Elements.push_back(Minimap_Display);
+
+
+	OptionsPanel = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,906,657 }), Options_tex,false,nullptr,nullptr,Screen_Type::SCREEN_OPTIONS);
+
+	VolumeSFX_Slide = CreateImage(fPoint(width / 2, height / 2.2), SDL_Rect({ 0,0,796,80 }), Volume_Slides, false,OptionsPanel, nullptr, Screen_Type::SCREEN_OPTIONS);
+	VolumeMusic_Slide = CreateImage(fPoint(width / 2, height / 3.5), SDL_Rect({ 0,0,796,80 }), Volume_Slides, false, OptionsPanel, nullptr, Screen_Type::SCREEN_OPTIONS);
+	SetHotkeys_Button = CreateVoidBox(Hotkeys_Options, fPoint(width / 2, height / 1.5), TempButtonRect, StartGame_text, OptionsPanel, Screen_Type::SCREEN_OPTIONS);
+	SetHotkeys_Label = CreateText(fPoint(width / 2, height / 1.5), "CONTROLS", font_id::MOLOT, White, false, SetHotkeys_Button,1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+
+	Hotkey_Conscript = CreateVoidBox(Hotkeys_Options, fPoint(width / 2.6, height / 3.5), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Conscript_Label = CreateText(fPoint(width / 2.6, height / 3.5), "1", font_id::MOLOT, White, false, Hotkey_Conscript, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Conscript_Label = CreateText(fPoint(width / 3.5, height / 3.5), "Create Consrcipt", font_id::MOLOT, White, false, Hotkey_Conscript, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Conscript->Deactivate();
+
+	Hotkey_Flak = CreateVoidBox(Hotkeys_Options, fPoint(width / 2.6, height / 2.3), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Flak_Label = CreateText(fPoint(width / 2.6, height / 2.3), "2", font_id::MOLOT, White, false, Hotkey_Flak, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Flak_Label = CreateText(fPoint(width / 3.5, height / 2.3), "Create Flak", font_id::MOLOT, White, false, Hotkey_Flak, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Flak->Deactivate();
+
+	Hotkey_Desolator = CreateVoidBox(Hotkeys_Options, fPoint(width / 2.6, height / 1.7), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Desolator_Label = CreateText(fPoint(width / 2.6, height / 1.7), "3", font_id::MOLOT, White, false, Hotkey_Desolator, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Desolator_Label = CreateText(fPoint(width / 3.5, height / 1.7), "Create Desolator", font_id::MOLOT, White, false, Hotkey_Desolator, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Desolator->Deactivate();
+
+	Hotkey_Chrono = CreateVoidBox(Hotkeys_Options, fPoint(width / 2.6, height / 1.35), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Chrono_Label = CreateText(fPoint(width / 2.6, height / 1.35), "4", font_id::MOLOT, White, false, Hotkey_Chrono, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Chrono_Label = CreateText(fPoint(width / 3.5, height / 1.35), "Create Chrono", font_id::MOLOT, White, false, Hotkey_Chrono, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Chrono->Deactivate();
+
+	Hotkey_Sniper = CreateVoidBox(Hotkeys_Options, fPoint(width / 1.5, height / 3.5), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Sniper_Label = CreateText(fPoint(width / 1.5, height / 3.5), "5", font_id::MOLOT, White, false, Hotkey_Sniper, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Sniper_Label = CreateText(fPoint(width / 1.7, height / 3.5), "Create Sn iper", font_id::MOLOT, White, false, Hotkey_Sniper, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Sniper->Deactivate();
+
+	Hotkey_Up = CreateVoidBox(Hotkeys_Options, fPoint(width / 1.5, height / 2.05), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Up_Label = CreateText(fPoint(width / 1.5, height / 2.05), "W", font_id::MOLOT, White, false, Hotkey_Up, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Up->Deactivate();
+
+	Hotkey_Down = CreateVoidBox(Hotkeys_Options, fPoint(width / 1.5, height / 1.6), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Down_Label = CreateText(fPoint(width / 1.5, height / 1.6), "S", font_id::MOLOT, White, false, Hotkey_Down, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Down->Deactivate();
+
+	Hotkey_Left = CreateVoidBox(Hotkeys_Options, fPoint(width / 1.72, height / 1.6), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Left_Label = CreateText(fPoint(width / 1.72, height / 1.6), "A", font_id::MOLOT, White, false, Hotkey_Left, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Left->Deactivate();
+
+	Hotkey_Right = CreateVoidBox(Hotkeys_Options, fPoint(width / 1.32, height / 1.6), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Right_Label = CreateText(fPoint(width / 1.32, height / 1.6), "D", font_id::MOLOT, White, false, Hotkey_Right, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Right->Deactivate();
+
+	ReturnOptions_Button = CreateVoidBox(QuitOptions, fPoint(width / 1.9, height / 1.135), TempButtonRect, StartGame_text,OptionsPanel, Screen_Type::SCREEN_OPTIONS);
+	ReturnOptions_Label = CreateText(fPoint(width / 2, height / 1.15), "RETURN", font_id::MOLOT, White, false, ReturnOptions_Button,0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	ReturnOptions_Button->ChangeSize(0.7f);
+
+	OptionsPanel->Deactivate();
+
 
 	Mouse_UI = CreateMouse(mouse_tex);
 

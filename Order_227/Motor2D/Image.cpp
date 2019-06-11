@@ -70,17 +70,18 @@ bool Image::Draw()
 {
 	bool ret = true;
 
-	if (lookingRight) {
-		ret = myApp->render->Blit(graphics, (int)position.x, (int)position.y, sprite, SDL_FLIP_NONE, FollowCam,scale);
-	}
-	else {
-		ret = myApp->render->Blit(graphics, (int)position.x, (int)position.y, sprite, SDL_FLIP_HORIZONTAL, FollowCam,scale);
-	}
+		if (lookingRight) {
+			ret = myApp->render->Blit(graphics, (int)position.x, (int)position.y, sprite, SDL_FLIP_NONE, FollowCam, scale);
+		}
+		else {
+			ret = myApp->render->Blit(graphics, (int)position.x, (int)position.y, sprite, SDL_FLIP_HORIZONTAL, FollowCam, scale);
+		}
 
-	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); iter = next(iter)) {
-		(*iter)->Draw();
-	}
-
+		for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); iter = next(iter)) {
+			if((*iter)->active)
+				(*iter)->Draw();
+		}
+	
 	return ret;
 }
 
@@ -181,5 +182,5 @@ bool Image::MouseOnImage() {	// Note: SDL disposes of the following function -> 
 	SDL_Point mousePos;
 	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
 
-	return !(position.y + sprite->h < mousePos.y || position.y > mousePos.y || position.x + sprite->w < mousePos.x || position.x > mousePos.x);
+	return !(position.y + sprite->h*scale < mousePos.y || position.y > mousePos.y || position.x + sprite->w*scale < mousePos.x || position.x > mousePos.x);
 }

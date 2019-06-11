@@ -10,6 +10,7 @@ public:
 
 	//Constructor
 	Void_Box(event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent = NULL, ui_type type = ui_type::ACTION_BOX);
+	void ChangeSize(float newsize) { scale = newsize; }
 
 protected:
 	//State Entry
@@ -17,6 +18,7 @@ protected:
 
 protected:
 	event_function action;
+
 };
 
 #endif //VOID_BOX_H

@@ -36,6 +36,7 @@ enum class Screen_Type {
 	SCREEN_MAINMENU,
 	SCREEN_INGAME,
 	SCREEN_PAUSE,
+	SCREEN_OPTIONS,
 	SCREEN_WIN,
 	SCREEN_LOSE,
 	SCREEN_MAX
@@ -79,6 +80,7 @@ public:
 	void DestroyElement(UI_Element* element);
 	void ActivateScreen(std::list<UI_Element*> list);
 	void DeactivateScreen(std::list<UI_Element*> list);
+	void SetUp_Hotkey_Icons() {};
 
 	Animation loadAnim();
 
@@ -136,15 +138,22 @@ public:
 	Buff_Box* Money2_Buff = nullptr;
 	Buff_Box* Mone3_Buff = nullptr;
 
-
-
+	Void_Box* SetHotkeys_Button = nullptr;
+	Text* SetHotkeys_Label = nullptr;
+	Image* OptionsPanel = nullptr;
 	Image* pauseMenuPanel = nullptr;
 	Text* Moneytext = nullptr;
 	Image* MainMenuTemp_Image = nullptr;
 	Void_Box* StartGame_Button = nullptr;
 	Text* StartGame_Label = nullptr;
+	Void_Box* OptionsGame_Button = nullptr;
+	Text* OptionsGame_Label = nullptr;
 	Void_Box* ExitGame_Button = nullptr;
 	Text* ExitGame_Label = nullptr;
+	Void_Box* ReturnOptions_Button = nullptr;
+	Text* ReturnOptions_Label = nullptr;
+	Image* VolumeSFX_Slide = nullptr;
+	Image* VolumeMusic_Slide = nullptr;
 
 	Text* Damage_Label = nullptr;
 	Text* Health_Label = nullptr;
@@ -164,6 +173,10 @@ public:
 	std::list<Spawn_Box*> SpawnSelectors;
 	std::list<UI_Element*> Main_Menu_Elements;
 	std::list<UI_Element*> InGame_Elements;
+
+
+	Void_Box* Options_Pause_button= nullptr;
+	Text* Options_Pause_Label = nullptr;
 
 	Void_Box* ReturnMainMenu2 = nullptr;
 	Text* ReturnMainMenu_Label2 = nullptr;
@@ -186,7 +199,34 @@ public:
 	Unit_Panel* Money2Buff_Info = nullptr;
 	Unit_Panel* Money3Buff_Info = nullptr;
 
+	Void_Box* Hotkey_Conscript = nullptr;
+	Text* Hotkey_Conscript_Label = nullptr;
+	Text* Conscript_Label = nullptr;
 
+	Void_Box* Hotkey_Flak = nullptr;
+	Text* Hotkey_Flak_Label = nullptr;
+	Text* Flak_Label = nullptr;
+
+	Void_Box* Hotkey_Desolator = nullptr;
+	Text* Hotkey_Desolator_Label = nullptr;
+	Text* Desolator_Label = nullptr;
+
+	Void_Box* Hotkey_Chrono = nullptr;
+	Text* Hotkey_Chrono_Label = nullptr;
+	Text* Chrono_Label = nullptr;
+
+	Void_Box* Hotkey_Sniper = nullptr;
+	Text* Hotkey_Sniper_Label = nullptr;
+	Text* Sniper_Label = nullptr;
+
+	Void_Box* Hotkey_Up = nullptr;
+	Text* Hotkey_Up_Label = nullptr;
+	Void_Box* Hotkey_Down = nullptr;
+	Text* Hotkey_Down_Label = nullptr;
+	Void_Box* Hotkey_Left = nullptr;
+	Text* Hotkey_Left_Label = nullptr;
+	Void_Box* Hotkey_Right = nullptr;
+	Text* Hotkey_Right_Label = nullptr;
 
 
 private:
@@ -226,7 +266,9 @@ private:
 	SDL_Rect Sniper_Selection_Rect[4];
 	SDL_Rect Chrono_Selection_Rect[4];
 	SDL_Rect Desolator_Selection_Rect[4];
-
+	
+	SDL_Texture* Volume_Slides = nullptr;
+	SDL_Texture* Options_tex = nullptr;
 	SDL_Texture* miniMap_tex = nullptr;
 	SDL_Texture* unitsSelection_Tex= nullptr;
 	SDL_Texture* endingImages_Tex = nullptr;

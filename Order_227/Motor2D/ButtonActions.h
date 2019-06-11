@@ -15,6 +15,8 @@ void CreateSniper();
 void StartGame();
 void QuitGame();
 void CloseGame();
-
+void OptionsOpen();
+void QuitOptions();
+void Hotkeys_Options();
 
 #endif //_BUTTON_ACTIONS_H_
