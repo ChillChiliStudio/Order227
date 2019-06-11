@@ -858,6 +858,13 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 
 
 					}
+					else if (tempString == "DeathTwo") {
+
+						animationArray[id][int(unit_state::DEAD)][1].PushBack(temp);
+						animationArray[id][int(unit_state::DEAD)][1].loop = false;
+						animationArray[id][int(unit_state::DEAD)][1].speed = DataXML.child("AnimDet").attribute("DeathOneSpeed").as_float();
+
+					}
 				}
 				else {
 
@@ -880,17 +887,7 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 					animationArray[id][int(unit_state::DEAD)][0].loop = false;
 					animationArray[id][int(unit_state::DEAD)][0].speed = DataXML.child("AnimDet").attribute("DeathOneSpeed").as_float();
 
-
 				}
-				else if (tempString == "DeathTwo") {
-
-					animationArray[id][int(unit_state::DEAD)][1].PushBack(temp);
-					animationArray[id][int(unit_state::DEAD)][1].loop = false;
-					animationArray[id][int(unit_state::DEAD)][1].speed = DataXML.child("AnimDet").attribute("DeathOneSpeed").as_float();
-
-
-				}
-
 			}
 
 		}
