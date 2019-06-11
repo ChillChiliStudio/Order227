@@ -108,9 +108,11 @@ void Unit_Box::DoAction() {
 
 
 bool Unit_Box::Draw() {
+
 	if (myApp->gui->Current_Screen !=Screen_Type::SCREEN_INGAME) {
 		Queue = 0;
 	}
+
 	OnHotkey();
 	if (Queue >= 1&&ActiveTimer==false&&startCreationUnit==false) {
 

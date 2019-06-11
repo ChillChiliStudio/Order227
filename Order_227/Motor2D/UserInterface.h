@@ -228,6 +228,11 @@ public:
 	Void_Box* Hotkey_Right = nullptr;
 	Text* Hotkey_Right_Label = nullptr;
 
+	Unit_Box* ConscriptCreator = nullptr;
+	Unit_Box* FlakCreator = nullptr;
+	Unit_Box* SniperCreator = nullptr;
+	Unit_Box* ChronoCreator = nullptr;
+	Unit_Box* DesolatorCreator = nullptr;
 
 private:
 
@@ -240,13 +245,6 @@ private:
 
 	Void_Box* ReturnMainMenu = nullptr;
 	Text* ReturnMainMenu_Label = nullptr;
-
-	Unit_Box* ConscriptCreator = nullptr;
-	Unit_Box* FlakCreator = nullptr;
-	Unit_Box* SniperCreator = nullptr;
-	Unit_Box* ChronoCreator = nullptr;
-	Unit_Box* DesolatorCreator = nullptr;
-
 
 	Spawn_Box* selectorInfantry=nullptr;
 	Spawn_Box* selectorDefenses = nullptr;

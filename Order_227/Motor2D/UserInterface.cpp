@@ -199,11 +199,11 @@ bool User_Interface::Start()
 
 	Moneytext = CreateText(fPoint(width / 1.55, height - 140),money.c_str(),font_id::MOLOT);
 	
-	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2-100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex,true);
-	ReturnMainMenu = CreateVoidBox(QuitGame, fPoint(width / 2, height / 2), Pause_Button, PauseButton_text, pauseMenuPanel);
-	ReturnMainMenu_Label = CreateText(fPoint(width / 2, height / 2), "EXIT", font_id::MOLOT,White,false,pauseMenuPanel);
-	Options_Pause_button = CreateVoidBox(OptionsOpen, fPoint(width / 2, height / 2.3), Pause_Button, PauseButton_text, pauseMenuPanel);
-	Options_Pause_Label = CreateText(fPoint(width / 2, height / 2.3), "Options", font_id::MOLOT, White, false, pauseMenuPanel);
+	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2-100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex,true,nullptr,nullptr,Screen_Type::SCREEN_PAUSE);
+	ReturnMainMenu = CreateVoidBox(QuitGame, fPoint(width / 2, height / 2), Pause_Button, PauseButton_text, pauseMenuPanel,Screen_Type::SCREEN_PAUSE);
+	ReturnMainMenu_Label = CreateText(fPoint(width / 2, height / 2), "EXIT", font_id::MOLOT,White,false,pauseMenuPanel,1.0f,nullptr,Screen_Type::SCREEN_PAUSE);
+	Options_Pause_button = CreateVoidBox(OptionsOpen, fPoint(width / 2, height / 2.3), Pause_Button, PauseButton_text, pauseMenuPanel, Screen_Type::SCREEN_PAUSE);
+	Options_Pause_Label = CreateText(fPoint(width / 2, height / 2.3), "Options", font_id::MOLOT, White, false, pauseMenuPanel,1.0f,nullptr, Screen_Type::SCREEN_PAUSE);
 	pauseMenuPanel->Deactivate();
 	frameSelector = CreateImage(fPoint(width / 11, height - 140), SDL_Rect({ 0,0,134,38 }), selectorinGame_Tex);
 
@@ -374,7 +374,6 @@ void User_Interface::DeactivateScreen(std::list<UI_Element*> list) {
 // Called each loop iteration
 bool User_Interface::PreUpdate()
 {
-
 	BROFILER_CATEGORY("Module User_Interface Pre-Update", Profiler::Color::Pink);
 	//myApp->video->PlayVideo("Video/Main_Menu_Background.ogv", { 0,-50,1280,850 });
 	bool ret = true;
@@ -394,7 +393,6 @@ bool User_Interface::Update(float dt)
 	BROFILER_CATEGORY("Module User_Interface Update", Profiler::Color::DeepPink);
 
 	bool ret = true;
-	
 
 	//TODO LUCHO VARIABLE
 	if (myApp->hordes->HordesDead() == false) {

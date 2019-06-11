@@ -12,7 +12,9 @@
 #include "GroupManager.h"
 #include "Video.h"
 #include "Audio.h"
+#include "UnitButton.h"
 #include "VoidBox.h"
+#include "Window.h"
 
 void CreateConscript() {
 	//srand(time(NULL));
@@ -145,26 +147,35 @@ void StartGame() {
 	//myApp->audio->PlayMusic("audio/music/game/ingame_song3_loop.ogg",-1);
 
 	////TODO make the game start Correctly
-
 	myApp->entities->ActivateBuildings();
 	if (myApp->scene->firstGame) {
 		myApp->entities->ActivateObjects();
 		myApp->scene->firstGame = false;
 	}
 
+	myApp->gui->DeactivateScreen(myApp->gui->Main_Menu_Elements);
+	myApp->gui->ActivateScreen(myApp->gui->InGame_Elements);
+	
+	myApp->gui->ConscriptCreator->Queue = 0;
+	myApp->gui->FlakCreator->Queue = 0;
+	myApp->gui->SniperCreator->Queue = 0;
+	myApp->gui->ChronoCreator->Queue = 0;
+	myApp->gui->DesolatorCreator->Queue = 0;
+
 	myApp->hordes->restartRounds();
 	myApp->player->playerMoney = myApp->player->initialMoney; //TODO Deharcode
 	myApp->gui->hordeNumber_Label->ChangeString(std::to_string(0));
 	myApp->hordes->hordeActive = true;
 	myApp->hordes->roundTimer.Start();
-	//myApp->gui->MainMenuTemp_Image->Deactivate();
-	myApp->gui->DeactivateScreen(myApp->gui->Main_Menu_Elements);
+	myApp->gui->MainMenuTemp_Image->Deactivate();
+	
 	myApp->gui->Current_Screen = Screen_Type::SCREEN_INGAME;
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_INGAME);
 	myApp->scene->ActivateGameOverMusic = true;
 	myApp->video->StopVideo();
+	//myApp->video->PlayVideo("Video/iterator_hordes.ogv", SDL_Rect({ 0,(int)(myApp->win->height/2.8f),1280,212 }), false);
 	myApp->gui->OnPause = false;
-	myApp->gui->ActivateScreen(myApp->gui->InGame_Elements);
+
 	myApp->gui->WinIcon->Deactivate();
 	myApp->gui->LoseIcon->Deactivate();
 }

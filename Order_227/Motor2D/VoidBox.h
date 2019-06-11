@@ -13,6 +13,7 @@ public:
 	void ChangeSize(float newsize) { scale = newsize; }
 
 protected:
+
 	//State Entry
 	 void OnPress() override;
 
