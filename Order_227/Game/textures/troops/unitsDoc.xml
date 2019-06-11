@@ -35,7 +35,7 @@
       <Unit id="8" name="Engineer" TextPath="textures/troops/soviet/engineer.png" TextPathTwo="textures/troops/soviet/engineer.png" TiledFile="textures/troops/soviet/Engineer.tmx">
         <RectOffset x="40" y="15" w="100" h="80"/>
         <AnimDet DeathOneSpeed="10.0"/>
-        <stats speed="90" cadency="0" damage="0" health="2" visionRange="0" attackRange="0" cost="10" prodTime="1" threat="1"/>
+        <stats speed="90" cadency="0" damage="0" health="2" visionRange="0" attackRange="0" cost="100" prodTime="1" threat="1"/>
       </Unit>
     </Soviet>
 

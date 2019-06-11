@@ -12,6 +12,7 @@ void CreateFlak();
 void CreateChrono();
 void CreateDesolator();
 void CreateSniper();
+void CreateEngineer();
 void StartGame();
 void QuitGame();
 void CloseGame();

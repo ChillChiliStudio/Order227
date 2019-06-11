@@ -119,7 +119,7 @@ bool User_Interface::Start()
 	Conscript_Selection_Rect[0] = { 120,0,60,48 };
 	Conscript_Selection_Rect[1] = { 120,0,60,48 };
 	Conscript_Selection_Rect[2] = { 120,0,60,48 };
-	Conscript_Selection_Rect[3] = { 120,0,60,48 };
+	Conscript_Selection_Rect[3] = { 120,144,60,48 };
 
 
 	Flak_Selection_Rect[0] = { 0,0,60,48 };
@@ -142,6 +142,11 @@ bool User_Interface::Start()
 	Desolator_Selection_Rect[1] = { 180,0,60,48 };
 	Desolator_Selection_Rect[2] = { 180,0,60,48 };
 	Desolator_Selection_Rect[3] = { 180,144,60,48 };
+
+	Engineer_Selection_Rect[0] = { 0,48,60,48 };
+	Engineer_Selection_Rect[1] = { 0,48,60,48 };
+	Engineer_Selection_Rect[2] = { 0,48,60,48 };
+	Engineer_Selection_Rect[3] = { 0,192,60,48 };
 
 	selectorInfantry_Rect[0] = { 131,38,44,31 };
 	selectorInfantry_Rect[1] = { 131,38,44,31 };
@@ -173,7 +178,7 @@ bool User_Interface::Start()
 	selectorTank = CreateSpawnBox(false, fPoint(width / 11 + 38, height - 140), selectorTank_Rect, selectorinGame_Tex);
 
 	//CREATOR UNITs
-	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,25,myApp->entities->infantryStats[(int)infantry_type::CONSCRIPT].cost,nullptr,SDL_SCANCODE_1);
+	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,27,myApp->entities->infantryStats[(int)infantry_type::CONSCRIPT].cost,nullptr,SDL_SCANCODE_1);
 	ConscriptCreator->Start();
 	FlakCreator = CreateUnitBox(CreateFlak, fPoint(130, height - 95), Flak_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::BAZOOKA].cost,&myApp->entities->heavyUnitsUnlocked, SDL_SCANCODE_2);
 	FlakCreator->Start();
@@ -183,6 +188,9 @@ bool User_Interface::Start()
 	ChronoCreator->Start();
 	DesolatorCreator = CreateUnitBox(CreateDesolator, fPoint(192, height - 95), Desolator_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::DESOLATOR].cost, &myApp->entities->heavyUnitsUnlocked, SDL_SCANCODE_3);
 	DesolatorCreator->Start();
+	EngineerCreator = CreateUnitBox(CreateEngineer, fPoint(192, height - 45), Engineer_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 1, myApp->entities->infantryStats[(int)infantry_type::DESOLATOR].cost, nullptr, SDL_SCANCODE_6);
+	EngineerCreator->Start();
+
 
 	//UnitStats = CreateImage(fPoint(width / 1.45, height - 75), SDL_Rect({ 0,0,55,90 }), unitStats_text);
 	//UnitFrame = CreateImage(fPoint(width / 1.58, height - 75), SDL_Rect({ 125,5,50,43 }), unitsSelection_Tex);
@@ -220,7 +228,7 @@ bool User_Interface::Start()
 	DesolatorPanel_Info = CreateUnitPanel(SDL_Rect({ 0,165,137,165 }), DesolatorCreator, Unit_Panels_tex);
 	FlakPanel_Info = CreateUnitPanel(SDL_Rect({ 137,0,137,165 }), FlakCreator, Unit_Panels_tex);
 	ChronoPanel_Info = CreateUnitPanel(SDL_Rect({ 274,0,137,165 }), ChronoCreator, Unit_Panels_tex);
-
+	EngineerPanel_Info = CreateUnitPanel(SDL_Rect({ 274,0,137,165 }), ChronoCreator, Unit_Panels_tex);
 	
 	Units_Life = CreateBuffBox(fPoint(370, height - 200), SDL_Rect({ 3,3,41,41 }), Buff_tex, &myApp->entities->unitBuff);
 	Buildings_Life = CreateBuffBox(fPoint(430, height - 200), SDL_Rect({ 44,0,41,41 }), Buff_tex, &myApp->entities->buildingsBuff);
@@ -235,9 +243,7 @@ bool User_Interface::Start()
 	 Money1Buff_Info = CreateUnitPanel(SDL_Rect({ 175,434,151,94 }), Money_Buff, Unit_Panels_tex);
 	 Money2Buff_Info = CreateUnitPanel(SDL_Rect({ 175,434,151,94 }), Money2_Buff, Unit_Panels_tex);
 	 Money3Buff_Info = CreateUnitPanel(SDL_Rect({ 0,535,151,94 }), Mone3_Buff, Unit_Panels_tex);
-
-
-
+	
 	MainMenuTemp_Image = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,1280,720 }), Main_Menu_Temp_Tex);
 	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/1.8),TempButtonRect,StartGame_text,MainMenuTemp_Image);
 	StartGame_Label = CreateText(fPoint(width / 2, height / 1.8), "START GAME", font_id::MOLOT,White,false,StartGame_Button);

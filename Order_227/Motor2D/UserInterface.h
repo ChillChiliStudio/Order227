@@ -172,6 +172,7 @@ public:
 	Unit_Panel* ChronoPanel_Info = nullptr;
 	Unit_Panel* DesolatorPanel_Info = nullptr;
 	Unit_Panel* FlakPanel_Info = nullptr;
+	Unit_Panel* EngineerPanel_Info = nullptr;
 
 	Unit_Panel* UnitBuff_Info = nullptr;
 	Unit_Panel* BuildingBuff_Info = nullptr;
@@ -198,7 +199,8 @@ private:
 	Unit_Box* FlakCreator = nullptr;
 	Unit_Box* SniperCreator = nullptr;
 	Unit_Box* ChronoCreator = nullptr;
-	Unit_Box* DesolatorCreator = nullptr;
+	Unit_Box* DesolatorCreator = nullptr; 
+	Unit_Box* EngineerCreator = nullptr;
 
 
 	Spawn_Box* selectorInfantry=nullptr;
@@ -219,6 +221,7 @@ private:
 	SDL_Rect Sniper_Selection_Rect[4];
 	SDL_Rect Chrono_Selection_Rect[4];
 	SDL_Rect Desolator_Selection_Rect[4];
+	SDL_Rect Engineer_Selection_Rect[4];
 
 	SDL_Texture* miniMap_tex = nullptr;
 	SDL_Texture* unitsSelection_Tex= nullptr;
