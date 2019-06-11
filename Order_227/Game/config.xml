@@ -12,9 +12,9 @@
     <vsync value="true"/>
   </renderer>
 
-  <audio volume="50">
-    <music volume="80"/>
-    <sfx volume="80"/>
+  <audio volume="0">
+    <music volume="0"/>
+    <sfx volume="0"/>
   </audio>
 
   <window>

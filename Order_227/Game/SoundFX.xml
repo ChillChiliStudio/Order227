@@ -365,6 +365,58 @@
       </Sound>
 
     </Unit>
+	
+	    <!-- ENGINEER -->
+    <Unit id="8">
+  
+       <Sound id="0" NumVariation="3">
+        <!--Spawn -->
+        <Var Variation="0" path="audio/Dialogues/Troops/conscript/Spawn/Spawn.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/conscript/Spawn/Spawn_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/conscript/Spawn/Spawn_three.wav"/>
+      </Sound >
+
+       <Sound id="1" NumVariation="1">
+         <!--Moving -->
+        <Var Variation="0" path="audio/Dialogues/Troops/conscript/Moving/Moving.wav"/>
+         
+      </Sound>
+
+       <Sound id="2" NumVariation="3">
+         <!--Comfirmation -->
+        <Var Variation="0" path="audio/Dialogues/Troops/conscript/Comfirmation/Comfirmation.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/conscript/Comfirmation/Comfirmation_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/conscriptComfirmation//Comfirmation_three.wav"/>
+      
+       </Sound>
+
+       <Sound id="3" NumVariation="4" >
+         <!--Hurt -->
+        <Var Variation="0" path="audio/Dialogues/Troops/conscript/Hurt/Hurt.wav"/>
+        <Var Variation="1" path="audio/Dialogues/Troops/conscript/Hurt/Hurt_two.wav"/>
+        <Var Variation="2" path="audio/Dialogues/Troops/conscript/Hurt/Hurt_three.wav"/>
+        <Var Variation="3" path="audio/Dialogues/Troops/conscript/Hurt/Hurt_four.wav"/>
+    
+       </Sound>
+
+       <Sound id="4" NumVariation="4">
+         <!--Shot-->
+        <Var Variation="0" path="audio/AFX/Troops/conscript/Shot.wav"/>
+        <Var Variation="1" path="audio/AFX/Troops/conscript/Shot_two.wav"/>
+        <Var Variation="2" path="audio/AFX/Troops/conscript/Shot_three.wav"/>
+        <Var Variation="3" path="audio/AFX/Troops/conscript/Shot_four.wav"/>
+         
+      </Sound>
+
+       <Sound id="5" NumVariation="3">
+         <!--Attack -->
+         <Var Variation="0"  path="audio/Dialogues/Troops/conscript/Attack/Attack.wav"/>
+         <Var Variation="1"  path="audio/Dialogues/Troops/conscript/Attack/Attack_two.wav"/>
+         <Var Variation="2"  path="audio/Dialogues/Troops/conscript/Attack/Attack_three.wav"/>
+         
+      </Sound>
+
+    </Unit>
     
   </Troops>
 
