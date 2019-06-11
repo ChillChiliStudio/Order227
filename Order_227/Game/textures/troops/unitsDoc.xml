@@ -33,23 +33,37 @@
         <AnimDet DeathOneSpeed="10.0"/>
         <stats speed="90" cadency="600" damage="120" health="4" visionRange="600" attackRange="450" cost="500" prodTime="8" threat="30"/>
       </Unit>
+      <Unit id="8" name="Engineer" TextPath="textures/troops/soviet/engineer.png" TextPathTwo="textures/troops/soviet/engineer.png" TiledFile="textures/troops/soviet/Engineer.tmx">
+        <RectOffset x="40" y="15" w="100" h="80"/>
+        <AnimDet DeathOneSpeed="10.0"/>
+        <stats speed="90" cadency="0" damage="0" health="2" visionRange="0" attackRange="0" cost="10" prodTime="1" threat="1"/>
+      </Unit>
     </Soviet>
 
-    <Capitalist>
+    <Capitalist>  
       <Unit id="0" name="IG" TextPath="textures/troops/allied/IG.png" TiledFile="textures/troops/allied/IG.tmx">
         <RectOffset x="30" y="5" w="40" h="35"/>
         <AnimDet DeathOneSpeed="10.0"/>
         <stats speed="90" cadency="0.5" damage="2" health="6" visionRange="200" attackRange="150" cost="500" prodTime="8" threat="5"/>
-       </Unit>
-      
+       </Unit>     
        <Unit id="6" name="Dog" TextPath="textures/troops/allied/Dog.png"  TiledFile="textures/troops/allied/Dog.tmx">
          <RectOffset x="26" y="20" w="25" h="35"/>
          <AnimDet DeathOneSpeed="10.0"/>
          <stats speed="140" cadency="0.5" damage="5" health="3" visionRange="300" attackRange="10" cost="500" prodTime="8" threat="5"/>
        </Unit>
-
+     
+      
     </Capitalist>
 
+    <None>
+
+      <Unit id="7" name="Missile" TextPath="textures/Effects_Part/flak_missile.png"  TiledFile="textures/Effects_Part/flak_missile.tmx"/>
+      
+    </None>
+    
+    
+    
     </Troops>
 
+    
 </Entity_Document>

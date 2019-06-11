@@ -138,7 +138,7 @@ void Player::UpdateMousePos()
 	myApp->input->GetMousePosition(mouseScreenPos.x, mouseScreenPos.y);
 	mousePos = myApp->render->ScreenToWorld(mouseScreenPos.x, mouseScreenPos.y);
 	mouseMap = myApp->map->WorldToMap(mousePos.x, mousePos.y);
-	
+
 	//If the player clicks on the minimap, we change the destination
 	if (mouseScreenPos.x < myApp->minimap->minimapPosition.x + myApp->minimap->minimap_width &&
 		mouseScreenPos.x >  myApp->minimap->minimapPosition.x &&
@@ -206,7 +206,7 @@ void Player::DebugMouse()
 void Player::DebugInputs()
 {
 	//Toggle DebugMode
-	/*if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+	if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
 		myApp->debugMode = !myApp->debugMode;
 
 		if (myApp->debugMode == false) {
@@ -218,7 +218,7 @@ void Player::DebugInputs()
 		else {
 			LOG("Debug Mode: ON");
 		}
-	}*/
+	}
 
 	if (myApp->debugMode) {
 		if (myApp->input->GetKey(myApp->controls->debug.debugMap) == KEY_DOWN) {	// Toggle Map debug draw
@@ -451,7 +451,7 @@ void Player::PlayerSelect()
 				mousePosition.y > myApp->minimap->minimapPosition.y + myApp->minimap->minimap_height &&
 				mousePosition.y < myApp->minimap->minimapPosition.y)
 				return;
-			
+
 			StartSelect();
 			selectionStarted = true;
 		}
