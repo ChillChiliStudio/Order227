@@ -300,7 +300,7 @@ bool User_Interface::Update(float dt)
 	//	UnitStats->Deactivate();
 	//	UnitFrame->Deactivate();
 	//}
-	if (myApp->hordes->HordesDead()) {
+	if (myApp->hordes->HordesDead() && myApp->hordes->roundNumber != myApp->hordes->maxHordes) {
 
 		incomingHordein->Activate();
 		timerHorde->Activate();
