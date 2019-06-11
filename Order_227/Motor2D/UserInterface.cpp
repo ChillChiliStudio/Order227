@@ -32,6 +32,7 @@
 #include "Mouse.h"
 #include "Unit_Panel.h"
 #include "Buff_Box.h"
+#include "Video.h"
 
 User_Interface::User_Interface() : Module()
 {
@@ -74,6 +75,7 @@ Animation User_Interface::loadAnim() {
 // Called before the first frame
 bool User_Interface::Start()
 {
+	Current_Screen = Screen_Type::SCREEN_MAINMENU;
 	bool ret = true;
 
 	SDL_ShowCursor(SDL_DISABLE);
@@ -237,35 +239,75 @@ bool User_Interface::Start()
 	 Money3Buff_Info = CreateUnitPanel(SDL_Rect({ 0,535,151,94 }), Mone3_Buff, Unit_Panels_tex);
 
 
+	MainMenuTemp_Image = CreateImage(fPoint(3000,3000), SDL_Rect({ 0,0,0,0 }), Main_Menu_Temp_Tex,false,nullptr,nullptr, Screen_Type::SCREEN_MAINMENU);
 
-	MainMenuTemp_Image = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,1280,720 }), Main_Menu_Temp_Tex);
-	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/1.8),TempButtonRect,StartGame_text,MainMenuTemp_Image);
-	StartGame_Label = CreateText(fPoint(width / 2, height / 1.8), "START GAME", font_id::MOLOT,White,false,StartGame_Button);
 
-	ExitGame_Button = CreateVoidBox(CloseGame, fPoint(width / 2, height / 1.2), TempButtonRect, StartGame_text, MainMenuTemp_Image);
-	ExitGame_Label = CreateText(fPoint(width / 2, height / 1.2), "QUIT GAME", font_id::MOLOT, White, false, ExitGame_Button);
+
+	//MainMenuTemp_Image = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,1280,720 }), Main_Menu_Temp_Tex);
+	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/1.8),TempButtonRect,StartGame_text,nullptr,Screen_Type::SCREEN_MAINMENU);
+	StartGame_Label = CreateText(fPoint(width / 2, height / 1.8), "START GAME", font_id::MOLOT,White,false,StartGame_Button,1.0f,nullptr, Screen_Type::SCREEN_MAINMENU);
+
+	ExitGame_Button = CreateVoidBox(CloseGame, fPoint(width / 2, height / 1.2), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	ExitGame_Label = CreateText(fPoint(width / 2, height / 1.2), "QUIT GAME", font_id::MOLOT, White, false, ExitGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
 
 	Minimap_Display = new  MiniMap_UI(ui_type::NONE);
+
+	
 	AddElement(Minimap_Display);
+	InGame_Elements.push_back(Minimap_Display);
 
 	Mouse_UI = CreateMouse(mouse_tex);
 
 	SpawnSelectors.push_back(selectorInfantry);
 	SpawnSelectors.push_back(selectorDefenses);
 	SpawnSelectors.push_back(selectorTank);
-	Main_Menu_Elements.push_back(MainMenuTemp_Image);
-	Main_Menu_Elements.push_back(StartGame_Button);
-	Main_Menu_Elements.push_back(StartGame_Label);
 
+	//for (std::list<UI_Element*>::iterator iter = InGame_Elements.begin(); iter != InGame_Elements.end(); iter = next(iter)) {
+	//	if ((*iter)->active == true) {
+	//		(*iter)->Deactivate();
+	//	}
+	//}
+	//for (std::list<UI_Element*>::iterator iter = Main_Menu_Elements.begin(); iter != Main_Menu_Elements.end(); iter = next(iter)) {		
+	//		(*iter)->Activate();
+	//		//ret = (*iter)->PreUpdate();
+	//}
+	//Main_Menu_Elements.push_back(MainMenuTemp_Image);
+	//Main_Menu_Elements.push_back(StartGame_Button);
+	//Main_Menu_Elements.push_back(StartGame_Label);
+	
+	myApp->video->PlayVideo("Video/Main_Menu_Background.ogv", { 0,0,1280,720 },true);
+
+	//DeactivateScreen(Main_Menu_Elements);
+	DeactivateScreen(InGame_Elements);
+	//ActivateScreen(Main_Menu_Elements);
 
 	return ret;
 }
 
+void User_Interface::ActivateScreen(std::list<UI_Element*> list) {
+
+	for (std::list<UI_Element*>::iterator iter = list.begin(); iter != list.end(); iter = next(iter)) {
+		if ((*iter)->active == false) {
+			if((*iter)!=pauseMenuPanel)
+				(*iter)->Activate();
+		}
+	}
+}
+
+void User_Interface::DeactivateScreen(std::list<UI_Element*> list) {
+
+	for (std::list<UI_Element*>::iterator iter = list.begin(); iter != list.end(); iter = next(iter)) {
+		if ((*iter)->active == true) {
+			(*iter)->Deactivate();
+		}
+	}
+}
 // Called each loop iteration
 bool User_Interface::PreUpdate()
 {
-	BROFILER_CATEGORY("Module User_Interface Pre-Update", Profiler::Color::Pink);
 
+	BROFILER_CATEGORY("Module User_Interface Pre-Update", Profiler::Color::Pink);
+	//myApp->video->PlayVideo("Video/Main_Menu_Background.ogv", { 0,-50,1280,850 });
 	bool ret = true;
 
 	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); iter = next(iter)) {
@@ -283,6 +325,7 @@ bool User_Interface::Update(float dt)
 	BROFILER_CATEGORY("Module User_Interface Update", Profiler::Color::DeepPink);
 
 	bool ret = true;
+	
 
 	//TODO LUCHO VARIABLE
 	if (myApp->hordes->HordesDead() == false) {
@@ -299,7 +342,7 @@ bool User_Interface::Update(float dt)
 	//	UnitStats->Deactivate();
 	//	UnitFrame->Deactivate();
 	//}
-	if (myApp->hordes->HordesDead()) {
+	if (myApp->hordes->HordesDead()&&Current_Screen!=Screen_Type::SCREEN_MAINMENU) {
 
 		incomingHordein->Activate();
 		timerHorde->Activate();
@@ -366,6 +409,7 @@ bool User_Interface::PostUpdate()
 			iter = next(iter);
 		}
 	}
+
 	return ret;
 }
 
@@ -411,7 +455,7 @@ void User_Interface::DestroyElement(UI_Element* element)	// Deletion by list con
 }
 
 //Factories
-Image* User_Interface::CreateImage(fPoint center, SDL_Rect texRect, SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
+Image* User_Interface::CreateImage(fPoint center, SDL_Rect texRect, SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children, Screen_Type screen )
 {
 	Image* ret = nullptr;
 
@@ -427,10 +471,16 @@ Image* User_Interface::CreateImage(fPoint center, SDL_Rect texRect, SDL_Texture*
 	ret = new Image(ui_type::IMAGE, center, texRect, tex, dynamic, parent, children);
 	AddElement((UI_Element*)ret);
 
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
+
 	return ret;
 }
 
-LifeBar* User_Interface::CreateLifeBar(fPoint center, Unit* parent, SDL_Texture* tex, float* auxHealth) {
+LifeBar* User_Interface::CreateLifeBar(fPoint center, Unit* parent, SDL_Texture* tex, float* auxHealth, Screen_Type screen) {
 
 	LifeBar* ret = nullptr;
 	if (tex == NULL) {
@@ -440,10 +490,17 @@ LifeBar* User_Interface::CreateLifeBar(fPoint center, Unit* parent, SDL_Texture*
 	ret = new LifeBar(center, parent, tex, ui_type::LIFEBAR,auxHealth);
 	AddElement((UI_Element*)ret);
 
+
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
+
 	return ret;
 }
 
-Text* User_Interface::CreateText(fPoint center, const char* content, font_id id, SDL_Color color, bool dynamic, UI_Element* parent, float size, std::list<UI_Element*>* children)
+Text* User_Interface::CreateText(fPoint center, const char* content, font_id id, SDL_Color color, bool dynamic, UI_Element* parent, float size, std::list<UI_Element*>* children, Screen_Type screen )
 {
 	Text* ret = nullptr;
 	_TTF_Font* tmpFont;
@@ -458,10 +515,17 @@ Text* User_Interface::CreateText(fPoint center, const char* content, font_id id,
 	ret = new Text(content, color, tmpFont, center, dynamic, parent, children,size);
 	AddElement((UI_Element*)ret);
 
+
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if( screen ==Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
+
 	return ret;
 }
 
-Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator,int unitCost,bool* _enabletoCraft, SDL_Scancode Hotkey) {
+Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator,int unitCost,bool* _enabletoCraft, SDL_Scancode Hotkey, Screen_Type screen ) {
 	
 	Unit_Box* ret = nullptr;
 
@@ -472,10 +536,16 @@ Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_
 	ret = new Unit_Box(action, center, spriteList, tex, parent,TimerTexture,timeCreator,unitCost,_enabletoCraft,Hotkey);
 	AddElement(ret);
 
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
+
 	return ret;
 }
 
-Unit_Panel* User_Interface::CreateUnitPanel(SDL_Rect sprite, Image* button , SDL_Texture* tex ) {
+Unit_Panel* User_Interface::CreateUnitPanel(SDL_Rect sprite, Image* button , SDL_Texture* tex, Screen_Type screen ) {
 
 	Unit_Panel* ret = nullptr;
 
@@ -486,10 +556,16 @@ Unit_Panel* User_Interface::CreateUnitPanel(SDL_Rect sprite, Image* button , SDL
 	ret = new Unit_Panel(sprite,button,tex);
 	AddElement(ret);
 
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
+
 	return ret;
 }
 
-Buff_Box* User_Interface::CreateBuffBox(fPoint position, SDL_Rect rect, SDL_Texture* tex, bool* able ) {
+Buff_Box* User_Interface::CreateBuffBox(fPoint position, SDL_Rect rect, SDL_Texture* tex, bool* able, Screen_Type screen ) {
 
 	Buff_Box* ret = nullptr;
 
@@ -499,6 +575,12 @@ Buff_Box* User_Interface::CreateBuffBox(fPoint position, SDL_Rect rect, SDL_Text
 
 	ret = new Buff_Box(position,rect,tex,able);
 	AddElement(ret);
+
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
 
 	return ret;
 }
@@ -510,7 +592,7 @@ Mouse* User_Interface::CreateMouse(SDL_Texture*tex ) {
 	return ret;
 }
 
-Void_Box* User_Interface::CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent)
+Void_Box* User_Interface::CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, Screen_Type screen)
 {
 	Void_Box* ret = nullptr;
 	
@@ -521,10 +603,16 @@ Void_Box* User_Interface::CreateVoidBox(void(*action)(void), fPoint center, SDL_
 	ret = new Void_Box(action, center, spriteList, tex, parent);
 	AddElement(ret);
 
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
+
 	return ret;
 }
 
-Check_Box* User_Interface::CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, void(*action)(void), UI_Element* parent)
+Check_Box* User_Interface::CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, void(*action)(void), UI_Element* parent, Screen_Type screen)
 {
 	Check_Box* ret = nullptr;
 
@@ -532,14 +620,21 @@ Check_Box* User_Interface::CreateCheckBox(bool* value, fPoint center, SDL_Rect s
 		tex = GetAtlas();
 	}
 
+
 	ret = new Check_Box(value, action, center, spriteList, tex, parent);
 	AddElement(ret);
+
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
 
 	return ret;
 }
 
 
-Spawn_Box* User_Interface::CreateSpawnBox(bool value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, void(*action)(void), UI_Element* parent)
+Spawn_Box* User_Interface::CreateSpawnBox(bool value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, void(*action)(void), UI_Element* parent, Screen_Type screen)
 {
 	Spawn_Box* ret = nullptr;
 
@@ -549,6 +644,12 @@ Spawn_Box* User_Interface::CreateSpawnBox(bool value, fPoint center, SDL_Rect sp
 
 	ret = new Spawn_Box(value, action, center, spriteList, tex, parent);
 	AddElement(ret);
+
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
 
 	return ret;
 }

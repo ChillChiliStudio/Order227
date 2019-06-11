@@ -145,6 +145,12 @@
     <ClCompile Include="Buff_Box.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
     </ClCompile>
+    <ClCompile Include="theoraplay.c">
+      <Filter>Tools\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="Video.cpp">
+      <Filter>Tools\Video</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -318,6 +324,12 @@
     <ClInclude Include="Buff_Box.h">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
     </ClInclude>
+    <ClInclude Include="theoraplay.h">
+      <Filter>Tools\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="Video.h">
+      <Filter>Tools\Video</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -385,6 +397,9 @@
     </Filter>
     <Filter Include="Tools\Quadtrees">
       <UniqueIdentifier>{3937422f-217c-4275-97aa-7e0dfcb6a780}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\Video">
+      <UniqueIdentifier>{3c679f43-7e89-47d0-a425-3c215d26a717}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

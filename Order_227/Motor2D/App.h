@@ -24,6 +24,7 @@ class GroupManager;
 class Player;
 class Horde_Manager;
 class MiniMap;
+class Video;
 
 class App
 {
@@ -91,6 +92,7 @@ public:
 	Entity_Manager*		entities = nullptr;
 	Fonts*			    fonts = nullptr;
 	User_Interface*  	gui = nullptr;
+	Video*				video = nullptr;
 	GroupManager*       groups = nullptr;
 	Player*             player = nullptr;
 	Horde_Manager*		hordes = nullptr;

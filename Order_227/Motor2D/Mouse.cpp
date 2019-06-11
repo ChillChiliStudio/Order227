@@ -24,7 +24,7 @@ Mouse::Mouse(SDL_Texture* tex, ui_type type)
 
 	currentState = Mouse_States::IDLE;
 
-	myApp->gui->Main_Menu_Elements.push_back(this);
+	//myApp->gui->Main_Menu_Elements.push_back(this);
 	CurrentAnimation = &Animation_Arr[0];
 }
 

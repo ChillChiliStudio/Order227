@@ -10,6 +10,7 @@
 #include "Text.h"
 #include "Horde_Manager.h"
 #include "GroupManager.h"
+#include "Video.h"
 #include "Audio.h"
 
 void CreateConscript() {
@@ -155,11 +156,14 @@ void StartGame() {
 	myApp->gui->hordeNumber_Label->ChangeString(std::to_string(0));
 	myApp->hordes->hordeActive = true;
 	myApp->hordes->roundTimer.Start();
-	myApp->gui->MainMenuTemp_Image->Deactivate();
+	//myApp->gui->MainMenuTemp_Image->Deactivate();
+	myApp->gui->DeactivateScreen(myApp->gui->Main_Menu_Elements);
 	myApp->gui->Current_Screen = Screen_Type::SCREEN_INGAME;
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_INGAME);
 	myApp->scene->ActivateGameOverMusic = true;
+	myApp->video->StopVideo();
 	myApp->gui->OnPause = false;
+	myApp->gui->ActivateScreen(myApp->gui->InGame_Elements);
 	myApp->gui->WinIcon->Deactivate();
 	myApp->gui->LoseIcon->Deactivate();
 }
@@ -189,8 +193,10 @@ void QuitGame() {
 			myApp->entities->DeActivateUnit(&myApp->entities->launcherPool[i]);
 		}
 	}
-
+	myApp->gui->DeactivateScreen(myApp->gui->InGame_Elements);
+	myApp->gui->ActivateScreen(myApp->gui->Main_Menu_Elements);
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_MAINMENU);
+	myApp->video->PlayVideo("Video/Main_Menu_Background.ogv", { 0,0,1280,720 },true);
 	//myApp->entities->ReleasePools();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	//myApp->entities->ResetAll();
 	//myApp->scene->CleanUp();
