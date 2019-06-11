@@ -213,41 +213,41 @@ bool Audio::PlayFx(unsigned int id, int repeat, int channel, fPoint pos, bool sp
 
 	if (id > 0 && id <= fx.size())
 	{
-		if (spatial) {	//Spatial audio checks the distance between a sound and the players "ears" positions in World and changes the volume accordingly
-			iPoint worldLeft;
-			iPoint worldRight;
+		//if (spatial) {	//Spatial audio checks the distance between a sound and the players "ears" positions in World and changes the volume accordingly
+		//	iPoint worldLeft;
+		//	iPoint worldRight;
 
-			worldLeft = myApp->render->ScreenToWorld(leftEar.x, leftEar.y);
-			worldRight = myApp->render->ScreenToWorld(rightEar.x, rightEar.y);
+		//	worldLeft = myApp->render->ScreenToWorld(leftEar.x, leftEar.y);
+		//	worldRight = myApp->render->ScreenToWorld(rightEar.x, rightEar.y);
 
-			float leftEarDistance = GetDistance({ (float)worldLeft.x, (float)worldLeft.y }, pos);
-			float rightEarDistance = GetDistance({ (float)worldRight.x, (float)worldRight.y }, pos);
+		//	float leftEarDistance = GetDistance({ (float)worldLeft.x, (float)worldLeft.y }, pos);
+		//	float rightEarDistance = GetDistance({ (float)worldRight.x, (float)worldRight.y }, pos);
 
-			if (leftEarDistance < sfxAudioRadius || leftEarDistance < sfxAudioRadius) {
+		//	if (leftEarDistance < sfxAudioRadius || leftEarDistance < sfxAudioRadius) {
 
-				std::list<Mix_Chunk*>::iterator it = fx.begin();
-				it = next(fx.begin(), id - 1);
-				channel = Mix_PlayChannel(channel, *it, repeat);
+		//		std::list<Mix_Chunk*>::iterator it = fx.begin();
+		//		it = next(fx.begin(), id - 1);
+		//		channel = Mix_PlayChannel(channel, *it, repeat);
 
-				if (channel > -1) {
-					float leftVol = 0.0f;
-					float rightVol = 0.0f;
+		//		if (channel > -1) {
+		//			float leftVol = 0.0f;
+		//			float rightVol = 0.0f;
 
-					//Formula: Ear % Volume + Global % Sfx Volume + 0 to 255 ratio
-					if (leftEarDistance < sfxAudioRadius) {
-						leftVol = (1.0f - leftEarDistance / sfxAudioRadius) * sfxVolume / 100.0f * 255.0f;
-					}
-					if (rightEarDistance < sfxAudioRadius) {
-						rightVol = (1.0f - rightEarDistance / sfxAudioRadius) * sfxVolume / 100.0f * 255.0f;
-					}
+		//			//Formula: Ear % Volume + Global % Sfx Volume + 0 to 255 ratio
+		//			if (leftEarDistance < sfxAudioRadius) {
+		//				leftVol = (1.0f - leftEarDistance / sfxAudioRadius) * sfxVolume / 100.0f * 255.0f;
+		//			}
+		//			if (rightEarDistance < sfxAudioRadius) {
+		//				rightVol = (1.0f - rightEarDistance / sfxAudioRadius) * sfxVolume / 100.0f * 255.0f;
+		//			}
 
-					if (!Mix_SetPanning(channel, leftVol, rightVol)) {
-						LOG("Mix_SetPanning: %s\n", Mix_GetError());
-					}
-				}
-			}
-		}
-		else {
+		//			if (!Mix_SetPanning(channel, leftVol, rightVol)) {
+		//				LOG("Mix_SetPanning: %s\n", Mix_GetError());
+		//			}
+		//		}
+		//	}
+		//}
+		//else {
 			std::list<Mix_Chunk*>::iterator it = fx.begin();
 			it = next(fx.begin(), id - 1);
 			channel = Mix_PlayChannel(channel, *it, repeat);
@@ -255,7 +255,7 @@ bool Audio::PlayFx(unsigned int id, int repeat, int channel, fPoint pos, bool sp
 			if (channel > -1) {
 				SetChannelVolume(channel);
 			}
-		}
+		//}
 	}
 
 	return ret;
