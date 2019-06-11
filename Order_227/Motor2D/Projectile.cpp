@@ -6,7 +6,8 @@
 #include "Log.h"
 #include "Render.h"
 Projectile::Projectile() {
-
+	
+	
 }
 
 Projectile::~Projectile() {
@@ -34,7 +35,13 @@ bool Projectile::Update(float dt) {
 	centerPos.x = position.x + (entityRect.w / 2);
 	centerPos.y = position.y + (entityRect.h / 2);
 
-	myApp->render->DrawQuad({ (int)this->position.x,(int)this->position.y,entityRect.w,entityRect.h }, 255, 0, 255, 255, true);
+
+	spriteRect = (myApp->entities->ParticleAnimArray[(int)ProjectileDirection]);
+	
+
+	myApp->render->Blit(texture, (int)position.x, (int)position.y, &spriteRect);
+
+
 	return true;
 }
 
@@ -67,6 +74,10 @@ projectile_directions Projectile::CheckDirection(fVec2 direction)
 	else if (ProjectileVecAngle > 22.5f) {
 		ProjectileDirection = projectile_directions::NORTH_WEST;
 	}
+
+
+	
+
 
 	return ProjectileDirection;
 }

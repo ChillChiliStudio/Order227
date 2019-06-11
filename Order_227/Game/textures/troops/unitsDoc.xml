@@ -35,6 +35,7 @@
     </Soviet>
 
     <Capitalist>
+    
       <Unit id="0" name="IG" TextPath="textures/troops/allied/IG.png" TiledFile="textures/troops/allied/IG.tmx">
         <RectOffset x="30" y="5" w="40" h="35"/>
         <AnimDet DeathOneSpeed="10.0"/>
@@ -46,9 +47,19 @@
          <AnimDet DeathOneSpeed="10.0"/>
          <stats speed="140" cadency="0.5" damage="5" health="3" visionRange="300" attackRange="10" cost="500" prodTime="8" threat="5"/>
        </Unit>
-
+     
+      
     </Capitalist>
 
+    <None>
+
+      <Unit id="7" name="Missile" TextPath="textures/Effects_Part/flak_missile.png"  TiledFile="textures/Effects_Part/flak_missile.tmx"/>
+      
+    </None>
+    
+    
+    
     </Troops>
 
+    
 </Entity_Document>
