@@ -557,9 +557,16 @@ bool Entity_Manager::loadTroopsTextures()
 			infantryTextures[int(infantry_type::SNIPER)][1] = myApp->tex->Load(Data.attribute("TextPathTwo").as_string());
 			break;
 
+		case(int(infantry_type::ENGINEER)):
+
+			infantryTextures[int(infantry_type::ENGINEER)][0] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			infantryTextures[int(infantry_type::ENGINEER)][1] = myApp->tex->Load(Data.attribute("TextPathTwo").as_string());
+			break;
 		}
 
 	}
+
+
 	for (pugi::xml_node Data = unitsDocument.child("Entity_Document").child("Troops").child("Capitalist").child("Unit"); Data; Data = Data.next_sibling("Unit")) {
 
 		switch (Data.attribute("id").as_int())

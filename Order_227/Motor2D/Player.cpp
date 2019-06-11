@@ -201,7 +201,7 @@ void Player::DebugMouse()
 void Player::DebugInputs()
 {
 	//Toggle DebugMode
-	/*if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+	if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
 		myApp->debugMode = !myApp->debugMode;
 
 		if (myApp->debugMode == false) {
@@ -213,7 +213,7 @@ void Player::DebugInputs()
 		else {
 			LOG("Debug Mode: ON");
 		}
-	}*/
+	}
 
 	if (myApp->debugMode) {
 		if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {	// Toggle Map debug draw
@@ -268,7 +268,7 @@ void Player::DebugInputs()
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {	// Spawn Chrono Mouse
-			DebugSpawnUnit(infantry_type::CHRONO, entity_faction::COMMUNIST);
+			DebugSpawnUnit(infantry_type::ENGINEER, entity_faction::COMMUNIST);
 		}
 
 		if (myApp->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {	// Spawn Desolator on Mouse
