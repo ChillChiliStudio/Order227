@@ -415,17 +415,13 @@ bool App::LoadGameNow()
 	else
 		LOG("Could not parse game state xml file %s. pugi error: %s", load_game.c_str(), result.description());
 
-	myApp->entities->ActivateBuildings();
 	if (myApp->scene->firstGame) {
 		myApp->entities->ActivateObjects();
 		myApp->scene->firstGame = false;
 	}
 
-	myApp->hordes->restartRounds();
-	myApp->player->playerMoney = myApp->player->initialMoney; //TODO Deharcode
-	myApp->gui->hordeNumber_Label->ChangeString(std::to_string(0));
-	myApp->hordes->hordeActive = true;
-	myApp->hordes->roundTimer.Start();
+	//Alternate Start Game that loads game after reading data
+	myApp->gui->hordeNumber_Label->ChangeString(std::to_string(myApp->hordes->roundNumber));
 	myApp->gui->MainMenuTemp_Image->Deactivate();
 	myApp->gui->Current_Screen = Screen_Type::SCREEN_INGAME;
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_INGAME);
@@ -457,7 +453,7 @@ bool App::SavegameNow()
 
 	for (item; item != modules.end() && ret == true; item = next(item))
 	{
-		ret = (*item)->Save(root.child((*item)->name.c_str()));
+		ret = (*item)->Save(root.append_child((*item)->name.c_str()));
 	}
 
 	if (ret == true)

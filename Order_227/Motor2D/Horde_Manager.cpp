@@ -43,29 +43,30 @@ bool Horde_Manager::Load(pugi::xml_node& node)
 	pugi::xml_node tmpNode;
 
 	tmpNode = node.child("round");
-	tmpNode.append_attribute("round_num") = roundNumber;
-	tmpNode.append_attribute("round_timer") = roundTimer.Read();
-	tmpNode.append_attribute("round_threat") = roundThreat;
+	roundNumber = tmpNode.attribute("round_num").as_int();
+	roundTimer.StartFrom(tmpNode.attribute("round_timer").as_int());
+	roundThreat = tmpNode.attribute("round_threat").as_int();
 
-	tmpNode = node.append_child("horde");
-	tmpNode.append_attribute("horde_active") = hordeActive;
-	tmpNode.append_attribute("max_hordes") = maxHordes;
-	tmpNode.append_attribute("enemies_left") = remainingEnemies;
-	tmpNode.append_attribute("clean_hordes_timer") = CleanHordesTimer.Read();
+	tmpNode = node.child("horde");
+	hordeActive = tmpNode.attribute("horde_active").as_bool();
+	maxHordes = tmpNode.attribute("max_hordes").as_int();
+	remainingEnemies = tmpNode.attribute("enemies_left").as_int();
+	CleanHordesTimer.StartFrom((uint32)tmpNode.attribute("clean_hordes_timer").as_int());
 
-	tmpNode = node.append_child("threat");
-	tmpNode.append_attribute("threat_incremental") = threatIncremental;
-	tmpNode.append_attribute("inital_threat_incremental") = initialThreatIncremental;
-	tmpNode.append_attribute("initial_round_threat") = initialRoundThreat;
+	tmpNode = node.child("threat");
+	threatIncremental = tmpNode.attribute("threat_incremental").as_int();
+	initialThreatIncremental = tmpNode.attribute("inital_threat_incremental").as_int();
+	initialRoundThreat = tmpNode.attribute("initial_round_threat").as_int();
 
-	tmpNode = node.append_child("spawns");
+	tmpNode = node.child("spawns");
 	std::string j;
 	for (int i = 0; i < SpawningPoints_Array.size(); i++) {
-		j = std::to_string(i + 1);
-		tmpNode.append_child(j.c_str());
-		tmpNode.child(j.c_str()).append_attribute("active") = SpawningPoints_Array[i]->active;
-		tmpNode.child(j.c_str()).append_attribute("enemies_attacking") = SpawningPoints_Array[i]->enemiesAttacking;
+		j = "spawn_" + std::to_string(i + 1);
+		SpawningPoints_Array[i]->active = tmpNode.child(j.c_str()).attribute("active").as_bool();
+		SpawningPoints_Array[i]->enemiesAttacking = tmpNode.child(j.c_str()).attribute("enemies_attacking").as_bool();
 	}
+
+	return true;
 }
 
 bool Horde_Manager::Save(pugi::xml_node& node)
@@ -91,11 +92,13 @@ bool Horde_Manager::Save(pugi::xml_node& node)
 	tmpNode = node.append_child("spawns");
 	std::string j;
 	for (int i = 0; i < SpawningPoints_Array.size(); i++) {
-		j = std::to_string(i + 1);
+		j = "spawn_" + std::to_string(i + 1);
 		tmpNode.append_child(j.c_str());
 		tmpNode.child(j.c_str()).append_attribute("active") = SpawningPoints_Array[i]->active;
 		tmpNode.child(j.c_str()).append_attribute("enemies_attacking") = SpawningPoints_Array[i]->enemiesAttacking;
 	}
+
+	return true;
 }
 
 bool Horde_Manager::Update(float dt)

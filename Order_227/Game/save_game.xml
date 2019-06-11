@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<game_state>
+	<input />
+	<controls>
+		<debug map="68" gui="67" entities="66" next_round="65" spawn_blue_dog="64" spawn_blue_chrono="63" spawn_blue_sniper="62" spawn_red_chrono="61" spawn_red_desolator="60" spawn_red_bazooka="59" spawn_red_conscript="58" />
+		<mouse select="1" issue_orders="3" />
+		<camera up="26" down="22" left="4" right="7" />
+		<orders hold="44" hunt="20" patrol="8" defensive="225" aggressive="224" />
+	</controls>
+	<window />
+	<textures />
+	<map />
+	<pathfinding />
+	<scene />
+	<entities heavy_units_unlocked="false" unit_buff="false" buildings_buff="false" income_buff1="false" income_buff2="false" income_buff3="false">
+		<units active="0" />
+		<launchers active="0" />
+		<buildings active="7">
+			<building_7 type="0" faction="0" health="300" max_health="300" repairable="true" reward_given="true" />
+			<building_6 type="2" faction="2" health="0" max_health="200" repairable="true" reward_given="false" />
+			<building_5 type="1" faction="2" health="0" max_health="200" repairable="true" reward_given="false" />
+			<building_4 type="3" faction="2" health="0" max_health="200" repairable="true" reward_given="false" />
+			<building_3 type="4" faction="2" health="0" max_health="200" repairable="true" reward_given="false" />
+			<building_2 type="5" faction="2" health="0" max_health="200" repairable="true" reward_given="false" />
+			<building_1 type="6" faction="2" health="0" max_health="200" repairable="true" reward_given="false" />
+		</buildings>
+	</entities>
+	<audio volume="50">
+		<music volume="80" />
+		<sfx volume="80" />
+	</audio>
+	<fonts />
+	<user_interface />
+	<group_manager />
+	<player money="330" income="30" income_timer="950" income_received="true" />
+	<horde_manager>
+		<round round_num="0" round_timer="2977" round_threat="0" />
+		<horde horde_active="true" max_hordes="10" enemies_left="0" clean_hordes_timer="950" />
+		<threat threat_incremental="15" inital_threat_incremental="15" initial_round_threat="10" />
+		<spawns>
+			<spawn_1 active="false" enemies_attacking="false" />
+			<spawn_2 active="false" enemies_attacking="false" />
+			<spawn_3 active="false" enemies_attacking="false" />
+			<spawn_4 active="false" enemies_attacking="false" />
+			<spawn_5 active="false" enemies_attacking="false" />
+			<spawn_6 active="false" enemies_attacking="false" />
+			<spawn_7 active="false" enemies_attacking="false" />
+			<spawn_8 active="false" enemies_attacking="false" />
+			<spawn_9 active="false" enemies_attacking="false" />
+			<spawn_10 active="false" enemies_attacking="false" />
+			<spawn_11 active="false" enemies_attacking="false" />
+			<spawn_12 active="false" enemies_attacking="false" />
+		</spawns>
+	</horde_manager>
+	<minimap />
+	<renderer />
+</game_state>

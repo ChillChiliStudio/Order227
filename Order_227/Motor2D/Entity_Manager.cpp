@@ -244,7 +244,7 @@ bool Entity_Manager::Load(pugi::xml_node& node)
 
 	for (int i = 0; i < savedActives; i++) {
 
-		loopNode = node.child("units").child(std::to_string(i + 1).c_str());
+		loopNode = node.child("units").child(("unit_" + std::to_string(i + 1)).c_str());
 
 		unitPtr = ActivateUnit({ loopNode.attribute("position_x").as_float(), loopNode.attribute("position_y").as_float() },
 			(infantry_type)loopNode.child("unit").attribute("infantry_type").as_int(),
@@ -261,7 +261,7 @@ bool Entity_Manager::Load(pugi::xml_node& node)
 
 	for (int i = 0; i < savedActives; i++) {
 
-		loopNode = node.child("launchers").child(std::to_string(i + 1).c_str());
+		loopNode = node.child("launchers").child(("launcher_" + std::to_string(i + 1)).c_str());
 
 		unitPtr = ActivateLauncher({ loopNode.attribute("position_x").as_float(), loopNode.attribute("position_y").as_float() },
 			(infantry_type)loopNode.child("unit").attribute("infantry_type").as_int(),
@@ -278,7 +278,7 @@ bool Entity_Manager::Load(pugi::xml_node& node)
 	ActivateBuildings();
 
 	for (int i = 0; i < savedActives; i++) {
-		for (pugi::xml_node j = node.child("buildings").child(std::to_string(i + 1).c_str()); j; j = j.next_sibling()) {
+		for (pugi::xml_node j = node.child("buildings").child(("building_" + std::to_string(i + 1)).c_str()); j; j = j.next_sibling()) {
 			if (buildingsArray[i].buildingType == (building_type)j.attribute("type").as_int()) {
 				LoadBuildingData(&buildingsArray[i], j);
 			}
@@ -326,6 +326,8 @@ bool Entity_Manager::LoadUnitData(Unit* unitPtr, pugi::xml_node& loopNode)
 		unitPtr->ResumePatrol();
 		break;
 	}
+
+	return true;
 }
 
 bool Entity_Manager::LoadBuildingData(Building* build, pugi::xml_node& loopNode)
@@ -336,6 +338,8 @@ bool Entity_Manager::LoadBuildingData(Building* build, pugi::xml_node& loopNode)
 	build->maxHealth = loopNode.attribute("max_health").as_float();
 	build->repairable = loopNode.attribute("health").as_bool();
 	build->rewardGiven = loopNode.attribute("health").as_bool();
+
+	return true;
 }
 
 bool Entity_Manager::Save(pugi::xml_node& node)
@@ -357,7 +361,7 @@ bool Entity_Manager::Save(pugi::xml_node& node)
 
 	for (int i = 0; numActives > 0; ++i) {
 		if (unitPool[i].active == true && unitPool[i].IsDead() == false) {
-			SaveUnitData(unitPool[i], tmpNode.append_child(std::to_string(numActives).c_str()));
+			SaveUnitData(unitPool[i], tmpNode.append_child(("unit_" + std::to_string(numActives)).c_str()));
 			numActives--;
 		}
 	}
@@ -370,7 +374,7 @@ bool Entity_Manager::Save(pugi::xml_node& node)
 	for (int i = 0; numActives > 0; ++i) {
 
 		if (launcherPool[i].active == true && launcherPool[i].IsDead() == false) {
-			SaveUnitData((Unit&)launcherPool[i], tmpNode.append_child(std::to_string(numActives).c_str()));
+			SaveUnitData((Unit&)launcherPool[i], tmpNode.append_child(("launcher_" + std::to_string(numActives)).c_str()));
 			numActives--;
 		}
 	}
@@ -381,7 +385,7 @@ bool Entity_Manager::Save(pugi::xml_node& node)
 	numActives = activeBuildings;
 
 	for (int i = 0; i < buildingsArray.size(); i++) {
-		SaveBuildingData(buildingsArray[i], tmpNode.append_child(std::to_string(numActives).c_str()));
+		SaveBuildingData(buildingsArray[i], tmpNode.append_child(("building_" + std::to_string(numActives)).c_str()));
 		numActives--;
 	}
 
@@ -434,6 +438,8 @@ bool Entity_Manager::SaveBuildingData(Building& build, pugi::xml_node& node)
 	node.append_attribute("max_health") = build.maxHealth;
 	node.append_attribute("repairable") = build.repairable;
 	node.append_attribute("reward_given") = build.rewardGiven;
+
+	return true;
 }
 
 void Entity_Manager::AllocateEntityPool()
