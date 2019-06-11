@@ -80,9 +80,9 @@ bool Player::Update(float dt)
 	//	startCreationUnit = false;
 	//}
 
-	if (myApp->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+	/*if (myApp->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
 		myApp->LoadGame();
-	}
+	}*/
 
 	if (myApp->gui->MainMenuTemp_Image->active == false) {
 
@@ -91,9 +91,9 @@ bool Player::Update(float dt)
 			CameraInputs(dt);	// Camera Inputs
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) {
+		/*if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
 			myApp->SaveGame();
-		}
+		}*/
 
 		DebugInputs();		// Debug Inputs
 
