@@ -245,7 +245,6 @@ void Unit::UpdateAnimation()
 	
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
 
-
 }
 
 // Order processing

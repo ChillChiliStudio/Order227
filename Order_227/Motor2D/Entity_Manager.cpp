@@ -725,7 +725,7 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 	SDL_Rect temp;
 	int posArr;
 	int entityType;
-	//int i = 0;
+	int i = 0;
 
 
 	for (pugi::xml_node DataXML = unitsDocument.child("Entity_Document").child("Troops").child(faction.c_str()).child("Unit"); DataXML; DataXML = DataXML.next_sibling("Unit")) {
@@ -760,7 +760,7 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 					{
 
 					case (int(infantry_type::BASIC)):
-            	temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+            				temp.x += DataXML.child("RectOffset").attribute("x").as_int();
 							temp.y += DataXML.child("RectOffset").attribute("y").as_int();
 							temp.w = DataXML.child("RectOffset").attribute("w").as_int();
 							temp.h = DataXML.child("RectOffset").attribute("h").as_int();
@@ -861,12 +861,12 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 				}
 				else {
 
-				if (tempString == "Pointing") {
+					if (tempString == "Pointing") {
 
-					ParticleAnimArray[i]=temp;
-					i++;
+						ParticleAnimArray[i]=temp;
+						i++;
 
-				}
+					}
 
 					if (id == int(infantry_type::SNIPER)) {
 
