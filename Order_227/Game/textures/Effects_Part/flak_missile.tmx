@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="1" tilewidth="19" tileheight="19" nextobjectid="2">
  <objectgroup name="Rects">
-  <object id="1" x="0" y="0" width="19" height="19"/>
-  <object id="1" x="19" y="0" width="19" height="19"/>
-  <object id="1" x="38" y="0" width="19" height="19"/>
-  <object id="1" x="57" y="0" width="19" height="19"/>
-  <object id="1" x="76" y="0" width="19" height="19"/>
-  <object id="1" x="95" y="0" width="19" height="19"/>
-  <object id="1" x="114" y="0" width="19" height="19"/>
-  <object id="1" x="133" y="0" width="19" height="19"/>
+  <object name="Pointing" type="0"  id="1" x="0" y="0" width="19" height="19"/>
+  <object name="Pointing" type="45" id="1" x="19" y="0" width="19" height="19"/>
+  <object name="Pointing" type="90" id="1" x="38" y="0" width="19" height="19"/>
+  <object name="Pointing" type="135" id="1" x="57" y="0" width="19" height="19"/>
+  <object name="Pointing" type="180" id="1" x="76" y="0" width="19" height="19"/>
+  <object name="Pointing" type="225" id="1" x="95" y="0" width="19" height="19"/>
+  <object name="Pointing" type="270" id="1" x="114" y="0" width="19" height="19"/>
+  <object name="Pointing" type="315" id="1" x="133" y="0" width="19" height="19"/>
  </objectgroup>
  <imagelayer name="Capa de Imagen 1">
   <image source="flak_missile.png" width="152" height="19"/>

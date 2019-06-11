@@ -103,6 +103,8 @@ public:
 	//Animations Array
 	Animation animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)]; //TODO_ WTF? Troop types?
 	Animation BuildingAnimationArray[int(building_type::BUILDING_MAX)][int(Building_State::MAX)];
+	Animation ParticleAnimArray[1];
+
 
 	bool entitiesDebugDraw = false;
 	SDL_Texture* lifeBar_tex = nullptr; //TODO: Why is this here?4
