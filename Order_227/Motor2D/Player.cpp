@@ -119,9 +119,9 @@ bool Player::Update(float dt)
 			myApp->SaveGame();
 		}*/
 	}
-	//else if (myApp->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
-	//	myApp->LoadGame();
-	//}
+	/*else if (myApp->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+		myApp->LoadGame();
+	}*/
 
 	if (incomeTimer.ReadSec() >= 2 && myApp->gui->Current_Screen==Screen_Type::SCREEN_INGAME&& !myApp->gui->OnPause) {
 		playerMoney += playerIncome;
