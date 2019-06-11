@@ -80,20 +80,12 @@ bool Player::Update(float dt)
 	//	startCreationUnit = false;
 	//}
 
-	/*if (myApp->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
-		myApp->LoadGame();
-	}*/
-
 	if (myApp->gui->MainMenuTemp_Image->active == false) {
 
 		UpdateMousePos();	// Mouse Position Update
 		if (!myApp->gui->OnPause) {
 			CameraInputs(dt);	// Camera Inputs
 		}
-
-		/*if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
-			myApp->SaveGame();
-		}*/
 
 		DebugInputs();		// Debug Inputs
 
@@ -122,7 +114,14 @@ bool Player::Update(float dt)
 				Mix_Resume(-1);
 			}
 		}
+
+		/*if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+			myApp->SaveGame();
+		}*/
 	}
+	/*else if (myApp->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+		myApp->LoadGame();
+	}*/
 
 	if (incomeTimer.ReadSec() >= 2 && myApp->gui->Current_Screen==Screen_Type::SCREEN_INGAME&& !myApp->gui->OnPause) {
 		playerMoney += playerIncome;

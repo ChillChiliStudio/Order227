@@ -111,7 +111,9 @@ bool Entity_Manager::Update(float dt)
 		if (entitiesDebugDraw)
 			entitiesQuadtree->DrawQuadtree();
 
-		SolveOverlapping();
+		if (!myApp->gui->OnPause) {
+			SolveOverlapping();
+		}
 
 		//Blit Ordering that actually works
 		UpdateBlitOrdering();

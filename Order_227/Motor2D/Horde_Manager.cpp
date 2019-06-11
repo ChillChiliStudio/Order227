@@ -64,6 +64,7 @@ bool Horde_Manager::Load(pugi::xml_node& node)
 		j = "spawn_" + std::to_string(i + 1);
 		SpawningPoints_Array[i]->active = tmpNode.child(j.c_str()).attribute("active").as_bool();
 		SpawningPoints_Array[i]->enemiesAttacking = tmpNode.child(j.c_str()).attribute("enemies_attacking").as_bool();
+		SpawningPoints_Array[i]->SpawnTime.StartFrom(tmpNode.child(j.c_str()).attribute("enemies_attacking").as_int());
 	}
 
 	return true;
@@ -96,6 +97,7 @@ bool Horde_Manager::Save(pugi::xml_node& node)
 		tmpNode.append_child(j.c_str());
 		tmpNode.child(j.c_str()).append_attribute("active") = SpawningPoints_Array[i]->active;
 		tmpNode.child(j.c_str()).append_attribute("enemies_attacking") = SpawningPoints_Array[i]->enemiesAttacking;
+		tmpNode.child(j.c_str()).append_attribute("spawn_time") = SpawningPoints_Array[i]->SpawnTime.Read();
 	}
 
 	return true;
@@ -231,7 +233,7 @@ void Horde_Manager::ClearEnemies()
 {
 	for (int i = 0; i < hordes.size(); ++i)
 	{
-		for (std::list<Unit*>::iterator it = hordes[i]->groupUnits.begin();!hordes[i]->groupUnits.empty() ;it++ )	//TODO: DeActivate all then clear list, not necessary to erase one by one
+		for (std::list<Unit*>::iterator it = hordes[i]->groupUnits.begin();!hordes[i]->groupUnits.empty(); it++)	//TODO: DeActivate all then clear list, not necessary to erase one by one
 		{
 			myApp->entities->DeActivateUnit((*it));
 			hordes[i]->groupUnits.erase(it);

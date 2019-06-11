@@ -13,87 +13,59 @@
 	<pathfinding />
 	<scene />
 	<entities heavy_units_unlocked="false" unit_buff="false" buildings_buff="false" income_buff1="false" income_buff2="false" income_buff3="false">
-		<units active="19">
-			<unit_18 position_x="-834.160461" position_y="2274.79712" faction="1" type="2">
-				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="-987" origin_y="2399" destination_x="60" destination_y="1410" />
-			</unit_18>
-			<unit_17 position_x="-823.126831" position_y="2289.73315" faction="1" type="2">
-				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="-978" origin_y="2420" destination_x="90" destination_y="1425" />
-			</unit_17>
-			<unit_16 position_x="-916.008301" position_y="2200.4563" faction="1" type="2">
-				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="-1026" origin_y="2418" destination_x="30" destination_y="1425" />
-			</unit_16>
-			<unit_15 position_x="-890.316772" position_y="2190.61426" faction="1" type="2">
-				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="-1020" origin_y="2397" destination_x="30" destination_y="1395" />
-			</unit_15>
-			<unit_14 position_x="438.823486" position_y="1314.60889" faction="0" type="2">
-				<stats health="4" damage="120" cadency="600" attack_radius="450" vision_radius="600" lin_speed="90" />
-				<unit infantry_type="5" orders="0" aggro="1" provoqued="false" origin_x="450" origin_y="1349" destination_x="450" destination_y="1349" />
-			</unit_14>
-			<unit_13 position_x="-791.08905" position_y="2289.53467" faction="1" type="2">
-				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="-953" origin_y="2412" destination_x="90" destination_y="1395" />
-			</unit_13>
-			<unit_12 position_x="-768.028442" position_y="2304.98877" faction="1" type="2">
-				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="-929" origin_y="2423" destination_x="120" destination_y="1440" />
-			</unit_12>
-			<unit_11 position_x="676.378784" position_y="530.523682" faction="1" type="2">
-				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="511" origin_y="449" destination_x="60" destination_y="1410" />
+		<units active="12">
+			<unit_11 position_x="198.041321" position_y="1284.98792" faction="0" type="2">
+				<stats health="6" damage="2" cadency="1" attack_radius="150" vision_radius="300" lin_speed="90" />
+				<unit infantry_type="1" orders="0" aggro="1" provoqued="false" origin_x="210" origin_y="1319" destination_x="210" destination_y="1319" />
 			</unit_11>
-			<unit_10 position_x="294.70813" position_y="547.338257" faction="1" type="2">
-				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="540" origin_y="470" destination_x="90" destination_y="1425" />
+			<unit_10 position_x="228.358337" position_y="1299.70166" faction="0" type="2">
+				<stats health="40" damage="4" cadency="1" attack_radius="200" vision_radius="300" lin_speed="60" />
+				<unit infantry_type="4" orders="0" aggro="1" provoqued="false" origin_x="240" origin_y="1334" destination_x="240" destination_y="1334" />
 			</unit_10>
-			<unit_9 position_x="230.935715" position_y="548.532471" faction="1" type="2">
-				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="473" origin_y="468" destination_x="30" destination_y="1425" />
+			<unit_9 position_x="168.433777" position_y="1359.8186" faction="0" type="2">
+				<stats health="6" damage="2" cadency="1" attack_radius="150" vision_radius="300" lin_speed="90" />
+				<unit infantry_type="1" orders="0" aggro="1" provoqued="false" origin_x="180" origin_y="1394" destination_x="180" destination_y="1394" />
 			</unit_9>
-			<unit_8 position_x="629.782166" position_y="526.072327" faction="1" type="2">
+			<unit_8 position_x="-10.7170315" position_y="2859.4707" faction="1" type="2">
 				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="479" origin_y="448" destination_x="30" destination_y="1395" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="1" origin_y="2894" destination_x="1" destination_y="2894" />
 			</unit_8>
-			<unit_7 position_x="413.889465" position_y="504.304474" faction="1" type="2">
+			<unit_7 position_x="15.7999992" position_y="2880" faction="1" type="2">
 				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="540" origin_y="444" destination_x="90" destination_y="1395" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="12" origin_y="2915" destination_x="30" destination_y="2895" />
 			</unit_7>
-			<unit_6 position_x="788.987061" position_y="556.321777" faction="1" type="2">
+			<unit_6 position_x="-42.6914139" position_y="2876.98901" faction="1" type="2">
 				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="570" origin_y="473" destination_x="120" destination_y="1440" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="-30" origin_y="2911" destination_x="-30" destination_y="2911" />
 			</unit_6>
-			<unit_5 position_x="625.077148" position_y="2398.50952" faction="1" type="2">
+			<unit_5 position_x="-1991.51758" position_y="1869.47144" faction="1" type="2">
 				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="631" origin_y="2549" destination_x="60" destination_y="1410" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="-1979" origin_y="1904" destination_x="-1979" destination_y="1904" />
 			</unit_5>
-			<unit_4 position_x="664.903198" position_y="2417.61914" faction="1" type="2">
+			<unit_4 position_x="-1962.39966" position_y="1890" faction="1" type="2">
 				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="660" origin_y="2570" destination_x="90" destination_y="1425" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="-1968" origin_y="1925" destination_x="-1950" destination_y="1905" />
 			</unit_4>
-			<unit_3 position_x="350.394165" position_y="2416.87354" faction="1" type="2">
+			<unit_3 position_x="-2022.17261" position_y="1887.16992" faction="1" type="2">
 				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="593" origin_y="2568" destination_x="30" destination_y="1425" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="-2010" origin_y="1922" destination_x="-2010" destination_y="1922" />
 			</unit_3>
-			<unit_2 position_x="397.554047" position_y="2373.99268" faction="1" type="2">
+			<unit_2 position_x="618.283203" position_y="2514.4707" faction="1" type="2">
 				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="599" origin_y="2548" destination_x="30" destination_y="1395" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="630" origin_y="2549" destination_x="630" destination_y="2549" />
 			</unit_2>
-			<unit_1 position_x="643.248108" position_y="2391.66748" faction="1" type="2">
+			<unit_1 position_x="647.800049" position_y="2535" faction="1" type="2">
 				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="660" origin_y="2544" destination_x="90" destination_y="1395" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="642" origin_y="2570" destination_x="660" destination_y="2550" />
 			</unit_1>
-			<unit_0 position_x="683.022766" position_y="2410.83057" faction="1" type="2">
+			<unit_0 position_x="587.827515" position_y="2532.16992" faction="1" type="2">
 				<stats health="6" damage="2" cadency="0.5" attack_radius="150" vision_radius="200" lin_speed="90" />
-				<unit infantry_type="0" orders="1" aggro="2" provoqued="false" origin_x="690" origin_y="2573" destination_x="120" destination_y="1440" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="599" origin_y="2567" destination_x="599" destination_y="2567" />
 			</unit_0>
 		</units>
 		<launchers active="0" />
 		<buildings active="7">
-			<building_7 type="0" faction="0" health="111.799332" max_health="300" repairable="true" reward_given="true" />
+			<building_7 type="0" faction="0" health="300" max_health="300" repairable="false" reward_given="true" />
 			<building_6 type="2" faction="2" health="0" max_health="200" repairable="true" reward_given="false" />
 			<building_5 type="1" faction="2" health="0" max_health="200" repairable="true" reward_given="false" />
 			<building_4 type="3" faction="2" health="0" max_health="200" repairable="true" reward_given="false" />
@@ -109,24 +81,24 @@
 	<fonts />
 	<user_interface />
 	<group_manager />
-	<player money="970" income="30" income_timer="890" income_received="true" />
+	<player money="110" income="30" income_timer="1894" income_received="false" />
 	<horde_manager>
-		<round round_num="2" round_timer="872" round_threat="30" />
-		<horde horde_active="true" max_hordes="10" enemies_left="18" clean_hordes_timer="872" />
+		<round round_num="1" round_timer="1894" round_threat="15" />
+		<horde horde_active="true" max_hordes="10" enemies_left="9" clean_hordes_timer="1894" />
 		<threat threat_incremental="15" inital_threat_incremental="15" initial_round_threat="10" />
 		<spawns>
-			<spawn_1 active="false" enemies_attacking="false" />
-			<spawn_2 active="false" enemies_attacking="false" />
-			<spawn_3 active="false" enemies_attacking="false" />
-			<spawn_4 active="false" enemies_attacking="false" />
-			<spawn_5 active="false" enemies_attacking="true" />
-			<spawn_6 active="true" enemies_attacking="true" />
-			<spawn_7 active="false" enemies_attacking="false" />
-			<spawn_8 active="true" enemies_attacking="true" />
-			<spawn_9 active="false" enemies_attacking="false" />
-			<spawn_10 active="false" enemies_attacking="false" />
-			<spawn_11 active="false" enemies_attacking="true" />
-			<spawn_12 active="true" enemies_attacking="true" />
+			<spawn_1 active="false" enemies_attacking="false" spawn_time="11375" />
+			<spawn_2 active="true" enemies_attacking="false" spawn_time="1894" />
+			<spawn_3 active="false" enemies_attacking="false" spawn_time="11375" />
+			<spawn_4 active="false" enemies_attacking="false" spawn_time="11375" />
+			<spawn_5 active="false" enemies_attacking="false" spawn_time="11375" />
+			<spawn_6 active="false" enemies_attacking="false" spawn_time="11375" />
+			<spawn_7 active="true" enemies_attacking="false" spawn_time="1893" />
+			<spawn_8 active="false" enemies_attacking="false" spawn_time="11375" />
+			<spawn_9 active="false" enemies_attacking="false" spawn_time="11375" />
+			<spawn_10 active="false" enemies_attacking="false" spawn_time="11375" />
+			<spawn_11 active="false" enemies_attacking="false" spawn_time="11375" />
+			<spawn_12 active="true" enemies_attacking="false" spawn_time="1893" />
 		</spawns>
 	</horde_manager>
 	<minimap />
