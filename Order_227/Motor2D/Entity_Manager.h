@@ -30,7 +30,6 @@ public:
 	~Entity_Manager();
 
 public:
-
 	bool Awake(pugi::xml_node& config);
 	bool Start();			//Load textures here
 	bool PreUpdate();
@@ -41,12 +40,13 @@ public:
 	bool Load(pugi::xml_node&);
 	bool LoadUnitData(Unit*, pugi::xml_node&);
 	bool LoadBuildingData(Building*, pugi::xml_node&);
+	bool LoadEnemiesToHorde();
 
 	bool Save(pugi::xml_node&);
 	bool SaveUnitData(Unit&, pugi::xml_node&);
 	bool SaveBuildingData(Building&, pugi::xml_node&);
-public:
 
+public:
 	//Pools	//TODO: With .reserve() we can reserve memory for a vector so if a resize is needed in runtime the memory is already allocated, making the process faster
 	void AllocateEntityPool();
 	void AllocateLauncherPool();

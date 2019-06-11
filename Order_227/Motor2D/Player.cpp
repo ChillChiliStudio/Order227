@@ -79,6 +79,11 @@ bool Player::Update(float dt)
 	//if (unitCreationCD.ReadSec() >= 10) {
 	//	startCreationUnit = false;
 	//}
+
+	if (myApp->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+		myApp->LoadGame();
+	}
+
 	if (myApp->gui->MainMenuTemp_Image->active == false) {
 
 		UpdateMousePos();	// Mouse Position Update
@@ -88,10 +93,6 @@ bool Player::Update(float dt)
 
 		if (myApp->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) {
 			myApp->SaveGame();
-		}
-
-		if (myApp->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
-			myApp->LoadGame();
 		}
 
 		DebugInputs();		// Debug Inputs

@@ -278,9 +278,10 @@ bool Entity_Manager::Load(pugi::xml_node& node)
 	ActivateBuildings();
 
 	for (int i = 0; i < savedActives; i++) {
-		for (pugi::xml_node j = node.child("buildings").child(("building_" + std::to_string(i + 1)).c_str()); j; j = j.next_sibling()) {
+		for (pugi::xml_node j = node.child("buildings").first_child(); j; j = j.next_sibling()) {
 			if (buildingsArray[i].buildingType == (building_type)j.attribute("type").as_int()) {
 				LoadBuildingData(&buildingsArray[i], j);
+				break;
 			}
 		}
 	}
@@ -327,6 +328,16 @@ bool Entity_Manager::LoadUnitData(Unit* unitPtr, pugi::xml_node& loopNode)
 		break;
 	}
 
+	//If Enemy, add to horde (HARDCODED)
+	if ((entity_faction)loopNode.attribute("faction").as_int() == entity_faction::CAPITALIST) {
+		if ((infantry_type)loopNode.child("unit").attribute("infantry_type").as_int() != infantry_type::BAZOOKA) {
+			myApp->hordes->hordes[0]->AddUnit(unitPtr);
+		}
+		else {
+			myApp->hordes->hordes[1]->AddUnit(unitPtr);
+		}
+	}
+
 	return true;
 }
 
@@ -360,9 +371,12 @@ bool Entity_Manager::Save(pugi::xml_node& node)
 	int numActives = activeUnits;
 
 	for (int i = 0; numActives > 0; ++i) {
-		if (unitPool[i].active == true && unitPool[i].IsDead() == false) {
-			SaveUnitData(unitPool[i], tmpNode.append_child(("unit_" + std::to_string(numActives)).c_str()));
+		if (unitPool[i].active == true) {
 			numActives--;
+
+			if (unitPool[i].IsDead() == false) {
+				SaveUnitData(unitPool[i], tmpNode.append_child(("unit_" + std::to_string(numActives)).c_str()));
+			}
 		}
 	}
 
@@ -373,9 +387,12 @@ bool Entity_Manager::Save(pugi::xml_node& node)
 
 	for (int i = 0; numActives > 0; ++i) {
 
-		if (launcherPool[i].active == true && launcherPool[i].IsDead() == false) {
-			SaveUnitData((Unit&)launcherPool[i], tmpNode.append_child(("launcher_" + std::to_string(numActives)).c_str()));
+		if (launcherPool[i].active == true) {
 			numActives--;
+
+			if (unitPool[i].IsDead() == false) {
+				SaveUnitData((Unit&)launcherPool[i], tmpNode.append_child(("launcher_" + std::to_string(numActives)).c_str()));
+			}
 		}
 	}
 
