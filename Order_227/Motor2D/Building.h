@@ -59,6 +59,7 @@ private:
 
 	void GiveReward();
 	void AddUnitsBuff();
+	void TakeUnitsBuff();
 
 public:
 

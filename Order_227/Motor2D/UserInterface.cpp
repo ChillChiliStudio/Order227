@@ -186,9 +186,22 @@ bool User_Interface::Start()
 	horde = std::to_string(myApp->hordes->roundNumber);
 	//timerHorde_temp = std::to_string(myApp->hordes->getRoundTimer());
 
-	MainBarPanel = CreateImage(fPoint(width / 2, height - 87.5), SDL_Rect({ 0,0,1280,175 }), mainBar);
-	selectorInfantry = CreateSpawnBox(true, fPoint(width / 11 - 38, height - 140), selectorInfantry_Rect, selectorinGame_Tex);
-	selectorDefenses = CreateSpawnBox(false, fPoint(width / 11, height - 140), selectorDefenses_Rect, selectorinGame_Tex);
+	Units_Life = CreateBuffBox(fPoint(370, height - 200), SDL_Rect({ 3,3,41,41 }), Buff_tex, &myApp->entities->unitBuff);
+	Units_Life->setWorldPosition(fPoint(40, 430));
+	Buildings_Life = CreateBuffBox(fPoint(430, height - 200), SDL_Rect({ 44,0,41,41 }), Buff_tex, &myApp->entities->buildingsBuff);
+	Buildings_Life->setWorldPosition(fPoint(1400, 1520));
+	HeavyUnits_able = CreateBuffBox(fPoint(480, height - 200), SDL_Rect({ 85,0,41,41 }), Buff_tex, &myApp->entities->heavyUnitsUnlocked);
+	HeavyUnits_able->setWorldPosition(fPoint(-1000, 1480));
+	Money_Buff = CreateBuffBox(fPoint(530, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff1);
+	Money_Buff->setWorldPosition(fPoint(890, 880));
+	Money2_Buff = CreateBuffBox(fPoint(580, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff2);
+	Money2_Buff->setWorldPosition(fPoint(-740, 960));
+	Mone3_Buff = CreateBuffBox(fPoint(630, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff45);
+	Mone3_Buff->setWorldPosition(fPoint(-250, 2120));
+
+	MainBarPanel = CreateImage(fPoint(width / 2, height - 87.5), SDL_Rect({0,0,1280,175}),mainBar);
+	selectorInfantry = CreateSpawnBox(true, fPoint(width / 11-38, height - 140), selectorInfantry_Rect, selectorinGame_Tex);
+	selectorDefenses = CreateSpawnBox(false, fPoint(width / 11 , height - 140), selectorDefenses_Rect, selectorinGame_Tex);
 	selectorTank = CreateSpawnBox(false, fPoint(width / 11 + 38, height - 140), selectorTank_Rect, selectorinGame_Tex);
 
 	//CREATOR UNITs
@@ -259,13 +272,6 @@ bool User_Interface::Start()
 	FlakPanel_Info = CreateUnitPanel(SDL_Rect({ 137,0,137,165 }), FlakCreator, Unit_Panels_tex);
 	ChronoPanel_Info = CreateUnitPanel(SDL_Rect({ 274,0,137,165 }), ChronoCreator, Unit_Panels_tex);
 	EngineerPanel_Info = CreateUnitPanel(SDL_Rect({ 274,0,137,165 }), ChronoCreator, Unit_Panels_tex);
-
-	Units_Life = CreateBuffBox(fPoint(370, height - 200), SDL_Rect({ 3,3,41,41 }), Buff_tex, &myApp->entities->unitBuff);
-	Buildings_Life = CreateBuffBox(fPoint(430, height - 200), SDL_Rect({ 44,0,41,41 }), Buff_tex, &myApp->entities->buildingsBuff);
-	HeavyUnits_able = CreateBuffBox(fPoint(480, height - 200), SDL_Rect({ 85,0,41,41 }), Buff_tex, &myApp->entities->heavyUnitsUnlocked);
-	Money_Buff = CreateBuffBox(fPoint(530, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff1);
-	Money2_Buff = CreateBuffBox(fPoint(580, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff2);
-	Mone3_Buff = CreateBuffBox(fPoint(630, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff45);
 
 	UnitBuff_Info = CreateUnitPanel(SDL_Rect({ 147,335,151,94 }), Units_Life, Unit_Panels_tex);
 	BuildingBuff_Info = CreateUnitPanel(SDL_Rect({ 0,434,151,94 }), Buildings_Life, Unit_Panels_tex);
@@ -491,6 +497,16 @@ bool User_Interface::Update(float dt)
 
 	bool ret = true;
 
+
+
+	if (myApp->input->GetKey(SDL_SCANCODE_L)==KEY_DOWN) {
+		myApp->entities->unitBuff = true;
+		myApp->entities->buildingsBuff = true;
+		myApp->entities->heavyUnitsUnlocked = true;
+		myApp->entities->incomeBuff1 = true;
+		myApp->entities->incomeBuff2 = true;
+		myApp->entities->incomeBuff45 = true;
+	}
 	//TODO LUCHO VARIABLE
 	if (myApp->hordes->HordesDead() == false) {
 		Eniemies_left_Label->ChangeString(std::to_string(myApp->hordes->remainingEnemies));

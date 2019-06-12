@@ -198,6 +198,9 @@ void StartGame() {
 	//myApp->video->PlayVideo("Video/iterator_hordes.ogv", SDL_Rect({ 0,(int)(myApp->win->height/2.8f),1280,212 }), false);
 	myApp->gui->OnPause = false;
 
+	myApp->render->camera.x = 400;
+	myApp->render->camera.y = -1000;
+
 	myApp->gui->WinIcon->Deactivate();
 	myApp->gui->LoseIcon->Deactivate();
 
@@ -293,6 +296,13 @@ void QuitGame() {
 	//myApp->entities->ReleasePools();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	//myApp->entities->ResetAll();
 	//myApp->scene->CleanUp();
+
+	myApp->entities->unitBuff = false;
+	myApp->entities->buildingsBuff = false;
+	myApp->entities->heavyUnitsUnlocked = false;
+	myApp->entities->incomeBuff1 = false;
+	myApp->entities->incomeBuff2 = false;
+	myApp->entities->incomeBuff45 = false;
 
 	myApp->gui->OnPause = false;
 	myApp->playingGame = false;
