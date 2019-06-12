@@ -11,6 +11,8 @@
 //	enum class channel(keyboard / mouse / controller);
 //};
 
+class Key_Config_Box;
+
 struct debug_controls
 {
 	int debugMap;
@@ -73,15 +75,15 @@ public:
 public:
 	void AllocateLists();
 
-	void PrepareInputChange(int& selectedInput);
+	void PrepareInputChange(int* selectedInput);
+	std::string TranslateKeycode(int i);
+	void CreateKeyboardStrings();
 
 	bool MouseButtonInUse(int button);
 	bool KeyInUse(int key);
 
 	void UpdateMouseButton(int newVal);
 	void UpdateKey(int newVal);
-	
-	void UpdateConfig(int newVal);
 
 public:
 	int pause = SDL_SCANCODE_ESCAPE;
@@ -93,10 +95,12 @@ public:
 
 	int spawnHotKeys[6];
 
+	std::string keyNames[SDL_NUM_SCANCODES];
 	std::vector<int> mouseButtonsInUse;
 	std::vector<int> keysInUse;
 
 public:
+	Key_Config_Box* buttonUsed = nullptr;
 	bool awaitingInput = false;
 	int* inputToChange = nullptr;
 };

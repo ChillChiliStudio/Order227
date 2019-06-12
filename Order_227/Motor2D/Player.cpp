@@ -16,6 +16,7 @@
 #include "Window.h"
 #include "Fonts.h"
 #include "VoidBox.h"
+#include "KeyConfig.h"
 
 #include "Brofiler/Brofiler.h"
 #include "MiniMap.h"
@@ -118,6 +119,10 @@ bool Player::Update(float dt)
 					myApp->gui->Hotkey_Desolator->Deactivate();
 					myApp->gui->Hotkey_Chrono->Deactivate();
 					myApp->gui->Hotkey_Sniper->Deactivate();
+					myApp->gui->Hotkey_Engineer->Deactivate();
+					myApp->gui->Hotkey_Hold->Deactivate();
+					myApp->gui->Hotkey_Hunt->Deactivate();
+					myApp->gui->Hotkey_Patrol->Deactivate();
 					myApp->gui->Hotkey_Up->Deactivate();
 					myApp->gui->Hotkey_Down->Deactivate();
 					myApp->gui->Hotkey_Left->Deactivate();
@@ -493,7 +498,7 @@ void Player::PlayerSelect()
 		iPoint mousePosition;
 		myApp->input->GetMousePosition(mousePosition.x, mousePosition.y);
 
-		if (mouseScreenPos.y < mouseWorldLimit && !myApp->gui->OnPause) {
+		if (mouseScreenPos.y < mouseWorldLimit && !myApp->gui->OnPause && myApp->playingGame) {
 
 			StartSelect();
 			selectionStarted = true;
