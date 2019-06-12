@@ -198,6 +198,9 @@ void StartGame() {
 	//myApp->video->PlayVideo("Video/iterator_hordes.ogv", SDL_Rect({ 0,(int)(myApp->win->height/2.8f),1280,212 }), false);
 	myApp->gui->OnPause = false;
 
+	myApp->render->camera.x = 400;
+	myApp->render->camera.y = -1000;
+
 	myApp->gui->WinIcon->Deactivate();
 	myApp->gui->LoseIcon->Deactivate();
 
