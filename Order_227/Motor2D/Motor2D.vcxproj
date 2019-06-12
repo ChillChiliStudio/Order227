@@ -95,6 +95,7 @@
     <ClCompile Include="Horde_Manager.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputText.cpp" />
+    <ClCompile Include="KeyConfig.cpp" />
     <ClCompile Include="Launcher.cpp" />
     <ClCompile Include="LifeBarBox.cpp" />
     <ClCompile Include="MiniMap.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputText.h" />
     <ClInclude Include="Geometry.h" />
+    <ClInclude Include="KeyConfig.h" />
     <ClInclude Include="Launcher.h" />
     <ClInclude Include="LifeBarBox.h" />
     <ClInclude Include="MiniMap.h" />

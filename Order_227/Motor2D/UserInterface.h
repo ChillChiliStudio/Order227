@@ -94,7 +94,7 @@ public:
 	Void_Box* CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL, Screen_Type screen = Screen_Type::SCREEN_NONE);
 	Check_Box* CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL, Screen_Type screen = Screen_Type::SCREEN_NONE);
 	Spawn_Box* CreateSpawnBox(bool value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL, Screen_Type screen = Screen_Type::SCREEN_NONE);
-	Unit_Box* CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0,int unitCost=0,bool* _enabletoCraft=nullptr,SDL_Scancode Hotkey = SDL_SCANCODE_0, Screen_Type screen = Screen_Type::SCREEN_NONE);
+	Unit_Box* CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0,int unitCost=0,bool* _enabletoCraft=nullptr,SDL_Scancode* Hotkey = nullptr, Screen_Type screen = Screen_Type::SCREEN_NONE);
 	LifeBar* CreateLifeBar(fPoint center, Unit* parent = nullptr, SDL_Texture* tex = NULL, float* auxHealth=NULL, Screen_Type screen = Screen_Type::SCREEN_NONE);
 	Mouse* CreateMouse( SDL_Texture*tex);
 	Unit_Panel* CreateUnitPanel(SDL_Rect sprite, Image* button = nullptr, SDL_Texture* tex = NULL, Screen_Type screen = Screen_Type::SCREEN_NONE);

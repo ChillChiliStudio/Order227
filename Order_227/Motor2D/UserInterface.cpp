@@ -191,17 +191,17 @@ bool User_Interface::Start()
 	selectorTank = CreateSpawnBox(false, fPoint(width / 11 + 38, height - 140), selectorTank_Rect, selectorinGame_Tex);
 
 	//CREATOR UNITs
-	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,30,myApp->entities->infantryStats[(int)infantry_type::CONSCRIPT].cost,nullptr, (SDL_Scancode)myApp->controls->spawnHotKeys[0]);
+	ConscriptCreator = CreateUnitBox(CreateConscript, fPoint(70, height - 95), Conscript_Selection_Rect, unitsSelection_Tex, selectorInfantry,Timer_Texture,30,myApp->entities->infantryStats[(int)infantry_type::CONSCRIPT].cost,nullptr, (SDL_Scancode*)&myApp->controls->spawnHotKeys[0]);
 	ConscriptCreator->Start();
-	FlakCreator = CreateUnitBox(CreateFlak, fPoint(130, height - 95), Flak_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::BAZOOKA].cost,&myApp->entities->heavyUnitsUnlocked, (SDL_Scancode)myApp->controls->spawnHotKeys[1]);
+	FlakCreator = CreateUnitBox(CreateFlak, fPoint(130, height - 95), Flak_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::BAZOOKA].cost,&myApp->entities->heavyUnitsUnlocked, (SDL_Scancode*)&myApp->controls->spawnHotKeys[1]);
 	FlakCreator->Start();
-	SniperCreator = CreateUnitBox(CreateSniper, fPoint(130, height - 45), Sniper_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::SNIPER].cost, nullptr, (SDL_Scancode)myApp->controls->spawnHotKeys[4]);
+	SniperCreator = CreateUnitBox(CreateSniper, fPoint(130, height - 45), Sniper_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::SNIPER].cost, nullptr, (SDL_Scancode*)&myApp->controls->spawnHotKeys[4]);
 	SniperCreator->Start();
-	ChronoCreator = CreateUnitBox(CreateChrono, fPoint(70, height - 45), Chrono_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::CHRONO].cost, nullptr, (SDL_Scancode)myApp->controls->spawnHotKeys[3]);
+	ChronoCreator = CreateUnitBox(CreateChrono, fPoint(70, height - 45), Chrono_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::CHRONO].cost, nullptr, (SDL_Scancode*)&myApp->controls->spawnHotKeys[3]);
 	ChronoCreator->Start();
-	DesolatorCreator = CreateUnitBox(CreateDesolator, fPoint(192, height - 95), Desolator_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::DESOLATOR].cost, &myApp->entities->heavyUnitsUnlocked, (SDL_Scancode)myApp->controls->spawnHotKeys[2]);
+	DesolatorCreator = CreateUnitBox(CreateDesolator, fPoint(192, height - 95), Desolator_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::DESOLATOR].cost, &myApp->entities->heavyUnitsUnlocked, (SDL_Scancode*)&myApp->controls->spawnHotKeys[2]);
 	DesolatorCreator->Start();
-	EngineerCreator = CreateUnitBox(CreateEngineer, fPoint(192, height - 45), Engineer_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 2, myApp->entities->infantryStats[(int)infantry_type::ENGINEER].cost, nullptr, (SDL_Scancode)myApp->controls->spawnHotKeys[5]);
+	EngineerCreator = CreateUnitBox(CreateEngineer, fPoint(192, height - 45), Engineer_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 2, myApp->entities->infantryStats[(int)infantry_type::ENGINEER].cost, nullptr, (SDL_Scancode*)&myApp->controls->spawnHotKeys[5]);
 	EngineerCreator->Start();
 
 
@@ -684,7 +684,7 @@ Text* User_Interface::CreateText(fPoint center, const char* content, font_id id,
 	return ret;
 }
 
-Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator,int unitCost,bool* _enabletoCraft, SDL_Scancode Hotkey, Screen_Type screen ) {
+Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator,int unitCost,bool* _enabletoCraft, SDL_Scancode* Hotkey, Screen_Type screen ) {
 
 	Unit_Box* ret = nullptr;
 
