@@ -75,10 +75,6 @@ projectile_directions Projectile::CheckDirection(fVec2 direction)
 		ProjectileDirection = projectile_directions::NORTH_WEST;
 	}
 
-
-	
-
-
 	return ProjectileDirection;
 }
 
@@ -102,7 +98,7 @@ void Projectile::Explode() {
 	LOG("EXPLOSION");
 	
 	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
-		if ((*item).active == true && (*item).IsDead() == false && (*item).faction != faction) {
+		if ((*item).active == true && (*item).IsDead() == false /*&& (*item).faction != faction*/) {
 
 			if (InsideSquareRadius((this->centerPos), RANGE, (*item).position) && InsideRadius((this->centerPos), RANGE, (*item).position))
 			{
@@ -112,7 +108,7 @@ void Projectile::Explode() {
 		}
 	}
 	for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); item != myApp->entities->launcherPool.end(); item = next(item)) {
-		if ((*item).active == true && (*item).IsDead() == false && (*item).faction != faction) {
+		if ((*item).active == true && (*item).IsDead() == false /*&& (*item).faction != faction*/) {
 
 			if (InsideSquareRadius((this->centerPos), RANGE, (*item).position) && InsideRadius((this->centerPos), RANGE, (*item).position))
 			{
@@ -123,7 +119,8 @@ void Projectile::Explode() {
 	}	
 	for (int i = 0; myApp->entities->buildingsArray[i].active; i++) {
 		if (myApp->entities->buildingsArray[i].active) {
-			myApp->entities->buildingsArray[i].Hurt(this->damage);
+			if (InsideSquareRadius((this->centerPos), RANGE, myApp->entities->buildingsArray[i].position) && InsideRadius((this->centerPos), RANGE, myApp->entities->buildingsArray[i].position))
+				myApp->entities->buildingsArray[i].Hurt(this->damage);
 		}
 	}
 
