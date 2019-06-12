@@ -18,7 +18,7 @@ public:
 	bool Start() override;
 
 	void ResetButton() { Queue = 0; Animation.Reset(); startCreationUnit=false; }
-	int Queue;
+	int Queue=0;
 
 protected:
 	//State Entry
