@@ -201,7 +201,7 @@ bool User_Interface::Start()
 	ChronoCreator->Start();
 	DesolatorCreator = CreateUnitBox(CreateDesolator, fPoint(192, height - 95), Desolator_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 20, myApp->entities->infantryStats[(int)infantry_type::DESOLATOR].cost, &myApp->entities->heavyUnitsUnlocked, (SDL_Scancode)myApp->controls->spawnHotKeys[2]);
 	DesolatorCreator->Start();
-	EngineerCreator = CreateUnitBox(CreateEngineer, fPoint(192, height - 45), Engineer_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 2, myApp->entities->infantryStats[(int)infantry_type::DESOLATOR].cost, nullptr, SDL_SCANCODE_6);
+	EngineerCreator = CreateUnitBox(CreateEngineer, fPoint(192, height - 45), Engineer_Selection_Rect, unitsSelection_Tex, selectorInfantry, Timer_Texture, 2, myApp->entities->infantryStats[(int)infantry_type::ENGINEER].cost, nullptr, (SDL_Scancode)myApp->controls->spawnHotKeys[5]);
 	EngineerCreator->Start();
 
 
