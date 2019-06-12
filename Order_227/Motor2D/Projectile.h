@@ -3,6 +3,8 @@
 
 #include "Entity.h"
 
+#define RANGE 40.0f
+
 enum class projectile_directions {
 	NONE = -1,
 

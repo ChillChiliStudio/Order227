@@ -40,7 +40,7 @@
 <horde_manager>
 	<max_hordes value="10" />
 	<initial_horde_threat value="10"/>
-	<initial_threat_incremental value="15"/>
+	<initial_threat_incremental value="14"/>
 </horde_manager>
 
 	<player>
