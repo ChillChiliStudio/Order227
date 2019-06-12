@@ -24,6 +24,7 @@ class Mouse;
 class Unit_Panel;
 class MiniMap_UI;
 class Buff_Box;
+class TutorialBox;
 //class Window;
 struct _TTF_Font;
 struct SDL_Rect;
@@ -130,7 +131,7 @@ public:
 	std::string timerHorde_temp;
 	//uint defaultScale;	//IMPROVE: Future use
 	//Animation Timer_anim;
-
+	TutorialBox* Tutorial = nullptr;
 	Buff_Box* Units_Life = nullptr;
 	Buff_Box* Buildings_Life = nullptr;
 	Buff_Box* HeavyUnits_able = nullptr;
@@ -154,6 +155,14 @@ public:
 	Text* ReturnOptions_Label = nullptr;
 	Image* VolumeSFX_Slide = nullptr;
 	Image* VolumeMusic_Slide = nullptr;
+	Void_Box* Tutorial_Button = nullptr;
+	Text* Tutorial_Label = nullptr;
+	Void_Box*Tutorial_Arrow_Foreward = nullptr;
+	Image* Tutorial_Arrow_Foreward_Label = nullptr;
+	Void_Box*Tutorial_Arrow_Back = nullptr;
+	Image* Tutorial_Arrow_Back_Label = nullptr;
+	Void_Box* ReturnfromTutorial_Button = nullptr;
+	Text* ReturnfromTutorial_Label = nullptr;
 
 	Text* Damage_Label = nullptr;
 	Text* Health_Label = nullptr;
@@ -265,6 +274,7 @@ private:
 	SDL_Rect Chrono_Selection_Rect[4];
 	SDL_Rect Desolator_Selection_Rect[4];
 	
+	SDL_Texture* Tutorial_Tex = nullptr;
 	SDL_Texture* Volume_Slides = nullptr;
 	SDL_Texture* Options_tex = nullptr;
 	SDL_Texture* miniMap_tex = nullptr;

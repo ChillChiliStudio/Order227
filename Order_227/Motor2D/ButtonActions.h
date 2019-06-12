@@ -18,5 +18,9 @@ void CloseGame();
 void OptionsOpen();
 void QuitOptions();
 void Hotkeys_Options();
+void TutorialOpen();
+void QuitTutorial();
+void NextPage_Tutorial();
+void BackPage_Tutorial();
 
 #endif //_BUTTON_ACTIONS_H_

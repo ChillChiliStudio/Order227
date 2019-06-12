@@ -151,6 +151,9 @@
     <ClCompile Include="Video.cpp">
       <Filter>Tools\Video</Filter>
     </ClCompile>
+    <ClCompile Include="TutorialBox.cpp">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -329,6 +332,9 @@
     </ClInclude>
     <ClInclude Include="Video.h">
       <Filter>Tools\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialBox.h">
+      <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

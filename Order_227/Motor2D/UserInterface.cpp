@@ -32,6 +32,7 @@
 #include "Mouse.h"
 #include "Unit_Panel.h"
 #include "Buff_Box.h"
+#include "TutorialBox.h"
 #include "Video.h"
 
 User_Interface::User_Interface() : Module()
@@ -100,6 +101,7 @@ bool User_Interface::Start()
 	Buff_tex = myApp->tex->Load("ui/Buff_Texture.png");
 	Options_tex = myApp->tex->Load("ui/Options_Text.png");
 	Volume_Slides = myApp->tex->Load("ui/VolumeBars_Tex.png");
+	Tutorial_Tex = myApp->tex->Load("ui/Tutorial_SpriteSheet.png");
 
 	//Debug Elements
 	fpsText = CreateText({ 10, 10 }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
@@ -263,11 +265,26 @@ bool User_Interface::Start()
 	OptionsGame_Button = CreateVoidBox(OptionsOpen, fPoint(width / 2, height / 1.4), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
 	OptionsGame_Label = CreateText(fPoint(width / 2, height / 1.4), "OPTIONS", font_id::MOLOT, White, false, OptionsGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
 
-	Minimap_Display = new  MiniMap_UI(ui_type::NONE);
-
-
+	Minimap_Display = new  MiniMap_UI();
+	Tutorial = new TutorialBox(fPoint(width / 2, height / 2),SDL_Rect({ 0,0,906,657 }),Tutorial_Tex);
+	AddElement(Tutorial);
+	Tutorial->Deactivate();
 	AddElement(Minimap_Display);
 	InGame_Elements.push_back(Minimap_Display);
+
+	Tutorial_Button = CreateVoidBox(TutorialOpen, fPoint(width / 4, height / 1.15), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	Tutorial_Label = CreateText(fPoint(width / 4, height / 1.15), "TUTORIAL", font_id::MOLOT, White, false, Tutorial_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+	Tutorial_Arrow_Foreward = CreateVoidBox(NextPage_Tutorial, fPoint(width / 1.7, height / 1.15), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Tutorial_Arrow_Foreward_Label = CreateImage(fPoint(width /1.7, height / 1.15), SDL_Rect({ 1,169,32,22 }), StartGame_text, false,Tutorial_Arrow_Foreward, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Tutorial_Arrow_Back = CreateVoidBox(BackPage_Tutorial, fPoint(width / 2.45, height / 1.15), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Tutorial_Arrow_Back_Label = CreateImage(fPoint(width / 2.45, height / 1.15), SDL_Rect({ 0,191,32,22 }), StartGame_text, false, Tutorial_Arrow_Back, nullptr, Screen_Type::SCREEN_OPTIONS);
+
+	ReturnfromTutorial_Button = CreateVoidBox(QuitTutorial, fPoint(width / 3.39, height / 1.10), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	ReturnfromTutorial_Label = CreateText(fPoint(width / 3.8, height / 1.12), "RETURN", font_id::MOLOT, White, false, ReturnfromTutorial_Button, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	ReturnfromTutorial_Button->ChangeSize(0.6f);
+	Tutorial_Arrow_Foreward->Deactivate();
+	Tutorial_Arrow_Back->Deactivate();
+	ReturnfromTutorial_Button->Deactivate();
 
 
 	OptionsPanel = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,906,657 }), Options_tex,false,nullptr,nullptr,Screen_Type::SCREEN_OPTIONS);
@@ -356,7 +373,7 @@ bool User_Interface::Start()
 void User_Interface::ActivateScreen(std::list<UI_Element*> list) {
 
 	for (std::list<UI_Element*>::iterator iter = list.begin(); iter != list.end(); iter = next(iter)) {
-		if ((*iter)->active == false) {
+		if ((*iter)->active == false&&(*iter)->mustDestroy==false) {
 			if((*iter)!=pauseMenuPanel)
 				(*iter)->Activate();
 		}
@@ -366,7 +383,7 @@ void User_Interface::ActivateScreen(std::list<UI_Element*> list) {
 void User_Interface::DeactivateScreen(std::list<UI_Element*> list) {
 
 	for (std::list<UI_Element*>::iterator iter = list.begin(); iter != list.end(); iter = next(iter)) {
-		if ((*iter)->active == true) {
+		if ((*iter)->active == true && (*iter)->mustDestroy == false) {
 			(*iter)->Deactivate();
 		}
 	}

@@ -107,6 +107,7 @@
     <ClCompile Include="Static_Object.cpp" />
     <ClCompile Include="theoraplay.c" />
     <ClCompile Include="TileQuadtree.cpp" />
+    <ClCompile Include="TutorialBox.cpp" />
     <ClCompile Include="UnitButton.cpp" />
     <ClCompile Include="Unit_Panel.cpp" />
     <ClCompile Include="UserInterface.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Static_Object.h" />
     <ClInclude Include="theoraplay.h" />
     <ClInclude Include="TileQuadtree.h" />
+    <ClInclude Include="TutorialBox.h" />
     <ClInclude Include="UnitButton.h" />
     <ClInclude Include="Unit_Panel.h" />
     <ClInclude Include="Vector.h" />

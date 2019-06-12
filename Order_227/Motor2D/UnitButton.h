@@ -17,6 +17,7 @@ public:
 	Unit_Box(event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0, int unitCost=0,bool* _abletoCraft=nullptr,SDL_Scancode Hotkey=SDL_SCANCODE_0, ui_type type = ui_type::ACTION_BOX);
 	bool Start() override;
 
+	void ResetButton() { Queue = 0; Animation.Reset(); startCreationUnit=false; }
 	int Queue;
 
 protected:
@@ -27,7 +28,6 @@ protected:
 	void OnHotkey();
 	bool Draw() override;
 	void DoAction();
-
 
 protected:
 	

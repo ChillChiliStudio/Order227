@@ -14,6 +14,7 @@
 #include "Audio.h"
 #include "UnitButton.h"
 #include "VoidBox.h"
+#include "TutorialBox.h"
 #include "Window.h"
 
 void CreateConscript() {
@@ -155,12 +156,7 @@ void StartGame() {
 
 	myApp->gui->DeactivateScreen(myApp->gui->Main_Menu_Elements);
 	myApp->gui->ActivateScreen(myApp->gui->InGame_Elements);
-	
-	myApp->gui->ConscriptCreator->Queue = 0;
-	myApp->gui->FlakCreator->Queue = 0;
-	myApp->gui->SniperCreator->Queue = 0;
-	myApp->gui->ChronoCreator->Queue = 0;
-	myApp->gui->DesolatorCreator->Queue = 0;
+
 
 	myApp->hordes->restartRounds();
 	myApp->player->playerMoney = myApp->player->initialMoney; //TODO Deharcode
@@ -205,6 +201,12 @@ void QuitGame() {
 			myApp->entities->DeActivateUnit(&myApp->entities->launcherPool[i]);
 		}
 	}
+
+	myApp->gui->ConscriptCreator->ResetButton();
+	myApp->gui->FlakCreator->ResetButton();
+	myApp->gui->SniperCreator->ResetButton();
+	myApp->gui->ChronoCreator->ResetButton();
+	myApp->gui->DesolatorCreator->ResetButton();
 	myApp->gui->DeactivateScreen(myApp->gui->InGame_Elements);
 	myApp->gui->ActivateScreen(myApp->gui->Main_Menu_Elements);
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_MAINMENU);
@@ -263,4 +265,34 @@ void Hotkeys_Options() {
 	myApp->gui->Hotkey_Left->Activate();
 	myApp->gui->Hotkey_Right->Activate();
 
+}
+void QuitTutorial() {
+	myApp->gui->Tutorial->currentPage = 0;
+	myApp->gui->Tutorial->Rect.x = 0;
+	myApp->gui->Tutorial->Deactivate();
+	myApp->gui->Tutorial_Arrow_Foreward->Deactivate();
+	myApp->gui->Tutorial_Arrow_Back->Deactivate();
+	myApp->gui->ReturnfromTutorial_Button->Deactivate();
+	myApp->gui->ReturnfromTutorial_Label->Deactivate();
+	myApp->gui->ActivateScreen(myApp->gui->Main_Menu_Elements);
+}
+
+void TutorialOpen() {
+
+	myApp->gui->DeactivateScreen(myApp->gui->Main_Menu_Elements);
+	myApp->gui->Tutorial->Activate();
+	myApp->gui->Tutorial_Arrow_Foreward->Activate();
+	myApp->gui->Tutorial_Arrow_Back->Activate();
+	myApp->gui->ReturnfromTutorial_Button->Activate();
+	myApp->gui->ReturnfromTutorial_Label->Activate();
+}
+void NextPage_Tutorial() {
+	if(myApp->gui->Tutorial->movingforeward==false&& myApp->gui->Tutorial->movingBackward==false
+		&&myApp->gui->Tutorial->currentPage < 7)
+		myApp->gui->Tutorial->Front = true;
+}
+void BackPage_Tutorial() {
+	if (myApp->gui->Tutorial->movingforeward == false && myApp->gui->Tutorial->movingBackward == false
+		&&myApp->gui->Tutorial->currentPage>0)
+		myApp->gui->Tutorial->Back = true;
 }
