@@ -266,6 +266,8 @@ bool User_Interface::Start()
 	Credits_Button = CreateVoidBox(OpenCredits, fPoint(width / 1.3, height / 1.16), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
 	Credits_Label = CreateText(fPoint(width / 1.3, height / 1.16), "CREDITS", font_id::MOLOT, White, false, Credits_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
 
+
+	//CREDITS LINKS
 	Lucho_Button = CreateVoidBox(LuchoPage, fPoint(width / 6, height / 2.4), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Lucho_Label = CreateText(fPoint(width / 3.55, height / 2.48), "Lucho Suaya", font_id::MOLOT, White, false, Lucho_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Lucho_Rol = CreateText(fPoint(width / 4.25, height / 2.2), "Lead", font_id::MOLOT, White, false, Lucho_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
@@ -278,12 +280,37 @@ bool User_Interface::Start()
 
 	Roger_Button = CreateVoidBox(RogerPage, fPoint(width / 6, height / 1.41), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Roger_Label = CreateText(fPoint(width / 3.55, height / 1.46), "Roger Leon", font_id::MOLOT, White, false, Roger_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Roger_Rol = CreateText(fPoint(width / 4.0, height / 1.38), "Artist", font_id::MOLOT, White, false, Roger_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Roger_Rol = CreateText(fPoint(width / 4.40, height / 1.38), "UI", font_id::MOLOT, White, false, Roger_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Roger_Button->Deactivate();
+
+	//controlc control v
+
+	Adri_Button = CreateVoidBox(AdriPage, fPoint(width / 2.3, height / 1.78), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Adri_Label = CreateText(fPoint(width / 1.78, height / 1.83), "Adrian Font", font_id::MOLOT, White, false, Adri_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Adri_Rol = CreateText(fPoint(width / 1.9, height / 1.70), "Artist", font_id::MOLOT, White, false, Adri_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Adri_Button->Deactivate();
+
+	Joan_Button = CreateVoidBox(JoanPage, fPoint(width / 1.35, height / 1.78), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Joan_Label = CreateText(fPoint(width / 1.17, height / 1.85), "Joan Marin", font_id::MOLOT, White, false, Joan_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Joan_Rol = CreateText(fPoint(width / 1.22, height / 1.72), "Code", font_id::MOLOT, White, false, Joan_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Joan_Button->Deactivate();
+
+	Carles_Button = CreateVoidBox(CarlesPage, fPoint(width / 1.35, height / 1.41), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Carles_Label = CreateText(fPoint(width / 1.17, height / 1.46), "Carles Homs", font_id::MOLOT, White, false, Carles_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Carles_Rol = CreateText(fPoint(width / 1.22, height / 1.38), "Design", font_id::MOLOT, White, false, Carles_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Carles_Button->Deactivate();
+
+	Rafel_Button = CreateVoidBox(RafelPage, fPoint(width / 2.3, height / 1.41), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Rafel_Label = CreateText(fPoint(width / 1.8, height / 1.46), "Rafel Brau", font_id::MOLOT, White, false, Rafel_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Rafel_Rol = CreateText(fPoint(width / 1.95, height / 1.38), "Q&A", font_id::MOLOT, White, false, Rafel_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Rafel_Button->Deactivate();
+
 
 	ReturnfromCredits_Button= CreateVoidBox(CloseCredits, fPoint(width / 2, height / 1.15), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
 	ReturnfromCredits_Label= CreateText(fPoint(width / 2, height / 1.15), "RETURN", font_id::MOLOT, White, false, ReturnfromCredits_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	ReturnfromCredits_Button->Deactivate();
+
+	
 
 
 	Minimap_Display = new  MiniMap_UI();

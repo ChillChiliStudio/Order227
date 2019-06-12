@@ -323,6 +323,10 @@ void OpenCredits() {
 	myApp->gui->Lucho_Button->Activate();
 	myApp->gui->Jaume_Button->Activate();
 	myApp->gui->Roger_Button->Activate();
+	myApp->gui->Adri_Button->Activate();
+	myApp->gui->Joan_Button->Activate();
+	myApp->gui->Carles_Button->Activate();
+	myApp->gui->Rafel_Button->Activate();
 	myApp->gui->ReturnfromCredits_Button->Activate();
 }
 void CloseCredits() {
@@ -330,6 +334,10 @@ void CloseCredits() {
 	myApp->gui->Lucho_Button->Deactivate();
 	myApp->gui->Jaume_Button->Deactivate();
 	myApp->gui->Roger_Button->Deactivate();
+	myApp->gui->Adri_Button->Deactivate();
+	myApp->gui->Joan_Button->Deactivate();
+	myApp->gui->Carles_Button->Deactivate();
+	myApp->gui->Rafel_Button->Deactivate();
 	myApp->gui->ReturnfromCredits_Button->Deactivate();
 
 }
@@ -337,20 +345,20 @@ void LuchoPage() {
 	ShellExecuteA(NULL, "open", "https://github.com/lucho1", NULL, NULL, SW_SHOWNORMAL);
 }
 void RogerPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/lucho1", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://github.com/rleonborras", NULL, NULL, SW_SHOWNORMAL);
 }
 void AdriPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/lucho1", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://github.com/AdrianFR99", NULL, NULL, SW_SHOWNORMAL);
 }
 void JaumePage() {
-	ShellExecuteA(NULL, "open", "https://github.com/lucho1", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://github.com/Jaumeavinyo", NULL, NULL, SW_SHOWNORMAL);
 }
 void JoanPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/lucho1", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://github.com/X0KA", NULL, NULL, SW_SHOWNORMAL);
 }
 void CarlesPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/lucho1", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://github.com/ch0m5", NULL, NULL, SW_SHOWNORMAL);
 }
 void RafelPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/lucho1", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://github.com/Rafefix", NULL, NULL, SW_SHOWNORMAL);
 }
