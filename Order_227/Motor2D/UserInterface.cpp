@@ -269,13 +269,13 @@ bool User_Interface::Start()
 
 	//CREDITS LINKS
 	Lucho_Button = CreateVoidBox(LuchoPage, fPoint(width / 6, height / 2.4), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Lucho_Label = CreateText(fPoint(width / 3.55, height / 2.48), "Lucho Suaya", font_id::MOLOT, White, false, Lucho_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Lucho_Rol = CreateText(fPoint(width / 4.25, height / 2.2), "Lead", font_id::MOLOT, White, false, Lucho_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Lucho_Label = CreateText(fPoint(width / 3.47, height / 2.48), "Lucho Suaya", font_id::MOLOT, White, false, Lucho_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Lucho_Rol = CreateText(fPoint(width / 4.17, height / 2.2), "Lead", font_id::MOLOT, White, false, Lucho_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Lucho_Button->Deactivate();
 
 	Jaume_Button = CreateVoidBox(JaumePage, fPoint(width / 6, height / 1.78), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Jaume_Label = CreateText(fPoint(width / 3.45, height / 1.85), "Jaume Avinyo", font_id::MOLOT, White, false, Jaume_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Jaume_Rol = CreateText(fPoint(width / 3.85, height / 1.72), "Manager", font_id::MOLOT, White, false, Jaume_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Jaume_Label = CreateText(fPoint(width / 3.37, height / 1.85), "Jaume Avinyo", font_id::MOLOT, White, false, Jaume_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Jaume_Rol = CreateText(fPoint(width / 3.77, height / 1.72), "Manager", font_id::MOLOT, White, false, Jaume_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Jaume_Button->Deactivate();
 
 	Roger_Button = CreateVoidBox(RogerPage, fPoint(width / 6, height / 1.41), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
@@ -296,8 +296,8 @@ bool User_Interface::Start()
 	Joan_Button->Deactivate();
 
 	Carles_Button = CreateVoidBox(CarlesPage, fPoint(width / 1.35, height / 1.41), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Carles_Label = CreateText(fPoint(width / 1.17, height / 1.46), "Carles Homs", font_id::MOLOT, White, false, Carles_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Carles_Rol = CreateText(fPoint(width / 1.22, height / 1.38), "Design", font_id::MOLOT, White, false, Carles_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Carles_Label = CreateText(fPoint(width / 1.16, height / 1.46), "Carles Homs", font_id::MOLOT, White, false, Carles_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Carles_Rol = CreateText(fPoint(width / 1.21, height / 1.38), "Design", font_id::MOLOT, White, false, Carles_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Carles_Button->Deactivate();
 
 	Rafel_Button = CreateVoidBox(RafelPage, fPoint(width / 2.3, height / 1.41), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
