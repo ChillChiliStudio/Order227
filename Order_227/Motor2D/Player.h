@@ -35,6 +35,10 @@ public:
 	bool PostUpdate() override;
 	bool CleanUp() override;
 
+	// Save and Load
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&);
+
 	//Inputs
 	void UpdateMousePos();
 	void CameraInputs(float dt);
@@ -64,11 +68,6 @@ public:
 	void FinishSelect();
 	void UpdateText();
 	void MoveText();
-
-	//Key Configuration
-	void ReconfigureKey() {
-
-	}
 
 public:
 

@@ -18,41 +18,15 @@ Controls::Controls()
 Controls::~Controls()
 {}
 
-bool Controls::Awake(pugi::xml_node& node)
+bool Controls::Awake(pugi::xml_node& config)
 {
-	//Debug
-	debug.debugMap = node.child("debug").attribute("map").as_int(SDL_SCANCODE_F11);
-	debug.debugUI = node.child("debug").attribute("gui").as_int(SDL_SCANCODE_F10);
-	debug.debugEntities = node.child("debug").attribute("entities").as_int(SDL_SCANCODE_F9);
-	debug.nextRound = node.child("debug").attribute("next_round").as_int(SDL_SCANCODE_F8);
-	//debug.clearEnemies = node.child("debug").attribute("???").as_int(???);
-
-	debug.spawnBlueDog = node.child("debug").attribute("spawn_blue_dog").as_int(SDL_SCANCODE_F7);
-	debug.spawnBlueChrono = node.child("debug").attribute("spawn_blue_chrono").as_int(SDL_SCANCODE_F6);
-	debug.spawnBlueSniper = node.child("debug").attribute("spawn_blue_sniper").as_int(SDL_SCANCODE_F5);
-
-	debug.spawnRedChrono = node.child("debug").attribute("spawn_red_chrono").as_int(SDL_SCANCODE_F4);
-	debug.spawnRedDesolator = node.child("debug").attribute("spawn_red_desolator").as_int(SDL_SCANCODE_F3);
-	debug.spawnRedBazooka = node.child("debug").attribute("spawn_red_bazooka").as_int(SDL_SCANCODE_F2);
-	debug.spawnRedConscript = node.child("debug").attribute("spawn_red_conscript").as_int(SDL_SCANCODE_F1);
-
-	//Mouse
-	mouse.select = node.child("mouse").attribute("select").as_int(SDL_BUTTON_LEFT);
-	mouse.issueOrders = node.child("mouse").attribute("issue_orders").as_int(SDL_BUTTON_RIGHT);
-
-	//Camera
-	camera.up = node.child("camera").attribute("up").as_int(SDL_SCANCODE_W);
-	camera.down = node.child("camera").attribute("down").as_int(SDL_SCANCODE_S);
-	camera.left = node.child("camera").attribute("left").as_int(SDL_SCANCODE_A);
-	camera.right = node.child("camera").attribute("right").as_int(SDL_SCANCODE_D);
-
-	//Orders
-	orders.hold = node.child("orders").attribute("hold").as_int(SDL_SCANCODE_SPACE);
-	orders.hunt = node.child("orders").attribute("hunt").as_int(SDL_SCANCODE_Q);
-	orders.patrol = node.child("orders").attribute("patrol").as_int(SDL_SCANCODE_E);
-
-	orders.defensive = node.child("orders").attribute("defensive").as_int(SDL_SCANCODE_LSHIFT);
-	orders.aggressive = node.child("orders").attribute("aggressive").as_int(SDL_SCANCODE_LCTRL);
+	if (myApp->saveFileExists) {	//If save file exists, load control configuration from that file, otherwise use default config
+		pugi::xml_document	save_file;
+		Load(myApp->LoadSaveFile(save_file).child(name.c_str()));
+	}
+	else {
+		Load(config);
+	}
 
 	return true;
 }
@@ -120,6 +94,91 @@ bool Controls::CleanUp()
 {
 	mouseButtonsInUse.clear();
 	keysInUse.clear();
+
+	return true;
+}
+
+// Save and Load
+bool Controls::Load(pugi::xml_node& node)
+{
+	//Debug
+	debug.debugMap = node.child("debug").attribute("map").as_int(SDL_SCANCODE_F11);
+	debug.debugUI = node.child("debug").attribute("gui").as_int(SDL_SCANCODE_F10);
+	debug.debugEntities = node.child("debug").attribute("entities").as_int(SDL_SCANCODE_F9);
+	debug.nextRound = node.child("debug").attribute("next_round").as_int(SDL_SCANCODE_F8);
+	//debug.clearEnemies = node.child("debug").attribute("???").as_int(???);
+
+	debug.spawnBlueDog = node.child("debug").attribute("spawn_blue_dog").as_int(SDL_SCANCODE_F7);
+	debug.spawnBlueChrono = node.child("debug").attribute("spawn_blue_chrono").as_int(SDL_SCANCODE_F6);
+	debug.spawnBlueSniper = node.child("debug").attribute("spawn_blue_sniper").as_int(SDL_SCANCODE_F5);
+
+	debug.spawnRedChrono = node.child("debug").attribute("spawn_red_chrono").as_int(SDL_SCANCODE_F4);
+	debug.spawnRedDesolator = node.child("debug").attribute("spawn_red_desolator").as_int(SDL_SCANCODE_F3);
+	debug.spawnRedBazooka = node.child("debug").attribute("spawn_red_bazooka").as_int(SDL_SCANCODE_F2);
+	debug.spawnRedConscript = node.child("debug").attribute("spawn_red_conscript").as_int(SDL_SCANCODE_F1);
+
+	//Mouse
+	mouse.select = node.child("mouse").attribute("select").as_int(SDL_BUTTON_LEFT);
+	mouse.issueOrders = node.child("mouse").attribute("issue_orders").as_int(SDL_BUTTON_RIGHT);
+
+	//Camera
+	camera.up = node.child("camera").attribute("up").as_int(SDL_SCANCODE_W);
+	camera.down = node.child("camera").attribute("down").as_int(SDL_SCANCODE_S);
+	camera.left = node.child("camera").attribute("left").as_int(SDL_SCANCODE_A);
+	camera.right = node.child("camera").attribute("right").as_int(SDL_SCANCODE_D);
+
+	//Orders
+	orders.hold = node.child("orders").attribute("hold").as_int(SDL_SCANCODE_SPACE);
+	orders.hunt = node.child("orders").attribute("hunt").as_int(SDL_SCANCODE_Q);
+	orders.patrol = node.child("orders").attribute("patrol").as_int(SDL_SCANCODE_E);
+
+	orders.defensive = node.child("orders").attribute("defensive").as_int(SDL_SCANCODE_LSHIFT);
+	orders.aggressive = node.child("orders").attribute("aggressive").as_int(SDL_SCANCODE_LCTRL);
+
+	return true;
+}
+
+bool Controls::Save(pugi::xml_node& node)
+{
+	pugi::xml_node tmpNode;
+
+	//Debug
+	tmpNode = node.append_child("debug");
+	tmpNode.append_attribute("map") = debug.debugMap;
+	tmpNode.append_attribute("gui") = debug.debugUI;
+	tmpNode.append_attribute("entities") = debug.debugEntities;
+	tmpNode.append_attribute("next_round") = debug.nextRound;
+	//tmpNode.append_attribute("???") = debug.clearEnemies;
+
+	tmpNode.append_attribute("spawn_blue_dog") = debug.spawnBlueDog;
+	tmpNode.append_attribute("spawn_blue_chrono") = debug.spawnBlueChrono;
+	tmpNode.append_attribute("spawn_blue_sniper") = debug.spawnBlueSniper;
+
+	tmpNode.append_attribute("spawn_red_chrono") = debug.spawnRedChrono;
+	tmpNode.append_attribute("spawn_red_desolator") = debug.spawnRedDesolator;
+	tmpNode.append_attribute("spawn_red_bazooka") = debug.spawnRedBazooka;
+	tmpNode.append_attribute("spawn_red_conscript") = debug.spawnRedConscript;
+
+	//Mouse
+	tmpNode = node.append_child("mouse");
+	tmpNode.append_attribute("select") = mouse.select;
+	tmpNode.append_attribute("issue_orders") = mouse.issueOrders;
+
+	//Camera
+	tmpNode = node.append_child("camera");
+	tmpNode.append_attribute("up") = camera.up;
+	tmpNode.append_attribute("down") = camera.down;
+	tmpNode.append_attribute("left") = camera.left;
+	tmpNode.append_attribute("right") = camera.right;
+
+	//Orders
+	tmpNode = node.append_child("orders");
+	tmpNode.append_attribute("hold") = orders.hold;
+	tmpNode.append_attribute("hunt") = orders.hunt;
+	tmpNode.append_attribute("patrol") = orders.patrol;
+
+	tmpNode.append_attribute("defensive") = orders.defensive;
+	tmpNode.append_attribute("aggressive") = orders.aggressive;
 
 	return true;
 }

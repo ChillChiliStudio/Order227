@@ -9,8 +9,11 @@
 #include "Map.h"
 #include "Pathfinding.h"
 #include "Entity_Manager.h"
+
 GroupManager::GroupManager()
-{}
+{
+	name.assign("group_manager");
+}
 
 GroupManager::~GroupManager()
 {}

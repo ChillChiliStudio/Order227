@@ -55,10 +55,13 @@ bool Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
-	// Load volumes
-	masterVolume = config.attribute("volume").as_uint();
-	musicVolume = config.child("music").attribute("volume").as_uint();
-	sfxVolume = config.child("sfx").attribute("volume").as_uint();
+	if (myApp->saveFileExists) {	//If save file exists, load saved audio from that file, otherwise use default audio
+		pugi::xml_document	save_file;
+		Load(myApp->LoadSaveFile(save_file).child(name.c_str()));
+	}
+	else {
+		Load(config);
+	}
 
 	// Set channel volume
 	SetMasterVolume();
@@ -112,6 +115,31 @@ bool Audio::CleanUp()
 	Mix_CloseAudio();
 	Mix_Quit();
 	SDL_QuitSubSystem(SDL_INIT_AUDIO);
+
+	return true;
+}
+
+// Save and Load
+bool Audio::Load(pugi::xml_node& node)
+{
+	masterVolume = node.attribute("volume").as_uint();
+	musicVolume = node.child("music").attribute("volume").as_uint();
+	sfxVolume = node.child("sfx").attribute("volume").as_uint();
+
+	return true;
+}
+
+bool Audio::Save(pugi::xml_node& node)
+{
+	pugi::xml_node tmpNode;
+
+	node.append_attribute("volume") = masterVolume;
+
+	tmpNode = node.append_child("music");
+	tmpNode.append_attribute("volume") = musicVolume;
+
+	tmpNode = node.append_child("sfx");
+	tmpNode.append_attribute("volume") = sfxVolume;
 
 	return true;
 }

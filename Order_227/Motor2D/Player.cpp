@@ -79,12 +79,14 @@ bool Player::Update(float dt)
 	//if (unitCreationCD.ReadSec() >= 10) {
 	//	startCreationUnit = false;
 	//}
+
 	if (myApp->gui->MainMenuTemp_Image->active == false) {
 
 		UpdateMousePos();	// Mouse Position Update
 		if (!myApp->gui->OnPause) {
 			CameraInputs(dt);	// Camera Inputs
 		}
+
 		DebugInputs();		// Debug Inputs
 
 		PlayerSelect();		// Player Area Selection Management
@@ -112,7 +114,14 @@ bool Player::Update(float dt)
 				Mix_Resume(-1);
 			}
 		}
+
+		/*if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+			myApp->SaveGame();
+		}*/
 	}
+	/*else if (myApp->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+		myApp->LoadGame();
+	}*/
 
 	if (incomeTimer.ReadSec() >= 2 && myApp->gui->Current_Screen==Screen_Type::SCREEN_INGAME&& !myApp->gui->OnPause) {
 		playerMoney += playerIncome;
@@ -130,6 +139,27 @@ bool Player::Update(float dt)
 
 bool Player::CleanUp()
 {
+	return true;
+}
+
+// Save and Load
+bool Player::Load(pugi::xml_node& node)
+{
+	playerMoney = node.attribute("money").as_int();
+	playerIncome = node.attribute("income").as_int();
+	incomeTimer.StartFrom(node.attribute("income_timer").as_int());
+	IncomeGiven = node.attribute("income_received").as_bool();
+
+	return true;
+}
+
+bool Player::Save(pugi::xml_node& node)
+{
+	node.append_attribute("money") = playerMoney;
+	node.append_attribute("income") = playerIncome;
+	node.append_attribute("income_timer") = incomeTimer.Read();
+	node.append_attribute("income_received") = IncomeGiven;
+
 	return true;
 }
 
@@ -247,7 +277,7 @@ void Player::DebugInputs()
 			}
 		}
 
-		if (myApp->input->GetKey(myApp->controls->debug.debugEntities) == KEY_DOWN) {	// Toggle Entities debug draw
+		if (myApp->input->GetKey(myApp->controls->debug.debugEntities) == KEY_DOWN) {		// Toggle Entities debug draw
 			myApp->entities->entitiesDebugDraw = !myApp->entities->entitiesDebugDraw;
 
 			if (myApp->entities->entitiesDebugDraw) {
@@ -258,24 +288,24 @@ void Player::DebugInputs()
 			}
 		}
 
-		if (myApp->input->GetKey(myApp->controls->debug.nextRound) == KEY_DOWN) {	// Activate Next Round
+		if (myApp->input->GetKey(myApp->controls->debug.nextRound) == KEY_DOWN) {			// Activate Next Round
 			myApp->hordes->ChooseSpawningPoints();
 		}
 
-		if (myApp->input->GetKey(myApp->controls->debug.spawnBlueDog) == KEY_DOWN) {	// Spawn Enemy Dog Mouse
+		if (myApp->input->GetKey(myApp->controls->debug.spawnBlueDog) == KEY_DOWN) {		// Spawn Enemy Dog Mouse
 			DebugSpawnUnit(infantry_type::DOG, entity_faction::CAPITALIST);
 		}
 
-		if (myApp->input->GetKey(myApp->controls->debug.spawnBlueChrono) == KEY_DOWN) {	// Spawn Enemy Chrono Mouse (Old: Kill/Deactivate all enemies)
+		if (myApp->input->GetKey(myApp->controls->debug.spawnBlueChrono) == KEY_DOWN) {		// Spawn Enemy Chrono Mouse (Old: Kill/Deactivate all enemies)
 			/*myApp->hordes->ClearEnemies();*/
 			DebugSpawnUnit(infantry_type::CHRONO, entity_faction::CAPITALIST);
 
 		}
-		if (myApp->input->GetKey(myApp->controls->debug.spawnBlueSniper) == KEY_DOWN) {	// Spawn Enemy Sniper Mouse
+		if (myApp->input->GetKey(myApp->controls->debug.spawnBlueSniper) == KEY_DOWN) {		// Spawn Enemy Sniper Mouse
 			DebugSpawnUnit(infantry_type::SNIPER, entity_faction::CAPITALIST);
 		}
 
-		if (myApp->input->GetKey(myApp->controls->debug.spawnRedChrono) == KEY_DOWN) {	// Spawn Chrono Mouse
+		if (myApp->input->GetKey(myApp->controls->debug.spawnRedChrono) == KEY_DOWN) {		// Spawn Chrono Mouse
 			DebugSpawnUnit(infantry_type::CHRONO, entity_faction::COMMUNIST);
 		}
 
@@ -283,14 +313,13 @@ void Player::DebugInputs()
 			DebugSpawnUnit(infantry_type::DESOLATOR, entity_faction::COMMUNIST);
 		}
 
-		if (myApp->input->GetKey(myApp->controls->debug.spawnRedBazooka) == KEY_DOWN) {	// Spawn Bazooka on Mouse
+		if (myApp->input->GetKey(myApp->controls->debug.spawnRedBazooka) == KEY_DOWN) {		// Spawn Bazooka on Mouse
 			DebugSpawnLauncher(infantry_type::BAZOOKA, entity_faction::COMMUNIST);
 		}
 
 		if (myApp->input->GetKey(myApp->controls->debug.spawnRedConscript) == KEY_DOWN) {	// Spawn Conscript on Mouse
 			DebugSpawnUnit(infantry_type::CONSCRIPT, entity_faction::COMMUNIST);
 		}
-
 	}
 }
 
