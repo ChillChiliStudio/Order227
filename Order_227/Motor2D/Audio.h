@@ -7,7 +7,7 @@
 
 #define FACTION_NUM 2
 #define VARIATION_PER_SOUND 4
-#define MAX_INFANTRY_NUMBER 8
+#define MAX_INFANTRY_NUMBER 9
 #define MAX_BUILDING_NUMBER 7
 
 struct _Mix_Music;

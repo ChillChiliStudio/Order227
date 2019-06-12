@@ -240,7 +240,6 @@ void Unit::UpdateAnimation()
 	
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
 
-
 }
 
 // Order processing
@@ -532,14 +531,13 @@ float Unit::Hurt(float damage)
 void Unit::Die()
 {
 	selected = false;
-
 	despawnTimer.Start();
 	unitOrders = unit_orders::NONE;
 	unitState = unit_state::DEAD;
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0]);
-
 	int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::HURT];
 	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)type_sounds::HURT][rand() % Aux], 0, CHANNEL_HURT, centerPos, true);
+
 }
 
  //Unit Data

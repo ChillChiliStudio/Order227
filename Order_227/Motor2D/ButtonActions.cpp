@@ -170,6 +170,7 @@ void QuitGame() {
 	//myApp->audio->PlayMusic();
 	myApp->gui->LoseIcon->Deactivate();
 	myApp->gui->WinIcon->Deactivate();
+	myApp->entities->heavyUnitsUnlocked = false;
 
 	//MUSIC
 	//myApp->audio->PlayMusic("audio/music/main_menu/menu_song_loop.ogg",-1);
