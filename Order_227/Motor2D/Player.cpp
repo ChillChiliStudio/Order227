@@ -115,8 +115,8 @@ bool Player::Update(float dt)
 			}
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
-			myApp->entities->ActivateUnit(fPoint((float)mousePos.x, (float)mousePos.y), infantry_type::ENGINEER, entity_faction::COMMUNIST);
+		/*if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+			myApp->entities->ActivateUnit(fPoint((float)mousePos.x, (float)mousePos.y), infantry_type::ENGINEER, entity_faction::COMMUNIST);*/
 
 		/*if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
 			myApp->SaveGame();
