@@ -271,18 +271,18 @@ bool User_Interface::Start()
 	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/2.0),TempButtonRect,StartGame_text,nullptr,Screen_Type::SCREEN_MAINMENU);
 	StartGame_Label = CreateText(fPoint(width / 2, height / 2.0), "START GAME", font_id::MOLOT,White,false,StartGame_Button,1.0f,nullptr, Screen_Type::SCREEN_MAINMENU);
 
-	ContinueGame_Button = CreateVoidBox(RequestMenuLoad, fPoint(width / 2, height / 2.0 + 90), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
-	ContinueGame_Label = CreateText(fPoint(width / 2, height / 2.0 + 90), "CONTINUE", font_id::MOLOT, White, false, ContinueGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+	ContinueGame_Button = CreateVoidBox(RequestMenuLoad, fPoint(width / 2, height * 0.625), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	ContinueGame_Label = CreateText(fPoint(width / 2, height * 0.625), "CONTINUE", font_id::MOLOT, White, false, ContinueGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
 
 	if (!myApp->saveFileExists) {
 		ContinueGame_Button->Disable();
 	}
 
-	OptionsGame_Button = CreateVoidBox(OptionsOpen, fPoint(width - width / 2, height / 2.0 + 180), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
-	OptionsGame_Label = CreateText(fPoint(width - width / 2, height / 2.0 + 180), "OPTIONS", font_id::MOLOT, White, false, OptionsGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+	OptionsGame_Button = CreateVoidBox(OptionsOpen, fPoint(width - width / 2, height * 0.75), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	OptionsGame_Label = CreateText(fPoint(width - width / 2, height * 0.75), "OPTIONS", font_id::MOLOT, White, false, OptionsGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
 
-	ExitGame_Button = CreateVoidBox(CloseGame, fPoint(width - width / 2, height / 2.0 + 270), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
-	ExitGame_Label = CreateText(fPoint(width - width / 2, height / 2.0 + 270), "QUIT GAME", font_id::MOLOT, White, false, ExitGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+	ExitGame_Button = CreateVoidBox(CloseGame, fPoint(width - width / 2, height * 0.88), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	ExitGame_Label = CreateText(fPoint(width - width / 2, height * 0.88), "QUIT GAME", font_id::MOLOT, White, false, ExitGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
 
 	Minimap_Display = new  MiniMap_UI();
 	Tutorial = new TutorialBox(fPoint(width / 2, height / 2),SDL_Rect({ 0,0,906,657 }),Tutorial_Tex);
@@ -291,8 +291,8 @@ bool User_Interface::Start()
 	AddElement(Minimap_Display);
 	InGame_Elements.push_back(Minimap_Display);
 
-	Tutorial_Button = CreateVoidBox(TutorialOpen, fPoint(width / 4, height / 2.0 + 270), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
-	Tutorial_Label = CreateText(fPoint(width / 4, height / 1.15), "TUTORIAL", font_id::MOLOT, White, false, Tutorial_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+	Tutorial_Button = CreateVoidBox(TutorialOpen, fPoint(width / 4, height * 0.88), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	Tutorial_Label = CreateText(fPoint(width / 4, height * 0.88), "TUTORIAL", font_id::MOLOT, White, false, Tutorial_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
 	Tutorial_Arrow_Foreward = CreateVoidBox(NextPage_Tutorial, fPoint(width / 1.7, height / 1.15), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Tutorial_Arrow_Foreward_Label = CreateImage(fPoint(width /1.7, height / 1.15), SDL_Rect({ 1,169,32,22 }), StartGame_text, false,Tutorial_Arrow_Foreward, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Tutorial_Arrow_Back = CreateVoidBox(BackPage_Tutorial, fPoint(width / 2.45, height / 1.15), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
