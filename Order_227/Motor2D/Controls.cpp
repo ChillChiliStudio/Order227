@@ -8,7 +8,11 @@
 #include "Input.h"
 #include "Window.h"
 #include "Audio.h"
+#include "UserInterface.h"
+#include "KeyConfig.h"
 #include "SDL/include/SDL.h"
+
+#define stringify( name ) # name
 
 Controls::Controls()
 {
@@ -38,6 +42,8 @@ bool Controls::Start()
 
 	AllocateLists();
 
+	CreateKeyboardStrings();
+
 	return true;
 }
 
@@ -65,8 +71,13 @@ bool Controls::Update(float dt)
 				else {
 					UpdateKey(i);
 				}
-
+				
 				awaitingInput = false;
+
+				buttonUsed->OnIdle();
+				buttonUsed->UpdateText();
+				buttonUsed = nullptr;
+
 				break;
 			}
 		}
@@ -217,9 +228,9 @@ void Controls::AllocateLists()
 	keysInUse.push_back(pause);
 }
 
-void Controls::PrepareInputChange(int& selectedInput)
+void Controls::PrepareInputChange(int* selectedInput)
 {
-	inputToChange = &selectedInput;
+	inputToChange = selectedInput;
 	awaitingInput = true;
 }
 
@@ -308,4 +319,350 @@ void Controls::UpdateConfig(int newVal)
 
 		config_file.save_file("config.xml");
 	}
+}
+
+std::string Controls::TranslateKeycode(int i)
+{
+	return keyNames[i];
+}
+
+void Controls::CreateKeyboardStrings()
+{
+	keyNames[SDL_SCANCODE_UNKNOWN].assign(stringify(NONE));
+	keyNames[SDL_SCANCODE_A].assign(stringify(A));
+	keyNames[SDL_SCANCODE_B].assign(stringify(B));
+	keyNames[SDL_SCANCODE_C].assign(stringify(C));
+	keyNames[SDL_SCANCODE_D].assign(stringify(D));
+	keyNames[SDL_SCANCODE_E].assign(stringify(E));
+	keyNames[SDL_SCANCODE_F].assign(stringify(F));
+	keyNames[SDL_SCANCODE_G].assign(stringify(G));
+	keyNames[SDL_SCANCODE_H].assign(stringify(H));
+	keyNames[SDL_SCANCODE_I].assign(stringify(I));
+	keyNames[SDL_SCANCODE_J].assign(stringify(J));
+	keyNames[SDL_SCANCODE_K].assign(stringify(K));
+	keyNames[SDL_SCANCODE_L].assign(stringify(L));
+	keyNames[SDL_SCANCODE_M].assign(stringify(M));
+	keyNames[SDL_SCANCODE_N].assign(stringify(N));
+	keyNames[SDL_SCANCODE_O].assign(stringify(O));
+	keyNames[SDL_SCANCODE_P].assign(stringify(P));
+	keyNames[SDL_SCANCODE_Q].assign(stringify(Q));
+	keyNames[SDL_SCANCODE_R].assign(stringify(R));
+	keyNames[SDL_SCANCODE_S].assign(stringify(S));
+	keyNames[SDL_SCANCODE_T].assign(stringify(T));
+	keyNames[SDL_SCANCODE_U].assign(stringify(U));
+	keyNames[SDL_SCANCODE_V].assign(stringify(V));
+	keyNames[SDL_SCANCODE_W].assign(stringify(W));
+	keyNames[SDL_SCANCODE_X].assign(stringify(X));
+	keyNames[SDL_SCANCODE_Y].assign(stringify(Y));
+	keyNames[SDL_SCANCODE_Z].assign(stringify(Z));
+
+	keyNames[SDL_SCANCODE_1].assign(stringify(1));
+	keyNames[SDL_SCANCODE_2].assign(stringify(2));
+	keyNames[SDL_SCANCODE_3].assign(stringify(3));
+	keyNames[SDL_SCANCODE_4].assign(stringify(4));
+	keyNames[SDL_SCANCODE_5].assign(stringify(5));
+	keyNames[SDL_SCANCODE_6].assign(stringify(6));
+	keyNames[SDL_SCANCODE_7].assign(stringify(7));
+	keyNames[SDL_SCANCODE_8].assign(stringify(8));
+	keyNames[SDL_SCANCODE_9].assign(stringify(9));
+	keyNames[SDL_SCANCODE_0].assign(stringify(0));
+
+	keyNames[SDL_SCANCODE_RETURN].assign(stringify(RET));
+	keyNames[SDL_SCANCODE_ESCAPE].assign(stringify(ESC));
+	keyNames[SDL_SCANCODE_BACKSPACE].assign(stringify(BACKSPACE));
+	keyNames[SDL_SCANCODE_TAB].assign(stringify(TAB));
+	keyNames[SDL_SCANCODE_SPACE].assign(stringify(SPACE));
+
+	keyNames[SDL_SCANCODE_MINUS].assign(stringify(MINUS));
+	keyNames[SDL_SCANCODE_EQUALS].assign(stringify(EQUALS));
+	keyNames[SDL_SCANCODE_LEFTBRACKET].assign(stringify(SDL_SCANCODE_LEFTBRACKET));
+	keyNames[SDL_SCANCODE_RIGHTBRACKET].assign(stringify(SDL_SCANCODE_RIGHTBRACKET));
+	keyNames[SDL_SCANCODE_BACKSLASH].assign(stringify(SDL_SCANCODE_BACKSLASH)); /**< Located at the lower left of the return
+								  *   key on ISO keyboards and at the right end
+								  *   of the QWERTY row on ANSI keyboards.
+								  *   Produces REVERSE SOLIDUS (backslash) and
+								  *   VERTICAL LINE in a US layout, REVERSE
+								  *   SOLIDUS and VERTICAL LINE in a UK Mac
+								  *   layout, NUMBER SIGN and TILDE in a UK
+								  *   Windows layout, DOLLAR SIGN and POUND SIGN
+								  *   in a Swiss German layout, NUMBER SIGN and
+								  *   APOSTROPHE in a German layout, GRAVE
+								  *   ACCENT and POUND SIGN in a French Mac
+								  *   layout, and ASTERISK and MICRO SIGN in a
+								  *   French Windows layout.
+								  */
+	keyNames[SDL_SCANCODE_NONUSHASH].assign(stringify(SDL_SCANCODE_NONUSHASH)); /**< ISO USB keyboards actually use this code
+								  *   instead of 49 for the same key, but all
+								  *   OSes I've seen treat the two codes
+								  *   identically. So, as an implementor, unless
+								  *   your keyboard generates both of those
+								  *   codes and your OS treats them differently,
+								  *   you should generate keyNames[SDL_SCANCODE_BACKSLASH
+								  *   instead of this code. As a user, you
+								  *   should not rely on this code because SDL
+								  *   will never generate it with most (all?)
+								  *   keyboards.
+								  */
+	keyNames[SDL_SCANCODE_SEMICOLON].assign(stringify(SDL_SCANCODE_SEMICOLON));
+	keyNames[SDL_SCANCODE_APOSTROPHE].assign(stringify(SDL_SCANCODE_APOSTROPHE));
+	keyNames[SDL_SCANCODE_GRAVE].assign(stringify(SDL_SCANCODE_GRAVE)); /**< Located in the top left corner (on both ANSI
+							  *   and ISO keyboards). Produces GRAVE ACCENT and
+							  *   TILDE in a US Windows layout and in US and UK
+							  *   Mac layouts on ANSI keyboards, GRAVE ACCENT
+							  *   and NOT SIGN in a UK Windows layout, SECTION
+							  *   SIGN and PLUS-MINUS SIGN in US and UK Mac
+							  *   layouts on ISO keyboards, SECTION SIGN and
+							  *   DEGREE SIGN in a Swiss German layout (Mac:
+							  *   only on ISO keyboards), CIRCUMFLEX ACCENT and
+							  *   DEGREE SIGN in a German layout (Mac: only on
+							  *   ISO keyboards), SUPERSCRIPT TWO and TILDE in a
+							  *   French Windows layout, COMMERCIAL AT and
+							  *   NUMBER SIGN in a French Mac layout on ISO
+							  *   keyboards, and LESS-THAN SIGN and GREATER-THAN
+							  *   SIGN in a Swiss German, German, or French Mac
+							  *   layout on ANSI keyboards.
+							  */
+	keyNames[SDL_SCANCODE_COMMA].assign(stringify(SDL_SCANCODE_COMMA));
+	keyNames[SDL_SCANCODE_PERIOD].assign(stringify(SDL_SCANCODE_PERIOD));
+	keyNames[SDL_SCANCODE_SLASH].assign(stringify(SDL_SCANCODE_SLASH));
+
+	keyNames[SDL_SCANCODE_CAPSLOCK].assign(stringify(SDL_SCANCODE_CAPSLOCK));
+
+	keyNames[SDL_SCANCODE_F1].assign(stringify(SDL_SCANCODE_F1));
+	keyNames[SDL_SCANCODE_F2].assign(stringify(SDL_SCANCODE_F2));
+	keyNames[SDL_SCANCODE_F3].assign(stringify(SDL_SCANCODE_F3));
+	keyNames[SDL_SCANCODE_F4].assign(stringify(SDL_SCANCODE_F4));
+	keyNames[SDL_SCANCODE_F5].assign(stringify(SDL_SCANCODE_F5));
+	keyNames[SDL_SCANCODE_F6].assign(stringify(SDL_SCANCODE_F6));
+	keyNames[SDL_SCANCODE_F7].assign(stringify(SDL_SCANCODE_F7));
+	keyNames[SDL_SCANCODE_F8].assign(stringify(SDL_SCANCODE_F8));
+	keyNames[SDL_SCANCODE_F9].assign(stringify(SDL_SCANCODE_F9));
+	keyNames[SDL_SCANCODE_F10].assign(stringify(SDL_SCANCODE_F10));
+	keyNames[SDL_SCANCODE_F11].assign(stringify(SDL_SCANCODE_F11));
+	keyNames[SDL_SCANCODE_F12].assign(stringify(SDL_SCANCODE_F12));
+
+	keyNames[SDL_SCANCODE_PRINTSCREEN].assign(stringify(SDL_SCANCODE_PRINTSCREEN));
+	keyNames[SDL_SCANCODE_SCROLLLOCK].assign(stringify(SDL_SCANCODE_SCROLLLOCK));
+	keyNames[SDL_SCANCODE_PAUSE].assign(stringify(SDL_SCANCODE_PAUSE));
+	keyNames[SDL_SCANCODE_INSERT].assign(stringify(SDL_SCANCODE_INSERT)); /**< insert on PC, help on some Mac keyboards (but
+								   does send code 73, not 117) */
+	keyNames[SDL_SCANCODE_HOME].assign(stringify(SDL_SCANCODE_HOME));
+	keyNames[SDL_SCANCODE_PAGEUP].assign(stringify(SDL_SCANCODE_PAGEUP));
+	keyNames[SDL_SCANCODE_DELETE].assign(stringify(SDL_SCANCODE_DELETE));
+	keyNames[SDL_SCANCODE_END].assign(stringify(SDL_SCANCODE_END));
+	keyNames[SDL_SCANCODE_PAGEDOWN].assign(stringify(SDL_SCANCODE_PAGEDOWN));
+	keyNames[SDL_SCANCODE_RIGHT].assign(stringify(SDL_SCANCODE_RIGHT));
+	keyNames[SDL_SCANCODE_LEFT].assign(stringify(SDL_SCANCODE_LEFT));
+	keyNames[SDL_SCANCODE_DOWN].assign(stringify(SDL_SCANCODE_DOWN));
+	keyNames[SDL_SCANCODE_UP].assign(stringify(SDL_SCANCODE_UP));
+
+	keyNames[SDL_SCANCODE_NUMLOCKCLEAR].assign(stringify(SDL_SCANCODE_NUMLOCKCLEAR)); /**< num lock on PC, clear on Mac keyboards
+									 */
+	keyNames[SDL_SCANCODE_KP_DIVIDE].assign(stringify(SDL_SCANCODE_KP_DIVIDE));
+	keyNames[SDL_SCANCODE_KP_MULTIPLY].assign(stringify(SDL_SCANCODE_KP_MULTIPLY));
+	keyNames[SDL_SCANCODE_KP_MINUS].assign(stringify(SDL_SCANCODE_KP_MINUS));
+	keyNames[SDL_SCANCODE_KP_PLUS].assign(stringify(SDL_SCANCODE_KP_PLUS));
+	keyNames[SDL_SCANCODE_KP_ENTER].assign(stringify(SDL_SCANCODE_KP_ENTER));
+	keyNames[SDL_SCANCODE_KP_1].assign(stringify(SDL_SCANCODE_KP_1));
+	keyNames[SDL_SCANCODE_KP_2].assign(stringify(SDL_SCANCODE_KP_2));
+	keyNames[SDL_SCANCODE_KP_3].assign(stringify(SDL_SCANCODE_KP_3));
+	keyNames[SDL_SCANCODE_KP_4].assign(stringify(SDL_SCANCODE_KP_4));
+	keyNames[SDL_SCANCODE_KP_5].assign(stringify(SDL_SCANCODE_KP_5));
+	keyNames[SDL_SCANCODE_KP_6].assign(stringify(SDL_SCANCODE_KP_6));
+	keyNames[SDL_SCANCODE_KP_7].assign(stringify(SDL_SCANCODE_KP_7));
+	keyNames[SDL_SCANCODE_KP_8].assign(stringify(SDL_SCANCODE_KP_8));
+	keyNames[SDL_SCANCODE_KP_9].assign(stringify(SDL_SCANCODE_KP_9));
+	keyNames[SDL_SCANCODE_KP_0].assign(stringify(SDL_SCANCODE_KP_0));
+	keyNames[SDL_SCANCODE_KP_PERIOD].assign(stringify(SDL_SCANCODE_KP_PERIOD));
+
+	keyNames[SDL_SCANCODE_NONUSBACKSLASH].assign(stringify(SDL_SCANCODE_NONUSBACKSLASH)); /**< This is the additional key that ISO
+										*   keyboards have over ANSI ones,
+										*   located between left shift and Y.
+										*   Produces GRAVE ACCENT and TILDE in a
+										*   US or UK Mac layout, REVERSE SOLIDUS
+										*   (backslash) and VERTICAL LINE in a
+										*   US or UK Windows layout, and
+										*   LESS-THAN SIGN and GREATER-THAN SIGN
+										*   in a Swiss German, German, or French
+										*   layout. */
+	keyNames[SDL_SCANCODE_APPLICATION].assign(stringify(SDL_SCANCODE_APPLICATION)); /**< windows contextual menu, compose */
+	keyNames[SDL_SCANCODE_POWER].assign(stringify(SDL_SCANCODE_POWER)); /**< The USB document says this is a status flag,
+							   *   not a physical key - but some Mac keyboards
+							   *   do have a power key. */
+	keyNames[SDL_SCANCODE_KP_EQUALS].assign(stringify(SDL_SCANCODE_KP_EQUALS));
+	keyNames[SDL_SCANCODE_F13].assign(stringify(SDL_SCANCODE_F13));
+	keyNames[SDL_SCANCODE_F14].assign(stringify(SDL_SCANCODE_F14));
+	keyNames[SDL_SCANCODE_F15].assign(stringify(SDL_SCANCODE_F15));
+	keyNames[SDL_SCANCODE_F16].assign(stringify(SDL_SCANCODE_F16));
+	keyNames[SDL_SCANCODE_F17].assign(stringify(SDL_SCANCODE_F17));
+	keyNames[SDL_SCANCODE_F18].assign(stringify(SDL_SCANCODE_F18));
+	keyNames[SDL_SCANCODE_F19].assign(stringify(SDL_SCANCODE_F19));
+	keyNames[SDL_SCANCODE_F20].assign(stringify(SDL_SCANCODE_F20));
+	keyNames[SDL_SCANCODE_F21].assign(stringify(SDL_SCANCODE_F21));
+	keyNames[SDL_SCANCODE_F22].assign(stringify(SDL_SCANCODE_F22));
+	keyNames[SDL_SCANCODE_F23].assign(stringify(SDL_SCANCODE_F23));
+	keyNames[SDL_SCANCODE_F24].assign(stringify(SDL_SCANCODE_F24));
+	keyNames[SDL_SCANCODE_EXECUTE].assign(stringify(SDL_SCANCODE_EXECUTE));
+	keyNames[SDL_SCANCODE_HELP].assign(stringify(SDL_SCANCODE_HELP));
+	keyNames[SDL_SCANCODE_MENU].assign(stringify(SDL_SCANCODE_MENU));
+	keyNames[SDL_SCANCODE_SELECT].assign(stringify(SDL_SCANCODE_SELECT));
+	keyNames[SDL_SCANCODE_STOP].assign(stringify(SDL_SCANCODE_STOP));
+	keyNames[SDL_SCANCODE_AGAIN].assign(stringify(SDL_SCANCODE_AGAIN));   /**< redo */
+	keyNames[SDL_SCANCODE_UNDO].assign(stringify(SDL_SCANCODE_UNDO));
+	keyNames[SDL_SCANCODE_CUT].assign(stringify(SDL_SCANCODE_CUT));
+	keyNames[SDL_SCANCODE_COPY].assign(stringify(SDL_SCANCODE_COPY));
+	keyNames[SDL_SCANCODE_PASTE].assign(stringify(SDL_SCANCODE_PASTE));
+	keyNames[SDL_SCANCODE_FIND].assign(stringify(SDL_SCANCODE_FIND));
+	keyNames[SDL_SCANCODE_MUTE].assign(stringify(SDL_SCANCODE_MUTE));
+	keyNames[SDL_SCANCODE_VOLUMEUP].assign(stringify(SDL_SCANCODE_VOLUMEUP));
+	keyNames[SDL_SCANCODE_VOLUMEDOWN].assign(stringify(SDL_SCANCODE_VOLUMEDOWN));
+	/* not sure whether there's a reason to enable these */
+	/*     keyNames[SDL_SCANCODE_LOCKINGCAPSLOCK].assign(stringify(A)); 130,  */
+	/*     keyNames[SDL_SCANCODE_LOCKINGNUMLOCK].assign(stringify(A)); 131, */
+	/*     keyNames[SDL_SCANCODE_LOCKINGSCROLLLOCK].assign(stringify(A)); 132, */
+	keyNames[SDL_SCANCODE_KP_COMMA].assign(stringify(SDL_SCANCODE_KP_COMMA));
+	keyNames[SDL_SCANCODE_KP_EQUALSAS400].assign(stringify(SDL_SCANCODE_KP_EQUALSAS400));
+
+	keyNames[SDL_SCANCODE_INTERNATIONAL1].assign(stringify(SDL_SCANCODE_INTERNATIONAL1)); /**< used on Asian keyboards, see
+											footnotes in USB do
+	keyNames[SDL_SCANCODE_INTERNATIONAL2].assign(stringify(A));
+	keyNames[SDL_SCANCODE_INTERNATIONAL3].assign(stringify(A)); /**< Yen */
+	keyNames[SDL_SCANCODE_INTERNATIONAL4].assign(stringify(SDL_SCANCODE_INTERNATIONAL4));
+	keyNames[SDL_SCANCODE_INTERNATIONAL5].assign(stringify(SDL_SCANCODE_INTERNATIONAL5));
+	keyNames[SDL_SCANCODE_INTERNATIONAL6].assign(stringify(SDL_SCANCODE_INTERNATIONAL6));
+	keyNames[SDL_SCANCODE_INTERNATIONAL7].assign(stringify(SDL_SCANCODE_INTERNATIONAL7));
+	keyNames[SDL_SCANCODE_INTERNATIONAL8].assign(stringify(SDL_SCANCODE_INTERNATIONAL8));
+	keyNames[SDL_SCANCODE_INTERNATIONAL9].assign(stringify(SDL_SCANCODE_INTERNATIONAL9));
+	keyNames[SDL_SCANCODE_LANG1].assign(stringify(SDL_SCANCODE_LANG1)); /**< Hangul/English toggle */
+	keyNames[SDL_SCANCODE_LANG2].assign(stringify(SDL_SCANCODE_LANG2)); /**< Hanja conversion */
+	keyNames[SDL_SCANCODE_LANG3].assign(stringify(SDL_SCANCODE_LANG3)); /**< Katakana */
+	keyNames[SDL_SCANCODE_LANG4].assign(stringify(SDL_SCANCODE_LANG4)); /**< Hiragana */
+	keyNames[SDL_SCANCODE_LANG5].assign(stringify(SDL_SCANCODE_LANG5)); /**< Zenkaku/Hankaku */
+	keyNames[SDL_SCANCODE_LANG6].assign(stringify(SDL_SCANCODE_LANG6)); /**< reserved */
+	keyNames[SDL_SCANCODE_LANG7].assign(stringify(SDL_SCANCODE_LANG7)); /**< reserved */
+	keyNames[SDL_SCANCODE_LANG8].assign(stringify(SDL_SCANCODE_LANG8)); /**< reserved */
+	keyNames[SDL_SCANCODE_LANG9].assign(stringify(SDL_SCANCODE_LANG9)); /**< reserved */
+
+	keyNames[SDL_SCANCODE_ALTERASE].assign(stringify(SDL_SCANCODE_ALTERASE)); /**< Erase-Eaze */
+	keyNames[SDL_SCANCODE_SYSREQ].assign(stringify(SDL_SCANCODE_SYSREQ));
+	keyNames[SDL_SCANCODE_CANCEL].assign(stringify(SDL_SCANCODE_CANCEL));
+	keyNames[SDL_SCANCODE_CLEAR].assign(stringify(SDL_SCANCODE_CLEAR));
+	keyNames[SDL_SCANCODE_PRIOR].assign(stringify(SDL_SCANCODE_PRIOR));
+	keyNames[SDL_SCANCODE_RETURN2].assign(stringify(SDL_SCANCODE_RETURN2));
+	keyNames[SDL_SCANCODE_SEPARATOR].assign(stringify(SDL_SCANCODE_SEPARATOR));
+	keyNames[SDL_SCANCODE_OUT].assign(stringify(SDL_SCANCODE_OUT));
+	keyNames[SDL_SCANCODE_OPER].assign(stringify(SDL_SCANCODE_OPER));
+	keyNames[SDL_SCANCODE_CLEARAGAIN].assign(stringify(SDL_SCANCODE_CLEARAGAIN));
+	keyNames[SDL_SCANCODE_CRSEL].assign(stringify(SDL_SCANCODE_CRSEL));
+	keyNames[SDL_SCANCODE_EXSEL].assign(stringify(SDL_SCANCODE_EXSEL));
+
+	keyNames[SDL_SCANCODE_KP_00].assign(stringify(SDL_SCANCODE_KP_00));
+	keyNames[SDL_SCANCODE_KP_000].assign(stringify(SDL_SCANCODE_KP_000));
+	keyNames[SDL_SCANCODE_THOUSANDSSEPARATOR].assign(stringify(SDL_SCANCODE_THOUSANDSSEPARATOR));
+	keyNames[SDL_SCANCODE_DECIMALSEPARATOR].assign(stringify(SDL_SCANCODE_DECIMALSEPARATOR));
+	keyNames[SDL_SCANCODE_CURRENCYUNIT].assign(stringify(SDL_SCANCODE_CURRENCYUNIT));
+	keyNames[SDL_SCANCODE_CURRENCYSUBUNIT].assign(stringify(SDL_SCANCODE_CURRENCYSUBUNIT));
+	keyNames[SDL_SCANCODE_KP_LEFTPAREN].assign(stringify(SDL_SCANCODE_KP_LEFTPAREN));
+	keyNames[SDL_SCANCODE_KP_RIGHTPAREN].assign(stringify(SDL_SCANCODE_KP_RIGHTPAREN));
+	keyNames[SDL_SCANCODE_KP_LEFTBRACE].assign(stringify(SDL_SCANCODE_KP_LEFTBRACE));
+	keyNames[SDL_SCANCODE_KP_RIGHTBRACE].assign(stringify(SDL_SCANCODE_KP_RIGHTBRACE));
+	keyNames[SDL_SCANCODE_KP_TAB].assign(stringify(SDL_SCANCODE_KP_TAB));
+	keyNames[SDL_SCANCODE_KP_BACKSPACE].assign(stringify(SDL_SCANCODE_KP_BACKSPACE));
+	keyNames[SDL_SCANCODE_KP_A].assign(stringify(SDL_SCANCODE_KP_A));
+	keyNames[SDL_SCANCODE_KP_B].assign(stringify(SDL_SCANCODE_KP_B));
+	keyNames[SDL_SCANCODE_KP_C].assign(stringify(SDL_SCANCODE_KP_C));
+	keyNames[SDL_SCANCODE_KP_D].assign(stringify(SDL_SCANCODE_KP_D));
+	keyNames[SDL_SCANCODE_KP_E].assign(stringify(SDL_SCANCODE_KP_E));
+	keyNames[SDL_SCANCODE_KP_F].assign(stringify(SDL_SCANCODE_KP_F));
+	keyNames[SDL_SCANCODE_KP_XOR].assign(stringify(SDL_SCANCODE_KP_XOR));
+	keyNames[SDL_SCANCODE_KP_POWER].assign(stringify(SDL_SCANCODE_KP_POWER));
+	keyNames[SDL_SCANCODE_KP_PERCENT].assign(stringify(SDL_SCANCODE_KP_PERCENT));
+	keyNames[SDL_SCANCODE_KP_LESS].assign(stringify(SDL_SCANCODE_KP_LESS));
+	keyNames[SDL_SCANCODE_KP_GREATER].assign(stringify(SDL_SCANCODE_KP_GREATER));
+	keyNames[SDL_SCANCODE_KP_AMPERSAND].assign(stringify(SDL_SCANCODE_KP_AMPERSAND));
+	keyNames[SDL_SCANCODE_KP_DBLAMPERSAND].assign(stringify(SDL_SCANCODE_KP_DBLAMPERSAND));
+	keyNames[SDL_SCANCODE_KP_VERTICALBAR].assign(stringify(SDL_SCANCODE_KP_VERTICALBAR));
+	keyNames[SDL_SCANCODE_KP_DBLVERTICALBAR].assign(stringify(SDL_SCANCODE_KP_DBLVERTICALBAR));
+	keyNames[SDL_SCANCODE_KP_COLON].assign(stringify(SDL_SCANCODE_KP_COLON));
+	keyNames[SDL_SCANCODE_KP_HASH].assign(stringify(SDL_SCANCODE_KP_HASH));
+	keyNames[SDL_SCANCODE_KP_SPACE].assign(stringify(SDL_SCANCODE_KP_SPACE));
+	keyNames[SDL_SCANCODE_KP_AT].assign(stringify(SDL_SCANCODE_KP_AT));
+	keyNames[SDL_SCANCODE_KP_EXCLAM].assign(stringify(SDL_SCANCODE_KP_EXCLAM));
+	keyNames[SDL_SCANCODE_KP_MEMSTORE].assign(stringify(SDL_SCANCODE_KP_MEMSTORE));
+	keyNames[SDL_SCANCODE_KP_MEMRECALL].assign(stringify(SDL_SCANCODE_KP_MEMRECALL));
+	keyNames[SDL_SCANCODE_KP_MEMCLEAR].assign(stringify(SDL_SCANCODE_KP_MEMCLEAR));
+	keyNames[SDL_SCANCODE_KP_MEMADD].assign(stringify(SDL_SCANCODE_KP_MEMADD));
+	keyNames[SDL_SCANCODE_KP_MEMSUBTRACT].assign(stringify(SDL_SCANCODE_KP_MEMSUBTRACT));
+	keyNames[SDL_SCANCODE_KP_MEMMULTIPLY].assign(stringify(SDL_SCANCODE_KP_MEMMULTIPLY));
+	keyNames[SDL_SCANCODE_KP_MEMDIVIDE].assign(stringify(SDL_SCANCODE_KP_MEMDIVIDE));
+	keyNames[SDL_SCANCODE_KP_PLUSMINUS].assign(stringify(SDL_SCANCODE_KP_PLUSMINUS));
+	keyNames[SDL_SCANCODE_KP_CLEAR].assign(stringify(SDL_SCANCODE_KP_CLEAR));
+	keyNames[SDL_SCANCODE_KP_CLEARENTRY].assign(stringify(SDL_SCANCODE_KP_CLEARENTRY));
+	keyNames[SDL_SCANCODE_KP_BINARY].assign(stringify(SDL_SCANCODE_KP_BINARY));
+	keyNames[SDL_SCANCODE_KP_OCTAL].assign(stringify(SDL_SCANCODE_KP_OCTAL));
+	keyNames[SDL_SCANCODE_KP_DECIMAL].assign(stringify(SDL_SCANCODE_KP_DECIMAL));
+	keyNames[SDL_SCANCODE_KP_HEXADECIMAL].assign(stringify(SDL_SCANCODE_KP_HEXADECIMAL));
+
+	keyNames[SDL_SCANCODE_LCTRL].assign(stringify(SDL_SCANCODE_LCTRL));
+	keyNames[SDL_SCANCODE_LSHIFT].assign(stringify(SDL_SCANCODE_LSHIFT));
+	keyNames[SDL_SCANCODE_LALT].assign(stringify(SDL_SCANCODE_LALT)); /**< alt, option */
+	keyNames[SDL_SCANCODE_LGUI].assign(stringify(SDL_SCANCODE_LGUI)); /**< windows, command (apple), meta */
+	keyNames[SDL_SCANCODE_RCTRL].assign(stringify(SDL_SCANCODE_RCTRL));
+	keyNames[SDL_SCANCODE_RSHIFT].assign(stringify(SDL_SCANCODE_RSHIFT));
+	keyNames[SDL_SCANCODE_RALT].assign(stringify(SDL_SCANCODE_RALT)); /**< alt gr, option */
+	keyNames[SDL_SCANCODE_RGUI].assign(stringify(SDL_SCANCODE_RGUI)); /**< windows, command (apple), meta */
+
+	keyNames[SDL_SCANCODE_MODE].assign(stringify(SDL_SCANCODE_MODE)); 257,    /**< I'm not sure if this is really not covered
+								 *   by any of the above, but since there's a
+								 *   special KMOD_MODE for it I'm adding it here
+								 */
+
+								 /* @} *//* Usage page 0x07 */
+
+								 /**
+								  *  \name Usage page 0x0C
+								  *
+								  *  These values are mapped from usage page 0x0C (USB consumer page).
+								  */
+								  /* @{ */
+
+	keyNames[SDL_SCANCODE_AUDIONEXT].assign(stringify(SDL_SCANCODE_AUDIONEXT));
+	keyNames[SDL_SCANCODE_AUDIOPREV].assign(stringify(SDL_SCANCODE_AUDIOPREV));
+	keyNames[SDL_SCANCODE_AUDIOSTOP].assign(stringify(SDL_SCANCODE_AUDIOSTOP));
+	keyNames[SDL_SCANCODE_AUDIOPLAY].assign(stringify(SDL_SCANCODE_AUDIOPLAY));
+	keyNames[SDL_SCANCODE_AUDIOMUTE].assign(stringify(SDL_SCANCODE_AUDIOMUTE));
+	keyNames[SDL_SCANCODE_MEDIASELECT].assign(stringify(A));
+	keyNames[SDL_SCANCODE_WWW].assign(stringify(A));
+	keyNames[SDL_SCANCODE_MAIL].assign(stringify(A));
+	keyNames[SDL_SCANCODE_CALCULATOR].assign(stringify(A));
+	keyNames[SDL_SCANCODE_COMPUTER].assign(stringify(A));
+	keyNames[SDL_SCANCODE_AC_SEARCH].assign(stringify(A));
+	keyNames[SDL_SCANCODE_AC_HOME].assign(stringify(A));
+	keyNames[SDL_SCANCODE_AC_BACK].assign(stringify(A));
+	keyNames[SDL_SCANCODE_AC_FORWARD].assign(stringify(A));
+	keyNames[SDL_SCANCODE_AC_STOP].assign(stringify(A));
+	keyNames[SDL_SCANCODE_AC_REFRESH].assign(stringify(A));
+	keyNames[SDL_SCANCODE_AC_BOOKMARKS].assign(stringify(A));
+
+	/* @} *//* Usage page 0x0C */
+
+	/**
+	 *  \name Walther keys
+	 *
+	 *  These are values that Christian Walther added (for mac keyboard?).
+	 */
+	 /* @{ */
+
+	keyNames[SDL_SCANCODE_BRIGHTNESSDOWN].assign(stringify(A));
+	keyNames[SDL_SCANCODE_BRIGHTNESSUP].assign(stringify(A));
+	keyNames[SDL_SCANCODE_DISPLAYSWITCH].assign(stringify(A)); /**< display mirroring/dual display
+										   switch, video mode switch */
+	keyNames[SDL_SCANCODE_KBDILLUMTOGGLE].assign(stringify(A));
+	keyNames[SDL_SCANCODE_KBDILLUMDOWN].assign(stringify(A));
+	keyNames[SDL_SCANCODE_KBDILLUMUP].assign(stringify(A));
+	keyNames[SDL_SCANCODE_EJECT].assign(stringify(A));
+	keyNames[SDL_SCANCODE_SLEEP].assign(stringify(A));
+
+	keyNames[SDL_SCANCODE_APP1].assign(stringify(A));
+	keyNames[SDL_SCANCODE_APP2].assign(stringify(A));
 }

@@ -25,6 +25,7 @@ class Unit_Panel;
 class MiniMap_UI;
 class Buff_Box;
 class TutorialBox;
+class Key_Config_Box;
 //class Window;
 struct _TTF_Font;
 struct SDL_Rect;
@@ -92,6 +93,7 @@ public:
 	Text* CreateText(fPoint center, const char* content, font_id id, SDL_Color color = { 255, 255, 255, 255 }, bool dynamic = false, UI_Element* parent = NULL,float size=1.0f, std::list<UI_Element*>* children = NULL, Screen_Type screen = Screen_Type::SCREEN_NONE);
 	//UI_Element* CreateInputText();
 	Void_Box* CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL, Screen_Type screen = Screen_Type::SCREEN_NONE);
+	Key_Config_Box* CreateKeyBox(void(*action)(int*), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, Screen_Type screen = Screen_Type::SCREEN_NONE, int* inputKey = nullptr);
 	Check_Box* CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL, Screen_Type screen = Screen_Type::SCREEN_NONE);
 	Spawn_Box* CreateSpawnBox(bool value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, void(*action)(void) = NULL, UI_Element* parent = NULL, Screen_Type screen = Screen_Type::SCREEN_NONE);
 	Unit_Box* CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL, SDL_Texture* TimerTexture = NULL, int timeCreator = 0,int unitCost=0,bool* _enabletoCraft=nullptr,SDL_Scancode* Hotkey = nullptr, Screen_Type screen = Screen_Type::SCREEN_NONE);
@@ -248,33 +250,33 @@ public:
 	Unit_Panel* Money2Buff_Info = nullptr;
 	Unit_Panel* Money3Buff_Info = nullptr;
 
-	Void_Box* Hotkey_Conscript = nullptr;
+	Key_Config_Box* Hotkey_Conscript = nullptr;
 	Text* Hotkey_Conscript_Label = nullptr;
 	Text* Conscript_Label = nullptr;
 
-	Void_Box* Hotkey_Flak = nullptr;
+	Key_Config_Box* Hotkey_Flak = nullptr;
 	Text* Hotkey_Flak_Label = nullptr;
 	Text* Flak_Label = nullptr;
 
-	Void_Box* Hotkey_Desolator = nullptr;
+	Key_Config_Box* Hotkey_Desolator = nullptr;
 	Text* Hotkey_Desolator_Label = nullptr;
 	Text* Desolator_Label = nullptr;
 
-	Void_Box* Hotkey_Chrono = nullptr;
+	Key_Config_Box* Hotkey_Chrono = nullptr;
 	Text* Hotkey_Chrono_Label = nullptr;
 	Text* Chrono_Label = nullptr;
 
-	Void_Box* Hotkey_Sniper = nullptr;
+	Key_Config_Box* Hotkey_Sniper = nullptr;
 	Text* Hotkey_Sniper_Label = nullptr;
 	Text* Sniper_Label = nullptr;
 
-	Void_Box* Hotkey_Up = nullptr;
+	Key_Config_Box* Hotkey_Up = nullptr;
 	Text* Hotkey_Up_Label = nullptr;
-	Void_Box* Hotkey_Down = nullptr;
+	Key_Config_Box* Hotkey_Down = nullptr;
 	Text* Hotkey_Down_Label = nullptr;
-	Void_Box* Hotkey_Left = nullptr;
+	Key_Config_Box* Hotkey_Left = nullptr;
 	Text* Hotkey_Left_Label = nullptr;
-	Void_Box* Hotkey_Right = nullptr;
+	Key_Config_Box* Hotkey_Right = nullptr;
 	Text* Hotkey_Right_Label = nullptr;
 
 	Unit_Box* ConscriptCreator = nullptr;

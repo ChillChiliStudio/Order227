@@ -16,6 +16,7 @@
 #include "Window.h"
 #include "Fonts.h"
 #include "VoidBox.h"
+#include "KeyConfig.h"
 
 #include "Brofiler/Brofiler.h"
 #include "MiniMap.h"

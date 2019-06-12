@@ -14,8 +14,10 @@
 #include "Audio.h"
 #include "UnitButton.h"
 #include "VoidBox.h"
+#include "KeyConfig.h"
 #include "TutorialBox.h"
 #include "Window.h"
+#include "Controls.h"
 #include "Log.h"
 
 
@@ -141,7 +143,6 @@ void CreateSniper() {
 	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantry_type::SNIPER][(int)type_sounds::SPAWN][0]);
 
 }
-
 void CreateEngineer() {
 	//srand(time(NULL));
 	//TODO NEED TO DESHARCODE
@@ -165,6 +166,11 @@ void CreateEngineer() {
 	myApp->entities->ActivateUnit(fPoint(tempPoint.x, tempPoint.y), infantry_type::ENGINEER, entity_faction::COMMUNIST);
 	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantry_type::ENGINEER][(int)type_sounds::SPAWN][0]);
 
+}
+
+void HotkeyButtonPrepare(int* code)
+{
+	myApp->controls->PrepareInputChange(code);
 }
 
 void StartGame() {
@@ -330,6 +336,14 @@ void QuitOptions() {
 		myApp->gui->Hotkey_Down->Deactivate();
 		myApp->gui->Hotkey_Left->Deactivate();
 		myApp->gui->Hotkey_Right->Deactivate();
+
+		if (myApp->controls->awaitingInput) {
+			myApp->audio->PlayFx(myApp->audio->SoundUI_Player[(int)UI_playerSound::UI_ERROR], 0, CHANNEL_UI);
+			myApp->controls->awaitingInput = false;
+
+			myApp->controls->buttonUsed->OnIdle();
+			myApp->controls->buttonUsed = nullptr;
+		}
 	}
 
 }
