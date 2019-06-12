@@ -313,6 +313,7 @@ void Player::DebugInputs()
 		}
 
 		if (myApp->input->GetKey(myApp->controls->debug.nextRound) == KEY_DOWN) {			// Activate Next Round
+			myApp->hordes->ClearEnemies();
 			myApp->hordes->ChooseSpawningPoints();
 		}
 
@@ -321,7 +322,6 @@ void Player::DebugInputs()
 		}
 
 		if (myApp->input->GetKey(myApp->controls->debug.spawnBlueChrono) == KEY_DOWN) {		// Spawn Enemy Chrono Mouse (Old: Kill/Deactivate all enemies)
-			/*myApp->hordes->ClearEnemies();*/
 			DebugSpawnUnit(infantry_type::CHRONO, entity_faction::CAPITALIST);
 
 		}
