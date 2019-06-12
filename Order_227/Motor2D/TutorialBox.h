@@ -22,11 +22,11 @@ public:
 
 public:
 
-	bool Back;
-	bool Front;
-	bool movingforeward;
-	bool movingBackward;
-	int amount_Moved;
+	bool Back=false;
+	bool Front=false;
+	bool movingforeward=false;
+	bool movingBackward=false;
+	int amount_Moved=0;
 	int currentPage = 0;
 	SDL_Rect Rect;
 

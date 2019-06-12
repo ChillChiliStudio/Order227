@@ -268,6 +268,7 @@ bool Video::Update(float dt)
 		PlayVideo(loopName.c_str(), rendering_rect, loop);
 	}
 
+
 	return true;
 }
 

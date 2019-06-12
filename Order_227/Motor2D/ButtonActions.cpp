@@ -295,6 +295,7 @@ void QuitGame() {
 	myApp->gui->SniperCreator->ResetButton();
 	myApp->gui->ChronoCreator->ResetButton();
 	myApp->gui->DesolatorCreator->ResetButton();
+	myApp->gui->EngineerCreator->ResetButton();
 	myApp->gui->DeactivateScreen(myApp->gui->InGame_Elements);
 	myApp->gui->ActivateScreen(myApp->gui->Main_Menu_Elements);
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_MAINMENU);
@@ -341,9 +342,14 @@ void QuitOptions() {
 		myApp->gui->Hotkey_Chrono->Deactivate();
 		myApp->gui->Hotkey_Sniper->Deactivate();
 		myApp->gui->Hotkey_Engineer->Deactivate();
+
 		myApp->gui->Hotkey_Hold->Deactivate();
 		myApp->gui->Hotkey_Hunt->Deactivate();
 		myApp->gui->Hotkey_Patrol->Deactivate();
+
+		myApp->gui->Hotkey_Defensive->Deactivate();
+		myApp->gui->Hotkey_Aggressive->Deactivate();
+
 		myApp->gui->OptionsPanel->Activate();
 		myApp->gui->SetHotkeys_Button->Activate();
 		myApp->gui->Hotkey_Up->Deactivate();
@@ -373,9 +379,14 @@ void Hotkeys_Options() {
 	myApp->gui->Hotkey_Chrono->Activate();
 	myApp->gui->Hotkey_Sniper->Activate();
 	myApp->gui->Hotkey_Engineer->Activate();
+
 	myApp->gui->Hotkey_Hold->Activate();
 	myApp->gui->Hotkey_Hunt->Activate();
 	myApp->gui->Hotkey_Patrol->Activate();
+
+	myApp->gui->Hotkey_Defensive->Activate();
+	myApp->gui->Hotkey_Aggressive->Activate();
+
 	myApp->gui->Hotkey_Up->Activate();
 	myApp->gui->Hotkey_Down->Activate();
 	myApp->gui->Hotkey_Left->Activate();
@@ -399,6 +410,7 @@ void TutorialOpen() {
 
 	myApp->gui->DeactivateScreen(myApp->gui->Main_Menu_Elements);
 	myApp->gui->Tutorial->Activate();
+	myApp->gui->Tutorial->currentPage = 0;
 	myApp->gui->Tutorial_Arrow_Foreward->Activate();
 	myApp->gui->Tutorial_Arrow_Back->Activate();
 	myApp->gui->ReturnfromTutorial_Button->Activate();
@@ -438,23 +450,23 @@ void CloseCredits() {
 
 }
 void LuchoPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/lucho1", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://rafelbrau03.wixsite.com/website-1/about", NULL, NULL, SW_SHOWNORMAL);
 }
 void RogerPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/rleonborras", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://rafelbrau03.wixsite.com/website-1/about-2", NULL, NULL, SW_SHOWNORMAL);
 }
 void AdriPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/AdrianFR99", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://rafelbrau03.wixsite.com/website-1/about-3", NULL, NULL, SW_SHOWNORMAL);
 }
 void JaumePage() {
-	ShellExecuteA(NULL, "open", "https://github.com/Jaumeavinyo", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://rafelbrau03.wixsite.com/website-1/about-4", NULL, NULL, SW_SHOWNORMAL);
 }
 void JoanPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/X0KA", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://rafelbrau03.wixsite.com/website-1/about-6", NULL, NULL, SW_SHOWNORMAL);
 }
 void CarlesPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/ch0m5", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://rafelbrau03.wixsite.com/website-1/about-5", NULL, NULL, SW_SHOWNORMAL);
 }
 void RafelPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/Rafefix", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://rafelbrau03.wixsite.com/website-1/about-1", NULL, NULL, SW_SHOWNORMAL);
 }

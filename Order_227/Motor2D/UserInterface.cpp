@@ -272,7 +272,7 @@ bool User_Interface::Start()
 	DesolatorPanel_Info = CreateUnitPanel(SDL_Rect({ 0,165,137,165 }), DesolatorCreator, Unit_Panels_tex);
 	FlakPanel_Info = CreateUnitPanel(SDL_Rect({ 137,0,137,165 }), FlakCreator, Unit_Panels_tex);
 	ChronoPanel_Info = CreateUnitPanel(SDL_Rect({ 274,0,137,165 }), ChronoCreator, Unit_Panels_tex);
-	EngineerPanel_Info = CreateUnitPanel(SDL_Rect({ 274,0,137,165 }), ChronoCreator, Unit_Panels_tex);
+	EngineerPanel_Info = CreateUnitPanel(SDL_Rect({ 269,166,137,165 }), EngineerCreator, Unit_Panels_tex);
 
 	UnitBuff_Info = CreateUnitPanel(SDL_Rect({ 147,335,151,94 }), Units_Life, Unit_Panels_tex);
 	BuildingBuff_Info = CreateUnitPanel(SDL_Rect({ 0,434,151,94 }), Buildings_Life, Unit_Panels_tex);
@@ -412,7 +412,7 @@ bool User_Interface::Start()
 	//Camera
 	Hotkey_Up = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.5, height / 2.2), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->camera.up);
 	Hotkey_Up->keyText = Hotkey_Up_Label = CreateText(fPoint(width / 1.5, height / 2.2), myApp->controls->keyNames[myApp->controls->camera.up].c_str(), font_id::MOLOT, White, false, Hotkey_Up, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Camera_Label = CreateText(fPoint(width / 1.47, height / 2.8), "Camera", font_id::MOLOT, White, false, Hotkey_Up, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Camera_Label = CreateText(fPoint(width / 1.30, height / 2.2), "Camera", font_id::MOLOT, White, false, Hotkey_Up, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Hotkey_Up->Deactivate();
 
 	Hotkey_Down = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.5, height / 1.7), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->camera.down);
@@ -442,6 +442,17 @@ bool User_Interface::Start()
 	Hotkey_Patrol->keyText = Hotkey_Patrol_Label = CreateText(fPoint(width / 2.05, height / 1.35), myApp->controls->keyNames[myApp->controls->orders.patrol].c_str(), font_id::MOLOT, White, false, Hotkey_Patrol, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Patrol_Label = CreateText(fPoint(width / 2.36, height / 1.35), "Patrol", font_id::MOLOT, White, false, Hotkey_Patrol, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Hotkey_Patrol->Deactivate();
+
+	//Aggro
+	Hotkey_Defensive = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.5, height / 3.5), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->orders.defensive);
+	Hotkey_Defensive->keyText = Hotkey_Defensive_Label = CreateText(fPoint(width / 1.5, height / 3.5), myApp->controls->keyNames[myApp->controls->orders.defensive].c_str(), font_id::MOLOT, White, false, Hotkey_Defensive, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Defensive_Label = CreateText(fPoint(width / 1.47, height / 5.0), "Defensive", font_id::MOLOT, White, false, Hotkey_Defensive, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Defensive->Deactivate();
+
+	Hotkey_Aggressive = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.33, height / 3.5), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->orders.aggressive);
+	Hotkey_Aggressive->keyText = Hotkey_Aggressive_Label = CreateText(fPoint(width / 1.33, height / 3.5), myApp->controls->keyNames[myApp->controls->orders.aggressive].c_str(), font_id::MOLOT, White, false, Hotkey_Aggressive, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hunt_Label = CreateText(fPoint(width / 1.3, height / 5.0), "Aggressive", font_id::MOLOT, White, false, Hotkey_Aggressive, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Aggressive->Deactivate();
 
 	//Options Exit
 	ReturnOptions_Button = CreateVoidBox(QuitOptions, fPoint(width / 1.9, height / 1.135), TempButtonRect, StartGame_text, OptionsPanel, Screen_Type::SCREEN_OPTIONS);
@@ -474,12 +485,14 @@ bool User_Interface::Start()
 	//Main_Menu_Elements.push_back(StartGame_Button);
 	//Main_Menu_Elements.push_back(StartGame_Label);
 
-	myApp->video->PlayVideo("Video/Main_Menu_Background.ogv", { 0,0,1280,720 }, true);
+	//myApp->video->PlayVideo("Video/Main_Menu_Background.ogv", { 0,0,1280,720 },true);
 
 	//DeactivateScreen(Main_Menu_Elements);
 	DeactivateScreen(InGame_Elements);
-	//ActivateScreen(Main_Menu_Elements);
-
+	DeactivateScreen(Main_Menu_Elements);
+	myApp->video->PlayVideo("Video/Intro_Logo.ogv", { 0,0,1280,720 }, false);
+	TimeVideo.Start();
+	//Intro_Company.ogv
 	return ret;
 }
 
@@ -523,17 +536,22 @@ bool User_Interface::Update(float dt)
 	BROFILER_CATEGORY("Module User_Interface Update", Profiler::Color::DeepPink);
 
 	bool ret = true;
+	if (InitVideo == true && TimeVideo.ReadSec()>=5.11) {
+		InitVideo = false;
+		myApp->video->PlayVideo("Video/Main_Menu_Background.ogv", { 0,0,1280,720 }, true);
+		ActivateScreen(Main_Menu_Elements);
+		myApp->scene->SwitchMusic(Screen_Type::SCREEN_MAINMENU);
+	}
 
 
-
-	if (myApp->input->GetKey(SDL_SCANCODE_L)==KEY_DOWN) {
+	/*if (myApp->input->GetKey(SDL_SCANCODE_L)==KEY_DOWN) {
 		myApp->entities->unitBuff = true;
 		myApp->entities->buildingsBuff = true;
 		myApp->entities->heavyUnitsUnlocked = true;
 		myApp->entities->incomeBuff1 = true;
 		myApp->entities->incomeBuff2 = true;
 		myApp->entities->incomeBuff45 = true;
-	}
+	}*/
 	//TODO LUCHO VARIABLE
 	if (myApp->hordes->HordesDead() == false) {
 		Eniemies_left_Label->ChangeString(std::to_string(myApp->hordes->remainingEnemies));

@@ -124,7 +124,7 @@ public:
 public:
 
 	Screen_Type Current_Screen = Screen_Type::SCREEN_MAINMENU;
-
+	bool InitVideo = true;
 	bool interfaceDebugDraw = false;
 	bool OnPause = false;
 
@@ -300,6 +300,13 @@ public:
 	Text* Hotkey_Patrol_Label = nullptr;
 	Text* Patrol_Label = nullptr;
 
+	Key_Config_Box* Hotkey_Defensive = nullptr;
+	Text* Hotkey_Defensive_Label = nullptr;
+	Text* Defensive_Label = nullptr;
+	Key_Config_Box* Hotkey_Aggressive = nullptr;
+	Text* Hotkey_Aggressive_Label = nullptr;
+	Text* Aggressive_Label = nullptr;
+
 	Unit_Box* ConscriptCreator = nullptr;
 	Unit_Box* FlakCreator = nullptr;
 	Unit_Box* SniperCreator = nullptr;
@@ -311,7 +318,7 @@ private:
 	
 
 	std::list<UI_Element*> screenElements;
-
+	Timer TimeVideo;
 
 	SDL_Texture* Timer_Texture = nullptr;
 

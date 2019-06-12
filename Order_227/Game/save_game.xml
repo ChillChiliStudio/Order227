@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<game_state>
+	<input />
+	<controls>
+		<debug map="68" gui="67" entities="66" next_round="65" spawn_blue_dog="64" spawn_blue_chrono="63" spawn_blue_sniper="62" spawn_red_chrono="61" spawn_red_desolator="60" spawn_red_bazooka="59" spawn_red_conscript="58" />
+		<mouse select="1" issue_orders="3" />
+		<camera up="26" down="22" left="4" right="7" />
+		<orders hold="44" hunt="20" patrol="8" defensive="225" aggressive="224" />
+	</controls>
+	<window />
+	<textures />
+	<map />
+	<pathfinding />
+	<scene />
+	<entities heavy_units_unlocked="false" unit_buff="false" buildings_buff="false" income_buff1="false" income_buff2="false" income_buff3="false">
+		<units active="9">
+			<unit_0 position_x="-2759.93262" position_y="1479.78052" faction="1" type="2">
+				<stats health="7" damage="4" cadency="1" attack_radius="150" vision_radius="200" lin_speed="90" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="-2747" origin_y="1514" destination_x="-2747" destination_y="1514" />
+			</unit_0>
+			<unit_1 position_x="-2737.00098" position_y="1500" faction="1" type="2">
+				<stats health="7" damage="4" cadency="1" attack_radius="150" vision_radius="200" lin_speed="90" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="-2748" origin_y="1535" destination_x="-2730" destination_y="1515" />
+			</unit_1>
+			<unit_2 position_x="-2803.57593" position_y="1498.07446" faction="1" type="2">
+				<stats health="7" damage="4" cadency="1" attack_radius="150" vision_radius="200" lin_speed="90" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="-2791" origin_y="1533" destination_x="-2791" destination_y="1533" />
+			</unit_2>
+			<unit_3 position_x="-2802.09033" position_y="1471.42188" faction="1" type="2">
+				<stats health="7" damage="4" cadency="1" attack_radius="150" vision_radius="200" lin_speed="90" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="-2790" origin_y="1506" destination_x="-2790" destination_y="1506" />
+			</unit_3>
+			<unit_4 position_x="2040.06812" position_y="1419.78052" faction="1" type="2">
+				<stats health="7" damage="4" cadency="1" attack_radius="150" vision_radius="200" lin_speed="90" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="2052" origin_y="1454" destination_x="2052" destination_y="1454" />
+			</unit_4>
+			<unit_5 position_x="2063.19995" position_y="1440" faction="1" type="2">
+				<stats health="7" damage="4" cadency="1" attack_radius="150" vision_radius="200" lin_speed="90" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="2052" origin_y="1475" destination_x="2070" destination_y="1455" />
+			</unit_5>
+			<unit_6 position_x="1996.02368" position_y="1438.07446" faction="1" type="2">
+				<stats health="7" damage="4" cadency="1" attack_radius="150" vision_radius="200" lin_speed="90" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="2008" origin_y="1473" destination_x="2008" destination_y="1473" />
+			</unit_6>
+			<unit_7 position_x="1997.00049" position_y="1410.5" faction="1" type="2">
+				<stats health="7" damage="4" cadency="1" attack_radius="150" vision_radius="200" lin_speed="90" />
+				<unit infantry_type="0" orders="0" aggro="2" provoqued="false" origin_x="2009" origin_y="1445" destination_x="2009" destination_y="1445" />
+			</unit_7>
+			<unit_8 position_x="1367.53772" position_y="2109.22998" faction="1" type="2">
+				<stats health="40" damage="3" cadency="1" attack_radius="200" vision_radius="300" lin_speed="70" />
+				<unit infantry_type="4" orders="0" aggro="2" provoqued="false" origin_x="1379" origin_y="2144" destination_x="1379" destination_y="2144" />
+			</unit_8>
+		</units>
+		<launchers active="0" />
+		<buildings active="7">
+			<building_7 type="0" faction="0" health="300" max_health="300" repairable="false" reward_given="true" />
+			<building_6 type="2" faction="2" health="0" max_health="200" repairable="false" reward_given="false" />
+			<building_5 type="1" faction="2" health="0" max_health="200" repairable="false" reward_given="false" />
+			<building_4 type="3" faction="2" health="0" max_health="200" repairable="false" reward_given="false" />
+			<building_3 type="4" faction="2" health="0" max_health="200" repairable="false" reward_given="false" />
+			<building_2 type="5" faction="2" health="0" max_health="200" repairable="false" reward_given="false" />
+			<building_1 type="6" faction="2" health="0" max_health="200" repairable="false" reward_given="false" />
+		</buildings>
+	</entities>
+	<audio volume="60">
+		<music volume="50" />
+		<sfx volume="80" />
+	</audio>
+	<fonts />
+	<video />
+	<user_interface />
+	<group_manager />
+	<player money="480" income="90" income_timer="1168" income_received="false" />
+	<horde_manager>
+		<round round_num="1" round_timer="1168" round_threat="15" />
+		<horde horde_active="true" max_hordes="10" enemies_left="9" clean_hordes_timer="1168" />
+		<threat threat_incremental="15" inital_threat_incremental="15" initial_round_threat="10" />
+		<spawns>
+			<spawn_1 active="false" enemies_attacking="false" spawn_time="1174" />
+			<spawn_2 active="false" enemies_attacking="false" spawn_time="1174" />
+			<spawn_3 active="true" enemies_attacking="false" spawn_time="1174" />
+			<spawn_4 active="true" enemies_attacking="false" spawn_time="1174" />
+			<spawn_5 active="true" enemies_attacking="false" spawn_time="1174" />
+			<spawn_6 active="false" enemies_attacking="false" spawn_time="1174" />
+			<spawn_7 active="false" enemies_attacking="false" spawn_time="1174" />
+			<spawn_8 active="false" enemies_attacking="false" spawn_time="1174" />
+			<spawn_9 active="false" enemies_attacking="false" spawn_time="1174" />
+			<spawn_10 active="false" enemies_attacking="false" spawn_time="1174" />
+			<spawn_11 active="false" enemies_attacking="false" spawn_time="1174" />
+			<spawn_12 active="false" enemies_attacking="false" spawn_time="1174" />
+		</spawns>
+	</horde_manager>
+	<minimap />
+	<renderer>
+		<camera x="400" y="-1000" />
+	</renderer>
+</game_state>

@@ -53,7 +53,7 @@ bool Scene::Start()
 
 	//MUSIC
 	LoadGameMusic();
-	SwitchMusic(Screen_Type::SCREEN_MAINMENU);
+	
 	
 	return true;
 }
@@ -142,17 +142,18 @@ bool Scene::CleanUp()
 
 
 void Scene::ManageMusic() {
+	if (current_track != nullptr) {
+		myApp->audio->PlayMusic(current_track->path, current_track->num_loops, 0.0f);
 
-	myApp->audio->PlayMusic(current_track->path, current_track->num_loops, 0.0f);
+		if (current_track->nextTrack == nullptr) {
 
-	if (current_track->nextTrack == nullptr) {
+			current_song = current_song->nextSong;
+			current_track = (*current_song->songtracks_list.begin());
+		}
 
-		current_song = current_song->nextSong;
-		current_track = (*current_song->songtracks_list.begin());
+
+		current_track = current_track->nextTrack;
 	}
-
-
-	current_track = current_track->nextTrack;
 }
 
 
