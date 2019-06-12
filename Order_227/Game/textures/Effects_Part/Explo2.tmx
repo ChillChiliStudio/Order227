@@ -4,30 +4,41 @@
   <image source="Explo2.png" width="872" height="1344"/>
  </imagelayer>
  <objectgroup name="Rects">
-  <object id="1" x="0" y="0" width="218" height="192"/>
-  <object id="1" x="218" y="0" width="218" height="192"/>
-  <object id="1" x="436" y="0" width="218" height="192"/>
-  <object id="1" x="654" y="0" width="218" height="192"/>
-  <object id="1" x="0" y="192" width="218" height="192"/>
-  <object id="1" x="218" y="192" width="218" height="192"/>
-  <object id="1" x="436" y="192" width="218" height="192"/>
-  <object id="1" x="654" y="192" width="218" height="192"/>
-  <object id="1" x="0" y="384" width="218" height="192"/>
-  <object id="1" x="218" y="384" width="218" height="192"/>
-  <object id="1" x="436" y="384" width="218" height="192"/>
-  <object id="1" x="654" y="384" width="218" height="192"/>
-  <object id="1" x="0" y="576" width="218" height="192"/>
-  <object id="1" x="218" y="576" width="218" height="192"/>
-  <object id="1" x="436" y="576" width="218" height="192"/>
-  <object id="1" x="654" y="576" width="218" height="192"/>
-  <object id="1" x="0" y="768" width="218" height="192"/>
-  <object id="1" x="218" y="768" width="218" height="192"/>
-  <object id="1" x="436" y="768" width="218" height="192"/>
-  <object id="1" x="654" y="768" width="218" height="192"/>
-  <object id="1" x="0" y="960" width="218" height="192"/>
-  <object id="1" x="218" y="960" width="218" height="192"/>
-  <object id="1" x="436" y="960" width="218" height="192"/>
-  <object id="1" x="654" y="960" width="218" height="192"/>
-  <object id="1" x="0" y="1152" width="218" height="192"/>
+  
+  <object id="1" x="0" y="0" width="115" height="101"/>
+  <object id="1" x="115" y="0" width="115" height="101"/>
+  <object id="1" x="230" y="0" width="115" height="101"/>
+  <object id="1" x="345" y="0" width="115" height="101"/>
+  
+   <object id="1" x="0"   y="101" width="115" height="101"/>
+   <object id="1" x="115" y="101" width="115" height="101"/>
+   <object id="1" x="230" y="101" width="115" height="101"/>
+   <object id="1" x="345" y="101" width="115" height="101"/>
+
+   <object id="1" x="0"   y="202" width="115" height="101"/>
+   <object id="1" x="115" y="202" width="115" height="101"/>
+   <object id="1" x="230" y="202" width="115" height="101"/>
+   <object id="1" x="345" y="202" width="115" height="101"/>
+
+   <object id="1" x="0"   y="303" width="115" height="101"/>
+   <object id="1" x="115" y="303" width="115" height="101"/>
+   <object id="1" x="230" y="303" width="115" height="101"/>
+   <object id="1" x="345" y="303" width="115" height="101"/>
+
+   <object id="1" x="0"   y="404" width="115" height="101"/>
+   <object id="1" x="115" y="404" width="115" height="101"/>
+   <object id="1" x="230" y="404" width="115" height="101"/>
+   <object id="1" x="345" y="404" width="115" height="101"/>
+
+   <object id="1" x="0"   y="505" width="115" height="101"/>
+   <object id="1" x="115" y="505" width="115" height="101"/>
+   <object id="1" x="230" y="505" width="115" height="101"/>
+   <object id="1" x="345" y="505" width="115" height="101"/>
+
+   <object id="1" x="0"   y="606" width="115" height="101"/>
+   <object id="1" x="115" y="606" width="115" height="101"/>
+   <object id="1" x="230" y="606" width="115" height="101"/>
+   <object id="1" x="345" y="606" width="115" height="101"/>
+   
  </objectgroup>
 </map>

@@ -60,10 +60,15 @@
       <Unit id="7" name="Missile" TextPath="textures/Effects_Part/flak_missile.png"  TiledFile="textures/Effects_Part/flak_missile.tmx"/>
       
     </None>
-    
-    
-    
+       
     </Troops>
 
+  <Particles>
+    
+    <Part id="0" name="Explo2" TextPath="textures/Effects_Part/Explo2.png" TiledFile="textures/Effects_Part/Explo2.tmx" />
+ 
+   
+  </Particles>
+  
     
 </Entity_Document>

@@ -9,6 +9,7 @@ enum class object_type {
 	TREE,
 	ROCK,
 	MISSILE, //TODO:Shouldn't be here need to change to other enum
+	EXPLOSION,//TODO:Shouldn't be here need to change to other enum
 	OBJECT_MAX
 };
 

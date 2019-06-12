@@ -567,6 +567,7 @@ Launcher* Entity_Manager::ActivateLauncher(fPoint position, infantry_type infant
 			(*item).texture = infantryTextures[int(infantryType)][(int)entityFaction];
 			(*item).stats = infantryStats[int(infantryType)];
 			(*item).Start();
+			
 
 			if ((*item).faction == entity_faction::COMMUNIST && saveFile == false) {
 				int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SPAWN];
@@ -758,9 +759,10 @@ bool Entity_Manager::loadTextures()
 	if (result2 != NULL)
 	loadBuildingsTextures();
 
+	//TODO:Desharcode
 	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
 	objectTextures[int(object_type::MISSILE)] = myApp->tex->Load("textures/Effects_Part/flak_missile.png");
-
+	objectTextures[int(object_type::EXPLOSION)] = myApp->tex->Load("textures/Effects_Part/Explo2.png");
 
 	return true;
 }
@@ -901,6 +903,7 @@ bool Entity_Manager::LoadEntityData() {
 		AssignAnimData("Soviet");
 		AssignAnimData("Capitalist");
 		AssignAnimData("None");
+		AssignAnimData("Particle");
 
 		LoadBuildingsData();
 
@@ -974,39 +977,37 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 	int i = 0;
 
 
-	for (pugi::xml_node DataXML = unitsDocument.child("Entity_Document").child("Troops").child(faction.c_str()).child("Unit"); DataXML; DataXML = DataXML.next_sibling("Unit")) {
+
+	if (faction != "Particle") {
+
+		for (pugi::xml_node DataXML = unitsDocument.child("Entity_Document").child("Troops").child(faction.c_str()).child("Unit"); DataXML; DataXML = DataXML.next_sibling("Unit")) {
 
 
-		pugi::xml_parse_result TiledFile = TiledDocument.load_file(DataXML.attribute("TiledFile").as_string());
-
-		if (faction == "Soviet" || faction =="None")
-			posArr = 0;
-		else
-			posArr = 1;
+			pugi::xml_parse_result TiledFile = TiledDocument.load_file(DataXML.attribute("TiledFile").as_string());
 
 
-		if (TiledFile != NULL) {
+			if (TiledFile != NULL) {
 
-			for (pugi::xml_node DataTMX = TiledDocument.child("map").child("objectgroup").child("object"); DataTMX && ret; DataTMX = DataTMX.next_sibling("object")) {
+				for (pugi::xml_node DataTMX = TiledDocument.child("map").child("objectgroup").child("object"); DataTMX && ret; DataTMX = DataTMX.next_sibling("object")) {
 
-				temp.x = DataTMX.attribute("x").as_int();
-				temp.y = DataTMX.attribute("y").as_int();
-				temp.w = DataTMX.attribute("width").as_int();
-				temp.h = DataTMX.attribute("height").as_int();
+					temp.x = DataTMX.attribute("x").as_int();
+					temp.y = DataTMX.attribute("y").as_int();
+					temp.w = DataTMX.attribute("width").as_int();
+					temp.h = DataTMX.attribute("height").as_int();
 
 
-				std::string tempString = DataTMX.attribute("name").as_string();
-				int degreesToArray = DataTMX.attribute("type").as_int() / 45;    //DEGREES    HAVE IN ACCOUNT THAT THE TILES ARE DEFINED CONTERCLOCKWISE
+					std::string tempString = DataTMX.attribute("name").as_string();
+					int degreesToArray = DataTMX.attribute("type").as_int() / 45;    //DEGREES    HAVE IN ACCOUNT THAT THE TILES ARE DEFINED CONTERCLOCKWISE
 
-				int id = DataXML.attribute("id").as_int();
+					int id = DataXML.attribute("id").as_int();
 
-				if (id != 7){
+					if (id != 7) {
 
-					switch (id)
-					{
+						switch (id)
+						{
 
-					case (int(infantry_type::BASIC)):
-            				temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						case (int(infantry_type::BASIC)):
+							temp.x += DataXML.child("RectOffset").attribute("x").as_int();
 							temp.y += DataXML.child("RectOffset").attribute("y").as_int();
 							temp.w = DataXML.child("RectOffset").attribute("w").as_int();
 							temp.h = DataXML.child("RectOffset").attribute("h").as_int();
@@ -1014,131 +1015,169 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 							break;
 
 
-					case (int(infantry_type::CONSCRIPT)):
+						case (int(infantry_type::CONSCRIPT)):
 
-						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
-						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
-						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
-						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+							temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+							temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+							temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+							temp.h = DataXML.child("RectOffset").attribute("h").as_int();
 
-						break;
+							break;
 
-					case (int(infantry_type::BAZOOKA)):
+						case (int(infantry_type::BAZOOKA)):
 
-						//Introduce offset
-						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
-						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
-						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
-						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+							//Introduce offset
+							temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+							temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+							temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+							temp.h = DataXML.child("RectOffset").attribute("h").as_int();
 
-						break;
+							break;
 
-					case (int(infantry_type::CHRONO)):
+						case (int(infantry_type::CHRONO)):
 
-						//Introduce offset
-						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
-						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
-						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
-						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
-						break;
+							//Introduce offset
+							temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+							temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+							temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+							temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+							break;
 
-					case (int(infantry_type::SNIPER)):
+						case (int(infantry_type::SNIPER)):
 
-						//Introduce offset
-						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
-						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
-						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
-						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
-						break;
-
-
-					case(int(infantry_type::DESOLATOR)):
-
-						//Introduce offset
-						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
-						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
-						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
-						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
-						break;
-
-					case(int(infantry_type::DOG)):
-
-						//Introduce offset
-						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
-						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
-						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
-						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
-						break;
+							//Introduce offset
+							temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+							temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+							temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+							temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+							break;
 
 
+						case(int(infantry_type::DESOLATOR)):
+
+							//Introduce offset
+							temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+							temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+							temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+							temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+							break;
+
+						case(int(infantry_type::DOG)):
+
+							//Introduce offset
+							temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+							temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+							temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+							temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+							break;
+
+
+						}
+
+						if (tempString == "Pointing") {
+
+							animationArray[id][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
+							animationArray[id][int(unit_state::IDLE)][degreesToArray].loop = true;
+							animationArray[id][int(unit_state::IDLE)][degreesToArray].speed = 10.0f;
+
+						}
+
+						else if (tempString == "Walking") {
+
+							animationArray[id][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
+							animationArray[id][int(unit_state::MOVING)][degreesToArray].loop = true;
+							animationArray[id][int(unit_state::MOVING)][degreesToArray].speed = 5.0f;
+
+						}
+						else if (tempString == "Shot") {
+
+							animationArray[id][int(unit_state::ATTACKING)][degreesToArray].PushBack(temp);
+							animationArray[id][int(unit_state::ATTACKING)][degreesToArray].loop = true;
+							animationArray[id][int(unit_state::ATTACKING)][degreesToArray].speed = 10.0f;
+
+
+						}
+						else if (tempString == "DeathOne") {
+
+							animationArray[id][int(unit_state::DEAD)][0].PushBack(temp);
+							animationArray[id][int(unit_state::DEAD)][0].loop = false;
+							animationArray[id][int(unit_state::DEAD)][0].speed = DataXML.child("AnimDet").attribute("DeathOneSpeed").as_float();
+
+
+						}
+						else if (tempString == "DeathTwo") {
+
+							animationArray[id][int(unit_state::DEAD)][1].PushBack(temp);
+							animationArray[id][int(unit_state::DEAD)][1].loop = false;
+							animationArray[id][int(unit_state::DEAD)][1].speed = DataXML.child("AnimDet").attribute("DeathOneSpeed").as_float();
+
+						}
 					}
+					else {
 
-					if (tempString == "Pointing") {
+						if (tempString == "Pointing") {
 
-						animationArray[id][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
-						animationArray[id][int(unit_state::IDLE)][degreesToArray].loop = true;
-						animationArray[id][int(unit_state::IDLE)][degreesToArray].speed = 10.0f;
+							ParticleAnimArray[i] = temp;
+							i++;
 
-					}
+						}
 
-					else if (tempString == "Walking") {
+						if (id == int(infantry_type::SNIPER)) {
 
-						animationArray[id][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
-						animationArray[id][int(unit_state::MOVING)][degreesToArray].loop = true;
-						animationArray[id][int(unit_state::MOVING)][degreesToArray].speed = 5.0f;
-
-					}
-					else if (tempString == "Shot") {
-
-						animationArray[id][int(unit_state::ATTACKING)][degreesToArray].PushBack(temp);
-						animationArray[id][int(unit_state::ATTACKING)][degreesToArray].loop = true;
-						animationArray[id][int(unit_state::ATTACKING)][degreesToArray].speed = 10.0f;
-
-
-					}
-					else if (tempString == "DeathOne") {
+							temp.x -= DataXML.child("RectDeath").attribute("x").as_int();
+							temp.y -= DataXML.child("RectDeath").attribute("y").as_int();
+							temp.w = DataXML.child("RectDeath").attribute("w").as_int();
+							temp.h = DataXML.child("RectDeath").attribute("h").as_int();
+						}
 
 						animationArray[id][int(unit_state::DEAD)][0].PushBack(temp);
 						animationArray[id][int(unit_state::DEAD)][0].loop = false;
 						animationArray[id][int(unit_state::DEAD)][0].speed = DataXML.child("AnimDet").attribute("DeathOneSpeed").as_float();
 
-
-					}
-					else if (tempString == "DeathTwo") {
-
-						animationArray[id][int(unit_state::DEAD)][1].PushBack(temp);
-						animationArray[id][int(unit_state::DEAD)][1].loop = false;
-						animationArray[id][int(unit_state::DEAD)][1].speed = DataXML.child("AnimDet").attribute("DeathOneSpeed").as_float();
-
 					}
 				}
-				else {
 
-					if (tempString == "Pointing") {
+			}
+			else
+				ret = false;
 
-						ParticleAnimArray[i]=temp;
-						i++;
+		}
 
-					}
+	}
+	else {
 
-					if (id == int(infantry_type::SNIPER)) {
 
-						temp.x -= DataXML.child("RectDeath").attribute("x").as_int();
-						temp.y -= DataXML.child("RectDeath").attribute("y").as_int();
-						temp.w = DataXML.child("RectDeath").attribute("w").as_int();
-						temp.h = DataXML.child("RectDeath").attribute("h").as_int();
-					}
+		for (pugi::xml_node DataXML = unitsDocument.child("Entity_Document").child("Particles").child("Part"); DataXML; DataXML = DataXML.next_sibling("Part")) {
 
-					animationArray[id][int(unit_state::DEAD)][0].PushBack(temp);
-					animationArray[id][int(unit_state::DEAD)][0].loop = false;
-					animationArray[id][int(unit_state::DEAD)][0].speed = DataXML.child("AnimDet").attribute("DeathOneSpeed").as_float();
+
+			pugi::xml_parse_result TiledFile = TiledDocument.load_file(DataXML.attribute("TiledFile").as_string());
+
+
+			if (TiledFile != NULL) {
+
+				for (pugi::xml_node DataTMX = TiledDocument.child("map").child("objectgroup").child("object"); DataTMX && ret; DataTMX = DataTMX.next_sibling("object")) {
+
+					temp.x = DataTMX.attribute("x").as_int();
+					temp.y = DataTMX.attribute("y").as_int();
+					temp.w = DataTMX.attribute("width").as_int();
+					temp.h = DataTMX.attribute("height").as_int();
+
+
+					std::string tempString = DataTMX.attribute("name").as_string();
+					int id = DataXML.attribute("id").as_int();
+
+
+					ExplosionsAnimsArray[id].PushBack(temp);
+					ExplosionsAnimsArray[id].loop = false;
+					ExplosionsAnimsArray[id].speed = 10.0f;
+
 
 				}
 			}
 
+
 		}
-		else
-			ret = false;
+
 
 	}
 

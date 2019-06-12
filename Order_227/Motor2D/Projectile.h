@@ -38,7 +38,8 @@ public:
 	projectile_directions CheckDirection(fVec2 direction);
 	fVec2 SetupVecSpeed();
 
-	Animation currentAnimation;
+	Animation Explosion;
+	SDL_Texture* Tex_Explosion;
 
 	// Speed
 	fVec2 ProjectileVecSpeed;	// Vectorial speed
@@ -50,6 +51,8 @@ public:
 	fPoint Destination;
 
 	float damage = 0.0f; 
+
+	bool exploded = false;
 
 };
 

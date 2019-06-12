@@ -8,6 +8,7 @@
 Projectile::Projectile() {
 	
 	
+	
 }
 
 Projectile::~Projectile() {
@@ -36,10 +37,16 @@ bool Projectile::Update(float dt) {
 	centerPos.y = position.y + (entityRect.h / 2);
 
 
-	spriteRect = (myApp->entities->ParticleAnimArray[(int)ProjectileDirection]);
-	
 
-	myApp->render->Blit(texture, (int)position.x, (int)position.y, &spriteRect);
+	if (exploded == false) {
+		spriteRect = (myApp->entities->ParticleAnimArray[(int)ProjectileDirection]);
+		myApp->render->Blit(texture, (int)position.x, (int)position.y, &spriteRect);
+	}
+	else {
+		Explosion = (&myApp->entities->ExplosionsAnimsArray[0]);
+		spriteRect = Explosion.GetCurrentFrame(dt);
+		myApp->render->Blit(Tex_Explosion, position.x, position.y, &spriteRect);
+	}
 
 
 	return true;
@@ -100,6 +107,8 @@ void Projectile::CheckExplosion() {
 
 void Projectile::Explode() {
 	LOG("EXPLOSION");
+
+	exploded = true;
 	
 	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
 		if ((*item).active == true && (*item).IsDead() == false && (*item).faction != faction) {
@@ -127,6 +136,10 @@ void Projectile::Explode() {
 		}
 	}
 
-	this->active = false;
 	
+	if(Explosion.Finished() >0)
+	 this->active = false;
+	
+
+
 }
