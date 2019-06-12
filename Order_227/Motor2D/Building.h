@@ -53,10 +53,11 @@ public:
 	virtual bool IsDead();
 	virtual bool IsVisible();
 
+	void TakeReward();
+
 private:
 
 	void GiveReward();
-	void TakeReward();
 	void AddUnitsBuff();
 
 public:

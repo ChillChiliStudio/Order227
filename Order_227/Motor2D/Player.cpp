@@ -115,6 +115,9 @@ bool Player::Update(float dt)
 			}
 		}
 
+		/*if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+			myApp->entities->ActivateUnit(fPoint((float)mousePos.x, (float)mousePos.y), infantry_type::ENGINEER, entity_faction::COMMUNIST);*/
+
 		/*if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
 			myApp->SaveGame();
 		}*/
@@ -124,6 +127,7 @@ bool Player::Update(float dt)
 	}*/
 
 	if (incomeTimer.ReadSec() >= 2 && myApp->gui->Current_Screen==Screen_Type::SCREEN_INGAME&& !myApp->gui->OnPause) {
+
 		playerMoney += playerIncome;
 		myApp->gui->Moneytext->ChangeString(std::to_string(myApp->player->playerMoney));
 		incomeTimer.Start();

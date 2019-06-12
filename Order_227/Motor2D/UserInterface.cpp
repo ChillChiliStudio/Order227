@@ -33,6 +33,8 @@
 #include "Mouse.h"
 #include "Unit_Panel.h"
 #include "Buff_Box.h"
+#include "TutorialBox.h"
+#include "Video.h"
 
 User_Interface::User_Interface() : Module()
 {
@@ -55,7 +57,7 @@ bool User_Interface::Awake(pugi::xml_node& config)
 }
 
 Animation User_Interface::loadAnim() {
-	
+
 	Animation ret;
 	int x = 0, y = 0;
 
@@ -75,6 +77,7 @@ Animation User_Interface::loadAnim() {
 // Called before the first frame
 bool User_Interface::Start()
 {
+	Current_Screen = Screen_Type::SCREEN_MAINMENU;
 	bool ret = true;
 
 	SDL_ShowCursor(SDL_DISABLE);
@@ -92,11 +95,14 @@ bool User_Interface::Start()
 	StartGame_text = myApp->tex->Load("ui/Buttons_And_Slides.png");
 	PauseButton_text = myApp->tex->Load("ui/Pause_Buton_Icon.png");
 	unitStats_text = myApp->tex->Load("ui/Unit_Stats.png");
-	endingImages_Tex = myApp->tex->Load("ui/Ending_Game_Mesage_Icon.png"); 
+	endingImages_Tex = myApp->tex->Load("ui/Ending_Game_Mesage_Icon.png");
 	mouse_tex = myApp->tex->Load("ui/Mouse_Actions.png");
 	Unit_Panels_tex = myApp->tex->Load("ui/Unit_Costs_Panel.png");
 	InGame_Label_tex= myApp->tex->Load("ui/In_Game_Labels.png");
 	Buff_tex = myApp->tex->Load("ui/Buff_Texture.png");
+	Options_tex = myApp->tex->Load("ui/Options_Text.png");
+	Volume_Slides = myApp->tex->Load("ui/VolumeBars_Tex.png");
+	Tutorial_Tex = myApp->tex->Load("ui/Tutorial_SpriteSheet.png");
 
 	//Debug Elements
 	fpsText = CreateText({ 10, 10 }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
@@ -110,6 +116,12 @@ bool User_Interface::Start()
 	TempButtonRect[1] = { 626,0,290,84 };
 	TempButtonRect[2] = { 938,0,290,84 };
 	TempButtonRect[3] = {1250,0,290,84 };
+
+	SDL_Rect mini_TempButtonRect[4];
+	mini_TempButtonRect[0] = { 0,85,97,82 };
+	mini_TempButtonRect[1] = { 0,85,97,82 };
+	mini_TempButtonRect[2] = { 97,85,97,82 };
+	mini_TempButtonRect[3] = { 194,85,97,82 };
 
 	SDL_Rect Pause_Button[4];
 	Pause_Button[0] = { 0,0,168,42 };
@@ -189,10 +201,12 @@ bool User_Interface::Start()
 	//UnitFrame = CreateImage(fPoint(width / 1.58, height - 75), SDL_Rect({ 125,5,50,43 }), unitsSelection_Tex);
 
 	Moneytext = CreateText(fPoint(width / 1.55, height - 140),money.c_str(),font_id::MOLOT);
-	
-	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2-100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex,true);
-	ReturnMainMenu = CreateVoidBox(QuitGame, fPoint(width / 2, height / 2), Pause_Button, PauseButton_text, pauseMenuPanel);
-	ReturnMainMenu_Label = CreateText(fPoint(width / 2, height / 2), "EXIT", font_id::MOLOT,White,false,pauseMenuPanel);
+
+	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2-100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex,true,nullptr,nullptr,Screen_Type::SCREEN_PAUSE);
+	ReturnMainMenu = CreateVoidBox(QuitGame, fPoint(width / 2, height / 2), Pause_Button, PauseButton_text, pauseMenuPanel,Screen_Type::SCREEN_PAUSE);
+	ReturnMainMenu_Label = CreateText(fPoint(width / 2, height / 2), "EXIT", font_id::MOLOT,White,false,pauseMenuPanel,1.0f,nullptr,Screen_Type::SCREEN_PAUSE);
+	Options_Pause_button = CreateVoidBox(OptionsOpen, fPoint(width / 2, height / 2.3), Pause_Button, PauseButton_text, pauseMenuPanel, Screen_Type::SCREEN_PAUSE);
+	Options_Pause_Label = CreateText(fPoint(width / 2, height / 2.3), "Options", font_id::MOLOT, White, false, pauseMenuPanel,1.0f,nullptr, Screen_Type::SCREEN_PAUSE);
 	pauseMenuPanel->Deactivate();
 	frameSelector = CreateImage(fPoint(width / 11, height - 140), SDL_Rect({ 0,0,134,38 }), selectorinGame_Tex);
 
@@ -222,7 +236,7 @@ bool User_Interface::Start()
 	FlakPanel_Info = CreateUnitPanel(SDL_Rect({ 137,0,137,165 }), FlakCreator, Unit_Panels_tex);
 	ChronoPanel_Info = CreateUnitPanel(SDL_Rect({ 274,0,137,165 }), ChronoCreator, Unit_Panels_tex);
 
-	
+
 	Units_Life = CreateBuffBox(fPoint(370, height - 200), SDL_Rect({ 3,3,41,41 }), Buff_tex, &myApp->entities->unitBuff);
 	Buildings_Life = CreateBuffBox(fPoint(430, height - 200), SDL_Rect({ 44,0,41,41 }), Buff_tex, &myApp->entities->buildingsBuff);
 	HeavyUnits_able = CreateBuffBox(fPoint(480, height - 200), SDL_Rect({ 85,0,41,41 }), Buff_tex, &myApp->entities->heavyUnitsUnlocked);
@@ -238,35 +252,148 @@ bool User_Interface::Start()
 	 Money3Buff_Info = CreateUnitPanel(SDL_Rect({ 0,535,151,94 }), Mone3_Buff, Unit_Panels_tex);
 
 
+	MainMenuTemp_Image = CreateImage(fPoint(3000,3000), SDL_Rect({ 0,0,0,0 }), Main_Menu_Temp_Tex,false,nullptr,nullptr, Screen_Type::SCREEN_MAINMENU);
 
-	MainMenuTemp_Image = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,1280,720 }), Main_Menu_Temp_Tex);
-	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/1.8),TempButtonRect,StartGame_text,MainMenuTemp_Image);
-	StartGame_Label = CreateText(fPoint(width / 2, height / 1.8), "START GAME", font_id::MOLOT,White,false,StartGame_Button);
 
-	ExitGame_Button = CreateVoidBox(CloseGame, fPoint(width / 2, height / 1.2), TempButtonRect, StartGame_text, MainMenuTemp_Image);
-	ExitGame_Label = CreateText(fPoint(width / 2, height / 1.2), "QUIT GAME", font_id::MOLOT, White, false, ExitGame_Button);
 
-	Minimap_Display = new  MiniMap_UI(ui_type::NONE);
+	//MainMenuTemp_Image = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,1280,720 }), Main_Menu_Temp_Tex);
+	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/1.8),TempButtonRect,StartGame_text,nullptr,Screen_Type::SCREEN_MAINMENU);
+	StartGame_Label = CreateText(fPoint(width / 2, height / 1.8), "START GAME", font_id::MOLOT,White,false,StartGame_Button,1.0f,nullptr, Screen_Type::SCREEN_MAINMENU);
+
+	ExitGame_Button = CreateVoidBox(CloseGame, fPoint(width / 2, height / 1.15), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	ExitGame_Label = CreateText(fPoint(width / 2, height / 1.15), "QUIT GAME", font_id::MOLOT, White, false, ExitGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+
+	OptionsGame_Button = CreateVoidBox(OptionsOpen, fPoint(width / 2, height / 1.4), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	OptionsGame_Label = CreateText(fPoint(width / 2, height / 1.4), "OPTIONS", font_id::MOLOT, White, false, OptionsGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+
+	Minimap_Display = new  MiniMap_UI();
+	Tutorial = new TutorialBox(fPoint(width / 2, height / 2),SDL_Rect({ 0,0,906,657 }),Tutorial_Tex);
+	AddElement(Tutorial);
+	Tutorial->Deactivate();
 	AddElement(Minimap_Display);
+	InGame_Elements.push_back(Minimap_Display);
+
+	Tutorial_Button = CreateVoidBox(TutorialOpen, fPoint(width / 4, height / 1.15), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	Tutorial_Label = CreateText(fPoint(width / 4, height / 1.15), "TUTORIAL", font_id::MOLOT, White, false, Tutorial_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+	Tutorial_Arrow_Foreward = CreateVoidBox(NextPage_Tutorial, fPoint(width / 1.7, height / 1.15), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Tutorial_Arrow_Foreward_Label = CreateImage(fPoint(width /1.7, height / 1.15), SDL_Rect({ 1,169,32,22 }), StartGame_text, false,Tutorial_Arrow_Foreward, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Tutorial_Arrow_Back = CreateVoidBox(BackPage_Tutorial, fPoint(width / 2.45, height / 1.15), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Tutorial_Arrow_Back_Label = CreateImage(fPoint(width / 2.45, height / 1.15), SDL_Rect({ 0,191,32,22 }), StartGame_text, false, Tutorial_Arrow_Back, nullptr, Screen_Type::SCREEN_OPTIONS);
+
+	ReturnfromTutorial_Button = CreateVoidBox(QuitTutorial, fPoint(width / 3.39, height / 1.10), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	ReturnfromTutorial_Label = CreateText(fPoint(width / 3.8, height / 1.12), "RETURN", font_id::MOLOT, White, false, ReturnfromTutorial_Button, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	ReturnfromTutorial_Button->ChangeSize(0.6f);
+	Tutorial_Arrow_Foreward->Deactivate();
+	Tutorial_Arrow_Back->Deactivate();
+	ReturnfromTutorial_Button->Deactivate();
+
+
+	OptionsPanel = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,906,657 }), Options_tex,false,nullptr,nullptr,Screen_Type::SCREEN_OPTIONS);
+
+	VolumeSFX_Slide = CreateImage(fPoint(width / 2, height / 2.2), SDL_Rect({ 0,0,796,80 }), Volume_Slides, false,OptionsPanel, nullptr, Screen_Type::SCREEN_OPTIONS);
+	VolumeMusic_Slide = CreateImage(fPoint(width / 2, height / 3.5), SDL_Rect({ 0,0,796,80 }), Volume_Slides, false, OptionsPanel, nullptr, Screen_Type::SCREEN_OPTIONS);
+	SetHotkeys_Button = CreateVoidBox(Hotkeys_Options, fPoint(width / 2, height / 1.5), TempButtonRect, StartGame_text, OptionsPanel, Screen_Type::SCREEN_OPTIONS);
+	SetHotkeys_Label = CreateText(fPoint(width / 2, height / 1.5), "CONTROLS", font_id::MOLOT, White, false, SetHotkeys_Button,1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+
+	Hotkey_Conscript = CreateVoidBox(Hotkeys_Options, fPoint(width / 2.6, height / 3.5), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Conscript_Label = CreateText(fPoint(width / 2.6, height / 3.5), "1", font_id::MOLOT, White, false, Hotkey_Conscript, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Conscript_Label = CreateText(fPoint(width / 3.5, height / 3.5), "Create Consrcipt", font_id::MOLOT, White, false, Hotkey_Conscript, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Conscript->Deactivate();
+
+	Hotkey_Flak = CreateVoidBox(Hotkeys_Options, fPoint(width / 2.6, height / 2.3), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Flak_Label = CreateText(fPoint(width / 2.6, height / 2.3), "2", font_id::MOLOT, White, false, Hotkey_Flak, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Flak_Label = CreateText(fPoint(width / 3.5, height / 2.3), "Create Flak", font_id::MOLOT, White, false, Hotkey_Flak, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Flak->Deactivate();
+
+	Hotkey_Desolator = CreateVoidBox(Hotkeys_Options, fPoint(width / 2.6, height / 1.7), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Desolator_Label = CreateText(fPoint(width / 2.6, height / 1.7), "3", font_id::MOLOT, White, false, Hotkey_Desolator, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Desolator_Label = CreateText(fPoint(width / 3.5, height / 1.7), "Create Desolator", font_id::MOLOT, White, false, Hotkey_Desolator, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Desolator->Deactivate();
+
+	Hotkey_Chrono = CreateVoidBox(Hotkeys_Options, fPoint(width / 2.6, height / 1.35), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Chrono_Label = CreateText(fPoint(width / 2.6, height / 1.35), "4", font_id::MOLOT, White, false, Hotkey_Chrono, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Chrono_Label = CreateText(fPoint(width / 3.5, height / 1.35), "Create Chrono", font_id::MOLOT, White, false, Hotkey_Chrono, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Chrono->Deactivate();
+
+	Hotkey_Sniper = CreateVoidBox(Hotkeys_Options, fPoint(width / 1.5, height / 3.5), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Sniper_Label = CreateText(fPoint(width / 1.5, height / 3.5), "5", font_id::MOLOT, White, false, Hotkey_Sniper, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Sniper_Label = CreateText(fPoint(width / 1.7, height / 3.5), "Create Sn iper", font_id::MOLOT, White, false, Hotkey_Sniper, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Sniper->Deactivate();
+
+	Hotkey_Up = CreateVoidBox(Hotkeys_Options, fPoint(width / 1.5, height / 2.05), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Up_Label = CreateText(fPoint(width / 1.5, height / 2.05), "W", font_id::MOLOT, White, false, Hotkey_Up, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Up->Deactivate();
+
+	Hotkey_Down = CreateVoidBox(Hotkeys_Options, fPoint(width / 1.5, height / 1.6), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Down_Label = CreateText(fPoint(width / 1.5, height / 1.6), "S", font_id::MOLOT, White, false, Hotkey_Down, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Down->Deactivate();
+
+	Hotkey_Left = CreateVoidBox(Hotkeys_Options, fPoint(width / 1.72, height / 1.6), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Left_Label = CreateText(fPoint(width / 1.72, height / 1.6), "A", font_id::MOLOT, White, false, Hotkey_Left, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Left->Deactivate();
+
+	Hotkey_Right = CreateVoidBox(Hotkeys_Options, fPoint(width / 1.32, height / 1.6), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Right_Label = CreateText(fPoint(width / 1.32, height / 1.6), "D", font_id::MOLOT, White, false, Hotkey_Right, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Right->Deactivate();
+
+	ReturnOptions_Button = CreateVoidBox(QuitOptions, fPoint(width / 1.9, height / 1.135), TempButtonRect, StartGame_text,OptionsPanel, Screen_Type::SCREEN_OPTIONS);
+	ReturnOptions_Label = CreateText(fPoint(width / 2, height / 1.15), "RETURN", font_id::MOLOT, White, false, ReturnOptions_Button,0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	ReturnOptions_Button->ChangeSize(0.7f);
+
+	OptionsPanel->Deactivate();
+
 
 	Mouse_UI = CreateMouse(mouse_tex);
 
 	SpawnSelectors.push_back(selectorInfantry);
 	SpawnSelectors.push_back(selectorDefenses);
 	SpawnSelectors.push_back(selectorTank);
-	Main_Menu_Elements.push_back(MainMenuTemp_Image);
-	Main_Menu_Elements.push_back(StartGame_Button);
-	Main_Menu_Elements.push_back(StartGame_Label);
 
+	//for (std::list<UI_Element*>::iterator iter = InGame_Elements.begin(); iter != InGame_Elements.end(); iter = next(iter)) {
+	//	if ((*iter)->active == true) {
+	//		(*iter)->Deactivate();
+	//	}
+	//}
+	//for (std::list<UI_Element*>::iterator iter = Main_Menu_Elements.begin(); iter != Main_Menu_Elements.end(); iter = next(iter)) {
+	//		(*iter)->Activate();
+	//		//ret = (*iter)->PreUpdate();
+	//}
+	//Main_Menu_Elements.push_back(MainMenuTemp_Image);
+	//Main_Menu_Elements.push_back(StartGame_Button);
+	//Main_Menu_Elements.push_back(StartGame_Label);
+
+	myApp->video->PlayVideo("Video/Main_Menu_Background.ogv", { 0,0,1280,720 },true);
+
+	//DeactivateScreen(Main_Menu_Elements);
+	DeactivateScreen(InGame_Elements);
+	//ActivateScreen(Main_Menu_Elements);
 
 	return ret;
 }
 
+void User_Interface::ActivateScreen(std::list<UI_Element*> list) {
+
+	for (std::list<UI_Element*>::iterator iter = list.begin(); iter != list.end(); iter = next(iter)) {
+		if ((*iter)->active == false&&(*iter)->mustDestroy==false) {
+			if((*iter)!=pauseMenuPanel)
+				(*iter)->Activate();
+		}
+	}
+}
+
+void User_Interface::DeactivateScreen(std::list<UI_Element*> list) {
+
+	for (std::list<UI_Element*>::iterator iter = list.begin(); iter != list.end(); iter = next(iter)) {
+		if ((*iter)->active == true && (*iter)->mustDestroy == false) {
+			(*iter)->Deactivate();
+		}
+	}
+}
 // Called each loop iteration
 bool User_Interface::PreUpdate()
 {
 	BROFILER_CATEGORY("Module User_Interface Pre-Update", Profiler::Color::Pink);
-
+	//myApp->video->PlayVideo("Video/Main_Menu_Background.ogv", { 0,-50,1280,850 });
 	bool ret = true;
 
 	for (std::list<UI_Element*>::iterator iter = screenElements.begin(); iter != screenElements.end(); iter = next(iter)) {
@@ -300,7 +427,7 @@ bool User_Interface::Update(float dt)
 	//	UnitStats->Deactivate();
 	//	UnitFrame->Deactivate();
 	//}
-	if (myApp->hordes->HordesDead() && myApp->hordes->roundNumber != myApp->hordes->maxHordes) {
+	if (myApp->hordes->HordesDead()&&Current_Screen!=Screen_Type::SCREEN_MAINMENU && myApp->hordes->roundNumber != myApp->hordes->maxHordes) {
 
 		incomingHordein->Activate();
 		timerHorde->Activate();
@@ -367,6 +494,7 @@ bool User_Interface::PostUpdate()
 			iter = next(iter);
 		}
 	}
+
 	return ret;
 }
 
@@ -412,7 +540,7 @@ void User_Interface::DestroyElement(UI_Element* element)	// Deletion by list con
 }
 
 //Factories
-Image* User_Interface::CreateImage(fPoint center, SDL_Rect texRect, SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children)
+Image* User_Interface::CreateImage(fPoint center, SDL_Rect texRect, SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children, Screen_Type screen )
 {
 	Image* ret = nullptr;
 
@@ -428,10 +556,16 @@ Image* User_Interface::CreateImage(fPoint center, SDL_Rect texRect, SDL_Texture*
 	ret = new Image(ui_type::IMAGE, center, texRect, tex, dynamic, parent, children);
 	AddElement((UI_Element*)ret);
 
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
+
 	return ret;
 }
 
-LifeBar* User_Interface::CreateLifeBar(fPoint center, Unit* parent, SDL_Texture* tex, float* auxHealth) {
+LifeBar* User_Interface::CreateLifeBar(fPoint center, Unit* parent, SDL_Texture* tex, float* auxHealth, Screen_Type screen) {
 
 	LifeBar* ret = nullptr;
 	if (tex == NULL) {
@@ -441,10 +575,17 @@ LifeBar* User_Interface::CreateLifeBar(fPoint center, Unit* parent, SDL_Texture*
 	ret = new LifeBar(center, parent, tex, ui_type::LIFEBAR,auxHealth);
 	AddElement((UI_Element*)ret);
 
+
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
+
 	return ret;
 }
 
-Text* User_Interface::CreateText(fPoint center, const char* content, font_id id, SDL_Color color, bool dynamic, UI_Element* parent, float size, std::list<UI_Element*>* children)
+Text* User_Interface::CreateText(fPoint center, const char* content, font_id id, SDL_Color color, bool dynamic, UI_Element* parent, float size, std::list<UI_Element*>* children, Screen_Type screen )
 {
 	Text* ret = nullptr;
 	_TTF_Font* tmpFont;
@@ -459,11 +600,18 @@ Text* User_Interface::CreateText(fPoint center, const char* content, font_id id,
 	ret = new Text(content, color, tmpFont, center, dynamic, parent, children,size);
 	AddElement((UI_Element*)ret);
 
+
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if( screen ==Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
+
 	return ret;
 }
 
-Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator,int unitCost,bool* _enabletoCraft, SDL_Scancode Hotkey) {
-	
+Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator,int unitCost,bool* _enabletoCraft, SDL_Scancode Hotkey, Screen_Type screen ) {
+
 	Unit_Box* ret = nullptr;
 
 	if (tex == NULL) {
@@ -473,10 +621,16 @@ Unit_Box* User_Interface::CreateUnitBox(void(*action)(void), fPoint center, SDL_
 	ret = new Unit_Box(action, center, spriteList, tex, parent,TimerTexture,timeCreator,unitCost,_enabletoCraft,Hotkey);
 	AddElement(ret);
 
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
+
 	return ret;
 }
 
-Unit_Panel* User_Interface::CreateUnitPanel(SDL_Rect sprite, Image* button , SDL_Texture* tex ) {
+Unit_Panel* User_Interface::CreateUnitPanel(SDL_Rect sprite, Image* button , SDL_Texture* tex, Screen_Type screen ) {
 
 	Unit_Panel* ret = nullptr;
 
@@ -487,10 +641,16 @@ Unit_Panel* User_Interface::CreateUnitPanel(SDL_Rect sprite, Image* button , SDL
 	ret = new Unit_Panel(sprite,button,tex);
 	AddElement(ret);
 
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
+
 	return ret;
 }
 
-Buff_Box* User_Interface::CreateBuffBox(fPoint position, SDL_Rect rect, SDL_Texture* tex, bool* able ) {
+Buff_Box* User_Interface::CreateBuffBox(fPoint position, SDL_Rect rect, SDL_Texture* tex, bool* able, Screen_Type screen ) {
 
 	Buff_Box* ret = nullptr;
 
@@ -500,6 +660,12 @@ Buff_Box* User_Interface::CreateBuffBox(fPoint position, SDL_Rect rect, SDL_Text
 
 	ret = new Buff_Box(position,rect,tex,able);
 	AddElement(ret);
+
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
 
 	return ret;
 }
@@ -511,10 +677,10 @@ Mouse* User_Interface::CreateMouse(SDL_Texture*tex ) {
 	return ret;
 }
 
-Void_Box* User_Interface::CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent)
+Void_Box* User_Interface::CreateVoidBox(void(*action)(void), fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, Screen_Type screen)
 {
 	Void_Box* ret = nullptr;
-	
+
 	if (tex == NULL) {
 		tex = GetAtlas();
 	}
@@ -522,10 +688,16 @@ Void_Box* User_Interface::CreateVoidBox(void(*action)(void), fPoint center, SDL_
 	ret = new Void_Box(action, center, spriteList, tex, parent);
 	AddElement(ret);
 
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
+
 	return ret;
 }
 
-Check_Box* User_Interface::CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, void(*action)(void), UI_Element* parent)
+Check_Box* User_Interface::CreateCheckBox(bool* value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, void(*action)(void), UI_Element* parent, Screen_Type screen)
 {
 	Check_Box* ret = nullptr;
 
@@ -533,14 +705,21 @@ Check_Box* User_Interface::CreateCheckBox(bool* value, fPoint center, SDL_Rect s
 		tex = GetAtlas();
 	}
 
+
 	ret = new Check_Box(value, action, center, spriteList, tex, parent);
 	AddElement(ret);
+
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
 
 	return ret;
 }
 
 
-Spawn_Box* User_Interface::CreateSpawnBox(bool value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, void(*action)(void), UI_Element* parent)
+Spawn_Box* User_Interface::CreateSpawnBox(bool value, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, void(*action)(void), UI_Element* parent, Screen_Type screen)
 {
 	Spawn_Box* ret = nullptr;
 
@@ -550,6 +729,12 @@ Spawn_Box* User_Interface::CreateSpawnBox(bool value, fPoint center, SDL_Rect sp
 
 	ret = new Spawn_Box(value, action, center, spriteList, tex, parent);
 	AddElement(ret);
+
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
 
 	return ret;
 }

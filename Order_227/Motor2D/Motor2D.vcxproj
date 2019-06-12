@@ -106,7 +106,9 @@
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Spawn_Box.cpp" />
     <ClCompile Include="Static_Object.cpp" />
+    <ClCompile Include="theoraplay.c" />
     <ClCompile Include="TileQuadtree.cpp" />
+    <ClCompile Include="TutorialBox.cpp" />
     <ClCompile Include="UnitButton.cpp" />
     <ClCompile Include="Unit_Panel.cpp" />
     <ClCompile Include="UserInterface.cpp" />
@@ -124,6 +126,7 @@
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UIElement.cpp" />
+    <ClCompile Include="Video.cpp" />
     <ClCompile Include="VoidBox.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
@@ -159,10 +162,13 @@
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Spawn_Box.h" />
     <ClInclude Include="Static_Object.h" />
+    <ClInclude Include="theoraplay.h" />
     <ClInclude Include="TileQuadtree.h" />
+    <ClInclude Include="TutorialBox.h" />
     <ClInclude Include="UnitButton.h" />
     <ClInclude Include="Unit_Panel.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="Video.h" />
     <ClInclude Include="VoidBox.h" />
     <ClInclude Include="ParamBox.h" />
     <ClInclude Include="Slider.h" />
