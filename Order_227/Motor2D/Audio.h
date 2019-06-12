@@ -7,7 +7,7 @@
 
 #define FACTION_NUM 2
 #define VARIATION_PER_SOUND 4
-#define MAX_INFANTRY_NUMBER 8
+#define MAX_INFANTRY_NUMBER 9
 #define MAX_BUILDING_NUMBER 7
 
 struct _Mix_Music;
@@ -32,12 +32,19 @@ enum class TroopType_Sounds
 	MOVING,			//Channel 1
 	CONFIRMATION,	//Channel 1
 	HURT,			//Channel 2
-	SHOT,			//Channel 3,4,5,6,7
+	SHOT,			//Any Channel Available
 	ATTACK,			//Channel 1
 	MAX
 };
 
-enum sound_channels	// 0 for Spawns, 1 for Orders, 2 for Hurt, 3 for Explosions, ANY for attacks/shooting
+enum class UI_playerSound
+{
+	UI_ERROR,	//Channel 4
+
+	MAX
+};
+
+enum sound_channels	// 0 for Spawns, 1 for Orders, 2 for Hurt, 3 for Explosions, 4 for Buildings,  ANY for attacks/shooting
 {
 	CHANNEL_SPAWN = 0,
 	CHANNEL_MOVING = 1,
@@ -45,8 +52,13 @@ enum sound_channels	// 0 for Spawns, 1 for Orders, 2 for Hurt, 3 for Explosions,
 	CHANNEL_HURT = 2,
 	CHANNEL_SHOT = -1,
 	CHANNEL_ATTACK = 1,
-	CHANNEL_BUILDINGS =3,
-	CHANNEL_PLAYER=4
+
+	CHANNEL_BUILDINGS = 3,
+	CHANNEL_ANNOUNCER = 4,
+
+	CHANNEL_UI = 4,
+
+	MAX_CHANNELS
 };
 
 enum class BuildingsType_Sounds {
@@ -113,6 +125,10 @@ public:
 	// Called before quitting
 	bool CleanUp() override;
 
+	// Save and Load
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&);
+
 	// Play a music file
 	bool PlayMusic(const char* path, int loops = -1, float fade_time = 0.0f);
 
@@ -175,6 +191,8 @@ public:
 	uint SoundTroops_Array[MAX_INFANTRY_NUMBER][(int)TroopType_Sounds::MAX][VARIATION_PER_SOUND];
 	uint SoundBuilding_Array[MAX_BUILDING_NUMBER][(int)BuildingsType_Sounds::MAX][VARIATION_PER_SOUND];
 	uint SoundMatch_Array[(int)MatchType_Sounds::MAX][5];
+	uint SoundUI_Player[(int)UI_playerSound::MAX];
+
 
 	uint VarsXsound[MAX_INFANTRY_NUMBER][(int)TroopType_Sounds::MAX];
 	uint VarsXsound_Buildings[MAX_BUILDING_NUMBER][(int)BuildingsType_Sounds::MAX];

@@ -167,6 +167,7 @@ void StartGame() {
 	
 	myApp->gui->Current_Screen = Screen_Type::SCREEN_INGAME;
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_INGAME);
+	Mix_Resume(-1);
 	myApp->scene->ActivateGameOverMusic = true;
 	myApp->video->StopVideo();
 	//myApp->video->PlayVideo("Video/iterator_hordes.ogv", SDL_Rect({ 0,(int)(myApp->win->height/2.8f),1280,212 }), false);
@@ -174,13 +175,32 @@ void StartGame() {
 
 	myApp->gui->WinIcon->Deactivate();
 	myApp->gui->LoseIcon->Deactivate();
+
+	//for (int i = 0; i < myApp->entities->buildingsArray.size(); i++) {
+
+	//	if (myApp->entities->buildingsArray[i].buildingType == building_type::COMMAND_CENTER) {
+
+	//		myApp->player->playerIncome = myApp->entities->buildingsArray[i].income;
+	//		break;
+	//	}
+	//}
 }
 
 void QuitGame() {
 
 	//myApp->audio->PlayMusic();
+	for (int i = 0; i < myApp->entities->buildingsArray.size(); i++) {
+
+		if(myApp->entities->buildingsArray[i].buildingType != building_type::COMMAND_CENTER)
+			myApp->entities->buildingsArray[i].Hurt(myApp->entities->buildingsArray[i].health);
+
+		myApp->player->playerIncome = 0;
+		
+	}
+
 	myApp->gui->LoseIcon->Deactivate();
 	myApp->gui->WinIcon->Deactivate();
+	myApp->entities->heavyUnitsUnlocked = false;
 
 	//MUSIC
 	//myApp->audio->PlayMusic("audio/music/main_menu/menu_song_loop.ogg",-1);

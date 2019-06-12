@@ -53,10 +53,11 @@ public:
 	virtual bool IsDead();
 	virtual bool IsVisible();
 
+	void TakeReward();
+
 private:
 
 	void GiveReward();
-	void TakeReward();
 	void AddUnitsBuff();
 
 public:
@@ -82,8 +83,6 @@ public:
 
 	float repairRadius = 170.0f;
 	bool repairable = false;
-
-private:
 
 	bool rewardGiven = false;
 

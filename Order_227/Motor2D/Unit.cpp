@@ -31,6 +31,8 @@ bool Unit::Start()
 	centerPos = { position.x + entityRect.w / 2, position.y + entityRect.h / 2 };
 	groundPos = { position.x + entityRect.w / 2, position.y + entityRect.h };
 
+	origin = destination = { (int)groundPos.x, (int)groundPos.y };
+
 	unitState = unit_state::IDLE;
 	unitOrders = unit_orders::HOLD;
 	unitDirection = unit_directions::SOUTH_EAST;
@@ -38,13 +40,6 @@ bool Unit::Start()
 	currNode = unitPath.end();
 
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
-
-	if (faction == entity_faction::COMMUNIST) {
-
-		int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SPAWN];
-		myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)type_sounds::SPAWN][rand() % Aux], 0, CHANNEL_SPAWN);
-	}
-
 
 	myApp->gui->CreateLifeBar(fPoint(centerPos.x, position.y), this, myApp->entities->lifeBar_tex);
 
@@ -244,7 +239,6 @@ void Unit::UpdateAnimation()
 {
 	
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][int(unitDirection)]);
-
 
 }
 
@@ -537,14 +531,13 @@ float Unit::Hurt(float damage)
 void Unit::Die()
 {
 	selected = false;
-
 	despawnTimer.Start();
 	unitOrders = unit_orders::NONE;
 	unitState = unit_state::DEAD;
 	currentAnimation = (&myApp->entities->animationArray[int(infantryType)][int(unitState)][0]);
-
 	int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::HURT];
 	myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)type_sounds::HURT][rand() % Aux], 0, CHANNEL_HURT, centerPos, true);
+
 }
 
  //Unit Data
@@ -634,7 +627,7 @@ Entity* Unit::EnemyInRadius(uint radius)
 
 	//Units
 	numActives = myApp->entities->activeUnits;
-	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); numActives > 0; item = next(item)) {
+	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); numActives > 0 && item != myApp->entities->unitPool.end(); item = next(item)) {
 		if ((*item).active) {
 			numActives--;
 
@@ -654,7 +647,7 @@ Entity* Unit::EnemyInRadius(uint radius)
 	if (ret == nullptr) {
 		numActives = myApp->entities->activeLaunchers;
 
-		for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); numActives > 0; item = next(item)) {
+		for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); numActives > 0 && item != myApp->entities->launcherPool.end(); item = next(item)) {
 			if ((*item).active) {
 				numActives--;
 
@@ -675,7 +668,7 @@ Entity* Unit::EnemyInRadius(uint radius)
 
 			numActives = myApp->entities->activeBuildings;
 
-			for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0; item = next(item)) {
+			for (std::vector<Building>::iterator item = myApp->entities->buildingsArray.begin(); numActives > 0 && item != myApp->entities->buildingsArray.end(); item = next(item)) {
 				if ((*item).active) {
 					numActives--;
 

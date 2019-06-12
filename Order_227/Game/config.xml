@@ -1,22 +1,19 @@
-<!-- Config file for the game -->
-
-
+<?xml version="1.0"?>
 <config>
   <app framerate_cap="60">
     <title>Order227</title>
     <organization>UPC</organization>
     <debug active="false" />
+    <save>save_game.xml</save>
+    <load>save_game.xml</load>
   </app>
-
   <renderer>
     <vsync value="true"/>
   </renderer>
-
-  <audio volume="50">
-    <music volume="80"/>
+  <audio volume="60">
+    <music volume="50"/>
     <sfx volume="80"/>
   </audio>
-
   <window>
     <resolution width="1280" height="720" scale="1"/>
     <fullscreen value="false"/>
@@ -24,40 +21,37 @@
     <resizable value="true"/>
     <fullscreen_window value="false"/>
   </window>
-
   <file_system>
     <path>data.zip</path>
   </file_system>
-
   <map>
-    <folder>maps/</folder>
-  </map>
-
-  <entities>
-	<units_initial_size value="200"/>
-  </entities>
-
-<horde_manager>
-	<max_hordes value="10" />
-	<initial_horde_threat value="10"/>
-	<initial_threat_incremental value="15"/>
-</horde_manager>
-
+		<folder>maps/</folder>
+	</map>
+	<entities>
+		<units_initial_size value="200" />
+	</entities>
+  <horde_manager>
+   <max_hordes value="10" />
+	 <initial_horde_threat value="10" />
+	 <initial_threat_incremental value="15" />
+  </horde_manager>
 	<player>
 		<money value="300" />
 	</player>
-
-  <user_interface>
-    <atlas file="ui/atlas.png" />
-  </user_interface>
-
-  <fonts>
-    <open_sans id="0" file="fonts/open_sans/OpenSans-Regular.ttf" size="20" />
-    <russian id="1" file="fonts/russian/Russian.ttf" size="30" />
-    <molot id="2" file="fonts/molot/Molot.otf" size="30" />
-    <end/>
-  </fonts>
-
-  <minimap width="300" height="150"/>
-
+	<controls>
+		<mouse issue_orders="3" select="1" />
+		<camera up="26" down="22" left="4" right="7" />
+		<orders hold="44" move="DEFAULT" hunt="20" patrol="8" defensive="225" aggressive="224" />
+		<debug spawn_red_conscript="58" spawn_red_bazooka="59" spawn_red_desolator="60" spawn_red_chrono="61" spawn_blue_sniper="62" spawn_blue_chrono="63" spawn_blue_dog="64" next_round="65" entities="66" gui="67" map="68" />
+	</controls>
+	<user_interface>
+		<atlas file="ui/atlas.png" />
+	</user_interface>
+	<fonts>
+		<open_sans id="0" file="fonts/open_sans/OpenSans-Regular.ttf" size="20" />
+		<russian id="1" file="fonts/russian/Russian.ttf" size="30" />
+		<molot id="2" file="fonts/molot/Molot.otf" size="30" />
+		<end />
+	</fonts>
+	<minimap width="300" height="150" />
 </config>

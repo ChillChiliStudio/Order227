@@ -8,6 +8,7 @@ enum class object_type {
 	OBJECT_NONE = -1,
 	TREE,
 	ROCK,
+	MISSILE, //TODO:Shouldn't be here need to change to other enum
 	OBJECT_MAX
 };
 

@@ -91,13 +91,13 @@ bool Entity_Manager::PreUpdate()
 
 bool Entity_Manager::Update(float dt)
 {
-	//Fill the quadtree  with entities
-	entitiesQuadtree->FillTree();
-
 	BROFILER_CATEGORY("Entity_Manager Update", Profiler::Color::Yellow);
 	accumulated_time += dt;
 
 	if (myApp->gui->MainMenuTemp_Image->active != true) {	//TODO: This is very hardcoded, we should have a scene workflow
+
+		//Fill the quadtree  with entities
+		entitiesQuadtree->FillTree();
 
 		if (accumulated_time >= update_ms_cycle)
 			do_logic = true;
@@ -108,20 +108,22 @@ bool Entity_Manager::Update(float dt)
 			UpdateObjects(dt);
 		}
 
+		if (entitiesDebugDraw)
+			entitiesQuadtree->DrawQuadtree();
+
+		if (!myApp->gui->OnPause) {
+			SolveOverlapping();
+		}
+
 		//Blit Ordering that actually works
 		UpdateBlitOrdering();
 		BlitEntities();
 
+		//Clear the quadtree of entities
+		entitiesQuadtree->ClearTree();
+
 		accumulated_time -= update_ms_cycle;
 	}
-
-	if (entitiesDebugDraw)
-		entitiesQuadtree->DrawQuadtree();
-
-	SolveOverlapping();
-
-	//Clear the quadtree of entities
-	entitiesQuadtree->ClearTree();
 
 	return true;
 }
@@ -132,14 +134,10 @@ void Entity_Manager::UpdateUnits(float dt)
 
 	int numActives = activeUnits;
 
-	for (int i = 0; numActives > 0; ++i) {
+	for (int i = 0; numActives > 0 && i < unitPool.size(); ++i) {
 
 		if (unitPool[i].active == true) {
 			numActives--;
-
-			if (i == 33) {
-				int patata = 0;
-			}
 
 			unitPool[i].Update(dt);
 
@@ -152,7 +150,7 @@ void Entity_Manager::UpdateUnits(float dt)
 	numActives = activeLaunchers;
 
 	//LAUNCHER UNITS
-	for (int i = 0; numActives > 0; ++i) {
+	for (int i = 0; numActives > 0 && i < launcherPool.size(); ++i) {
 
 		if (launcherPool[i].active == true) {
 			numActives--;
@@ -170,17 +168,15 @@ void Entity_Manager::UpdateBuildings(float dt)
 
 	for (int i = 0; i < buildingsArray.size(); i++)
 		buildingsArray[i].Update(dt);
-	
-	int a = 0;
 }
 
 void Entity_Manager::UpdateObjects(float dt)
 {
 	BROFILER_CATEGORY("ObjectPool Update", Profiler::Color::MediumPurple);
 
-	for (int i = 0; i < objectsArray.size(); i++) 
+	for (int i = 0; i < objectsArray.size(); i++)
 		objectsArray[i].Update(dt);
-
+	
 }
 
 bool BlitSort(Entity* i, Entity* j)
@@ -229,6 +225,246 @@ bool Entity_Manager::CleanUp()
 	return true;
 }
 
+// Save and Load
+bool Entity_Manager::Load(pugi::xml_node& node)
+{
+	pugi::xml_node tmpNode;
+	pugi::xml_node loopNode;
+
+	heavyUnitsUnlocked = node.attribute("heavy_units_unlocked").as_bool();
+
+	unitBuff = node.attribute("unit_buff").as_bool();
+	buildingsBuff = node.attribute("buildings_buff").as_bool();
+	incomeBuff1 = node.attribute("income_buff1").as_bool();
+	incomeBuff2 = node.attribute("income_buff2").as_bool();
+	incomeBuff45 = node.attribute("income_buff3").as_bool();
+
+	//Units
+	Unit* unitPtr = nullptr;
+	tmpNode = node.child("units");
+	int savedActives = tmpNode.attribute("active").as_int();
+
+	for (int i = 0; i < savedActives; i++) {
+
+		loopNode = node.child("units").child(("unit_" + std::to_string(i)).c_str());
+
+		unitPtr = ActivateUnit({ loopNode.attribute("position_x").as_float(), loopNode.attribute("position_y").as_float() },
+			(infantry_type)loopNode.child("unit").attribute("infantry_type").as_int(),
+			(entity_faction)loopNode.attribute("faction").as_int(),
+			true);
+
+		LoadUnitData(unitPtr, loopNode);
+	}
+
+	//Launchers
+	unitPtr = nullptr;
+	tmpNode = node.child("launchers");
+	savedActives = tmpNode.attribute("active").as_int();
+
+	for (int i = 0; i < savedActives; i++) {
+
+		loopNode = node.child("launchers").child(("launcher_" + std::to_string(i)).c_str());
+
+		unitPtr = ActivateLauncher({ loopNode.attribute("position_x").as_float(), loopNode.attribute("position_y").as_float() },
+			(infantry_type)loopNode.child("unit").attribute("infantry_type").as_int(),
+			(entity_faction)loopNode.attribute("faction").as_int(),
+			true);
+
+		LoadUnitData(unitPtr, loopNode);
+	}
+
+	//Buildings
+	tmpNode = node.child("buildings");
+	savedActives = tmpNode.attribute("active").as_int();
+
+	ActivateBuildings();
+
+	for (int i = 0; i < savedActives; i++) {
+		for (pugi::xml_node j = node.child("buildings").first_child(); j; j = j.next_sibling()) {
+			if (buildingsArray[i].buildingType == (building_type)j.attribute("type").as_int()) {
+				LoadBuildingData(&buildingsArray[i], j);
+				break;
+			}
+		}
+	}
+
+	return true;
+}
+
+bool Entity_Manager::LoadUnitData(Unit* unitPtr, pugi::xml_node& loopNode)
+{
+	//Overwrite Unit Data
+	unitPtr->stats.health = loopNode.child("stats").attribute("health").as_float();
+	unitPtr->stats.damage = loopNode.child("stats").attribute("damage").as_uint();
+	unitPtr->stats.cadency = loopNode.child("stats").attribute("cadency").as_float();
+
+	unitPtr->stats.attackRadius = loopNode.child("stats").attribute("attack_radius").as_uint();
+	unitPtr->stats.visionRadius = loopNode.child("stats").attribute("vision_radius").as_uint();
+
+	unitPtr->stats.linSpeed = loopNode.child("stats").attribute("lin_speed").as_float();
+
+	//Order Data
+	unitPtr->origin.x = loopNode.child("unit").attribute("origin_x").as_int();
+	unitPtr->origin.y = loopNode.child("unit").attribute("origin_y").as_int();
+
+	unitPtr->destination.x = loopNode.child("unit").attribute("destination_x").as_int();
+	unitPtr->destination.y = loopNode.child("unit").attribute("destination_y").as_int();
+
+	unitPtr->unitAggro = (unit_aggro)loopNode.child("unit").attribute("aggro").as_int();
+
+	//Set Directions
+	switch ((unit_orders)loopNode.child("unit").attribute("orders").as_int()) {
+	case unit_orders::HOLD:
+		if (loopNode.child("unit").attribute("provoqued").as_bool() == true) {
+			unitPtr->StartMove(unitPtr->origin);
+		}
+		break;
+	case unit_orders::MOVE:
+		unitPtr->StartMove(unitPtr->destination);
+		break;
+	case unit_orders::HUNT:
+		unitPtr->StartMove(unitPtr->destination);
+		break;
+	case unit_orders::PATROL:
+		unitPtr->ResumePatrol();
+		break;
+	}
+
+	//If Enemy, add to horde (HARDCODED)
+	if ((entity_faction)loopNode.attribute("faction").as_int() == entity_faction::CAPITALIST) {
+		if ((infantry_type)loopNode.child("unit").attribute("infantry_type").as_int() != infantry_type::BAZOOKA) {
+			myApp->hordes->hordes[0]->AddUnit(unitPtr);
+		}
+		else {
+			myApp->hordes->hordes[1]->AddUnit(unitPtr);
+		}
+	}
+
+	return true;
+}
+
+bool Entity_Manager::LoadBuildingData(Building* build, pugi::xml_node& loopNode)
+{
+	build->buildingType = (building_type)loopNode.attribute("type").as_int();
+	build->faction = (entity_faction)loopNode.attribute("faction").as_int();
+	build->health = loopNode.attribute("health").as_float();
+	build->maxHealth = loopNode.attribute("max_health").as_float();
+	build->repairable = loopNode.attribute("health").as_bool();
+	build->rewardGiven = loopNode.attribute("health").as_bool();
+
+	return true;
+}
+
+bool Entity_Manager::Save(pugi::xml_node& node)
+{
+	pugi::xml_node tmpNode;
+
+	node.append_attribute("heavy_units_unlocked") = heavyUnitsUnlocked;
+
+	node.append_attribute("unit_buff") = unitBuff;
+	node.append_attribute("buildings_buff") = buildingsBuff;
+	node.append_attribute("income_buff1") = incomeBuff1;
+	node.append_attribute("income_buff2") = incomeBuff2;
+	node.append_attribute("income_buff3") = incomeBuff45;
+
+	//Units
+	tmpNode = node.append_child("units");
+	int numActives = activeUnits;
+	int savedActives = 0;
+
+	for (int i = 0; numActives > 0; ++i) {
+		if (unitPool[i].active == true) {
+			numActives--;
+
+			if (unitPool[i].IsDead() == false) {
+				SaveUnitData(unitPool[i], tmpNode.append_child(("unit_" + std::to_string(savedActives++)).c_str()));
+			}
+		}
+	}
+
+	tmpNode.append_attribute("active") = savedActives;
+
+	//Launchers
+	tmpNode = node.append_child("launchers");
+	numActives = activeLaunchers;
+	savedActives = 0;
+
+	for (int i = 0; numActives > 0; ++i) {
+
+		if (launcherPool[i].active == true) {
+			numActives--;
+
+			if (unitPool[i].IsDead() == false) {
+				SaveUnitData((Unit&)launcherPool[i], tmpNode.append_child(("launcher_" + std::to_string(savedActives++)).c_str()));
+			}
+		}
+	}
+
+	tmpNode.append_attribute("active") = savedActives;
+
+	//Buildings
+	tmpNode = node.append_child("buildings");
+	tmpNode.append_attribute("active") = activeBuildings;
+	numActives = activeBuildings;
+
+	for (int i = 0; i < buildingsArray.size(); i++) {
+		SaveBuildingData(buildingsArray[i], tmpNode.append_child(("building_" + std::to_string(numActives)).c_str()));
+		numActives--;
+	}
+
+	return true;
+}
+
+bool Entity_Manager::SaveUnitData(Unit& unit, pugi::xml_node& node)
+{
+	pugi::xml_node tmpNode;
+
+	//Entity
+	node.append_attribute("position_x") = unit.position.x;
+	node.append_attribute("position_y") = unit.position.y;
+
+	node.append_attribute("faction") = (int)unit.faction;
+	node.append_attribute("type") = (int)unit.type;
+
+	//Unit Stats
+	tmpNode = node.append_child("stats");
+	tmpNode.append_attribute("health") = unit.stats.health;
+	tmpNode.append_attribute("damage") = unit.stats.damage;
+	tmpNode.append_attribute("cadency") = unit.stats.cadency;
+
+	tmpNode.append_attribute("attack_radius") = unit.stats.attackRadius;
+	tmpNode.append_attribute("vision_radius") = unit.stats.visionRadius;
+
+	tmpNode.append_attribute("lin_speed") = unit.stats.linSpeed;
+
+	//Unit Vars
+	tmpNode = node.append_child("unit");
+	tmpNode.append_attribute("infantry_type") = (int)unit.infantryType;
+	tmpNode.append_attribute("orders") = (int)unit.unitOrders;
+	tmpNode.append_attribute("aggro") = (int)unit.unitAggro;
+	tmpNode.append_attribute("provoqued") = unit.aggroTriggered;
+
+	tmpNode.append_attribute("origin_x") = unit.origin.x;
+	tmpNode.append_attribute("origin_y") = unit.origin.y;
+
+	tmpNode.append_attribute("destination_x") = unit.destination.x;
+	tmpNode.append_attribute("destination_y") = unit.destination.y;
+
+	return true;
+}
+
+bool Entity_Manager::SaveBuildingData(Building& build, pugi::xml_node& node)
+{
+	node.append_attribute("type") = (int)build.buildingType;
+	node.append_attribute("faction") = (int)build.faction;
+	node.append_attribute("health") = build.health;
+	node.append_attribute("max_health") = build.maxHealth;
+	node.append_attribute("repairable") = build.repairable;
+	node.append_attribute("reward_given") = build.rewardGiven;
+
+	return true;
+}
+
 void Entity_Manager::AllocateEntityPool()
 {
 	entitiesVector.resize(unitsPoolSize + buildingsArray.size() + objectsArray.size());
@@ -263,7 +499,7 @@ void Entity_Manager::AllocateLauncherPool()
 	launcherPool.resize(launcherPoolSize);
 }
 
-Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction)
+Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction, bool saveFile)
 {
 	Unit* ret = nullptr;
 
@@ -277,6 +513,11 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 			(*item).texture = infantryTextures[int(infantryType)][(int)entityFaction];
 			(*item).stats = infantryStats[int(infantryType)];
 			(*item).Start(); //active = true goes here in this start
+
+			if ((*item).faction == entity_faction::COMMUNIST && saveFile == false) {
+				int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SPAWN];
+				myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)type_sounds::SPAWN][rand() % Aux], 0, CHANNEL_SPAWN);
+			}
 
 			if (unitBuff == true && (*item).faction == entity_faction::COMMUNIST) {
 
@@ -312,7 +553,7 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 	return ret;
 }
 
-Launcher* Entity_Manager::ActivateLauncher(fPoint position, infantry_type infantryType, entity_faction entityFaction)
+Launcher* Entity_Manager::ActivateLauncher(fPoint position, infantry_type infantryType, entity_faction entityFaction, bool saveFile)
 {
 	Launcher* ret = nullptr;
 
@@ -326,6 +567,11 @@ Launcher* Entity_Manager::ActivateLauncher(fPoint position, infantry_type infant
 			(*item).texture = infantryTextures[int(infantryType)][(int)entityFaction];
 			(*item).stats = infantryStats[int(infantryType)];
 			(*item).Start();
+
+			if ((*item).faction == entity_faction::COMMUNIST && saveFile == false) {
+				int Aux = myApp->audio->VarsXsound[int(infantryType)][(int)type_sounds::SPAWN];
+				myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)type_sounds::SPAWN][rand() % Aux], 0, CHANNEL_SPAWN);
+			}
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 
@@ -367,7 +613,7 @@ bool Entity_Manager::DeActivateUnit(Unit* _Unit) {	//TODO: Reseting values shoul
 
 	if (_Unit->faction == entity_faction::CAPITALIST)
 		myApp->hordes->remainingEnemies--;
-		
+
 
 	_Unit->stats = infantryStats[int(infantry_type::INFANTRY_NONE)];
 	_Unit->infantryType = infantry_type::INFANTRY_NONE;
@@ -513,6 +759,8 @@ bool Entity_Manager::loadTextures()
 	loadBuildingsTextures();
 
 	objectTextures[int(object_type::TREE)] = myApp->tex->Load("maps/Tree_Tileset.png");
+	objectTextures[int(object_type::MISSILE)] = myApp->tex->Load("textures/Effects_Part/flak_missile.png");
+
 
 	return true;
 }
@@ -555,9 +803,16 @@ bool Entity_Manager::loadTroopsTextures()
 			infantryTextures[int(infantry_type::SNIPER)][1] = myApp->tex->Load(Data.attribute("TextPathTwo").as_string());
 			break;
 
+		case(int(infantry_type::ENGINEER)):
+
+			infantryTextures[int(infantry_type::ENGINEER)][0] = myApp->tex->Load(Data.attribute("TextPath").as_string());
+			infantryTextures[int(infantry_type::ENGINEER)][1] = myApp->tex->Load(Data.attribute("TextPathTwo").as_string());
+			break;
 		}
 
 	}
+
+
 	for (pugi::xml_node Data = unitsDocument.child("Entity_Document").child("Troops").child("Capitalist").child("Unit"); Data; Data = Data.next_sibling("Unit")) {
 
 		switch (Data.attribute("id").as_int())
@@ -574,7 +829,7 @@ bool Entity_Manager::loadTroopsTextures()
 				infantryTextures[int(infantry_type::DOG)][1] = myApp->tex->Load(Data.attribute("TextPath").as_string());
 				break;
 
-			
+
 		}
 	}
 
@@ -645,6 +900,8 @@ bool Entity_Manager::LoadEntityData() {
 	{
 		AssignAnimData("Soviet");
 		AssignAnimData("Capitalist");
+		AssignAnimData("None");
+
 		LoadBuildingsData();
 
 		ret = true;
@@ -673,12 +930,12 @@ bool Entity_Manager::LoadBuildingsData() {
 				temp.w = DataTMX.attribute("width").as_int();
 				temp.h = DataTMX.attribute("height").as_int();
 
-				
+
 
 				std::string tempString = DataTMX.attribute("name").as_string();
 				int id = DataXML.attribute("id").as_int();
 
-				
+
 				if (tempString == "Spawn") {
 
 					BuildingAnimationArray[id][(int)Building_State::SPAWN].PushBack(temp);
@@ -713,7 +970,8 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 	bool ret = true;
 	SDL_Rect temp;
 	int posArr;
-
+	int entityType;
+	int i = 0;
 
 
 	for (pugi::xml_node DataXML = unitsDocument.child("Entity_Document").child("Troops").child(faction.c_str()).child("Unit"); DataXML; DataXML = DataXML.next_sibling("Unit")) {
@@ -721,7 +979,7 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 
 		pugi::xml_parse_result TiledFile = TiledDocument.load_file(DataXML.attribute("TiledFile").as_string());
 
-		if (faction == "Soviet")
+		if (faction == "Soviet" || faction =="None")
 			posArr = 0;
 		else
 			posArr = 1;
@@ -742,16 +1000,18 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 
 				int id = DataXML.attribute("id").as_int();
 
-				switch (id)
-				{
+				if (id != 7){
 
-					case (int(infantry_type::BASIC)) :
-						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
-						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
-						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
-						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+					switch (id)
+					{
 
-						break;
+					case (int(infantry_type::BASIC)):
+            				temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+							temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+							temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+							temp.h = DataXML.child("RectOffset").attribute("h").as_int();
+
+							break;
 
 
 					case (int(infantry_type::CONSCRIPT)):
@@ -809,40 +1069,71 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
 						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
 						break;
-					
+
+
+					}
+
+					if (tempString == "Pointing") {
+
+						animationArray[id][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
+						animationArray[id][int(unit_state::IDLE)][degreesToArray].loop = true;
+						animationArray[id][int(unit_state::IDLE)][degreesToArray].speed = 10.0f;
+
+					}
+
+					else if (tempString == "Walking") {
+
+						animationArray[id][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
+						animationArray[id][int(unit_state::MOVING)][degreesToArray].loop = true;
+						animationArray[id][int(unit_state::MOVING)][degreesToArray].speed = 5.0f;
+
+					}
+					else if (tempString == "Shot") {
+
+						animationArray[id][int(unit_state::ATTACKING)][degreesToArray].PushBack(temp);
+						animationArray[id][int(unit_state::ATTACKING)][degreesToArray].loop = true;
+						animationArray[id][int(unit_state::ATTACKING)][degreesToArray].speed = 10.0f;
+
+
+					}
+					else if (tempString == "DeathOne") {
+
+						animationArray[id][int(unit_state::DEAD)][0].PushBack(temp);
+						animationArray[id][int(unit_state::DEAD)][0].loop = false;
+						animationArray[id][int(unit_state::DEAD)][0].speed = DataXML.child("AnimDet").attribute("DeathOneSpeed").as_float();
+
+
+					}
+					else if (tempString == "DeathTwo") {
+
+						animationArray[id][int(unit_state::DEAD)][1].PushBack(temp);
+						animationArray[id][int(unit_state::DEAD)][1].loop = false;
+						animationArray[id][int(unit_state::DEAD)][1].speed = DataXML.child("AnimDet").attribute("DeathOneSpeed").as_float();
+
+					}
 				}
+				else {
 
-				if (tempString == "Pointing") {
+					if (tempString == "Pointing") {
 
-					animationArray[id][int(unit_state::IDLE)][degreesToArray].PushBack(temp);
-					animationArray[id][int(unit_state::IDLE)][degreesToArray].loop = true;
-					animationArray[id][int(unit_state::IDLE)][degreesToArray].speed = 10.0f;
+						ParticleAnimArray[i]=temp;
+						i++;
 
-				}
-				else if (tempString == "Walking") {
+					}
 
-					animationArray[id][int(unit_state::MOVING)][degreesToArray].PushBack(temp);
-					animationArray[id][int(unit_state::MOVING)][degreesToArray].loop = true;
-					animationArray[id][int(unit_state::MOVING)][degreesToArray].speed = 5.0f;
+					if (id == int(infantry_type::SNIPER)) {
 
-				}
-				else if (tempString == "Shot") {
-
-					animationArray[id][int(unit_state::ATTACKING)][degreesToArray].PushBack(temp);
-					animationArray[id][int(unit_state::ATTACKING)][degreesToArray].loop = true;
-					animationArray[id][int(unit_state::ATTACKING)][degreesToArray].speed = 10.0f;
-
-
-				}
-				else if (tempString == "DeathOne") {
+						temp.x -= DataXML.child("RectDeath").attribute("x").as_int();
+						temp.y -= DataXML.child("RectDeath").attribute("y").as_int();
+						temp.w = DataXML.child("RectDeath").attribute("w").as_int();
+						temp.h = DataXML.child("RectDeath").attribute("h").as_int();
+					}
 
 					animationArray[id][int(unit_state::DEAD)][0].PushBack(temp);
 					animationArray[id][int(unit_state::DEAD)][0].loop = false;
 					animationArray[id][int(unit_state::DEAD)][0].speed = DataXML.child("AnimDet").attribute("DeathOneSpeed").as_float();
 
-
 				}
-
 			}
 
 		}
@@ -943,9 +1234,9 @@ void Entity_Manager::SolveOverlapping()
 {
 	BROFILER_CATEGORY("Unit overlapping", Profiler::Color::Magenta);
 
-	for (int i = 0; i< unitPool.size() ; ++i) 
+	for (int i = 0; i< unitPool.size() ; ++i)
 	{
-		if (unitPool[i].active && unitPool[i].unitState!=unit_state::DEAD) 
+		if (unitPool[i].active && unitPool[i].unitState!=unit_state::DEAD)
 		{
 			std::vector<Entity*> nearEntities = entitiesQuadtree->GetEntitiesNear(unitPool[i].position.x, unitPool[i].position.y);
 

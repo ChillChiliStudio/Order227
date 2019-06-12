@@ -68,26 +68,12 @@ bool Building::Update(float dt)
 
 		for (int i = 0; i < myApp->entities->unitPool.size(); i++) {
 
-			if (myApp->entities->unitPool[i].active && myApp->entities->unitPool[i].faction == entity_faction::COMMUNIST) {
-
-				if (InsideSquareRadius(centerPos, repairRadius, myApp->entities->unitPool[i].centerPos)
-					&& InsideRadius(centerPos, repairRadius, myApp->entities->unitPool[i].centerPos)) {
-					unitsArround++;
-				}
+			if (myApp->entities->unitPool[i].active && myApp->entities->unitPool[i].faction == entity_faction::COMMUNIST && myApp->entities->unitPool[i].infantryType == infantry_type::ENGINEER) {
+					if (InsideSquareRadius(centerPos, repairRadius, myApp->entities->unitPool[i].centerPos) && InsideRadius(centerPos, repairRadius, myApp->entities->unitPool[i].centerPos)) {
+						unitsArround++;
+					}				
 			}
-		}
-		for (int i = 0; i < myApp->entities->launcherPool.size(); i++) {
-
-			if (myApp->entities->launcherPool[i].active == true && myApp->entities->launcherPool[i].faction == entity_faction::COMMUNIST) {
-
-				if (InsideSquareRadius(centerPos, repairRadius, myApp->entities->launcherPool[i].centerPos)
-					&& InsideRadius(centerPos, repairRadius, myApp->entities->launcherPool[i].centerPos)) {
-					unitsArround++;
-				}
-
-			}
-		}
-
+		}		
 		if (unitsArround > 0) {
 			Repair(unitsArround);
 		}

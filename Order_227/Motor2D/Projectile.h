@@ -38,11 +38,13 @@ public:
 	projectile_directions CheckDirection(fVec2 direction);
 	fVec2 SetupVecSpeed();
 
+	Animation currentAnimation;
+
 	// Speed
 	fVec2 ProjectileVecSpeed;	// Vectorial speed
 	float ProjectileVecAngle;	// Vector angle in reference with North-directed reference vector
 
-	projectile_directions ProjectileDirection = projectile_directions::SOUTH_EAST;
+	projectile_directions ProjectileDirection;
 
 	fPoint InitialPos;
 	fPoint Destination;

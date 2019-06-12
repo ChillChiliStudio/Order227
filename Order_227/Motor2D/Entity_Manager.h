@@ -13,7 +13,7 @@
 
 
 #define TIMES_PER_SEC 5
-#define TROOP_TYPES 8
+#define TROOP_TYPES 9
 #define RESIZE_VALUE 50
 
 //Entities quadtree max divisions
@@ -30,15 +30,23 @@ public:
 	~Entity_Manager();
 
 public:
-
 	bool Awake(pugi::xml_node& config);
 	bool Start();			//Load textures here
 	bool PreUpdate();
 	bool Update(float dt);
 	bool CleanUp();
 
-public:
+	// Save and Load
+	bool Load(pugi::xml_node&);
+	bool LoadUnitData(Unit*, pugi::xml_node&);
+	bool LoadBuildingData(Building*, pugi::xml_node&);
+	bool LoadEnemiesToHorde();
 
+	bool Save(pugi::xml_node&);
+	bool SaveUnitData(Unit&, pugi::xml_node&);
+	bool SaveBuildingData(Building&, pugi::xml_node&);
+
+public:
 	//Pools	//TODO: With .reserve() we can reserve memory for a vector so if a resize is needed in runtime the memory is already allocated, making the process faster
 	void AllocateEntityPool();
 	void AllocateLauncherPool();
@@ -55,8 +63,8 @@ public:
 	void UpdateBuildings(float dt);
 	void UpdateObjects(float dt);
 
-	Unit* ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
-	Launcher* ActivateLauncher(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+	Unit* ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL, bool saveFile = false);
+	Launcher* ActivateLauncher(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL, bool saveFile = false);
 
 	bool DeActivateUnit(Unit* Unit);
 	void ActivateBuildings();
@@ -103,9 +111,12 @@ public:
 	//Animations Array
 	Animation animationArray[TROOP_TYPES][int(unit_state::MAX_STATES)][int(unit_directions::MAX_DIRECTIONS)]; //TODO_ WTF? Troop types?
 	Animation BuildingAnimationArray[int(building_type::BUILDING_MAX)][int(Building_State::MAX)];
+	SDL_Rect ParticleAnimArray[8];
+
 
 	bool entitiesDebugDraw = false;
 	SDL_Texture* lifeBar_tex = nullptr; //TODO: Why is this here?4
+	SDL_Texture*	objectTextures[int(object_type::OBJECT_MAX)];
 
 	//Unit stats
 	unit_stats		infantryStats[int(infantry_type::INFANTRY_MAX)];
@@ -137,7 +148,7 @@ private:
 	//Arrays with all the textures
 	SDL_Texture*	buildingsTextures[int(building_type::BUILDING_MAX)];
 	SDL_Texture*	infantryTextures[int(infantry_type::INFANTRY_MAX)][2];
-	SDL_Texture*	objectTextures[int(object_type::OBJECT_MAX)];
+
 
 	
 	pugi::xml_document unitsDocument;
