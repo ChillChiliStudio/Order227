@@ -22,5 +22,13 @@ void TutorialOpen();
 void QuitTutorial();
 void NextPage_Tutorial();
 void BackPage_Tutorial();
-
+void OpenCredits();
+void CloseCredits();
+void LuchoPage();
+void RogerPage();
+void AdriPage();
+void JaumePage();
+void JoanPage();
+void CarlesPage();
+void RafelPage();
 #endif //_BUTTON_ACTIONS_H_

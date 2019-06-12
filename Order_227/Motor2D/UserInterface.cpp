@@ -254,9 +254,6 @@ bool User_Interface::Start()
 
 	MainMenuTemp_Image = CreateImage(fPoint(3000,3000), SDL_Rect({ 0,0,0,0 }), Main_Menu_Temp_Tex,false,nullptr,nullptr, Screen_Type::SCREEN_MAINMENU);
 
-
-
-	//MainMenuTemp_Image = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,1280,720 }), Main_Menu_Temp_Tex);
 	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/1.8),TempButtonRect,StartGame_text,nullptr,Screen_Type::SCREEN_MAINMENU);
 	StartGame_Label = CreateText(fPoint(width / 2, height / 1.8), "START GAME", font_id::MOLOT,White,false,StartGame_Button,1.0f,nullptr, Screen_Type::SCREEN_MAINMENU);
 
@@ -265,6 +262,29 @@ bool User_Interface::Start()
 
 	OptionsGame_Button = CreateVoidBox(OptionsOpen, fPoint(width / 2, height / 1.4), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
 	OptionsGame_Label = CreateText(fPoint(width / 2, height / 1.4), "OPTIONS", font_id::MOLOT, White, false, OptionsGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+
+	Credits_Button = CreateVoidBox(OpenCredits, fPoint(width / 1.3, height / 1.16), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	Credits_Label = CreateText(fPoint(width / 1.3, height / 1.16), "CREDITS", font_id::MOLOT, White, false, Credits_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+
+	Lucho_Button = CreateVoidBox(LuchoPage, fPoint(width / 6, height / 2.4), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Lucho_Label = CreateText(fPoint(width / 3.55, height / 2.48), "Lucho Suaya", font_id::MOLOT, White, false, Lucho_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Lucho_Rol = CreateText(fPoint(width / 4.25, height / 2.2), "Lead", font_id::MOLOT, White, false, Lucho_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Lucho_Button->Deactivate();
+
+	Jaume_Button = CreateVoidBox(JaumePage, fPoint(width / 6, height / 1.78), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Jaume_Label = CreateText(fPoint(width / 3.45, height / 1.85), "Jaume Avinyo", font_id::MOLOT, White, false, Jaume_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Jaume_Rol = CreateText(fPoint(width / 3.85, height / 1.72), "Manager", font_id::MOLOT, White, false, Jaume_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Jaume_Button->Deactivate();
+
+	Roger_Button = CreateVoidBox(RogerPage, fPoint(width / 6, height / 2.4), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Roger_Label = CreateText(fPoint(width / 3.55, height / 2.48), "Roger Leon", font_id::MOLOT, White, false, Roger_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Roger_Rol = CreateText(fPoint(width / 4.25, height / 2.2), "UI", font_id::MOLOT, White, false, Roger_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Roger_Button->Deactivate();
+
+	ReturnfromCredits_Button= CreateVoidBox(CloseCredits, fPoint(width / 2, height / 1.15), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	ReturnfromCredits_Label= CreateText(fPoint(width / 2, height / 1.15), "RETURN", font_id::MOLOT, White, false, ReturnfromCredits_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	ReturnfromCredits_Button->Deactivate();
+
 
 	Minimap_Display = new  MiniMap_UI();
 	Tutorial = new TutorialBox(fPoint(width / 2, height / 2),SDL_Rect({ 0,0,906,657 }),Tutorial_Tex);
@@ -286,7 +306,6 @@ bool User_Interface::Start()
 	Tutorial_Arrow_Foreward->Deactivate();
 	Tutorial_Arrow_Back->Deactivate();
 	ReturnfromTutorial_Button->Deactivate();
-
 
 	OptionsPanel = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,906,657 }), Options_tex,false,nullptr,nullptr,Screen_Type::SCREEN_OPTIONS);
 

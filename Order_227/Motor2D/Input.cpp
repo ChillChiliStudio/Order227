@@ -67,7 +67,6 @@ bool Input::PreUpdate()
 				keyboard[i] = KEY_IDLE;
 		}
 	}
-
 	for(int i = 0; i < NUM_MOUSE_BUTTONS; ++i)
 	{
 		if(mouse_buttons[i] == KEY_DOWN)
