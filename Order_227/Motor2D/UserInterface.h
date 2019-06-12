@@ -147,6 +147,12 @@ public:
 	Image* MainMenuTemp_Image = nullptr;
 	Void_Box* StartGame_Button = nullptr;
 	Text* StartGame_Label = nullptr;
+	Void_Box* ContinueGame_Button = nullptr;
+	Text* ContinueGame_Label = nullptr;
+	Void_Box* LoadGame_Button = nullptr;
+	Text* LoadGame_Label = nullptr;
+	Void_Box* SaveGame_Button = nullptr;
+	Text* SaveGame_Label = nullptr;
 	Void_Box* OptionsGame_Button = nullptr;
 	Text* OptionsGame_Label = nullptr;
 	Void_Box* ExitGame_Button = nullptr;

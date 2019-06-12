@@ -186,6 +186,34 @@ void StartGame() {
 	//}
 }
 
+void RequestMenuLoad()
+{
+	myApp->LoadGame();
+
+	if (myApp->scene->firstGame) {
+		myApp->entities->ActivateObjects();
+		myApp->scene->firstGame = false;
+	}
+}
+
+void RequestLoad()
+{
+	QuitGame();
+	myApp->LoadGame();
+}
+
+void RequestSave()
+{
+	myApp->SaveGame();
+
+	if (!myApp->saveFileExists) {
+
+		myApp->gui->ContinueGame_Button->Enable();
+		myApp->gui->LoadGame_Button->Enable();
+		myApp->saveFileExists = true;
+	}
+}
+
 void QuitGame() {
 
 	//myApp->audio->PlayMusic();

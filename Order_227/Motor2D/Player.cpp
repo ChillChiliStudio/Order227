@@ -478,12 +478,7 @@ void Player::PlayerSelect()
 		iPoint mousePosition;
 		myApp->input->GetMousePosition(mousePosition.x, mousePosition.y);
 
-		if (mouseScreenPos.y < mouseWorldLimit) {
-			if (mousePosition.x > myApp->minimap->minimapPosition.x + myApp->minimap->minimap_width &&
-				mousePosition.x < myApp->minimap->minimapPosition.x &&
-				mousePosition.y > myApp->minimap->minimapPosition.y + myApp->minimap->minimap_height &&
-				mousePosition.y < myApp->minimap->minimapPosition.y)
-				return;
+		if (mouseScreenPos.y < mouseWorldLimit && !myApp->gui->OnPause) {
 
 			StartSelect();
 			selectionStarted = true;
