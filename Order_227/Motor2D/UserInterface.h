@@ -169,6 +169,39 @@ public:
 	Image* Tutorial_Arrow_Back_Label = nullptr;
 	Void_Box* ReturnfromTutorial_Button = nullptr;
 	Text* ReturnfromTutorial_Label = nullptr;
+	Void_Box* Credits_Button = nullptr;
+	Text* Credits_Label = nullptr;
+
+	Void_Box* ReturnfromCredits_Button = nullptr;
+	Text* ReturnfromCredits_Label = nullptr;
+
+	Void_Box* Lucho_Button = nullptr;
+	Text* Lucho_Label = nullptr;
+	Text*Lucho_Rol = nullptr;
+
+	Void_Box* Jaume_Button = nullptr;
+	Text* Jaume_Label = nullptr;
+	Text* Jaume_Rol = nullptr;
+
+	Void_Box* Roger_Button = nullptr;
+	Text* Roger_Label = nullptr;
+	Text* Roger_Rol = nullptr;
+
+	Void_Box* Joan_Button = nullptr;
+	Text* Joan_Label = nullptr;
+	Text* Joan_Rol = nullptr;
+
+	Void_Box* Carles_Button = nullptr;
+	Text* Carles_Label = nullptr;
+	Text* Carles_Rol = nullptr;
+
+	Void_Box* Adri_Button = nullptr;
+	Text* Adri_Label = nullptr;
+	Text* Adri_Rol = nullptr;
+
+	Void_Box* Rafel_Button = nullptr;
+	Text* Rafel_Label = nullptr;
+	Text* Rafel_Rol = nullptr;
 
 	Text* Damage_Label = nullptr;
 	Text* Health_Label = nullptr;
