@@ -8,7 +8,7 @@
 #include "Fonts.h"
 #include "Input.h"
 //Constructor
-Unit_Box::Unit_Box(event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator,int unitCost, bool* _abletoCraft,SDL_Scancode Hotkey,ui_type type)
+Unit_Box::Unit_Box(event_function action, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex, UI_Element* parent, SDL_Texture* TimerTexture, int timeCreator,int unitCost, bool* _abletoCraft,SDL_Scancode* Hotkey,ui_type type)
 	: Action_Box(type, center, spriteList, tex, parent), action(action)
 {
 	UnitCost = unitCost;
@@ -64,7 +64,7 @@ void Unit_Box::OnPressRight() {
 }
 
 void Unit_Box::OnHotkey() {
-	if (myApp->input->GetKey(ButtonHotkey) == KEY_DOWN) {
+	if (myApp->input->GetKey(*ButtonHotkey) == KEY_DOWN) {
 		if ((*abletoCraft) == true) {
 			if (myApp->player->playerMoney > UnitCost) {
 				if (startCreationUnit == false)

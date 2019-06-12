@@ -13,6 +13,7 @@ void CreateChrono();
 void CreateDesolator();
 void CreateSniper();
 void CreateEngineer();
+void HotkeyButtonPrepare(int* code);
 void StartGame();
 void RequestLoad();
 void RequestSave();

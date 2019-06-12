@@ -7,7 +7,6 @@
 #include "Render.h"
 Projectile::Projectile() {
 	
-	
 }
 
 Projectile::~Projectile() {
