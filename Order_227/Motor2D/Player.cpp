@@ -120,9 +120,14 @@ bool Player::Update(float dt)
 					myApp->gui->Hotkey_Chrono->Deactivate();
 					myApp->gui->Hotkey_Sniper->Deactivate();
 					myApp->gui->Hotkey_Engineer->Deactivate();
+
 					myApp->gui->Hotkey_Hold->Deactivate();
 					myApp->gui->Hotkey_Hunt->Deactivate();
 					myApp->gui->Hotkey_Patrol->Deactivate();
+
+					myApp->gui->Hotkey_Defensive->Deactivate();
+					myApp->gui->Hotkey_Aggressive->Deactivate();
+
 					myApp->gui->Hotkey_Up->Deactivate();
 					myApp->gui->Hotkey_Down->Deactivate();
 					myApp->gui->Hotkey_Left->Deactivate();

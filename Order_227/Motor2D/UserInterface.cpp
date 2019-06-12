@@ -412,7 +412,7 @@ bool User_Interface::Start()
 	//Camera
 	Hotkey_Up = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.5, height / 2.2), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->camera.up);
 	Hotkey_Up->keyText = Hotkey_Up_Label = CreateText(fPoint(width / 1.5, height / 2.2), myApp->controls->keyNames[myApp->controls->camera.up].c_str(), font_id::MOLOT, White, false, Hotkey_Up, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Camera_Label = CreateText(fPoint(width / 1.47, height / 2.8), "Camera", font_id::MOLOT, White, false, Hotkey_Up, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Camera_Label = CreateText(fPoint(width / 1.30, height / 2.2), "Camera", font_id::MOLOT, White, false, Hotkey_Up, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Hotkey_Up->Deactivate();
 
 	Hotkey_Down = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.5, height / 1.7), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->camera.down);
@@ -442,6 +442,17 @@ bool User_Interface::Start()
 	Hotkey_Patrol->keyText = Hotkey_Patrol_Label = CreateText(fPoint(width / 2.05, height / 1.35), myApp->controls->keyNames[myApp->controls->orders.patrol].c_str(), font_id::MOLOT, White, false, Hotkey_Patrol, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Patrol_Label = CreateText(fPoint(width / 2.36, height / 1.35), "Patrol", font_id::MOLOT, White, false, Hotkey_Patrol, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Hotkey_Patrol->Deactivate();
+
+	//Aggro
+	Hotkey_Defensive = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.5, height / 3.5), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->orders.defensive);
+	Hotkey_Defensive->keyText = Hotkey_Defensive_Label = CreateText(fPoint(width / 1.5, height / 3.5), myApp->controls->keyNames[myApp->controls->orders.defensive].c_str(), font_id::MOLOT, White, false, Hotkey_Defensive, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Defensive_Label = CreateText(fPoint(width / 1.47, height / 5.0), "Defensive", font_id::MOLOT, White, false, Hotkey_Defensive, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Defensive->Deactivate();
+
+	Hotkey_Aggressive = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.33, height / 3.5), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->orders.aggressive);
+	Hotkey_Aggressive->keyText = Hotkey_Aggressive_Label = CreateText(fPoint(width / 1.33, height / 3.5), myApp->controls->keyNames[myApp->controls->orders.aggressive].c_str(), font_id::MOLOT, White, false, Hotkey_Aggressive, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hunt_Label = CreateText(fPoint(width / 1.3, height / 5.0), "Aggressive", font_id::MOLOT, White, false, Hotkey_Aggressive, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Aggressive->Deactivate();
 
 	//Options Exit
 	ReturnOptions_Button = CreateVoidBox(QuitOptions, fPoint(width / 1.9, height / 1.135), TempButtonRect, StartGame_text, OptionsPanel, Screen_Type::SCREEN_OPTIONS);

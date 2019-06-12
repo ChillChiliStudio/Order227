@@ -341,9 +341,14 @@ void QuitOptions() {
 		myApp->gui->Hotkey_Chrono->Deactivate();
 		myApp->gui->Hotkey_Sniper->Deactivate();
 		myApp->gui->Hotkey_Engineer->Deactivate();
+
 		myApp->gui->Hotkey_Hold->Deactivate();
 		myApp->gui->Hotkey_Hunt->Deactivate();
 		myApp->gui->Hotkey_Patrol->Deactivate();
+
+		myApp->gui->Hotkey_Defensive->Deactivate();
+		myApp->gui->Hotkey_Aggressive->Deactivate();
+
 		myApp->gui->OptionsPanel->Activate();
 		myApp->gui->SetHotkeys_Button->Activate();
 		myApp->gui->Hotkey_Up->Deactivate();
@@ -373,9 +378,14 @@ void Hotkeys_Options() {
 	myApp->gui->Hotkey_Chrono->Activate();
 	myApp->gui->Hotkey_Sniper->Activate();
 	myApp->gui->Hotkey_Engineer->Activate();
+
 	myApp->gui->Hotkey_Hold->Activate();
 	myApp->gui->Hotkey_Hunt->Activate();
 	myApp->gui->Hotkey_Patrol->Activate();
+
+	myApp->gui->Hotkey_Defensive->Activate();
+	myApp->gui->Hotkey_Aggressive->Activate();
+
 	myApp->gui->Hotkey_Up->Activate();
 	myApp->gui->Hotkey_Down->Activate();
 	myApp->gui->Hotkey_Left->Activate();
