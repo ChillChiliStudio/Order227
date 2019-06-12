@@ -414,23 +414,23 @@ void CloseCredits() {
 
 }
 void LuchoPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/lucho1", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://rafelbrau03.wixsite.com/website-1/about", NULL, NULL, SW_SHOWNORMAL);
 }
 void RogerPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/rleonborras", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://rafelbrau03.wixsite.com/website-1/about-2", NULL, NULL, SW_SHOWNORMAL);
 }
 void AdriPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/AdrianFR99", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://rafelbrau03.wixsite.com/website-1/about-3", NULL, NULL, SW_SHOWNORMAL);
 }
 void JaumePage() {
-	ShellExecuteA(NULL, "open", "https://github.com/Jaumeavinyo", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://rafelbrau03.wixsite.com/website-1/about-4", NULL, NULL, SW_SHOWNORMAL);
 }
 void JoanPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/X0KA", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://rafelbrau03.wixsite.com/website-1/about-6", NULL, NULL, SW_SHOWNORMAL);
 }
 void CarlesPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/ch0m5", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://rafelbrau03.wixsite.com/website-1/about-5", NULL, NULL, SW_SHOWNORMAL);
 }
 void RafelPage() {
-	ShellExecuteA(NULL, "open", "https://github.com/Rafefix", NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteA(NULL, "open", "https://rafelbrau03.wixsite.com/website-1/about-1", NULL, NULL, SW_SHOWNORMAL);
 }

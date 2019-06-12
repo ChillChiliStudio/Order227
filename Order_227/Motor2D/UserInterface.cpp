@@ -442,12 +442,14 @@ bool User_Interface::Start()
 	//Main_Menu_Elements.push_back(StartGame_Button);
 	//Main_Menu_Elements.push_back(StartGame_Label);
 
-	myApp->video->PlayVideo("Video/Main_Menu_Background.ogv", { 0,0,1280,720 },true);
+	//myApp->video->PlayVideo("Video/Main_Menu_Background.ogv", { 0,0,1280,720 },true);
 
 	//DeactivateScreen(Main_Menu_Elements);
 	DeactivateScreen(InGame_Elements);
-	//ActivateScreen(Main_Menu_Elements);
-
+	DeactivateScreen(Main_Menu_Elements);
+	myApp->video->PlayVideo("Video/Intro_Logo.ogv", { 0,0,1280,720 }, false);
+	TimeVideo.Start();
+	//Intro_Company.ogv
 	return ret;
 }
 
@@ -491,7 +493,12 @@ bool User_Interface::Update(float dt)
 	BROFILER_CATEGORY("Module User_Interface Update", Profiler::Color::DeepPink);
 
 	bool ret = true;
-
+	if (InitVideo == true && TimeVideo.ReadSec()>=5.11) {
+		InitVideo = false;
+		myApp->video->PlayVideo("Video/Main_Menu_Background.ogv", { 0,0,1280,720 }, true);
+		ActivateScreen(Main_Menu_Elements);
+		myApp->scene->SwitchMusic(Screen_Type::SCREEN_MAINMENU);
+	}
 
 
 	if (myApp->input->GetKey(SDL_SCANCODE_L)==KEY_DOWN) {

@@ -120,7 +120,7 @@ public:
 public:
 
 	Screen_Type Current_Screen = Screen_Type::SCREEN_MAINMENU;
-
+	bool InitVideo = true;
 	bool interfaceDebugDraw = false;
 	bool OnPause = false;
 
@@ -287,7 +287,7 @@ public:
 private:
 
 	std::list<UI_Element*> screenElements;
-
+	Timer TimeVideo;
 
 	SDL_Texture* Timer_Texture = nullptr;
 
