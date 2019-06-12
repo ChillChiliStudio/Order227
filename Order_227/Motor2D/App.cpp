@@ -420,14 +420,13 @@ bool App::LoadGameNow()
 	else
 		LOG("Could not parse game state xml file %s. pugi error: %s", load_game.c_str(), result.description());
 
-	if (myApp->scene->firstGame) {
-		myApp->entities->ActivateObjects();
-		myApp->scene->firstGame = false;
-	}
-
 	//Alternate Start Game that loads game after reading data
+	myApp->gui->DeactivateScreen(myApp->gui->Main_Menu_Elements);
+	myApp->gui->ActivateScreen(myApp->gui->InGame_Elements);
+
 	myApp->gui->hordeNumber_Label->ChangeString(std::to_string(myApp->hordes->roundNumber));
 	myApp->gui->MainMenuTemp_Image->Deactivate();
+
 	myApp->gui->Current_Screen = Screen_Type::SCREEN_INGAME;
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_INGAME);
 	Mix_Resume(-1);
@@ -435,6 +434,8 @@ bool App::LoadGameNow()
 	myApp->gui->OnPause = false;
 	myApp->gui->WinIcon->Deactivate();
 	myApp->gui->LoseIcon->Deactivate();
+
+	myApp->video->StopVideo();
 
 	want_to_load = false;
 	return ret;

@@ -110,8 +110,8 @@ bool Render::Save(pugi::xml_node& node)
 	pugi::xml_node tmpNode;
 
 	tmpNode = node.append_child("camera");
-	tmpNode.append_attribute("x");
-	tmpNode.append_attribute("y");
+	tmpNode.append_attribute("x") = camera.x;
+	tmpNode.append_attribute("y") = camera.y;
 
 	return true;
 }

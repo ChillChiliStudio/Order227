@@ -115,8 +115,8 @@ bool Player::Update(float dt)
 			}
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
-			myApp->entities->ActivateUnit(fPoint((float)mousePos.x, (float)mousePos.y), infantry_type::ENGINEER, entity_faction::COMMUNIST);
+		/*if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+			myApp->entities->ActivateUnit(fPoint((float)mousePos.x, (float)mousePos.y), infantry_type::ENGINEER, entity_faction::COMMUNIST);*/
 
 		/*if (myApp->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
 			myApp->SaveGame();
@@ -240,7 +240,7 @@ void Player::DebugMouse()
 void Player::DebugInputs()
 {
 	//Toggle DebugMode
-	if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+	/*if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
 		myApp->debugMode = !myApp->debugMode;
 
 		if (myApp->debugMode == false) {
@@ -252,7 +252,7 @@ void Player::DebugInputs()
 		else {
 			LOG("Debug Mode: ON");
 		}
-	}
+	}*/
 
 	if (myApp->debugMode) {
 		if (myApp->input->GetKey(myApp->controls->debug.debugMap) == KEY_DOWN) {	// Toggle Map debug draw
@@ -478,12 +478,7 @@ void Player::PlayerSelect()
 		iPoint mousePosition;
 		myApp->input->GetMousePosition(mousePosition.x, mousePosition.y);
 
-		if (mouseScreenPos.y < mouseWorldLimit) {
-			if (mousePosition.x > myApp->minimap->minimapPosition.x + myApp->minimap->minimap_width &&
-				mousePosition.x < myApp->minimap->minimapPosition.x &&
-				mousePosition.y > myApp->minimap->minimapPosition.y + myApp->minimap->minimap_height &&
-				mousePosition.y < myApp->minimap->minimapPosition.y)
-				return;
+		if (mouseScreenPos.y < mouseWorldLimit && !myApp->gui->OnPause) {
 
 			StartSelect();
 			selectionStarted = true;
