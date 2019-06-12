@@ -370,49 +370,75 @@ bool User_Interface::Start()
 	SetHotkeys_Button = CreateVoidBox(Hotkeys_Options, fPoint(width / 2, height / 1.5), TempButtonRect, StartGame_text, OptionsPanel, Screen_Type::SCREEN_OPTIONS);
 	SetHotkeys_Label = CreateText(fPoint(width / 2, height / 1.5), "CONTROLS", font_id::MOLOT, White, false, SetHotkeys_Button,1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
 
-	Hotkey_Conscript = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 2.6, height / 3.5), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->spawnHotKeys[0]);
-	Hotkey_Conscript->keyText = Hotkey_Conscript_Label = CreateText(fPoint(width / 2.6, height / 3.5), myApp->controls->keyNames[myApp->controls->spawnHotKeys[0]].c_str(), font_id::MOLOT, White, false, Hotkey_Conscript, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Conscript_Label = CreateText(fPoint(width / 3.5, height / 3.5), "Create Conscript", font_id::MOLOT, White, false, Hotkey_Conscript, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	//Spawns
+	Hotkey_Conscript = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 3.1, height / 3.5), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->spawnHotKeys[0]);
+	Hotkey_Conscript->keyText = Hotkey_Conscript_Label = CreateText(fPoint(width / 3.1, height / 3.5), myApp->controls->keyNames[myApp->controls->spawnHotKeys[0]].c_str(), font_id::MOLOT, White, false, Hotkey_Conscript, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Conscript_Label = CreateText(fPoint(width / 4, height / 3.5), "Conscript", font_id::MOLOT, White, false, Hotkey_Conscript, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Conscript_Label = CreateText(fPoint(width / 4, height / 4.5), "Create:", font_id::MOLOT, White, false, Hotkey_Conscript, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Hotkey_Conscript->Deactivate();
 
-	Hotkey_Flak = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 2.6, height / 2.3), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->spawnHotKeys[1]);
-	Hotkey_Flak->keyText = Hotkey_Flak_Label = CreateText(fPoint(width / 2.6, height / 2.3), myApp->controls->keyNames[myApp->controls->spawnHotKeys[1]].c_str(), font_id::MOLOT, White, false, Hotkey_Flak, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Flak_Label = CreateText(fPoint(width / 3.5, height / 2.3), "Create Flak", font_id::MOLOT, White, false, Hotkey_Flak, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Flak = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 3.1, height / 2.3), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->spawnHotKeys[1]);
+	Hotkey_Flak->keyText = Hotkey_Flak_Label = CreateText(fPoint(width / 3.1, height / 2.3), myApp->controls->keyNames[myApp->controls->spawnHotKeys[1]].c_str(), font_id::MOLOT, White, false, Hotkey_Flak, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Flak_Label = CreateText(fPoint(width / 4, height / 2.3), "Flak", font_id::MOLOT, White, false, Hotkey_Flak, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Hotkey_Flak->Deactivate();
 
-	Hotkey_Desolator = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 2.6, height / 1.7), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->spawnHotKeys[2]);
-	Hotkey_Desolator->keyText = Hotkey_Desolator_Label = CreateText(fPoint(width / 2.6, height / 1.7), myApp->controls->keyNames[myApp->controls->spawnHotKeys[2]].c_str(), font_id::MOLOT, White, false, Hotkey_Desolator, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Desolator_Label = CreateText(fPoint(width / 3.5, height / 1.7), "Create Desolator", font_id::MOLOT, White, false, Hotkey_Desolator, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Desolator = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 3.1, height / 1.7), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->spawnHotKeys[2]);
+	Hotkey_Desolator->keyText = Hotkey_Desolator_Label = CreateText(fPoint(width / 3.1, height / 1.7), myApp->controls->keyNames[myApp->controls->spawnHotKeys[2]].c_str(), font_id::MOLOT, White, false, Hotkey_Desolator, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Desolator_Label = CreateText(fPoint(width / 4, height / 1.7), "Desolator", font_id::MOLOT, White, false, Hotkey_Desolator, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Hotkey_Desolator->Deactivate();
 
-	Hotkey_Chrono = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 2.6, height / 1.35), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->spawnHotKeys[3]);
-	Hotkey_Chrono->keyText = Hotkey_Chrono_Label = CreateText(fPoint(width / 2.6, height / 1.35), myApp->controls->keyNames[myApp->controls->spawnHotKeys[3]].c_str(), font_id::MOLOT, White, false, Hotkey_Chrono, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Chrono_Label = CreateText(fPoint(width / 3.5, height / 1.35), "Create Chrono", font_id::MOLOT, White, false, Hotkey_Chrono, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Chrono = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 3.1, height / 1.35), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->spawnHotKeys[3]);
+	Hotkey_Chrono->keyText = Hotkey_Chrono_Label = CreateText(fPoint(width / 3.1, height / 1.35), myApp->controls->keyNames[myApp->controls->spawnHotKeys[3]].c_str(), font_id::MOLOT, White, false, Hotkey_Chrono, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Chrono_Label = CreateText(fPoint(width / 4, height / 1.35), "Chrono", font_id::MOLOT, White, false, Hotkey_Chrono, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Hotkey_Chrono->Deactivate();
 
-	Hotkey_Sniper = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.5, height / 3.5), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->spawnHotKeys[4]);
-	Hotkey_Sniper->keyText = Hotkey_Sniper_Label = CreateText(fPoint(width / 1.5, height / 3.5), myApp->controls->keyNames[myApp->controls->spawnHotKeys[4]].c_str(), font_id::MOLOT, White, false, Hotkey_Sniper, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Sniper_Label = CreateText(fPoint(width / 1.7, height / 3.5), "Create Sniper", font_id::MOLOT, White, false, Hotkey_Sniper, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Sniper = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.9, height / 3.5), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->spawnHotKeys[4]);
+	Hotkey_Sniper->keyText = Hotkey_Sniper_Label = CreateText(fPoint(width / 1.9, height / 3.5), myApp->controls->keyNames[myApp->controls->spawnHotKeys[4]].c_str(), font_id::MOLOT, White, false, Hotkey_Sniper, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Sniper_Label = CreateText(fPoint(width / 2.2, height / 3.5), "Sniper", font_id::MOLOT, White, false, Hotkey_Sniper, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Hotkey_Sniper->Deactivate();
 
-	Hotkey_Up = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.5, height / 2.05), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->camera.up);
-	Hotkey_Up->keyText = Hotkey_Up_Label = CreateText(fPoint(width / 1.5, height / 2.05), myApp->controls->keyNames[myApp->controls->camera.up].c_str(), font_id::MOLOT, White, false, Hotkey_Up, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Engineer = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.9, height / 2.3), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->spawnHotKeys[5]);
+	Hotkey_Engineer->keyText = Hotkey_Sniper_Label = CreateText(fPoint(width / 1.9, height / 2.3), myApp->controls->keyNames[myApp->controls->spawnHotKeys[5]].c_str(), font_id::MOLOT, White, false, Hotkey_Engineer, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Engineer_Label = CreateText(fPoint(width / 2.2, height / 2.3), "Engineer", font_id::MOLOT, White, false, Hotkey_Engineer, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Engineer->Deactivate();
+
+	//Camera
+	Hotkey_Up = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.5, height / 2.2), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->camera.up);
+	Hotkey_Up->keyText = Hotkey_Up_Label = CreateText(fPoint(width / 1.5, height / 2.2), myApp->controls->keyNames[myApp->controls->camera.up].c_str(), font_id::MOLOT, White, false, Hotkey_Up, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Camera_Label = CreateText(fPoint(width / 1.47, height / 2.8), "Camera", font_id::MOLOT, White, false, Hotkey_Up, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Hotkey_Up->Deactivate();
 
-	Hotkey_Down = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.5, height / 1.6), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->camera.down);
-	Hotkey_Down->keyText = Hotkey_Down_Label = CreateText(fPoint(width / 1.5, height / 1.6), myApp->controls->keyNames[myApp->controls->camera.down].c_str(), font_id::MOLOT, White, false, Hotkey_Down, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Down = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.5, height / 1.7), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->camera.down);
+	Hotkey_Down->keyText = Hotkey_Down_Label = CreateText(fPoint(width / 1.5, height / 1.7), myApp->controls->keyNames[myApp->controls->camera.down].c_str(), font_id::MOLOT, White, false, Hotkey_Down, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Hotkey_Down->Deactivate();
 
-	Hotkey_Left = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.72, height / 1.6), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->camera.left);
-	Hotkey_Left->keyText = Hotkey_Left_Label = CreateText(fPoint(width / 1.72, height / 1.6), myApp->controls->keyNames[myApp->controls->camera.left].c_str(), font_id::MOLOT, White, false, Hotkey_Left, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Left = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.72, height / 1.7), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->camera.left);
+	Hotkey_Left->keyText = Hotkey_Left_Label = CreateText(fPoint(width / 1.72, height / 1.7), myApp->controls->keyNames[myApp->controls->camera.left].c_str(), font_id::MOLOT, White, false, Hotkey_Left, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Hotkey_Left->Deactivate();
 
-	Hotkey_Right = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.32, height / 1.6), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->camera.right);
-	Hotkey_Right->keyText = Hotkey_Right_Label = CreateText(fPoint(width / 1.32, height / 1.6), myApp->controls->keyNames[myApp->controls->camera.right].c_str(), font_id::MOLOT, White, false, Hotkey_Right, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Right = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.33, height / 1.7), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->camera.right);
+	Hotkey_Right->keyText = Hotkey_Right_Label = CreateText(fPoint(width / 1.33, height / 1.7), myApp->controls->keyNames[myApp->controls->camera.right].c_str(), font_id::MOLOT, White, false, Hotkey_Right, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Hotkey_Right->Deactivate();
 
-	ReturnOptions_Button = CreateVoidBox(QuitOptions, fPoint(width / 1.9, height / 1.135), TempButtonRect, StartGame_text,OptionsPanel, Screen_Type::SCREEN_OPTIONS);
-	ReturnOptions_Label = CreateText(fPoint(width / 2, height / 1.15), "RETURN", font_id::MOLOT, White, false, ReturnOptions_Button,0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	//Orders
+	Hotkey_Hold = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 1.5, height / 1.4), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->orders.hold);
+	Hotkey_Hold->keyText = Hotkey_Hold_Label = CreateText(fPoint(width / 1.5, height / 1.4), myApp->controls->keyNames[myApp->controls->orders.hold].c_str(), font_id::MOLOT, White, false, Hotkey_Hold, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hold_Label = CreateText(fPoint(width / 1.48, height / 1.25), "Hold", font_id::MOLOT, White, false, Hotkey_Hold, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Hold->Deactivate();
+
+	Hotkey_Hunt = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 2.05, height / 1.65), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->orders.hunt);
+	Hotkey_Hunt->keyText = Hotkey_Hunt_Label = CreateText(fPoint(width / 2.05, height / 1.65), myApp->controls->keyNames[myApp->controls->orders.hunt].c_str(), font_id::MOLOT, White, false, Hotkey_Hunt, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hunt_Label = CreateText(fPoint(width / 2.36, height / 1.65), "Hunt", font_id::MOLOT, White, false, Hotkey_Hunt, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Hunt->Deactivate();
+
+	Hotkey_Patrol = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 2.05, height / 1.35), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->orders.patrol);
+	Hotkey_Patrol->keyText = Hotkey_Patrol_Label = CreateText(fPoint(width / 2.05, height / 1.35), myApp->controls->keyNames[myApp->controls->orders.patrol].c_str(), font_id::MOLOT, White, false, Hotkey_Patrol, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Patrol_Label = CreateText(fPoint(width / 2.36, height / 1.35), "Patrol", font_id::MOLOT, White, false, Hotkey_Patrol, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Hotkey_Patrol->Deactivate();
+
+	//Options Exit
+	ReturnOptions_Button = CreateVoidBox(QuitOptions, fPoint(width / 1.9, height / 1.135), TempButtonRect, StartGame_text, OptionsPanel, Screen_Type::SCREEN_OPTIONS);
+	ReturnOptions_Label = CreateText(fPoint(width / 2, height / 1.15), "RETURN", font_id::MOLOT, White, false, ReturnOptions_Button, 0.7f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	ReturnOptions_Button->ChangeSize(0.7f);
 
 	OptionsPanel->Deactivate();

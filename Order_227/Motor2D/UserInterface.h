@@ -270,6 +270,11 @@ public:
 	Text* Hotkey_Sniper_Label = nullptr;
 	Text* Sniper_Label = nullptr;
 
+	Key_Config_Box* Hotkey_Engineer = nullptr;
+	Text* Hotkey_Engineer_Label = nullptr;
+	Text* Engineer_Label = nullptr;
+
+	Text* Camera_Label = nullptr;
 	Key_Config_Box* Hotkey_Up = nullptr;
 	Text* Hotkey_Up_Label = nullptr;
 	Key_Config_Box* Hotkey_Down = nullptr;
@@ -278,6 +283,16 @@ public:
 	Text* Hotkey_Left_Label = nullptr;
 	Key_Config_Box* Hotkey_Right = nullptr;
 	Text* Hotkey_Right_Label = nullptr;
+
+	Key_Config_Box* Hotkey_Hold = nullptr;
+	Text* Hotkey_Hold_Label = nullptr;
+	Text* Hold_Label = nullptr;
+	Key_Config_Box* Hotkey_Hunt = nullptr;
+	Text* Hotkey_Hunt_Label = nullptr;
+	Text* Hunt_Label = nullptr;
+	Key_Config_Box* Hotkey_Patrol = nullptr;
+	Text* Hotkey_Patrol_Label = nullptr;
+	Text* Patrol_Label = nullptr;
 
 	Unit_Box* ConscriptCreator = nullptr;
 	Unit_Box* FlakCreator = nullptr;

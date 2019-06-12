@@ -38,4 +38,5 @@ void Key_Config_Box::OnPress()
 void Key_Config_Box::UpdateText()
 {
 	keyText->ChangeString(myApp->controls->TranslateKeycode(*keyValue).c_str());
+	keyText->ChangeCenter(this->center);
 }

@@ -84,8 +84,6 @@ public:
 
 	void UpdateMouseButton(int newVal);
 	void UpdateKey(int newVal);
-	
-	void UpdateConfig(int newVal);
 
 public:
 	int pause = SDL_SCANCODE_ESCAPE;

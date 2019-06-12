@@ -264,8 +264,6 @@ bool Controls::KeyInUse(int key)
 
 void Controls::UpdateMouseButton(int newVal)
 {
-	UpdateConfig(newVal);
-
 	for (int i = 0; i < mouseButtonsInUse.size(); i++) {
 		if (mouseButtonsInUse[i] == *inputToChange) {
 			mouseButtonsInUse[i] = newVal;
@@ -279,8 +277,6 @@ void Controls::UpdateMouseButton(int newVal)
 
 void Controls::UpdateKey(int newVal)
 {
-	UpdateConfig(newVal);
-
 	for (int i = 0; i < keysInUse.size(); i++) {
 		if (keysInUse[i] == *inputToChange) {
 			keysInUse[i] = newVal;
@@ -290,35 +286,6 @@ void Controls::UpdateKey(int newVal)
 	
 	*inputToChange = newVal;
 	inputToChange = nullptr;
-}
-
-void Controls::UpdateConfig(int newVal)
-{
-	pugi::xml_document	config_file;
-	pugi::xml_node		config;
-
-	pugi::xml_parse_result result = config_file.load_file("config.xml");
-
-	if (result == NULL)
-		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
-	else
-		config = config_file.child("config");
-
-	if (config.empty() == false)
-	{
-		config = config.child("controls");
-
-		for (pugi::xml_node i = config.first_child(); i; i = i.next_sibling()) {
-			for (pugi::xml_attribute j = i.first_attribute(); j; j = j.next_attribute()) {
-				if (j.as_int() == *inputToChange) {
-					j.set_value(newVal);
-					break;
-				}
-			}
-		}
-
-		config_file.save_file("config.xml");
-	}
 }
 
 std::string Controls::TranslateKeycode(int i)
