@@ -113,6 +113,9 @@ public:
 	Animation BuildingAnimationArray[int(building_type::BUILDING_MAX)][int(Building_State::MAX)];
 	SDL_Rect ParticleAnimArray[8];
 
+	//Projectile explosion animation
+	Animation projectileExplosionAnim;
+
 
 	bool entitiesDebugDraw = false;
 	SDL_Texture* lifeBar_tex = nullptr; //TODO: Why is this here?4
@@ -149,7 +152,8 @@ private:
 	SDL_Texture*	buildingsTextures[int(building_type::BUILDING_MAX)];
 	SDL_Texture*	infantryTextures[int(infantry_type::INFANTRY_MAX)][2];
 
-
+	//Texture of the projectile explosion
+	SDL_Texture*	projectileTexture;
 	
 	pugi::xml_document unitsDocument;
 	pugi::xml_document BuildingsDocument;

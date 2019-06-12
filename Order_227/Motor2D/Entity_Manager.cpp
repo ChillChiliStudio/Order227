@@ -65,6 +65,15 @@ static_assert((int)infantry_type::INFANTRY_MAX == TROOP_TYPES, "The total number
 
 	LoadEntityData();
 
+	//Load the animation of the explosion of the projectile
+	for (int i = 0; i < 7; ++i) {
+		for (int j = 0; i < 4; ++j) {
+			projectileExplosionAnim.PushBack({ 0+(j*218),0+(i*192),218,192 });
+		}
+	}
+	
+	projectileTexture = myApp->tex->Load("textures/Effects_Parts/Explo1.png");
+
 	//Set up stats of units
 	SetupUnitStats();
 
@@ -217,6 +226,8 @@ bool Entity_Manager::CleanUp()
 	}
 
 	entitiesVector.clear();
+
+	myApp->tex->UnLoad(projectileTexture);
 
 	ReleasePools();
 	objectsArray.clear();
