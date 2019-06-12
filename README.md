@@ -9,7 +9,7 @@ Create and control troops, build defense constructions by using money, control s
 
 If you want to download the game and play it, please feel free to try the latest release of Order 227: Not a Step Back:
 
-<a href="https://github.com/ChillChiliStudio/Order227/releases/download/v0.6/Order227.zip" download>
+<a href="https://github.com/ChillChiliStudio/Order227/releases/tag/v1.0/Order.227.zip" download>
   <img src="https://raw.githubusercontent.com/ChillChiliStudio/Order227/gh-pages/Graphic%20Resources/downloadicon.png" width="120" height="120">
 </a>
   
