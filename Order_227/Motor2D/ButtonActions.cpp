@@ -410,6 +410,7 @@ void TutorialOpen() {
 
 	myApp->gui->DeactivateScreen(myApp->gui->Main_Menu_Elements);
 	myApp->gui->Tutorial->Activate();
+	myApp->gui->Tutorial->currentPage = 0;
 	myApp->gui->Tutorial_Arrow_Foreward->Activate();
 	myApp->gui->Tutorial_Arrow_Back->Activate();
 	myApp->gui->ReturnfromTutorial_Button->Activate();
