@@ -5,8 +5,6 @@
 #include "Window.h"
 #include "SDL/include/SDL.h"
 
-#define MAX_KEYS 300
-
 Input::Input() : Module()
 {
 	name.assign("input");

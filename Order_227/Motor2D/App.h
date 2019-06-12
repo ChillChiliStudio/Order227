@@ -24,6 +24,7 @@ class GroupManager;
 class Player;
 class Horde_Manager;
 class MiniMap;
+class Controls;
 
 class App
 {
@@ -57,11 +58,14 @@ public:
 	const char* GetOrganization() const;
 	float GetDT() const;
 
-private:
+	void LoadGame();
+	void SaveGame() const;
 
-	// Load config file
+	// Load xml files
 	pugi::xml_node LoadConfig(pugi::xml_document&) const;
+	pugi::xml_node LoadSaveFile(pugi::xml_document&) const;
 
+private:
 	// Call modules before each loop iteration
 	void PrepareUpdate();
 
@@ -76,6 +80,10 @@ private:
 
 	// Call modules after each loop iteration
 	bool PostUpdate();
+
+	// Load / Save
+	bool LoadGameNow();
+	bool SavegameNow();
 
 public:
 
@@ -95,8 +103,10 @@ public:
 	Player*             player = nullptr;
 	Horde_Manager*		hordes = nullptr;
 	MiniMap*			minimap = nullptr;
+	Controls*			controls = nullptr;
 
 	bool debugMode;
+	bool saveFileExists = false;
 	bool mustShutDown = false;
 
 private:
@@ -109,7 +119,14 @@ private:
 
 	std::list<Module*>modules;
 
+	//Save & Load
+	mutable bool		want_to_save;
+	bool				want_to_load;
 
+	mutable std::string	save_game;
+	std::string			load_game;
+
+	//Framerate
 	uint				frame_count = 0;
 	Timer				time_since_start;
 	Timer				frame_time;

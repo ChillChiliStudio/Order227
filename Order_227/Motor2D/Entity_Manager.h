@@ -30,15 +30,23 @@ public:
 	~Entity_Manager();
 
 public:
-
 	bool Awake(pugi::xml_node& config);
 	bool Start();			//Load textures here
 	bool PreUpdate();
 	bool Update(float dt);
 	bool CleanUp();
 
-public:
+	// Save and Load
+	bool Load(pugi::xml_node&);
+	bool LoadUnitData(Unit*, pugi::xml_node&);
+	bool LoadBuildingData(Building*, pugi::xml_node&);
+	bool LoadEnemiesToHorde();
 
+	bool Save(pugi::xml_node&);
+	bool SaveUnitData(Unit&, pugi::xml_node&);
+	bool SaveBuildingData(Building&, pugi::xml_node&);
+
+public:
 	//Pools	//TODO: With .reserve() we can reserve memory for a vector so if a resize is needed in runtime the memory is already allocated, making the process faster
 	void AllocateEntityPool();
 	void AllocateLauncherPool();
@@ -55,8 +63,8 @@ public:
 	void UpdateBuildings(float dt);
 	void UpdateObjects(float dt);
 
-	Unit* ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
-	Launcher* ActivateLauncher(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL);
+	Unit* ActivateUnit(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL, bool saveFile = false);
+	Launcher* ActivateLauncher(fPoint position, infantry_type infantryType, entity_faction entityFaction = entity_faction::NEUTRAL, bool saveFile = false);
 
 	bool DeActivateUnit(Unit* Unit);
 	void ActivateBuildings();

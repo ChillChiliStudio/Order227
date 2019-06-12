@@ -120,8 +120,12 @@ void Projectile::Explode() {
 			}
 
 		}
+	}	
+	for (int i = 0; myApp->entities->buildingsArray[i].active; i++) {
+		if (myApp->entities->buildingsArray[i].active) {
+			myApp->entities->buildingsArray[i].Hurt(this->damage);
+		}
 	}
-
 
 	this->active = false;
 	

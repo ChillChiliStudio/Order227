@@ -181,6 +181,7 @@ void StartGame() {
 	myApp->gui->MainMenuTemp_Image->Deactivate();
 	myApp->gui->Current_Screen = Screen_Type::SCREEN_INGAME;
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_INGAME);
+	Mix_Resume(-1);
 	myApp->scene->ActivateGameOverMusic = true;
 	myApp->gui->OnPause = false;
 	myApp->gui->WinIcon->Deactivate();
@@ -192,6 +193,7 @@ void QuitGame() {
 	//myApp->audio->PlayMusic();
 	myApp->gui->LoseIcon->Deactivate();
 	myApp->gui->WinIcon->Deactivate();
+	myApp->entities->heavyUnitsUnlocked = false;
 
 	//MUSIC
 	//myApp->audio->PlayMusic("audio/music/main_menu/menu_song_loop.ogg",-1);

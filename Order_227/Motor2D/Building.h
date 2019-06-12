@@ -83,8 +83,6 @@ public:
 	float repairRadius = 170.0f;
 	bool repairable = false;
 
-private:
-
 	bool rewardGiven = false;
 
 };

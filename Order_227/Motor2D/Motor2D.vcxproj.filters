@@ -145,6 +145,9 @@
     <ClCompile Include="Buff_Box.cpp">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
     </ClCompile>
+    <ClCompile Include="Controls.cpp">
+      <Filter>Game Files\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
@@ -317,6 +320,9 @@
     </ClInclude>
     <ClInclude Include="Buff_Box.h">
       <Filter>Game Files\User Interface\UI Elements\Images\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls.h">
+      <Filter>Game Files\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
