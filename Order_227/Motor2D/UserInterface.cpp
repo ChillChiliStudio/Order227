@@ -272,7 +272,7 @@ bool User_Interface::Start()
 	DesolatorPanel_Info = CreateUnitPanel(SDL_Rect({ 0,165,137,165 }), DesolatorCreator, Unit_Panels_tex);
 	FlakPanel_Info = CreateUnitPanel(SDL_Rect({ 137,0,137,165 }), FlakCreator, Unit_Panels_tex);
 	ChronoPanel_Info = CreateUnitPanel(SDL_Rect({ 274,0,137,165 }), ChronoCreator, Unit_Panels_tex);
-	EngineerPanel_Info = CreateUnitPanel(SDL_Rect({ 274,0,137,165 }), ChronoCreator, Unit_Panels_tex);
+	EngineerPanel_Info = CreateUnitPanel(SDL_Rect({ 269,166,137,165 }), EngineerCreator, Unit_Panels_tex);
 
 	UnitBuff_Info = CreateUnitPanel(SDL_Rect({ 147,335,151,94 }), Units_Life, Unit_Panels_tex);
 	BuildingBuff_Info = CreateUnitPanel(SDL_Rect({ 0,434,151,94 }), Buildings_Life, Unit_Panels_tex);
