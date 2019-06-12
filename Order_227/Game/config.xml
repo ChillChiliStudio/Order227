@@ -3,7 +3,7 @@
   <app framerate_cap="60">
     <title>Order227</title>
     <organization>UPC</organization>
-    <debug active="false" />
+    <debug active="true" />
     <save>save_game.xml</save>
     <load>save_game.xml</load>
   </app>
