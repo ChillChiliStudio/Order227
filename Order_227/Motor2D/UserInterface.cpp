@@ -276,9 +276,9 @@ bool User_Interface::Start()
 	Jaume_Rol = CreateText(fPoint(width / 3.85, height / 1.72), "Manager", font_id::MOLOT, White, false, Jaume_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Jaume_Button->Deactivate();
 
-	Roger_Button = CreateVoidBox(RogerPage, fPoint(width / 6, height / 2.4), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Roger_Label = CreateText(fPoint(width / 3.55, height / 2.48), "Roger Leon", font_id::MOLOT, White, false, Roger_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Roger_Rol = CreateText(fPoint(width / 4.25, height / 2.2), "UI", font_id::MOLOT, White, false, Roger_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Roger_Button = CreateVoidBox(RogerPage, fPoint(width / 6, height / 1.41), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Roger_Label = CreateText(fPoint(width / 3.55, height / 1.46), "Roger Leon", font_id::MOLOT, White, false, Roger_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Roger_Rol = CreateText(fPoint(width / 4.0, height / 1.38), "Artist", font_id::MOLOT, White, false, Roger_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Roger_Button->Deactivate();
 
 	ReturnfromCredits_Button= CreateVoidBox(CloseCredits, fPoint(width / 2, height / 1.15), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
