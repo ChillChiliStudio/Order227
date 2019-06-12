@@ -4,7 +4,7 @@ This is a university project made by 7 [Centre de la Imatge i la Tecnologia Mult
 
 Order 227: Not a Step Back is a Real Time Strategy and Tower Defense game for PC in which you will have to defend the Headquarters of a territory recently emancipated on behalf of the human rights and people’s will from the capitalist enemy hordes that want to destroy them. Create and control troops, build defense constructions by using money, control strategic points and stand along a people who wants to be free! As a good communist: Defend the emancipation of the civilians.
 
-Feel free to visit our [Webpage](https://rafelbrau03.wixsite.com/website-1), [Github Webpage](https://chillchilistudio.github.io/Order_227/), and [Repository](https://github.com/ChillChiliStudio/Order_227)
+Feel free to visit our [Webpage](https://rafelbrau03.wixsite.com/website-1), [Github Webpage](https://chillchilistudio.github.io/Order227/), and [Repository](https://github.com/ChillChiliStudio/Order227)
 
 ## Usage
 ### Installation
