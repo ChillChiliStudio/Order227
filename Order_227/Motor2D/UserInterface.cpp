@@ -105,14 +105,14 @@ bool User_Interface::Start()
 	Tutorial_Tex = myApp->tex->Load("ui/Tutorial_SpriteSheet.png");
 
 	//Debug Elements
-	fpsText = CreateText({ 10, 10 }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
+	fpsText = CreateText({ -20.0f, -20.0f }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
 	fpsText->Deactivate();
-	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
+	mouseDebugMark = myApp->gui->CreateText({ -20.0f, -20.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
 	mouseDebugMark->Deactivate();
 
 	SDL_Rect LoseRect = { 437,112,437,112 };
 	SDL_Rect TempButtonRect[4];
-	TempButtonRect[0] = {626,0,290,84};
+	TempButtonRect[0] = { 314,0,290,84 };
 	TempButtonRect[1] = { 626,0,290,84 };
 	TempButtonRect[2] = { 938,0,290,84 };
 	TempButtonRect[3] = {1250,0,290,84 };
@@ -124,7 +124,7 @@ bool User_Interface::Start()
 	mini_TempButtonRect[3] = { 194,85,97,82 };
 
 	SDL_Rect Pause_Button[4];
-	Pause_Button[0] = { 0,0,168,42 };
+	Pause_Button[0] = { 0,85,168,42 };
 	Pause_Button[1] = { 0,0,168,42 };
 	Pause_Button[2] = { 0,42,168,42 };
 	Pause_Button[3] = { 0,42,168,42 };
@@ -210,14 +210,28 @@ bool User_Interface::Start()
 
 	Moneytext = CreateText(fPoint(width / 1.55, height - 140),money.c_str(),font_id::MOLOT);
 
-	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2-100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex,true,nullptr,nullptr,Screen_Type::SCREEN_PAUSE);
+	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2-100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex, false ,nullptr,nullptr,Screen_Type::SCREEN_PAUSE);
+
 	ReturnMainMenu = CreateVoidBox(QuitGame, fPoint(width / 2, height / 2), Pause_Button, PauseButton_text, pauseMenuPanel,Screen_Type::SCREEN_PAUSE);
 	ReturnMainMenu_Label = CreateText(fPoint(width / 2, height / 2), "EXIT", font_id::MOLOT,White,false,pauseMenuPanel,1.0f,nullptr,Screen_Type::SCREEN_PAUSE);
-	Options_Pause_button = CreateVoidBox(OptionsOpen, fPoint(width / 2, height / 2.3), Pause_Button, PauseButton_text, pauseMenuPanel, Screen_Type::SCREEN_PAUSE);
-	Options_Pause_Label = CreateText(fPoint(width / 2, height / 2.3), "Options", font_id::MOLOT, White, false, pauseMenuPanel,1.0f,nullptr, Screen_Type::SCREEN_PAUSE);
+
+	Options_Pause_button = CreateVoidBox(OptionsOpen, fPoint(width / 2, height / 2 - 50), Pause_Button, PauseButton_text, pauseMenuPanel, Screen_Type::SCREEN_PAUSE);
+	Options_Pause_Label = CreateText(fPoint(width / 2, height / 2 - 50), "Options", font_id::MOLOT, White, false, pauseMenuPanel,1.0f,nullptr, Screen_Type::SCREEN_PAUSE);
+
+	LoadGame_Button = CreateVoidBox(RequestLoad, fPoint(width / 2, height / 2 - 100), Pause_Button, PauseButton_text, pauseMenuPanel, Screen_Type::SCREEN_PAUSE);
+	LoadGame_Label = CreateText(fPoint(width / 2, height / 2 - 100), "Load", font_id::MOLOT, White, false, pauseMenuPanel, 1.0f, nullptr, Screen_Type::SCREEN_PAUSE);
+
+	if (!myApp->saveFileExists) {
+		LoadGame_Button->Disable();
+	}
+
+	SaveGame_Button = CreateVoidBox(RequestSave, fPoint(width / 2, height / 2 - 150), Pause_Button, PauseButton_text, pauseMenuPanel, Screen_Type::SCREEN_PAUSE);
+	SaveGame_Label = CreateText(fPoint(width / 2, height / 2 - 150), "Save", font_id::MOLOT, White, false, pauseMenuPanel, 1.0f, nullptr, Screen_Type::SCREEN_PAUSE);
+
 	pauseMenuPanel->Deactivate();
 	frameSelector = CreateImage(fPoint(width / 11, height - 140), SDL_Rect({ 0,0,134,38 }), selectorinGame_Tex);
 
+	//--------------
 
 	Horde_label = CreateText(fPoint(width / 2.5, 30), "HORDE  ", font_id::MOLOT, White, false,NULL,1.5);
 	hordeNumber_Label = CreateText(fPoint(width / 2, 30),horde.c_str(), font_id::MOLOT, White, false, NULL, 1.5);
@@ -252,26 +266,80 @@ bool User_Interface::Start()
 	Money2_Buff = CreateBuffBox(fPoint(580, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff2);
 	Mone3_Buff = CreateBuffBox(fPoint(630, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff45);
 
-	 UnitBuff_Info = CreateUnitPanel(SDL_Rect({ 147,335,151,94 }), Units_Life, Unit_Panels_tex);
-	 BuildingBuff_Info = CreateUnitPanel(SDL_Rect({ 0,434,151,94 }), Buildings_Life, Unit_Panels_tex);
-	 HeavyArmorBuff_Info = CreateUnitPanel(SDL_Rect({ 0,335,151,94 }), HeavyUnits_able, Unit_Panels_tex);
-	 Money1Buff_Info = CreateUnitPanel(SDL_Rect({ 175,434,151,94 }), Money_Buff, Unit_Panels_tex);
-	 Money2Buff_Info = CreateUnitPanel(SDL_Rect({ 175,434,151,94 }), Money2_Buff, Unit_Panels_tex);
-	 Money3Buff_Info = CreateUnitPanel(SDL_Rect({ 0,535,151,94 }), Mone3_Buff, Unit_Panels_tex);
+	UnitBuff_Info = CreateUnitPanel(SDL_Rect({ 147,335,151,94 }), Units_Life, Unit_Panels_tex);
+	BuildingBuff_Info = CreateUnitPanel(SDL_Rect({ 0,434,151,94 }), Buildings_Life, Unit_Panels_tex);
+	HeavyArmorBuff_Info = CreateUnitPanel(SDL_Rect({ 0,335,151,94 }), HeavyUnits_able, Unit_Panels_tex);
+	Money1Buff_Info = CreateUnitPanel(SDL_Rect({ 175,434,151,94 }), Money_Buff, Unit_Panels_tex);
+	Money2Buff_Info = CreateUnitPanel(SDL_Rect({ 175,434,151,94 }), Money2_Buff, Unit_Panels_tex);
+	Money3Buff_Info = CreateUnitPanel(SDL_Rect({ 0,535,151,94 }), Mone3_Buff, Unit_Panels_tex);
 
-
-	MainMenuTemp_Image = CreateImage(fPoint(3000,3000), SDL_Rect({ 0,0,0,0 }), Main_Menu_Temp_Tex,false,nullptr,nullptr, Screen_Type::SCREEN_MAINMENU);
-
+	MainMenuTemp_Image = CreateImage(fPoint(3000, 3000), SDL_Rect({ 0,0,0,0 }), Main_Menu_Temp_Tex, false, nullptr, nullptr, Screen_Type::SCREEN_MAINMENU);
 
 	//MainMenuTemp_Image = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,1280,720 }), Main_Menu_Temp_Tex);
-	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/1.8),TempButtonRect,StartGame_text,nullptr,Screen_Type::SCREEN_MAINMENU);
-	StartGame_Label = CreateText(fPoint(width / 2, height / 1.8), "START GAME", font_id::MOLOT,White,false,StartGame_Button,1.0f,nullptr, Screen_Type::SCREEN_MAINMENU);
+	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/2.0),TempButtonRect,StartGame_text,nullptr,Screen_Type::SCREEN_MAINMENU);
+	StartGame_Label = CreateText(fPoint(width / 2, height / 2.0), "START GAME", font_id::MOLOT,White,false,StartGame_Button,1.0f,nullptr, Screen_Type::SCREEN_MAINMENU);
+  
+	ContinueGame_Button = CreateVoidBox(RequestMenuLoad, fPoint(width / 2, height * 0.625), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	ContinueGame_Label = CreateText(fPoint(width / 2, height * 0.625), "CONTINUE", font_id::MOLOT, White, false, ContinueGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
 
-	ExitGame_Button = CreateVoidBox(CloseGame, fPoint(width / 2, height / 1.15), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
-	ExitGame_Label = CreateText(fPoint(width / 2, height / 1.15), "QUIT GAME", font_id::MOLOT, White, false, ExitGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+	if (!myApp->saveFileExists) {
+		ContinueGame_Button->Disable();
+	}
 
-	OptionsGame_Button = CreateVoidBox(OptionsOpen, fPoint(width / 2, height / 1.4), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
-	OptionsGame_Label = CreateText(fPoint(width / 2, height / 1.4), "OPTIONS", font_id::MOLOT, White, false, OptionsGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+	OptionsGame_Button = CreateVoidBox(OptionsOpen, fPoint(width - width / 2, height * 0.75), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	OptionsGame_Label = CreateText(fPoint(width - width / 2, height * 0.75), "OPTIONS", font_id::MOLOT, White, false, OptionsGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+
+	ExitGame_Button = CreateVoidBox(CloseGame, fPoint(width - width / 2, height * 0.88), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	ExitGame_Label = CreateText(fPoint(width - width / 2, height * 0.88), "QUIT GAME", font_id::MOLOT, White, false, ExitGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+
+	Credits_Button = CreateVoidBox(OpenCredits, fPoint(width / 1.33, height * 0.88), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	Credits_Label = CreateText(fPoint(width / 1.33, height * 0.88), "CREDITS", font_id::MOLOT, White, false, Credits_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+
+	//CREDITS LINKS
+	Lucho_Button = CreateVoidBox(LuchoPage, fPoint(width / 6, height / 2.4), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Lucho_Label = CreateText(fPoint(width / 3.47, height / 2.48), "Lucho Suaya", font_id::MOLOT, White, false, Lucho_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Lucho_Rol = CreateText(fPoint(width / 4.17, height / 2.2), "Lead", font_id::MOLOT, White, false, Lucho_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Lucho_Button->Deactivate();
+
+	Jaume_Button = CreateVoidBox(JaumePage, fPoint(width / 6, height / 1.78), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Jaume_Label = CreateText(fPoint(width / 3.37, height / 1.85), "Jaume Avinyo", font_id::MOLOT, White, false, Jaume_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Jaume_Rol = CreateText(fPoint(width / 3.77, height / 1.72), "Manager", font_id::MOLOT, White, false, Jaume_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Jaume_Button->Deactivate();
+
+	Roger_Button = CreateVoidBox(RogerPage, fPoint(width / 6, height / 1.41), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Roger_Label = CreateText(fPoint(width / 3.55, height / 1.46), "Roger Leon", font_id::MOLOT, White, false, Roger_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Roger_Rol = CreateText(fPoint(width / 4.40, height / 1.38), "UI", font_id::MOLOT, White, false, Roger_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Roger_Button->Deactivate();
+
+	//controlc control v
+
+	Adri_Button = CreateVoidBox(AdriPage, fPoint(width / 2.3, height / 1.78), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Adri_Label = CreateText(fPoint(width / 1.78, height / 1.83), "Adrian Font", font_id::MOLOT, White, false, Adri_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Adri_Rol = CreateText(fPoint(width / 1.9, height / 1.70), "Artist", font_id::MOLOT, White, false, Adri_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Adri_Button->Deactivate();
+
+	Joan_Button = CreateVoidBox(JoanPage, fPoint(width / 1.35, height / 1.78), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Joan_Label = CreateText(fPoint(width / 1.17, height / 1.85), "Joan Marin", font_id::MOLOT, White, false, Joan_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Joan_Rol = CreateText(fPoint(width / 1.22, height / 1.72), "Code", font_id::MOLOT, White, false, Joan_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Joan_Button->Deactivate();
+
+	Carles_Button = CreateVoidBox(CarlesPage, fPoint(width / 1.35, height / 1.41), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Carles_Label = CreateText(fPoint(width / 1.16, height / 1.46), "Carles Homs", font_id::MOLOT, White, false, Carles_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Carles_Rol = CreateText(fPoint(width / 1.21, height / 1.38), "Design", font_id::MOLOT, White, false, Carles_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Carles_Button->Deactivate();
+
+	Rafel_Button = CreateVoidBox(RafelPage, fPoint(width / 2.3, height / 1.41), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Rafel_Label = CreateText(fPoint(width / 1.8, height / 1.46), "Rafel Brau", font_id::MOLOT, White, false, Rafel_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Rafel_Rol = CreateText(fPoint(width / 1.95, height / 1.38), "Q&A", font_id::MOLOT, White, false, Rafel_Button, 0.75f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Rafel_Button->Deactivate();
+
+
+	ReturnfromCredits_Button= CreateVoidBox(CloseCredits, fPoint(width / 2, height / 1.15), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	ReturnfromCredits_Label= CreateText(fPoint(width / 2, height / 1.15), "RETURN", font_id::MOLOT, White, false, ReturnfromCredits_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	ReturnfromCredits_Button->Deactivate();
+
+	
+
 
 	Minimap_Display = new  MiniMap_UI();
 	Tutorial = new TutorialBox(fPoint(width / 2, height / 2),SDL_Rect({ 0,0,906,657 }),Tutorial_Tex);
@@ -280,8 +348,8 @@ bool User_Interface::Start()
 	AddElement(Minimap_Display);
 	InGame_Elements.push_back(Minimap_Display);
 
-	Tutorial_Button = CreateVoidBox(TutorialOpen, fPoint(width / 4, height / 1.15), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
-	Tutorial_Label = CreateText(fPoint(width / 4, height / 1.15), "TUTORIAL", font_id::MOLOT, White, false, Tutorial_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+	Tutorial_Button = CreateVoidBox(TutorialOpen, fPoint(width / 4, height * 0.88), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	Tutorial_Label = CreateText(fPoint(width / 4, height * 0.88), "TUTORIAL", font_id::MOLOT, White, false, Tutorial_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
 	Tutorial_Arrow_Foreward = CreateVoidBox(NextPage_Tutorial, fPoint(width / 1.7, height / 1.15), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Tutorial_Arrow_Foreward_Label = CreateImage(fPoint(width /1.7, height / 1.15), SDL_Rect({ 1,169,32,22 }), StartGame_text, false,Tutorial_Arrow_Foreward, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Tutorial_Arrow_Back = CreateVoidBox(BackPage_Tutorial, fPoint(width / 2.45, height / 1.15), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
@@ -293,7 +361,6 @@ bool User_Interface::Start()
 	Tutorial_Arrow_Foreward->Deactivate();
 	Tutorial_Arrow_Back->Deactivate();
 	ReturnfromTutorial_Button->Deactivate();
-
 
 	OptionsPanel = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,906,657 }), Options_tex,false,nullptr,nullptr,Screen_Type::SCREEN_OPTIONS);
 

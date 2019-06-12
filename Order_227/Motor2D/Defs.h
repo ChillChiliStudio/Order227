@@ -3,6 +3,7 @@
 
 #include <cstdio>
 
+
 //  NULL just in case ----------------------
 
 #ifdef NULL

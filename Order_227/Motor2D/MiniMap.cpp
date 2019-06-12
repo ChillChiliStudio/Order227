@@ -51,7 +51,7 @@ bool MiniMap::Start()
 
 bool MiniMap::Update(float dt)
 {
-	if (myApp->gui->Current_Screen != Screen_Type::SCREEN_MAINMENU && myApp->gui->pauseMenuPanel->active!=true) {
+	if (myApp->gui->Current_Screen != Screen_Type::SCREEN_MAINMENU && myApp->gui->OnPause == false) {
 		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) != KEY_IDLE)
 		{
 			int map_x, map_y;
