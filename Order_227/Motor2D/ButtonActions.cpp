@@ -294,6 +294,13 @@ void QuitGame() {
 	//myApp->entities->ResetAll();
 	//myApp->scene->CleanUp();
 
+	myApp->entities->unitBuff = false;
+	myApp->entities->buildingsBuff = false;
+	myApp->entities->heavyUnitsUnlocked = false;
+	myApp->entities->incomeBuff1 = false;
+	myApp->entities->incomeBuff2 = false;
+	myApp->entities->incomeBuff45 = false;
+
 	myApp->gui->OnPause = false;
 	myApp->playingGame = false;
 }

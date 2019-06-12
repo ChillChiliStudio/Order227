@@ -184,7 +184,7 @@ void Building::TakeReward() {
 		myApp->entities->heavyUnitsUnlocked = false; //TODO: Tocar UI con esto
 
 	if (buildingType == building_type::HTPC)
-		myApp->entities->unitBuff = false;
+		TakeUnitsBuff();
 
 	else if (buildingType == building_type::EPC) {
 
@@ -212,21 +212,36 @@ void Building::AddUnitsBuff() {
 	//Units
 	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
 
-		if ((*item).active && (*item).faction == entity_faction::COMMUNIST && (*item).IsDead() == false) {
-
+		if ((*item).active && (*item).faction == entity_faction::COMMUNIST && (*item).IsDead() == false) 
 			(*item).stats.linSpeed *= UnitsSpeedBuff;
-			(*item).stats.health += UnitsLifeBuff;
-		}
+		
 	}
 
 	//Launchers
 	for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); item != myApp->entities->launcherPool.end(); item = next(item)) {
 
-		if ((*item).active && (*item).faction == entity_faction::COMMUNIST && (*item).IsDead() == false) {
-
+		if ((*item).active && (*item).faction == entity_faction::COMMUNIST && (*item).IsDead() == false)
 			(*item).stats.linSpeed *= UnitsSpeedBuff;
-			(*item).stats.health += UnitsLifeBuff;
-		}
+		
+	}
+}
+
+void Building::TakeUnitsBuff() {
+
+	myApp->entities->unitBuff = false;
+
+	//Units
+	for (std::vector<Unit>::iterator item = myApp->entities->unitPool.begin(); item != myApp->entities->unitPool.end(); item = next(item)) {
+
+		if ((*item).active && (*item).faction == entity_faction::COMMUNIST && (*item).IsDead() == false) 
+			(*item).stats.linSpeed /= UnitsSpeedBuff;
+	}
+
+	//Launchers
+	for (std::vector<Launcher>::iterator item = myApp->entities->launcherPool.begin(); item != myApp->entities->launcherPool.end(); item = next(item)) {
+
+		if ((*item).active && (*item).faction == entity_faction::COMMUNIST && (*item).IsDead() == false)
+			(*item).stats.linSpeed /= UnitsSpeedBuff;
 	}
 }
 
