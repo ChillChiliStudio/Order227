@@ -174,6 +174,10 @@ public:
 	Void_Box* Credits_Button = nullptr;
 	Text* Credits_Label = nullptr;
 
+	//Sliders
+	Slider* musicSlider = nullptr;
+	Slider* sfxSlider = nullptr;
+
 	Void_Box* ReturnfromCredits_Button = nullptr;
 	Text* ReturnfromCredits_Label = nullptr;
 
@@ -287,9 +291,7 @@ public:
 	Unit_Box* EngineerCreator = nullptr;
 
 private:
-	//Sliders
-	Slider* musicSlider = nullptr;
-	Slider* sfxSlider = nullptr;
+	
 
 	std::list<UI_Element*> screenElements;
 

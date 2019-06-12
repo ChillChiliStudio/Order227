@@ -17,7 +17,7 @@
 #include "TutorialBox.h"
 #include "Window.h"
 #include "Log.h"
-
+#include "Slider.h"
 
 void CreateConscript() {
 	//srand(time(NULL));
@@ -349,6 +349,8 @@ void Hotkeys_Options() {
 	myApp->gui->Hotkey_Left->Activate();
 	myApp->gui->Hotkey_Right->Activate();
 
+	myApp->gui->musicSlider->Deactivate();
+	myApp->gui->sfxSlider->Deactivate();
 }
 void QuitTutorial() {
 	myApp->gui->Tutorial->currentPage = 0;
