@@ -5,9 +5,10 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Input.h"
-
+#include "UserInterface.h"
 #include "Map.h"
 #include "Entity.h"
+#include "Image.h"
 #include "Entity_Manager.h"
 
 #include "Log.h"
@@ -50,21 +51,22 @@ bool MiniMap::Start()
 
 bool MiniMap::Update(float dt)
 {
-	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT)!=KEY_IDLE )
-	{
-		int map_x, map_y;
-
-		if (MinimapCoords(map_x, map_y) && minimapClicked)
+	if (myApp->gui->Current_Screen != Screen_Type::SCREEN_MAINMENU && myApp->gui->pauseMenuPanel->active!=true) {
+		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) != KEY_IDLE)
 		{
-			myApp->render->camera.x = -map_x + myApp->win->width / 2;
-			myApp->render->camera.y = -map_y + myApp->win->height / 2;
-			
+			int map_x, map_y;
+
+			if (MinimapCoords(map_x, map_y) && minimapClicked)
+			{
+				myApp->render->camera.x = -map_x + myApp->win->width / 2;
+				myApp->render->camera.y = -map_y + myApp->win->height / 2;
+
+			}
 		}
+
+		if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+			minimapClicked = false;
 	}
-
-	if (myApp->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
-		minimapClicked = false;
-
 	return true;
 }
 

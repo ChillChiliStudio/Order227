@@ -76,7 +76,7 @@ void UI_Element::Activate()
 
 void UI_Element::Deactivate()
 {
-	active = false;
+	active = false; 
 
 	for (std::list<UI_Element*>::iterator iter = children.begin(); iter != children.end(); iter = next(iter)) {
 		(*iter)->active = false;

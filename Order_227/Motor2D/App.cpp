@@ -1,4 +1,4 @@
-#include <iostream> 
+#include <iostream>
 #include <sstream>
 
 #include "Defs.h"
@@ -19,6 +19,7 @@
 #include "GroupManager.h"
 #include "Player.h"
 #include "Horde_Manager.h"
+#include "Video.h"
 #include "MiniMap.h"
 #include "Controls.h"
 
@@ -44,6 +45,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	player = new Player();
 	hordes = new Horde_Manager();
 	minimap = new MiniMap();
+	video = new Video();
 	controls = new Controls();
 
 	// Ordered for awake / Start / Update
@@ -58,11 +60,14 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(entities);
 	AddModule(audio);
 	AddModule(fonts);
+	AddModule(video);
 	AddModule(gui);
 	AddModule(groups);
 	AddModule(player);
 	AddModule(hordes);
 	AddModule(minimap);
+
+
 	// render last to swap buffer
 	AddModule(render);
 }
@@ -72,7 +77,7 @@ App::~App()
 {
 	// release modules
 	std::list<Module*>::iterator item = modules.begin();
-	
+
 	for (; item != modules.end(); item = next(item))
 		RELEASE(*item);
 
@@ -112,7 +117,7 @@ bool App::Awake()
 		title.assign(app_config.child("title").child_value());
 		organization.assign(app_config.child("organization").child_value());
 		debugMode = app_config.child("debug").attribute("active").as_bool(false);
-	
+
 		save_game.assign(app_config.child("save").child_value());
 		load_game.assign(app_config.child("load").child_value());
 
@@ -120,7 +125,7 @@ bool App::Awake()
 
 		if (cap > 0)
 			capped_ms = 1000 / cap;
-		
+
 	}
 
 	if(ret == true)
@@ -130,7 +135,7 @@ bool App::Awake()
 
 		while(item != modules.end() && ret == true)
 		{
-			ret = (*item)->Awake(config.child((*item)->name.data())); 
+			ret = (*item)->Awake(config.child((*item)->name.data()));
 			item = next(item);
 		}
 
@@ -320,7 +325,7 @@ bool App::CleanUp()
 {
 	bool ret = true;
 	std::list<Module*>::reverse_iterator item = modules.rbegin();
-	
+
 	while (item != modules.rend() && ret == true) {
 
 		ret = (*item)->CleanUp();
