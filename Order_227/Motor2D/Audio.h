@@ -33,7 +33,7 @@ enum class TroopType_Sounds
 	CONFIRMATION,	//Channel 1
 	HURT,			//Channel 2
 	SHOT,			//Any Channel Available
-	ATTACK,			//Channel 1
+	ATTACK,			//Channel 1asd
 	MAX
 };
 
