@@ -55,11 +55,12 @@ Towards the project, our main objective is to make a dynamic game in which the p
 
 # Social Media
 If you want to follow us on social media you can find us on twitter and instagram, you can be part of this project’s development. We will make weekly posts to keep you updated!
-Our webpage and blog will be available soon.
 
-![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/iglogo.jpg) @chillchilistudio
+[Official Game Webpage](https://rafelbrau03.wixsite.com/website-1)
 
-![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/twitter%20logo.png) @ChillChiliStdio
+![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/iglogo.jpg) [@chillchilistudio](https://www.instagram.com/chillchilistudio/)
+
+![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/twitter%20logo.png) [@ChillChiliStdio](https://twitter.com/ChillChiliStdio)
 
 ![](https://raw.githubusercontent.com/ChillChiliStudio/Order_227/gh-pages/Graphic%20Resources/gmaillogo.png) chillchilistudios@gmail.com
 
