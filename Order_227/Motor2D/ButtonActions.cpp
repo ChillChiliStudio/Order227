@@ -295,6 +295,7 @@ void QuitGame() {
 	myApp->gui->SniperCreator->ResetButton();
 	myApp->gui->ChronoCreator->ResetButton();
 	myApp->gui->DesolatorCreator->ResetButton();
+	myApp->gui->EngineerCreator->ResetButton();
 	myApp->gui->DeactivateScreen(myApp->gui->InGame_Elements);
 	myApp->gui->ActivateScreen(myApp->gui->Main_Menu_Elements);
 	myApp->scene->SwitchMusic(Screen_Type::SCREEN_MAINMENU);
