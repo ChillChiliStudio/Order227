@@ -13,8 +13,8 @@ by using money, control strategic points and stand along a people who wants to b
 As a good communist: Defend the emancipation of the civilians.
 
 Feel free to visit our [Webpage](https://rafelbrau03.wixsite.com/website-1),
-[Github Webpage](https://chillchilistudio.github.io/Order_227/),
-and [Repository](https://github.com/ChillChiliStudio/Order_227)
+[Github Webpage](https://chillchilistudio.github.io/Order227/),
+and [Repository](https://github.com/ChillChiliStudio/Order227)
 
 ## Usage
 ### Installation
