@@ -65,7 +65,7 @@ F11: Map DebugDraw: See all map logic procedures, tiling, and mouse coordinates
 * blit ordering
 * strategic points working
 * audio system reworked
-* entity manafger rework
+* entity manager rework
 
 ### 0.5
 * strategic points debufs working
