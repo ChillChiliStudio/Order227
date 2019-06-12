@@ -375,9 +375,9 @@ void Controls::CreateKeyboardStrings()
 
 	keyNames[SDL_SCANCODE_MINUS].assign(stringify(MINUS));
 	keyNames[SDL_SCANCODE_EQUALS].assign(stringify(EQUALS));
-	keyNames[SDL_SCANCODE_LEFTBRACKET].assign(stringify(SDL_SCANCODE_LEFTBRACKET));
-	keyNames[SDL_SCANCODE_RIGHTBRACKET].assign(stringify(SDL_SCANCODE_RIGHTBRACKET));
-	keyNames[SDL_SCANCODE_BACKSLASH].assign(stringify(SDL_SCANCODE_BACKSLASH)); /**< Located at the lower left of the return
+	keyNames[SDL_SCANCODE_LEFTBRACKET].assign(stringify(LEFTBRACKET));
+	keyNames[SDL_SCANCODE_RIGHTBRACKET].assign(stringify(RIGHTBRACKET));
+	keyNames[SDL_SCANCODE_BACKSLASH].assign(stringify(BACKSLASH)); /**< Located at the lower left of the return
 								  *   key on ISO keyboards and at the right end
 								  *   of the QWERTY row on ANSI keyboards.
 								  *   Produces REVERSE SOLIDUS (backslash) and
@@ -391,7 +391,7 @@ void Controls::CreateKeyboardStrings()
 								  *   layout, and ASTERISK and MICRO SIGN in a
 								  *   French Windows layout.
 								  */
-	keyNames[SDL_SCANCODE_NONUSHASH].assign(stringify(SDL_SCANCODE_NONUSHASH)); /**< ISO USB keyboards actually use this code
+	keyNames[SDL_SCANCODE_NONUSHASH].assign(stringify(NONUSHASH)); /**< ISO USB keyboards actually use this code
 								  *   instead of 49 for the same key, but all
 								  *   OSes I've seen treat the two codes
 								  *   identically. So, as an implementor, unless
@@ -403,9 +403,9 @@ void Controls::CreateKeyboardStrings()
 								  *   will never generate it with most (all?)
 								  *   keyboards.
 								  */
-	keyNames[SDL_SCANCODE_SEMICOLON].assign(stringify(SDL_SCANCODE_SEMICOLON));
-	keyNames[SDL_SCANCODE_APOSTROPHE].assign(stringify(SDL_SCANCODE_APOSTROPHE));
-	keyNames[SDL_SCANCODE_GRAVE].assign(stringify(SDL_SCANCODE_GRAVE)); /**< Located in the top left corner (on both ANSI
+	keyNames[SDL_SCANCODE_SEMICOLON].assign(stringify(SEMICOLON));
+	keyNames[SDL_SCANCODE_APOSTROPHE].assign(stringify(APOSTROPHE));
+	keyNames[SDL_SCANCODE_GRAVE].assign(stringify(GRAVE)); /**< Located in the top left corner (on both ANSI
 							  *   and ISO keyboards). Produces GRAVE ACCENT and
 							  *   TILDE in a US Windows layout and in US and UK
 							  *   Mac layouts on ANSI keyboards, GRAVE ACCENT
@@ -422,41 +422,41 @@ void Controls::CreateKeyboardStrings()
 							  *   SIGN in a Swiss German, German, or French Mac
 							  *   layout on ANSI keyboards.
 							  */
-	keyNames[SDL_SCANCODE_COMMA].assign(stringify(SDL_SCANCODE_COMMA));
-	keyNames[SDL_SCANCODE_PERIOD].assign(stringify(SDL_SCANCODE_PERIOD));
-	keyNames[SDL_SCANCODE_SLASH].assign(stringify(SDL_SCANCODE_SLASH));
+	keyNames[SDL_SCANCODE_COMMA].assign(stringify(COMMA));
+	keyNames[SDL_SCANCODE_PERIOD].assign(stringify(PERIOD));
+	keyNames[SDL_SCANCODE_SLASH].assign(stringify(SLASH));
 
-	keyNames[SDL_SCANCODE_CAPSLOCK].assign(stringify(SDL_SCANCODE_CAPSLOCK));
+	keyNames[SDL_SCANCODE_CAPSLOCK].assign(stringify(CAPSLOCK));
 
-	keyNames[SDL_SCANCODE_F1].assign(stringify(SDL_SCANCODE_F1));
-	keyNames[SDL_SCANCODE_F2].assign(stringify(SDL_SCANCODE_F2));
-	keyNames[SDL_SCANCODE_F3].assign(stringify(SDL_SCANCODE_F3));
-	keyNames[SDL_SCANCODE_F4].assign(stringify(SDL_SCANCODE_F4));
-	keyNames[SDL_SCANCODE_F5].assign(stringify(SDL_SCANCODE_F5));
-	keyNames[SDL_SCANCODE_F6].assign(stringify(SDL_SCANCODE_F6));
-	keyNames[SDL_SCANCODE_F7].assign(stringify(SDL_SCANCODE_F7));
-	keyNames[SDL_SCANCODE_F8].assign(stringify(SDL_SCANCODE_F8));
-	keyNames[SDL_SCANCODE_F9].assign(stringify(SDL_SCANCODE_F9));
-	keyNames[SDL_SCANCODE_F10].assign(stringify(SDL_SCANCODE_F10));
-	keyNames[SDL_SCANCODE_F11].assign(stringify(SDL_SCANCODE_F11));
-	keyNames[SDL_SCANCODE_F12].assign(stringify(SDL_SCANCODE_F12));
+	keyNames[SDL_SCANCODE_F1].assign(stringify(F1));
+	keyNames[SDL_SCANCODE_F2].assign(stringify(F2));
+	keyNames[SDL_SCANCODE_F3].assign(stringify(F3));
+	keyNames[SDL_SCANCODE_F4].assign(stringify(F4));
+	keyNames[SDL_SCANCODE_F5].assign(stringify(F5));
+	keyNames[SDL_SCANCODE_F6].assign(stringify(F6));
+	keyNames[SDL_SCANCODE_F7].assign(stringify(F7));
+	keyNames[SDL_SCANCODE_F8].assign(stringify(F8));
+	keyNames[SDL_SCANCODE_F9].assign(stringify(F9));
+	keyNames[SDL_SCANCODE_F10].assign(stringify(F10));
+	keyNames[SDL_SCANCODE_F11].assign(stringify(F11));
+	keyNames[SDL_SCANCODE_F12].assign(stringify(F12));
 
-	keyNames[SDL_SCANCODE_PRINTSCREEN].assign(stringify(SDL_SCANCODE_PRINTSCREEN));
-	keyNames[SDL_SCANCODE_SCROLLLOCK].assign(stringify(SDL_SCANCODE_SCROLLLOCK));
-	keyNames[SDL_SCANCODE_PAUSE].assign(stringify(SDL_SCANCODE_PAUSE));
-	keyNames[SDL_SCANCODE_INSERT].assign(stringify(SDL_SCANCODE_INSERT)); /**< insert on PC, help on some Mac keyboards (but
+	keyNames[SDL_SCANCODE_PRINTSCREEN].assign(stringify(PRINTSCREEN));
+	keyNames[SDL_SCANCODE_SCROLLLOCK].assign(stringify(SCROLLLOCK));
+	keyNames[SDL_SCANCODE_PAUSE].assign(stringify(PAUSE));
+	keyNames[SDL_SCANCODE_INSERT].assign(stringify(INSERT)); /**< insert on PC, help on some Mac keyboards (but
 								   does send code 73, not 117) */
-	keyNames[SDL_SCANCODE_HOME].assign(stringify(SDL_SCANCODE_HOME));
-	keyNames[SDL_SCANCODE_PAGEUP].assign(stringify(SDL_SCANCODE_PAGEUP));
-	keyNames[SDL_SCANCODE_DELETE].assign(stringify(SDL_SCANCODE_DELETE));
-	keyNames[SDL_SCANCODE_END].assign(stringify(SDL_SCANCODE_END));
-	keyNames[SDL_SCANCODE_PAGEDOWN].assign(stringify(SDL_SCANCODE_PAGEDOWN));
-	keyNames[SDL_SCANCODE_RIGHT].assign(stringify(SDL_SCANCODE_RIGHT));
-	keyNames[SDL_SCANCODE_LEFT].assign(stringify(SDL_SCANCODE_LEFT));
-	keyNames[SDL_SCANCODE_DOWN].assign(stringify(SDL_SCANCODE_DOWN));
-	keyNames[SDL_SCANCODE_UP].assign(stringify(SDL_SCANCODE_UP));
+	keyNames[SDL_SCANCODE_HOME].assign(stringify(HOME));
+	keyNames[SDL_SCANCODE_PAGEUP].assign(stringify(PAGEUP));
+	keyNames[SDL_SCANCODE_DELETE].assign(stringify(DELETE));
+	keyNames[SDL_SCANCODE_END].assign(stringify(END));
+	keyNames[SDL_SCANCODE_PAGEDOWN].assign(stringify(PAGEDOWN));
+	keyNames[SDL_SCANCODE_RIGHT].assign(stringify(RIGHT));
+	keyNames[SDL_SCANCODE_LEFT].assign(stringify(LEFT));
+	keyNames[SDL_SCANCODE_DOWN].assign(stringify(DOWN));
+	keyNames[SDL_SCANCODE_UP].assign(stringify(UP));
 
-	keyNames[SDL_SCANCODE_NUMLOCKCLEAR].assign(stringify(SDL_SCANCODE_NUMLOCKCLEAR)); /**< num lock on PC, clear on Mac keyboards
+	keyNames[SDL_SCANCODE_NUMLOCKCLEAR].assign(stringify(NUMLOCKCLEAR)); /**< num lock on PC, clear on Mac keyboards
 									 */
 	keyNames[SDL_SCANCODE_KP_DIVIDE].assign(stringify(SDL_SCANCODE_KP_DIVIDE));
 	keyNames[SDL_SCANCODE_KP_MULTIPLY].assign(stringify(SDL_SCANCODE_KP_MULTIPLY));
@@ -603,14 +603,14 @@ void Controls::CreateKeyboardStrings()
 	keyNames[SDL_SCANCODE_KP_DECIMAL].assign(stringify(SDL_SCANCODE_KP_DECIMAL));
 	keyNames[SDL_SCANCODE_KP_HEXADECIMAL].assign(stringify(SDL_SCANCODE_KP_HEXADECIMAL));
 
-	keyNames[SDL_SCANCODE_LCTRL].assign(stringify(SDL_SCANCODE_LCTRL));
-	keyNames[SDL_SCANCODE_LSHIFT].assign(stringify(SDL_SCANCODE_LSHIFT));
-	keyNames[SDL_SCANCODE_LALT].assign(stringify(SDL_SCANCODE_LALT)); /**< alt, option */
-	keyNames[SDL_SCANCODE_LGUI].assign(stringify(SDL_SCANCODE_LGUI)); /**< windows, command (apple), meta */
-	keyNames[SDL_SCANCODE_RCTRL].assign(stringify(SDL_SCANCODE_RCTRL));
-	keyNames[SDL_SCANCODE_RSHIFT].assign(stringify(SDL_SCANCODE_RSHIFT));
-	keyNames[SDL_SCANCODE_RALT].assign(stringify(SDL_SCANCODE_RALT)); /**< alt gr, option */
-	keyNames[SDL_SCANCODE_RGUI].assign(stringify(SDL_SCANCODE_RGUI)); /**< windows, command (apple), meta */
+	keyNames[SDL_SCANCODE_LCTRL].assign(stringify(LCTRL));
+	keyNames[SDL_SCANCODE_LSHIFT].assign(stringify(LSHIFT));
+	keyNames[SDL_SCANCODE_LALT].assign(stringify(LALT)); /**< alt, option */
+	keyNames[SDL_SCANCODE_LGUI].assign(stringify(LGUI)); /**< windows, command (apple), meta */
+	keyNames[SDL_SCANCODE_RCTRL].assign(stringify(RCTRL));
+	keyNames[SDL_SCANCODE_RSHIFT].assign(stringify(RSHIFT));
+	keyNames[SDL_SCANCODE_RALT].assign(stringify(RALT)); /**< alt gr, option */
+	keyNames[SDL_SCANCODE_RGUI].assign(stringify(RGUI)); /**< windows, command (apple), meta */
 
 	keyNames[SDL_SCANCODE_MODE].assign(stringify(SDL_SCANCODE_MODE)); 257,    /**< I'm not sure if this is really not covered
 								 *   by any of the above, but since there's a
