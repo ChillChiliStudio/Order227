@@ -186,6 +186,8 @@ void StartGame() {
 	//		break;
 	//	}
 	//}
+
+	myApp->playingGame = true;
 }
 
 void RequestMenuLoad()
@@ -196,12 +198,16 @@ void RequestMenuLoad()
 		myApp->entities->ActivateObjects();
 		myApp->scene->firstGame = false;
 	}
+
+	myApp->playingGame = true;
 }
 
 void RequestLoad()
 {
 	QuitGame();
 	myApp->LoadGame();
+
+	myApp->playingGame = true;
 }
 
 void RequestSave()
@@ -264,6 +270,9 @@ void QuitGame() {
 	//myApp->entities->ReleasePools();	//TODO: Check if necessary, commented because it was asumed that wasn't
 	//myApp->entities->ResetAll();
 	//myApp->scene->CleanUp();
+
+	myApp->gui->OnPause = false;
+	myApp->playingGame = false;
 }
 
 void CloseGame()
@@ -273,16 +282,18 @@ void CloseGame()
 
 void OptionsOpen() {
 	myApp->gui->DeactivateScreen(myApp->gui->Main_Menu_Elements);
+	myApp->gui->pauseMenuPanel->Deactivate();
 	myApp->gui->OptionsPanel->Activate();
 	myApp->gui->SetHotkeys_Button->Activate();
 }
 void QuitOptions() {
-	if (myApp->gui->VolumeSFX_Slide->active == true&&myApp->gui->pauseMenuPanel->active==false) {
+	if (myApp->gui->OnPause == false && myApp->gui->Hotkey_Conscript->active == false) {
 		myApp->gui->OptionsPanel->Deactivate();
 		myApp->gui->ActivateScreen(myApp->gui->Main_Menu_Elements);
 	}
-	else if (myApp->gui->pauseMenuPanel->active == true&&myApp->gui->Hotkey_Conscript->active==false) {
+	else if (myApp->gui->Hotkey_Conscript->active == false) {
 		myApp->gui->OptionsPanel->Deactivate();
+		myApp->gui->pauseMenuPanel->Activate();
 	}
 	else {
 		myApp->gui->Hotkey_Conscript->Deactivate();

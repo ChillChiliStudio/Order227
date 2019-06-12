@@ -100,12 +100,6 @@ bool App::Awake()
 	pugi::xml_node		config;
 	pugi::xml_node		app_config;
 
-	config = myApp->LoadSaveFile(save_file);
-
-	if (!config.empty()) {	//Mark the existance of a save file
-		saveFileExists = true;
-	}
-
 	config = LoadConfig(config_file);
 
 	if(config.empty() == false)
@@ -126,6 +120,10 @@ bool App::Awake()
 		if (cap > 0)
 			capped_ms = 1000 / cap;
 
+	}
+
+	if (!myApp->LoadSaveFile(save_file).empty()) {	//Mark the existance of a save file
+		saveFileExists = true;
 	}
 
 	if(ret == true)

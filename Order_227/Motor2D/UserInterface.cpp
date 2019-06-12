@@ -105,9 +105,9 @@ bool User_Interface::Start()
 	Tutorial_Tex = myApp->tex->Load("ui/Tutorial_SpriteSheet.png");
 
 	//Debug Elements
-	fpsText = CreateText({ 10, 10 }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
+	fpsText = CreateText({ -20.0f, -20.0f }, "0", font_id::DEFAULT, { 255, 255, 0, 255 });
 	fpsText->Deactivate();
-	mouseDebugMark = myApp->gui->CreateText({ 0.0f, 0.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
+	mouseDebugMark = myApp->gui->CreateText({ -20.0f, -20.0f }, "Default Text", font_id::DEFAULT, { 0, 0, 255, 255 });	//TODO: In Release, string explodes sometimes, needs fix
 	mouseDebugMark->Deactivate();
 
 	SDL_Rect LoseRect = { 437,112,437,112 };
@@ -202,7 +202,7 @@ bool User_Interface::Start()
 
 	Moneytext = CreateText(fPoint(width / 1.55, height - 140),money.c_str(),font_id::MOLOT);
 
-	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2-100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex,true,nullptr,nullptr,Screen_Type::SCREEN_PAUSE);
+	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2-100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex, false ,nullptr,nullptr,Screen_Type::SCREEN_PAUSE);
 
 	ReturnMainMenu = CreateVoidBox(QuitGame, fPoint(width / 2, height / 2), Pause_Button, PauseButton_text, pauseMenuPanel,Screen_Type::SCREEN_PAUSE);
 	ReturnMainMenu_Label = CreateText(fPoint(width / 2, height / 2), "EXIT", font_id::MOLOT,White,false,pauseMenuPanel,1.0f,nullptr,Screen_Type::SCREEN_PAUSE);
