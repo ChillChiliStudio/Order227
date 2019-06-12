@@ -5,6 +5,7 @@
 #include "Entity_Manager.h"
 #include "GroupManager.h"
 #include "Map.h"
+#include "Log.h"
 
 
 Mouse::Mouse(SDL_Texture* tex, ui_type type)
@@ -50,9 +51,9 @@ void Mouse::loadMouseAnims(Animation &Anim,int initial,int end) {
 
 bool Mouse::Update(float dt) {
 
+
 	SDL_Point mousePos;
 	myApp->input->GetMousePosition(mousePos.x, mousePos.y);
-
 	position.x = mousePos.x;
 	position.y = mousePos.y;
 	if (currentState == Mouse_States::IDLE) {
