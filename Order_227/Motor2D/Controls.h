@@ -91,7 +91,7 @@ public:
 	camera_controls camera;
 	order_controls orders;
 
-	int spawnHotKeys[5];
+	int spawnHotKeys[6];
 
 	std::vector<int> mouseButtonsInUse;
 	std::vector<int> keysInUse;
