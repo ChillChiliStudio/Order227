@@ -236,7 +236,7 @@ void Player::DebugMouse()
 void Player::DebugInputs()
 {
 	//Toggle DebugMode
-	if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+	/*if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
 		myApp->debugMode = !myApp->debugMode;
 
 		if (myApp->debugMode == false) {
@@ -248,7 +248,7 @@ void Player::DebugInputs()
 		else {
 			LOG("Debug Mode: ON");
 		}
-	}
+	}*/
 
 	if (myApp->debugMode) {
 		if (myApp->input->GetKey(myApp->controls->debug.debugMap) == KEY_DOWN) {	// Toggle Map debug draw
