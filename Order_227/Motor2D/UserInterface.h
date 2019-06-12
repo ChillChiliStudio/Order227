@@ -300,6 +300,13 @@ public:
 	Text* Hotkey_Patrol_Label = nullptr;
 	Text* Patrol_Label = nullptr;
 
+	Key_Config_Box* Hotkey_Defensive = nullptr;
+	Text* Hotkey_Defensive_Label = nullptr;
+	Text* Defensive_Label = nullptr;
+	Key_Config_Box* Hotkey_Aggressive = nullptr;
+	Text* Hotkey_Aggressive_Label = nullptr;
+	Text* Aggressive_Label = nullptr;
+
 	Unit_Box* ConscriptCreator = nullptr;
 	Unit_Box* FlakCreator = nullptr;
 	Unit_Box* SniperCreator = nullptr;
