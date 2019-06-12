@@ -19,13 +19,16 @@ public:
 	virtual bool Update(float dt) override;
 	virtual bool Draw() override;
 	virtual bool DebugDraw() const override;
+	void setWorldPosition(fPoint pos) {
+		InWorldPosition = pos;
+	}
 
 public:
 
 
 protected:
 
-	
+	fPoint InWorldPosition;
 	bool* enableButton = false;
 	SDL_Rect Rect;
 	SDL_Texture* graphics = nullptr;

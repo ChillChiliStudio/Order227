@@ -51,6 +51,8 @@ bool Buff_Box::Draw() {
 
 	if ((*enableButton) == true) {
 		myApp->render->Blit(graphics, position.x, position.y, &Rect, SDL_FLIP_NONE, false);
+		myApp->render->Blit(graphics, InWorldPosition.x, InWorldPosition.y, &Rect, SDL_FLIP_NONE, true);
+
 		Unlocked = true;
 	}
 	else

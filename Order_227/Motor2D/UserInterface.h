@@ -26,6 +26,7 @@ class MiniMap_UI;
 class Buff_Box;
 class TutorialBox;
 class Key_Config_Box;
+class Slider;
 //class Window;
 struct _TTF_Font;
 struct SDL_Rect;
@@ -101,6 +102,7 @@ public:
 	Mouse* CreateMouse( SDL_Texture*tex);
 	Unit_Panel* CreateUnitPanel(SDL_Rect sprite, Image* button = nullptr, SDL_Texture* tex = NULL, Screen_Type screen = Screen_Type::SCREEN_NONE);
 	Buff_Box* CreateBuffBox(fPoint position, SDL_Rect rect, SDL_Texture* tex = NULL, bool* able = nullptr, Screen_Type screen = Screen_Type::SCREEN_NONE);
+	Slider* CreateSlider(fPoint center,float barLength, uint* value, SDL_Rect texRect = { 0, 0, 0, 0 }, SDL_Texture* tex = NULL, bool dynamic = false, UI_Element* parent = NULL, std::list<UI_Element*>* children = NULL, Screen_Type screen = Screen_Type::SCREEN_NONE);
 
 	template <class T_param>
 	UI_Element* CreateParamBox(void(*action)(T_param), T_param parameter, fPoint center, SDL_Rect spriteList[4], SDL_Texture* tex = NULL, UI_Element* parent = NULL)
@@ -173,6 +175,10 @@ public:
 	Text* ReturnfromTutorial_Label = nullptr;
 	Void_Box* Credits_Button = nullptr;
 	Text* Credits_Label = nullptr;
+
+	//Sliders
+	Slider* musicSlider = nullptr;
+	Slider* sfxSlider = nullptr;
 
 	Void_Box* ReturnfromCredits_Button = nullptr;
 	Text* ReturnfromCredits_Label = nullptr;
@@ -302,6 +308,7 @@ public:
 	Unit_Box* EngineerCreator = nullptr;
 
 private:
+	
 
 	std::list<UI_Element*> screenElements;
 

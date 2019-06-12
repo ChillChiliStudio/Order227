@@ -23,7 +23,7 @@
         <stats speed="70" cadency="1" damage="3" health="40" visionRange="300" attackRange="200" cost="250" prodTime="8" threat="15"/>
       </Unit>
       <Unit id="3" name="Desolator" TextPath="textures/troops/soviet/Desolator.png" TextPathTwo="textures/troops/allied/Desolator.png" TiledFile="textures/troops/soviet/Desolator.tmx">
-        <RectOffset x="50" y="20" w="45" h="50"/>
+        <RectOffset x="50" y="15" w="43" h="50"/>
         <AnimDet DeathOneSpeed="10.0"/>
         <stats speed="70" cadency="1" damage="7" health="20" visionRange="300" attackRange="200" cost="150" prodTime="8" threat="5"/>
       </Unit>

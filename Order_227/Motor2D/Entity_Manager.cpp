@@ -519,11 +519,8 @@ Unit* Entity_Manager::ActivateUnit(fPoint position, infantry_type infantryType, 
 				myApp->audio->PlayFx(myApp->audio->SoundTroops_Array[(int)infantryType][(int)type_sounds::SPAWN][rand() % Aux], 0, CHANNEL_SPAWN);
 			}
 
-			if (unitBuff == true && (*item).faction == entity_faction::COMMUNIST) {
-
+			if (unitBuff == true && (*item).faction == entity_faction::COMMUNIST) 
 				(*item).stats.linSpeed *= 1.5;
-				(*item).stats.health += 2;
-			}
 
 			for (int i = 0; i < entitiesVector.size(); i++) {
 

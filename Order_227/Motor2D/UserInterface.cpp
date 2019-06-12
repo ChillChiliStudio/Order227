@@ -36,6 +36,7 @@
 #include "Buff_Box.h"
 #include "TutorialBox.h"
 #include "Video.h"
+#include "Slider.h"
 
 User_Interface::User_Interface() : Module()
 {
@@ -99,7 +100,7 @@ bool User_Interface::Start()
 	endingImages_Tex = myApp->tex->Load("ui/Ending_Game_Mesage_Icon.png");
 	mouse_tex = myApp->tex->Load("ui/Mouse_Actions.png");
 	Unit_Panels_tex = myApp->tex->Load("ui/Unit_Costs_Panel.png");
-	InGame_Label_tex= myApp->tex->Load("ui/In_Game_Labels.png");
+	InGame_Label_tex = myApp->tex->Load("ui/In_Game_Labels.png");
 	Buff_tex = myApp->tex->Load("ui/Buff_Texture.png");
 	Options_tex = myApp->tex->Load("ui/Options_Text.png");
 	Volume_Slides = myApp->tex->Load("ui/VolumeBars_Tex.png");
@@ -116,7 +117,7 @@ bool User_Interface::Start()
 	TempButtonRect[0] = { 314,0,290,84 };
 	TempButtonRect[1] = { 626,0,290,84 };
 	TempButtonRect[2] = { 938,0,290,84 };
-	TempButtonRect[3] = {1250,0,290,84 };
+	TempButtonRect[3] = { 1250,0,290,84 };
 
 	SDL_Rect mini_TempButtonRect[4];
 	mini_TempButtonRect[0] = { 0,85,97,82 };
@@ -179,12 +180,25 @@ bool User_Interface::Start()
 
 	//selectorInfantry_Rect[3] = { 175,38,44,31 };
 	SDL_Color White = { 255,255,255 };
-	int height,width;
+	int height, width;
 	myApp->win->GetWindowSize((uint&)width, (uint&)height);
 
 	std::string money = std::to_string(myApp->player->playerMoney);
 	horde = std::to_string(myApp->hordes->roundNumber);
 	//timerHorde_temp = std::to_string(myApp->hordes->getRoundTimer());
+
+	Units_Life = CreateBuffBox(fPoint(370, height - 200), SDL_Rect({ 3,3,41,41 }), Buff_tex, &myApp->entities->unitBuff);
+	Units_Life->setWorldPosition(fPoint(40, 430));
+	Buildings_Life = CreateBuffBox(fPoint(430, height - 200), SDL_Rect({ 44,0,41,41 }), Buff_tex, &myApp->entities->buildingsBuff);
+	Buildings_Life->setWorldPosition(fPoint(1400, 1520));
+	HeavyUnits_able = CreateBuffBox(fPoint(480, height - 200), SDL_Rect({ 85,0,41,41 }), Buff_tex, &myApp->entities->heavyUnitsUnlocked);
+	HeavyUnits_able->setWorldPosition(fPoint(-1000, 1480));
+	Money_Buff = CreateBuffBox(fPoint(530, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff1);
+	Money_Buff->setWorldPosition(fPoint(890, 880));
+	Money2_Buff = CreateBuffBox(fPoint(580, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff2);
+	Money2_Buff->setWorldPosition(fPoint(-740, 960));
+	Mone3_Buff = CreateBuffBox(fPoint(630, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff45);
+	Mone3_Buff->setWorldPosition(fPoint(-250, 2120));
 
 	MainBarPanel = CreateImage(fPoint(width / 2, height - 87.5), SDL_Rect({0,0,1280,175}),mainBar);
 	selectorInfantry = CreateSpawnBox(true, fPoint(width / 11-38, height - 140), selectorInfantry_Rect, selectorinGame_Tex);
@@ -209,15 +223,15 @@ bool User_Interface::Start()
 	//UnitStats = CreateImage(fPoint(width / 1.45, height - 75), SDL_Rect({ 0,0,55,90 }), unitStats_text);
 	//UnitFrame = CreateImage(fPoint(width / 1.58, height - 75), SDL_Rect({ 125,5,50,43 }), unitsSelection_Tex);
 
-	Moneytext = CreateText(fPoint(width / 1.55, height - 140),money.c_str(),font_id::MOLOT);
+	Moneytext = CreateText(fPoint(width / 1.55, height - 140), money.c_str(), font_id::MOLOT);
 
-	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2-100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex, false ,nullptr,nullptr,Screen_Type::SCREEN_PAUSE);
+	pauseMenuPanel = CreateImage(fPoint(width / 2, height / 2 - 100), SDL_Rect({ 0,0,185,355 }), pauseMenuPanel_Tex, false, nullptr, nullptr, Screen_Type::SCREEN_PAUSE);
 
-	ReturnMainMenu = CreateVoidBox(QuitGame, fPoint(width / 2, height / 2), Pause_Button, PauseButton_text, pauseMenuPanel,Screen_Type::SCREEN_PAUSE);
-	ReturnMainMenu_Label = CreateText(fPoint(width / 2, height / 2), "EXIT", font_id::MOLOT,White,false,pauseMenuPanel,1.0f,nullptr,Screen_Type::SCREEN_PAUSE);
+	ReturnMainMenu = CreateVoidBox(QuitGame, fPoint(width / 2, height / 2), Pause_Button, PauseButton_text, pauseMenuPanel, Screen_Type::SCREEN_PAUSE);
+	ReturnMainMenu_Label = CreateText(fPoint(width / 2, height / 2), "EXIT", font_id::MOLOT, White, false, pauseMenuPanel, 1.0f, nullptr, Screen_Type::SCREEN_PAUSE);
 
 	Options_Pause_button = CreateVoidBox(OptionsOpen, fPoint(width / 2, height / 2 - 50), Pause_Button, PauseButton_text, pauseMenuPanel, Screen_Type::SCREEN_PAUSE);
-	Options_Pause_Label = CreateText(fPoint(width / 2, height / 2 - 50), "Options", font_id::MOLOT, White, false, pauseMenuPanel,1.0f,nullptr, Screen_Type::SCREEN_PAUSE);
+	Options_Pause_Label = CreateText(fPoint(width / 2, height / 2 - 50), "Options", font_id::MOLOT, White, false, pauseMenuPanel, 1.0f, nullptr, Screen_Type::SCREEN_PAUSE);
 
 	LoadGame_Button = CreateVoidBox(RequestLoad, fPoint(width / 2, height / 2 - 100), Pause_Button, PauseButton_text, pauseMenuPanel, Screen_Type::SCREEN_PAUSE);
 	LoadGame_Label = CreateText(fPoint(width / 2, height / 2 - 100), "Load", font_id::MOLOT, White, false, pauseMenuPanel, 1.0f, nullptr, Screen_Type::SCREEN_PAUSE);
@@ -234,8 +248,8 @@ bool User_Interface::Start()
 
 	//--------------
 
-	Horde_label = CreateText(fPoint(width / 2.5, 30), "HORDE  ", font_id::MOLOT, White, false,NULL,1.5);
-	hordeNumber_Label = CreateText(fPoint(width / 2, 30),horde.c_str(), font_id::MOLOT, White, false, NULL, 1.5);
+	Horde_label = CreateText(fPoint(width / 2.5, 30), "HORDE  ", font_id::MOLOT, White, false, NULL, 1.5);
+	hordeNumber_Label = CreateText(fPoint(width / 2, 30), horde.c_str(), font_id::MOLOT, White, false, NULL, 1.5);
 
 	WinIcon = CreateImage(fPoint(width / 2, height / 2.3), SDL_Rect({ 0,112,437,112 }), endingImages_Tex);
 	ReturnMainMenu2 = CreateVoidBox(QuitGame, fPoint(width / 2, height / 1.75), Pause_Button, PauseButton_text, WinIcon);
@@ -248,7 +262,7 @@ bool User_Interface::Start()
 	LoseIcon->Deactivate();
 
 	incomingHordein = CreateImage(fPoint(width / 7, height / 2.5), SDL_Rect({ 0,66,320,78 }), InGame_Label_tex);
-	timerHorde = CreateText(fPoint(width / 3.8f, height / 2.9f), timerHorde_temp.c_str(), font_id::MOLOT, White, false, NULL,2.0f);
+	timerHorde = CreateText(fPoint(width / 3.8f, height / 2.9f), timerHorde_temp.c_str(), font_id::MOLOT, White, false, NULL, 2.0f);
 	Enemies_left = CreateImage(fPoint(120, 50), SDL_Rect({ 0,0,245,46 }), InGame_Label_tex);
 	Eniemies_left_Label = CreateText(fPoint(265, 50), "0", font_id::MOLOT, White, false, NULL, 1.0f);
 
@@ -260,13 +274,6 @@ bool User_Interface::Start()
 	ChronoPanel_Info = CreateUnitPanel(SDL_Rect({ 274,0,137,165 }), ChronoCreator, Unit_Panels_tex);
 	EngineerPanel_Info = CreateUnitPanel(SDL_Rect({ 274,0,137,165 }), ChronoCreator, Unit_Panels_tex);
 
-	Units_Life = CreateBuffBox(fPoint(370, height - 200), SDL_Rect({ 3,3,41,41 }), Buff_tex, &myApp->entities->unitBuff);
-	Buildings_Life = CreateBuffBox(fPoint(430, height - 200), SDL_Rect({ 44,0,41,41 }), Buff_tex, &myApp->entities->buildingsBuff);
-	HeavyUnits_able = CreateBuffBox(fPoint(480, height - 200), SDL_Rect({ 85,0,41,41 }), Buff_tex, &myApp->entities->heavyUnitsUnlocked);
-	Money_Buff = CreateBuffBox(fPoint(530, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff1);
-	Money2_Buff = CreateBuffBox(fPoint(580, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff2);
-	Mone3_Buff = CreateBuffBox(fPoint(630, height - 200), SDL_Rect({ 126,0,47,47 }), Buff_tex, &myApp->entities->incomeBuff45);
-
 	UnitBuff_Info = CreateUnitPanel(SDL_Rect({ 147,335,151,94 }), Units_Life, Unit_Panels_tex);
 	BuildingBuff_Info = CreateUnitPanel(SDL_Rect({ 0,434,151,94 }), Buildings_Life, Unit_Panels_tex);
 	HeavyArmorBuff_Info = CreateUnitPanel(SDL_Rect({ 0,335,151,94 }), HeavyUnits_able, Unit_Panels_tex);
@@ -277,9 +284,9 @@ bool User_Interface::Start()
 	MainMenuTemp_Image = CreateImage(fPoint(3000, 3000), SDL_Rect({ 0,0,0,0 }), Main_Menu_Temp_Tex, false, nullptr, nullptr, Screen_Type::SCREEN_MAINMENU);
 
 	//MainMenuTemp_Image = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,1280,720 }), Main_Menu_Temp_Tex);
-	StartGame_Button = CreateVoidBox(StartGame,fPoint(width/2,height/2.0),TempButtonRect,StartGame_text,nullptr,Screen_Type::SCREEN_MAINMENU);
-	StartGame_Label = CreateText(fPoint(width / 2, height / 2.0), "START GAME", font_id::MOLOT,White,false,StartGame_Button,1.0f,nullptr, Screen_Type::SCREEN_MAINMENU);
-  
+	StartGame_Button = CreateVoidBox(StartGame, fPoint(width / 2, height / 2.0), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	StartGame_Label = CreateText(fPoint(width / 2, height / 2.0), "START GAME", font_id::MOLOT, White, false, StartGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+
 	ContinueGame_Button = CreateVoidBox(RequestMenuLoad, fPoint(width / 2, height * 0.625), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
 	ContinueGame_Label = CreateText(fPoint(width / 2, height * 0.625), "CONTINUE", font_id::MOLOT, White, false, ContinueGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
 
@@ -335,15 +342,15 @@ bool User_Interface::Start()
 	Rafel_Button->Deactivate();
 
 
-	ReturnfromCredits_Button= CreateVoidBox(CloseCredits, fPoint(width / 2, height / 1.15), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
-	ReturnfromCredits_Label= CreateText(fPoint(width / 2, height / 1.15), "RETURN", font_id::MOLOT, White, false, ReturnfromCredits_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	ReturnfromCredits_Button = CreateVoidBox(CloseCredits, fPoint(width / 2, height / 1.15), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
+	ReturnfromCredits_Label = CreateText(fPoint(width / 2, height / 1.15), "RETURN", font_id::MOLOT, White, false, ReturnfromCredits_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
 	ReturnfromCredits_Button->Deactivate();
 
-	
+
 
 
 	Minimap_Display = new  MiniMap_UI();
-	Tutorial = new TutorialBox(fPoint(width / 2, height / 2),SDL_Rect({ 0,0,906,657 }),Tutorial_Tex);
+	Tutorial = new TutorialBox(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,906,657 }), Tutorial_Tex);
 	AddElement(Tutorial);
 	Tutorial->Deactivate();
 	AddElement(Minimap_Display);
@@ -352,7 +359,7 @@ bool User_Interface::Start()
 	Tutorial_Button = CreateVoidBox(TutorialOpen, fPoint(width / 4, height * 0.88), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
 	Tutorial_Label = CreateText(fPoint(width / 4, height * 0.88), "TUTORIAL", font_id::MOLOT, White, false, Tutorial_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
 	Tutorial_Arrow_Foreward = CreateVoidBox(NextPage_Tutorial, fPoint(width / 1.7, height / 1.15), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
-	Tutorial_Arrow_Foreward_Label = CreateImage(fPoint(width /1.7, height / 1.15), SDL_Rect({ 1,169,32,22 }), StartGame_text, false,Tutorial_Arrow_Foreward, nullptr, Screen_Type::SCREEN_OPTIONS);
+	Tutorial_Arrow_Foreward_Label = CreateImage(fPoint(width / 1.7, height / 1.15), SDL_Rect({ 1,169,32,22 }), StartGame_text, false, Tutorial_Arrow_Foreward, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Tutorial_Arrow_Back = CreateVoidBox(BackPage_Tutorial, fPoint(width / 2.45, height / 1.15), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS);
 	Tutorial_Arrow_Back_Label = CreateImage(fPoint(width / 2.45, height / 1.15), SDL_Rect({ 0,191,32,22 }), StartGame_text, false, Tutorial_Arrow_Back, nullptr, Screen_Type::SCREEN_OPTIONS);
 
@@ -363,12 +370,12 @@ bool User_Interface::Start()
 	Tutorial_Arrow_Back->Deactivate();
 	ReturnfromTutorial_Button->Deactivate();
 
-	OptionsPanel = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,906,657 }), Options_tex,false,nullptr,nullptr,Screen_Type::SCREEN_OPTIONS);
+	OptionsPanel = CreateImage(fPoint(width / 2, height / 2), SDL_Rect({ 0,0,906,657 }), Options_tex, false, nullptr, nullptr, Screen_Type::SCREEN_OPTIONS);
 
-	VolumeSFX_Slide = CreateImage(fPoint(width / 2, height / 2.2), SDL_Rect({ 0,0,796,80 }), Volume_Slides, false,OptionsPanel, nullptr, Screen_Type::SCREEN_OPTIONS);
+	VolumeSFX_Slide = CreateImage(fPoint(width / 2, height / 2.2), SDL_Rect({ 0,0,796,80 }), Volume_Slides, false, OptionsPanel, nullptr, Screen_Type::SCREEN_OPTIONS);
 	VolumeMusic_Slide = CreateImage(fPoint(width / 2, height / 3.5), SDL_Rect({ 0,0,796,80 }), Volume_Slides, false, OptionsPanel, nullptr, Screen_Type::SCREEN_OPTIONS);
 	SetHotkeys_Button = CreateVoidBox(Hotkeys_Options, fPoint(width / 2, height / 1.5), TempButtonRect, StartGame_text, OptionsPanel, Screen_Type::SCREEN_OPTIONS);
-	SetHotkeys_Label = CreateText(fPoint(width / 2, height / 1.5), "CONTROLS", font_id::MOLOT, White, false, SetHotkeys_Button,1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
+	SetHotkeys_Label = CreateText(fPoint(width / 2, height / 1.5), "CONTROLS", font_id::MOLOT, White, false, SetHotkeys_Button, 1.0f, nullptr, Screen_Type::SCREEN_OPTIONS);
 
 	//Spawns
 	Hotkey_Conscript = CreateKeyBox(HotkeyButtonPrepare, fPoint(width / 3.1, height / 3.5), mini_TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_OPTIONS, &myApp->controls->spawnHotKeys[0]);
@@ -443,6 +450,10 @@ bool User_Interface::Start()
 
 	OptionsPanel->Deactivate();
 
+	//TEST
+	musicSlider = CreateSlider({ 640, 328 }, 682,&myApp->audio->musicVolume, { 5,82,218,80 }, Volume_Slides, true, OptionsPanel);
+	sfxSlider = CreateSlider({ 640, 205 }, 682, &myApp->audio->sfxVolume, { 249,82,218,80 }, Volume_Slides, true, OptionsPanel);
+	//TEST
 
 	Mouse_UI = CreateMouse(mouse_tex);
 
@@ -463,7 +474,7 @@ bool User_Interface::Start()
 	//Main_Menu_Elements.push_back(StartGame_Button);
 	//Main_Menu_Elements.push_back(StartGame_Label);
 
-	myApp->video->PlayVideo("Video/Main_Menu_Background.ogv", { 0,0,1280,720 },true);
+	myApp->video->PlayVideo("Video/Main_Menu_Background.ogv", { 0,0,1280,720 }, true);
 
 	//DeactivateScreen(Main_Menu_Elements);
 	DeactivateScreen(InGame_Elements);
@@ -513,6 +524,16 @@ bool User_Interface::Update(float dt)
 
 	bool ret = true;
 
+
+
+	if (myApp->input->GetKey(SDL_SCANCODE_L)==KEY_DOWN) {
+		myApp->entities->unitBuff = true;
+		myApp->entities->buildingsBuff = true;
+		myApp->entities->heavyUnitsUnlocked = true;
+		myApp->entities->incomeBuff1 = true;
+		myApp->entities->incomeBuff2 = true;
+		myApp->entities->incomeBuff45 = true;
+	}
 	//TODO LUCHO VARIABLE
 	if (myApp->hordes->HordesDead() == false) {
 		Eniemies_left_Label->ChangeString(std::to_string(myApp->hordes->remainingEnemies));
@@ -761,6 +782,32 @@ Buff_Box* User_Interface::CreateBuffBox(fPoint position, SDL_Rect rect, SDL_Text
 
 	ret = new Buff_Box(position,rect,tex,able);
 	AddElement(ret);
+
+	if (screen == Screen_Type::SCREEN_NONE) {
+		InGame_Elements.push_back(ret);
+	}
+	else if (screen == Screen_Type::SCREEN_MAINMENU)
+		Main_Menu_Elements.push_back(ret);
+
+	return ret;
+}
+
+//Factories
+Slider* User_Interface::CreateSlider(fPoint center, float barLength, uint* value, SDL_Rect texRect, SDL_Texture* tex, bool dynamic, UI_Element* parent, std::list<UI_Element*>* children, Screen_Type screen)
+{
+	Slider* ret = nullptr;
+
+	if (tex == NULL) {
+		tex = GetAtlas();
+	}
+	else if (SDL_RectEmpty(&texRect)) {
+		SDL_Rect tmpRect = { 0, 0, 0, 0 };
+		myApp->tex->GetSize(tex, (uint&)tmpRect.w, (uint&)tmpRect.h);
+		texRect = tmpRect;
+	}
+
+	ret = new Slider(ui_type::IMAGE, center, barLength,value, texRect, tex, dynamic, parent, children);
+	AddElement((UI_Element*)ret);
 
 	if (screen == Screen_Type::SCREEN_NONE) {
 		InGame_Elements.push_back(ret);
