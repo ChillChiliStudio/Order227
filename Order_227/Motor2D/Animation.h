@@ -34,7 +34,7 @@ public:
 		last_frame = ref->last_frame;
 		loop = ref->loop;
 
-		for (int i = 0; i < last_frame; i++) {
+		for (int i = 0; i < last_frame && i < ref->last_frame; i++) {
 			frames[i] = ref->frames[i];
 		}
 	}

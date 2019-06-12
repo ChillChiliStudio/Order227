@@ -33,7 +33,7 @@ bool Controls::Awake(pugi::xml_node& config)
 
 bool Controls::Start()
 {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 6; i++)
 		spawnHotKeys[i] = SDL_SCANCODE_1 + i;
 
 	AllocateLists();
@@ -210,7 +210,7 @@ void Controls::AllocateLists()
 	keysInUse.push_back(orders.aggressive);
 
 	//Keys - Spawn HotKeys
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 6; i++)
 		keysInUse.push_back(spawnHotKeys[i]);
 
 	//Keys - Others

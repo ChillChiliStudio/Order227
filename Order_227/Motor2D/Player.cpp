@@ -15,6 +15,7 @@
 #include "Player.h"
 #include "Window.h"
 #include "Fonts.h"
+#include "VoidBox.h"
 
 #include "Brofiler/Brofiler.h"
 #include "MiniMap.h"
@@ -100,7 +101,7 @@ bool Player::Update(float dt)
 			DebugMouse();	// Mouse UI Debug data update
 		}
 
-		if (myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+		if (myApp->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && myApp->playingGame) {
 			if (myApp->gui->pauseMenuPanel->active == false) {
 				myApp->gui->pauseMenuPanel->Activate();
 				myApp->gui->OnPause = true;
@@ -109,6 +110,20 @@ bool Player::Update(float dt)
 			}
 			else {
 				myApp->gui->pauseMenuPanel->Deactivate();
+				myApp->gui->OptionsPanel->Deactivate();
+
+				if (myApp->gui->Hotkey_Conscript->active == true) {
+					myApp->gui->Hotkey_Conscript->Deactivate();
+					myApp->gui->Hotkey_Flak->Deactivate();
+					myApp->gui->Hotkey_Desolator->Deactivate();
+					myApp->gui->Hotkey_Chrono->Deactivate();
+					myApp->gui->Hotkey_Sniper->Deactivate();
+					myApp->gui->Hotkey_Up->Deactivate();
+					myApp->gui->Hotkey_Down->Deactivate();
+					myApp->gui->Hotkey_Left->Deactivate();
+					myApp->gui->Hotkey_Right->Deactivate();
+				}
+
 				myApp->gui->OnPause = false;
 				Mix_ResumeMusic();
 				Mix_Resume(-1);
@@ -240,7 +255,7 @@ void Player::DebugMouse()
 void Player::DebugInputs()
 {
 	//Toggle DebugMode
-	if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+	/*if (myApp->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
 		myApp->debugMode = !myApp->debugMode;
 
 		if (myApp->debugMode == false) {
@@ -252,7 +267,7 @@ void Player::DebugInputs()
 		else {
 			LOG("Debug Mode: ON");
 		}
-	}
+	}*/
 
 	if (myApp->debugMode) {
 		if (myApp->input->GetKey(myApp->controls->debug.debugMap) == KEY_DOWN) {	// Toggle Map debug draw
@@ -478,12 +493,7 @@ void Player::PlayerSelect()
 		iPoint mousePosition;
 		myApp->input->GetMousePosition(mousePosition.x, mousePosition.y);
 
-		if (mouseScreenPos.y < mouseWorldLimit) {
-			if (mousePosition.x > myApp->minimap->minimapPosition.x + myApp->minimap->minimap_width &&
-				mousePosition.x < myApp->minimap->minimapPosition.x &&
-				mousePosition.y > myApp->minimap->minimapPosition.y + myApp->minimap->minimap_height &&
-				mousePosition.y < myApp->minimap->minimapPosition.y)
-				return;
+		if (mouseScreenPos.y < mouseWorldLimit && !myApp->gui->OnPause) {
 
 			StartSelect();
 			selectionStarted = true;

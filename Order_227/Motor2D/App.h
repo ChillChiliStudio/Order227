@@ -110,6 +110,7 @@ public:
 	bool debugMode;
 	bool saveFileExists = false;
 	bool mustShutDown = false;
+	bool playingGame = false;
 
 private:
 

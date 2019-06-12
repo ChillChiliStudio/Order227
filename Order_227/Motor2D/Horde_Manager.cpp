@@ -182,12 +182,14 @@ void Horde_Manager::ChooseSpawningPoints()
 		}
 
 		//This is VERY HARDCODED - I'm not proud of this, but will work for now (fck this shit) - Is just the manager of round threat TODO
-		if (roundNumber == 0 || roundNumber == 1)
+		/*if (roundNumber == 0 || roundNumber == 1)
 			threatIncremental = initialThreatIncremental;
 		else if (roundNumber % 3 == 0)
 			threatIncremental += initialThreatIncremental;
 		else
-			threatIncremental = 0;
+			threatIncremental = 0;*/
+
+		threatIncremental = initialThreatIncremental;
 
 		LOG("Round num: %i   Threat: %i   ThreatInc: %i", roundNumber, roundThreat, threatIncremental);
 
@@ -229,7 +231,7 @@ void Horde_Manager::ChooseSpawningPoints()
 
 }
 
-void Horde_Manager::ClearEnemies()
+void Horde_Manager::ClearEnemies() 
 {
 	for (int i = 0; i < hordes.size(); ++i)
 	{

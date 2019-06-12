@@ -73,10 +73,10 @@ public:
 
 	// Called before quitting
 	bool CleanUp();
-	
+
 public:
 	SDL_Texture* GetAtlas() const;
-	
+
 	void AddElement(UI_Element* element);
 	void DestroyElement(UI_Element* element);
 	void ActivateScreen(std::list<UI_Element*> list);
@@ -116,7 +116,7 @@ public:
 	}
 
 	//Window* CreateWindowPanel(fPoint center, p2List<Image*> children, SDL_Rect* texRect = NULL, SDL_Texture* tex = NULL, Text* label = NULL, UI_Element* parent = NULL);
-	
+
 public:
 
 	Screen_Type Current_Screen = Screen_Type::SCREEN_MAINMENU;
@@ -147,6 +147,12 @@ public:
 	Image* MainMenuTemp_Image = nullptr;
 	Void_Box* StartGame_Button = nullptr;
 	Text* StartGame_Label = nullptr;
+	Void_Box* ContinueGame_Button = nullptr;
+	Text* ContinueGame_Label = nullptr;
+	Void_Box* LoadGame_Button = nullptr;
+	Text* LoadGame_Label = nullptr;
+	Void_Box* SaveGame_Button = nullptr;
+	Text* SaveGame_Label = nullptr;
 	Void_Box* OptionsGame_Button = nullptr;
 	Text* OptionsGame_Label = nullptr;
 	Void_Box* ExitGame_Button = nullptr;
@@ -163,6 +169,39 @@ public:
 	Image* Tutorial_Arrow_Back_Label = nullptr;
 	Void_Box* ReturnfromTutorial_Button = nullptr;
 	Text* ReturnfromTutorial_Label = nullptr;
+	Void_Box* Credits_Button = nullptr;
+	Text* Credits_Label = nullptr;
+
+	Void_Box* ReturnfromCredits_Button = nullptr;
+	Text* ReturnfromCredits_Label = nullptr;
+
+	Void_Box* Lucho_Button = nullptr;
+	Text* Lucho_Label = nullptr;
+	Text*Lucho_Rol = nullptr;
+
+	Void_Box* Jaume_Button = nullptr;
+	Text* Jaume_Label = nullptr;
+	Text* Jaume_Rol = nullptr;
+
+	Void_Box* Roger_Button = nullptr;
+	Text* Roger_Label = nullptr;
+	Text* Roger_Rol = nullptr;
+
+	Void_Box* Joan_Button = nullptr;
+	Text* Joan_Label = nullptr;
+	Text* Joan_Rol = nullptr;
+
+	Void_Box* Carles_Button = nullptr;
+	Text* Carles_Label = nullptr;
+	Text* Carles_Rol = nullptr;
+
+	Void_Box* Adri_Button = nullptr;
+	Text* Adri_Label = nullptr;
+	Text* Adri_Rol = nullptr;
+
+	Void_Box* Rafel_Button = nullptr;
+	Text* Rafel_Label = nullptr;
+	Text* Rafel_Rol = nullptr;
 
 	Text* Damage_Label = nullptr;
 	Text* Health_Label = nullptr;
@@ -200,6 +239,7 @@ public:
 	Unit_Panel* ChronoPanel_Info = nullptr;
 	Unit_Panel* DesolatorPanel_Info = nullptr;
 	Unit_Panel* FlakPanel_Info = nullptr;
+	Unit_Panel* EngineerPanel_Info = nullptr;
 
 	Unit_Panel* UnitBuff_Info = nullptr;
 	Unit_Panel* BuildingBuff_Info = nullptr;
@@ -242,6 +282,7 @@ public:
 	Unit_Box* SniperCreator = nullptr;
 	Unit_Box* ChronoCreator = nullptr;
 	Unit_Box* DesolatorCreator = nullptr;
+	Unit_Box* EngineerCreator = nullptr;
 
 private:
 
@@ -258,7 +299,7 @@ private:
 	Spawn_Box* selectorInfantry=nullptr;
 	Spawn_Box* selectorDefenses = nullptr;
 	Spawn_Box* selectorTank = nullptr;
-	
+
 	Image* frameSelector = nullptr;
 	Image* UnitStats = nullptr;
 	Image* UnitFrame = nullptr;
@@ -273,7 +314,9 @@ private:
 	SDL_Rect Sniper_Selection_Rect[4];
 	SDL_Rect Chrono_Selection_Rect[4];
 	SDL_Rect Desolator_Selection_Rect[4];
-	
+	SDL_Rect Engineer_Selection_Rect[4];
+
+
 	SDL_Texture* Tutorial_Tex = nullptr;
 	SDL_Texture* Volume_Slides = nullptr;
 	SDL_Texture* Options_tex = nullptr;

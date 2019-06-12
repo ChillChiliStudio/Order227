@@ -1070,7 +1070,14 @@ bool Entity_Manager::AssignAnimData(std::string faction) {
 						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
 						break;
 
+					case(int(infantry_type::ENGINEER)):
+						
+						temp.x += DataXML.child("RectOffset").attribute("x").as_int();
+						temp.y += DataXML.child("RectOffset").attribute("y").as_int();
+						temp.w = DataXML.child("RectOffset").attribute("w").as_int();
+						temp.h = DataXML.child("RectOffset").attribute("h").as_int();
 
+						break;
 					}
 
 					if (tempString == "Pointing") {
