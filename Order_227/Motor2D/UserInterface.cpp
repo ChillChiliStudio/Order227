@@ -263,8 +263,8 @@ bool User_Interface::Start()
 	OptionsGame_Button = CreateVoidBox(OptionsOpen, fPoint(width / 2, height / 1.4), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
 	OptionsGame_Label = CreateText(fPoint(width / 2, height / 1.4), "OPTIONS", font_id::MOLOT, White, false, OptionsGame_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
 
-	Credits_Button = CreateVoidBox(OpenCredits, fPoint(width / 1.3, height / 1.16), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
-	Credits_Label = CreateText(fPoint(width / 1.3, height / 1.16), "CREDITS", font_id::MOLOT, White, false, Credits_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
+	Credits_Button = CreateVoidBox(OpenCredits, fPoint(width / 1.33, height / 1.15), TempButtonRect, StartGame_text, nullptr, Screen_Type::SCREEN_MAINMENU);
+	Credits_Label = CreateText(fPoint(width / 1.33, height / 1.15), "CREDITS", font_id::MOLOT, White, false, Credits_Button, 1.0f, nullptr, Screen_Type::SCREEN_MAINMENU);
 
 
 	//CREDITS LINKS
